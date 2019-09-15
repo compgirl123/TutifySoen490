@@ -1,10 +1,5 @@
 language: node_js
 node_js:
-  - "stable"
-cache:
-  directories:
-    - node_modules
-deploy:
-  provider: npm
-
-
+  - '8'
+os:
+  - macosx
