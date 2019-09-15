@@ -22,7 +22,7 @@ const TutorSchema = new Schema({
   }
 });
 
-model.exports = mongoose.model('Tutor', TutorSchema);
+module.exports = mongoose.model('Tutor', TutorSchema, "tutors");
 
 const UserSchema = new Schema({
     id: {
@@ -48,7 +48,7 @@ const UserSchema = new Schema({
 
 });
 
-model.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema, "users");
 
 const AccountSchema = new Schema({
     id: {
@@ -66,7 +66,7 @@ const AccountSchema = new Schema({
 
 });
 
-model.exports = mongoose.model('Account', AccountSchema);
+module.exports = mongoose.model('Account', AccountSchema, "accounts");
 
 const AppointmentSchema = new Schema({
   tutor_id: {
@@ -93,8 +93,16 @@ const AppointmentSchema = new Schema({
   }
 });
 
-model.exports = mongoose.model('Appointment', AppointmentSchema);
+module.exports = mongoose.model('Appointment', AppointmentSchema, "appointments");
 
+// this is used temporarily for testing
+const DataSchema = new Schema(
+  {
+    id: Number,
+    message: String
+  },
+  { timestamps: true },
+);
 
 // export the new Schema so we could modify it using Node.js
-module.exports = mongoose.model("Data", DataSchema);
+module.exports = mongoose.model("Data", DataSchema, "datas");
