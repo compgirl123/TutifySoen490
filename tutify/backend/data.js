@@ -2,6 +2,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+var Tutor = mongoose.model('Tutor', TutorSchema);
+var User = mongoose.model('User', UserSchema);
+var Account = mongoose.model('Account', AccountSchema);
+var Appointment = mongoose.model('Appointment', AppointmentSchema);
 
 const TutorSchema = new Schema({
   id: {
@@ -21,8 +25,6 @@ const TutorSchema = new Schema({
     required: true
   }
 });
-
-module.exports = mongoose.model('Tutor', TutorSchema, "tutors");
 
 const UserSchema = new Schema({
     id: {
@@ -48,8 +50,6 @@ const UserSchema = new Schema({
 
 });
 
-module.exports = mongoose.model('User', UserSchema, "users");
-
 const AccountSchema = new Schema({
     id: {
       type: Number,
@@ -65,8 +65,6 @@ const AccountSchema = new Schema({
     }
 
 });
-
-module.exports = mongoose.model('Account', AccountSchema, "accounts");
 
 const AppointmentSchema = new Schema({
   tutor_id: {
@@ -93,8 +91,6 @@ const AppointmentSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model('Appointment', AppointmentSchema, "appointments");
-
 // this is used temporarily for testing
 const DataSchema = new Schema(
   {
@@ -105,4 +101,10 @@ const DataSchema = new Schema(
 );
 
 // export the new Schema so we could modify it using Node.js
-module.exports = mongoose.model("Data", DataSchema, "datas");
+module.exports = {
+  Tutor: Tutor,
+  User: User,
+  Account: Account,
+  Appointment: Appointment,
+  Data: Data
+}
