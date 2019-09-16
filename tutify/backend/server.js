@@ -4,6 +4,10 @@ var cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const Data = require('./data');
+const Tutor = require('./data').Tutor;
+const User = require('./data').User;
+const Account = require('./data').Account;
+const Appointment = require('./data').Appointment;
 
 const API_PORT = 3001;
 const app = express();
@@ -29,6 +33,11 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger('dev'));
+
+
+// -------- CONTROLER STUFF --------- // 
+
+// TEST DATA SCHEMA
 
 // this is our get method
 // this method fetches all available data in our database
@@ -76,6 +85,143 @@ router.post('/putData', (req, res) => {
   data.id = id;
   data.save((err) => {
     if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+// TUTOR SCHEMA
+router.get('/getTutor', (req, res) => {
+  Tutor.find((err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
+router.post('/updateTutor', (req, res) => {
+  const { id, update } = req.body;
+  Tutor.findByIdAndUpdate(id, update, (err) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+// USER SCHEMA
+router.get('/getUser', (req, res) => {
+  User.find((err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
+router.post('/updateUser', (req, res) => {
+  const { id, update } = req.body;
+  User.findByIdAndUpdate(id, update, (err) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+router.post('/putUser', (req, res) => {
+  let data = new User();
+
+  const { id, message } = req.body;
+
+  if ((!id && id !== 0) || !message) {
+    return res.json({
+      success: false,
+      error: 'INVALID INPUTS',
+    });
+  }
+  data.message = message;
+  data.id = id;
+  data.save((err) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+// ACCOUNT SCHEMA
+router.get('/getAccount', (req, res) => {
+  Account.find((err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
+router.post('/updateAccount', (req, res) => {
+  const { id, update } = req.body;
+  Account.findByIdAndUpdate(id, update, (err) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+router.post('/putAccount', (req, res) => {
+  let data = new Account();
+
+  const { id, message } = req.body;
+
+  if ((!id && id !== 0) || !message) {
+    return res.json({
+      success: false,
+      error: 'INVALID INPUTS',
+    });
+  }
+  data.message = message;
+  data.id = id;
+  data.save((err) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+router.delete('/deleteAccount', (req, res) => {
+  const { id } = req.body;
+  Account.findByIdAndRemove(id, (err) => {
+    if (err) return res.send(err);
+    return res.json({ success: true });
+  });
+});
+
+// APPOINTMENT SCHEMA
+router.get('/getAppointment', (req, res) => {
+  Appointment.find((err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
+router.post('/updateAppointment', (req, res) => {
+  const { id, update } = req.body;
+  Appointment.findByIdAndUpdate(id, update, (err) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+router.post('/putAppointment', (req, res) => {
+  let data = new Appointment();
+
+  const { id, message } = req.body;
+
+  if ((!id && id !== 0) || !message) {
+    return res.json({
+      success: false,
+      error: 'INVALID INPUTS',
+    });
+  }
+  data.message = message;
+  data.id = id;
+  data.save((err) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+router.delete('/deleteAppointment', (req, res) => {
+  const { id } = req.body;
+  Appointment.findByIdAndRemove(id, (err) => {
+    if (err) return res.send(err);
     return res.json({ success: true });
   });
 });
