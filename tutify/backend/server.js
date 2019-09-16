@@ -3,16 +3,11 @@ const express = require('express');
 var cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
-const Data = require('./data');
-const Tutor = require('./data').Tutor;
-const User = require('./data').User;
-const Account = require('./data').Account;
-const Appointment = require('./data').Appointment;
+const router = require('./routes');
 
 const API_PORT = 3001;
 const app = express();
 app.use(cors());
-const router = express.Router();
 
 // this is our MongoDB database
 const dbRoute =
@@ -28,203 +23,10 @@ db.once('open', () => console.log('connected to the database'));
 // checks if connection with the database is successful
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-// (optional) only made for logging and
-// bodyParser, parses the request body to be a readable json format
+// only made for logging and bodyParser, parses the request body to be a readable json format
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger('dev'));
-
-
-// -------- CONTROLER STUFF --------- // 
-
-// TEST DATA SCHEMA
-
-// this is our get method
-// this method fetches all available data in our database
-router.get('/getData', (req, res) => {
-  Data.find((err, data) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true, data: data });
-  });
-});
-
-// this is our update method
-// this method overwrites existing data in our database
-router.post('/updateData', (req, res) => {
-  const { id, update } = req.body;
-  Data.findByIdAndUpdate(id, update, (err) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-});
-
-// this is our delete method
-// this method removes existing data in our database
-router.delete('/deleteData', (req, res) => {
-  const { id } = req.body;
-  Data.findByIdAndRemove(id, (err) => {
-    if (err) return res.send(err);
-    return res.json({ success: true });
-  });
-});
-
-// this is our create methid
-// this method adds new data in our database
-router.post('/putData', (req, res) => {
-  let data = new Data();
-
-  const { id, message } = req.body;
-
-  if ((!id && id !== 0) || !message) {
-    return res.json({
-      success: false,
-      error: 'INVALID INPUTS',
-    });
-  }
-  data.message = message;
-  data.id = id;
-  data.save((err) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-});
-
-// TUTOR SCHEMA
-router.get('/getTutor', (req, res) => {
-  Tutor.find((err, data) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true, data: data });
-  });
-});
-
-router.post('/updateTutor', (req, res) => {
-  const { id, update } = req.body;
-  Tutor.findByIdAndUpdate(id, update, (err) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-});
-
-// USER SCHEMA
-router.get('/getUser', (req, res) => {
-  User.find((err, data) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true, data: data });
-  });
-});
-
-router.post('/updateUser', (req, res) => {
-  const { id, update } = req.body;
-  User.findByIdAndUpdate(id, update, (err) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-});
-
-router.post('/putUser', (req, res) => {
-  let data = new User();
-
-  const { id, message } = req.body;
-
-  if ((!id && id !== 0) || !message) {
-    return res.json({
-      success: false,
-      error: 'INVALID INPUTS',
-    });
-  }
-  data.message = message;
-  data.id = id;
-  data.save((err) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-});
-
-// ACCOUNT SCHEMA
-router.get('/getAccount', (req, res) => {
-  Account.find((err, data) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true, data: data });
-  });
-});
-
-router.post('/updateAccount', (req, res) => {
-  const { id, update } = req.body;
-  Account.findByIdAndUpdate(id, update, (err) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-});
-
-router.post('/putAccount', (req, res) => {
-  let data = new Account();
-
-  const { id, message } = req.body;
-
-  if ((!id && id !== 0) || !message) {
-    return res.json({
-      success: false,
-      error: 'INVALID INPUTS',
-    });
-  }
-  data.message = message;
-  data.id = id;
-  data.save((err) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-});
-
-router.delete('/deleteAccount', (req, res) => {
-  const { id } = req.body;
-  Account.findByIdAndRemove(id, (err) => {
-    if (err) return res.send(err);
-    return res.json({ success: true });
-  });
-});
-
-// APPOINTMENT SCHEMA
-router.get('/getAppointment', (req, res) => {
-  Appointment.find((err, data) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true, data: data });
-  });
-});
-
-router.post('/updateAppointment', (req, res) => {
-  const { id, update } = req.body;
-  Appointment.findByIdAndUpdate(id, update, (err) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-});
-
-router.post('/putAppointment', (req, res) => {
-  let data = new Appointment();
-
-  const { id, message } = req.body;
-
-  if ((!id && id !== 0) || !message) {
-    return res.json({
-      success: false,
-      error: 'INVALID INPUTS',
-    });
-  }
-  data.message = message;
-  data.id = id;
-  data.save((err) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-});
-
-router.delete('/deleteAppointment', (req, res) => {
-  const { id } = req.body;
-  Appointment.findByIdAndRemove(id, (err) => {
-    if (err) return res.send(err);
-    return res.json({ success: true });
-  });
-});
 
 // append /api for our http requests
 app.use('/api', router);
