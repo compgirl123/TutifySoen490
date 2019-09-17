@@ -261,6 +261,8 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     marginTop: theme.spacing(8),
+    marginLeft: theme.spacing(10),
+    marginRight: theme.spacing(10),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -269,6 +271,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
+    padding: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
@@ -294,17 +297,39 @@ export default function SignUp() {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main">
       <CssBaseline />
       <div className={classes.paper}>
          <img src={large_tutify} className="App-logo" alt="logo" />
         <Typography component="h1" variant="h5">
-          Student Sign Up
+          Sign Up Page
 
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
-          <Grid item xs={12}>
+            <Grid item xs={6}>
+              <TextField
+                autoComplete="fname"
+                name="firstName"
+                variant="outlined"
+                required
+                fullWidth
+                id="firstName"
+                label="First Name"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="lastName"
+                autoComplete="lname"
+              />
+            </Grid>
+            <Grid item xs={6}>
               <TextField
                 variant="outlined"
                 required
@@ -316,30 +341,7 @@ export default function SignUp() {
                 autoFocus
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-              />
-            </Grid>
-            
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <TextField
                 variant="outlined"
                 required
@@ -350,7 +352,7 @@ export default function SignUp() {
                 autoComplete="email"
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <TextField
                 variant="outlined"
                 required
@@ -362,20 +364,20 @@ export default function SignUp() {
                 autoComplete="current-password"
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
+                name="Confirmpassword"
+                label="Confirm Password"
+                type="Confirmpassword"
+                id="Confirmpassword"
+                autoComplete="current-Confirmpassword"
               />
             </Grid>
             
-            <Grid item xs={12}>
+            <Grid item xs={4}>
                   <TextField
               id="standard-select-educationLevel"
               select
@@ -401,7 +403,7 @@ export default function SignUp() {
       </TextField>
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid item xs={4}>
                   <TextField
               id="standard-select-classesTutor"
               select
@@ -427,7 +429,7 @@ export default function SignUp() {
       </TextField>
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid item xs={4}>
                   <TextField
               id="standard-select-typeOFTutoring"
               select
