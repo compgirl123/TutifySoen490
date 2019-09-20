@@ -1,7 +1,8 @@
 // /client/App.js
 import React, { Component } from 'react';
 import axios from 'axios';
-import SearchResults from './components/SearchResults'
+import {Router, Route, Link } from "react-router-dom";
+import SearchResults from './components/SearchResults';
 
 class App extends Component {
   // initialize our state
@@ -106,18 +107,9 @@ class App extends Component {
     return (
       <div className="App">
       <header className="App-header">
-        <SearchResults />
-        <p>
-          My first React website!
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div>
+        <SearchResults/>
+        </div>
       </header>
     </div>
     );
