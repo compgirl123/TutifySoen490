@@ -125,7 +125,7 @@ export default function SearchPage() {
                           }
                         }}
                         />
-                        <Button href="/searchResults" variant="contained" className={classes.button}>
+                        <Button href="/search_results" variant="contained" className={classes.button}>
                             Search
                         </Button>
                     </form>

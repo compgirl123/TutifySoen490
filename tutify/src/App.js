@@ -14,8 +14,8 @@ function MainPage() {
         <Route exact path="/" component={Main} />
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/database" component={Database} />
-        <Route exact path="/searchPage" component={SearchPage} />
-        <Route exact path="/searchResults" component={SearchResults} />
+        <Route exact path="/search_page" component={SearchPage} />
+        <Route exact path="/search_results" component={SearchResults} />
     </Router>
   );
 
