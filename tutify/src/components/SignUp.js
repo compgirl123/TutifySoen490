@@ -9,7 +9,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import large_tutify from './assets/large_tutify.png';
+import large_tutify from './../assets/large_tutify.png';
 import MenuItem from "@material-ui/core/MenuItem";
 import Link from '@material-ui/core/Link';
 

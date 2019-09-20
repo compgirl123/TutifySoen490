@@ -1,8 +1,8 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Main from "./Main";
-import SignUp from "./SignUp"
-import Database from "./Database"
+import { BrowserRouter as Router, Route} from "react-router-dom";
+import Main from "./components/Main";
+import SignUp from "./components/SignUp"
+import Database from "./components/Database"
 
 // This is all the url routing.
 function MainPage() {

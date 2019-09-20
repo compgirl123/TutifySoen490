@@ -14,9 +14,7 @@ import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
-import small_tutify from './assets/small_tutify.png';
-import { borderRight } from '@material-ui/system';
-import { createMuiTheme } from '@material-ui/core/styles';
+import small_tutify from './../assets/small_tutify.png';
 
 
 function Copyright() {
