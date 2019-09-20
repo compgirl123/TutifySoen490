@@ -16,6 +16,8 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import small_tutify from './assets/small_tutify.png';
 import { borderRight } from '@material-ui/system';
+import { createMuiTheme } from '@material-ui/core/styles';
+
 
 function Copyright() {
   return (
@@ -30,10 +32,30 @@ function Copyright() {
   );
 }
 
+/*const theme = createMuiTheme({
+  palette: {
+    primary: 'blue',
+  },
+  overrides: {
+    MuiButton: {
+      raisedPrimary: {
+        color: 'white',
+      },
+    },
+  }
+});*/
+
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
       backgroundColor: theme.palette.common.white,
+    },
+    MuiButton: {
+      outlinedPrimary: {
+        background: '#18202c',
+        // this is where magic happens
+        '& *': { color: 'rgba(255, 255, 255, 0.7)' },
+      },
     },
     ul: {
       margin: 0,
@@ -48,7 +70,8 @@ const useStyles = makeStyles(theme => ({
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
   appBarChoices:{
-    position: "relative, right",
+    position: "absolute",
+    left : '85%'
   },
   toolbar: {
     flexWrap: 'wrap',
@@ -81,6 +104,7 @@ const useStyles = makeStyles(theme => ({
       paddingBottom: theme.spacing(6),
     },
   },
+
 }));
 
 const benefit = [
@@ -130,28 +154,31 @@ const footers = [
 
 export default function Benefits() {
   const classes = useStyles();
+  //const theme = createMuiTheme();
 
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
-        <Toolbar className={classes.toolbar}>
+      <AppBar position="sticky" color="default" elevation={0} className={classes.appBar}>
+        <Toolbar className={classes.toolbar} >
           <img src={small_tutify} className="App-logo" alt="logo" />
           <appBarChoices className={classes.appBarChoices}>
-            <Link variant="button" color="textPrimary" href="#" className={classes.link}>
+
+          <Link variant="button" color="inherit"  href="#" className={classes.link} >
               Login
             </Link>
-          
-            <Button href="/signup" color="primary" variant="outlined" className={classes.link}>
-                Sign up
+          <Button href= "/signup" variant="contained" color="primary" className={classes.button}>
+              Sign up
             </Button>
+        
+            
           </appBarChoices>
         </Toolbar>
       </AppBar>
       {/* Hero unit */}
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
-        <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-          Why should you aply?
+        <Typography component="h2" variant="h2" align="center" color="textPrimary" gutterBottom>
+          Why should you apply?
         </Typography>
       </Container>
       {/* End hero unit */}
