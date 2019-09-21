@@ -12,19 +12,8 @@ import Container from '@material-ui/core/Container';
 import large_tutify from './../assets/large_tutify.png';
 import MenuItem from "@material-ui/core/MenuItem";
 import Link from '@material-ui/core/Link';
+import Copyright from './Copyright'
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'© '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Tutify
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 const educationLevel = [
   {
     value: "elementary",
@@ -117,6 +106,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
+
 export default function SignUp() {
   const classes = useStyles();
   const [values, setValues] = React.useState({

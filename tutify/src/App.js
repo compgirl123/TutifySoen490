@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route} from "react-router-dom";
 import Main from "./components/Main";
 import SignUp from "./components/SignUp"
 import Database from "./components/Database"
-import SearchResults from "./components/SearchResults"
+import SearchResults from "./components/SearchResults/SearchResults"
 import SearchPage from "./components/SearchPage"
 
 // This is all the url routing.

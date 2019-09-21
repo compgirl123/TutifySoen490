@@ -16,33 +16,20 @@ import Link from '@material-ui/core/Link';
 import { TextField } from '@material-ui/core';
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
+import Copyright from './Copyright'
 
-
-function Copyright() {
-    return (
-      <Typography variant="body2" color="textSecondary" align="center">
-        {'Copyright © '}
-        <Link color="inherit" href="https://github.com/compgirl123/TutifySoen490">
-          Tutify
-        </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
-    );
-  }
-
-  const theme = createMuiTheme({
-    overrides: {
-      MuiInputLabel: { // Name of the component ⚛️ / style sheet
-        root: { // Name of the rule
-          color: "#9E9E9E ",
-          "&$focused": { // increase the specificity for the pseudo class
-            color: "#9E9E9E"
-          }
+const theme = createMuiTheme({
+  overrides: {
+    MuiInputLabel: { // Name of the component ⚛️ / style sheet
+      root: { // Name of the rule
+        color: "#9E9E9E ",
+        "&$focused": { // increase the specificity for the pseudo class
+          color: "#9E9E9E"
         }
       }
     }
-  });
+  }
+});
 
 const useStyles = makeStyles(theme => ({
     appBar: {

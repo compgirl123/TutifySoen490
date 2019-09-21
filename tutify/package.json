@@ -3,8 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.4.2",
-    "@material-ui/icons": "^4.4.1",
     "@csstools/normalize.css": "github:csstools/normalize.css",
     "@material-ui/core": "^4.4.2",
     "@material-ui/icons": "^4.4.1",
@@ -20,7 +18,8 @@
     "react-dom": "^16.9.0",
     "react-router-config": "^5.0.1",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.1.1"
+    "react-scripts": "3.1.1",
+    "redux": "^4.0.4"
   },
   "scripts": {
     "start": "concurrently \"cd backend && node server.js\" \"react-scripts start\"",
