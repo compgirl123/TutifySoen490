@@ -150,6 +150,7 @@ export default function SignUp() {
                 fullWidth
                 id="firstName"
                 label="First Name"
+                autoFocus
               />
             </Grid>
             <Grid item xs={6}>
@@ -172,7 +173,6 @@ export default function SignUp() {
                 label="Username"
                 name="Username"
                 autoComplete="username"
-                autoFocus
               />
             </Grid>
             <Grid item xs={6}>
@@ -234,7 +234,7 @@ export default function SignUp() {
                   {option.label}
                 </MenuItem>
               ))}
-      </TextField>
+          </TextField>
       </Grid>
 
       <Grid item xs={4}>
