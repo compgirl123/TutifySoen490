@@ -6,7 +6,7 @@ cache:
   - node_modules
 script:
   - cd tutify
-  - npm build
+  - npm run-script build
 deploy:
   provider: npm
 
