@@ -15,10 +15,9 @@ import { withStyles } from "@material-ui/core/styles";
 import * as tutifyStyle from './SearchResults-styles';
 import Chip from '@material-ui/core/Chip'
 import CardActionArea from '@material-ui/core/CardActionArea';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Link } from "react-router-dom";
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
