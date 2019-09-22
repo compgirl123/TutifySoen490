@@ -12,7 +12,12 @@ import Container from '@material-ui/core/Container';
 import large_tutify from './../assets/large_tutify.png';
 import MenuItem from "@material-ui/core/MenuItem";
 import Link from '@material-ui/core/Link';
-import Copyright from './Copyright'
+import Copyright from './Copyright';
+import SchoolIcon from '@material-ui/icons/School';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import { createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
 
 const educationLevel = [
   {
@@ -75,12 +80,23 @@ const typeOFTutoring = [
   }
 ];
 
- 
+const theme = createMuiTheme({
+  overrides: {
+    MuiInputLabel: { // Name of the component ⚛️ / style sheet
+      root: { // Name of the rule
+        color: "#9E9E9E ",
+        "&$focused": { // increase the specificity for the pseudo class
+          color: "#9E9E9E"
+        },
+      }
+    }
+  }
+});
 
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
-      backgroundColor: "#2fb62f",
+      backgroundColor: "linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)",
     },
   },
   paper: {
@@ -92,6 +108,15 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     backgroundColor:'white',
     padding:'15px'
+  },
+  notchedOutline: {
+    borderColor: '#9E9E9E !important',
+  },
+  appBar: {
+    background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)',
+  },
+  icon: {
+    marginRight: theme.spacing(2),
   },
   avatar: {
     margin: theme.spacing(1),
@@ -122,14 +147,22 @@ export default function SignUp() {
 
   return (
     <Container component="main">
+      <AppBar className={classes.appBar} width={1}>
+          <Toolbar>
+            <SchoolIcon className={classes.icon} />
+            <Typography variant="h6" color="inherit" noWrap>
+              Tutify
+            </Typography>
+          </Toolbar>
+        </AppBar>
       <CssBaseline />
       <div className={classes.paper}>
          <img src={large_tutify} className="App-logo" alt="logo" />
         <Typography component="h1" variant="h5">
           Sign Up Page
-
         </Typography>
         <form className={classes.form} noValidate>
+        <ThemeProvider theme={theme}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <TextField
@@ -141,6 +174,11 @@ export default function SignUp() {
                 id="firstName"
                 label="First Name"
                 autoFocus
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -152,6 +190,11 @@ export default function SignUp() {
                 label="Last Name"
                 name="lastName"
                 autoComplete="lname"
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -163,6 +206,11 @@ export default function SignUp() {
                 label="Username"
                 name="Username"
                 autoComplete="username"
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -174,6 +222,11 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -186,6 +239,11 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -198,89 +256,89 @@ export default function SignUp() {
                 type="Confirmpassword"
                 id="Confirmpassword"
                 autoComplete="current-Confirmpassword"
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
               />
             </Grid>
-            
             <Grid item xs={4}>
-                  <TextField
-              id="standard-select-educationLevel"
-              select
-              label="What Describes your Education Level?"
-              required
-              fullWidth
-              className={classes.textField}
-              value={values.educationLevel}
-              onChange={handleChange("educationLevel")}
-              SelectProps={{
-                MenuProps: {
-                  className: classes.menu
-                }
-              }}
-              helperText="Please select which level of education you would like tutoring for"
-              margin="normal"
-            >
-              {educationLevel.map(option => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-          </TextField>
-      </Grid>
-
-      <Grid item xs={4}>
-                  <TextField
-              id="standard-select-classesTutor"
-              select
-              label="What Classes do you want to be tutored in?"
-              required
-              fullWidth
-              className={classes.textField}
-              value={values.classesTutor}
-              onChange={handleChange("classesTutor")}
-              SelectProps={{
-                MenuProps: {
-                  className: classes.menu
-                }
-              }}
-              helperText="Please select which classes you would like tutoring for"
-              margin="normal"
-            >
-              {classesTutor.map(option => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-      </TextField>
-      </Grid>
-
-      <Grid item xs={4}>
-                  <TextField
-              id="standard-select-typeOFTutoring"
-              select
-              label="What Type of Tutoring are you looking for?"
-              required
-              fullWidth
-              className={classes.textField}
-              value={values.typeOFTutoring}
-              onChange={handleChange("typeOFTutoring")}
-              SelectProps={{
-                MenuProps: {
-                  className: classes.menu
-                }
-              }}
-              helperText="Please select which type tutoring service (crash course, weekly tutoring, one on one, group tutoring) 
-              you would like."
-              margin="normal"
-            >
-              {typeOFTutoring.map(option => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-      </TextField>
-      </Grid>
-
-
+              <TextField
+                id="standard-select-educationLevel"
+                select
+                label="What Describes your Education Level?"
+                required
+                fullWidth
+                className={classes.textField}
+                value={values.educationLevel}
+                onChange={handleChange("educationLevel")}
+                SelectProps={{
+                  MenuProps: {
+                    className: classes.menu
+                  }
+                }}
+                helperText="Please select which level of education you would like tutoring for"
+                margin="normal"
+              >   
+                {educationLevel.map(option => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                id="standard-select-classesTutor"
+                select
+                label="What Classes do you want to be tutored in?"
+                required
+                fullWidth
+                className={classes.textField}
+                value={values.classesTutor}
+                onChange={handleChange("classesTutor")}
+                SelectProps={{
+                  MenuProps: {
+                    className: classes.menu
+                  }
+                }}
+                helperText="Please select which classes you would like tutoring for"
+                margin="normal"
+              >
+                {classesTutor.map(option => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                id="standard-select-typeOFTutoring"
+                select
+                label="What Type of Tutoring are you looking for?"
+                required
+                fullWidth
+                className={classes.textField}
+                value={values.typeOFTutoring}
+                onChange={handleChange("typeOFTutoring")}
+                SelectProps={{
+                  MenuProps: {
+                    className: classes.menu
+                  }
+                }}
+                helperText="Please select which type tutoring service (crash course, weekly tutoring, one on one, group tutoring) 
+                you would like."
+                margin="normal"
+              >
+                {typeOFTutoring.map(option => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
             <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
@@ -292,7 +350,6 @@ export default function SignUp() {
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
             className={classes.submit}
           >
             Sign Up
@@ -304,6 +361,7 @@ export default function SignUp() {
               </Link>
             </Grid>
           </Grid>
+        </ThemeProvider>
         </form>
       </div>
       <Box mt={5}>
