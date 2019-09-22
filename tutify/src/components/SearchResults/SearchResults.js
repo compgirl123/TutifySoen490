@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
 import SchoolIcon from '@material-ui/icons/School';
+import CheckIcon from '@material-ui/icons/Check';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -16,8 +15,9 @@ import { ThemeProvider } from "@material-ui/styles";
 import Copyright from "../Copyright"
 import { withStyles } from "@material-ui/core/styles";
 import * as tutifyStyle from './SearchResults-styles';
-
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+import Chip from '@material-ui/core/Chip'
+import CardActionArea from '@material-ui/core/CardActionArea';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class SearchResults extends Component {
   // initialize our state
@@ -37,10 +37,10 @@ class SearchResults extends Component {
   componentDidMount() {
     this.getDataFromDb();
     // TO FIX
-    // if (!this.state.intervalIsSet) {
-    //   let interval = setInterval(this.getDataFromDb, 1000);
-    //   this.setthis.state({ intervalIsSet: interval });
-    // }
+    if (!this.state.intervalIsSet) {
+      let interval = setInterval(this.getDataFromDb, 1000);
+      this.setState({ intervalIsSet: interval });
+    }
   }
 
   // never let a process live forever
@@ -54,13 +54,14 @@ class SearchResults extends Component {
 
   // Uses our backend api to fetch tutors from our database
   getDataFromDb = () => {
-    fetch('http://localhost:3001/api/getTutors')
+    fetch('http://localhost:3001/api/getTutor')
       .then((data) => data.json())
-      .then((res) => this.setthis.state({ data: res.data }));
+      .then((res) => this.setState({ data: res.data }));
   }
 
   render() {
     const { classes } = this.props;
+    const { data } = this.state;
     return (
       <React.Fragment>
         <CssBaseline />
@@ -99,27 +100,31 @@ class SearchResults extends Component {
           <Container className={classes.cardGrid} maxWidth="md">
             {/* End hero unit */}
             <Grid container spacing={4}>
-              {cards.map(card => (
-                <Grid item key={card} xs={12} sm={6} md={4}>
+              {data.map(tutor => (
+                <Grid item key={tutor.id} xs={12} sm={6} md={4}>
                   <Card className={classes.card}>
+                  <CardActionArea component={Link} to="/SearchPage">
                     <CardMedia
                       className={classes.cardMedia}
                       image="https://source.unsplash.com/random"
                       title="Image title"
                     />
+                    </CardActionArea>
                     <CardContent className={classes.cardContent}>
                       <Typography gutterBottom variant="h5" component="h2">
-                        Tutor name
+                      {tutor.first_name} {tutor.last_name}
                       </Typography>
                       <Typography>
-                        This is a tutor profile. Tutor information will be displayed here. 
+                        This is a tutor profile. Tutor information will be displayed here. <br/>
+                        <Chip
+                          className={classes.chip}
+                          icon={<CheckIcon />}
+                          color="secondary"
+                          label={tutor.subject}
+                        />
                       </Typography>
                     </CardContent>
-                    <CardActions>
-                      <Button size="small" color="primary">
-                        View
-                      </Button>
-                    </CardActions>
+
                   </Card>
                 </Grid>
               ))}
