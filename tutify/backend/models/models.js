@@ -98,7 +98,7 @@ var Appointment = mongoose.model('Appointment', AppointmentSchema, "appointments
 const DataSchema = new Schema(
   {
     id: Number,
-    message: String
+    name: String
   },
   { timestamps: true },
 );

@@ -16,6 +16,7 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import small_tutify from './../assets/small_tutify.png';
 import Copyright from './Copyright'
+import '../index.css'
 
 /*const theme = createMuiTheme({
   palette: {
@@ -33,11 +34,11 @@ import Copyright from './Copyright'
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
-      backgroundColor: theme.palette.common.white,
+      backgroundColor: '#FFFFFF !important',
     },
     MuiButton: {
       outlinedPrimary: {
-        background: '#18202c',
+        background: '#18202c' ,
         // this is where magic happens
         '& *': { color: 'rgba(255, 255, 255, 0.7)' },
       },
