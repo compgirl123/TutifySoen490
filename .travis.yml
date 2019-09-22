@@ -4,6 +4,9 @@ node_js:
 cache:
   directories:
   - node_modules
+script:
+  - cd tutify
+  - npm build
 deploy:
   provider: npm
 
