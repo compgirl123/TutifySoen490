@@ -35,7 +35,7 @@ class Database2 extends React.Component {
     state = {
       data: [],
       id: 0,
-      messagef: null,
+      first_name: null,
       intervalIsSet: false,
       idToDelete: null,
       idToUpdate: null,
@@ -69,15 +69,23 @@ class Database2 extends React.Component {
   
     // our first get method that uses our backend api to
     // fetch data from our data base
-    getDataFromDb = () => {
+    /*getDataFromDb = () => {
       fetch('http://localhost:3001/api/getData')
+        .then((data) => data.json())
+        .then((res) => this.setState({ data: res.data }));
+    };*/
+
+    // our first get method that uses our backend api to
+    // fetch data from our data base
+    getDataFromDb = () => {
+      fetch('http://localhost:3001/api/getUser')
         .then((data) => data.json())
         .then((res) => this.setState({ data: res.data }));
     };
   
     // our put method that uses our backend api
     // to create new query into our data base
-    putDataToDB = (message) => {
+    /*putDataToDB = (message) => {
       let currentIds = this.state.data.map((data) => data.id);
       let idToBeAdded = 0;
       while (currentIds.includes(idToBeAdded)) {
@@ -88,11 +96,26 @@ class Database2 extends React.Component {
         id: idToBeAdded,
         message: message,
       });
+    };*/
+
+    // our put method that uses our backend api
+    // to create new query into our data base
+    putDataToDB = (first_name) => {
+      let currentIds = this.state.data.map((data) => data.id);
+      let idToBeAdded = 0;
+      while (currentIds.includes(idToBeAdded)) {
+        ++idToBeAdded;
+      }
+  
+      axios.post('http://localhost:3001/api/putUser', {
+        id: idToBeAdded,
+        first_name: first_name,
+      });
     };
   
     // our delete method that uses our backend api
     // to remove existing database information
-    deleteFromDB = (idTodelete) => {
+    /*deleteFromDB = (idTodelete) => {
       parseInt(idTodelete);
       let objIdToDelete = null;
       this.state.data.forEach((dat) => {
@@ -106,8 +129,43 @@ class Database2 extends React.Component {
           id: objIdToDelete,
         },
       });
+    };*/
+
+    // our delete method that uses our backend api
+    // to remove existing database information
+    deleteFromDB = (idTodelete) => {
+      parseInt(idTodelete);
+      let objIdToDelete = null;
+      this.state.data.forEach((dat) => {
+        if (dat.id === idTodelete) {
+          objIdToDelete = dat._id;
+        }
+      });
+  
+      axios.delete('http://localhost:3001/api/deleteUser', {
+        data: {
+          id: objIdToDelete,
+        },
+      });
     };
   
+    // our update method that uses our backend api
+    // to overwrite existing data base information
+    /*updateDB = (idToUpdate, updateToApply) => {
+      let objIdToUpdate = null;
+      parseInt(idToUpdate);
+      this.state.data.forEach((dat) => {
+        if (dat.id === idToUpdate) {
+          objIdToUpdate = dat._id;
+        }
+      });
+  
+      axios.post('http://localhost:3001/api/updateData', {
+        id: objIdToUpdate,
+        update: { message: updateToApply },
+      });
+    };*/
+
     // our update method that uses our backend api
     // to overwrite existing data base information
     updateDB = (idToUpdate, updateToApply) => {
@@ -121,7 +179,7 @@ class Database2 extends React.Component {
   
       axios.post('http://localhost:3001/api/updateData', {
         id: objIdToUpdate,
-        update: { message: updateToApply },
+        update: { first_name: updateToApply },
       });
     };
 
@@ -227,7 +285,7 @@ class Database2 extends React.Component {
                 fullWidth
                 id="firstName"
                 label="First Name"
-                onChange={(e) => this.setState({ message: e.target.value })}
+                onChange={(e) => this.setState({ first_name: e.target.value })}
                 autoFocus
               />
             </Grid>
@@ -239,7 +297,6 @@ class Database2 extends React.Component {
                 id="lastName"
                 label="Last Name"
                 name="lastName"
-                onChange={(e) => this.setState({ message: e.target.value })}
                 autoComplete="lname"
               />
             </Grid>
@@ -302,7 +359,7 @@ class Database2 extends React.Component {
             variant="contained"
             color="primary"
             className="submit"
-            onClick={() => this.putDataToDB(this.state.message)}
+            onClick={() => this.putDataToDB(this.state.first_name)}
           >
             Sign Up
           </Button>
