@@ -2,17 +2,11 @@ import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import SchoolIcon from '@material-ui/icons/School';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
 import { TextField } from '@material-ui/core';
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
@@ -73,8 +67,6 @@ const useStyles = makeStyles(theme => ({
       padding: theme.spacing(6),
     },
   }));
-  
-  const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export default function SearchPage() {
     const classes = useStyles();

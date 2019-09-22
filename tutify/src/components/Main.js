@@ -55,10 +55,6 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#2FB62E',
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
-  appBarChoices:{
-    position: "absolute",
-    left : '85%'
-  },
   toolbar: {
     flexWrap: 'wrap',
   },
@@ -148,7 +144,7 @@ export default function Benefits() {
       <AppBar position="sticky" color="default" elevation={0} className={classes.appBar}>
         <Toolbar className={classes.toolbar} >
           <img src={small_tutify} className="App-logo" alt="logo" />
-          <appBarChoices className={classes.appBarChoices}>
+      
 
           <Link variant="button" color="inherit"  href="#" className={classes.link} >
               Login
@@ -158,7 +154,7 @@ export default function Benefits() {
             </Button>
         
             
-          </appBarChoices>
+          
         </Toolbar>
       </AppBar>
       {/* Hero unit */}
