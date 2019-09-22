@@ -5,13 +5,10 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container'; 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import large_tutify from './../assets/large_tutify.png';
-import { withStyles } from "@material-ui/core/styles";
 import './style.css'
-import MenuItem from "@material-ui/core/MenuItem";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Box from '@material-ui/core/Box';

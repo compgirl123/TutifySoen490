@@ -9,7 +9,6 @@ import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import { TextField } from '@material-ui/core';
 import { ThemeProvider } from "@material-ui/styles";
 import Copyright from "../Copyright"
 import { withStyles } from "@material-ui/core/styles";
@@ -17,14 +16,12 @@ import * as tutifyStyle from './SearchResults-styles';
 import Chip from '@material-ui/core/Chip'
 import CardActionArea from '@material-ui/core/CardActionArea';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import DirectionsIcon from '@material-ui/icons/Directions';
 
 class SearchResults extends Component {
   // initialize our state
