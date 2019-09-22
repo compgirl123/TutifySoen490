@@ -5,7 +5,6 @@ import CheckIcon from '@material-ui/icons/Check';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -18,6 +17,14 @@ import * as tutifyStyle from './SearchResults-styles';
 import Chip from '@material-ui/core/Chip'
 import CardActionArea from '@material-ui/core/CardActionArea';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import DirectionsIcon from '@material-ui/icons/Directions';
 
 class SearchResults extends Component {
   // initialize our state
@@ -64,12 +71,11 @@ class SearchResults extends Component {
     const { data } = this.state;
     return (
       <React.Fragment>
-        <CssBaseline />
         <AppBar className={classes.appBar} position="relative">
           <Toolbar>
             <SchoolIcon className={classes.icon} />
             <Typography variant="h6" color="inherit" noWrap>
-              Search Tutor
+              Tutify
             </Typography>
           </Toolbar>
         </AppBar>
@@ -80,56 +86,57 @@ class SearchResults extends Component {
               <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
                 Search Tutor
               </Typography>
-              <Typography align="center">
                 <ThemeProvider theme={tutifyStyle.theme}>
-                  <form className={classes.container} noValidate autoComplete="off">
-                    <TextField 
-                      id="outlined-search"
-                      label="Enter a subject"
-                      type="search"
-                      className={classes.textField}
-                      margin="normal"
-                      variant="outlined"
-          
-                      />
-                  </form>
+                  <Paper className={classes.root}>
+                    <IconButton className={classes.iconButton} aria-label="menu">
+                      <MenuIcon />
+                    </IconButton>
+                    <InputBase
+                      className={classes.input}
+                      placeholder="Enter a subject"
+                      inputProps={{ 'aria-label': 'enter a subject' }}
+                    />
+                    <IconButton className={classes.iconButton} aria-label="search">
+                      <SearchIcon />
+                    </IconButton>
+                  </Paper>
                 </ThemeProvider>
-              </Typography>
             </Container>
           </div>
-          <Container className={classes.cardGrid} maxWidth="md">
-            {/* End hero unit */}
-            <Grid container spacing={4}>
-              {data.map(tutor => (
-                <Grid item key={tutor.id} xs={12} sm={6} md={4}>
-                  <Card className={classes.card}>
-                  <CardActionArea component={Link} to="/SearchPage">
-                    <CardMedia
-                      className={classes.cardMedia}
-                      image="https://source.unsplash.com/random"
-                      title="Image title"
-                    />
-                    </CardActionArea>
-                    <CardContent className={classes.cardContent}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                      {tutor.first_name} {tutor.last_name}
-                      </Typography>
-                      <Typography>
-                        This is a tutor profile. Tutor information will be displayed here. <br/>
-                        <Chip
-                          className={classes.chip}
-                          icon={<CheckIcon />}
-                          color="secondary"
-                          label={tutor.subject}
-                        />
-                      </Typography>
-                    </CardContent>
-
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </Container>
+          <div className={classes.gridContainer}>
+            <Container className={classes.cardGrid} width="100%">
+              {/* End hero unit */}
+              <Grid container spacing={4}>
+                {data.map(tutor => (
+                  <Grid item key={tutor.id} xs={12} sm={6} md={4}>
+                    <Card className={classes.card}>
+                    <CardActionArea component={Link} to="/SearchPage">
+                      <CardMedia
+                        className={classes.cardMedia}
+                        image="https://source.unsplash.com/random"
+                        title="Image title"
+                      />
+                      </CardActionArea>
+                      <CardContent className={classes.cardContent}>
+                        <Typography gutterBottom variant="h5" component="h2">
+                        {tutor.first_name} {tutor.last_name}
+                        </Typography>
+                        <Typography>
+                          This is a tutor profile. Tutor information will be displayed here. <br/>
+                          <Chip
+                            className={classes.chip}
+                            icon={<CheckIcon />}
+                            color="secondary"
+                            label={tutor.subject}
+                          />
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Container>
+          </div>
         </main>
         {/* Footer */}
         <footer className={classes.footer}>
