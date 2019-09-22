@@ -4,7 +4,6 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Router, Route, Link } from 'react-router-dom';
-import SearchResults from './components/SearchResults';
 
 ReactDOM.render(
     <App />,
