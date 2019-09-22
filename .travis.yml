@@ -1,13 +1,13 @@
 language: node_js
 node_js:
-- 'stable'
+  - '8'
+os:
+  - macosx
 cache:
   directories:
   - node_modules
 script:
   - cd tutify
-  - npm run-script build
-deploy:
-  provider: npm
-
+  - npm install
+  - npm run build
 
