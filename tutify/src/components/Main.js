@@ -76,7 +76,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(8, 0, 6),
   },
   cardHeader: {
-    backgroundColor: '#2FB62E',
+    background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)',
   },
   cardRole: {
     display: 'flex',
@@ -199,7 +199,7 @@ export default function Benefits() {
                   </ul>
                 </CardContent>
                 <CardActions>
-                  <Button fullWidth variant={benefit.buttonVariant} color="primary">
+                  <Button fullWidth variant={benefit.buttonVariant} color="#F5F5F5">
                     {benefit.buttonText}
                   </Button>
                 </CardActions>
