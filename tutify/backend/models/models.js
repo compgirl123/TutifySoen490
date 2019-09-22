@@ -26,7 +26,9 @@ var Tutor = mongoose.model('Tutor', TutorSchema, "tutors");
 const UserSchema = new Schema(//{
     {
       id: Number,
-      first_name: String
+      first_name: String,
+      last_name : String,
+      email : String
     }
     /*id: {
       type: Number,

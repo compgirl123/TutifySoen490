@@ -39,6 +39,8 @@ class Database2 extends React.Component {
       data: [],
       id: 0,
       first_name: null,
+      last_name : null,
+      email : null,
       intervalIsSet: false,
       idToDelete: null,
       idToUpdate: null,
@@ -103,7 +105,7 @@ class Database2 extends React.Component {
 
     // our put method that uses our backend api
     // to create new query into our data base
-    putDataToDB = (first_name) => {
+    putDataToDB = (first_name,last_name,email) => {
       let currentIds = this.state.data.map((data) => data.id);
       let idToBeAdded = 0;
       while (currentIds.includes(idToBeAdded)) {
@@ -113,6 +115,8 @@ class Database2 extends React.Component {
       axios.post('http://localhost:3001/api/putUser', {
         id: idToBeAdded,
         first_name: first_name,
+        last_name : last_name,
+        email : email
       });
     };
   
@@ -182,7 +186,7 @@ class Database2 extends React.Component {
   
       axios.post('http://localhost:3001/api/updateData', {
         id: objIdToUpdate,
-        update: { first_name: updateToApply },
+        update: { first_name: updateToApply, last_name :updateToApply, email: updateToApply },
       });
     };
 
@@ -300,6 +304,7 @@ const { data } = this.state;
                 id="lastName"
                 label="Last Name"
                 name="lastName"
+                onChange={(e) => this.setState({ last_name: e.target.value })}
                 autoComplete="lname"
               />
             </Grid>
@@ -322,6 +327,7 @@ const { data } = this.state;
                 id="email"
                 label="Email Address"
                 name="email"
+                onChange={(e) => this.setState({ email: e.target.value })}
                 autoComplete="email"
               />
             </Grid>
@@ -362,7 +368,7 @@ const { data } = this.state;
             variant="contained"
             color="primary"
             className="submit"
-            onClick={() => this.putDataToDB(this.state.first_name)}
+            onClick={() => this.putDataToDB(this.state.first_name,this.state.last_name,this.state.email)}
           >
             Sign Up
           </Button>
