@@ -1,181 +1,43 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
-import axios from 'axios';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container'; 
 import CssBaseline from '@material-ui/core/CssBaseline';
-import large_tutify from './../assets/large_tutify.png';
-import { withStyles } from "@material-ui/core/styles";
-import './style.css'
-import MenuItem from "@material-ui/core/MenuItem";
+import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import { FormControl } from '@material-ui/core';
-/*import { InputLabel } from '@material-ui/core'; 
-import { FormHelperText } from '@material-ui/core';
-import { Select } from '@material-ui/core';
-import { Input } from '@material-ui/core';*/
-import PropTypes from "prop-types";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import Select from "@material-ui/core/Select";
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import large_tutify from './../assets/large_tutify.png';
+import MenuItem from "@material-ui/core/MenuItem";
+import Link from '@material-ui/core/Link';
+import Copyright from './Copyright'
 
-const styles = theme => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap"
+const educationLevel = [
+  {
+    value: "elementary",
+    label: "Elementary School"
   },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120
+  {
+    value: "highschool",
+    label: "High School"
   },
-  selectEmpty: {
-    marginTop: theme.spacing.unit * 2
+  {
+    value: "cegep",
+    label: "Cegep"
+  },
+  {
+    value: "university",
+    label: "University"
+  },
+  {
+    value: "adulteducation",
+    label: "Adult Education"
   }
-});
+];
 
-class Copyright extends Component{
-  render() {
-    return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'© '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Tutify
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-  }
-  
-}
-
-
-
-class Database2 extends React.Component {
-  // initialize our state
-    state = {
-      data: [],
-      id: 0,
-      first_name: null,
-      last_name : null,
-      email : null,
-      intervalIsSet: false,
-      idToDelete: null,
-      idToUpdate: null,
-      objectToUpdate: null,
-      selected: null,
-      selected1 : null,
-      selected2 : null
-    };
-    
-    // when component mounts, first thing it does is fetch all existing data in our db
-    // then we incorporate a polling logic so that we can easily see if our db has
-    // changed and implement those changes into our UI
-    componentDidMount() {
-      this.getDataFromDb();
-      if (!this.state.intervalIsSet) {
-        let interval = setInterval(this.getDataFromDb, 1000);
-        this.setState({ intervalIsSet: interval });
-      }
-    }
-  
-    // never let a process live forever
-    // always kill a process everytime we are done using it
-    componentWillUnmount() {
-      if (this.state.intervalIsSet) {
-        clearInterval(this.state.intervalIsSet);
-        this.setState({ intervalIsSet: null });
-      }
-    }
-  
-    // just a note, here, in the front end, we use the id key of our data object
-    // in order to identify which we want to Update or delete.
-    // for our back end, we use the object id assigned by MongoDB to modify
-    // data base entries
-  
-    // our first get method that uses our backend api to
-    // fetch data from our data base
-    getDataFromDb = () => {
-      fetch('http://localhost:3001/api/getUser')
-        .then((data) => data.json())
-        .then((res) => this.setState({ data: res.data }));
-    };
-  
-
-    // our put method that uses our backend api
-    // to create new query into our data base
-    putDataToDB = (first_name,last_name,email,selected,selected1,selected2) => {
-      let currentIds = this.state.data.map((data) => data.id);
-      let idToBeAdded = 0;
-      while (currentIds.includes(idToBeAdded)) {
-        ++idToBeAdded;
-      }
-  
-      axios.post('http://localhost:3001/api/putUser', {
-        id: idToBeAdded,
-        first_name: first_name,
-        last_name : last_name,
-        email : email,
-        selected : selected,
-        selected1 : selected1,
-        selected2 : selected2
-      });
-    };
-  
- 
-  
-
-  handleChange(value) {
-    this.setState({ selected: value });
-  }
-
-  handleClick() {
-    this.setState({ hasError: false });
-    if (!this.state.selected) {
-      this.setState({ hasError: true });
-    }
-  }
-
-  render() {
-    const { selected, selected1,selected2, hasError } = this.state;
-    //const { selected1, hasError} = this.state;
-    const mystyle = {
-      color: "black",
-      backgroundColor: "DodgerBlue",
-      padding: "10px",
-      fontFamily: "Arial"
-    };
-    const { classes } = this.props;
-    const educationLevel = [
-    {
-      value: "elementary",
-      label: "Elementary School"
-    },
-    {
-      value: "highschool",
-      label: "High School"
-    },
-    {
-      value: "cegep",
-      label: "Cegep"
-    },
-    {
-      value: "university",
-      label: "University"
-    },
-    {
-      value: "adulteducation",
-      label: "Adult Education"
-    }
-  ];
-  const classesTutor = [
+const classesTutor = [
   {
     value: "chem204",
     label: "chem204"
@@ -193,6 +55,7 @@ class Database2 extends React.Component {
     label: "math205"
   }
 ];
+
 const typeOFTutoring = [
   {
     value: "crashcourse",
@@ -212,31 +75,62 @@ const typeOFTutoring = [
   }
 ];
 
-const useStyles = theme => ({
-  root: {
-    backgroundColor: "red"
-  }
-});
+ 
 
+const useStyles = makeStyles(theme => ({
+  '@global': {
+    body: {
+      backgroundColor: "#2fb62f",
+    },
+  },
+  paper: {
+    marginTop: theme.spacing(8),
+    marginLeft: theme.spacing(10),
+    marginRight: theme.spacing(10),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor:'white',
+    padding:'15px'
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    padding: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
 
+export default function SignUp() {
+  const classes = useStyles();
+  const [values, setValues] = React.useState({
+    name: "Cat in the Hat",
+    age: "",
+    multiline: "Controlled",
+    currency: "EUR"
+  });
 
-    return (
-    
-    <div >
-    <Container component = "main" className = "class11">
-     <CssBaseline />
+  const handleChange = name => event => {
+    setValues({ ...values, [name]: event.target.value });
+  };
 
-      <div className = "paper">
-
-       <img src={large_tutify} className="App-logo" alt="logo" />
-
-      <Typography component="h1" variant="h5">
+  return (
+    <Container component="main">
+      <CssBaseline />
+      <div className={classes.paper}>
+         <img src={large_tutify} className="App-logo" alt="logo" />
+        <Typography component="h1" variant="h5">
           Sign Up Page
-      </Typography>
 
-      
-      <form className="form" noValidate>
-      <Grid container spacing={2}>
+        </Typography>
+        <form className={classes.form} noValidate>
+          <Grid container spacing={2}>
             <Grid item xs={6}>
               <TextField
                 autoComplete="fname"
@@ -246,7 +140,6 @@ const useStyles = theme => ({
                 fullWidth
                 id="firstName"
                 label="First Name"
-                onChange={(e) => this.setState({ first_name: e.target.value })}
                 autoFocus
               />
             </Grid>
@@ -258,7 +151,6 @@ const useStyles = theme => ({
                 id="lastName"
                 label="Last Name"
                 name="lastName"
-                onChange={(e) => this.setState({ last_name: e.target.value })}
                 autoComplete="lname"
               />
             </Grid>
@@ -273,7 +165,6 @@ const useStyles = theme => ({
                 autoComplete="username"
               />
             </Grid>
-
             <Grid item xs={6}>
               <TextField
                 variant="outlined"
@@ -282,7 +173,6 @@ const useStyles = theme => ({
                 id="email"
                 label="Email Address"
                 name="email"
-                onChange={(e) => this.setState({ email: e.target.value })}
                 autoComplete="email"
               />
             </Grid>
@@ -310,70 +200,85 @@ const useStyles = theme => ({
                 autoComplete="current-Confirmpassword"
               />
             </Grid>
+            
+            <Grid item xs={4}>
+                  <TextField
+              id="standard-select-educationLevel"
+              select
+              label="What Describes your Education Level?"
+              required
+              fullWidth
+              className={classes.textField}
+              value={values.educationLevel}
+              onChange={handleChange("educationLevel")}
+              SelectProps={{
+                MenuProps: {
+                  className: classes.menu
+                }
+              }}
+              helperText="Please select which level of education you would like tutoring for"
+              margin="normal"
+            >
+              {educationLevel.map(option => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+          </TextField>
+      </Grid>
 
-            <Grid item xs={12}>  
-            <form autoComplete="off">
-              <FormControl >
-                <InputLabel htmlFor="education_level">Education Level</InputLabel>
-                <Select
-                  name="education_level"
-                  value={selected}
-                  onChange={event => this.setState({selected:event.target.value})}
-                // onChange={(e) => this.setState({ first_name: e.target.value })}
-                  input={<Input id="education_level" />}
-                >
-                  <MenuItem value="elementary">Elementary School</MenuItem>
-                  <MenuItem value="highschool">High School</MenuItem>
-                  <MenuItem value="cegep">Cegep</MenuItem>
-                  <MenuItem value="university">University</MenuItem>
-                  <MenuItem value="adulteducation">Adult Education</MenuItem>
-                </Select>
-                {hasError && <FormHelperText>This is required!</FormHelperText>}
-              </FormControl>
-            </form>
-            </Grid>
+      <Grid item xs={4}>
+                  <TextField
+              id="standard-select-classesTutor"
+              select
+              label="What Classes do you want to be tutored in?"
+              required
+              fullWidth
+              className={classes.textField}
+              value={values.classesTutor}
+              onChange={handleChange("classesTutor")}
+              SelectProps={{
+                MenuProps: {
+                  className: classes.menu
+                }
+              }}
+              helperText="Please select which classes you would like tutoring for"
+              margin="normal"
+            >
+              {classesTutor.map(option => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+      </TextField>
+      </Grid>
 
-            <Grid item xs={12}>  
-            <form autoComplete="off">
-              <FormControl >
-                <InputLabel htmlFor="tutored_classes">Classes Tutored</InputLabel>
-                <Select
-                  name="tutored_classes"
-                  value={selected1}
-                  onChange={event => this.setState({selected1:event.target.value})}
-                // onChange={(e) => this.setState({ first_name: e.target.value })}
-                  input={<Input id="tutored_classes" />}
-                >
-                  <MenuItem value="chem_204">Chem 204</MenuItem>
-                  <MenuItem value="chem_205">Chem 205</MenuItem>
-                  <MenuItem value="math_204">Math 204</MenuItem>
-                  <MenuItem value="math_205">Math 205</MenuItem>
-                </Select>
-                {hasError && <FormHelperText>This is required!</FormHelperText>}
-              </FormControl>
-            </form>
-            </Grid>
-
-            <Grid item xs={12}>  
-            <form autoComplete="off">
-              <FormControl >
-                <InputLabel htmlFor="type_of_tutoring">Type of Tutoring</InputLabel>
-                <Select
-                  name="type_of_tutoring"
-                  value={selected2}
-                  onChange={event => this.setState({selected2:event.target.value})}
-                // onChange={(e) => this.setState({ first_name: e.target.value })}
-                  input={<Input id="type_of_tutoring" />}
-                >
-                  <MenuItem value="crashcourse">Crash Course</MenuItem>
-                  <MenuItem value="weeklytutoring">Weekly Tutoring</MenuItem>
-                  <MenuItem value="oneonone">One on One Tutoring</MenuItem>
-                  <MenuItem value="grouptutoring">Group Tutoring</MenuItem>
-                </Select>
-                {hasError && <FormHelperText>This is required!</FormHelperText>}
-              </FormControl>
-            </form>
-            </Grid>
+      <Grid item xs={4}>
+                  <TextField
+              id="standard-select-typeOFTutoring"
+              select
+              label="What Type of Tutoring are you looking for?"
+              required
+              fullWidth
+              className={classes.textField}
+              value={values.typeOFTutoring}
+              onChange={handleChange("typeOFTutoring")}
+              SelectProps={{
+                MenuProps: {
+                  className: classes.menu
+                }
+              }}
+              helperText="Please select which type tutoring service (crash course, weekly tutoring, one on one, group tutoring) 
+              you would like."
+              margin="normal"
+            >
+              {typeOFTutoring.map(option => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+      </TextField>
+      </Grid>
 
 
             <Grid item xs={12}>
@@ -382,14 +287,13 @@ const useStyles = theme => ({
                 label="I Agree that Tutify will keep all data provided private from third-parties and will only use the data provided to best match a student with a tutor."
               />
             </Grid>
-        </Grid>
-        <Button
+          </Grid>
+          <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
-            className="submit"
-            onClick={() => this.putDataToDB(this.state.first_name,this.state.last_name,this.state.email,this.state.selected,this.state.selected1,this.state.selected2)}
+            className={classes.submit}
           >
             Sign Up
           </Button>
@@ -400,20 +304,11 @@ const useStyles = theme => ({
               </Link>
             </Grid>
           </Grid>
-      </form>
-    </div>
-   <Box mt={5}>
+        </form>
+      </div>
+      <Box mt={5}>
         <Copyright />
       </Box>
-       </Container>
-       </div>
-   
-    );
-  }
+    </Container>
+  );
 }
-
-
-
-
-
-export default Database2;
