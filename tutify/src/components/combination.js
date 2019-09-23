@@ -5,13 +5,10 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container'; 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import large_tutify from './../assets/large_tutify.png';
-import { withStyles } from "@material-ui/core/styles";
 import './style.css'
-import MenuItem from "@material-ui/core/MenuItem";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Box from '@material-ui/core/Box';
@@ -130,79 +127,79 @@ class Database2 extends React.Component {
 
   render() {
     
-    const mystyle = {
-      color: "black",
-      backgroundColor: "DodgerBlue",
-      padding: "10px",
-      fontFamily: "Arial"
-    };
-    const educationLevel = [
-    {
-      value: "elementary",
-      label: "Elementary School"
-    },
-    {
-      value: "highschool",
-      label: "High School"
-    },
-    {
-      value: "cegep",
-      label: "Cegep"
-    },
-    {
-      value: "university",
-      label: "University"
-    },
-    {
-      value: "adulteducation",
-      label: "Adult Education"
-    }
-  ];
-  const classesTutor = [
-  {
-    value: "chem204",
-    label: "chem204"
-  },
-  {
-    value: "chem205",
-    label: "chem205"
-  },
-  {
-    value: "math204",
-    label: "math204"
-  },
-  {
-    value: "math205",
-    label: "math205"
-  }
-];
-const typeOFTutoring = [
-  {
-    value: "crashcourse",
-    label: "Crash Course"
-  },
-  {
-    value: "weeklytutoring",
-    label: "Weekly Tutoring"
-  },
-  {
-    value: "oneononetutoring",
-    label: "One on One Tutoring"
-  },
-  {
-    value: "grouptutoring",
-    label: "Group Tutoring"
-  }
-];
+//     const mystyle = {
+//       color: "black",
+//       backgroundColor: "DodgerBlue",
+//       padding: "10px",
+//       fontFamily: "Arial"
+//     };
+//     const educationLevel = [
+//     {
+//       value: "elementary",
+//       label: "Elementary School"
+//     },
+//     {
+//       value: "highschool",
+//       label: "High School"
+//     },
+//     {
+//       value: "cegep",
+//       label: "Cegep"
+//     },
+//     {
+//       value: "university",
+//       label: "University"
+//     },
+//     {
+//       value: "adulteducation",
+//       label: "Adult Education"
+//     }
+//   ];
+//   const classesTutor = [
+//   {
+//     value: "chem204",
+//     label: "chem204"
+//   },
+//   {
+//     value: "chem205",
+//     label: "chem205"
+//   },
+//   {
+//     value: "math204",
+//     label: "math204"
+//   },
+//   {
+//     value: "math205",
+//     label: "math205"
+//   }
+// ];
+// const typeOFTutoring = [
+//   {
+//     value: "crashcourse",
+//     label: "Crash Course"
+//   },
+//   {
+//     value: "weeklytutoring",
+//     label: "Weekly Tutoring"
+//   },
+//   {
+//     value: "oneononetutoring",
+//     label: "One on One Tutoring"
+//   },
+//   {
+//     value: "grouptutoring",
+//     label: "Group Tutoring"
+//   }
+// ];
 
-const useStyles = theme => ({
-  root: {
-    backgroundColor: "red"
-  }
-});
+// const useStyles = theme => ({
+//   root: {
+//     backgroundColor: "red"
+//   }
+// });
 
-const { classes } = this.props;
-const { data } = this.state;
+// const { classes } = this.props;
+// const { data } = this.state;
 
     return (
     

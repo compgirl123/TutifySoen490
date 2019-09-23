@@ -17,7 +17,7 @@ import { withStyles } from "@material-ui/core/styles";
 import * as tutifyStyle from './SearchResults-styles';
 import Chip from '@material-ui/core/Chip'
 import CardActionArea from '@material-ui/core/CardActionArea';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Link } from "react-router-dom";
 
 class SearchResults extends Component {
   // initialize our state
