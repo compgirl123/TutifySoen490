@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -22,17 +21,6 @@ const styles = theme => ({
   }
 });
 
-class Demo extends React.Component {
-  
-
-  render(){
-    return(<SimpleSelect />);
-  }
-
-  
-
-}
-
 class SimpleSelect extends React.Component {
   state = {
     selected1: null,
@@ -51,7 +39,7 @@ class SimpleSelect extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    // const { classes } = this.props;
     const { selected1, hasError } = this.state;
 
 

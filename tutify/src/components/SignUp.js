@@ -5,22 +5,15 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container'; 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import large_tutify from './../assets/large_tutify.png';
-import { withStyles } from "@material-ui/core/styles";
 import './style.css'
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Box from '@material-ui/core/Box';
 import { FormControl } from '@material-ui/core';
-/*import { InputLabel } from '@material-ui/core'; 
-import { FormHelperText } from '@material-ui/core';
-import { Select } from '@material-ui/core';
-import { Input } from '@material-ui/core';*/
-import PropTypes from "prop-types";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -34,19 +27,19 @@ var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');
 var plaintext = bytes.toString(CryptoJS.enc.Utf8);
 console.log("decrypted text", plaintext);*/
 
-const styles = theme => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap"
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120
-  },
-  selectEmpty: {
-    marginTop: theme.spacing.unit * 2
-  }
-});
+// const styles = theme => ({
+//   root: {
+//     display: "flex",
+//     flexWrap: "wrap"
+//   },
+//   formControl: {
+//     margin: theme.spacing.unit,
+//     minWidth: 120
+//   },
+//   selectEmpty: {
+//     marginTop: theme.spacing.unit * 2
+//   }
+// });
 
 class Copyright extends Component{
   render() {
@@ -154,77 +147,77 @@ class Database2 extends React.Component {
   render() {
     const { selected, selected1,selected2, hasError } = this.state;
     //const { selected1, hasError} = this.state;
-    const mystyle = {
-      color: "black",
-      backgroundColor: "DodgerBlue",
-      padding: "10px",
-      fontFamily: "Arial"
-    };
-    const { classes } = this.props;
-    const educationLevel = [
-    {
-      value: "elementary",
-      label: "Elementary School"
-    },
-    {
-      value: "highschool",
-      label: "High School"
-    },
-    {
-      value: "cegep",
-      label: "Cegep"
-    },
-    {
-      value: "university",
-      label: "University"
-    },
-    {
-      value: "adulteducation",
-      label: "Adult Education"
-    }
-  ];
-  const classesTutor = [
-  {
-    value: "chem204",
-    label: "chem204"
-  },
-  {
-    value: "chem205",
-    label: "chem205"
-  },
-  {
-    value: "math204",
-    label: "math204"
-  },
-  {
-    value: "math205",
-    label: "math205"
-  }
-];
-const typeOFTutoring = [
-  {
-    value: "crashcourse",
-    label: "Crash Course"
-  },
-  {
-    value: "weeklytutoring",
-    label: "Weekly Tutoring"
-  },
-  {
-    value: "oneononetutoring",
-    label: "One on One Tutoring"
-  },
-  {
-    value: "grouptutoring",
-    label: "Group Tutoring"
-  }
-];
+    // const mystyle = {
+    //   color: "black",
+    //   backgroundColor: "DodgerBlue",
+    //   padding: "10px",
+    //   fontFamily: "Arial"
+    // };
+//     const { classes } = this.props;
+//     const educationLevel = [
+//     {
+//       value: "elementary",
+//       label: "Elementary School"
+//     },
+//     {
+//       value: "highschool",
+//       label: "High School"
+//     },
+//     {
+//       value: "cegep",
+//       label: "Cegep"
+//     },
+//     {
+//       value: "university",
+//       label: "University"
+//     },
+//     {
+//       value: "adulteducation",
+//       label: "Adult Education"
+//     }
+//   ];
+//   const classesTutor = [
+//   {
+//     value: "chem204",
+//     label: "chem204"
+//   },
+//   {
+//     value: "chem205",
+//     label: "chem205"
+//   },
+//   {
+//     value: "math204",
+//     label: "math204"
+//   },
+//   {
+//     value: "math205",
+//     label: "math205"
+//   }
+// ];
+// const typeOFTutoring = [
+//   {
+//     value: "crashcourse",
+//     label: "Crash Course"
+//   },
+//   {
+//     value: "weeklytutoring",
+//     label: "Weekly Tutoring"
+//   },
+//   {
+//     value: "oneononetutoring",
+//     label: "One on One Tutoring"
+//   },
+//   {
+//     value: "grouptutoring",
+//     label: "Group Tutoring"
+//   }
+// ];
 
-const useStyles = theme => ({
-  root: {
-    backgroundColor: "red"
-  }
-});
+// const useStyles = theme => ({
+//   root: {
+//     backgroundColor: "red"
+//   }
+// });
 
 
 
