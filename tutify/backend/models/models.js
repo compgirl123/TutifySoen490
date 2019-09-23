@@ -28,7 +28,10 @@ const UserSchema = new Schema(//{
       id: Number,
       first_name: String,
       last_name : String,
-      email : String
+      email : String,
+      selected : String,
+      selected1 : String,
+      selected2 : String
     }
     /*id: {
       type: Number,
