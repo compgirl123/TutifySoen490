@@ -10,3 +10,4 @@ script:
   - cd tutify
   - npm install
   - npm run build
+  - jasmine
