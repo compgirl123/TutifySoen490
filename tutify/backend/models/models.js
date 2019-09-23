@@ -29,9 +29,9 @@ const UserSchema = new Schema(//{
       first_name: String,
       last_name : String,
       email : String,
-      selected : String,
-      selected1 : String,
-      selected2 : String
+      education_level : String,
+      classes_tutored : String,
+      type_tutoring : String
     }
     /*id: {
       type: Number,

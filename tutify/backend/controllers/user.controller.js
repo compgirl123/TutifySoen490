@@ -21,9 +21,9 @@ exports.updateUser = async function (req, res) {
 exports.putUser = async function (req, res) {
     let data = new User();
 
-    const { id, first_name, last_name , email, selected, selected1, selected2} = req.body;
+    const { id, first_name, last_name , email, education_level, classes_tutored, type_tutoring} = req.body;
 
-    if ((!id && id !== 0) || !first_name || !last_name || !email || !selected || !selected1 || !selected2) {
+    if ((!id && id !== 0) || !first_name || !last_name || !email || !education_level|| !classes_tutored || !type_tutoring) {
         return res.json({
         success: false,
         error: 'INVALID INPUTS',
@@ -32,9 +32,9 @@ exports.putUser = async function (req, res) {
     data.first_name = first_name;
     data.last_name = last_name;
     data.email = email;
-    data.selected = selected;
-    data.selected1 = selected1;
-    data.selected2 = selected2;
+    data.education_level = education_level;
+    data.classes_tutored = classes_tutored;
+    data.type_tutoring = type_tutoring;
     data.id = id;
     data.save((err) => {
         if (err) return res.json({ success: false, error: err });

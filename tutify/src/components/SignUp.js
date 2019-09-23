@@ -71,9 +71,9 @@ class Database2 extends React.Component {
       idToDelete: null,
       idToUpdate: null,
       objectToUpdate: null,
-      selected: null,
-      selected1 : null,
-      selected2 : null
+      education_level: null,
+      classes_tutored : null,
+      type_tutoring : null
     };
     
     // when component mounts, first thing it does is fetch all existing data in our db
@@ -112,7 +112,7 @@ class Database2 extends React.Component {
 
     // our put method that uses our backend api
     // to create new query into our data base
-    putDataToDB = (first_name,last_name,email,selected,selected1,selected2) => {
+    putDataToDB = (first_name,last_name,email,education_level,classes_tutored,type_tutoring) => {
       let currentIds = this.state.data.map((data) => data.id);
       let idToBeAdded = 0;
       while (currentIds.includes(idToBeAdded)) {
@@ -124,9 +124,9 @@ class Database2 extends React.Component {
         first_name: first_name,
         last_name : last_name,
         email : email,
-        selected : selected,
-        selected1 : selected1,
-        selected2 : selected2
+        education_level : education_level,
+        classes_tutored : classes_tutored,
+        type_tutoring : type_tutoring
       });
     };
   
@@ -134,19 +134,19 @@ class Database2 extends React.Component {
   
 
   handleChange(value) {
-    this.setState({ selected: value });
+    this.setState({ education_level: value });
   }
 
   handleClick() {
     this.setState({ hasError: false });
-    if (!this.state.selected) {
+    if (!this.state.education_level) {
       this.setState({ hasError: true });
     }
   }
 
   render() {
-    const { selected, selected1,selected2, hasError } = this.state;
-    //const { selected1, hasError} = this.state;
+    const { education_level, classes_tutored,type_tutoring, hasError } = this.state;
+    //const { classes_tutored, hasError} = this.state;
     // const mystyle = {
     //   color: "black",
     //   backgroundColor: "DodgerBlue",
@@ -318,8 +318,8 @@ class Database2 extends React.Component {
                 <InputLabel htmlFor="education_level">Education Level</InputLabel>
                 <Select
                   name="education_level"
-                  value={selected}
-                  onChange={event => this.setState({selected:event.target.value})}
+                  value={education_level}
+                  onChange={event => this.setState({education_level:event.target.value})}
                 // onChange={(e) => this.setState({ first_name: e.target.value })}
                   input={<Input id="education_level" />}
                 >
@@ -340,8 +340,8 @@ class Database2 extends React.Component {
                 <InputLabel htmlFor="tutored_classes">Classes Tutored</InputLabel>
                 <Select
                   name="tutored_classes"
-                  value={selected1}
-                  onChange={event => this.setState({selected1:event.target.value})}
+                  value={classes_tutored}
+                  onChange={event => this.setState({classes_tutored:event.target.value})}
                 // onChange={(e) => this.setState({ first_name: e.target.value })}
                   input={<Input id="tutored_classes" />}
                 >
@@ -361,8 +361,8 @@ class Database2 extends React.Component {
                 <InputLabel htmlFor="type_of_tutoring">Type of Tutoring</InputLabel>
                 <Select
                   name="type_of_tutoring"
-                  value={selected2}
-                  onChange={event => this.setState({selected2:event.target.value})}
+                  value={type_tutoring}
+                  onChange={event => this.setState({type_tutoring:event.target.value})}
                 // onChange={(e) => this.setState({ first_name: e.target.value })}
                   input={<Input id="type_of_tutoring" />}
                 >
@@ -390,7 +390,7 @@ class Database2 extends React.Component {
             variant="contained"
             color="primary"
             className="submit"
-            onClick={() => this.putDataToDB(this.state.first_name,this.state.last_name,this.state.email,this.state.selected,this.state.selected1,this.state.selected2)}
+            onClick={() => this.putDataToDB(this.state.first_name,this.state.last_name,this.state.email,this.state.education_level,this.state.classes_tutored,this.state.type_tutoring)}
           >
             Sign Up
           </Button>
