@@ -7,15 +7,30 @@ export const theme = createMuiTheme({
           color: "#9E9E9E ",
           "&$focused": { // increase the specificity for the pseudo class
             color: "#9E9E9E"
-          }
+          },
         }
       }
     }
   });
+
   
 export const styles = theme => ({
+  root: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    width: 400,
+    margin: "auto",
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
   appBar: {
-    background: '#00C853'
+    background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)',
   },
   icon: {
     marginRight: theme.spacing(2),
@@ -23,14 +38,10 @@ export const styles = theme => ({
   notchedOutline: {
     borderColor: '#9E9E9E !important',
   },
-  textField: {
-    marginLeft: theme.spacing(3),
-    marginRight: theme.spacing(3),
-    width: 400,
-  },
   heroContent: {
-    backgroundColor: theme.palette.background.paper,
+    background: '#EEEEEE',
     padding: theme.spacing(8, 0, 6),
+
   },
   heroButtons: {
     marginTop: theme.spacing(4),
@@ -51,11 +62,14 @@ export const styles = theme => ({
     flexGrow: 1,
   },
   footer: {
-    backgroundColor: theme.palette.background.paper,
+    background: theme.palette.background.paper,
     padding: theme.spacing(6),
   },
   chip: {
     background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)', 
     fontWeight:"bold"
+  },
+  gridContainer: {
+    background: theme.palette.background.paper,
   },
 });

@@ -376,7 +376,6 @@ class Database2 extends React.Component {
             </form>
             </Grid>
 
-
             <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}

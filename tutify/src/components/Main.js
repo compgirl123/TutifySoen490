@@ -14,8 +14,8 @@ import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
-import small_tutify from './../assets/small_tutify.png';
 import Copyright from './Copyright'
+import SchoolIcon from '@material-ui/icons/School';
 import '../index.css'
 
 /*const theme = createMuiTheme({
@@ -52,15 +52,18 @@ const useStyles = makeStyles(theme => ({
     },
   },
   appBar: {
-    backgroundColor: '#2FB62E',
-    borderBottom: `1px solid ${theme.palette.divider}`,
+    background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)',
   },
   appBarChoices:{
     position: "absolute",
     left : '85%'
   },
+  button: {
+    background: "white",
+  },
   toolbar: {
     flexWrap: 'wrap',
+    color: 'white',
   },
   toolbarTitle: {
     flexGrow: 1,
@@ -72,13 +75,16 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(8, 0, 6),
   },
   cardHeader: {
-    backgroundColor: '#2FB62E',
+    background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)',
   },
   cardRole: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'baseline',
     marginBottom: theme.spacing(2),
+  },
+  icon: {
+    marginRight: theme.spacing(2),
   },
   footer: {
     borderTop: `1px solid ${theme.palette.divider}`,
@@ -145,19 +151,19 @@ export default function Benefits() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="sticky" color="default" elevation={0} className={classes.appBar}>
+      <AppBar position="sticky" color="inherit" elevation={0} className={classes.appBar}>
         <Toolbar className={classes.toolbar} >
-          <img src={small_tutify} className="App-logo" alt="logo" />
+          <SchoolIcon className={classes.icon} />
+            <Typography variant="h6" color="inherit" noWrap>
+              Tutify
+            </Typography>
           <appBarChoices className={classes.appBarChoices}>
-
           <Link variant="button" color="inherit"  href="#" className={classes.link} >
               Login
             </Link>
-          <Button href= "/signup" variant="contained" color="primary" className={classes.button}>
+          <Button href= "/signup" variant="contained" color="#F5F5F5" className={classes.button}>
               Sign up
             </Button>
-        
-            
           </appBarChoices>
         </Toolbar>
       </AppBar>
@@ -192,7 +198,7 @@ export default function Benefits() {
                   </ul>
                 </CardContent>
                 <CardActions>
-                  <Button fullWidth variant={benefit.buttonVariant} color="primary">
+                  <Button fullWidth variant={benefit.buttonVariant} color="#F5F5F5">
                     {benefit.buttonText}
                   </Button>
                 </CardActions>
