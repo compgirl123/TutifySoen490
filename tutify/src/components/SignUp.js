@@ -8,7 +8,6 @@ import Link from '@material-ui/core/Link';
 import Container from '@material-ui/core/Container'; 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import large_tutify from './../assets/large_tutify.png';
-import './style.css'
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -18,28 +17,11 @@ import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Select from "@material-ui/core/Select";
-
-/*var CryptoJS = require("crypto-js");
-var ciphertext = CryptoJS.AES.encrypt('my message', 'secret key 123');
-console.log("encrypted text", ciphertext.toString());
-
-var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');
-var plaintext = bytes.toString(CryptoJS.enc.Utf8);
-console.log("decrypted text", plaintext);*/
-
-// const styles = theme => ({
-//   root: {
-//     display: "flex",
-//     flexWrap: "wrap"
-//   },
-//   formControl: {
-//     margin: theme.spacing.unit,
-//     minWidth: 120
-//   },
-//   selectEmpty: {
-//     marginTop: theme.spacing.unit * 2
-//   }
-// });
+import AppBar from '@material-ui/core/AppBar';
+import SchoolIcon from '@material-ui/icons/School';
+import Toolbar from '@material-ui/core/Toolbar';
+import * as tutifyStyle from './SignUp-styles';
+import { withStyles } from "@material-ui/core/styles";
 
 class Copyright extends Component{
   render() {
@@ -56,9 +38,6 @@ class Copyright extends Component{
   }
   
 }
-
-
-
 class Database2 extends React.Component {
   // initialize our state
     state = {
@@ -146,96 +125,24 @@ class Database2 extends React.Component {
 
   render() {
     const { education_level, classes_tutored,type_tutoring, hasError } = this.state;
-    //const { classes_tutored, hasError} = this.state;
-    // const mystyle = {
-    //   color: "black",
-    //   backgroundColor: "DodgerBlue",
-    //   padding: "10px",
-    //   fontFamily: "Arial"
-    // };
-//     const { classes } = this.props;
-//     const educationLevel = [
-//     {
-//       value: "elementary",
-//       label: "Elementary School"
-//     },
-//     {
-//       value: "highschool",
-//       label: "High School"
-//     },
-//     {
-//       value: "cegep",
-//       label: "Cegep"
-//     },
-//     {
-//       value: "university",
-//       label: "University"
-//     },
-//     {
-//       value: "adulteducation",
-//       label: "Adult Education"
-//     }
-//   ];
-//   const classesTutor = [
-//   {
-//     value: "chem204",
-//     label: "chem204"
-//   },
-//   {
-//     value: "chem205",
-//     label: "chem205"
-//   },
-//   {
-//     value: "math204",
-//     label: "math204"
-//   },
-//   {
-//     value: "math205",
-//     label: "math205"
-//   }
-// ];
-// const typeOFTutoring = [
-//   {
-//     value: "crashcourse",
-//     label: "Crash Course"
-//   },
-//   {
-//     value: "weeklytutoring",
-//     label: "Weekly Tutoring"
-//   },
-//   {
-//     value: "oneononetutoring",
-//     label: "One on One Tutoring"
-//   },
-//   {
-//     value: "grouptutoring",
-//     label: "Group Tutoring"
-//   }
-// ];
-
-// const useStyles = theme => ({
-//   root: {
-//     backgroundColor: "red"
-//   }
-// });
-
-
-
+    const { classes } = this.props;
     return (
-    
-    <div >
-    <Container component = "main" className = "class11">
+    <div>
+      <AppBar className={classes.appBar}>
+          <Toolbar>
+            <SchoolIcon className = "icon" />
+            <Typography variant="h6" color="inherit" noWrap>
+              Tutify
+            </Typography>
+          </Toolbar>
+        </AppBar>
+    <Container component = "main">
      <CssBaseline />
-
       <div className = "paper">
-
        <img src={large_tutify} className="App-logo" alt="logo" />
-
       <Typography component="h1" variant="h5">
           Sign Up Page
       </Typography>
-
-      
       <form className="form" noValidate>
       <Grid container spacing={2}>
             <Grid item xs={6}>
@@ -249,6 +156,11 @@ class Database2 extends React.Component {
                 label="First Name"
                 onChange={(e) => this.setState({ first_name: e.target.value })}
                 autoFocus
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -261,6 +173,11 @@ class Database2 extends React.Component {
                 name="lastName"
                 onChange={(e) => this.setState({ last_name: e.target.value })}
                 autoComplete="lname"
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -272,6 +189,11 @@ class Database2 extends React.Component {
                 label="Username"
                 name="Username"
                 autoComplete="username"
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
               />
             </Grid>
 
@@ -285,6 +207,11 @@ class Database2 extends React.Component {
                 name="email"
                 onChange={(e) => this.setState({ email: e.target.value })}
                 autoComplete="email"
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -297,6 +224,11 @@ class Database2 extends React.Component {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -309,10 +241,14 @@ class Database2 extends React.Component {
                 type="Confirmpassword"
                 id="Confirmpassword"
                 autoComplete="current-Confirmpassword"
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
               />
             </Grid>
-
-            <Grid item xs={12}>  
+            <Grid item xs={6}>  
             <form autoComplete="off">
               <FormControl >
                 <InputLabel htmlFor="education_level">Education Level</InputLabel>
@@ -333,8 +269,7 @@ class Database2 extends React.Component {
               </FormControl>
             </form>
             </Grid>
-
-            <Grid item xs={12}>  
+            <Grid item xs={6}>  
             <form autoComplete="off">
               <FormControl >
                 <InputLabel htmlFor="tutored_classes">Classes Tutored</InputLabel>
@@ -354,8 +289,7 @@ class Database2 extends React.Component {
               </FormControl>
             </form>
             </Grid>
-
-            <Grid item xs={12}>  
+            <Grid item xs={6}>  
             <form autoComplete="off">
               <FormControl >
                 <InputLabel htmlFor="type_of_tutoring">Type of Tutoring</InputLabel>
@@ -374,8 +308,7 @@ class Database2 extends React.Component {
                 {hasError && <FormHelperText>This is required!</FormHelperText>}
               </FormControl>
             </form>
-            </Grid>
-
+            </Grid> 
             <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
@@ -387,13 +320,12 @@ class Database2 extends React.Component {
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
             className="submit"
             onClick={() => this.putDataToDB(this.state.first_name,this.state.last_name,this.state.email,this.state.education_level,this.state.classes_tutored,this.state.type_tutoring)}
           >
             Sign Up
           </Button>
-          <Grid container justify="flex-end">
+          <Grid className={classes.signUpButton} container justify="flex-end">
             <Grid item>
               <Link href="#" variant="body2">
                 Already have an account? Sign in
@@ -407,17 +339,7 @@ class Database2 extends React.Component {
       </Box>
        </Container>
        </div>
-   
     );
   }
 }
-
-
-
-
-
-export default Database2;
-
-
-
-
+export default withStyles(tutifyStyle.styles, { withTheme: true })(Database2);

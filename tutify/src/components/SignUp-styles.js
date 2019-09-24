@@ -49,6 +49,7 @@ export const styles = theme => ({
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
   },
+
   card: {
     height: '100%',
     display: 'flex',
