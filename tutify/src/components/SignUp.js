@@ -249,11 +249,6 @@ class Database2 extends React.Component {
                 label="First Name"
                 onChange={(e) => this.setState({ first_name: e.target.value })}
                 autoFocus
-                InputProps={{
-                  classes: {
-                    notchedOutline: classes.notchedOutline
-                  }
-                }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -266,11 +261,6 @@ class Database2 extends React.Component {
                 name="lastName"
                 onChange={(e) => this.setState({ last_name: e.target.value })}
                 autoComplete="lname"
-                InputProps={{
-                  classes: {
-                    notchedOutline: classes.notchedOutline
-                  }
-                }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -282,11 +272,6 @@ class Database2 extends React.Component {
                 label="Username"
                 name="Username"
                 autoComplete="username"
-                InputProps={{
-                  classes: {
-                    notchedOutline: classes.notchedOutline
-                  }
-                }}
               />
             </Grid>
 
@@ -300,11 +285,6 @@ class Database2 extends React.Component {
                 name="email"
                 onChange={(e) => this.setState({ email: e.target.value })}
                 autoComplete="email"
-                InputProps={{
-                  classes: {
-                    notchedOutline: classes.notchedOutline
-                  }
-                }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -317,11 +297,6 @@ class Database2 extends React.Component {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                InputProps={{
-                  classes: {
-                    notchedOutline: classes.notchedOutline
-                  }
-                }}
               />
             </Grid>
             <Grid item xs={6}>
@@ -334,11 +309,6 @@ class Database2 extends React.Component {
                 type="Confirmpassword"
                 id="Confirmpassword"
                 autoComplete="current-Confirmpassword"
-                InputProps={{
-                  classes: {
-                    notchedOutline: classes.notchedOutline
-                  }
-                }}
               />
             </Grid>
 
