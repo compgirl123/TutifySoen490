@@ -23,8 +23,17 @@ const TutorSchema = new Schema({
 
 var Tutor = mongoose.model('Tutor', TutorSchema, "tutors");
 
-const UserSchema = new Schema({
-    id: {
+const UserSchema = new Schema(//{
+    {
+      id: Number,
+      first_name: String,
+      last_name : String,
+      email : String,
+      education_level : String,
+      classes_tutored : String,
+      type_tutoring : String
+    }
+    /*id: {
       type: Number,
       required: true
     },
@@ -43,9 +52,9 @@ const UserSchema = new Schema({
     school: {
       type: String,
       required: true
-    }
+    }*/
 
-});
+/*}*/);
 
 var User = mongoose.model('User', UserSchema, "users");
 

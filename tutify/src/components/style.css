@@ -36,4 +36,8 @@
 body {
       background-color: white !important;
 }
+
+.MuiSelect-select{
+  min-width: 333px !important;
+}
   
