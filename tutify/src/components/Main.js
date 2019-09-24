@@ -14,7 +14,6 @@ import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
-import small_tutify from './../assets/small_tutify.png';
 import Copyright from './Copyright'
 import SchoolIcon from '@material-ui/icons/School';
 import '../index.css'
