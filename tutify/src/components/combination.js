@@ -9,9 +9,37 @@ import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import large_tutify from './../assets/large_tutify.png';
 import './style.css'
+import MenuItem from "@material-ui/core/MenuItem";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Box from '@material-ui/core/Box';
+import { FormControl } from '@material-ui/core';
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import Select from "@material-ui/core/Select";
+
+/*var CryptoJS = require("crypto-js");
+var ciphertext = CryptoJS.AES.encrypt('my message', 'secret key 123');
+console.log("encrypted text", ciphertext.toString());
+
+var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');
+var plaintext = bytes.toString(CryptoJS.enc.Utf8);
+console.log("decrypted text", plaintext);*/
+
+// const styles = theme => ({
+//   root: {
+//     display: "flex",
+//     flexWrap: "wrap"
+//   },
+//   formControl: {
+//     margin: theme.spacing.unit,
+//     minWidth: 120
+//   },
+//   selectEmpty: {
+//     marginTop: theme.spacing.unit * 2
+//   }
+// });
 
 class Copyright extends Component{
   render() {
@@ -30,18 +58,24 @@ class Copyright extends Component{
 }
 
 
+
 class Database2 extends React.Component {
   // initialize our state
     state = {
       data: [],
       id: 0,
-      messagef: null,
+      first_name: null,
+      last_name : null,
+      email : null,
       intervalIsSet: false,
       idToDelete: null,
       idToUpdate: null,
       objectToUpdate: null,
+      selected: null,
+      selected1 : null,
+      selected2 : null
     };
-
+    
     // when component mounts, first thing it does is fetch all existing data in our db
     // then we incorporate a polling logic so that we can easily see if our db has
     // changed and implement those changes into our UI
@@ -70,69 +104,56 @@ class Database2 extends React.Component {
     // our first get method that uses our backend api to
     // fetch data from our data base
     getDataFromDb = () => {
-      fetch('http://localhost:3001/api/getData')
+      fetch('http://localhost:3001/api/getUser')
         .then((data) => data.json())
         .then((res) => this.setState({ data: res.data }));
     };
   
+
     // our put method that uses our backend api
     // to create new query into our data base
-    putDataToDB = (message) => {
+    putDataToDB = (first_name,last_name,email,selected,selected1,selected2) => {
       let currentIds = this.state.data.map((data) => data.id);
       let idToBeAdded = 0;
       while (currentIds.includes(idToBeAdded)) {
         ++idToBeAdded;
       }
   
-      axios.post('http://localhost:3001/api/putData', {
+      axios.post('http://localhost:3001/api/putUser', {
         id: idToBeAdded,
-        message: message,
+        first_name: first_name,
+        last_name : last_name,
+        email : email,
+        selected : selected,
+        selected1 : selected1,
+        selected2 : selected2
       });
     };
   
-    // our delete method that uses our backend api
-    // to remove existing database information
-    deleteFromDB = (idTodelete) => {
-      parseInt(idTodelete);
-      let objIdToDelete = null;
-      this.state.data.forEach((dat) => {
-        if (dat.id === idTodelete) {
-          objIdToDelete = dat._id;
-        }
-      });
+ 
   
-      axios.delete('http://localhost:3001/api/deleteData', {
-        data: {
-          id: objIdToDelete,
-        },
-      });
-    };
-  
-    // our update method that uses our backend api
-    // to overwrite existing data base information
-    updateDB = (idToUpdate, updateToApply) => {
-      let objIdToUpdate = null;
-      parseInt(idToUpdate);
-      this.state.data.forEach((dat) => {
-        if (dat.id === idToUpdate) {
-          objIdToUpdate = dat._id;
-        }
-      });
-  
-      axios.post('http://localhost:3001/api/updateData', {
-        id: objIdToUpdate,
-        update: { message: updateToApply },
-      });
-    };
+
+  handleChange(value) {
+    this.setState({ selected: value });
+  }
+
+  handleClick() {
+    this.setState({ hasError: false });
+    if (!this.state.selected) {
+      this.setState({ hasError: true });
+    }
+  }
 
   render() {
-    
+    const { selected, selected1,selected2, hasError } = this.state;
+    //const { selected1, hasError} = this.state;
 //     const mystyle = {
 //       color: "black",
 //       backgroundColor: "DodgerBlue",
 //       padding: "10px",
 //       fontFamily: "Arial"
 //     };
+//     const { classes } = this.props;
 //     const educationLevel = [
 //     {
 //       value: "elementary",
@@ -198,8 +219,7 @@ class Database2 extends React.Component {
 //   }
 // });
 
-// const { classes } = this.props;
-// const { data } = this.state;
+
 
     return (
     
@@ -227,7 +247,7 @@ class Database2 extends React.Component {
                 fullWidth
                 id="firstName"
                 label="First Name"
-                onChange={(e) => this.setState({ message: e.target.value })}
+                onChange={(e) => this.setState({ first_name: e.target.value })}
                 autoFocus
               />
             </Grid>
@@ -239,7 +259,7 @@ class Database2 extends React.Component {
                 id="lastName"
                 label="Last Name"
                 name="lastName"
-                onChange={(e) => this.setState({ message: e.target.value })}
+                onChange={(e) => this.setState({ last_name: e.target.value })}
                 autoComplete="lname"
               />
             </Grid>
@@ -254,6 +274,7 @@ class Database2 extends React.Component {
                 autoComplete="username"
               />
             </Grid>
+
             <Grid item xs={6}>
               <TextField
                 variant="outlined"
@@ -262,6 +283,7 @@ class Database2 extends React.Component {
                 id="email"
                 label="Email Address"
                 name="email"
+                onChange={(e) => this.setState({ email: e.target.value })}
                 autoComplete="email"
               />
             </Grid>
@@ -289,6 +311,72 @@ class Database2 extends React.Component {
                 autoComplete="current-Confirmpassword"
               />
             </Grid>
+
+            <Grid item xs={12}>  
+            <form autoComplete="off">
+              <FormControl >
+                <InputLabel htmlFor="education_level">Education Level</InputLabel>
+                <Select
+                  name="education_level"
+                  value={selected}
+                  onChange={event => this.setState({selected:event.target.value})}
+                // onChange={(e) => this.setState({ first_name: e.target.value })}
+                  input={<Input id="education_level" />}
+                >
+                  <MenuItem value="elementary">Elementary School</MenuItem>
+                  <MenuItem value="highschool">High School</MenuItem>
+                  <MenuItem value="cegep">Cegep</MenuItem>
+                  <MenuItem value="university">University</MenuItem>
+                  <MenuItem value="adulteducation">Adult Education</MenuItem>
+                </Select>
+                {hasError && <FormHelperText>This is required!</FormHelperText>}
+              </FormControl>
+            </form>
+            </Grid>
+
+            <Grid item xs={12}>  
+            <form autoComplete="off">
+              <FormControl >
+                <InputLabel htmlFor="tutored_classes">Classes Tutored</InputLabel>
+                <Select
+                  name="tutored_classes"
+                  value={selected1}
+                  onChange={event => this.setState({selected1:event.target.value})}
+                // onChange={(e) => this.setState({ first_name: e.target.value })}
+                  input={<Input id="tutored_classes" />}
+                >
+                  <MenuItem value="chem_204">Chem 204</MenuItem>
+                  <MenuItem value="chem_205">Chem 205</MenuItem>
+                  <MenuItem value="math_204">Math 204</MenuItem>
+                  <MenuItem value="math_205">Math 205</MenuItem>
+                </Select>
+                {hasError && <FormHelperText>This is required!</FormHelperText>}
+              </FormControl>
+            </form>
+            </Grid>
+
+            <Grid item xs={12}>  
+            <form autoComplete="off">
+              <FormControl >
+                <InputLabel htmlFor="type_of_tutoring">Type of Tutoring</InputLabel>
+                <Select
+                  name="type_of_tutoring"
+                  value={selected2}
+                  onChange={event => this.setState({selected2:event.target.value})}
+                // onChange={(e) => this.setState({ first_name: e.target.value })}
+                  input={<Input id="type_of_tutoring" />}
+                >
+                  <MenuItem value="crashcourse">Crash Course</MenuItem>
+                  <MenuItem value="weeklytutoring">Weekly Tutoring</MenuItem>
+                  <MenuItem value="oneonone">One on One Tutoring</MenuItem>
+                  <MenuItem value="grouptutoring">Group Tutoring</MenuItem>
+                </Select>
+                {hasError && <FormHelperText>This is required!</FormHelperText>}
+              </FormControl>
+            </form>
+            </Grid>
+
+
             <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
@@ -302,7 +390,7 @@ class Database2 extends React.Component {
             variant="contained"
             color="primary"
             className="submit"
-            onClick={() => this.putDataToDB(this.state.message)}
+            onClick={() => this.putDataToDB(this.state.first_name,this.state.last_name,this.state.email,this.state.selected,this.state.selected1,this.state.selected2)}
           >
             Sign Up
           </Button>
@@ -329,5 +417,7 @@ class Database2 extends React.Component {
 
 
 
-
 export default Database2;
+
+
+

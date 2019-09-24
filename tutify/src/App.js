@@ -7,6 +7,7 @@ import Database from "./components/Database"
 import SearchResults from "./components/SearchResults/SearchResults"
 import Database2 from "./components/combination"
 import SearchPage from "./components/SearchPage"
+import Tester from "./components/demo"
 
 
 // This is all the url routing.
@@ -19,7 +20,7 @@ function MainPage() {
         <Route exact path="/signupwithdatabase" component={Database2} />
         <Route exact path="/search_page" component={SearchPage} />
         <Route exact path="/search_results" component={SearchResults} />
-
+        <Route exact path="/demo" component={Tester} />
     </Router>
   );
 
