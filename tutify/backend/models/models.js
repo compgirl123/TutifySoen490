@@ -18,7 +18,12 @@ const TutorSchema = new Schema({
   subject: {
     type: String,
     required: true
+  },
+  picture:{
+    type:String,
+    required:true
   }
+
 });
 
 var Tutor = mongoose.model('Tutor', TutorSchema, "tutors");
