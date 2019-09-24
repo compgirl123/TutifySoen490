@@ -6,6 +6,7 @@ import SignUp from "./components/SignUp"
 import Database from "./components/Database"
 import SearchResults from "./components/SearchResults/SearchResults"
 import Database2 from "./components/combination"
+import SearchPage from "./components/SearchPage"
 import Tester from "./components/demo"
 
 
@@ -17,9 +18,9 @@ function MainPage() {
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/database" component={Database} />
         <Route exact path="/signupwithdatabase" component={Database2} />
+        <Route exact path="/search_page" component={SearchPage} />
         <Route exact path="/search_results" component={SearchResults} />
         <Route exact path="/demo" component={Tester} />
-       
     </Router>
   );
 

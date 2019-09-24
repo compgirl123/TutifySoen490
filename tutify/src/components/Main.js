@@ -101,19 +101,14 @@ const useStyles = makeStyles(theme => ({
 
 const benefit = [
   {
-    title: 'Search for a Tutor',
-    subheader: 'Math, French, English and Many More',
-    description: [
-      'View Tutors Available in System',
-      'Price depends on background studies',
-    ],
-    buttonText: 'Get started',
-    buttonVariant: 'contained',
-    buttonLink: '/search_results',
+    title: 'Be a tutee',
+    description: ['Contact tutors at will', '', 'Request tutors for classes',],
+    buttonText: 'Sign up for free',
+    buttonVariant: 'outlined',
   },
   {
     title: 'Become a tutor',
-    subheader: 'Math, French, English and Many More',
+    subheader: 'Most popular',
     description: [
       'Get paid for your services',
       'Price depends on background studies',
@@ -122,11 +117,9 @@ const benefit = [
     buttonVariant: 'contained',
   },
   {
-    title: 'Integrate Tutify to your School',
-    subheader: 'Elementary School, High School, Cegep, University',
+    title: 'Integrate Tutify to your University',
     description: [
       'The students will thank you for it',
-      'Quick, easy and simple sign up'
     ],
     buttonText: 'Contact us',
     buttonVariant: 'outlined',
@@ -205,7 +198,7 @@ export default function Benefits() {
                   </ul>
                 </CardContent>
                 <CardActions>
-                  <Button href= {benefit.buttonLink} fullWidth variant={benefit.buttonVariant} color="#F5F5F5">
+                  <Button fullWidth variant={benefit.buttonVariant} color="#F5F5F5">
                     {benefit.buttonText}
                   </Button>
                 </CardActions>
