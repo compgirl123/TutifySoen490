@@ -25,47 +25,56 @@ import SearchIcon from '@material-ui/icons/Search';
 
 class SearchResults extends Component {
   // initialize our state
-  state = {
-    data: [],
-    id: 0,
-    message: null,
-    intervalIsSet: false,
-    idToDelete: null,
-    idToUpdate: null,
-    objectToUpdate: null,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+      filteredData: [],
+    };
+    this.handleChange = this.handleChange.bind(this);
+  } 
 
   // when component mounts, first thing it does is fetch all existing data in our db
-  // then we incorporate a polling logic so that we can easily see if our db has
-  // changed and implement those changes into our UI
   componentDidMount() {
     this.getDataFromDb();
-    // TO FIX
-    if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getDataFromDb, 1000);
-      this.setState({ intervalIsSet: interval });
-    }
-  }
-
-  // never let a process live forever
-  // always kill a process everytime we are done using it
-  componentWillUnmount() {
-    if (this.state.intervalIsSet) {
-      clearInterval(this.state.intervalIsSet);
-      this.setState({ intervalIsSet: null });
-    }
   }
 
   // Uses our backend api to fetch tutors from our database
   getDataFromDb = () => {
     fetch('http://localhost:3001/api/getTutor')
       .then((data) => data.json())
-      .then((res) => this.setState({ data: res.data }));
+      .then((res) => this.setState({ data: res.data, filteredData: res.data }));
+  }
+
+  // filters the list of tutors displayed
+  handleChange(e) {
+    // Variable to hold the original version of the list
+    let currentList = this.state.data;
+    // Variable to hold the filtered list before putting into state
+    let newList = [];
+        
+    // If the search bar isn't empty
+    if (e.target.value !== "") {          
+      // Determine which tutors should be displayed based on search term
+      newList = currentList.filter(tutor => {
+          const name = (tutor.first_name + " " + tutor.last_name).toLowerCase()
+          const filter = e.target.value.toLowerCase(); //search term
+
+          // check to see if the current tutor includes the search term (substring)
+          return name.includes(filter);
+      });
+    } else {
+      newList = currentList;
+    }
+
+    this.setState({
+      filteredData: newList
+    });
   }
 
   render() {
     const { classes } = this.props;
-    const { data } = this.state;
+    const { filteredData } = this.state;
     return (
       <React.Fragment>
         <AppBar className={classes.appBar} position="relative">
@@ -90,8 +99,9 @@ class SearchResults extends Component {
                     </IconButton>
                     <InputBase
                       className={classes.input}
-                      placeholder="Enter a subject"
-                      inputProps={{ 'aria-label': 'enter a subject' }}
+                      placeholder="Enter a name"
+                      inputProps={{ 'aria-label': 'enter a name' }}
+                      onChange={this.handleChange}
                     />
                     <IconButton className={classes.iconButton} aria-label="search">
                       <SearchIcon />
@@ -104,7 +114,7 @@ class SearchResults extends Component {
             <Container className={classes.cardGrid} width="100%">
               {/* End hero unit */}
               <Grid container spacing={4}>
-                {data.map(tutor => (
+                {filteredData.map(tutor => (
                   <Grid item key={tutor.id} xs={12} sm={6} md={4}>
                     <Card className={classes.card}>
                     <CardActionArea component={Link} to="/SearchPage">
