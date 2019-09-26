@@ -185,10 +185,10 @@ class Database2 extends React.Component {
                 variant="outlined"
                 required
                 fullWidth
-                id="Username"
-                label="Username"
-                name="Username"
-                autoComplete="username"
+                id="ProgramOfStudy"
+                label="Program Of Study"
+                name="programOfStudy"
+                autoComplete="programOfStudy"
                 InputProps={{
                   classes: {
                     notchedOutline: classes.notchedOutline
@@ -231,23 +231,12 @@ class Database2 extends React.Component {
                 }}
               />
             </Grid>
-            <Grid item xs={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="Confirmpassword"
-                label="Confirm Password"
-                type="Confirmpassword"
-                id="Confirmpassword"
-                autoComplete="current-Confirmpassword"
-                InputProps={{
-                  classes: {
-                    notchedOutline: classes.notchedOutline
-                  }
-                }}
-              />
-            </Grid>
+
+            
+
+            
+          
+            
             <Grid item xs={6}>  
             <form autoComplete="off">
               <FormControl >
@@ -272,27 +261,7 @@ class Database2 extends React.Component {
             <Grid item xs={6}>  
             <form autoComplete="off">
               <FormControl >
-                <InputLabel htmlFor="tutored_classes">Classes Tutored</InputLabel>
-                <Select
-                  name="tutored_classes"
-                  value={classes_tutored}
-                  onChange={event => this.setState({classes_tutored:event.target.value})}
-                // onChange={(e) => this.setState({ first_name: e.target.value })}
-                  input={<Input id="tutored_classes" />}
-                >
-                  <MenuItem value="chem_204">Chem 204</MenuItem>
-                  <MenuItem value="chem_205">Chem 205</MenuItem>
-                  <MenuItem value="math_204">Math 204</MenuItem>
-                  <MenuItem value="math_205">Math 205</MenuItem>
-                </Select>
-                {hasError && <FormHelperText>This is required!</FormHelperText>}
-              </FormControl>
-            </form>
-            </Grid>
-            <Grid item xs={6}>  
-            <form autoComplete="off">
-              <FormControl >
-                <InputLabel htmlFor="type_of_tutoring">Type of Tutoring</InputLabel>
+                <InputLabel htmlFor="type_of_tutoring">School Name</InputLabel>
                 <Select
                   name="type_of_tutoring"
                   value={type_tutoring}
@@ -300,15 +269,34 @@ class Database2 extends React.Component {
                 // onChange={(e) => this.setState({ first_name: e.target.value })}
                   input={<Input id="type_of_tutoring" />}
                 >
-                  <MenuItem value="crashcourse">Crash Course</MenuItem>
-                  <MenuItem value="weeklytutoring">Weekly Tutoring</MenuItem>
-                  <MenuItem value="oneonone">One on One Tutoring</MenuItem>
-                  <MenuItem value="grouptutoring">Group Tutoring</MenuItem>
+                  <MenuItem value="mcgill">McGill</MenuItem>
+                  <MenuItem value="concordia">Concordia</MenuItem>
+                  <MenuItem value="udm">Universite de Montreal</MenuItem>
+                  <MenuItem value="uqam">UQAM</MenuItem>
+                  <MenuItem value="cegep">CEGEP</MenuItem>
+                  <MenuItem value="highschool">High School</MenuItem>
                 </Select>
                 {hasError && <FormHelperText>This is required!</FormHelperText>}
               </FormControl>
             </form>
             </Grid> 
+            <Grid item xs={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="schoolname"
+                label="If School Name is not present in List, Enter it here"
+                type="schoolname"
+                id="schoolname"
+                autoComplete="current-schoolName"
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
+              />
+            </Grid>
             <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
@@ -316,6 +304,8 @@ class Database2 extends React.Component {
               />
             </Grid>
         </Grid>
+        
+        
         <Button
             type="submit"
             fullWidth
