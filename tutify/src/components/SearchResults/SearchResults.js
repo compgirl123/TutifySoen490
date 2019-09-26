@@ -110,7 +110,7 @@ class SearchResults extends Component {
                     <CardActionArea component={Link} to="/SearchPage">
                       <CardMedia
                         className={classes.cardMedia}
-                        image="https://source.unsplash.com/random"
+                        image={tutor.picture}
                         title="Image title"
                       />
                       </CardActionArea>
