@@ -7,6 +7,8 @@ import Database from "./components/Database"
 import SearchResults from "./components/SearchResults/SearchResults"
 import Database2 from "./components/combination"
 import Tester from "./components/demo"
+import Login from "./components/Login"
+
 
 
 // This is all the url routing.
@@ -19,6 +21,7 @@ function MainPage() {
         <Route exact path="/signupwithdatabase" component={Database2} />
         <Route exact path="/search_results" component={SearchResults} />
         <Route exact path="/demo" component={Tester} />
+        <Route exact path="/login" component={Login} />
     </Router>
   );
 
