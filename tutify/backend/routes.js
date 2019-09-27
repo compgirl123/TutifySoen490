@@ -38,8 +38,6 @@ router.post('/deleteUser', userController.deleteUser);
 
 router.post('/authUser', userController.authUser);
 
-router.get('/dashboard', userController.loginDashboard);
-
 router.get('/logout', userController.logout);
 
 

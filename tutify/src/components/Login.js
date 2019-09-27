@@ -73,11 +73,6 @@ class Login extends React.Component {
     }
     */
   
-    // just a note, here, in the front end, we use the id key of our data object
-    // in order to identify which we want to Update or delete.
-    // for our back end, we use the object id assigned by MongoDB to modify
-    // data base entries
-  
     // our first get method that uses our backend api to
     // fetch data from our data base
     getDataFromDb = () => {
@@ -86,9 +81,7 @@ class Login extends React.Component {
         .then((res) => this.setState({ data: res.data }));
     };
   
-
-    // our put method that uses our backend api
-    // to create new query into our data base
+//Authenticates User when submit button is pressed
     handleSubmit(event){
       event.preventDefault();
       console.log("TANYA")
@@ -100,8 +93,6 @@ class Login extends React.Component {
         "email" : document.getElementById("email").value,
         "first_name": document.getElementById("first_name").value
          })
-        //email : email,
-        //first_name : first_name
       })
       .then(response => response.json())
       .then(res => {
@@ -115,13 +106,6 @@ class Login extends React.Component {
         }
       })
       .catch(err => console.log(err));
-    };
-  
-
-    checkSession = () => {
-      fetch('http://localhost:3001/api/dashboard')
-        .then((data) => data.json())
-        .then((res) => this.setState({ data: res.data }));
     };
 
   render() {
@@ -155,7 +139,6 @@ class Login extends React.Component {
                 id="email"
                 label="Email Address"
                 name="email"
-                onChange={(e) => this.setState({ email : e.target.value })}
                 autoComplete="email"
                 InputProps={{
                   classes: {
@@ -170,7 +153,6 @@ class Login extends React.Component {
                 required
                 style = {{width: 350}}
                 name="first_name"
-                onChange={(e) => this.setState({ first_name : e.target.value })}
                 label="First Name"
                 type="first_name"
                 id="first_name"
