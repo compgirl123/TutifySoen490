@@ -1,4 +1,6 @@
 const User = require('../models/models').User;
+var session = require('express-session');
+
 
 // this method fetches all available users in our database
 exports.getUser = async function (req, res) {
