@@ -41,6 +41,67 @@ exports.putUser = async function (req, res) {
         return res.json({ success: true });
     });
 };
+//this method authenticates login of a user
+exports.authUser = async function (req,res){
+    var email = req.body.email;
+    var first_name = req.body.first_name;
+    console.log(first_name);
+
+    console.log("hello");
+    console.log(email);
+    
+
+    newUser.findOne({ email:email, first_name:first_name} , function(err,user){
+    if(err){
+        console.log(err);
+        console.log("hiiiii")
+
+        return res.status(500).send();
+
+    }
+    if(user){
+        console.log("sssssss");
+        req.session.user = user;
+        console.log(req.session.user.first_name);
+        req.session.isLoggedIn = true;
+        req.session.save();
+        res.send(req.session);
+
+        return res.status(200).send;
+
+    }
+    console.log("hhohohohoho")
+    console.log(req.session);
+    req.session.isLoggedIn = false;
+
+    console.log("hahahahahah")
+
+    return res.status(400).send();
+
+    })
+};
+
+exports.loginDashboard = async function(req,res){
+    if(!req.session.user){
+        console.log(req.session.user);
+
+        console.log("not working");
+        return res.status(401).send("not working");
+    }
+    console.log("working")
+
+    return res.status(200).send("Welcomeeee");
+};
+
+exports.logout = async function(req,res){
+        if (req.session.user) {
+          req.session.destroy();
+          res.redirect('/login');
+        } else {
+          res.redirect('/login');
+        }
+};
+
 
 // this method removes existing user in our database
 exports.deleteUser = async function (req, res) {
