@@ -39,6 +39,90 @@ class Copyright extends Component{
   
 }
 class Login extends React.Component {
+ // initialize our state
+   // initialize our state
+   constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+      email : null,
+      first_name: null,
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);      
+    }
+    
+    // when component mounts, first thing it does is fetch all existing data in our db
+    // then we incorporate a polling logic so that we can easily see if our db has
+    // changed and implement those changes into our UI
+    componentDidMount() {
+      this.getDataFromDb();
+     // if (!this.state.intervalIsSet) {
+       // let interval = setInterval(this.getDataFromDb, 1000);
+        //this.setState({ intervalIsSet: interval });
+      //}
+    }
+    
+  
+    // never let a process live forever
+    // always kill a process everytime we are done using it
+   /**componentWillUnmount() {
+      if (this.state.intervalIsSet) {
+        clearInterval(this.state.intervalIsSet);
+        this.setState({ intervalIsSet: null });
+      }
+    }
+    */
+  
+    // just a note, here, in the front end, we use the id key of our data object
+    // in order to identify which we want to Update or delete.
+    // for our back end, we use the object id assigned by MongoDB to modify
+    // data base entries
+  
+    // our first get method that uses our backend api to
+    // fetch data from our data base
+    getDataFromDb = () => {
+      fetch('http://localhost:3001/api/getUser')
+        .then((data) => data.json())
+        .then((res) => this.setState({ data: res.data }));
+    };
+  
+
+    // our put method that uses our backend api
+    // to create new query into our data base
+    handleSubmit(event){
+      event.preventDefault();
+      console.log("TANYA")
+      fetch('http://localhost:3001/api/authUser', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+        "email" : document.getElementById("email").value,
+        "first_name": document.getElementById("first_name").value
+         })
+        //email : email,
+        //first_name : first_name
+      })
+      .then(response => response.json())
+      .then(res => {
+        console.log(res);
+        if(res.isLoggedIn){
+          alert("Signed in");
+          this.props.history.push("/search_page");
+        }
+        else{
+          alert("Invalid user or password");
+        }
+      })
+      .catch(err => console.log(err));
+    };
+  
+
+    checkSession = () => {
+      fetch('http://localhost:3001/api/dashboard')
+        .then((data) => data.json())
+        .then((res) => this.setState({ data: res.data }));
+    };
 
   render() {
     const { classes } = this.props;
