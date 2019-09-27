@@ -4,10 +4,11 @@ var cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const router = require('./routes');
+var session = require('express-session');
 
 const API_PORT = 3001;
 const app = express();
-app.use(cors());
+app.use(cors({credentials: true, origin: true}));
 
 // this is our MongoDB database
 const dbRoute =
@@ -27,6 +28,9 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger('dev'));
+
+//express cookie-session middleware
+app.use(session({secret:"sdshkgjdhgkhgkjsd322k3j4nkjkjhb3", resave:false, saveUninitialized: true}))
 
 // append /api for our http requests
 app.use('/api', router);
