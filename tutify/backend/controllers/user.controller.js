@@ -49,7 +49,7 @@ exports.authUser = async function (req,res){
     var first_name = req.body.first_name;
    
 
-    newUser.findOne({ email:email, first_name:first_name} , function(err,user){
+    User.findOne({ email:email, first_name:first_name} , function(err,user){
     if(err){
         console.log(err);
 
