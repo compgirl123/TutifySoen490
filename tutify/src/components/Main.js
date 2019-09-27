@@ -165,9 +165,10 @@ export default function Benefits() {
               Tutify
             </Typography>
           <appBarChoices className={classes.appBarChoices}>
-          <Link variant="button" color="inherit"  href="#" className={classes.link} >
+          <Button variant="contained" color="#F5F5F5"  href="/login" className={classes.button} >
               Login
-            </Link>
+            </Button>
+          {' '}
           <Button href= "/signup" variant="contained" color="#F5F5F5" className={classes.button}>
               Sign up
             </Button>
