@@ -23,7 +23,7 @@ exports.updateUser = async function (req, res) {
 };
 
 // this function encrypts the password for security reasons
-function encrypt(text) {
+exports.encrypt = function (text) {
     let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), iv);
     let encrypted = cipher.update(text);
     encrypted = Buffer.concat([encrypted, cipher.final()]);
@@ -31,8 +31,7 @@ function encrypt(text) {
 }
 
 // this function decrpyts the password for use in the login page
-function decrypt(text) {
-    let iv = Buffer.from(text.iv, 'hex');
+exports.decrypt = function (text) {
     let encryptedText = Buffer.from(text.encryptedData, 'hex');
     let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key), iv);
     let decrypted = decipher.update(encryptedText);
