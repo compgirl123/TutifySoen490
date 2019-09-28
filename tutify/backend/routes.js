@@ -40,6 +40,9 @@ router.post('/authUser', userController.authUser);
 
 router.get('/logout', userController.logout);
 
+router.get('/checkSession', userController.checkSession);
+
+
 
 // -------- ACCOUNT ROUTES --------- // 
 

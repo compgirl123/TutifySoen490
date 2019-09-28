@@ -22,6 +22,7 @@ import SchoolIcon from '@material-ui/icons/School';
 import Toolbar from '@material-ui/core/Toolbar';
 import * as tutifyStyle from './SignUp-styles';
 import { withStyles } from "@material-ui/core/styles";
+import NavBar from './NavBar';
 
 class Copyright extends Component{
   render() {
@@ -36,8 +37,10 @@ class Copyright extends Component{
     </Typography>
   );
   }
-  
+ 
 }
+
+
 class Login extends React.Component {
  // initialize our state
    // initialize our state
@@ -56,25 +59,12 @@ class Login extends React.Component {
     // changed and implement those changes into our UI
     componentDidMount() {
       this.getDataFromDb();
-     // if (!this.state.intervalIsSet) {
-       // let interval = setInterval(this.getDataFromDb, 1000);
-        //this.setState({ intervalIsSet: interval });
-      //}
+    
     }
     
+
   
-    // never let a process live forever
-    // always kill a process everytime we are done using it
-   /**componentWillUnmount() {
-      if (this.state.intervalIsSet) {
-        clearInterval(this.state.intervalIsSet);
-        this.setState({ intervalIsSet: null });
-      }
-    }
-    */
-  
-    // our first get method that uses our backend api to
-    // fetch data from our data base
+    // fetch data from the data base
     getDataFromDb = () => {
       fetch('http://localhost:3001/api/getUser')
         .then((data) => data.json())
@@ -99,7 +89,7 @@ class Login extends React.Component {
         console.log(res);
         if(res.isLoggedIn){
           alert("Signed in");
-          this.props.history.push("/search_page");
+          this.props.history.push("/search_results");
         }
         else{
           alert("Invalid user or password");
@@ -113,14 +103,8 @@ class Login extends React.Component {
    
     return (
     <div>
-      <AppBar className={classes.appBar}>
-          <Toolbar>
-            <SchoolIcon className = "icon" />
-            <Typography variant="h6" color="inherit" noWrap>
-              Tutify
-            </Typography>
-          </Toolbar>
-        </AppBar>
+            <NavBar />
+
     <Container component = "main">
      <CssBaseline />
       <div className = "paper">

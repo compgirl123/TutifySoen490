@@ -43,7 +43,8 @@ exports.putUser = async function (req, res) {
         return res.json({ success: true });
     });
 };
-//this method authenticates login of a user
+
+//this function authenticates login of a user
 exports.authUser = async function (req,res){
     var email = req.body.email;
     var first_name = req.body.first_name;
@@ -72,15 +73,25 @@ exports.authUser = async function (req,res){
     })
 };
 
-
-
+//this function logs the user out and destroys the session
 exports.logout = async function(req,res){
+    console.log("kuch toh huwa hai");
         if (req.session.user) {
           req.session.destroy();
-          res.redirect('/login');
-        } else {
-          res.redirect('/login');
-        }
+          console.log("yoyoyo")
+        } 
+};
+
+//this function checks if a session is running
+exports.checkSession = async function(req,res){
+    console.log("brooooo")
+    console.log(req.session.user)
+
+    if (req.session.isLoggedIn) {
+        res.send(req.session);
+        console.log("hiiiiii")
+
+    } 
 };
 
 
