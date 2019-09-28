@@ -1,6 +1,4 @@
 const User = require('../models/models').User;
-var session = require('express-session');
-
 // Nodejs encryption with CTR
 const crypto = require('crypto');
 const algorithm = 'aes-256-cbc';
@@ -46,7 +44,7 @@ exports.putUser = async function (req, res) {
     let data = new User();
     const { id, first_name, last_name ,program_of_study, email,password, school,school_name_other,education_level} = req.body;
     // testing the encryption feature
-    var encrypted_password = encrypt(req.body.password).encryptedData;
+    var encrypted_password = exports.encrypt(req.body.password).encryptedData;
     console.log(encrypted_password);
     if ((!id && id !== 0) || !first_name || !last_name || !email || !password || !program_of_study || !education_level || !school || !school_name_other) {
         return res.json({
@@ -70,57 +68,6 @@ exports.putUser = async function (req, res) {
         return res.json({ success: true });
     });
 };
-
-//this function authenticates login of a user
-exports.authUser = async function (req,res){
-    var email = req.body.email;
-    var first_name = req.body.first_name;
-   
-
-    User.findOne({ email:email, first_name:first_name} , function(err,user){
-    if(err){
-        console.log(err);
-
-        return res.status(500).send();
-
-    }
-    if(user){
-        req.session.user = user;
-        req.session.isLoggedIn = true;
-        req.session.save();
-        res.send(req.session);
-
-        return res.status(200).send;
-
-    }
-    req.session.isLoggedIn = false;
-
-    return res.status(400).send();
-
-    })
-};
-
-//this function logs the user out and destroys the session
-exports.logout = async function(req,res){
-    console.log("kuch toh huwa hai");
-        if (req.session.user) {
-          req.session.destroy();
-          console.log("yoyoyo")
-        } 
-};
-
-//this function checks if a session is running
-exports.checkSession = async function(req,res){
-    console.log("brooooo")
-    console.log(req.session.user)
-
-    if (req.session.isLoggedIn) {
-        res.send(req.session);
-        console.log("hiiiiii")
-
-    } 
-};
-
 
 // this method removes existing user in our database
 exports.deleteUser = async function (req, res) {
