@@ -45,14 +45,18 @@ class Database2 extends React.Component {
       id: 0,
       first_name: null,
       last_name : null,
+      program_of_study: null,
       email : null,
+      password:null,
       intervalIsSet: false,
       idToDelete: null,
       idToUpdate: null,
       objectToUpdate: null,
       education_level: null,
-      classes_tutored : null,
-      type_tutoring : null
+      school : null,
+      school_name_other : null
+      //classes_tutored : null,
+      //type_tutoring : null
     };
     
     // when component mounts, first thing it does is fetch all existing data in our db
@@ -91,7 +95,7 @@ class Database2 extends React.Component {
 
     // our put method that uses our backend api
     // to create new query into our data base
-    putDataToDB = (first_name,last_name,email,education_level,classes_tutored,type_tutoring) => {
+    putDataToDB = (first_name,last_name,email,program_of_study,password,education_level,school,school_name_other) => {
       let currentIds = this.state.data.map((data) => data.id);
       let idToBeAdded = 0;
       while (currentIds.includes(idToBeAdded)) {
@@ -102,10 +106,14 @@ class Database2 extends React.Component {
         id: idToBeAdded,
         first_name: first_name,
         last_name : last_name,
+        program_of_study:program_of_study,
         email : email,
-        education_level : education_level,
-        classes_tutored : classes_tutored,
-        type_tutoring : type_tutoring
+        password : password,
+        school : school,
+        school_name_other : school_name_other,
+        education_level : education_level
+        //classes_tutored : classes_tutored,
+        //type_tutoring : type_tutoring
       });
     };
   
@@ -124,7 +132,7 @@ class Database2 extends React.Component {
   }
 
   render() {
-    const { education_level, classes_tutored,type_tutoring, hasError } = this.state;
+    const { education_level, school, hasError } = this.state;
     const { classes } = this.props;
     return (
     <div>
@@ -185,10 +193,11 @@ class Database2 extends React.Component {
                 variant="outlined"
                 required
                 fullWidth
-                id="Username"
-                label="Username"
-                name="Username"
-                autoComplete="username"
+                id="ProgramOfStudy"
+                label="Program Of Study"
+                name="programOfStudy"
+                onChange={(e) => this.setState({ program_of_study: e.target.value })}
+                autoComplete="programOfStudy"
                 InputProps={{
                   classes: {
                     notchedOutline: classes.notchedOutline
@@ -220,6 +229,7 @@ class Database2 extends React.Component {
                 required
                 fullWidth
                 name="password"
+                onChange={(e) => this.setState({ password: e.target.value })}
                 label="Password"
                 type="password"
                 id="password"
@@ -231,23 +241,12 @@ class Database2 extends React.Component {
                 }}
               />
             </Grid>
-            <Grid item xs={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="Confirmpassword"
-                label="Confirm Password"
-                type="Confirmpassword"
-                id="Confirmpassword"
-                autoComplete="current-Confirmpassword"
-                InputProps={{
-                  classes: {
-                    notchedOutline: classes.notchedOutline
-                  }
-                }}
-              />
-            </Grid>
+
+            
+
+            
+          
+            
             <Grid item xs={6}>  
             <form autoComplete="off">
               <FormControl >
@@ -272,43 +271,43 @@ class Database2 extends React.Component {
             <Grid item xs={6}>  
             <form autoComplete="off">
               <FormControl >
-                <InputLabel htmlFor="tutored_classes">Classes Tutored</InputLabel>
+                <InputLabel htmlFor="school">School Name</InputLabel>
                 <Select
-                  name="tutored_classes"
-                  value={classes_tutored}
-                  onChange={event => this.setState({classes_tutored:event.target.value})}
+                  name="school"
+                  value={school}
+                  onChange={event => this.setState({school:event.target.value})}
                 // onChange={(e) => this.setState({ first_name: e.target.value })}
-                  input={<Input id="tutored_classes" />}
+                  input={<Input id="school" />}
                 >
-                  <MenuItem value="chem_204">Chem 204</MenuItem>
-                  <MenuItem value="chem_205">Chem 205</MenuItem>
-                  <MenuItem value="math_204">Math 204</MenuItem>
-                  <MenuItem value="math_205">Math 205</MenuItem>
-                </Select>
-                {hasError && <FormHelperText>This is required!</FormHelperText>}
-              </FormControl>
-            </form>
-            </Grid>
-            <Grid item xs={6}>  
-            <form autoComplete="off">
-              <FormControl >
-                <InputLabel htmlFor="type_of_tutoring">Type of Tutoring</InputLabel>
-                <Select
-                  name="type_of_tutoring"
-                  value={type_tutoring}
-                  onChange={event => this.setState({type_tutoring:event.target.value})}
-                // onChange={(e) => this.setState({ first_name: e.target.value })}
-                  input={<Input id="type_of_tutoring" />}
-                >
-                  <MenuItem value="crashcourse">Crash Course</MenuItem>
-                  <MenuItem value="weeklytutoring">Weekly Tutoring</MenuItem>
-                  <MenuItem value="oneonone">One on One Tutoring</MenuItem>
-                  <MenuItem value="grouptutoring">Group Tutoring</MenuItem>
+                  <MenuItem value="mcgill">McGill</MenuItem>
+                  <MenuItem value="concordia">Concordia</MenuItem>
+                  <MenuItem value="udm">Universite de Montreal</MenuItem>
+                  <MenuItem value="uqam">UQAM</MenuItem>
+                  <MenuItem value="cegep">CEGEP</MenuItem>
+                  <MenuItem value="highschool">High School</MenuItem>
                 </Select>
                 {hasError && <FormHelperText>This is required!</FormHelperText>}
               </FormControl>
             </form>
             </Grid> 
+            <Grid item xs={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="schoolname"
+                onChange={(e) => this.setState({ school_name_other: e.target.value })}
+                label="If School Name is not present in List, Enter it here"
+                type="schoolname"
+                id="schoolname"
+                autoComplete="current-schoolName"
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
+              />
+            </Grid>
             <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
@@ -316,12 +315,14 @@ class Database2 extends React.Component {
               />
             </Grid>
         </Grid>
+        
+        
         <Button
             type="submit"
             fullWidth
             variant="contained"
             className="submit"
-            onClick={() => this.putDataToDB(this.state.first_name,this.state.last_name,this.state.email,this.state.education_level,this.state.classes_tutored,this.state.type_tutoring)}
+            onClick={() => this.putDataToDB(this.state.first_name,this.state.last_name,this.state.email,this.state.program_of_study,this.state.password,this.state.education_level,this.state.school,this.state.school_name_other)}
           >
             Sign Up
           </Button>
