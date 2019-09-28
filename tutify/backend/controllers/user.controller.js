@@ -46,7 +46,7 @@ exports.putUser = async function (req, res) {
     let data = new User();
     const { id, first_name, last_name ,program_of_study, email,password, school,school_name_other,education_level} = req.body;
     // testing the encryption feature
-    var encrypted_password = encrypt(req.body.password).encryptedData;
+    var encrypted_password = exports.encrypt(req.body.password).encryptedData;
     console.log(encrypted_password);
     if ((!id && id !== 0) || !first_name || !last_name || !email || !password || !program_of_study || !education_level || !school || !school_name_other) {
         return res.json({
