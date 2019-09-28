@@ -33,10 +33,14 @@ const UserSchema = new Schema(//{
       id: Number,
       first_name: String,
       last_name : String,
+      program_of_study : String,
       email : String,
+      password: String,
       education_level : String,
-      classes_tutored : String,
-      type_tutoring : String
+      school : String,
+      school_name_other : String
+      //classes_tutored : String,
+      //type_tutoring : String
     }
     /*id: {
       type: Number,
