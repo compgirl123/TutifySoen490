@@ -21,6 +21,7 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+import NavBar from '../NavBar';
 
 
 class SearchResults extends Component {
@@ -77,14 +78,8 @@ class SearchResults extends Component {
     const { filteredData } = this.state;
     return (
       <React.Fragment>
-        <AppBar className={classes.appBar} position="relative">
-          <Toolbar>
-            <SchoolIcon className={classes.icon} />
-            <Typography variant="h6" color="inherit" noWrap>
-              Tutify
-            </Typography>
-          </Toolbar>
-        </AppBar>
+        <NavBar />
+
         <main>
           {/* Hero unit */}
           <div className={classes.heroContent}>
