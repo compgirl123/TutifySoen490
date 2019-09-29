@@ -49,7 +49,7 @@ class Login extends React.Component {
     this.state = {
       data: [],
       email : null,
-      first_name: null,
+      password: null,
     };
     this.handleSubmit = this.handleSubmit.bind(this);      
     }
@@ -81,7 +81,7 @@ class Login extends React.Component {
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify({
         "email" : document.getElementById("email").value,
-        "first_name": document.getElementById("first_name").value
+        "password": document.getElementById("password").value
          })
       })
       .then(response => response.json())
@@ -136,11 +136,11 @@ class Login extends React.Component {
                 variant="outlined"
                 required
                 style = {{width: 350}}
-                name="first_name"
-                label="First Name"
-                type="first_name"
-                id="first_name"
-                autoComplete="first_name"
+                name="password"
+                label="password"
+                type="password"
+                id="password"
+                autoComplete="password"
                 InputProps={{
                   classes: {
                     notchedOutline: classes.notchedOutline

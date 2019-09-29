@@ -72,10 +72,10 @@ exports.putUser = async function (req, res) {
 
 exports.authUser = async function (req,res){
     var email = req.body.email;
-    var first_name = req.body.first_name;
+    var password = exports.encrypt(req.body.password).encryptedData;
 
 
-    User.findOne({ email:email, first_name:first_name} , function(err,user){
+    User.findOne({ email:email, password:password} , function(err,user){
     if(err){
         console.log(err);
 
