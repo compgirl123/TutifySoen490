@@ -21,6 +21,7 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+const fetch = require("node-fetch");
 
 
 class SearchResults extends Component {
@@ -40,8 +41,8 @@ class SearchResults extends Component {
   }
 
   // Uses our backend api to fetch tutors from our database
-  getDataFromDb = () => {
-    fetch('http://localhost:3001/api/getTutor')
+  getDataFromDb = (fetchFunction = fetch) => {
+    fetchFunction('http://localhost:3001/api/getTutor')
       .then((data) => data.json())
       .then((res) => this.setState({ data: res.data, filteredData: res.data }));
   }
@@ -159,3 +160,4 @@ class SearchResults extends Component {
 } // End of component
 
 export default withStyles(tutifyStyle.styles, { withTheme: true })(SearchResults);
+module.exports = SearchResults;
