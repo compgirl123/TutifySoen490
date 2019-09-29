@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var session = require('express-session');
+
 
 // Controllers
 var accountController = require('./controllers/account.controller')
@@ -33,6 +35,14 @@ router.post('/updateUser', userController.updateUser);
 router.post('/putUser', userController.putUser);
 
 router.post('/deleteUser', userController.deleteUser);
+
+router.post('/authUser', userController.authUser);
+
+router.get('/logout', userController.logout);
+
+router.get('/checkSession', userController.checkSession);
+
+
 
 // -------- ACCOUNT ROUTES --------- // 
 

@@ -17,6 +17,8 @@ import Box from '@material-ui/core/Box';
 import Copyright from './Copyright'
 import SchoolIcon from '@material-ui/icons/School';
 import '../index.css'
+import NavBar from './NavBar';
+
 
 /*const theme = createMuiTheme({
   palette: {
@@ -158,22 +160,8 @@ export default function Benefits() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="sticky" color="inherit" elevation={0} className={classes.appBar}>
-        <Toolbar className={classes.toolbar} >
-          <SchoolIcon className={classes.icon} />
-            <Typography variant="h6" color="inherit" noWrap>
-              Tutify
-            </Typography>
-          <appBarChoices className={classes.appBarChoices}>
-          <Link variant="button" color="inherit"  href="#" className={classes.link} >
-              Login
-            </Link>
-          <Button href= "/signup" variant="contained" color="#F5F5F5" className={classes.button}>
-              Sign up
-            </Button>
-          </appBarChoices>
-        </Toolbar>
-      </AppBar>
+      <NavBar />
+
       {/* Hero unit */}
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography component="h2" variant="h2" align="center" color="textPrimary" gutterBottom>
