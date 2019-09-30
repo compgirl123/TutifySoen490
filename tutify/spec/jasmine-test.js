@@ -1,4 +1,6 @@
 var fileSystem = require('fs');
+var request = require("request");
+var base_url = "http://localhost:3001/api/getUser";
 
 // Importing a .js file in the src folder
 var contents = fileSystem.readFileSync('./src/signUpPageLogic.js', 'utf-8',function(err, data) {});
@@ -23,4 +25,19 @@ describe("Tests for Sign Up Page", function(){
 	it("addition function", function(){
 		expect(fn()).toBe(true);
 	});
+});
+
+// Check if website is online and if npm is running correctly.
+describe("Main Page", function() {
+  describe("GET /", function() {
+  
+    it("returns Users in Database", function(done) {
+      request.get(base_url, function(error, response, body) {
+        //console.log(body.includes('<head>'));
+        console.log(Json.toString);
+        expect(body).toBe(body);
+        done();
+      });
+    });
+  });
 });
