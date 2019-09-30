@@ -138,7 +138,7 @@ class Login extends React.Component {
               />
             </Grid>
           
-             <Grid >
+             <Grid item xs={6} >
             <Button
             type="submit"
             style = {{width: 350}}
@@ -147,16 +147,14 @@ class Login extends React.Component {
           >
             Login
           </Button>
-            <Grid className={classes.signUpButton} container justify="flex-end">
-            <Grid item>
-              <Link href="#" variant="body2">
+            <Grid item >
+              <Link href="#" variant="body2" justify="flex-end">
                 Forgot password?
               </Link>
-            </Grid>
+          </Grid>
           </Grid>
           </Grid>
 
-        </Grid>
        
           
       </form>

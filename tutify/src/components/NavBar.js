@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import SchoolIcon from '@material-ui/icons/School';
 import '../index.css'
+import { Link } from '@material-ui/core';
 
 class Logout extends Component{
     render() {
@@ -91,9 +92,11 @@ export class NavBar extends Component {
 
           <SchoolIcon />
           <Box m={1} /> 
-            <Typography variant="h6" color="inherit"  >
+          <Link href="/" style={{textDecoration: 'none', color: '#FFF'}}>
+            <Typography variant="h6" color="inherit" >
               Tutify
             </Typography>
+            </Link>
           <appBarChoices style={{position: "absolute",
           left : '80%'}}>
            <Button href="/login">
