@@ -27,6 +27,15 @@ describe("Tests for Sign Up Page", function(){
 	});
 });
 
+//Verifies if it returns status code 200 if user has signed up
+describe("Test for Sign Up Page", function(){
+it("returns status code 200 if user has signed up", function(done) {
+  request.get(base_url, function(error, response, body) {
+    expect(response.statusCode).toBe(200);
+    done();
+  });
+});
+
 // Check if website is online and if npm is running correctly.
 describe("Main Page", function() {
   describe("GET /", function() {
