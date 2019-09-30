@@ -17,11 +17,9 @@ import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Select from "@material-ui/core/Select";
-import AppBar from '@material-ui/core/AppBar';
-import SchoolIcon from '@material-ui/icons/School';
-import Toolbar from '@material-ui/core/Toolbar';
 import * as tutifyStyle from './SignUp-styles';
 import { withStyles } from "@material-ui/core/styles";
+import NavBar from './NavBar';
 
 class Copyright extends Component{
   render() {
@@ -136,14 +134,8 @@ class Database2 extends React.Component {
     const { classes } = this.props;
     return (
     <div>
-      <AppBar className={classes.appBar}>
-          <Toolbar>
-            <SchoolIcon className = "icon" />
-            <Typography variant="h6" color="inherit" noWrap>
-              Tutify
-            </Typography>
-          </Toolbar>
-        </AppBar>
+                  <NavBar />
+
     <Container component = "main">
      <CssBaseline />
       <div className = "paper">
