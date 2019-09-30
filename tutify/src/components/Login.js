@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -8,18 +7,8 @@ import Link from '@material-ui/core/Link';
 import Container from '@material-ui/core/Container'; 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import large_tutify from './../assets/large_tutify.png';
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Box from '@material-ui/core/Box';
-import { FormControl } from '@material-ui/core';
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import Select from "@material-ui/core/Select";
-import AppBar from '@material-ui/core/AppBar';
-import SchoolIcon from '@material-ui/icons/School';
-import Toolbar from '@material-ui/core/Toolbar';
+
 import * as tutifyStyle from './SignUp-styles';
 import { withStyles } from "@material-ui/core/styles";
 import NavBar from './NavBar';
@@ -92,7 +81,7 @@ class Login extends React.Component {
           this.props.history.push("/search_results");
         }
         else{
-          alert("Invalid user or password");
+          alert("Invalid use password");
         }
       })
       .catch(err => console.log(err));

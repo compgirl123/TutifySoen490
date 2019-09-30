@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import SchoolIcon from '@material-ui/icons/School';
 import CheckIcon from '@material-ui/icons/Check';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { ThemeProvider } from "@material-ui/styles";
