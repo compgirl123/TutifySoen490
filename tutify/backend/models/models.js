@@ -28,17 +28,43 @@ const TutorSchema = new Schema({
 
 var Tutor = mongoose.model('Tutor', TutorSchema, "tutors");
 
+
 const UserSchema = new Schema(//{
     {
       id: Number,
-      first_name: String,
-      last_name : String,
-      program_of_study : String,
-      email : String,
-      password: String,
-      education_level : String,
-      school : String,
-      school_name_other : String
+      first_name: {
+        type: String,
+        required: true
+      },
+      last_name : {
+        type: String,
+        required: true
+      },
+      program_of_study : {
+        type: String,
+        required: true
+      },
+      email : {
+        type: String,
+        required: true
+      },
+      password: {
+        type: String,
+        required: true
+      },
+      education_level : {
+        type: String,
+        required: true
+      },
+      school : {
+        type: String,
+        required: true
+      },
+      school_name_other : {
+        type: String,
+        default: '',
+        required: false
+      }
       //classes_tutored : String,
       //type_tutoring : String
     }
