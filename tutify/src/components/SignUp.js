@@ -21,6 +21,35 @@ import * as tutifyStyle from './SignUp-styles';
 import { withStyles } from "@material-ui/core/styles";
 import NavBar from './NavBar';
 
+class PhoneField extends Component{
+
+  /*constructor(props) {
+    super(props)
+    this.state = { errorText: 'EEERROR', value: props.value }
+  }
+  onChange(event) {
+    //var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/; 
+    //var phoneRegex = "/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/";
+    if (event.target.value.substring(0,1) == "a") {
+      console.log("DHHEHE");
+      this.setState({ errorText: 'RPAdsf' })
+    } else {
+      console.log("BADDD");
+      this.setState({ errorText: 'Invalid format: ###-###-####' })
+    }
+  }
+  render() {
+    return (
+      <TextField hintText="Phone"
+        floatingLabelText="Phone"
+        name="phone"
+        errorText= {this.state.errorText}
+        onChange={this.onChange.bind(this)}
+      />
+    )
+  }*/
+}
+
 class Copyright extends Component{
   render() {
     return (
@@ -36,6 +65,8 @@ class Copyright extends Component{
   }
   
 }
+
+
 class Database2 extends React.Component {
   // initialize our state
     state = {
@@ -132,6 +163,7 @@ class Database2 extends React.Component {
   render() {
     const { education_level, school, hasError } = this.state;
     const { classes } = this.props;
+    
     return (
     <div>
                   <NavBar />
@@ -154,7 +186,10 @@ class Database2 extends React.Component {
                 fullWidth
                 id="firstName"
                 label="First Name"
+                error={this.state.first_name === '' ? true : false}
+                helperText = {this.state.first_name === false ? "" : "Please Enter First Name"}
                 onChange={(e) => this.setState({ first_name: e.target.value })}
+                onSubmit = {(e) => this.setState({ first_name: e.target.value })}
                 autoFocus
                 InputProps={{
                   classes: {
@@ -173,23 +208,8 @@ class Database2 extends React.Component {
                 name="lastName"
                 onChange={(e) => this.setState({ last_name: e.target.value })}
                 autoComplete="lname"
-                InputProps={{
-                  classes: {
-                    notchedOutline: classes.notchedOutline
-                  }
-                }}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="ProgramOfStudy"
-                label="Program Of Study"
-                name="programOfStudy"
-                onChange={(e) => this.setState({ program_of_study: e.target.value })}
-                autoComplete="programOfStudy"
+                error={this.state.last_name === '' ? true : false}
+                helperText = {this.state.last_name === true ? "" : "Please Enter Last Name"}
                 InputProps={{
                   classes: {
                     notchedOutline: classes.notchedOutline
@@ -199,6 +219,28 @@ class Database2 extends React.Component {
             </Grid>
 
             <Grid item xs={6}>
+           
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="ProgramOfStudy"
+                label="Program Of Study"
+                name="programOfStudy"
+                onChange={(e) => this.setState({ program_of_study: e.target.value })}
+                autoComplete="programOfStudy"
+                error={this.state.program_of_study === '' ? true : false}
+                helperText = {this.state.program_of_study === true ? "" : "Please Enter Field of Study"}
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+            
               <TextField
                 variant="outlined"
                 required
@@ -206,8 +248,11 @@ class Database2 extends React.Component {
                 id="email"
                 label="Email Address"
                 name="email"
-                onChange={(e) => this.setState({ email: e.target.value })}
+                onChange={e => this.setState({ email: e.target.value})}
                 autoComplete="email"
+                error={this.state.email === '' ? true : false}
+                helperText = {this.state.email === true ? "" : "Please Enter Email"}
+                //helperText= {this.state.email}
                 InputProps={{
                   classes: {
                     notchedOutline: classes.notchedOutline
@@ -224,7 +269,8 @@ class Database2 extends React.Component {
                 onChange={(e) => this.setState({ password: e.target.value })}
                 label="Password"
                 type="password"
-                id="password"
+                id="password"error={this.state.password === '' ? true : false}
+                helperText = {this.state.password === true ? "" : "Please Enter Password"}
                 autoComplete="current-password"
                 InputProps={{
                   classes: {
@@ -314,11 +360,11 @@ class Database2 extends React.Component {
             fullWidth
             variant="contained"
             className="submit"
-            onClick={() => this.putDataToDB(this.state.first_name,this.state.last_name,this.state.email,this.state.program_of_study,this.state.password,this.state.education_level,this.state.school,this.state.school_name_other)}
+            onClick={() => this.putDataToDB(this.state.first_name,this.state.last_name,(this.state.email=="")?this.state.email = '':this.state.email,this.state.program_of_study,this.state.password,this.state.education_level,this.state.school,(this.state.school_name_other==null)?" ":this.state.school_name_other)}
           >
             Sign Up
           </Button>
-          <Grid className={classes.signUpButton} container justify="flex-end">
+          <Grid className={classes.signUpButton} href = "/search_results" container justify="flex-end">
             <Grid item>
               <Link href="#" variant="body2">
                 Already have an account? Sign in

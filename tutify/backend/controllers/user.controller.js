@@ -46,13 +46,29 @@ exports.putUser = async function (req, res) {
     const { id, first_name, last_name ,program_of_study, email,password, school,school_name_other,education_level} = req.body;
     // testing the encryption feature
     var encrypted_password = exports.encrypt(req.body.password).encryptedData;
+    var school_name_other1 = ""; 
     console.log(encrypted_password);
+    console.log(req.body);
+    console.log(req.body.school_name_other)
+    console.log(school_name_other)
+    console.log(school_name_other==null);
+    if(school_name_other==null){
+        school_name_other1 = "teeeestt";
+        console.log("HI");
+    }
+    else{
+        school_name_other1 = school_name_other;
+        //school_name_other1 = "teeeestt";
+        console.log("Ho");
+    }
+
     if ((!id && id !== 0) || !first_name || !last_name || !email || !password || !program_of_study || !education_level || !school || !school_name_other) {
         return res.json({
         success: false,
         error: 'INVALID INPUTS',
         });
     }
+    
     data.first_name = first_name;
     data.last_name = last_name;
     data.email = email;
@@ -60,7 +76,9 @@ exports.putUser = async function (req, res) {
     data.password = encrypted_password;
     data.education_level = education_level;
     data.school = school;
-    data.school_name_other = school_name_other;
+    console.log("HIHI");
+    console.log(school_name_other1);
+    data.school_name_other = school_name_other1;
     //data.classes_tutored = classes_tutored;
     //data.type_tutoring = type_tutoring;
     data.id = id;
