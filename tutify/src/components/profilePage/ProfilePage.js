@@ -16,8 +16,7 @@ import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems, secondaryListItems } from './sidebar';
 import UserInfo from './UserInfo';
 import Payment from './Payment';
 import SchoolIcon from '@material-ui/icons/School';
@@ -106,7 +105,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Dashboard() {
+export default function Profile() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -177,20 +176,18 @@ export default function Dashboard() {
                 My Profile
               </Typography>
           <Grid container spacing={2}>
+
             {/* User Info */}
             <Grid item xs={6} md={6} lg={6}>
-            
-            <Paper className={fixedHeightPaper}>
-            
+            <Paper className={fixedHeightPaper}>           
               <UserInfo />
             </Paper>
           </Grid>
-            
+
+          {/* Adding Picture */}       
             <Grid item xs={6} md={6} lg={6}>
-            
             <img src="https://i.imgur.com/L6lDhbz.jpg">
-      </img>
-             
+            </img>        
             </Grid>
 
             {/* Recent Payments*/}
@@ -202,12 +199,15 @@ export default function Dashboard() {
             </Grid>
           </Grid>
         </Container>
+
+        {/* Footer */}
         <footer className={classes.footer}>
     <Typography variant="h6" align="center" gutterBottom>
       Tutify
     </Typography>
     <Copyright />
   </footer>
+  
       </main>
     </div>
     

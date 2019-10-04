@@ -13,6 +13,7 @@ function createData(id, date, name, shipTo, paymentMethod, amount) {
   return { id, date, name, shipTo, paymentMethod, amount };
 }
 
+{/* Hardcoded info for now */}
 const rows = [
   createData(0, '16 Mar, 2019', 'Math', 'Mo Alawami', 'VISA ⠀•••• 3719', 75.00),
   createData(1, '16 Mar, 2019', 'French', 'Pooja Patel', 'VISA ⠀•••• 2574', 25.75),
