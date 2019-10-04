@@ -18,7 +18,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { mainListItems, secondaryListItems } from './sidebar';
 import UserInfo from './UserInfo';
-import Payment from './Payment';
 import SchoolIcon from '@material-ui/icons/School';
 import Box from '@material-ui/core/Box';
 import MessageIcon from '@material-ui/icons/Message';
@@ -189,14 +188,6 @@ export default function Profile() {
             <img src="https://i.imgur.com/L6lDhbz.jpg">
             </img>        
             </Grid>
-
-            {/* Recent Payments*/}
-            <Grid item xs={12}>
-            
-              <Paper className={classes.paper}>
-                <Payment />
-              </Paper>
-            </Grid>
           </Grid>
         </Container>
 
@@ -207,7 +198,7 @@ export default function Profile() {
     </Typography>
     <Copyright />
   </footer>
-  
+
       </main>
     </div>
     

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -23,36 +22,48 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="My Profile" />
     </ListItem>
+
+
     <ListItem button>
       <ListItemIcon>
         <MenuBookIcon  />
       </ListItemIcon>
       <ListItemText primary="My Courses" />
     </ListItem>
-    <ListItem button>
+
+
+    <ListItem button component="a" href="/payment">
       <ListItemIcon>
         <PaymentIcon />
       </ListItemIcon>
       <ListItemText primary="Payments" />
     </ListItem>
+
+
     <ListItem button>
       <ListItemIcon>
         <MessageIcon/>
       </ListItemIcon>
       <ListItemText primary="Messages" />
     </ListItem>
+
+
     <ListItem button component="a" href="/">
       <ListItemIcon >
         <HomeIcon />
       </ListItemIcon>
       <ListItemText primary="Home" />
     </ListItem>
+
+
     <ListItem button>
       <ListItemIcon>
         <ShoppingCartIcon />
       </ListItemIcon>
       <ListItemText primary="My Cart" />
     </ListItem>
+
+
     <ListItem button>
       <ListItemIcon>
         <ExitToAppIcon />
