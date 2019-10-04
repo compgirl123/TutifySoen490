@@ -10,7 +10,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import Copyright from "../Copyright"
 import { withStyles } from "@material-ui/core/styles";
 import * as tutifyStyle from './SearchResults-styles';
-import Chip from '@material-ui/core/Chip'
+import Chip from '@material-ui/core/Chip';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import { BrowserRouter as Link } from "react-router-dom";
 import Paper from '@material-ui/core/Paper';
