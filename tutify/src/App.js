@@ -9,7 +9,7 @@ import Database2 from "./components/combination"
 import Tester from "./components/demo"
 import Login from "./components/Login"
 import ProfilePage from "./components/profilePage/ProfilePage"
-
+import MyPayment from "./components/profilePage/MyPayment";
 
 
 // This is all the url routing.
@@ -24,6 +24,7 @@ function MainPage() {
         <Route exact path="/demo" component={Tester} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/profile" component={ProfilePage} />
+        <Route exact path="/payment" component={MyPayment} />
 
 
     </Router>
