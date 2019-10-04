@@ -20,22 +20,10 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import UserInfo from './UserInfo';
 import Payment from './Payment';
-import NavBar from '../NavBar';
 import SchoolIcon from '@material-ui/icons/School';
 import Box from '@material-ui/core/Box';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import MessageIcon from '@material-ui/icons/Message';
+import Copyright from "../Copyright"
 
 const drawerWidth = 240;
 
@@ -158,7 +146,7 @@ export default function Dashboard() {
           
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
+              <MessageIcon />
             </Badge>
           </IconButton>
         </Toolbar>
@@ -188,16 +176,23 @@ export default function Dashboard() {
         <Typography component="h4" variant="h4" align="center" color="textPrimary" gutterBottom>
                 My Profile
               </Typography>
-          <Grid container spacing={3}>
+          <Grid container spacing={2}>
             {/* User Info */}
+            <Grid item xs={6} md={6} lg={6}>
             
-            <Grid item xs={12} md={12} lg={12}>
+            <Paper className={fixedHeightPaper}>
             
-              <Paper className={fixedHeightPaper}>
-              
-                <UserInfo />
-              </Paper>
+              <UserInfo />
+            </Paper>
+          </Grid>
+            
+            <Grid item xs={6} md={6} lg={6}>
+            
+            <img src="https://i.imgur.com/L6lDhbz.jpg">
+      </img>
+             
             </Grid>
+
             {/* Recent Payments*/}
             <Grid item xs={12}>
             
@@ -207,9 +202,15 @@ export default function Dashboard() {
             </Grid>
           </Grid>
         </Container>
-        <Copyright />
+        <footer className={classes.footer}>
+    <Typography variant="h6" align="center" gutterBottom>
+      Tutify
+    </Typography>
+    <Copyright />
+  </footer>
       </main>
     </div>
+    
 
   );
 }
