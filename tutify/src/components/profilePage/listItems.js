@@ -12,12 +12,12 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import MessageIcon from '@material-ui/icons/Message';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import BookIcon from '@material-ui/icons/Book';
-import { BrowserRouter as Link } from "react-router-dom";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 
 export const mainListItems = (
   <div>
-    <ListItem button>
+    <ListItem button component="b" href="/Profile">
       <ListItemIcon>
         <AccountBoxIcon />
       </ListItemIcon>
@@ -52,6 +52,12 @@ export const mainListItems = (
         <ShoppingCartIcon />
       </ListItemIcon>
       <ListItemText primary="My Cart" />
+    </ListItem>
+    <ListItem button>
+      <ListItemIcon>
+        <ExitToAppIcon />
+      </ListItemIcon>
+      <ListItemText primary="Logout" />
     </ListItem>
   </div>
 );

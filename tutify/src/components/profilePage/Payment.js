@@ -55,7 +55,7 @@ export default function Payment() {
         </TableBody>
       </Table>
       <div className={classes.seeMore}>
-        <Link color="primary" href="javascript:;">
+        <Link color="primary" href="/">
           See more Transactions
         </Link>
       </div>
