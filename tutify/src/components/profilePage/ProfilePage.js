@@ -22,6 +22,8 @@ import SchoolIcon from '@material-ui/icons/School';
 import Box from '@material-ui/core/Box';
 import MessageIcon from '@material-ui/icons/Message';
 import Copyright from "../Copyright"
+import InputBase from '@material-ui/core/InputBase';
+import CheckIcon from '@material-ui/icons/Check';
 
 const drawerWidth = 240;
 

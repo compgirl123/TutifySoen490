@@ -10,7 +10,7 @@ import Tester from "./components/demo"
 import Login from "./components/Login"
 import ProfilePage from "./components/profilePage/ProfilePage"
 import MyPayment from "./components/profilePage/MyPayment";
-
+import MyCourses from "./components/profilePage/MyCourses";
 
 // This is all the url routing.
 function MainPage() {
@@ -25,6 +25,8 @@ function MainPage() {
         <Route exact path="/login" component={Login} />
         <Route exact path="/profile" component={ProfilePage} />
         <Route exact path="/payment" component={MyPayment} />
+        <Route exact path="/courses" component={MyCourses} />
+
 
 
     </Router>
