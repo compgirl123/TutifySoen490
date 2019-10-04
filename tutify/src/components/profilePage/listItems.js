@@ -11,6 +11,8 @@ import PaymentIcon from '@material-ui/icons/Payment';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import MessageIcon from '@material-ui/icons/Message';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
+import BookIcon from '@material-ui/icons/Book';
+import { BrowserRouter as Link } from "react-router-dom";
 
 
 export const mainListItems = (
@@ -39,8 +41,8 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Messages" />
     </ListItem>
-    <ListItem button>
-      <ListItemIcon>
+    <ListItem button component="a" href="/">
+      <ListItemIcon >
         <HomeIcon />
       </ListItemIcon>
       <ListItemText primary="Home" />
@@ -71,7 +73,7 @@ export const secondaryListItems = (
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <AssignmentIcon />
+        <BookIcon />
       </ListItemIcon>
       <ListItemText primary="Useful Readings" />
     </ListItem>

@@ -20,6 +20,9 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import UserInfo from './UserInfo';
 import Payment from './Payment';
+import NavBar from '../NavBar';
+import SchoolIcon from '@material-ui/icons/School';
+import Box from '@material-ui/core/Box';
 
 function Copyright() {
   return (
@@ -128,8 +131,10 @@ export default function Dashboard() {
 
   return (
     <div className={classes.root}>
+
       <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+      
+      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)} style = {{background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)'}}>
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
@@ -140,9 +145,17 @@ export default function Dashboard() {
           >
             <MenuIcon />
           </IconButton>
+          <SchoolIcon />
+          <Box m={1} /> 
+          <Link href="/" style={{textDecoration: 'none', color: '#FFF'}}>
+            <Typography variant="h6" color="inherit" >
+              Tutify
+            </Typography>
+            </Link>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            My Profile
+
           </Typography>
+          
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
@@ -158,6 +171,7 @@ export default function Dashboard() {
         open={open}
       >
         <div className={classes.toolbarIcon}>
+        
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
           </IconButton>
@@ -168,17 +182,25 @@ export default function Dashboard() {
         <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
+      
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
+        <Typography component="h4" variant="h4" align="center" color="textPrimary" gutterBottom>
+                My Profile
+              </Typography>
           <Grid container spacing={3}>
             {/* User Info */}
-            <Grid item xs={12} md={4} lg={3}>
+            
+            <Grid item xs={12} md={12} lg={12}>
+            
               <Paper className={fixedHeightPaper}>
+              
                 <UserInfo />
               </Paper>
             </Grid>
             {/* Recent Payments*/}
             <Grid item xs={12}>
+            
               <Paper className={classes.paper}>
                 <Payment />
               </Paper>
@@ -188,5 +210,6 @@ export default function Dashboard() {
         <Copyright />
       </main>
     </div>
+
   );
 }
