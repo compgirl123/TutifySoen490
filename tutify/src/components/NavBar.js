@@ -40,8 +40,7 @@ class Logout extends Component{
     }
    
   }
-
-
+  
 export class NavBar extends Component {
 
     constructor(props) {
