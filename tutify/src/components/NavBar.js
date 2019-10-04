@@ -6,12 +6,12 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import SchoolIcon from '@material-ui/icons/School';
 import '../index.css'
-import { Link } from '@material-ui/core';
+import { Link, Container } from '@material-ui/core';
 
 class Logout extends Component{
     render() {
       return (
-        <Button href= "/" variant="contained" color="#F5F5F5" style ={{background: "white"}}>
+        <Button href= "/" variant="contained"style ={{background: "white"}}>
         Logout
       </Button>
     );
@@ -22,7 +22,7 @@ class Logout extends Component{
   class SignUp extends Component{
     render() {
       return (
-        <Button href= "/signup" variant="contained" color="#F5F5F5" style ={{background: "white"}}>
+        <Button href= "/signup" variant="contained"style ={{background: "white"}}>
         Sign up
       </Button>
     );
@@ -33,7 +33,7 @@ class Logout extends Component{
   class Login extends Component{
     render() {
       return (
-        <Button variant="contained" color="#F5F5F5"  type ="submit" style ={{background: "white"}}  >
+        <Button variant="contained" type ="submit" style ={{background: "white"}}  >
         Login
       </Button>
     );
@@ -97,21 +97,21 @@ export class NavBar extends Component {
               Tutify
             </Typography>
             </Link>
-          <appBarChoices style={{position: "relative",
+          <Container style={{position: "absolute",
           left : '80%'}}>
            <Button href="/login">
             { this.state.Toggle ? null : <Login />}
             </Button>
           {' '}
           <Button href="/signup">
-            { this.state.Toggle ? null : <SignUp /> }
+            { this.state.Toggle ? null : <SignUp /> }   
             </Button>
           
             {' '}
             <Button onClick={this.handleChange} href="/">
             { this.state.Toggle ? <Logout /> : null }
             </Button>
-          </appBarChoices>
+          </Container>
         </Toolbar>
       </AppBar>
     );
