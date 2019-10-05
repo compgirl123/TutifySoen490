@@ -17,6 +17,7 @@
     "express-session": "^1.16.2",
     "fs": "0.0.1-security",
     "jasmine": "^3.4.0",
+    "jasmine-node": "^3.0.0",
     "material-icons": "^0.3.1",
     "mongoose": "^5.7.0",
     "morgan": "^1.9.1",
@@ -51,7 +52,11 @@
   "proxy": "http://localhost:3001",
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "jasmine-enzyme": "^7.1.1"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"
