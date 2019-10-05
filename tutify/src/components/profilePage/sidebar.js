@@ -12,6 +12,7 @@ import MessageIcon from '@material-ui/icons/Message';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import BookIcon from '@material-ui/icons/Book';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import SearchIcon from '@material-ui/icons/Search';
 
 
 export const mainListItems = (
@@ -31,6 +32,12 @@ export const mainListItems = (
       <ListItemText primary="My Courses" />
     </ListItem>
 
+    <ListItem button component="a" href="/search_results">
+      <ListItemIcon>
+        <SearchIcon />
+      </ListItemIcon>
+      <ListItemText primary="Search" />
+    </ListItem>
 
     <ListItem button component="a" href="/payment">
       <ListItemIcon>
