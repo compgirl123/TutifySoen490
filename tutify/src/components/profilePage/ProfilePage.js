@@ -173,10 +173,10 @@ export default function Profile() {
       
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-        <Typography component="h4" variant="h4" align="center" color="textPrimary" gutterBottom>
+        <Typography component="h4" variant="h6" align="center" color="textPrimary" gutterBottom>
                 My Profile
               </Typography>
-          <Grid container spacing={2}>
+          <Grid container spacing={4}>
 
             {/* User Info */}
             <Grid item xs={6} md={6} lg={6}>
@@ -186,10 +186,11 @@ export default function Profile() {
           </Grid>
 
           {/* Adding Picture */}       
-            <Grid item xs={6} md={6} lg={6}>
+            <Grid item xs={12} md={6} lg={6}>
             <img src="https://i.imgur.com/L6lDhbz.jpg">
             </img>        
             </Grid>
+            
           </Grid>
         </Container>
 
