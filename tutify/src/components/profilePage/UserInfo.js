@@ -18,11 +18,11 @@ export default function UserInfo() {
       <Typography component="p" variant="h6">
        Kasthurie Paramasivampillai
       </Typography>
-      <Typography component="p" variant="h8">
+      <Typography component="p" variant="h7">
        Email: sriahila@hotmail.com
       </Typography>
       <Typography color="textSecondary" className={classes.InfoContext}>
-        on 4 October, 2019
+        Concordia University 
       </Typography>
       <div>
         <Link color="primary" href="/">
