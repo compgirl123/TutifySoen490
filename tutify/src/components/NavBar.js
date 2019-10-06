@@ -97,7 +97,7 @@ export class NavBar extends Component {
               Tutify
             </Typography>
             </Link>
-          <appBarChoices style={{position: "absolute",
+          <appBarChoices style={{position: "relative",
           left : '80%'}}>
            <Button href="/login">
             { this.state.Toggle ? null : <Login />}

@@ -134,7 +134,7 @@ class Database2 extends React.Component {
     const { classes } = this.props;
     return (
     <div>
-                  <NavBar />
+      <NavBar />
 
     <Container component = "main">
      <CssBaseline />
@@ -144,7 +144,7 @@ class Database2 extends React.Component {
           Sign Up Page
       </Typography>
       <form className="form" noValidate>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} justify="space-between">
             <Grid item xs={6}>
               <TextField
                 autoComplete="fname"
@@ -215,6 +215,7 @@ class Database2 extends React.Component {
                 }}
               />
             </Grid>
+            
             <Grid item xs={6}>
               <TextField
                 variant="outlined"
@@ -233,13 +234,48 @@ class Database2 extends React.Component {
                 }}
               />
             </Grid>
-
+            <Grid item xs={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="confirm-password"
+                onChange={(e) => this.setState({ password: e.target.value })}
+                label="Password"
+                type="password"
+                id="confirm-password"
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
+              />
+            </Grid>
             
-
-            
-          
-            
-            <Grid item xs={6}>  
+            <Grid container direction="column">
+            <Grid item align="center">  
+            <form autoComplete="off">
+              <FormControl >
+                <InputLabel htmlFor="school" fullWidth>School Name</InputLabel>
+                <Select
+                  name="school"
+                  value={school}
+                  onChange={event => this.setState({school:event.target.value})}
+                // onChange={(e) => this.setState({ first_name: e.target.value })}
+                  input={<Input id="school" />}
+                >
+                  <MenuItem value="mcgill">McGill</MenuItem>
+                  <MenuItem value="concordia">Concordia</MenuItem>
+                  <MenuItem value="udm">Universite de Montreal</MenuItem>
+                  <MenuItem value="uqam">UQAM</MenuItem>
+                  <MenuItem value="cegep">CEGEP</MenuItem>
+                  <MenuItem value="highschool">High School</MenuItem>
+                </Select>
+                {hasError && <FormHelperText>This is required!</FormHelperText>}
+              </FormControl>
+            </form>
+            </Grid> 
+            <Grid item align="center" >  
             <form autoComplete="off">
               <FormControl >
                 <InputLabel htmlFor="education_level">Education Level</InputLabel>
@@ -260,36 +296,12 @@ class Database2 extends React.Component {
               </FormControl>
             </form>
             </Grid>
-            <Grid item xs={6}>  
-            <form autoComplete="off">
-              <FormControl >
-                <InputLabel htmlFor="school">School Name</InputLabel>
-                <Select
-                  name="school"
-                  value={school}
-                  onChange={event => this.setState({school:event.target.value})}
-                // onChange={(e) => this.setState({ first_name: e.target.value })}
-                  input={<Input id="school" />}
-                >
-                  <MenuItem value="mcgill">McGill</MenuItem>
-                  <MenuItem value="concordia">Concordia</MenuItem>
-                  <MenuItem value="udm">Universite de Montreal</MenuItem>
-                  <MenuItem value="uqam">UQAM</MenuItem>
-                  <MenuItem value="cegep">CEGEP</MenuItem>
-                  <MenuItem value="highschool">High School</MenuItem>
-                </Select>
-                {hasError && <FormHelperText>This is required!</FormHelperText>}
-              </FormControl>
-            </form>
-            </Grid> 
-            <Grid item xs={6}>
+            <Grid item align="center">
               <TextField
-                variant="outlined"
-                required
-                fullWidth
+                style={{width: '360px', textalign: 'center'}}
                 name="schoolname"
                 onChange={(e) => this.setState({ school_name_other: e.target.value })}
-                label="If School Name is not present in List, Enter it here"
+                label="School name not found? Enter it here"
                 type="schoolname"
                 id="schoolname"
                 autoComplete="current-schoolName"
@@ -300,16 +312,16 @@ class Database2 extends React.Component {
                 }}
               />
             </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
+            </Grid>
+        </Grid>
+        <FormControlLabel
+                style={{marginTop: '40px', marginBottom: '20px'}}
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="I Agree that Tutify will keep all data provided private from third-parties and will only use the data provided to best match a student with a tutor."
               />
-            </Grid>
-        </Grid>
-        
         
         <Button
+            style={{marginBottom: '10px'}}
             type="submit"
             fullWidth
             variant="contained"
