@@ -59,11 +59,6 @@ const UserSchema = new Schema(//{
       school : {
         type: String,
         required: true
-      },
-      school_name_other : {
-        type: String,
-        default: '',
-        required: false
       }
       //classes_tutored : String,
       //type_tutoring : String

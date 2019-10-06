@@ -20,35 +20,7 @@ import Select from "@material-ui/core/Select";
 import * as tutifyStyle from './SignUp-styles';
 import { withStyles } from "@material-ui/core/styles";
 import NavBar from './NavBar';
-
-class PhoneField extends Component{
-
-  /*constructor(props) {
-    super(props)
-    this.state = { errorText: 'EEERROR', value: props.value }
-  }
-  onChange(event) {
-    //var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/; 
-    //var phoneRegex = "/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/";
-    if (event.target.value.substring(0,1) == "a") {
-      console.log("DHHEHE");
-      this.setState({ errorText: 'RPAdsf' })
-    } else {
-      console.log("BADDD");
-      this.setState({ errorText: 'Invalid format: ###-###-####' })
-    }
-  }
-  render() {
-    return (
-      <TextField hintText="Phone"
-        floatingLabelText="Phone"
-        name="phone"
-        errorText= {this.state.errorText}
-        onChange={this.onChange.bind(this)}
-      />
-    )
-  }*/
-}
+import validator from 'validator';
 
 class Copyright extends Component{
   render() {
@@ -72,20 +44,20 @@ class Database2 extends React.Component {
     state = {
       data: [],
       id: 0,
-      first_name: null,
-      last_name : null,
-      program_of_study: null,
-      email : null,
-      password:null,
+      first_name: "█",
+      last_name : "█",
+      program_of_study: "█",
+      email : "█",
+      password:"█",
+      cPassword:"█",
       intervalIsSet: false,
-      idToDelete: null,
-      idToUpdate: null,
-      objectToUpdate: null,
-      education_level: null,
-      school : null,
-      school_name_other : null
-      //classes_tutored : null,
-      //type_tutoring : null
+      idToDelete: "█",
+      idToUpdate: "█",
+      objectToUpdate: "█",
+      education_level: "█",
+      school : "█",
+      make_other_school_visible : "none",
+      FormValid : {fname: false,lname: false,PoS: false,email: false,password: false,cPassword: false,educationLevel: false,school:false,dataKeep: false}
     };
     
     // when component mounts, first thing it does is fetch all existing data in our db
@@ -96,6 +68,135 @@ class Database2 extends React.Component {
       if (!this.state.intervalIsSet) {
         let interval = setInterval(this.getDataFromDb, 1000);
         this.setState({ intervalIsSet: interval });
+      }
+    }
+
+    // This is where all validation takes place
+    validateForm() {
+      for (var indicator in this.state.FormValid){
+        if(!indicator){
+          return false
+        }
+      }
+      return true;
+    }
+    
+    vfName(name) {
+      if(name==="█"){
+        this.state.FormValid["fname"]=false;
+        //this.setState({ FormValid:  false });
+        return true;
+      }
+      else if(validator.isAlpha(name)){
+        this.state.FormValid["fname"]=true;
+        return true;
+      }
+      else{
+        this.state.FormValid["fname"]=false;
+        return false;
+      }
+
+    }
+
+    vlName(name) {
+      if(name==="█"){
+        this.state.FormValid["lname"]=false;
+        return true;
+      }
+      else if(validator.isAlpha(name)){
+        this.state.FormValid["lname"]=true;
+        return true;
+      }
+      else{
+        this.state.FormValid["lname"]=false;
+        return false;
+      }
+
+    }
+
+    vPOS(POS) {
+      if(POS==="█"){
+        this.state.FormValid["PoS"]=false;
+        return true;
+      }
+      else if(!validator.isEmpty(POS)){
+        this.state.FormValid["PoS"]=false;
+        return true;
+      }
+      else{
+        this.state.FormValid["PoS"]=false;
+        return false;
+      }
+    }
+
+    vEmail(email){
+      if(email===""){
+        this.state.FormValid["email"]=false;
+        return false;
+      }
+      else if(validator.isEmail(email)){
+        this.state.FormValid["email"]=true;
+        return true;
+      }
+      else if(email==="█"){
+        this.state.FormValid["email"]=false;
+        return true;
+      }
+      else{
+        this.state.FormValid["email"]=false;
+        return false;
+      }
+    }
+
+    
+
+    vPassword(password){
+      if(password==="█"){
+        this.state.FormValid["password"]=false;
+        return true;
+      }
+      else if(!validator.isAlpha(password) && !validator.isNumeric(password)){
+        this.state.FormValid["password"]=true;
+        return true;
+      }
+      else{
+        this.state.FormValid["password"]=false;
+        return false;
+      }
+    }
+
+    vConfirmPassword(cPassword){
+      if(cPassword==="█"){
+        this.state.FormValid["cPassword"]=false;
+        return true;
+      }
+      else if(cPassword===this.state.password){
+        this.state.FormValid["cPassword"]=true;
+        return true;
+      }
+      else{
+        this.state.FormValid["cPassword"]=false;
+        return false;
+      }
+    }
+    
+    vOtherSchool(school){
+      if(school===""){
+        this.state.FormValid["school"]=false;
+        return false;
+      }
+      this.state.FormValid["school"]=true;
+      return true;
+    }
+
+    setSchool(value){
+      if(value === "other"){
+        this.state.make_other_school_visible="inline";
+        this.state.FormValid["school"]=false;
+      }
+      else{
+        this.state.make_other_school_visible="none";
+        this.state.FormValid["school"]=true;
       }
     }
   
@@ -124,7 +225,7 @@ class Database2 extends React.Component {
 
     // our put method that uses our backend api
     // to create new query into our data base
-    putDataToDB = (first_name,last_name,email,program_of_study,password,education_level,school,school_name_other) => {
+    putDataToDB = (first_name,last_name,email,program_of_study,password,education_level,school) => {
       let currentIds = this.state.data.map((data) => data.id);
       let idToBeAdded = 0;
       while (currentIds.includes(idToBeAdded)) {
@@ -139,15 +240,11 @@ class Database2 extends React.Component {
         email : email,
         password : password,
         school : school,
-        school_name_other : school_name_other,
         education_level : education_level
         //classes_tutored : classes_tutored,
         //type_tutoring : type_tutoring
       });
     };
-  
- 
-  
 
   handleChange(value) {
     this.setState({ education_level: value });
@@ -160,13 +257,20 @@ class Database2 extends React.Component {
     }
   }
 
+  submitForm(){
+    this.putDataToDB(this.state.first_name,this.state.last_name,this.state.email,this.state.program_of_study,this.state.password,this.state.education_level,this.state.school);
+    this.props.history.push("/");
+  }
+
+ 
+
   render() {
     const { education_level, school, hasError } = this.state;
     const { classes } = this.props;
     
     return (
     <div>
-                  <NavBar />
+    <NavBar />
 
     <Container component = "main">
      <CssBaseline />
@@ -175,8 +279,8 @@ class Database2 extends React.Component {
       <Typography component="h1" variant="h5">
           Sign Up Page
       </Typography>
-      <form className="form" noValidate>
-      <Grid container spacing={2}>
+      <form className="form" name="form" noValidate>
+      <Grid container spacing={2} justify="space-between">
             <Grid item xs={6}>
               <TextField
                 autoComplete="fname"
@@ -186,8 +290,8 @@ class Database2 extends React.Component {
                 fullWidth
                 id="firstName"
                 label="First Name"
-                error={this.state.first_name === '' ? true : false}
-                helperText = {this.state.first_name === false ? "" : "Please Enter First Name"}
+                error={!this.vfName(this.state.first_name)}
+                helperText = {this.state.first_name === true ? "" : "Please Enter First Name"}
                 onChange={(e) => this.setState({ first_name: e.target.value })}
                 onSubmit = {(e) => this.setState({ first_name: e.target.value })}
                 autoFocus
@@ -208,7 +312,7 @@ class Database2 extends React.Component {
                 name="lastName"
                 onChange={(e) => this.setState({ last_name: e.target.value })}
                 autoComplete="lname"
-                error={this.state.last_name === '' ? true : false}
+                error={!this.vlName(this.state.last_name)}
                 helperText = {this.state.last_name === true ? "" : "Please Enter Last Name"}
                 InputProps={{
                   classes: {
@@ -229,7 +333,7 @@ class Database2 extends React.Component {
                 name="programOfStudy"
                 onChange={(e) => this.setState({ program_of_study: e.target.value })}
                 autoComplete="programOfStudy"
-                error={this.state.program_of_study === '' ? true : false}
+                error={!this.vPOS(this.state.program_of_study)}
                 helperText = {this.state.program_of_study === true ? "" : "Please Enter Field of Study"}
                 InputProps={{
                   classes: {
@@ -250,9 +354,8 @@ class Database2 extends React.Component {
                 name="email"
                 onChange={e => this.setState({ email: e.target.value})}
                 autoComplete="email"
-                error={this.state.email === '' ? true : false}
+                error={!this.vEmail(this.state.email)}
                 helperText = {this.state.email === true ? "" : "Please Enter Email"}
-                //helperText= {this.state.email}
                 InputProps={{
                   classes: {
                     notchedOutline: classes.notchedOutline
@@ -260,6 +363,7 @@ class Database2 extends React.Component {
                 }}
               />
             </Grid>
+            
             <Grid item xs={6}>
               <TextField
                 variant="outlined"
@@ -269,8 +373,9 @@ class Database2 extends React.Component {
                 onChange={(e) => this.setState({ password: e.target.value })}
                 label="Password"
                 type="password"
-                id="password"error={this.state.password === '' ? true : false}
+                id="password"
                 helperText = {this.state.password === true ? "" : "Please Enter Password"}
+                error={!this.vPassword(this.state.password)}
                 autoComplete="current-password"
                 InputProps={{
                   classes: {
@@ -280,19 +385,38 @@ class Database2 extends React.Component {
               />
             </Grid>
 
+
+
+
+            <Grid item xs={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="confirm-password"
+                onChange={(e) => this.setState({ cPassword: e.target.value })}
+                label="Confirm Password"
+                type="password"
+                id="confirm-password"
+                error={!this.vConfirmPassword(this.state.cPassword)}
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
+              />
+            </Grid>
+            
             
 
-            
-          
-            
             <Grid item xs={6}>  
-            <form autoComplete="off">
+            
               <FormControl >
                 <InputLabel htmlFor="education_level">Education Level</InputLabel>
                 <Select
                   name="education_level"
                   value={education_level}
-                  onChange={event => this.setState({education_level:event.target.value})}
+                  onChange={event => {this.setState({education_level:event.target.value}); this.state.FormValid[5]=true;}}
                 // onChange={(e) => this.setState({ first_name: e.target.value })}
                   input={<Input id="education_level" />}
                 >
@@ -304,17 +428,18 @@ class Database2 extends React.Component {
                 </Select>
                 {hasError && <FormHelperText>This is required!</FormHelperText>}
               </FormControl>
-            </form>
-            </Grid>
+            </Grid>         
             <Grid item xs={6}>  
             <form autoComplete="off">
               <FormControl >
-                <InputLabel htmlFor="school">School Name</InputLabel>
+                <InputLabel htmlFor="school" fullWidth>School Name</InputLabel>
                 <Select
                   name="school"
                   value={school}
-                  onChange={event => this.setState({school:event.target.value})}
-                // onChange={(e) => this.setState({ first_name: e.target.value })}
+                  onChange={event => {
+                    this.setState({school:event.target.value});
+                    this.setSchool(event.target.value);
+                  }}
                   input={<Input id="school" />}
                 >
                   <MenuItem value="mcgill">McGill</MenuItem>
@@ -323,44 +448,52 @@ class Database2 extends React.Component {
                   <MenuItem value="uqam">UQAM</MenuItem>
                   <MenuItem value="cegep">CEGEP</MenuItem>
                   <MenuItem value="highschool">High School</MenuItem>
+                  <MenuItem value="other">Other</MenuItem>
                 </Select>
                 {hasError && <FormHelperText>This is required!</FormHelperText>}
               </FormControl>
-            </form>
+                  </form>
             </Grid> 
             <Grid item xs={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="schoolname"
-                onChange={(e) => this.setState({ school_name_other: e.target.value })}
-                label="If School Name is not present in List, Enter it here"
-                type="schoolname"
-                id="schoolname"
-                autoComplete="current-schoolName"
-                InputProps={{
-                  classes: {
-                    notchedOutline: classes.notchedOutline
-                  }
-                }}
-              />
+              </Grid>
+            <Grid item xs={6}>
+              <Box component="div" display={this.state.make_other_school_visible}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  name="schoolname"
+                  onChange={(e) => {
+                    this.setState({school:e.target.value});
+                  }}
+                  label="If School Name is not present in List, Enter it here"
+                  type="schoolname"
+                  id="schoolname"
+                  autoComplete="current-schoolName"
+                  error={!this.vOtherSchool(this.state.school)}
+                  InputProps={{
+                    classes: {
+                      notchedOutline: classes.notchedOutline
+                    },
+                  }}
+                />
+              </Box>
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
+                control={<Checkbox value="allowExtraEmails" color="primary" onChange={(e)=>{this.state.FormValid["dataKeep"]=e.target.checked;}}/>}
                 label="I Agree that Tutify will keep all data provided private from third-parties and will only use the data provided to best match a student with a tutor."
               />
             </Grid>
         </Grid>
         
-        
         <Button
+            style={{marginBottom: '10px'}}
             type="submit"
             fullWidth
             variant="contained"
             className="submit"
-            onClick={() => this.putDataToDB(this.state.first_name,this.state.last_name,(this.state.email=="")?this.state.email = '':this.state.email,this.state.program_of_study,this.state.password,this.state.education_level,this.state.school,(this.state.school_name_other==null)?" ":this.state.school_name_other)}
+            onClick={() => {if(this.validateForm()){this.submitForm()}}}
           >
             Sign Up
           </Button>
@@ -371,6 +504,7 @@ class Database2 extends React.Component {
               </Link>
             </Grid>
           </Grid>
+  
       </form>
     </div>
    <Box mt={5}>
