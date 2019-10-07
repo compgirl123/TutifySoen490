@@ -46,13 +46,21 @@ exports.putUser = async function (req, res) {
     const { id, first_name, last_name ,program_of_study, email,password, school,school_name_other,education_level} = req.body;
     // testing the encryption feature
     var encrypted_password = exports.encrypt(req.body.password).encryptedData;
+    //var school_name_other1 = ""; 
+    console.log("HEHE");
     console.log(encrypted_password);
-    if ((!id && id !== 0) || !first_name || !last_name || !email || !password || !program_of_study || !education_level || !school || !school_name_other) {
+    console.log(req.body);
+    console.log(req.body.school_name_other)
+    console.log(school_name_other)
+    console.log(school_name_other==null);
+
+    if ((!id && id !== 0) || !first_name || !last_name || !email || !password || !program_of_study || !education_level || !school) {
         return res.json({
         success: false,
         error: 'INVALID INPUTS',
         });
     }
+    
     data.first_name = first_name;
     data.last_name = last_name;
     data.email = email;
@@ -60,7 +68,6 @@ exports.putUser = async function (req, res) {
     data.password = encrypted_password;
     data.education_level = education_level;
     data.school = school;
-    data.school_name_other = school_name_other;
     //data.classes_tutored = classes_tutored;
     //data.type_tutoring = type_tutoring;
     data.id = id;
@@ -100,22 +107,15 @@ exports.authUser = async function (req,res){
 
 //this function logs the user out and destroys the session
 exports.logout = async function(req,res){
-    console.log("kuch toh huwa hai");
         if (req.session.user) {
           req.session.destroy();
-          console.log("yoyoyo")
         } 
 };
 
 //this function checks if a session is running
 exports.checkSession = async function(req,res){
-    console.log("brooooo")
-    console.log(req.session.user)
-
     if (req.session.isLoggedIn) {
         res.send(req.session);
-        console.log("hiiiiii")
-
     } 
 };
 
