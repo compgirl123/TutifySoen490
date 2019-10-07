@@ -56,9 +56,10 @@ class Database2 extends React.Component {
       objectToUpdate: "█",
       education_level: "█",
       school : "█",
-      make_other_school_visible : "none",
-      FormValid : {fname: false,lname: false,PoS: false,email: false,password: false,cPassword: false,educationLevel: false,school:false,dataKeep: false}
     };
+    make_other_school_visible = "none";
+    FormValid = {fname: false,lname: false,PoS: false,email: false,password: false,cPassword: false,educationLevel: false,school:false,dataKeep: false}
+    
     
     // when component mounts, first thing it does is fetch all existing data in our db
     // then we incorporate a polling logic so that we can easily see if our db has
@@ -73,7 +74,7 @@ class Database2 extends React.Component {
 
     // This is where all validation takes place
     validateForm() {
-      for (var indicator in this.state.FormValid){
+      for (var indicator in this.FormValid){
         if(!indicator){
           return false
         }
@@ -83,16 +84,16 @@ class Database2 extends React.Component {
     
     vfName(name) {
       if(name==="█"){
-        this.state.FormValid["fname"]=false;
+        this.FormValid["fname"]=false;
         //this.setState({ FormValid:  false });
         return true;
       }
       else if(validator.isAlpha(name)){
-        this.state.FormValid["fname"]=true;
+        this.FormValid["fname"]=true;
         return true;
       }
       else{
-        this.state.FormValid["fname"]=false;
+        this.FormValid["fname"]=false;
         return false;
       }
 
@@ -100,15 +101,15 @@ class Database2 extends React.Component {
 
     vlName(name) {
       if(name==="█"){
-        this.state.FormValid["lname"]=false;
+        this.FormValid["lname"]=false;
         return true;
       }
       else if(validator.isAlpha(name)){
-        this.state.FormValid["lname"]=true;
+        this.FormValid["lname"]=true;
         return true;
       }
       else{
-        this.state.FormValid["lname"]=false;
+        this.FormValid["lname"]=false;
         return false;
       }
 
@@ -116,34 +117,34 @@ class Database2 extends React.Component {
 
     vPOS(POS) {
       if(POS==="█"){
-        this.state.FormValid["PoS"]=false;
+        this.FormValid["PoS"]=false;
         return true;
       }
       else if(!validator.isEmpty(POS)){
-        this.state.FormValid["PoS"]=false;
+        this.FormValid["PoS"]=false;
         return true;
       }
       else{
-        this.state.FormValid["PoS"]=false;
+        this.FormValid["PoS"]=false;
         return false;
       }
     }
 
     vEmail(email){
       if(email===""){
-        this.state.FormValid["email"]=false;
+        this.FormValid["email"]=false;
         return false;
       }
       else if(validator.isEmail(email)){
-        this.state.FormValid["email"]=true;
+        this.FormValid["email"]=true;
         return true;
       }
       else if(email==="█"){
-        this.state.FormValid["email"]=false;
+        this.FormValid["email"]=false;
         return true;
       }
       else{
-        this.state.FormValid["email"]=false;
+        this.FormValid["email"]=false;
         return false;
       }
     }
@@ -152,51 +153,51 @@ class Database2 extends React.Component {
 
     vPassword(password){
       if(password==="█"){
-        this.state.FormValid["password"]=false;
+        this.FormValid["password"]=false;
         return true;
       }
       else if(!validator.isAlpha(password) && !validator.isNumeric(password)){
-        this.state.FormValid["password"]=true;
+        this.FormValid["password"]=true;
         return true;
       }
       else{
-        this.state.FormValid["password"]=false;
+        this.FormValid["password"]=false;
         return false;
       }
     }
 
     vConfirmPassword(cPassword){
       if(cPassword==="█"){
-        this.state.FormValid["cPassword"]=false;
+        this.FormValid["cPassword"]=false;
         return true;
       }
       else if(cPassword===this.state.password){
-        this.state.FormValid["cPassword"]=true;
+        this.FormValid["cPassword"]=true;
         return true;
       }
       else{
-        this.state.FormValid["cPassword"]=false;
+        this.FormValid["cPassword"]=false;
         return false;
       }
     }
     
     vOtherSchool(school){
       if(school===""){
-        this.state.FormValid["school"]=false;
+        this.FormValid["school"]=false;
         return false;
       }
-      this.state.FormValid["school"]=true;
+      this.FormValid["school"]=true;
       return true;
     }
 
     setSchool(value){
       if(value === "other"){
-        this.state.make_other_school_visible="inline";
-        this.state.FormValid["school"]=false;
+        this.make_other_school_visible="inline";
+        this.FormValid["school"]=false;
       }
       else{
-        this.state.make_other_school_visible="none";
-        this.state.FormValid["school"]=true;
+        this.make_other_school_visible="none";
+        this.FormValid["school"]=true;
       }
     }
   
@@ -416,7 +417,7 @@ class Database2 extends React.Component {
                 <Select
                   name="education_level"
                   value={education_level}
-                  onChange={event => {this.setState({education_level:event.target.value}); this.state.FormValid[5]=true;}}
+                  onChange={event => {this.setState({education_level:event.target.value}); this.FormValid[5]=true;}}
                 // onChange={(e) => this.setState({ first_name: e.target.value })}
                   input={<Input id="education_level" />}
                 >
@@ -457,7 +458,7 @@ class Database2 extends React.Component {
             <Grid item xs={6}>
               </Grid>
             <Grid item xs={6}>
-              <Box component="div" display={this.state.make_other_school_visible}>
+              <Box component="div" display={this.make_other_school_visible}>
                 <TextField
                   variant="outlined"
                   required
@@ -481,7 +482,7 @@ class Database2 extends React.Component {
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" onChange={(e)=>{this.state.FormValid["dataKeep"]=e.target.checked;}}/>}
+                control={<Checkbox value="allowExtraEmails" color="primary" onChange={(e)=>{this.FormValid["dataKeep"]=e.target.checked;}}/>}
                 label="I Agree that Tutify will keep all data provided private from third-parties and will only use the data provided to best match a student with a tutor."
               />
             </Grid>
