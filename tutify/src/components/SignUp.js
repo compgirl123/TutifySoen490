@@ -75,7 +75,7 @@ class Database2 extends React.Component {
     // This is where all validation takes place
     validateForm() {
       for (var indicator in this.FormValid){
-        if(!indicator){
+        if(!this.FormValid[indicator]){
           return false
         }
       }
@@ -121,7 +121,7 @@ class Database2 extends React.Component {
         return true;
       }
       else if(!validator.isEmpty(POS)){
-        this.FormValid["PoS"]=false;
+        this.FormValid["PoS"]=true;
         return true;
       }
       else{
@@ -261,6 +261,10 @@ class Database2 extends React.Component {
   submitForm(){
     this.putDataToDB(this.state.first_name,this.state.last_name,this.state.email,this.state.program_of_study,this.state.password,this.state.education_level,this.state.school);
     this.props.history.push("/");
+  }
+
+  reloadForm(){
+    this.props.history.push("/signup");
   }
 
  
@@ -417,7 +421,7 @@ class Database2 extends React.Component {
                 <Select
                   name="education_level"
                   value={education_level}
-                  onChange={event => {this.setState({education_level:event.target.value}); this.FormValid[5]=true;}}
+                  onChange={event => {this.setState({education_level:event.target.value}); this.FormValid["educationLevel"]=true;}}
                 // onChange={(e) => this.setState({ first_name: e.target.value })}
                   input={<Input id="education_level" />}
                 >
@@ -490,11 +494,11 @@ class Database2 extends React.Component {
         
         <Button
             style={{marginBottom: '10px'}}
-            type="submit"
+            type="button"
             fullWidth
             variant="contained"
             className="submit"
-            onClick={() => {if(this.validateForm()){this.submitForm()}}}
+            onClick ={() => { this.validateForm() ? this.submitForm() : this.reloadForm();}}
           >
             Sign Up
           </Button>
