@@ -266,7 +266,9 @@ class Database2 extends React.Component {
   }
 
   reloadForm(){
+    alert("Please Fill Out All Required Fields in Appropriate Formats")
     this.props.history.push("/signup");
+    
   }
 
  
@@ -381,7 +383,7 @@ class Database2 extends React.Component {
                 label="Password"
                 type="password"
                 id="password"
-                helperText = {this.state.password === true ? "" : "Please Enter Password"}
+                helperText = {this.state.password === true ? "" : "Please Enter Password (Must have both letters and numbers)"}
                 error={!this.vPassword(this.state.password)}
                 autoComplete="current-password"
                 InputProps={{
