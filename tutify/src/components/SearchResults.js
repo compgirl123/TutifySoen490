@@ -15,7 +15,6 @@ import { BrowserRouter as Link } from "react-router-dom";
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import Footer from './Footer';
 import DashBoardNavBar from './profilePage/DashBoardNavBar';
@@ -29,7 +28,7 @@ class SearchResults extends Component {
       filteredData: [],
     };
     this.handleChange = this.handleChange.bind(this);
-  } 
+  }
 
   // when component mounts, first thing it does is fetch all existing data in our db
   componentDidMount() {
@@ -49,16 +48,16 @@ class SearchResults extends Component {
     let currentList = this.state.data;
     // Variable to hold the filtered list before putting into state
     let newList = [];
-        
+
     // If the search bar isn't empty
-    if (e.target.value !== "") {          
+    if (e.target.value !== "") {
       // Determine which tutors should be displayed based on search term
       newList = currentList.filter(tutor => {
-          const name = (tutor.first_name + " " + tutor.last_name).toLowerCase()
-          const filter = e.target.value.toLowerCase(); //search term
+        const name = (tutor.first_name + " " + tutor.last_name).toLowerCase()
+        const filter = e.target.value.toLowerCase(); //search term
 
-          // check to see if the current tutor includes the search term (substring)
-          return name.includes(filter);
+        // check to see if the current tutor includes the search term (substring)
+        return name.includes(filter);
       });
     } else {
       newList = currentList;
@@ -84,22 +83,20 @@ class SearchResults extends Component {
               <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
                 Search Tutor
               </Typography>
-                <ThemeProvider theme={tutifyStyle.theme}>
-                  <Paper className={classes.root}>
-                    <IconButton className={classes.iconButton} aria-label="menu">
-                      <MenuIcon />
-                    </IconButton>
-                    <InputBase
-                      className={classes.input}
-                      placeholder="Enter a name"
-                      inputProps={{ 'aria-label': 'enter a name' }}
-                      onChange={this.handleChange}
-                    />
-                    <IconButton className={classes.iconButton} aria-label="search">
-                      <SearchIcon />
-                    </IconButton>
-                  </Paper>
-                </ThemeProvider>
+              <ThemeProvider theme={tutifyStyle.theme}>
+                <Paper className={classes.root}>
+                  <SearchMenu />
+                  <InputBase
+                    className={classes.input}
+                    placeholder="Enter a name"
+                    inputProps={{ 'aria-label': 'enter a name' }}
+                    onChange={this.handleChange}
+                  />
+                  <IconButton className={classes.iconButton} aria-label="search">
+                    <SearchIcon />
+                  </IconButton>
+                </Paper>
+              </ThemeProvider>
             </Container>
           </div>
           <div className={classes.gridContainer}>
@@ -109,19 +106,19 @@ class SearchResults extends Component {
                 {filteredData.map(tutor => (
                   <Grid item key={tutor.id} xs={12} sm={6} md={4}>
                     <Card className={classes.card}>
-                    <CardActionArea component={Link} to="/SearchPage">
-                      <CardMedia
-                        className={classes.cardMedia}
-                        image={tutor.picture}
-                        title="Image title"
-                      />
+                      <CardActionArea component={Link} to="/SearchPage">
+                        <CardMedia
+                          className={classes.cardMedia}
+                          image={tutor.picture}
+                          title="Image title"
+                        />
                       </CardActionArea>
                       <CardContent className={classes.cardContent}>
                         <Typography gutterBottom variant="h5" component="h2">
-                        {tutor.first_name} {tutor.last_name}
+                          {tutor.first_name} {tutor.last_name}
                         </Typography>
                         <Typography>
-                          This is a tutor profile. Tutor information will be displayed here. <br/>
+                          This is a tutor profile. Tutor information will be displayed here. <br />
                           <Chip
                             className={classes.chip}
                             icon={<CheckIcon />}
