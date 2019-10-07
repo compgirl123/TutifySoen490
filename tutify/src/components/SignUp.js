@@ -88,7 +88,7 @@ class Database2 extends React.Component {
         //this.setState({ FormValid:  false });
         return true;
       }
-      else if(validator.isAlpha(name)){
+      else if(validator.isAlpha(name.split(/[-()*/.,? ]/).join(''))){
         this.FormValid["fname"]=true;
         return true;
       }
@@ -100,18 +100,20 @@ class Database2 extends React.Component {
     }
 
     vlName(name) {
-      if(name==="█"){
-        this.FormValid["lname"]=false;
-        return true;
-      }
-      else if(validator.isAlpha(name)){
-        this.FormValid["lname"]=true;
-        return true;
-      }
-      else{
-        this.FormValid["lname"]=false;
-        return false;
-      }
+      //var accepted_characters = [name.split('-').join(''),name.split(' ').join('')]
+      
+        if(name==="█"){
+          this.FormValid["lname"]=false;
+          return true;
+        }
+        else if(validator.isAlpha(name.split(/[-()*/.,? ]/).join(''))){
+          this.FormValid["lname"]=true;
+          return true;
+        }
+        else{
+          this.FormValid["lname"]=false;
+          return false;
+        }
 
     }
 
