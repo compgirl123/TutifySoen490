@@ -488,16 +488,15 @@ class Database2 extends React.Component {
                 />
               </Box>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12}style={{paddingBottom: '30px'}}>
               <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" onChange={(e)=>{this.FormValid["dataKeep"]=e.target.checked;}}/>}
+                control={<Checkbox value="allowExtraEmails" color="primary" fontSize="200" onChange={(e)=>{this.FormValid["dataKeep"]=e.target.checked;}}/>}
                 label="I Agree that Tutify will keep all data provided private from third-parties and will only use the data provided to best match a student with a tutor."
               />
             </Grid>
         </Grid>
-        
         <Button
-            style={{marginBottom: '10px'}}
+            
             type="button"
             fullWidth
             variant="contained"
@@ -507,13 +506,12 @@ class Database2 extends React.Component {
             Sign Up
           </Button>
           <Grid className={classes.signUpButton} href = "/search_results" container justify="flex-end">
-            <Grid item>
+            <Grid item style={{paddingTop: '10px'}}>
               <Link href="#" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
           </Grid>
-  
       </form>
     </div>
    <Box mt={5}>

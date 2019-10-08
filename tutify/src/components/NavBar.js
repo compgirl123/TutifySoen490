@@ -98,7 +98,7 @@ export class NavBar extends Component {
             </Typography>
             </Link>
           <Container style={{position: "absolute",
-          left : '80%'}}>
+          left : '82%'}}>
            <Button href="/login">
             { this.state.Toggle ? null : <Login />}
             </Button>
