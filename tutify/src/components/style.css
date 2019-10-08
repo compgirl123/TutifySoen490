@@ -1,7 +1,6 @@
 .paper{
 	  margin-top: 65px;
-    margin-left: 80px;
-    margin-right: 80px;
+
     display: flex;
     flex-direction: column;
     align-items: center;

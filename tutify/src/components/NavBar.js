@@ -6,7 +6,9 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import SchoolIcon from '@material-ui/icons/School';
 import '../index.css'
-import { Link, Container } from '@material-ui/core';
+import { Link } from '@material-ui/core';
+import * as NavBarStyles from './NavBar-styles';
+import { withStyles } from "@material-ui/core/styles";
 
 class Logout extends Component{
     render() {
@@ -82,41 +84,43 @@ export class NavBar extends Component {
     
 
    render(){
-
-
+    const { classes } = this.props;
     return (
+      
+      <div className={classes.root}>
         <AppBar position="fixed" color="inherit" elevation={0}  style = {{background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)'}}
         >
-        <Toolbar style={{flexWrap: 'wrap',
+        <Toolbar style={{
           color: 'white'}} >
 
-          <SchoolIcon />
+          <SchoolIcon className={classes.icon}/>
           <Box m={1} /> 
-          <Link href="/" style={{textDecoration: 'none', color: '#FFF'}}>
+         
+          <Link href="/" className={classes.title} style={{textDecoration: 'none', color: '#FFF'}}>
             <Typography variant="h6" color="inherit" >
               Tutify
             </Typography>
             </Link>
-          <Container style={{position: "relative",
-          left: '76%'}}>
+            
+          <div className={classes.buttonContain}>
+          
            <Button href="/login">
             { this.state.Toggle ? null : <Login />}
             </Button>
-          {' '}
+         
           <Button href="/signup">
             { this.state.Toggle ? null : <SignUp /> }   
             </Button>
-          
-            {' '}
             <Button onClick={this.handleChange} href="/">
-            { this.state.Toggle ? <Logout /> : null }
+            { this.state.Toggle ? null : <Logout /> }
             </Button>
-          </Container>
+            </div>
         </Toolbar>
       </AppBar>
+      </div>
     );
    }
 
 }
 
-export default NavBar;
+export default withStyles(NavBarStyles.styles, { withTheme: true })(NavBar);
