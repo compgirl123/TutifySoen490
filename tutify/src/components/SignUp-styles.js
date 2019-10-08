@@ -21,6 +21,9 @@ export const styles = theme => ({
     width: 400,
     margin: "auto",
   },
+  container:{
+    overflow:'hidden',
+  },
   input: {
     marginLeft: theme.spacing(1),
     flex: 1,
