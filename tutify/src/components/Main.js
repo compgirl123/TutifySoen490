@@ -71,7 +71,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1, 1.5),
   },
   heroContent: {
-    padding: theme.spacing(8, 0, 6),
+    padding: theme.spacing(12, 0, 6),
   },
   cardHeader: {
     background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)',
