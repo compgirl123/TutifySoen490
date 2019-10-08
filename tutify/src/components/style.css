@@ -1,14 +1,5 @@
-.class11{
-
-  background-color: #2fb62f;
-  
-}
-.class2{
-	background-color: #2fb62f !important;
-}
-
 .paper{
-	margin-top: 65px;
+	  margin-top: 65px;
     margin-left: 80px;
     margin-right: 80px;
     display: flex;
@@ -35,6 +26,8 @@
 
 body {
       background-color: white !important;
+      
+
 }
 
 .MuiSelect-select{

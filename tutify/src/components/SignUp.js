@@ -278,9 +278,8 @@ class Database2 extends React.Component {
     const { classes } = this.props;
     
     return (
-    <div>
+    <div className={classes.container}>
     <NavBar />
-
     <Container component = "main">
      <CssBaseline />
       <div className = "paper">
