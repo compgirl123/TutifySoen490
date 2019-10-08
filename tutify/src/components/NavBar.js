@@ -97,8 +97,8 @@ export class NavBar extends Component {
               Tutify
             </Typography>
             </Link>
-          <Container style={{position: "absolute",
-          left : '82%'}}>
+          <Container style={{position: "relative",
+          left: '76%'}}>
            <Button href="/login">
             { this.state.Toggle ? null : <Login />}
             </Button>
