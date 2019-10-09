@@ -18,7 +18,7 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import NavBar from '../NavBar';
+import DashBoardNavBar from "../profilePage/DashBoardNavBar";
 
 
 class SearchResults extends Component {
@@ -75,7 +75,7 @@ class SearchResults extends Component {
     const { filteredData } = this.state;
     return (
       <React.Fragment>
-        <NavBar />
+        <DashBoardNavBar/>
 
         <main>
           {/* Hero unit */}

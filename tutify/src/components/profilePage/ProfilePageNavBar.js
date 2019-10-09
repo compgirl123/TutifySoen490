@@ -5,9 +5,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import SchoolIcon from '@material-ui/icons/School';
-import '../index.css'
+import '../../index.css'
 import { Link } from '@material-ui/core';
-import * as NavBarStyles from './NavBar-styles';
+import * as NavBarStyles from '../NavBar-styles';
 import { withStyles } from "@material-ui/core/styles";
 
 class Logout extends Component{
@@ -102,6 +102,7 @@ export class NavBar extends Component {
             </Link>
             
           <div className={classes.buttonContain}>
+          
            <Button href="/login">
             { this.state.Toggle ? null : <Login />}
             </Button>
@@ -112,7 +113,7 @@ export class NavBar extends Component {
             <Button onClick={this.handleChange} href="/">
             { this.state.Toggle ? null : <Logout /> }
             </Button>
-        </div>
+            </div>
         </Toolbar>
       </AppBar>
       </div>

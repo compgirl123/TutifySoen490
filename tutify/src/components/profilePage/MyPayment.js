@@ -1,192 +1,117 @@
-import Payment from './Payment';
-import React from 'react';
-import Typography from '@material-ui/core/Typography';
+import React from "react";
+import Typography from "@material-ui/core/Typography";
+import Link from '@material-ui/core/Link';
+import * as tutifyStyle from './ProfilePage-styles';
+import { withStyles } from "@material-ui/core/styles";
+import clsx from 'clsx';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Copyright from "../Copyright"
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
-import Link from '@material-ui/core/Link';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainListItems, secondaryListItems } from './sidebar';
-import SchoolIcon from '@material-ui/icons/School';
-import Box from '@material-ui/core/Box';
-import MessageIcon from '@material-ui/icons/Message';
+import Copyright from "../Copyright";
+import DashBoardNavBar from "./DashBoardNavBar";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Title from './Title';
 
-
-const useStyles = makeStyles(theme => ({
-    root: {
-      display: 'flex',
-    },
-    toolbar: {
-      paddingRight: 24, // keep right padding when drawer closed
-    },
-    toolbarIcon: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-      padding: '0 8px',
-      ...theme.mixins.toolbar,
-    },
-    appBar: {
-      zIndex: theme.zIndex.drawer + 1,
-      transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-    },
-    
-    menuButton: {
-      marginRight: 36,
-    },
-    menuButtonHidden: {
-      display: 'none',
-    },
-    title: {
-      flexGrow: 1,
-    },
-    drawerPaper: {
-      position: 'relative',
-      whiteSpace: 'nowrap',
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    drawerPaperClose: {
-      overflowX: 'hidden',
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      width: theme.spacing(7),
-      [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(9),
-      },
-    },
-    appBarSpacer: theme.mixins.toolbar,
-    content: {
-      flexGrow: 1,
-      height: '100vh',
-      overflow: 'auto',
-    },
-    container: {
-      paddingTop: theme.spacing(4),
-      paddingBottom: theme.spacing(4),
-    },
-    paper: {
-      padding: theme.spacing(2),
-      display: 'flex',
-      overflow: 'auto',
-      flexDirection: 'column',
-    },
-    fixedHeight: {
-      height: 380,
-    },
-  }));  
-
-export default function Profile() {
-    const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
-    const handleDrawerOpen = () => {
-      setOpen(true);
+class ProfilePage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      drawerOpened: false
     };
-    const handleDrawerClose = () => {
-      setOpen(false);
-    };
+  }
+  toggleDrawer = booleanValue => () => {
+    this.setState({
+      drawerOpened: booleanValue
+    });
+  };
+
+  // Generate Order Data
+  createData(id, date, name, shipTo, paymentMethod, amount) {
+    return { id, date, name, shipTo, paymentMethod, amount };
+  }
+
+
+  render() {
+    const { classes } = this.props;
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-  
+    const rows = [
+      this.createData(0, '16 Mar, 2019', 'Math', 'Mo Alawami', 'VISA ⠀•••• 3719', 75.00),
+      this.createData(1, '16 Mar, 2019', 'French', 'Pooja Patel', 'VISA ⠀•••• 2574', 25.75),
+      this.createData(2, '16 Mar, 2019', 'English', 'Tutor 3','MC ⠀•••• 1253', 100.00),
+      this.createData(3, '16 Mar, 2019', 'Science',"Tutor 3",'MC ⠀•••• 2000', 65.39),
+      this.createData(4, '15 Mar, 2019', 'French', 'Pooja Patel', 'VISA ⠀•••• 5919', 21.79),
+    ];
     return (
-      <div className={classes.root}>
-  
-        <CssBaseline />
+    <React.Fragment>
+      <main>
+     
+        <DashBoardNavBar/>
+           <main className={classes.content}>
         
-        <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)} style = {{background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)'}}>
-          <Toolbar className={classes.toolbar}>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-            >
-              <MenuIcon />
-            </IconButton>
-            <SchoolIcon />
-            <Box m={1} /> 
-            <Link href="/" style={{textDecoration: 'none', color: '#FFF'}}>
-              <Typography variant="h6" color="inherit" >
-                Tutify
+        <div className={classes.appBarSpacer} />
+        <Container maxWidth="lg" className={classes.container}>
+        <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
+               Transaction History
               </Typography>
-              </Link>
-            <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-  
-            </Typography>
-            
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MessageIcon />
-              </Badge>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-          }}
-          open={open}
-        >
-          <div className={classes.toolbarIcon}>
-          
-            <IconButton onClick={handleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
-          <Divider />
-          <List>{mainListItems}</List>
-          <Divider />
-          <List>{secondaryListItems}</List>
-        </Drawer>
-        <main className={classes.content}>
-        
-          <div className={classes.appBarSpacer} />
-          <Container maxWidth="lg" className={classes.container}>
-          <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                 Transaction History
-                </Typography>
-            <Grid container spacing={2}>
-  
-              {/* Payment Info */}
-              <Grid item xs={12} md={12} lg={24}>
-              <Paper className={fixedHeightPaper}>           
-                <Payment/>
-              </Paper>
-            </Grid>
-            </Grid>
-          </Container>
-  
-          {/* Footer */}
-          <footer className={classes.footer}>
-      <Typography variant="h6" align="center" gutterBottom>
-        Tutify
-      </Typography>
-      <Copyright />
-    </footer>
-  
-        </main>
+          <Grid container spacing={2}>
+
+            {/* Payment Info */}
+            <Grid item xs={12} md={12} lg={24}>
+            <Paper className={fixedHeightPaper}>           
+            <React.Fragment>
+      <Title>Recent Payments</Title>
+      <Table size="small">
+        <TableHead>
+          <TableRow>
+            <TableCell>Date</TableCell>
+            <TableCell>Course Name</TableCell>
+            <TableCell>Tutor</TableCell>
+            <TableCell>Payment Method</TableCell>
+            <TableCell align="right">Amount</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map(row => (
+            <TableRow key={row.id}>
+              <TableCell>{row.date}</TableCell>
+              <TableCell>{row.name}</TableCell>
+              <TableCell>{row.shipTo}</TableCell>
+              <TableCell>{row.paymentMethod}</TableCell>
+              <TableCell align="right">{row.amount}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <div className={classes.seeMore}>
+        <Link color="primary" href="/">
+          See more Transactions
+        </Link>
       </div>
-      
-  
+    </React.Fragment>
+            </Paper>
+          </Grid>
+          </Grid>
+        </Container>
+
+        {/* Footer */}
+        <footer className={classes.footer}>
+    <Typography variant="h6" align="center" gutterBottom>
+      Tutify
+    </Typography>
+    <Copyright />
+  </footer>
+
+      </main>
+
+
+    
+      </main>
+    </React.Fragment>
     );
   }
+}
+export default withStyles(tutifyStyle.styles, { withTheme: true })(ProfilePage );
