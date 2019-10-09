@@ -1,6 +1,5 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import * as tutifyStyle from './ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Container from '@material-ui/core/Container';
@@ -8,6 +7,8 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Copyright from "../Copyright";
 import DashBoardNavBar from "./DashBoardNavBar";
+import clsx from 'clsx';
+import UserInfo from './UserInfo';
 
 class ProfilePage extends React.Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class ProfilePage extends React.Component {
 
   render() {
     const { classes } = this.props;
-
+    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     return (
     <React.Fragment>
       <main>
@@ -33,38 +34,37 @@ class ProfilePage extends React.Component {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
         <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-               Courses Current Enrolled In:
+                  My Profile
         </Typography>
-          <Grid container spacing={2}>
+        <Grid container spacing={4}>
 
-            {/* Payment Info */}
-            <Grid item xs={4} md={4} lg={4}>
-            <Paper className={classes.fixedHeightPaper}>           
-            <Typography>
-            <img src="https://i.imgur.com/L6lDhbz.jpg" alt="Profile">
-             </img>
-             <br/>
-                       <h3>Tutor Name: Mo Alawami</h3> 
-                       <h3>Subject : CHEM 204</h3> 
-                       <Button fullWidth variant="contained">View Course Material </Button> 
-                        <br/>
-                      </Typography>
-            </Paper>
+              {/* User Info */}
+          <Grid item xs={6} md={6} lg={6}>
+          <Paper className={fixedHeightPaper}>           
+            <UserInfo />
+          </Paper>
+        </Grid>
+
+           {/* Adding Picture */}       
+           <Grid item xs={12} md={6} lg={6}>
+          <img src="https://i.imgur.com/L6lDhbz.jpg" alt = "Profile">
+          </img>        
           </Grid>
-          </Grid>
-        </Container>
+          
+        </Grid>
+      </Container>
         <main>
         {/* Hero unit */}
       
         
       </main>
         {/* Footer */}
-        <footer className={classes.footer}>
-    <Typography variant="h6" align="center" gutterBottom>
-      Tutify
-    </Typography>
+      <footer className={classes.footer}>
+      <Typography variant="h6" align="center" gutterBottom>
+        Tutify
+      </Typography>
     <Copyright />
-  </footer>
+    </footer>
 
       </main>
 
