@@ -80,7 +80,7 @@ class SearchResults extends Component {
         <main>
           {/* Hero unit */}
           <div className={classes.heroContent}>
-            <Container maxWidth="sm">
+            <Container maxWidth="sm" className={classes.container}>
               <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
                 Search Tutor
               </Typography>
