@@ -10,7 +10,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import Copyright from "../Copyright"
 import { withStyles } from "@material-ui/core/styles";
 import * as tutifyStyle from './SearchResults-styles';
-import Chip from '@material-ui/core/Chip'
+import Chip from '@material-ui/core/Chip';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import { BrowserRouter as Link } from "react-router-dom";
 import Paper from '@material-ui/core/Paper';
@@ -18,7 +18,7 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import NavBar from '../NavBar';
+import DashBoardNavBar from "../profilePage/DashBoardNavBar";
 
 
 class SearchResults extends Component {
@@ -75,12 +75,12 @@ class SearchResults extends Component {
     const { filteredData } = this.state;
     return (
       <React.Fragment>
-        <NavBar />
+        <DashBoardNavBar/>
 
         <main>
           {/* Hero unit */}
           <div className={classes.heroContent}>
-            <Container maxWidth="sm">
+            <Container maxWidth="sm" className={classes.container}>
               <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
                 Search Tutor
               </Typography>

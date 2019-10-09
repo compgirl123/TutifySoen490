@@ -5,10 +5,13 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import SchoolIcon from '@material-ui/icons/School';
-import '../index.css'
 import { Link } from '@material-ui/core';
-import * as NavBarStyles from './NavBar-styles';
+import * as NavBarStyles from './DashBoardNavBar-styles';
 import { withStyles } from "@material-ui/core/styles";
+import clsx from 'clsx';
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import { NavDrawer } from "./NavDrawer";
 
 class Logout extends Component{
     render() {
@@ -45,14 +48,19 @@ class Logout extends Component{
   
 export class NavBar extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-          Toggle: false
-        };
-        this.handleChange = this.handleChange.bind(this);
-
-        }
+    
+        constructor(props) {
+            super(props);
+            this.state = {
+              drawerOpened: false
+            };
+          }
+          toggleDrawer = booleanValue => () => {
+            this.setState({
+              drawerOpened: booleanValue
+            });
+          };
+        
         
 
     componentDidMount() {
@@ -84,24 +92,33 @@ export class NavBar extends Component {
 
    render(){
     const { classes } = this.props;
+    const { open } = this.state;
     return (
       
-      <div className={classes.root}>
-        <AppBar position="fixed" color="inherit" elevation={0}  style = {{background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)'}}
-        >
-        <Toolbar style={{
-          color: 'white'}} >
-
-          <SchoolIcon className={classes.icon}/>
+    <div className={classes.root}>
+        <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)} style = {{background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)'}}>
+        <Toolbar className={classes.toolbar}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={this.toggleDrawer(true)}
+            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+          >
+          <MenuIcon />
+          </IconButton>
+          <SchoolIcon />
           <Box m={1} /> 
-         
-          <Link href="/" className={classes.title} style={{textDecoration: 'none', color: '#FFF'}}>
+          <Link href="/" style={{textDecoration: 'none', color: '#FFF'}}>
             <Typography variant="h6" color="inherit" >
               Tutify
             </Typography>
-            </Link>
-            
-          <div className={classes.buttonContain}>
+          </Link>
+          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+
+          </Typography>
+
+        <div className={classes.buttonContain}>
            <Button href="/login">
             { this.state.Toggle ? null : <Login />}
             </Button>
@@ -115,7 +132,12 @@ export class NavBar extends Component {
         </div>
         </Toolbar>
       </AppBar>
-      </div>
+      <NavDrawer
+            drawerOpened={this.state.drawerOpened}
+            toggleDrawer={this.toggleDrawer}
+          />
+    </div>
+    
     );
    }
 

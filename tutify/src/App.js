@@ -8,8 +8,9 @@ import SearchResults from "./components/SearchResults/SearchResults"
 import Database2 from "./components/combination"
 import Tester from "./components/demo"
 import Login from "./components/Login"
-
-
+import ProfilePage from "./components/profilePage/ProfilePage"
+import MyPayment from "./components/profilePage/MyPayment";
+import MyCourses from "./components/profilePage/MyCourses";
 
 // This is all the url routing.
 function MainPage() {
@@ -22,6 +23,12 @@ function MainPage() {
         <Route exact path="/search_results" component={SearchResults} />
         <Route exact path="/demo" component={Tester} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/profile" component={ProfilePage} />
+        <Route exact path="/payment" component={MyPayment} />
+        <Route exact path="/courses" component={MyCourses} />
+
+
+
     </Router>
   );
 
