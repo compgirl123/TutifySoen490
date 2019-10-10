@@ -279,13 +279,14 @@ class Database2 extends React.Component {
     
     return (
     <div className={classes.container}>
+    
     <NavBar />
     <Container component = "main">
      <CssBaseline />
       <div className = "paper">
        <img src={large_tutify} className="App-logo" alt="logo" />
-      <Typography component="h1" variant="h5">
-          Sign Up Page
+      <Typography component="h1" variant="h5" className = "test">
+         <h4>Sign Up Page</h4> 
       </Typography>
       <form className="form" name="form" noValidate>
       <Grid container spacing={2} justify="space-between">

@@ -10,6 +10,7 @@ import DashBoardNavBar from "./DashBoardNavBar";
 import clsx from 'clsx';
 import UserInfo from './UserInfo';
 
+
 class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
@@ -38,15 +39,17 @@ class ProfilePage extends React.Component {
         </Typography>
         <Grid container spacing={4}>
 
+
               {/* User Info */}
-          <Grid item xs={6} md={6} lg={6}>
+          <Grid item xs={12} md={12} lg={6}>
           <Paper className={fixedHeightPaper}>           
             <UserInfo />
           </Paper>
+          
         </Grid>
 
            {/* Adding Picture */}       
-           <Grid item xs={12} md={6} lg={6}>
+           <Grid item xs={12} md={24} lg={6}>
           <img src="https://i.imgur.com/L6lDhbz.jpg" alt = "Profile">
           </img>        
           </Grid>
