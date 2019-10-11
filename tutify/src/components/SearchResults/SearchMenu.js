@@ -4,7 +4,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core/styles';
-
+import SearchResults from './SearchResults';
 
 const useStyles = makeStyles(theme => ({
     menu: {
@@ -27,6 +27,7 @@ export default function SimpleListMenu() {
 
     const handleClickListItem = event => {
         setAnchorEl(event.currentTarget);
+
     };
 
     const handleMenuItemClick = (event, index) => {
@@ -37,6 +38,8 @@ export default function SimpleListMenu() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    
 
     return (
         <div>

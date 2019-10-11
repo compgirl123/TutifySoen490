@@ -17,23 +17,40 @@ import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import SearchMenu from '../SearchMenu';
+import MenuIcon from '@material-ui/icons/Menu';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 class SearchResults extends Component {
   // initialize our state
   constructor(props) {
     super(props);
+    this.dropDown = React.createRef();
     this.state = {
       data: [],
       filteredData: [],
+      placeholder: 'Search by',
+      showDropDown: false,
+      selectedIndex: 1,
+      anchorEl: null,
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   // when component mounts, first thing it does is fetch all existing data in our db
   componentDidMount() {
     this.getDataFromDb();
   }
+
+  handleClick = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
 
   // Uses our backend api to fetch tutors from our database
   getDataFromDb = () => {
@@ -48,7 +65,6 @@ class SearchResults extends Component {
     let currentList = this.state.data;
     // Variable to hold the filtered list before putting into state
     let newList = [];
-
     // If the search bar isn't empty
     if (e.target.value !== "") {
       // Determine which tutors should be displayed based on search term
@@ -71,6 +87,8 @@ class SearchResults extends Component {
   render() {
     const { classes } = this.props;
     const { filteredData } = this.state;
+    const {anchorEl} = this.state;
+    const {selectedIndex} = this.state;
     return (
       <React.Fragment>
         <DashBoardNavBar/>
@@ -84,13 +102,30 @@ class SearchResults extends Component {
               </Typography>
               <ThemeProvider theme={tutifyStyle.theme}>
                 <Paper className={classes.root}>
-                  <SearchMenu />
+                  <IconButton aria-controls="lock-menu" aria-haspopup="true" onClick={this.handleClick} >
+                    <MenuIcon />
+                  </IconButton>
+                      <Menu
+                        id="simple-menu"
+                        anchorEl={anchorEl}
+                        keepMounted
+                        open={Boolean(anchorEl)}
+                        onClose={this.handleClose}
+                      >
+                        <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                        <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                        <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                      </Menu>
+                   
+                 
                   <InputBase
+                    ref={this.inputRef}
                     className={classes.input}
-                    placeholder="Enter a name"
+                    placeholder={this.state.placeholder}
                     inputProps={{ 'aria-label': 'enter a name' }}
                     onChange={this.handleChange}
                   />
+
                   <IconButton className={classes.iconButton} aria-label="search">
                     <SearchIcon />
                   </IconButton>
