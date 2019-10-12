@@ -14,7 +14,8 @@ class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      drawerOpened: false
+      drawerOpened: false,
+      email: ""
     };
   }
   toggleDrawer = booleanValue => () => {
@@ -22,6 +23,44 @@ class ProfilePage extends React.Component {
       drawerOpened: booleanValue
     });
   };
+
+  componentDidMount() {
+    this.checkSession();
+  }
+  checkSession = () => {
+    fetch('http://localhost:3001/api/checkSession',{
+                  method: 'GET',
+                  credentials: 'include'
+    })          
+      .then(response => response.json())
+      .then(res => {
+        console.log(res.user.email);
+       
+        if(res.isLoggedIn){
+            this.setState({Toggle: true, email:res.user.email});
+        }
+        else{
+            this.setState({Toggle: false});
+        }
+      })
+      .catch(err => console.log(err));
+    };
+  handleChange(event){
+      fetch('http://localhost:3001/api/logout',{
+                    method: 'GET',
+                    credentials: 'include'
+                })
+                  .then(response => response.json())
+                  .then(res => {
+                    console.log(res);
+                  
+                        this.setState({Toggle: false});
+                    
+                  })
+                  .catch(err => console.log(err));
+      //this.setState({Toggle: false});
+      
+    };
 
   render() {
     const { classes } = this.props;
@@ -35,6 +74,8 @@ class ProfilePage extends React.Component {
         <Container maxWidth="lg" className={classes.container}>
         <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                   My Profile
+                  
+                 {/*{this.props.location.state.color}*/} 
         </Typography>
         <Grid container spacing={4}>
 

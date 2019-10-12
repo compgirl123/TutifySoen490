@@ -82,7 +82,7 @@ class Login extends React.Component {
         console.log(res);
         if(res.isLoggedIn){
           alert("Signed in");
-          this.props.history.push("/search_results");
+          this.props.history.push("/Profile");
         }
         else{
           

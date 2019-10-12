@@ -17,6 +17,7 @@ class Logout extends Component{
       return (
         <Button href= "/" variant="contained"style ={{background: "white"}}>
         Logout
+
       </Button>
     );
     }
@@ -60,6 +61,7 @@ export class NavBar extends Component {
         
     componentDidMount() {
         this.checkSession();
+        
       }
       checkSession = () => {
         fetch('http://localhost:3001/api/checkSession',{
@@ -68,12 +70,13 @@ export class NavBar extends Component {
         })          
           .then(response => response.json())
           .then(res => {
-            console.log(res);
+            console.log(res.cookie);
+            
             if(res.isLoggedIn){
-                this.setState({Toggle: true});
+                this.setState({Toggle: true,email:true});
             }
             else{
-                this.setState({Toggle: false});
+                this.setState({Toggle: false,email:true});
             }
           })
           .catch(err => console.log(err));
@@ -85,7 +88,7 @@ export class NavBar extends Component {
                   })
                     .then(response => response.json())
                     .then(res => {
-                      console.log(res);
+                      alert.log(res);
                      
                           this.setState({Toggle: false});
                       
@@ -98,6 +101,8 @@ export class NavBar extends Component {
    render(){
     const { classes } = this.props;
     const { open } = this.state;
+    
+    
     return (
       
     <div className={classes.root}>
@@ -116,7 +121,7 @@ export class NavBar extends Component {
           <Box m={1} /> 
           <Link href="/" style={{textDecoration: 'none', color: '#FFF'}}>
             <Typography variant="h6" color="inherit" >
-              Tutify
+              Tutify 
             </Typography>
           </Link>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
