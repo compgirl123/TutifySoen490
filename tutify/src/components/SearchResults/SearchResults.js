@@ -104,7 +104,7 @@ class SearchResults extends Component {
     // If the search bar isn't empty
     if (e.target.value !== "") {
       // if search includes whitespace, split it into different search terms
-      const filters = e.target.value.toLowerCase().split(" "); //search terms
+      const filters = e.target.value.toLowerCase().split(" ");
 
       // Determine which tutors should be displayed based on search term
       newList = currentList.filter(tutor => {
@@ -115,19 +115,24 @@ class SearchResults extends Component {
           case 0: tutor.subject.forEach(function(entry) {       
                     currentValue += (entry + " ").toLowerCase()
                   });
-                  currentValue += (tutor.first_name + " " + tutor.last_name).toLowerCase() 
+                  currentValue += (tutor.first_name + " " + tutor.last_name 
+                  + " " + tutor.school + " " + tutor.program).toLowerCase() 
                   break;
           case 1: // name
                   currentValue = (tutor.first_name + " " + tutor.last_name).toLowerCase() 
                   break;
           case 2: // school
-          case 3: // course
-          case 5: // program
-          case 4: // subject
+                  currentValue = (tutor.school).toLowerCase()
+                  break; 
+          case 3: // courses
+          case 4: // subjects
                   tutor.subject.forEach(function(entry) {       
                     currentValue += (entry + " ").toLowerCase()
                   });
                   break;
+          case 5: // program
+                  currentValue = (tutor.program).toLowerCase()
+                  break; 
         }
         
         // If all search terms are found for the tutor, he/she is included 
@@ -223,11 +228,15 @@ class SearchResults extends Component {
                         />
                       </CardActionArea>
                       <CardContent className={classes.cardContent}>
-                        <Typography gutterBottom variant="h5" component="h2">
+                        <Typography variant="h5" component="h2">
                           {tutor.first_name} {tutor.last_name}
                         </Typography>
-                        <Typography>
-                          This is a tutor profile. Tutor information will be displayed here. <br />
+                        <Typography>   
+                          <span className={classes.school}>{tutor.school}</span>
+                          { tutor.program != "" && (
+                            <span className={classes.program}> - {tutor.program}</span>  
+                          )}                            
+                          <br /> 
                           {tutor.subject.map(sub => (
                             <Chip
                               className={classes.chip}
