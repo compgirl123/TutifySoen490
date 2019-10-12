@@ -272,7 +272,6 @@ class Database2 extends React.Component {
   }
 
  
-
   render() {
     const { education_level, school, hasError } = this.state;
     const { classes } = this.props;

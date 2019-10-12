@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Title from './Title';
 import { FormControl } from '@material-ui/core';
@@ -10,35 +9,27 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import * as tutifyStyle from './ProfilePage-styles';
+import { withStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles({
-  InfoContext: {
-    flex: 1,
-  },
-});
+class UserInfo extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      drawerOpened: false
+    };
+  }
 
-
-
-export default function UserInfo() {
-  const classes = useStyles();
-  const [Class1, setClass, Class2] = React.useState('');
-  const [open,setOpen] = React.useState(false);
-
-  const handleChange = event => {
-    setClass(event.target.value);
-
+  state = {
+    tutoring_type: [],
+    school : [],
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  }; 
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  render() {
+    const { classes } = this.props;
 
-  return (
-    <React.Fragment>
+    return (<React.Fragment>
       <Title> User Info</Title>
       <Typography component="p" variant="h6">
        Kasthurie Paramasivampillai
@@ -50,33 +41,48 @@ export default function UserInfo() {
         Concordia University 
       </Typography>
       
-      <form autoComplete="off">
-      <Typography component="p" variant="h8">
-        Select Type of Tutoring:
-        </Typography>
-      <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="demo-controlled-open-select"></InputLabel>
-        <Select
-          open={open}
-          onClose={handleClose}
-          onOpen={handleOpen}
-          value={Class1}
-          onChange={handleChange}
-          inputProps={{
-            name: 'type',
-            id: 'demo-controlled-open-select',
-          }}
-        >
-          <MenuItem value="">
-            <em>One on one Sessions</em>
-            </MenuItem>
-          <MenuItem value="20">Group Tutoring</MenuItem>
-          <MenuItem value="30">Midterm Crash</MenuItem>
-          <MenuItem value="40">Final Crash</MenuItem>
-          <MenuItem value="50">Weekly Tutorials</MenuItem>
-        </Select>
-        </FormControl>
-</form>
+      <Grid item xs={6}>  
+            
+              <FormControl >
+                <InputLabel htmlFor="tutoring_type">Tutroing Type</InputLabel>
+                <Select
+                  name="tutoring_type"
+                  value={this.state.tutoring_type}
+                  onChange={event => {this.setState({tutoring_type:event.target.value}); }}
+                // onChange={(e) => this.setState({ first_name: e.target.value })}
+                  input={<Input id="tutoring_type" />}
+                >
+                  <MenuItem value="20">Group Tutoring</MenuItem>
+                  <MenuItem value="30">Midterm Crash</MenuItem>
+                  <MenuItem value="40">Final Crash</MenuItem>
+                  <MenuItem value="50">Weekly Tutorials</MenuItem>
+                </Select>
+                
+              </FormControl>
+            </Grid>         
+            <Grid item xs={6}>  
+            <form autoComplete="off">
+              <FormControl >
+                <InputLabel htmlFor="school" fullWidth>Select Courses</InputLabel>
+                <Select
+                  name="school"
+                  value={this.state.school}
+                  onChange={event => {
+                    this.setState({school:event.target.value});
+                  }}
+                  input={<Input id="school" />}
+                >
+                  <MenuItem value="chem204">CHEM 204</MenuItem>
+                  <MenuItem value="phys204">PHYS 204</MenuItem>
+                  <MenuItem value="math204">Math 204</MenuItem>
+                  <MenuItem value="English">English</MenuItem>
+                  <MenuItem value="French">French</MenuItem>
+                </Select>
+                
+              </FormControl>
+                  </form>
+                </Grid> 
+
 
       <Button
             
@@ -97,6 +103,8 @@ export default function UserInfo() {
        
       </div>
       
-    </React.Fragment>
-  );
+    </React.Fragment>);
+  }
 }
+
+export default withStyles(tutifyStyle.styles, { withTheme: true })(UserInfo );

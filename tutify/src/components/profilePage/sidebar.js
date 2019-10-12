@@ -97,6 +97,12 @@ export const secondaryListItems = (
     </ListItem>
     <ListItem button>
       <ListItemIcon>
+        <AssignmentIcon />
+      </ListItemIcon>
+      <ListItemText primary="My Grades" />
+    </ListItem>  
+    <ListItem button>
+      <ListItemIcon>
         <BookIcon />
       </ListItemIcon>
       <ListItemText primary="Useful Readings" />
