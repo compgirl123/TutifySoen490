@@ -19,7 +19,7 @@ function MainPage() {
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/database" component={Database} />
         <Route exact path="/signupwithdatabase" component={Database2} />
-        <Route exact path="/search_results" component={SearchResults} />
+        <Route exact path="/search" component={SearchResults} />
         <Route exact path="/demo" component={Tester} />
         <Route exact path="/login" component={Login} />
     </Router>

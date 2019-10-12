@@ -24,12 +24,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 
 const options = [
-  'Search by',
+  'All',
+  'Tutor',
   'School',
   'Course',
   'Subject',
   'Program',
-  'Tutor',
 ];
 
 class SearchResults extends Component {
@@ -63,20 +63,23 @@ class SearchResults extends Component {
     this.setState({selectedIndex: index});
     this.setState({anchorEl: null});
 
-    if(index === 1) {
-      this.setState({placeholder: 'Search by School'});
+    if(index === 0) {
+      this.setState({placeholder: 'Search'});
+    }
+    else if(index === 1) {
+      this.setState({placeholder: 'Search by Tutor'});
     }
     else if(index === 2) {
-      this.setState({placeholder: 'Search by Course'});
+      this.setState({placeholder: 'Search by School'});
     }
     else if(index === 3) {
-      this.setState({placeholder: 'Search by Subject'});
+      this.setState({placeholder: 'Search by Course'});
     }
     else if(index === 4) {
-      this.setState({placeholder: 'Search by Program'});
+      this.setState({placeholder: 'Search by Subject'});
     }
     else if(index === 5) {
-      this.setState({placeholder: 'Search by Tutor'});
+      this.setState({placeholder: 'Search by Program'});
     }
   };
 
@@ -97,15 +100,43 @@ class SearchResults extends Component {
     let currentList = this.state.data;
     // Variable to hold the filtered list before putting into state
     let newList = [];
+
     // If the search bar isn't empty
     if (e.target.value !== "") {
+      // if search includes whitespace, split it into different search terms
+      const filters = e.target.value.toLowerCase().split(" "); //search terms
+
       // Determine which tutors should be displayed based on search term
       newList = currentList.filter(tutor => {
-        const name = (tutor.first_name + " " + tutor.last_name).toLowerCase()
-        const filter = e.target.value.toLowerCase(); //search term
+        let currentValue = ""
+        let returnValue = true
+        switch(this.state.selectedIndex){
+          case 0: tutor.subject.forEach(function(entry) {       
+                    currentValue += (entry + " ").toLowerCase()
+                  });
+                  currentValue += (tutor.first_name + " " + tutor.last_name).toLowerCase() 
+                  break;
+          case 1: // name
+                  currentValue = (tutor.first_name + " " + tutor.last_name).toLowerCase() 
+                  break;
+          case 2: // school
+          case 3: // course
+          case 5: // program
+          case 4: // subject
+                  tutor.subject.forEach(function(entry) {       
+                    currentValue += (entry + " ").toLowerCase()
+                  });
+                  break;
+        }
+        
+        // If all search terms are found for the tutor, he/she is included 
+        filters.forEach(function(entry) { 
+          if (!currentValue.includes(entry)) {
+            return returnValue = false;
+          }   
+        });
+        return returnValue;
 
-        // check to see if the current tutor includes the search term (substring)
-        return name.includes(filter);
       });
     } else {
       newList = currentList;
@@ -130,7 +161,7 @@ class SearchResults extends Component {
           <div className={classes.heroContent}>
             <Container maxWidth="sm">
               <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-                Search Tutor
+                Search Tutors
               </Typography>
               <ThemeProvider theme={tutifyStyle.theme}>
                 <Paper className={classes.root}>
@@ -152,7 +183,6 @@ class SearchResults extends Component {
                         {options.map((option, index) => (
                     <MenuItem
                         key={option}
-                        disabled={index === 0}
                         selected={index === selectedIndex}
                         onClick={event => this.handleMenuItemClick(event, index)}
                     >
@@ -161,9 +191,7 @@ class SearchResults extends Component {
                 ))}
                       </Menu>
                   </div>
-                  
-                   
-                 
+                                                   
                   <InputBase
                     ref={this.inputRef}
                     className={classes.input}
@@ -199,12 +227,14 @@ class SearchResults extends Component {
                         </Typography>
                         <Typography>
                           This is a tutor profile. Tutor information will be displayed here. <br />
-                          <Chip
-                            className={classes.chip}
-                            icon={<CheckIcon />}
-                            color="secondary"
-                            label={tutor.subject}
-                          />
+                          {tutor.subject.map(tutor => (
+                            <Chip
+                              className={classes.chip}
+                              icon={<CheckIcon />}
+                              color="secondary"
+                              label={tutor}
+                            />
+                          ))}
                         </Typography>
                       </CardContent>
                     </Card>
