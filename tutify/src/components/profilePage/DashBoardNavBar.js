@@ -12,7 +12,6 @@ import clsx from 'clsx';
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { NavDrawer } from "./NavDrawer";
-
 class Logout extends Component{
     render() {
       return (
@@ -23,7 +22,6 @@ class Logout extends Component{
     }
    
   }
-
   class SignUp extends Component{
     render() {
       return (
@@ -34,7 +32,6 @@ class Logout extends Component{
     }
    
   }
-
   class Login extends Component{
     render() {
       return (
@@ -47,7 +44,6 @@ class Logout extends Component{
   }
   
 export class NavBar extends Component {
-
     
         constructor(props) {
             super(props);
@@ -62,13 +58,14 @@ export class NavBar extends Component {
           };
         
         
-
     componentDidMount() {
         this.checkSession();
       }
-
-    checkSession = () => {
-        fetch('http://localhost:3001/api/checkSession')
+      checkSession = () => {
+        fetch('http://localhost:3001/api/checkSession',{
+                      method: 'GET',
+                      credentials: 'include'
+        })          
           .then(response => response.json())
           .then(res => {
             console.log(res);
@@ -81,15 +78,23 @@ export class NavBar extends Component {
           })
           .catch(err => console.log(err));
         };
-
     handleChange(event){
-        fetch('http://localhost:3001/api/logout')
-      
-        this.setState({Toggle: false});
+        fetch('http://localhost:3001/api/logout',{
+                      method: 'GET',
+                      credentials: 'include'
+                  })
+                    .then(response => response.json())
+                    .then(res => {
+                      console.log(res);
+                     
+                          this.setState({Toggle: false});
+                      
+                    })
+                    .catch(err => console.log(err));
+        //this.setState({Toggle: false});
         
       };
     
-
    render(){
     const { classes } = this.props;
     const { open } = this.state;
@@ -115,9 +120,7 @@ export class NavBar extends Component {
             </Typography>
           </Link>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-
           </Typography>
-
         <div className={classes.buttonContain}>
            <Button href="/login">
             { this.state.Toggle ? null : <Login />}
@@ -127,7 +130,7 @@ export class NavBar extends Component {
             { this.state.Toggle ? null : <SignUp /> }   
             </Button>
             <Button onClick={this.handleChange} href="/">
-            { this.state.Toggle ? null : <Logout /> }
+            { this.state.Toggle ?  <Logout /> : null }
             </Button>
         </div>
         </Toolbar>
@@ -140,7 +143,5 @@ export class NavBar extends Component {
     
     );
    }
-
 }
-
 export default withStyles(NavBarStyles.styles, { withTheme: true })(NavBar);
