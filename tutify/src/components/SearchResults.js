@@ -74,7 +74,7 @@ class SearchResults extends Component {
     const { filteredData } = this.state;
     return (
       <React.Fragment>
-        <DashBoardNavBar/>
+    
 
         <main>
           {/* Hero unit */}
