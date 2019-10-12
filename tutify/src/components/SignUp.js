@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
@@ -21,23 +21,7 @@ import * as tutifyStyle from '../styles/SignUp-styles';
 import { withStyles } from "@material-ui/core/styles";
 import NavBar from './NavBar';
 import validator from 'validator';
-
-class Copyright extends Component{
-  render() {
-    return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'© '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Tutify
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-  }
-  
-}
-
+import Copyright from './Copyright';
 
 class Database2 extends React.Component {
   // initialize our state

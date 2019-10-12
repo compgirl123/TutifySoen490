@@ -1,34 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Container from '@material-ui/core/Container'; 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import large_tutify from './../assets/large_tutify.png';
 import Box from '@material-ui/core/Box';
-
 import * as tutifyStyle from '../styles/SignUp-styles';
 import { withStyles } from "@material-ui/core/styles";
 import NavBar from './NavBar';
-
-class Copyright extends Component{
-  render() {
-    return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'© '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Tutify
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-  }
- 
-}
-
+import Copyright from './Copyright';
 
 class Login extends React.Component {
  // initialize our state
