@@ -120,7 +120,6 @@ export class NavBar extends Component {
       </div>
     );
    }
-
 }
 
 export default withStyles(NavBarStyles.styles, { withTheme: true })(NavBar);

@@ -7,9 +7,9 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { ThemeProvider } from "@material-ui/styles";
-import Copyright from "../Copyright"
+import Copyright from "./Copyright"
 import { withStyles } from "@material-ui/core/styles";
-import * as tutifyStyle from './SearchResults-styles';
+import * as tutifyStyle from '../styles/SearchResults-styles';
 import Chip from '@material-ui/core/Chip'
 import CardActionArea from '@material-ui/core/CardActionArea';
 import { BrowserRouter as Link } from "react-router-dom";
@@ -18,7 +18,7 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import NavBar from '../NavBar';
+import NavBar from './NavBar';
 
 
 class SearchResults extends Component {
