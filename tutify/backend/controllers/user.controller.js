@@ -92,14 +92,23 @@ exports.authUser = async function (req,res){
     if(user){
         req.session.user = user;
         req.session.isLoggedIn = true;
+        //req.flash('success', 'You are signed in.');
+
         req.session.save();
         res.send(req.session);
 
         return res.status(200).send;
 
     }
-    req.session.isLoggedIn = false;
 
+    req.session.isLoggedIn = false;
+    /**req.flash(
+        'danger',
+        'Invalid email or password, please try again.'
+      );*/
+    req.session.save();
+    res.send(req.session);
+   
     return res.status(400).send();
 
     })

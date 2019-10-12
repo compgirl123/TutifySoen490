@@ -60,7 +60,10 @@ export class NavBar extends Component {
       }
 
     checkSession = () => {
-        fetch('http://localhost:3001/api/checkSession')
+        fetch('http://localhost:3001/api/checkSession',{
+                      method: 'GET',
+                      credentials: 'include'
+        })          
           .then(response => response.json())
           .then(res => {
             console.log(res);
@@ -75,9 +78,20 @@ export class NavBar extends Component {
         };
 
     handleChange(event){
-        fetch('http://localhost:3001/api/logout')
-      
-        this.setState({Toggle: false});
+        fetch('http://localhost:3001/api/logout',{
+                      method: 'GET',
+                      credentials: 'include'
+                  })
+                    .then(response => response.json())
+                    .then(res => {
+                      console.log(res);
+                     
+                          this.setState({Toggle: false});
+                      
+                    })
+                    .catch(err => console.log(err));
+
+        //this.setState({Toggle: false});
         
       };
     
@@ -110,7 +124,7 @@ export class NavBar extends Component {
             { this.state.Toggle ? null : <SignUp /> }   
             </Button>
             <Button onClick={this.handleChange} href="/">
-            { this.state.Toggle ? null : <Logout /> }
+            { this.state.Toggle ? <Logout /> : null}
             </Button>
         </div>
         </Toolbar>

@@ -68,6 +68,10 @@ class Login extends React.Component {
         method: 'POST',
         credentials: 'include',
         headers: {'Content-Type':'application/json'},
+        xhrFields: {
+                    withCredentials: true
+                  },
+                  crossDomain: true,          
         body: JSON.stringify({
         "email" : document.getElementById("email").value,
         "password": document.getElementById("password").value
@@ -81,7 +85,8 @@ class Login extends React.Component {
           this.props.history.push("/search_results");
         }
         else{
-          alert("Invalid use password");
+          
+          alert("Invalid email or password");
         }
       })
       .catch(err => console.log(err));
