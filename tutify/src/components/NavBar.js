@@ -7,7 +7,7 @@ import Box from '@material-ui/core/Box';
 import SchoolIcon from '@material-ui/icons/School';
 import '../index.css'
 import { Link } from '@material-ui/core';
-import * as NavBarStyles from './NavBar-styles';
+import * as NavBarStyles from '../styles/NavBar-styles';
 import { withStyles } from "@material-ui/core/styles";
 
 class Logout extends Component{
