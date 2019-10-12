@@ -111,6 +111,7 @@ class SearchResults extends Component {
         let currentValue = ""
         let returnValue = true
         switch(this.state.selectedIndex){
+          default:
           case 0: tutor.subject.forEach(function(entry) {       
                     currentValue += (entry + " ").toLowerCase()
                   });
@@ -227,12 +228,12 @@ class SearchResults extends Component {
                         </Typography>
                         <Typography>
                           This is a tutor profile. Tutor information will be displayed here. <br />
-                          {tutor.subject.map(tutor => (
+                          {tutor.subject.map(sub => (
                             <Chip
                               className={classes.chip}
                               icon={<CheckIcon />}
                               color="secondary"
-                              label={tutor}
+                              label={sub}
                             />
                           ))}
                         </Typography>
