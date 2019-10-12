@@ -16,20 +16,6 @@ import Copyright from './Copyright'
 import '../index.css'
 import NavBar from './NavBar';
 
-
-/*const theme = createMuiTheme({
-  palette: {
-    primary: 'blue',
-  },
-  overrides: {
-    MuiButton: {
-      raisedPrimary: {
-        color: 'white',
-      },
-    },
-  }
-});*/
-
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
