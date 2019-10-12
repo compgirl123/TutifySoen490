@@ -17,6 +17,7 @@ import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
+import NavBar from '../NavBar';
 import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -159,7 +160,7 @@ class SearchResults extends Component {
     const {selectedIndex} = this.state;
     return (
       <React.Fragment>
-        <DashBoardNavBar/>
+        <NavBar/>
 
         <main>
           {/* Hero unit */}
