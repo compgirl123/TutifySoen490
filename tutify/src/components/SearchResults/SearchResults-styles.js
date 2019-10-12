@@ -27,25 +27,10 @@ export const styles = theme => ({
   menu: {
     marginTop: '10px',
   },
+ 
   input: {
     marginLeft: theme.spacing(1),
     flex: 1,
-  },
-  dropdown: {
-    marginTop: '100px',
-    position: 'absolute',
-    border: '1px solid rgba(0, 0, 0, 0.04)',
-    boxShadow: '0 16px 24px 2px rgba(0, 0, 0, 0.14)',
-    background:'white',
-    width:'300px',
-  },
-  ul: {
-    listStyle: 'none',
-  },
-  listContainer: {
-    width: '100%',
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
   },
   iconButton: {
     padding: 10,

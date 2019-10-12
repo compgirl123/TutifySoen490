@@ -21,6 +21,16 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
+
+const options = [
+  'Search by',
+  'School',
+  'Course',
+  'Subject',
+  'Program',
+  'Tutor',
+];
+
 class SearchResults extends Component {
   // initialize our state
   constructor(props) {
@@ -29,14 +39,14 @@ class SearchResults extends Component {
     this.state = {
       data: [],
       filteredData: [],
-      placeholder: 'Search by',
+      placeholder: 'Search',
       showDropDown: false,
-      selectedIndex: 1,
+      selectedIndex: 0,
       anchorEl: null,
     };
     this.handleChange = this.handleChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+    this.handleClickMenu = this.handleClickMenu.bind(this);
+    this.handleCloseMenu = this.handleCloseMenu.bind(this);
   }
 
   // when component mounts, first thing it does is fetch all existing data in our db
@@ -44,11 +54,32 @@ class SearchResults extends Component {
     this.getDataFromDb();
   }
 
-  handleClick = event => {
+  handleClickMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleClose = () => {
+  handleMenuItemClick = (event, index) => {
+    this.setState({selectedIndex: index});
+    this.setState({anchorEl: null});
+
+    if(index === 1) {
+      this.setState({placeholder: 'Search by School'});
+    }
+    else if(index === 2) {
+      this.setState({placeholder: 'Search by Course'});
+    }
+    else if(index === 3) {
+      this.setState({placeholder: 'Search by Subject'});
+    }
+    else if(index === 4) {
+      this.setState({placeholder: 'Search by Program'});
+    }
+    else if(index === 5) {
+      this.setState({placeholder: 'Search by Tutor'});
+    }
+  };
+
+  handleCloseMenu = () => {
     this.setState({ anchorEl: null });
   };
 
@@ -102,20 +133,34 @@ class SearchResults extends Component {
               </Typography>
               <ThemeProvider theme={tutifyStyle.theme}>
                 <Paper className={classes.root}>
-                  <IconButton aria-controls="lock-menu" aria-haspopup="true" onClick={this.handleClick} >
+                  <div>
+                  <IconButton aria-controls="lock-menu" aria-haspopup="true" onClick={this.handleClickMenu} >
                     <MenuIcon />
                   </IconButton>
                       <Menu
-                        id="simple-menu"
+                        id="lock-menu"
                         anchorEl={anchorEl}
                         keepMounted
+                        className={classes.menu}
                         open={Boolean(anchorEl)}
-                        onClose={this.handleClose}
+                        onClose={this.handleCloseMenu}
+                        getContentAnchorEl={null}
+                        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                        transformOrigin={{ vertical: "top", horizontal: "center" }}
                       >
-                        <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                        <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                        <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                        {options.map((option, index) => (
+                    <MenuItem
+                        key={option}
+                        disabled={index === 0}
+                        selected={index === selectedIndex}
+                        onClick={event => this.handleMenuItemClick(event, index)}
+                    >
+                        {option}
+                    </MenuItem>
+                ))}
                       </Menu>
+                  </div>
+                  
                    
                  
                   <InputBase
