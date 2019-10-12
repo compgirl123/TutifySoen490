@@ -6,11 +6,10 @@ import Link from '@material-ui/core/Link';
 import Container from '@material-ui/core/Container'; 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import large_tutify from './../assets/large_tutify.png';
-import Box from '@material-ui/core/Box';
 import * as tutifyStyle from '../styles/SignUp-styles';
 import { withStyles } from "@material-ui/core/styles";
 import NavBar from './NavBar';
-import Copyright from './Copyright';
+import Footer from './Footer';
 
 class Login extends React.Component {
  // initialize our state
@@ -141,9 +140,7 @@ class Login extends React.Component {
           
       </form>
     </div>
-   <Box mt={5}>
-        <Copyright />
-      </Box>
+   <Footer/>
        </Container>
        </div>
     );
