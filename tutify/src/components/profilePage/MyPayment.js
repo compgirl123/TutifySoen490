@@ -7,7 +7,7 @@ import clsx from 'clsx';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Copyright from "../Copyright";
+import Footer from '../Footer';
 import DashBoardNavBar from "./DashBoardNavBar";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -98,12 +98,7 @@ class ProfilePage extends React.Component {
         </Container>
 
         {/* Footer */}
-        <footer className={classes.footer}>
-    <Typography variant="h6" align="center" gutterBottom>
-      Tutify
-    </Typography>
-    <Copyright />
-  </footer>
+        <Footer/>
 
       </main>
 
