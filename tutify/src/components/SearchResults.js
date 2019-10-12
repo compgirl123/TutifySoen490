@@ -17,8 +17,8 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import NavBar from './NavBar';
 import Footer from './Footer';
+import DashBoardNavBar from './profilePage/DashBoardNavBar';
 
 class SearchResults extends Component {
   // initialize our state
@@ -80,7 +80,7 @@ class SearchResults extends Component {
           {/* Hero unit */}
           <div className={classes.heroContent}>
             <Container maxWidth="sm" className={classes.container}>
-              <NavBar/>
+            <DashBoardNavBar/>
               <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
                 Search Tutor
               </Typography>

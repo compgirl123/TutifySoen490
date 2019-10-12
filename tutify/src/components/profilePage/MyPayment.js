@@ -1,7 +1,7 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Link from '@material-ui/core/Link';
-import * as tutifyStyle from './ProfilePage-styles';
+import * as tutifyStyle from '../../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
 import clsx from 'clsx';
 import Container from '@material-ui/core/Container';
