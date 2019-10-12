@@ -15,10 +15,7 @@ const TutorSchema = new Schema({
     type: String,
     required: true
   },
-  subject: {
-    type: String,
-    required: true
-  },
+  subject: [String],
   picture:{
     type:String,
     required:true
