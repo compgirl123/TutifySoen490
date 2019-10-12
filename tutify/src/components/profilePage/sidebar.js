@@ -46,6 +46,12 @@ export const mainListItems = (
       <ListItemText primary="Payments" />
     </ListItem>
 
+    <ListItem button>
+      <ListItemIcon>
+        <AssignmentIcon />
+      </ListItemIcon>
+      <ListItemText primary="My Grades" />
+    </ListItem>  
 
     <ListItem button>
       <ListItemIcon>
@@ -95,12 +101,6 @@ export const secondaryListItems = (
       </ListItemIcon>
       <ListItemText primary="Extra Problems" />
     </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="My Grades" />
-    </ListItem>  
     <ListItem button>
       <ListItemIcon>
         <BookIcon />

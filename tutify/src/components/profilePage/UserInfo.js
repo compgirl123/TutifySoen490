@@ -44,7 +44,7 @@ class UserInfo extends React.Component {
       <Grid item xs={6}>  
             
               <FormControl >
-                <InputLabel htmlFor="tutoring_type">Tutroing Type</InputLabel>
+                <InputLabel htmlFor="tutoring_type">Tutoring Type</InputLabel>
                 <Select
                   name="tutoring_type"
                   value={this.state.tutoring_type}
