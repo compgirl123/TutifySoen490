@@ -60,10 +60,7 @@ export const styles = theme => ({
   cardContent: {
     flexGrow: 1,
   },
-  footer: {
-    background: theme.palette.background.paper,
-    padding: theme.spacing(6),
-  },
+
   chip: {
     background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)', 
     fontWeight:"bold"

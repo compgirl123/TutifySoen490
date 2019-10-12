@@ -21,7 +21,7 @@ import * as tutifyStyle from '../styles/SignUp-styles';
 import { withStyles } from "@material-ui/core/styles";
 import NavBar from './NavBar';
 import validator from 'validator';
-import Copyright from './Copyright';
+import Footer from './Footer';
 
 class Database2 extends React.Component {
   // initialize our state
@@ -497,9 +497,7 @@ class Database2 extends React.Component {
           </Grid>
       </form>
     </div>
-   <Box mt={5}>
-        <Copyright />
-      </Box>
+   <Footer/>
        </Container>
        </div>
     );
