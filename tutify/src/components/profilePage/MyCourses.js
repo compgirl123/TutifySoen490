@@ -39,7 +39,7 @@ class ProfilePage extends React.Component {
           <Grid container spacing={2}>
 
             {/* Payment Info */}
-            <Grid item xs={4} md={4} lg={4}>
+            <Grid item xs={6} md={6} lg={3}>
             <Paper className={classes.fixedHeightPaper}>           
             <Typography>
             <img src="https://i.imgur.com/L6lDhbz.jpg"  alt="Subject">

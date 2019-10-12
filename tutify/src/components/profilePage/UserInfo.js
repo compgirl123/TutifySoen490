@@ -10,14 +10,33 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+
 const useStyles = makeStyles({
   InfoContext: {
     flex: 1,
   },
 });
 
+
+
 export default function UserInfo() {
   const classes = useStyles();
+  const [Class1, setClass, Class2] = React.useState('');
+  const [open,setOpen] = React.useState(false);
+
+  const handleChange = event => {
+    setClass(event.target.value);
+
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  }; 
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
   return (
     <React.Fragment>
       <Title> User Info</Title>
@@ -30,43 +49,35 @@ export default function UserInfo() {
       <Typography color="textSecondary" className={classes.InfoContext}>
         Concordia University 
       </Typography>
-      <Grid item xs={3}>
-       <FormControl >
-            <InputLabel htmlFor="education_level">Type of Tutoring</InputLabel>
-            <Select
-              name="type_tutoring"
-              value="test"
-              onChange={event => {this.setState({education_level:event.target.value}); this.FormValid["educationLevel"]=true;}}
-            // onChange={(e) => this.setState({ first_name: e.target.value })}
-              input={<Input id="education_level" />}
-            >
-              <MenuItem value="one_on_one">One on one Sessions</MenuItem>
-              <MenuItem value="group_tutoring ">Group Tutoring</MenuItem>
-              <MenuItem value="midterm_crash">Midterm Crash</MenuItem>
-              <MenuItem value="final_crash">Final Crash</MenuItem>
-              <MenuItem value="mentoring">Mentoring</MenuItem>
-            </Select>   
-      </FormControl>
-      </Grid>
+      
+      <form autoComplete="off">
+      <Typography component="p" variant="h8">
+        Select Type of Tutoring:
+        </Typography>
+      <FormControl className={classes.formControl}>
+        <InputLabel htmlFor="demo-controlled-open-select"></InputLabel>
+        <Select
+          open={open}
+          onClose={handleClose}
+          onOpen={handleOpen}
+          value={Class1}
+          onChange={handleChange}
+          inputProps={{
+            name: 'type',
+            id: 'demo-controlled-open-select',
+          }}
+        >
+          <MenuItem value="">
+            <em>One on one Sessions</em>
+            </MenuItem>
+          <MenuItem value="20">Group Tutoring</MenuItem>
+          <MenuItem value="30">Midterm Crash</MenuItem>
+          <MenuItem value="40">Final Crash</MenuItem>
+          <MenuItem value="50">Weekly Tutorials</MenuItem>
+        </Select>
+        </FormControl>
+</form>
 
-      <Grid item xs={3}>
-      <FormControl >
-            <InputLabel htmlFor="education_level">Classes Selected for Tutoring</InputLabel>
-            <Select
-              name="classes_available"
-              value="test"
-              onChange={event => {this.setState({education_level:event.target.value}); this.FormValid["educationLevel"]=true;}}
-            // onChange={(e) => this.setState({ first_name: e.target.value })}
-              input={<Input id="education_level" />}
-            >
-              <MenuItem value="chem204">CHEM 204</MenuItem>
-              <MenuItem value="phys204">PHYS 204</MenuItem>
-              <MenuItem value="math204">Math 204</MenuItem>
-              <MenuItem value="English">English</MenuItem>
-              <MenuItem value="French">French</MenuItem>
-            </Select>   
-      </FormControl>
-      </Grid>
       <Button
             
             type="button"
