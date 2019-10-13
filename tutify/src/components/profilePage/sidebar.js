@@ -54,15 +54,6 @@ export const mainListItems = (
       <ListItemText primary="Messages" />
     </ListItem>
 
-
-    <ListItem button component="a" href="/">
-      <ListItemIcon >
-        <HomeIcon />
-      </ListItemIcon>
-      <ListItemText primary="Home" />
-    </ListItem>
-
-
     <ListItem button>
       <ListItemIcon>
         <ShoppingCartIcon />

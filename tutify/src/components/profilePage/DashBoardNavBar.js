@@ -114,11 +114,9 @@ export class NavBar extends Component {
           </IconButton>
           <SchoolIcon />
           <Box m={1} /> 
-          <Link href="/" style={{textDecoration: 'none', color: '#FFF'}}>
             <Typography variant="h6" color="inherit" >
               Tutify
             </Typography>
-          </Link>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
           </Typography>
         <div className={classes.buttonContain}>
