@@ -28,6 +28,7 @@ export class NavBar extends Component {
         
     componentDidMount() {
         this.checkSession();
+        
       }
       checkSession = () => {
         fetch('http://localhost:3001/api/checkSession',{
@@ -36,12 +37,11 @@ export class NavBar extends Component {
         })          
           .then(response => response.json())
           .then(res => {
-            console.log(res);
             if(res.isLoggedIn){
-                this.setState({Toggle: true});
+                this.setState({Toggle: true,email:true});
             }
             else{
-                this.setState({Toggle: false});
+                this.setState({Toggle: false,email:true});
             }
           })
           .catch(err => console.log(err));
@@ -50,6 +50,8 @@ export class NavBar extends Component {
    render(){
     const { classes } = this.props;
     const { open } = this.state;
+    
+    
     return (
       
     <div className={classes.root}>
@@ -67,7 +69,7 @@ export class NavBar extends Component {
           <SchoolIcon />
           <Box m={1} /> 
             <Typography variant="h6" color="inherit" >
-              Tutify
+              Tutify 
             </Typography>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
           </Typography>

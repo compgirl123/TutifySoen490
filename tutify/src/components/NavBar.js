@@ -5,9 +5,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import SchoolIcon from '@material-ui/icons/School';
-import '../index.css'
 import { Link } from '@material-ui/core';
-import * as NavBarStyles from './NavBar-styles';
+import * as NavBarStyles from '../styles/NavBar-styles';
 import { withStyles } from "@material-ui/core/styles";
 
   class SignUp extends Component{
@@ -55,7 +54,6 @@ export class NavBar extends Component {
         })          
           .then(response => response.json())
           .then(res => {
-            console.log(res);
             if(res.isLoggedIn){
                 this.setState({Toggle: true});
             }
@@ -73,10 +71,7 @@ export class NavBar extends Component {
                   })
                     .then(response => response.json())
                     .then(res => {
-                      console.log(res);
-                     
                           this.setState({Toggle: false});
-                      
                     })
                     .catch(err => console.log(err));        
       };
@@ -115,7 +110,6 @@ export class NavBar extends Component {
       </div>
     );
    }
-
 }
 
 export default withStyles(NavBarStyles.styles, { withTheme: true })(NavBar);

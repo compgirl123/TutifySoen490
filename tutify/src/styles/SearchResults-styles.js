@@ -1,5 +1,7 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 
+
+
 export const theme = createMuiTheme({
     overrides: {
       MuiInputLabel: { // Name of the component ⚛️ / style sheet
@@ -12,6 +14,7 @@ export const theme = createMuiTheme({
       }
     }
   });
+
   
 export const styles = theme => ({
   root: {
@@ -21,8 +24,11 @@ export const styles = theme => ({
     width: 400,
     margin: "auto",
   },
+  menu: {
+    marginTop: '10px',
+  },
   container: {
-    marginTop: '20px',
+    marginTop: '30px',
   },
   input: {
     marginLeft: theme.spacing(1),
@@ -30,9 +36,6 @@ export const styles = theme => ({
   },
   iconButton: {
     padding: 10,
-  },
-  appBar: {
-    background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)',
   },
   icon: {
     marginRight: theme.spacing(2),
@@ -43,7 +46,6 @@ export const styles = theme => ({
   heroContent: {
     background: '#EEEEEE',
     padding: theme.spacing(8, 0, 6),
-
   },
   heroButtons: {
     marginTop: theme.spacing(4),
@@ -63,15 +65,21 @@ export const styles = theme => ({
   cardContent: {
     flexGrow: 1,
   },
-  footer: {
-    background: theme.palette.background.paper,
-    padding: theme.spacing(6),
-  },
+
   chip: {
     background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)', 
-    fontWeight:"bold"
+    fontWeight:"bold",
+    margin: theme.spacing(0.5),
+    marginTop: theme.spacing(1),
   },
   gridContainer: {
     background: theme.palette.background.paper,
   },
+  school: {
+    color: '#969696',
+  },
+  program: {
+    color: '#8ae600',
+  },
+  
 });

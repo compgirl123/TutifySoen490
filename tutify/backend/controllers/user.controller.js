@@ -47,12 +47,7 @@ exports.putUser = async function (req, res) {
     // testing the encryption feature
     var encrypted_password = exports.encrypt(req.body.password).encryptedData;
     //var school_name_other1 = ""; 
-    console.log("HEHE");
-    console.log(encrypted_password);
-    console.log(req.body);
-    console.log(req.body.school_name_other)
-    console.log(school_name_other)
-    console.log(school_name_other==null);
+    
 
     if ((!id && id !== 0) || !first_name || !last_name || !email || !password || !program_of_study || !education_level || !school) {
         return res.json({
@@ -85,7 +80,6 @@ exports.authUser = async function (req,res){
     User.findOne({ email:email, password:password} , function(err,user){
     if(err){
         console.log(err);
-
         return res.status(500).send();
 
     }

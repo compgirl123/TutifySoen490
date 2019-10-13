@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BrowserRouter as Router, Route} from "react-router-dom";
 import Main from "./components/Main";
@@ -30,10 +29,8 @@ function MainPage() {
         <Route exact path="/courses" component={MyCourses} />
 
 
-
     </Router>
   );
-
 }
 
 // This is the component that will be shown by default

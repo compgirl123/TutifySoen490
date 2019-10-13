@@ -1,14 +1,13 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import * as tutifyStyle from './ProfilePage-styles';
+import * as tutifyStyle from '../../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Copyright from "../Copyright";
 import DashBoardNavBar from "./DashBoardNavBar";
-
+import Footer from "../Footer";
 
 class ProfilePage extends React.Component {
   constructor(props) {
@@ -60,12 +59,7 @@ class ProfilePage extends React.Component {
         
       </main>
         {/* Footer */}
-        <footer className={classes.footer}>
-    <Typography variant="h6" align="center" gutterBottom>
-      Tutify
-    </Typography>
-    <Copyright />
-  </footer>
+       <Footer/>
 
       </main>
 

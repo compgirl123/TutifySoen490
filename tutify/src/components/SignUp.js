@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
@@ -17,29 +17,14 @@ import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Select from "@material-ui/core/Select";
-import * as tutifyStyle from './SignUp-styles';
+import * as tutifyStyle from '../styles/SignUp-styles';
 import { withStyles } from "@material-ui/core/styles";
 import NavBar from './NavBar';
 import validator from 'validator';
-
-class Copyright extends Component{
-  render() {
-    return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'© '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Tutify
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-  }
-  
-}
+import Footer from './Footer';
 
 
-class Database2 extends React.Component {
+class SignUp extends React.Component {
   // initialize our state
     state = {
       data: [],
@@ -234,7 +219,25 @@ class Database2 extends React.Component {
       while (currentIds.includes(idToBeAdded)) {
         ++idToBeAdded;
       }
-  
+
+      /*$.ajax( { url: "https://api.mlab.com/api/1/databases/my-db/collections/my-coll?apiKey=myAPIKey",
+		  data: JSON.stringify( { "x" : 1 } ),
+		  type: "POST",
+      contentType: "application/json" } );*/
+
+      axios.post('https://api.mlab.com/api/1/databases/heroku_vx7c6wp6/collections/users?apiKey=Kc7qXK7C4HTE4TUAzxwj0S9Rki-I25Rx', {
+        id: idToBeAdded,
+        first_name: first_name,
+        last_name : last_name,
+        program_of_study:program_of_study,
+        email : email,
+        password : password,
+        school : school,
+        education_level : education_level
+        //classes_tutored : classes_tutored,
+        //type_tutoring : type_tutoring
+      });
+      
       axios.post('http://localhost:3001/api/putUser', {
         id: idToBeAdded,
         first_name: first_name,
@@ -282,7 +285,7 @@ class Database2 extends React.Component {
     <NavBar />
     <Container component = "main">
      <CssBaseline />
-      <div className = "paper">
+      <div className={classes.paper}>
        <img src={large_tutify} className="App-logo" alt="logo" />
       <Typography component="h1" variant="h5">
           Sign Up Page
@@ -513,12 +516,10 @@ class Database2 extends React.Component {
           </Grid>
       </form>
     </div>
-   <Box mt={5}>
-        <Copyright />
-      </Box>
+   <Footer/>
        </Container>
        </div>
     );
   }
 }
-export default withStyles(tutifyStyle.styles, { withTheme: true })(Database2);
+export default withStyles(tutifyStyle.styles, { withTheme: true })(SignUp);

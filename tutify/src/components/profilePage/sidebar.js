@@ -3,11 +3,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import PaymentIcon from '@material-ui/icons/Payment';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import MessageIcon from '@material-ui/icons/Message';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import BookIcon from '@material-ui/icons/Book';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -50,20 +48,20 @@ export class Sidebar extends Component {
       <ListItemText primary="My Courses" />
     </ListItem>
 
-    <ListItem button component="a" href="/search_results">
+    <ListItem button component="a" href="/search">
       <ListItemIcon>
         <SearchIcon />
       </ListItemIcon>
       <ListItemText primary="Search" />
     </ListItem>
 
+{/*To Be used in a later iteration */}
     <ListItem button component="a" href="/payment">
       <ListItemIcon>
         <PaymentIcon />
       </ListItemIcon>
       <ListItemText primary="Payments" />
     </ListItem>
-
 
     <ListItem button>
       <ListItemIcon>
