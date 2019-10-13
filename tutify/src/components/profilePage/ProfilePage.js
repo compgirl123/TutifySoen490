@@ -33,8 +33,6 @@ class ProfilePage extends React.Component {
     })          
       .then(response => response.json())
       .then(res => {
-        console.log(res.user.email);
-       
         if(res.isLoggedIn){
             this.setState({Toggle: true, email:res.user.email});
         }
@@ -51,8 +49,6 @@ class ProfilePage extends React.Component {
                 })
                   .then(response => response.json())
                   .then(res => {
-                    console.log(res);
-                  
                         this.setState({Toggle: false});
                     
                   })

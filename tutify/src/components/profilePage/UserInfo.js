@@ -45,8 +45,6 @@ class UserInfo extends React.Component {
     })          
       .then(response => response.json())
       .then(res => {
-        console.log(res.user);
-        //alert(res.user.email);
         if(res.isLoggedIn){
             this.setState({Toggle: true, first_name: res.user.first_name,last_name: res.user.last_name,
               email:res.user.email, education_level:res.user.education_level, school:res.user.school,
@@ -65,10 +63,7 @@ class UserInfo extends React.Component {
                 })
                   .then(response => response.json())
                   .then(res => {
-                    console.log(res);
-                  
-                        this.setState({Toggle: false});
-                    
+                        this.setState({Toggle: false}); 
                   })
                   .catch(err => console.log(err));
       //this.setState({Toggle: false});

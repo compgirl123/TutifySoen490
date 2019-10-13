@@ -65,7 +65,6 @@ export class NavBar extends Component {
         })          
           .then(response => response.json())
           .then(res => {
-            console.log(res);
             if(res.isLoggedIn){
                 this.setState({Toggle: true});
             }
@@ -83,10 +82,7 @@ export class NavBar extends Component {
                   })
                     .then(response => response.json())
                     .then(res => {
-                      console.log(res);
-                     
                           this.setState({Toggle: false});
-                      
                     })
                     .catch(err => console.log(err));
 

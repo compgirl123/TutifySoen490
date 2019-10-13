@@ -70,8 +70,6 @@ export class NavBar extends Component {
         })          
           .then(response => response.json())
           .then(res => {
-            console.log(res.cookie);
-            
             if(res.isLoggedIn){
                 this.setState({Toggle: true,email:true});
             }

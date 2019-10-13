@@ -45,7 +45,6 @@ class Login extends React.Component {
 //Authenticates User when submit button is pressed
     handleSubmit(event){
       event.preventDefault();
-      console.log("TANYA")
       fetch('http://localhost:3001/api/authUser', {
         method: 'POST',
         credentials: 'include',
@@ -57,7 +56,6 @@ class Login extends React.Component {
       })
       .then(response => response.json())
       .then(res => {
-        console.log(res);
         if(res.isLoggedIn){
           alert("Signed in");
           this.props.history.push("/search");
