@@ -108,7 +108,7 @@ const benefit = [
     ],
     buttonText: 'Start the search',
     buttonVariant: 'contained',
-    buttonLink: '/search_results',
+    buttonLink: '/search_results_main',
   },
   {
     title: 'Become a tutor',

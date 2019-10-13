@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AssignmentIcon from '@material-ui/icons/Assignment';
-import HomeIcon from '@material-ui/icons/Home';
 import PaymentIcon from '@material-ui/icons/Payment';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import MessageIcon from '@material-ui/icons/Message';
@@ -13,9 +12,28 @@ import MenuBookIcon from '@material-ui/icons/MenuBook';
 import BookIcon from '@material-ui/icons/Book';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SearchIcon from '@material-ui/icons/Search';
+import {List} from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
 
+export class Sidebar extends Component {
 
-export const mainListItems = (
+    handleChange(event){
+      fetch('http://localhost:3001/api/logout',{
+                    method: 'GET',
+                    credentials: 'include'
+                })
+                  .then(response => response.json())
+                  .then(res => {
+                    console.log(res);                    
+                  })
+                  .catch(err => console.log(err));
+    };
+
+    render(){
+      return(
+        <div>
+          <Divider />
+<List>  
   <div>
     <ListItem button component="a" href="/profile">
       <ListItemIcon>
@@ -62,16 +80,18 @@ export const mainListItems = (
     </ListItem>
 
 
-    <ListItem button component="a" href="/">
+    <ListItem button component="a" href="/" onClick={this.handleChange} >
       <ListItemIcon>
         <ExitToAppIcon />
       </ListItemIcon>
       <ListItemText primary="Logout" />
     </ListItem>
   </div>
-);
-
-export const secondaryListItems = (
+  </List>
+  
+  <Divider/>
+  
+  <List>
   <div>
     <ListSubheader inset>Homework</ListSubheader>
     <ListItem button>
@@ -93,4 +113,11 @@ export const secondaryListItems = (
       <ListItemText primary="Useful Readings" />
     </ListItem>
   </div>
-);
+  </List>
+  </div>
+      );
+
+    }
+}
+
+export default Sidebar;
