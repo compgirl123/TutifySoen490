@@ -10,6 +10,7 @@ import * as tutifyStyle from '../styles/SignUp-styles';
 import { withStyles } from "@material-ui/core/styles";
 import NavBar from './NavBar';
 import Footer from './Footer';
+import './style.css';
 
 class Login extends React.Component {
  // initialize our state
@@ -49,10 +50,6 @@ class Login extends React.Component {
         method: 'POST',
         credentials: 'include',
         headers: {'Content-Type':'application/json'},
-        xhrFields: {
-                    withCredentials: true
-                  },
-                  crossDomain: true,          
         body: JSON.stringify({
         "email" : document.getElementById("email").value,
         "password": document.getElementById("password").value
@@ -63,11 +60,10 @@ class Login extends React.Component {
         console.log(res);
         if(res.isLoggedIn){
           alert("Signed in");
-          this.props.history.push("/Profile");
+          this.props.history.push("/search");
         }
         else{
-          
-          alert("Invalid email or password");
+          alert("Invalid use password");
         }
       })
       .catch(err => console.log(err));

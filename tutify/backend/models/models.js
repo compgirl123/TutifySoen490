@@ -15,10 +15,14 @@ const TutorSchema = new Schema({
     type: String,
     required: true
   },
-  subject: {
+  school: {
     type: String,
-    required: true
+    required: true,
   },
+  program: {
+    type: String,
+  },
+  subject: [String],
   picture:{
     type:String,
     required:true

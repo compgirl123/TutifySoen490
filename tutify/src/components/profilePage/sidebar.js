@@ -32,7 +32,7 @@ export const mainListItems = (
       <ListItemText primary="My Courses" />
     </ListItem>
 
-    <ListItem button component="a" href="/search_results">
+    <ListItem button component="a" href="/search">
       <ListItemIcon>
         <SearchIcon />
       </ListItemIcon>

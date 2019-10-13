@@ -1,16 +1,10 @@
 import React from 'react';
 import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
+
 import Typography from '@material-ui/core/Typography';
 import Title from './Title';
-import clsx from 'clsx';
 import * as tutifyStyle from '../../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
-
-
-
-
-
 import { FormControl } from '@material-ui/core';
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -82,7 +76,7 @@ class UserInfo extends React.Component {
     };
   render() {
     const { classes } = this.props;
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    
     return (
       <React.Fragment>
       <Title> User Info</Title>
@@ -172,33 +166,3 @@ class UserInfo extends React.Component {
 }
 
 export default withStyles(tutifyStyle.styles, { withTheme: true })(UserInfo );
-{/*const useStyles = makeStyles({
-  InfoContext: {
-    flex: 1,
-  },
-});
-
-export default function UserInfo() {
-  const classes = useStyles();
-  return (
-    <React.Fragment>
-      <Title> User Info</Title>
-      <Typography component="p" variant="h6">
-       Kasthurie Paramasivampillai
-      </Typography>
-      <Typography component="p" variant="h7">
-       Email: sriahila@hotmail.com
-       {this.state.email}
-      </Typography>
-      <Typography color="textSecondary" className={classes.InfoContext}>
-        Concordia University 
-      </Typography>
-      <div>
-        <Link color="primary" href="/">
-          Edit Info
-        </Link>
-      </div>
-      
-    </React.Fragment>
-  );
-}*/}

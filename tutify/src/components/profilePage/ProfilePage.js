@@ -7,7 +7,6 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Footer from "../Footer";
 import DashBoardNavBar from "./DashBoardNavBar";
-import clsx from 'clsx';
 import UserInfo from './UserInfo';
 
 class ProfilePage extends React.Component {
@@ -64,7 +63,7 @@ class ProfilePage extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    
     return (
     <React.Fragment>
       <main>
