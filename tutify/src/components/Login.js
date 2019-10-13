@@ -10,6 +10,7 @@ import * as tutifyStyle from '../styles/SignUp-styles';
 import { withStyles } from "@material-ui/core/styles";
 import NavBar from './NavBar';
 import Footer from './Footer';
+import './style.css';
 
 class Login extends React.Component {
  // initialize our state

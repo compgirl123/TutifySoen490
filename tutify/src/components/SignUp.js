@@ -23,6 +23,7 @@ import NavBar from './NavBar';
 import validator from 'validator';
 import Footer from './Footer';
 
+
 class Database2 extends React.Component {
   // initialize our state
     state = {
@@ -266,7 +267,7 @@ class Database2 extends React.Component {
     <NavBar />
     <Container component = "main">
      <CssBaseline />
-      <div className = "paper">
+      <div className={classes.paper}>
        <img src={large_tutify} className="App-logo" alt="logo" />
       <Typography component="h1" variant="h5">
           Sign Up Page
