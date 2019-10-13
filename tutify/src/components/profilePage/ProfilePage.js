@@ -80,11 +80,12 @@ class ProfilePage extends React.Component {
         <Grid container spacing={4}>
 
               {/* User Info */}
-          <Grid item xs={6} md={6} lg={6}>
-          <Paper className={fixedHeightPaper}>           
+          <Grid item lg={6}>
+          <Paper>           
             <UserInfo />
           </Paper>
         </Grid>
+
 
            {/* Adding Picture */}       
            <Grid item xs={12} md={6} lg={6}>
