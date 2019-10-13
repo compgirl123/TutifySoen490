@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import SchoolIcon from '@material-ui/icons/School';
 import { Link } from '@material-ui/core';
-import * as NavBarStyles from './DashBoardNavBar-styles';
+import * as NavBarStyles from '../../styles/DashBoardNavBar-styles';
 import { withStyles } from "@material-ui/core/styles";
 import clsx from 'clsx';
 import IconButton from "@material-ui/core/IconButton";

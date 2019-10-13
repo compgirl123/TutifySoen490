@@ -7,10 +7,9 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { ThemeProvider } from "@material-ui/styles";
-import Copyright from "../Copyright"
 import { withStyles } from "@material-ui/core/styles";
-import * as tutifyStyle from './SearchResults-styles';
-import Chip from '@material-ui/core/Chip';
+import * as tutifyStyle from '../styles/SearchResults-styles';
+import Chip from '@material-ui/core/Chip'
 import CardActionArea from '@material-ui/core/CardActionArea';
 import { BrowserRouter as Link } from "react-router-dom";
 import Paper from '@material-ui/core/Paper';
@@ -18,8 +17,8 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import DashBoardNavBar from "../profilePage/DashBoardNavBar";
-
+import Footer from './Footer';
+import DashBoardNavBar from './profilePage/DashBoardNavBar';
 
 class SearchResults extends Component {
   // initialize our state
@@ -75,12 +74,13 @@ class SearchResults extends Component {
     const { filteredData } = this.state;
     return (
       <React.Fragment>
-        <DashBoardNavBar/>
+    
 
         <main>
           {/* Hero unit */}
           <div className={classes.heroContent}>
             <Container maxWidth="sm" className={classes.container}>
+            <DashBoardNavBar/>
               <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
                 Search Tutor
               </Typography>
@@ -138,12 +138,7 @@ class SearchResults extends Component {
           </div>
         </main>
         {/* Footer */}
-        <footer className={classes.footer}>
-          <Typography variant="h6" align="center" gutterBottom>
-            Tutify
-          </Typography>
-          <Copyright />
-        </footer>
+        <Footer/>
         {/* End footer */}
       </React.Fragment>
     );
