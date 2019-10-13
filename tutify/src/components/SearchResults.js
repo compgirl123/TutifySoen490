@@ -234,7 +234,7 @@ class SearchResults extends Component {
                         </Typography>
                         <Typography>   
                           <span className={classes.school}>{tutor.school}</span>
-                          { tutor.program != "" && (
+                          { tutor.program !== "" && (
                             <span className={classes.program}> - {tutor.program}</span>  
                           )}                            
                           <br /> 
