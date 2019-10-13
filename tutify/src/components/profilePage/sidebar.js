@@ -3,12 +3,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import HomeIcon from '@material-ui/icons/Home';
 import PaymentIcon from '@material-ui/icons/Payment';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import MessageIcon from '@material-ui/icons/Message';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import BookIcon from '@material-ui/icons/Book';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -39,6 +37,7 @@ export const mainListItems = (
       <ListItemText primary="Search" />
     </ListItem>
 
+{/*To Be used in a later iteration */}
     <ListItem button component="a" href="/payment">
       <ListItemIcon>
         <PaymentIcon />
@@ -46,28 +45,11 @@ export const mainListItems = (
       <ListItemText primary="Payments" />
     </ListItem>
 
-
-    <ListItem button>
-      <ListItemIcon>
-        <MessageIcon/>
-      </ListItemIcon>
-      <ListItemText primary="Messages" />
-    </ListItem>
-
-
     <ListItem button component="a" href="/">
       <ListItemIcon >
         <HomeIcon />
       </ListItemIcon>
       <ListItemText primary="Home" />
-    </ListItem>
-
-
-    <ListItem button>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <ListItemText primary="My Cart" />
     </ListItem>
 
 

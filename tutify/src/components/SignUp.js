@@ -219,7 +219,25 @@ class SignUp extends React.Component {
       while (currentIds.includes(idToBeAdded)) {
         ++idToBeAdded;
       }
-  
+
+      /*$.ajax( { url: "https://api.mlab.com/api/1/databases/my-db/collections/my-coll?apiKey=myAPIKey",
+		  data: JSON.stringify( { "x" : 1 } ),
+		  type: "POST",
+      contentType: "application/json" } );*/
+
+      axios.post('https://api.mlab.com/api/1/databases/heroku_vx7c6wp6/collections/users?apiKey=Kc7qXK7C4HTE4TUAzxwj0S9Rki-I25Rx', {
+        id: idToBeAdded,
+        first_name: first_name,
+        last_name : last_name,
+        program_of_study:program_of_study,
+        email : email,
+        password : password,
+        school : school,
+        education_level : education_level
+        //classes_tutored : classes_tutored,
+        //type_tutoring : type_tutoring
+      });
+      
       axios.post('http://localhost:3001/api/putUser', {
         id: idToBeAdded,
         first_name: first_name,
