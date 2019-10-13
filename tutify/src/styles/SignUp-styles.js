@@ -81,11 +81,5 @@ export const styles = theme => ({
   gridContainer: {
     background: theme.palette.background.paper,
   },
-  school: {
-    color: '#969696',
-  },
-  program: {
-    color: '#8ae600',
-  },
   
 });
