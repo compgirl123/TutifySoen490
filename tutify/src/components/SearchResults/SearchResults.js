@@ -160,4 +160,3 @@ class SearchResults extends Component {
 } // End of component
 
 export default withStyles(tutifyStyle.styles, { withTheme: true })(SearchResults);
-module.exports = SearchResults;
