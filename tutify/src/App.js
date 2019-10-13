@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Route} from "react-router-dom";
 import Main from "./components/Main";
 import SignUp from "./components/SignUp"
-import Database from "./components/Database"
 import SearchResults from "./components/SearchResults"
 import Login from "./components/Login"
 import ProfilePage from "./components/profilePage/ProfilePage"
@@ -15,7 +14,6 @@ function MainPage() {
     <Router>
         <Route exact path="/" component={Main} />
         <Route exact path="/signup" component={SignUp} />
-        <Route exact path="/database" component={Database} />
         <Route exact path="/search" component={SearchResults} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/profile" component={ProfilePage} />

@@ -27,16 +27,15 @@ export const styles = theme => ({
   menu: {
     marginTop: '10px',
   },
- 
+  container: {
+    marginTop: '30px',
+  },
   input: {
     marginLeft: theme.spacing(1),
     flex: 1,
   },
   iconButton: {
     padding: 10,
-  },
-  appBar: {
-    background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)',
   },
   icon: {
     marginRight: theme.spacing(2),
@@ -47,7 +46,6 @@ export const styles = theme => ({
   heroContent: {
     background: '#EEEEEE',
     padding: theme.spacing(8, 0, 6),
-
   },
   heroButtons: {
     marginTop: theme.spacing(4),

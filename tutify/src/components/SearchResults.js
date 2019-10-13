@@ -60,26 +60,26 @@ class SearchResults extends Component {
   };
 
   handleMenuItemClick = (event, index) => {
-    this.setState({selectedIndex: index});
-    this.setState({anchorEl: null});
+    this.setState({ selectedIndex: index });
+    this.setState({ anchorEl: null });
 
-    if(index === 0) {
-      this.setState({placeholder: 'Search'});
+    if (index === 0) {
+      this.setState({ placeholder: 'Search' });
     }
-    else if(index === 1) {
-      this.setState({placeholder: 'Search by Tutor'});
+    else if (index === 1) {
+      this.setState({ placeholder: 'Search by Tutor' });
     }
-    else if(index === 2) {
-      this.setState({placeholder: 'Search by School'});
+    else if (index === 2) {
+      this.setState({ placeholder: 'Search by School' });
     }
-    else if(index === 3) {
-      this.setState({placeholder: 'Search by Course'});
+    else if (index === 3) {
+      this.setState({ placeholder: 'Search by Course' });
     }
-    else if(index === 4) {
-      this.setState({placeholder: 'Search by Subject'});
+    else if (index === 4) {
+      this.setState({ placeholder: 'Search by Subject' });
     }
-    else if(index === 5) {
-      this.setState({placeholder: 'Search by Program'});
+    else if (index === 5) {
+      this.setState({ placeholder: 'Search by Program' });
     }
   };
 
@@ -110,36 +110,36 @@ class SearchResults extends Component {
       newList = currentList.filter(tutor => {
         let currentValue = ""
         let returnValue = true
-        switch(this.state.selectedIndex){
+        switch (this.state.selectedIndex) {
           default:
-          case 0: tutor.subject.forEach(function(entry) {       
-                    currentValue += (entry + " ").toLowerCase()
-                  });
-                  currentValue += (tutor.first_name + " " + tutor.last_name 
-                  + " " + tutor.school + " " + tutor.program).toLowerCase() 
-                  break;
+          case 0: tutor.subject.forEach(function (entry) {
+            currentValue += (entry + " ").toLowerCase()
+          });
+            currentValue += (tutor.first_name + " " + tutor.last_name
+              + " " + tutor.school + " " + tutor.program).toLowerCase()
+            break;
           case 1: // name
-                  currentValue = (tutor.first_name + " " + tutor.last_name).toLowerCase() 
-                  break;
+            currentValue = (tutor.first_name + " " + tutor.last_name).toLowerCase()
+            break;
           case 2: // school
-                  currentValue = (tutor.school).toLowerCase()
-                  break; 
+            currentValue = (tutor.school).toLowerCase()
+            break;
           case 3: // courses
           case 4: // subjects
-                  tutor.subject.forEach(function(entry) {       
-                    currentValue += (entry + " ").toLowerCase()
-                  });
-                  break;
+            tutor.subject.forEach(function (entry) {
+              currentValue += (entry + " ").toLowerCase()
+            });
+            break;
           case 5: // program
-                  currentValue = (tutor.program).toLowerCase()
-                  break; 
+            currentValue = (tutor.program).toLowerCase()
+            break;
         }
-        
+
         // If all search terms are found for the tutor, he/she is included 
-        filters.forEach(function(entry) { 
+        filters.forEach(function (entry) {
           if (!currentValue.includes(entry)) {
             return returnValue = false;
-          }   
+          }
         });
         return returnValue;
 
@@ -156,49 +156,49 @@ class SearchResults extends Component {
   render() {
     const { classes } = this.props;
     const { filteredData } = this.state;
-    const {anchorEl} = this.state;
-    const {selectedIndex} = this.state;
+    const { anchorEl } = this.state;
+    const { selectedIndex } = this.state;
     return (
       <React.Fragment>
-    
+
 
         <main>
           {/* Hero unit */}
+          <DashBoardNavBar />
           <div className={classes.heroContent}>
-            <Container maxWidth="sm" className={classes.container}>
-            <DashBoardNavBar/>
+            <Container className={classes.container}>
               <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
                 Search Tutors
               </Typography>
               <ThemeProvider theme={tutifyStyle.theme}>
                 <Paper className={classes.root}>
                   <div>
-                  <IconButton aria-controls="lock-menu" aria-haspopup="true" onClick={this.handleClickMenu} >
-                    <MenuIcon />
-                  </IconButton>
-                      <Menu
-                        id="lock-menu"
-                        anchorEl={anchorEl}
-                        keepMounted
-                        className={classes.menu}
-                        open={Boolean(anchorEl)}
-                        onClose={this.handleCloseMenu}
-                        getContentAnchorEl={null}
-                        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-                        transformOrigin={{ vertical: "top", horizontal: "center" }}
-                      >
-                        {options.map((option, index) => (
-                    <MenuItem
-                        key={option}
-                        selected={index === selectedIndex}
-                        onClick={event => this.handleMenuItemClick(event, index)}
+                    <IconButton aria-controls="lock-menu" aria-haspopup="true" onClick={this.handleClickMenu} >
+                      <MenuIcon />
+                    </IconButton>
+                    <Menu
+                      id="lock-menu"
+                      anchorEl={anchorEl}
+                      keepMounted
+                      className={classes.menu}
+                      open={Boolean(anchorEl)}
+                      onClose={this.handleCloseMenu}
+                      getContentAnchorEl={null}
+                      anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                      transformOrigin={{ vertical: "top", horizontal: "center" }}
                     >
-                        {option}
-                    </MenuItem>
-                ))}
-                      </Menu>
+                      {options.map((option, index) => (
+                        <MenuItem
+                          key={option}
+                          selected={index === selectedIndex}
+                          onClick={event => this.handleMenuItemClick(event, index)}
+                        >
+                          {option}
+                        </MenuItem>
+                      ))}
+                    </Menu>
                   </div>
-                                                   
+
                   <InputBase
                     ref={this.inputRef}
                     className={classes.input}
@@ -232,12 +232,12 @@ class SearchResults extends Component {
                         <Typography variant="h5" component="h2">
                           {tutor.first_name} {tutor.last_name}
                         </Typography>
-                        <Typography>   
+                        <Typography>
                           <span className={classes.school}>{tutor.school}</span>
-                          { tutor.program !== "" && (
-                            <span className={classes.program}> - {tutor.program}</span>  
-                          )}                            
-                          <br /> 
+                          {tutor.program !== "" && (
+                            <span className={classes.program}> - {tutor.program}</span>
+                          )}
+                          <br />
                           {tutor.subject.map(sub => (
                             <Chip
                               className={classes.chip}
@@ -256,7 +256,7 @@ class SearchResults extends Component {
           </div>
         </main>
         {/* Footer */}
-        <Footer/>
+        <Footer />
         {/* End footer */}
       </React.Fragment>
     );
