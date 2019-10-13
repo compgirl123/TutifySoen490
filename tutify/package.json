@@ -8,6 +8,7 @@
     "@material-ui/icons": "^4.4.3",
     "axios": "^0.19.0",
     "body-parser": "^1.19.0",
+    "bootstrap": "^4.3.1",
     "concurrently": "^4.1.2",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
@@ -17,10 +18,12 @@
     "express-session": "^1.16.2",
     "fs": "0.0.1-security",
     "jasmine": "^3.4.0",
+    "jasmine-node": "^3.0.0",
     "material-icons": "^0.3.1",
     "mongoose": "^5.7.0",
     "morgan": "^1.9.1",
     "react": "^16.9.0",
+    "react-bootstrap": "^1.0.0-beta.14",
     "react-dom": "^16.9.0",
     "react-router-config": "^5.0.1",
     "react-router-dom": "^5.0.1",
@@ -52,7 +55,11 @@
   "proxy": "http://localhost:3001",
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "jasmine-enzyme": "^7.1.1"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"

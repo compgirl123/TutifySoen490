@@ -1,5 +1,7 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 
+
+
 export const theme = createMuiTheme({
     overrides: {
       MuiInputLabel: { // Name of the component ⚛️ / style sheet
@@ -12,6 +14,7 @@ export const theme = createMuiTheme({
       }
     }
   });
+
   
 export const styles = theme => ({
   root: {
@@ -21,9 +24,10 @@ export const styles = theme => ({
     width: 400,
     margin: "auto",
   },
-  container:{
-    overflow:'hidden',
+  menu: {
+    marginTop: '10px',
   },
+ 
   input: {
     marginLeft: theme.spacing(1),
     flex: 1,
@@ -70,9 +74,12 @@ export const styles = theme => ({
   },
   chip: {
     background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)', 
-    fontWeight:"bold"
+    fontWeight:"bold",
+    margin: theme.spacing(0.5),
+    marginTop: theme.spacing(1),
   },
   gridContainer: {
     background: theme.palette.background.paper,
   },
+  
 });
