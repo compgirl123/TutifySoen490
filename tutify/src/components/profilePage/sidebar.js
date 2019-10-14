@@ -63,21 +63,6 @@ export class Sidebar extends Component {
       <ListItemText primary="Payments" />
     </ListItem>
 
-    <ListItem button>
-      <ListItemIcon>
-        <MessageIcon/>
-      </ListItemIcon>
-      <ListItemText primary="Messages" />
-    </ListItem>
-
-    <ListItem button>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <ListItemText primary="My Cart" />
-    </ListItem>
-
-
     <ListItem button component="a" href="/" onClick={this.handleChange} >
       <ListItemIcon>
         <ExitToAppIcon />
