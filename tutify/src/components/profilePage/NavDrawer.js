@@ -2,9 +2,7 @@ import React from "react";
 import Drawer from "@material-ui/core/Drawer";
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import { mainListItems, secondaryListItems } from './sidebar';
+import {Sidebar} from './sidebar';
 
 export class NavDrawer extends React.Component {
   render() {
@@ -24,10 +22,7 @@ export class NavDrawer extends React.Component {
                 <ChevronLeftIcon />
             </IconButton>
           </div>
-          <Divider />
-        <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
+          <Sidebar />
        </div>
       </Drawer>
     );

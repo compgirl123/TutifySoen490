@@ -1,49 +1,17 @@
+  
 import React, { Component } from 'react';
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import SchoolIcon from '@material-ui/icons/School';
-import { Link } from '@material-ui/core';
 import * as NavBarStyles from '../../styles/DashBoardNavBar-styles';
 import { withStyles } from "@material-ui/core/styles";
 import clsx from 'clsx';
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { NavDrawer } from "./NavDrawer";
-class Logout extends Component{
-    render() {
-      return (
-        <Button href= "/" variant="contained"style ={{background: "white"}}>
-        Logout
 
-      </Button>
-    );
-    }
-   
-  }
-  class SignUp extends Component{
-    render() {
-      return (
-        <Button href= "/signup" variant="contained"style ={{background: "white"}}>
-        Sign up
-      </Button>
-    );
-    }
-   
-  }
-  class Login extends Component{
-    render() {
-      return (
-        <Button variant="contained" type ="submit" style ={{background: "white"}}  >
-        Login
-      </Button>
-    );
-    }
-   
-  }
-  
 export class NavBar extends Component {
     
         constructor(props) {
@@ -79,22 +47,6 @@ export class NavBar extends Component {
           })
           .catch(err => console.log(err));
         };
-    handleChange(event){
-        fetch('http://localhost:3001/api/logout',{
-                      method: 'GET',
-                      credentials: 'include'
-                  })
-                    .then(response => response.json())
-                    .then(res => {
-                      alert.log(res);
-                     
-                          this.setState({Toggle: false});
-                      
-                    })
-                    .catch(err => console.log(err));
-        //this.setState({Toggle: false});
-        
-      };
     
    render(){
     const { classes } = this.props;
@@ -117,25 +69,12 @@ export class NavBar extends Component {
           </IconButton>
           <SchoolIcon />
           <Box m={1} /> 
-          <Link href="/" style={{textDecoration: 'none', color: '#FFF'}}>
             <Typography variant="h6" color="inherit" >
               Tutify 
             </Typography>
-          </Link>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
           </Typography>
-        <div className={classes.buttonContain}>
-           <Button href="/login">
-            { this.state.Toggle ? null : <Login />}
-            </Button>
-         
-          <Button href="/signup">
-            { this.state.Toggle ? null : <SignUp /> }   
-            </Button>
-            <Button onClick={this.handleChange} href="/">
-            { this.state.Toggle ?  <Logout /> : null }
-            </Button>
-        </div>
+       
         </Toolbar>
       </AppBar>
       <NavDrawer

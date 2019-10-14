@@ -265,7 +265,7 @@ class SignUp extends React.Component {
 
   submitForm(){
     this.putDataToDB(this.state.first_name,this.state.last_name,this.state.email,this.state.program_of_study,this.state.password,this.state.education_level,this.state.school);
-    this.props.history.push("/");
+    this.props.history.push("/login");
   }
 
   reloadForm(){

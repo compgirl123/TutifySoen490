@@ -9,17 +9,6 @@ import { Link } from '@material-ui/core';
 import * as NavBarStyles from '../styles/NavBar-styles';
 import { withStyles } from "@material-ui/core/styles";
 
-class Logout extends Component{
-    render() {
-      return (
-        <Button href= "/" variant="contained"style ={{background: "white"}}>
-        Logout
-      </Button>
-    );
-    }
-   
-  }
-
   class SignUp extends Component{
     render() {
       return (
@@ -84,10 +73,7 @@ export class NavBar extends Component {
                     .then(res => {
                           this.setState({Toggle: false});
                     })
-                    .catch(err => console.log(err));
-
-        //this.setState({Toggle: false});
-        
+                    .catch(err => console.log(err));        
       };
     
 
@@ -112,14 +98,11 @@ export class NavBar extends Component {
             
           <div className={classes.buttonContain}>
            <Button href="/login">
-            { this.state.Toggle ? null : <Login />}
+            <Login />
             </Button>
          
           <Button href="/signup">
-            { this.state.Toggle ? null : <SignUp /> }   
-            </Button>
-            <Button onClick={this.handleChange} href="/">
-            { this.state.Toggle ? <Logout /> : null}
+            <SignUp />   
             </Button>
         </div>
         </Toolbar>

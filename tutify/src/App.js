@@ -21,6 +21,7 @@ function MainPage() {
         <Route exact path="/courses" component={MyCourses} />
 
 
+
     </Router>
   );
 }
