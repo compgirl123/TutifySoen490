@@ -119,14 +119,14 @@ class UserInfo extends React.Component {
           <Grid item xs={6}>  
           <form autoComplete="off">
             <FormControl >
-              <InputLabel htmlFor="school" fullWidth>Select Courses</InputLabel>
+              <InputLabel htmlFor="course" fullWidth>Select Courses</InputLabel>
               <Select
-                name="school"
-                value={this.state.school}
+                name="course"
+                value={this.state.course}
                 onChange={event => {
-                  this.setState({school:event.target.value});
+                  this.setState({course:event.target.value});
                 }}
-                input={<Input id="school" />}
+                input={<Input id="course" />}
               >
                 <MenuItem value="chem204">CHEM 204</MenuItem>
                 <MenuItem value="phys204">PHYS 204</MenuItem>
