@@ -9,17 +9,6 @@ import { Link } from '@material-ui/core';
 import * as NavBarStyles from '../styles/NavBar-styles';
 import { withStyles } from "@material-ui/core/styles";
 
-class Logout extends Component{
-    render() {
-      return (
-        <Button href= "/" variant="contained"style ={{background: "white"}}>
-        Logout
-      </Button>
-    );
-    }
-   
-  }
-
   class SignUp extends Component{
     render() {
       return (
@@ -59,10 +48,12 @@ export class NavBar extends Component {
       }
 
     checkSession = () => {
-        fetch('http://localhost:3001/api/checkSession')
+        fetch('http://localhost:3001/api/checkSession',{
+                      method: 'GET',
+                      credentials: 'include'
+        })          
           .then(response => response.json())
           .then(res => {
-            console.log(res);
             if(res.isLoggedIn){
                 this.setState({Toggle: true});
             }
@@ -74,10 +65,15 @@ export class NavBar extends Component {
         };
 
     handleChange(event){
-        fetch('http://localhost:3001/api/logout')
-      
-        this.setState({Toggle: false});
-        
+        fetch('http://localhost:3001/api/logout',{
+                      method: 'GET',
+                      credentials: 'include'
+                  })
+                    .then(response => response.json())
+                    .then(res => {
+                          this.setState({Toggle: false});
+                    })
+                    .catch(err => console.log(err));        
       };
     
 
@@ -102,14 +98,11 @@ export class NavBar extends Component {
             
           <div className={classes.buttonContain}>
            <Button href="/login">
-            { this.state.Toggle ? null : <Login />}
+            <Login />
             </Button>
          
           <Button href="/signup">
-            { this.state.Toggle ? null : <SignUp /> }   
-            </Button>
-            <Button onClick={this.handleChange} href="/">
-            { this.state.Toggle ? null : <Logout /> }
+            <SignUp />   
             </Button>
         </div>
         </Toolbar>
