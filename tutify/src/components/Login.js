@@ -57,11 +57,11 @@ class Login extends React.Component {
       .then(response => response.json())
       .then(res => {
         if(res.isLoggedIn){
-          alert("Signed in");
-          this.props.history.push("/profile");
+          alert("Signed in!");
+          window.location = "profile";
         }
         else{
-          alert("Invalid use password");
+          alert("Invalid user or password! Please try again.");
         }
       })
       .catch(err => console.log(err));
