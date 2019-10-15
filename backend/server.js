@@ -11,10 +11,8 @@ const app = express();
 app.use(cors({credentials: true, origin: true}));
 
 // this is our MongoDB database
-/*const dbRoute =
-  'mongodb+srv://app:Mdfi8g6IMFagCOOE@tutify-q6b06.mongodb.net/tutify?retryWrites=true&w=majority';*/
-
-const dbRoute = 'mongodb://heroku_vx7c6wp6:ocd89fs9us5vthg1piii6ss33t@ds233268.mlab.com:33268/heroku_vx7c6wp6';
+const dbRoute =
+  'mongodb+srv://app:Mdfi8g6IMFagCOOE@tutify-q6b06.mongodb.net/tutify?retryWrites=true&w=majority';
 
 // connects our back end code with the database
 mongoose.connect(dbRoute, { useNewUrlParser: true });

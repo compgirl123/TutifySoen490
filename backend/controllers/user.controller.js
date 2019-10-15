@@ -5,7 +5,6 @@ const crypto = require('crypto');
 const algorithm = 'aes-256-cbc';
 const key = crypto.randomBytes(32);
 const iv = crypto.randomBytes(16);
-const MONGODB_URI = process.env.MONGODB_URI;
 
 // this method fetches all available users in our database
 exports.getUser = async function (req, res) {
@@ -48,12 +47,7 @@ exports.putUser = async function (req, res) {
     // testing the encryption feature
     var encrypted_password = exports.encrypt(req.body.password).encryptedData;
     //var school_name_other1 = ""; 
-    console.log("HEHE");
-    console.log(encrypted_password);
-    console.log(req.body);
-    console.log(req.body.school_name_other)
-    console.log(school_name_other)
-    console.log(school_name_other==null);
+    
 
     if ((!id && id !== 0) || !first_name || !last_name || !email || !password || !program_of_study || !education_level || !school) {
         return res.json({
@@ -86,21 +80,29 @@ exports.authUser = async function (req,res){
     User.findOne({ email:email, password:password} , function(err,user){
     if(err){
         console.log(err);
-
         return res.status(500).send();
 
     }
     if(user){
         req.session.user = user;
         req.session.isLoggedIn = true;
+        //req.flash('success', 'You are signed in.');
+
         req.session.save();
         res.send(req.session);
 
         return res.status(200).send;
 
     }
-    req.session.isLoggedIn = false;
 
+    req.session.isLoggedIn = false;
+    /**req.flash(
+        'danger',
+        'Invalid email or password, please try again.'
+      );*/
+    req.session.save();
+    res.send(req.session);
+   
     return res.status(400).send();
 
     })

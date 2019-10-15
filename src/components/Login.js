@@ -1,34 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Container from '@material-ui/core/Container'; 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import large_tutify from './../assets/large_tutify.png';
-import Box from '@material-ui/core/Box';
-
-import * as tutifyStyle from './SignUp-styles';
+import * as tutifyStyle from '../styles/SignUp-styles';
 import { withStyles } from "@material-ui/core/styles";
 import NavBar from './NavBar';
-
-class Copyright extends Component{
-  render() {
-    return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'© '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Tutify
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-  }
- 
-}
-
+import Footer from './Footer';
+import './style.css';
 
 class Login extends React.Component {
  // initialize our state
@@ -55,8 +37,7 @@ class Login extends React.Component {
   
     // fetch data from the data base
     getDataFromDb = () => {
-      //fetch('http://localhost:3001/api/getUser')
-      fetch(process.env.MONGODB_URI)
+      fetch('http://localhost:3001/api/getUser')
         .then((data) => data.json())
         .then((res) => this.setState({ data: res.data }));
     };
@@ -64,9 +45,7 @@ class Login extends React.Component {
 //Authenticates User when submit button is pressed
     handleSubmit(event){
       event.preventDefault();
-      console.log("TANYA")
-      //fetch('http://localhost:3001/api/authUser', {
-      fetch(process.env.MONGODB_URI, {
+      fetch('http://localhost:3001/api/authUser', {
         method: 'POST',
         credentials: 'include',
         headers: {'Content-Type':'application/json'},
@@ -77,10 +56,9 @@ class Login extends React.Component {
       })
       .then(response => response.json())
       .then(res => {
-        console.log(res);
         if(res.isLoggedIn){
           alert("Signed in");
-          this.props.history.push("/search_results");
+          this.props.history.push("/profile");
         }
         else{
           alert("Invalid use password");
@@ -161,9 +139,7 @@ class Login extends React.Component {
           
       </form>
     </div>
-   <Box mt={5}>
-        <Copyright />
-      </Box>
+   <Footer/>
        </Container>
        </div>
     );
