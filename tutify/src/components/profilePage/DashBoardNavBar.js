@@ -11,13 +11,16 @@ import clsx from 'clsx';
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { NavDrawer } from "./NavDrawer";
+import { Link } from '@material-ui/core';
+
 
 export class NavBar extends Component {
     
         constructor(props) {
             super(props);
             this.state = {
-              drawerOpened: false
+              drawerOpened: false,
+              Toggle: false
             };
           }
           toggleDrawer = booleanValue => () => {
@@ -57,8 +60,9 @@ export class NavBar extends Component {
       
     <div className={classes.root}>
         <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)} style = {{background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)'}}>
+       
         <Toolbar className={classes.toolbar}>
-          <IconButton
+        { this.state.Toggle ?  <IconButton
             edge="start"
             color="inherit"
             aria-label="open drawer"
@@ -66,12 +70,18 @@ export class NavBar extends Component {
             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
           >
           <MenuIcon />
-          </IconButton>
+          </IconButton>: null }
+      
+          
           <SchoolIcon />
           <Box m={1} /> 
+          {this.state.Toggle ? <Typography variant="h6" color="inherit" >
+              Tutify 
+            </Typography>:<Link href="/" style={{textDecoration: 'none', color: '#FFF'}}>
             <Typography variant="h6" color="inherit" >
               Tutify 
             </Typography>
+          </Link>}
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
           </Typography>
        
@@ -81,6 +91,7 @@ export class NavBar extends Component {
             drawerOpened={this.state.drawerOpened}
             toggleDrawer={this.toggleDrawer}
           />
+      
     </div>
     
     );
