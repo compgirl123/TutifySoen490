@@ -84,7 +84,7 @@ class UserInfo extends React.Component {
        Email : {this.state.email}
       </Typography>
       <Typography color="textSecondary" className={classes.InfoContext}>
-        {/*Concordia University */}
+        {/*Concordia University */}  
         Program of Study: {this.state.program_of_study}
       </Typography>
       <Typography color="textSecondary" className={classes.InfoContext}>
