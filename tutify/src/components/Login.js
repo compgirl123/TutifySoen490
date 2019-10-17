@@ -62,7 +62,6 @@ class Login extends React.Component {
         }
         else {
           console.log(res);
-          alert(document.getElementById("password").value);
           alert("Invalid use password");
         }
       })
