@@ -1,5 +1,7 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 
+
+
 export const theme = createMuiTheme({
     overrides: {
       MuiInputLabel: { // Name of the component ⚛️ / style sheet
@@ -12,67 +14,20 @@ export const theme = createMuiTheme({
       }
     }
   });
-  
+
 export const styles = theme => ({
-  root: {
-    padding: '2px 4px',
+
+  paper: {
+    marginTop: '65px',
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
-    width: 400,
-    margin: "auto",
+    background:'white',
+    padding:'15px',
   },
-  container:{
-    overflow:'hidden',
-  },
-  input: {
-    marginLeft: theme.spacing(1),
-    flex: 1,
-  },
-  iconButton: {
-    padding: 10,
-  },
-  appBar: {
-    background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)',
-  },
-  icon: {
-    marginRight: theme.spacing(2),
-  },
+  
   notchedOutline: {
     borderColor: '#9E9E9E !important',
   },
-  heroContent: {
-    background: '#EEEEEE',
-    padding: theme.spacing(8, 0, 6),
-
-  },
-  heroButtons: {
-    marginTop: theme.spacing(4),
-  },
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
-
-  card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
-  footer: {
-    background: theme.palette.background.paper,
-    padding: theme.spacing(6),
-  },
-  chip: {
-    background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)', 
-    fontWeight:"bold"
-  },
-  gridContainer: {
-    background: theme.palette.background.paper,
-  },
+  
 });

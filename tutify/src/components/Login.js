@@ -10,6 +10,7 @@ import * as tutifyStyle from '../styles/SignUp-styles';
 import { withStyles } from "@material-ui/core/styles";
 import NavBar from './NavBar';
 import Footer from './Footer';
+import './style.css';
 
 class Login extends React.Component {
  // initialize our state
@@ -44,7 +45,6 @@ class Login extends React.Component {
 //Authenticates User when submit button is pressed
     handleSubmit(event){
       event.preventDefault();
-      console.log("TANYA")
       fetch('http://localhost:3001/api/authUser', {
         method: 'POST',
         credentials: 'include',
@@ -56,13 +56,12 @@ class Login extends React.Component {
       })
       .then(response => response.json())
       .then(res => {
-        console.log(res);
         if(res.isLoggedIn){
-          alert("Signed in");
-          this.props.history.push("/search_results");
+          alert("Signed in!");
+          window.location = "profile";
         }
         else{
-          alert("Invalid use password");
+          alert("Invalid user or password! Please try again.");
         }
       })
       .catch(err => console.log(err));
