@@ -12,6 +12,8 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+
 
 
 
@@ -73,7 +75,8 @@ class UserInfo extends React.Component {
     const { classes } = this.props;
     
     return (
-      <React.Fragment>
+      <Paper className={classes.paper}>
+      <React.Fragment >
       <Title> User Info</Title>
       <Typography component="p" variant="h6">
       {this.state.first_name} {this.state.last_name}
@@ -139,8 +142,7 @@ class UserInfo extends React.Component {
                 </form>
               </Grid> 
 
-
-    <Button
+    <p><Button
           
           type="button"
           fullWidth
@@ -150,13 +152,17 @@ class UserInfo extends React.Component {
         >
           Save Options
         </Button>
+        </p>
+
         <Link color="primary" href="/">
           Edit Info
         </Link>
       </div>
       
       
-    </React.Fragment>);
+    </React.Fragment>
+    </Paper>
+    );
   }
 }
 
