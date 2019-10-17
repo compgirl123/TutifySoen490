@@ -2,6 +2,20 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const AccountSchema = new Schema({
+  id: Number,
+  email: {
+    type: String,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  }
+});
+
+var Account = mongoose.model('Account', AccountSchema, "accounts");
+
 const TutorSchema = new Schema({
   id: {
     type: Number,
@@ -26,91 +40,48 @@ const TutorSchema = new Schema({
   picture:{
     type:String,
     required:true
-  }
-
+  },
+  students:[
+    {type: Schema.Types.ObjectId, ref: 'User'}
+  ]
 });
 
-var Tutor = mongoose.model('Tutor', TutorSchema, "tutors");
+var  Tutor = Account.discriminator('Tutor', TutorSchema, "tutor");
 
-
-const UserSchema = new Schema(//{
-    {
-      id: Number,
-      first_name: {
-        type: String,
-        required: true
-      },
-      last_name : {
-        type: String,
-        required: true
-      },
-      program_of_study : {
-        type: String,
-        required: true
-      },
-      email : {
-        type: String,
-        required: true
-      },
-      password: {
-        type: String,
-        required: true
-      },
-      education_level : {
-        type: String,
-        required: true
-      },
-      school : {
-        type: String,
-        required: true
-      }
-      //classes_tutored : String,
-      //type_tutoring : String
-    }
-    /*id: {
-      type: Number,
-      required: true
-    },
+const UserSchema = new Schema({
+    id: Number,
     first_name: {
       type: String,
       required: true
     },
-    last_name: {
+    last_name : {
       type: String,
       required: true
     },
-    education: {
+    program_of_study : {
       type: String,
       required: true
     },
-    school: {
-      type: String,
-      required: true
-    }*/
-
-/*}*/);
-
-var User = mongoose.model('User', UserSchema, "users");
-
-const AccountSchema = new Schema({
-    id: {
-      type: Number,
-      required: true
-    },
-    email: {
+    education_level : {
       type: String,
       required: true
     },
-    password: {
+    school : {
       type: String,
       required: true
-    }
-
+    },
+    tutors:[
+      {type: Schema.Types.ObjectId, ref: 'Tutor'}
+    ]
 });
 
-var Account = mongoose.model('Account', AccountSchema, "accounts");
+var User = Account.discriminator('User', UserSchema, "user");
 
 const AppointmentSchema = new Schema({
+  id: {
+    type: Number,
+    required: true
+  },
   tutor_id: {
     type: Schema.Types.ObjectId,
     ref: 'Tutor',
@@ -119,11 +90,6 @@ const AppointmentSchema = new Schema({
   user_id: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: true
-  },
-  //Is this necessary? Since mongodb isn't relational db, i don't think this is needed
-  id: {
-    type: Number,
     required: true
   },
   date: {
@@ -137,22 +103,10 @@ const AppointmentSchema = new Schema({
 
 var Appointment = mongoose.model('Appointment', AppointmentSchema, "appointments");
 
-// this is used temporarily for testing
-const DataSchema = new Schema(
-  {
-    id: Number,
-    name: String
-  },
-  { timestamps: true },
-);
-
-var Data = mongoose.model('Data', DataSchema, "datas");
-
 // export the Schemas
 module.exports = {
   Tutor: Tutor,
   User: User,
   Account: Account,
   Appointment: Appointment,
-  Data: Data
 }
