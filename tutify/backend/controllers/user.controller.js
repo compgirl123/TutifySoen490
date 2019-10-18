@@ -69,7 +69,7 @@ exports.putUser = async function (req, res) {
                     // Create account
                     account.email = email;
                     account.password = encrypted_password;
-                    account.save((err,acc) => {
+                    account.save(function(err,acc) {
                         if (err) return res.json({ success: false, error: err });
 
                         // Create user profile 
@@ -80,15 +80,14 @@ exports.putUser = async function (req, res) {
                         data.education_level = education_level;
                         data.school = school;
                         data.id = id;
-                        data.save((err,user) => {  
+                        data.save(function (err,user) {  
                             if (err) return res.json({ success: false, error: err });
 
                             // Update account with user id
                             Account.updateOne({_id: acc._id}, 
                                 {user_profile: user._id}, 
-                                function(err) { console.log(err) });
-                            return res.json({ success: true });
-                    
+                                function(err) { if(err) console.log(err) });
+                   
                         });
                         return res.json({ success: true });
                     });                  
