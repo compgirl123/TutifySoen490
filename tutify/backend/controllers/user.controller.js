@@ -1,3 +1,4 @@
+const Account = require('../models/models').Account;
 const User = require('../models/models').User;
 var session = require('express-session');
 // Nodejs encryption with CTR
@@ -42,12 +43,11 @@ exports.decrypt = function (text) {
 
 // this method adds new user in our database
 exports.putUser = async function (req, res) {
+    let account = new Account();
     let data = new User();
     const { id, first_name, last_name ,program_of_study, email,password, school,school_name_other,education_level} = req.body;
     // testing the encryption feature
-    var encrypted_password = exports.encrypt(req.body.password).encryptedData;
-    //var school_name_other1 = ""; 
-    
+    var encrypted_password = exports.encrypt(req.body.password).encryptedData;   
 
     if ((!id && id !== 0) || !first_name || !last_name || !email || !password || !program_of_study || !education_level || !school) {
         return res.json({
@@ -56,20 +56,29 @@ exports.putUser = async function (req, res) {
         });
     }
     
-    data.first_name = first_name;
-    data.last_name = last_name;
-    data.email = email;
-    data.program_of_study = program_of_study;
-    data.password = encrypted_password;
-    data.education_level = education_level;
-    data.school = school;
-    //data.classes_tutored = classes_tutored;
-    //data.type_tutoring = type_tutoring;
-    data.id = id;
-    data.save((err) => {
-        if (err) return res.json({ success: false, error: err });
-        return res.json({ success: true });
-    });
+    // Create account
+    account.email = email;
+    account.password = encrypted_password;
+    account.save(function(err,acc) {
+        if(err) {
+            console.log(err)
+        }
+        // Create user profile 
+        data.account = acc.id;
+        data.first_name = first_name;
+        data.last_name = last_name;
+        data.program_of_study = program_of_study;
+        data.education_level = education_level;
+        data.school = school;
+        data.id = id;
+        data.save(function(err,user) {  
+            Account.updateOne({_id: acc._id}, 
+                {user_profile: user._id}, // update token with user id
+                function(err) { });
+    
+        });
+     });
+
 };
 
 exports.authUser = async function (req,res){
@@ -86,7 +95,6 @@ exports.authUser = async function (req,res){
     if(user){
         req.session.user = user;
         req.session.isLoggedIn = true;
-        //req.flash('success', 'You are signed in.');
 
         req.session.save();
         res.send(req.session);
@@ -96,10 +104,6 @@ exports.authUser = async function (req,res){
     }
 
     req.session.isLoggedIn = false;
-    /**req.flash(
-        'danger',
-        'Invalid email or password, please try again.'
-      );*/
     req.session.save();
     res.send(req.session);
    

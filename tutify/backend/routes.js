@@ -8,17 +8,6 @@ var accountController = require('./controllers/account.controller')
 var appointmentController = require('./controllers/appointment.controller')
 var tutorController = require('./controllers/tutor.controller')
 var userController = require('./controllers/user.controller')
-var dataController = require('./controllers/data.controller')
-
-// -------- TEST DATA ROUTES --------- // 
-
-router.get('/getData', dataController.getData);
-  
-router.post('/updateData', dataController.updateData);
-
-router.delete('/deleteData', dataController.deleteData);
-
-router.post('/putData', dataController.putData);
 
 // -------- TUTOR ROUTES --------- // 
 
