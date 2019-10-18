@@ -1,3 +1,4 @@
+const Account = require('../models/models').Account;
 const User = require('../models/models').User;
 var session = require('express-session');
 // Nodejs encryption with CTR
@@ -43,6 +44,7 @@ exports.decrypt = function (text) {
 
 // this method adds new user in our database
 exports.putUser = async function (req, res) {
+    let account = new Account();
     let data = new User();
     var encrypted_password = "";
     const { id, first_name, last_name, program_of_study, email, password, school, school_name_other, education_level } = req.body;
@@ -64,19 +66,32 @@ exports.putUser = async function (req, res) {
                         });
                     }
 
-                    data.first_name = first_name;
-                    data.last_name = last_name;
-                    data.email = email;
-                    data.program_of_study = program_of_study;
-                    data.password = encrypted_password;
-                    data.education_level = education_level;
-                    data.school = school;
-                    data.id = id;
-
-                    data.save((err) => {
+                    // Create account
+                    account.email = email;
+                    account.password = encrypted_password;
+                    account.save((err,acc) => {
                         if (err) return res.json({ success: false, error: err });
+
+                        // Create user profile 
+                        data.account = acc.id;
+                        data.first_name = first_name;
+                        data.last_name = last_name;
+                        data.program_of_study = program_of_study;
+                        data.education_level = education_level;
+                        data.school = school;
+                        data.id = id;
+                        data.save((err,user) => {  
+                            if (err) return res.json({ success: false, error: err });
+
+                            // Update account with user id
+                            Account.updateOne({_id: acc._id}, 
+                                {user_profile: user._id}, 
+                                function(err) { console.log(err) });
+                            return res.json({ success: true });
+                    
+                        });
                         return res.json({ success: true });
-                    });
+                    });                  
                 }
             });
         }
