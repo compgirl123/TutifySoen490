@@ -51,7 +51,7 @@
     "start": "concurrently \"cd backend && node server.js\" \"react-scripts start\"",
     "build": "react-scripts build",
     "test-init": "./node_modules/jasmine/bin/jasmine.js init",
-    "test": "cross-env NODE_ENV=test jasmine --env=jsdom",
+    "test": "cross-env NODE_ENV=test mocha --env=jsdom",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -78,10 +78,12 @@
     "jasmine-enzyme": "^7.1.1",
     "@babel/cli": "^7.6.4",
     "@babel/core": "^7.6.4",
+    "chai": "^4.2.0",
     "jasmine": "^3.5.0",
     "karma-chrome-launcher": "^3.1.0",
     "karma-jasmine": "^2.0.1",
     "karma-requirejs": "^1.1.0",
+    "mocha": "^6.2.2",
     "riteway": "^6.1.0"
   },
   "keywords": [],
