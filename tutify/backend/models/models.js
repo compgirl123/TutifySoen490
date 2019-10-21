@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 
 // -------- ACCOUNT --------- // 
 
-// these properties are shared with our schemas Tutor and User
 const Account = mongoose.model('Account', new mongoose.Schema({
   email: {
     type: String,
@@ -14,14 +13,15 @@ const Account = mongoose.model('Account', new mongoose.Schema({
     type: String,
     required: true
   },
-  user_profile: {type: Schema.Types.ObjectId, ref: 'User'},
+  user_profile: {type: Schema.Types.ObjectId, ref: 'Student'},
   tutor_profile: {type: Schema.Types.ObjectId, ref: 'Tutor'},
 }), 'accounts'
 );
 
-// -------- TUTOR --------- // 
+// -------- PROFILE --------- // 
 
-const Tutor = mongoose.model('Tutor', new mongoose.Schema({
+// these properties are shared with our schemas Tutor and User
+const Profile = mongoose.model('Profile', new mongoose.Schema({
   id: {
     type: Number,
     required: true
@@ -35,54 +35,45 @@ const Tutor = mongoose.model('Tutor', new mongoose.Schema({
     type: String,
     required: true
   },
-  school: {
+  school : {
     type: String,
-    required: true,
+    required: true
   },
   program: {
     type: String,
   },
-  subject: [String],
+}), 'profiles'
+);
+
+
+// -------- TUTOR --------- // 
+
+const TutorSchema = mongoose.Schema({
+  subjects: [String],
   picture:{
     type:String,
     required:true
   },
   students:[
-    {type: Schema.Types.ObjectId, ref: 'User'}
+    {type: Schema.Types.ObjectId, ref: 'Student'}
   ]
-}),'tutors'
-);
+});
 
-// -------- USER --------- // 
+var Tutor = Profile.discriminator('Tutor', TutorSchema, "tutor");
 
-const User = mongoose.model('User', new mongoose.Schema({
-  id: Number,
-  account: {type: Schema.Types.ObjectId, ref: 'Account'},
-  first_name: {
-    type: String,
-    required: true
-  },
-  last_name : {
-    type: String,
-    required: true
-  },
-  program_of_study : {
-    type: String,
-    required: true
-  },
+// -------- STUDENT --------- // 
+
+const StudentSchema = mongoose.Schema({
   education_level : {
-    type: String,
-    required: true
-  },
-  school : {
     type: String,
     required: true
   },
   tutors:[
     {type: Schema.Types.ObjectId, ref: 'Tutor'}
   ]
-}),'users'
-);
+});
+
+var Student = Profile.discriminator('Student', StudentSchema, "student");
 
 // -------- APPOINTMENT --------- // 
 
@@ -113,7 +104,8 @@ var Appointment = mongoose.model('Appointment', new Schema({
 // export the Schemas
 module.exports = {
   Tutor: Tutor,
-  User: User,
+  Profile: Profile,
+  Student: Student,
   Account: Account,
   Appointment: Appointment,
 }

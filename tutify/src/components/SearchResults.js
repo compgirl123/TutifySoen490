@@ -238,7 +238,7 @@ class SearchResults extends Component {
                             <span className={classes.program}> - {tutor.program}</span>
                           )}
                           <br />
-                          {tutor.subject.map(sub => (
+                          {tutor.subjects.map(sub => (
                             <Chip
                               className={classes.chip}
                               icon={<CheckIcon />}
