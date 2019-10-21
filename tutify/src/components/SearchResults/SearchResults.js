@@ -24,7 +24,7 @@ import SearchIcon from '@material-ui/icons/Search';
 const fetch = require("node-fetch");
 
 
-class SearchResults extends Component {
+export class SearchResults extends Component {
   // initialize our state
   constructor(props) {
     super(props);
