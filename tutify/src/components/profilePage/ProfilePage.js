@@ -14,7 +14,7 @@ class ProfilePage extends React.Component {
     super(props);
     this.state = {
       drawerOpened: false,
-      email: ""
+      email: "",
     };
   }
   toggleDrawer = booleanValue => () => {
@@ -34,7 +34,7 @@ class ProfilePage extends React.Component {
       .then(response => response.json())
       .then(res => {
         if(res.isLoggedIn){
-            this.setState({Toggle: true, email:res.user.email});
+            this.setState({Toggle: true});
         }
         else{
             this.setState({Toggle: false});

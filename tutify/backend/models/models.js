@@ -40,7 +40,7 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
     required: true
   },
   program: {
-    type: String,
+    type: String
   },
 }), 'profiles'
 );

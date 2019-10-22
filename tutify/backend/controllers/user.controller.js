@@ -115,11 +115,23 @@ exports.authUser = async function (req, res) {
                 if (err) {
                     console.log('server error');
                 } else if (isMatch === true) {
+                    req.session.email = user.email;
+                    console.log(user);
+                    req.session.program_of_study = user.program;
                     console.log(null, 'login successfully');
-                    req.session.user = user;
+                    Student.findOne({ _id: user.user_profile}, function (err, user1) {
+                        req.session.userInfo = user1;
+                        req.session.isLoggedIn = true;
+                        console.log(req.session);
+                        req.session.save();
+                        res.send(req.session);
+                        //console.log(req.session);
+                    });
+                    /*req.session.user = user;
                     req.session.isLoggedIn = true;
+                    console.log(req.session);
                     req.session.save();
-                    res.send(req.session);
+                    res.send(req.session);*/
                 } else {
                     console.log('login info incorrect');
                 }
