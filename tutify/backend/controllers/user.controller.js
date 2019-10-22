@@ -101,13 +101,13 @@ exports.putUser = async function (req, res) {
 exports.authUser = async function (req, res) {
     var email = req.body.email;
     var password = req.body.password;
-
-    Student.findOne({ email: email }, function (err, user) {
+    var profile_id = [];
+    
+    Account.findOne({ email: email }, function (err, user) {
         if (err) {
             console.log(err);
             return res.status(500).send();
         }
-
         else if (user == undefined) {
             console.log('user not found');
         } else {
