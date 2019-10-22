@@ -2,11 +2,31 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const TutorSchema = new Schema({
+// -------- ACCOUNT --------- // 
+
+const Account = mongoose.model('Account', new mongoose.Schema({
+  email: {
+    type: String,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  user_profile: {type: Schema.Types.ObjectId, ref: 'Student'},
+  tutor_profile: {type: Schema.Types.ObjectId, ref: 'Tutor'},
+}), 'accounts'
+);
+
+// -------- PROFILE --------- // 
+
+// these properties are shared with our schemas Tutor and User
+const Profile = mongoose.model('Profile', new mongoose.Schema({
   id: {
     type: Number,
     required: true
   },
+  account: {type: Schema.Types.ObjectId, ref: 'Account'},
   first_name: {
     type: String,
     required: true
@@ -15,102 +35,53 @@ const TutorSchema = new Schema({
     type: String,
     required: true
   },
-  school: {
+  school : {
     type: String,
-    required: true,
+    required: true
   },
   program: {
     type: String,
   },
-  subject: [String],
+}), 'profiles'
+);
+
+
+// -------- TUTOR --------- // 
+
+const TutorSchema = mongoose.Schema({
+  subjects: [String],
   picture:{
     type:String,
     required:true
-  }
-
+  },
+  students:[
+    {type: Schema.Types.ObjectId, ref: 'Student'}
+  ]
 });
 
-var Tutor = mongoose.model('Tutor', TutorSchema, "tutors");
+var Tutor = Profile.discriminator('Tutor', TutorSchema, "tutor");
 
+// -------- STUDENT --------- // 
 
-const UserSchema = new Schema(//{
-    {
-      id: Number,
-      first_name: {
-        type: String,
-        required: true
-      },
-      last_name : {
-        type: String,
-        required: true
-      },
-      program_of_study : {
-        type: String,
-        required: true
-      },
-      email : {
-        type: String,
-        required: true
-      },
-      password: {
-        type: String,
-        required: true
-      },
-      education_level : {
-        type: String,
-        required: true
-      },
-      school : {
-        type: String,
-        required: true
-      }
-      //classes_tutored : String,
-      //type_tutoring : String
-    }
-    /*id: {
-      type: Number,
-      required: true
-    },
-    first_name: {
-      type: String,
-      required: true
-    },
-    last_name: {
-      type: String,
-      required: true
-    },
-    education: {
-      type: String,
-      required: true
-    },
-    school: {
-      type: String,
-      required: true
-    }*/
-
-/*}*/);
-
-var User = mongoose.model('User', UserSchema, "users");
-
-const AccountSchema = new Schema({
-    id: {
-      type: Number,
-      required: true
-    },
-    email: {
-      type: String,
-      required: true
-    },
-    password: {
-      type: String,
-      required: true
-    }
-
+const StudentSchema = mongoose.Schema({
+  education_level : {
+    type: String,
+    required: true
+  },
+  tutors:[
+    {type: Schema.Types.ObjectId, ref: 'Tutor'}
+  ]
 });
 
-var Account = mongoose.model('Account', AccountSchema, "accounts");
+var Student = Profile.discriminator('Student', StudentSchema, "student");
 
-const AppointmentSchema = new Schema({
+// -------- APPOINTMENT --------- // 
+
+var Appointment = mongoose.model('Appointment', new Schema({
+  id: {
+    type: Number,
+    required: true
+  },
   tutor_id: {
     type: Schema.Types.ObjectId,
     ref: 'Tutor',
@@ -121,11 +92,6 @@ const AppointmentSchema = new Schema({
     ref: 'User',
     required: true
   },
-  //Is this necessary? Since mongodb isn't relational db, i don't think this is needed
-  id: {
-    type: Number,
-    required: true
-  },
   date: {
     type: Date,
     required: true
@@ -133,26 +99,13 @@ const AppointmentSchema = new Schema({
   location: {
     type: String
   }
-});
-
-var Appointment = mongoose.model('Appointment', AppointmentSchema, "appointments");
-
-// this is used temporarily for testing
-const DataSchema = new Schema(
-  {
-    id: Number,
-    name: String
-  },
-  { timestamps: true },
-);
-
-var Data = mongoose.model('Data', DataSchema, "datas");
+}), "appointments");
 
 // export the Schemas
 module.exports = {
   Tutor: Tutor,
-  User: User,
+  Profile: Profile,
+  Student: Student,
   Account: Account,
   Appointment: Appointment,
-  Data: Data
 }

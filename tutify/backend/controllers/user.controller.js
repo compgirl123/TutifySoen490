@@ -1,4 +1,5 @@
-const User = require('../models/models').User;
+const Account = require('../models/models').Account;
+const Student = require('../models/models').Student;
 var session = require('express-session');
 // Nodejs encryption with CTR
 const crypto = require('crypto');
@@ -9,7 +10,7 @@ const iv = crypto.randomBytes(16);
 
 // this method fetches all available users in our database
 exports.getUser = async function (req, res) {
-    User.find((err, data) => {
+    Student.find((err, data) => {
         if (err) return res.json({ success: false, error: err });
         return res.json({ success: true, data: data });
     });
@@ -18,7 +19,7 @@ exports.getUser = async function (req, res) {
 // this method overwrites existing user in our database
 exports.updateUser = async function (req, res) {
     const { id, update } = req.body;
-    User.findByIdAndUpdate(id, update, (err) => {
+    Student.findByIdAndUpdate(id, update, (err) => {
         if (err) return res.json({ success: false, error: err });
         return res.json({ success: true });
     });
@@ -43,7 +44,8 @@ exports.decrypt = function (text) {
 
 // this method adds new user in our database
 exports.putUser = async function (req, res) {
-    let data = new User();
+    let account = new Account();
+    let data = new Student();
     var encrypted_password = "";
     const { id, first_name, last_name, program_of_study, email, password, school, school_name_other, education_level } = req.body;
 
@@ -64,19 +66,31 @@ exports.putUser = async function (req, res) {
                         });
                     }
 
-                    data.first_name = first_name;
-                    data.last_name = last_name;
-                    data.email = email;
-                    data.program_of_study = program_of_study;
-                    data.password = encrypted_password;
-                    data.education_level = education_level;
-                    data.school = school;
-                    data.id = id;
-
-                    data.save((err) => {
+                    // Create account
+                    account.email = email;
+                    account.password = encrypted_password;
+                    account.save(function(err,acc) {
                         if (err) return res.json({ success: false, error: err });
+
+                        // Create user profile 
+                        data.account = acc.id;
+                        data.first_name = first_name;
+                        data.last_name = last_name;
+                        data.program_of_study = program_of_study;
+                        data.education_level = education_level;
+                        data.school = school;
+                        data.id = id;
+                        data.save(function (err,user) {  
+                            if (err) return res.json({ success: false, error: err });
+
+                            // Update account with user id
+                            Account.updateOne({_id: acc._id}, 
+                                {user_profile: user._id}, 
+                                function(err) { if(err) console.log(err) });
+                   
+                        });
                         return res.json({ success: true });
-                    });
+                    });                  
                 }
             });
         }
@@ -88,7 +102,7 @@ exports.authUser = async function (req, res) {
     var email = req.body.email;
     var password = req.body.password;
 
-    User.findOne({ email: email }, function (err, user) {
+    Student.findOne({ email: email }, function (err, user) {
         if (err) {
             console.log(err);
             return res.status(500).send();
@@ -142,7 +156,7 @@ exports.checkSession = async function (req, res) {
 // this method removes existing user in our database
 exports.deleteUser = async function (req, res) {
     const { id } = req.body;
-    User.findByIdAndRemove(id, (err) => {
+    Student.findByIdAndRemove(id, (err) => {
         if (err) return res.send(err);
         return res.json({ success: true });
     });
