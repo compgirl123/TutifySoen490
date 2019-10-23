@@ -13,8 +13,8 @@ const Account = mongoose.model('Account', new mongoose.Schema({
     type: String,
     required: true
   },
-  user_profile: {type: Schema.Types.ObjectId, ref: 'Student'},
-  tutor_profile: {type: Schema.Types.ObjectId, ref: 'Tutor'},
+  user_profile: { type: Schema.Types.ObjectId, ref: 'Student' },
+  tutor_profile: { type: Schema.Types.ObjectId, ref: 'Tutor' },
 }), 'accounts'
 );
 
@@ -26,7 +26,7 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
     type: Number,
     required: true
   },
-  account: {type: Schema.Types.ObjectId, ref: 'Account'},
+  account: { type: Schema.Types.ObjectId, ref: 'Account' },
   first_name: {
     type: String,
     required: true
@@ -35,11 +35,11 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
     type: String,
     required: true
   },
-  school : {
+  school: {
     type: String,
     required: true
   },
-  program: {
+  program_of_study: {
     type: String
   },
 }), 'profiles'
@@ -50,12 +50,12 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
 
 const TutorSchema = mongoose.Schema({
   subjects: [String],
-  picture:{
-    type:String,
-    required:true
+  picture: {
+    type: String,
+    required: true
   },
-  students:[
-    {type: Schema.Types.ObjectId, ref: 'Student'}
+  students: [
+    { type: Schema.Types.ObjectId, ref: 'Student' }
   ]
 });
 
@@ -64,12 +64,12 @@ var Tutor = Profile.discriminator('Tutor', TutorSchema, "tutor");
 // -------- STUDENT --------- // 
 
 const StudentSchema = mongoose.Schema({
-  education_level : {
+  education_level: {
     type: String,
     required: true
   },
-  tutors:[
-    {type: Schema.Types.ObjectId, ref: 'Tutor'}
+  tutors: [
+    { type: Schema.Types.ObjectId, ref: 'Tutor' }
   ]
 });
 
@@ -78,7 +78,7 @@ var Student = Profile.discriminator('Student', StudentSchema, "student");
 // -------- APPOINTMENT --------- // 
 
 var Appointment = mongoose.model('Appointment', new Schema({
-  id: {
+  id: {
     type: Number,
     required: true
   },
