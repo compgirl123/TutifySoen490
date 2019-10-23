@@ -110,9 +110,11 @@ class SearchResults extends Component {
       newList = currentList.filter(tutor => {
         let currentValue = ""
         let returnValue = true
+        console.log("POOJAAA");
+        console.log(tutor);
         switch (this.state.selectedIndex) {
           default:
-          case 0: tutor.subject.forEach(function (entry) {
+          case 0: tutor.subjects.forEach(function (entry) {
             currentValue += (entry + " ").toLowerCase()
           });
             currentValue += (tutor.first_name + " " + tutor.last_name
@@ -126,7 +128,7 @@ class SearchResults extends Component {
             break;
           case 3: // courses
           case 4: // subjects
-            tutor.subject.forEach(function (entry) {
+            tutor.subjects.forEach(function (entry) {
               currentValue += (entry + " ").toLowerCase()
             });
             break;
