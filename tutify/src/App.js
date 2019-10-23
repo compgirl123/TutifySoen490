@@ -14,7 +14,7 @@ function MainPage() {
   return (
     <Router>
         <Route exact path="/" component={Main} />
-        <Route exact path="/login" component={SignUp} />
+        <Route exact path="/signup" component={SignUp} />
         <Route exact path="/search" component={SearchTutors} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/profile" component={ProfilePage} />
