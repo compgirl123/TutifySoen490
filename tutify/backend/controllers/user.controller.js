@@ -1,5 +1,6 @@
 const Account = require('../models/models').Account;
 const Student = require('../models/models').Student;
+const Tutor = require('../models/models').Tutor;
 var session = require('express-session');
 // Nodejs encryption with CTR
 const crypto = require('crypto');
@@ -24,6 +25,27 @@ exports.updateUser = async function (req, res) {
         return res.json({ success: true });
     });
 };
+
+// this method assigns a tutor to the user & vice-versa
+exports.assignTutor = async function (req,res) {
+    const { student_id, tutor_id } = req.body;
+
+    Student.findByIdAndUpdate(student_id,
+        { "$push": { "tutors": tutor_id } },
+        { "new": true, "upsert": true },
+        function (err) {
+            if (err) throw err;
+        }
+    );
+
+    Tutor.findByIdAndUpdate(tutor_id,
+        { "$push": { "students": student_id } },
+        { "new": true, "upsert": true },
+        function (err) {
+            if (err) throw err;
+        }
+    );
+}
 
 // this function encrypts the password for security reasons
 exports.encrypt = function (text) {
