@@ -235,8 +235,8 @@ class SearchResults extends Component {
                         </Typography>
                         <Typography>
                           <span className={classes.school}>{tutor.school}</span>
-                          {tutor.program_of_study!== "" && (
-                            <span className={classes.program_of_studyn}> - {tutor.program}</span>
+                          {tutor.program_of_study !== "" && (
+                            <span className={classes.program_of_study}> - {tutor.program_of_study}</span>
                           )}
                           <br />
                           {tutor.subjects.map(sub => (

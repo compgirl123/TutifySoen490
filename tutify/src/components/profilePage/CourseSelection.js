@@ -64,19 +64,16 @@ class CourseSelection extends React.Component {
   render() {
     const { classes, theme } = this.props;
     const subjects = [];
-    //console.log(this.state.data.length);
+
     for(var x=0;x<this.state.data.length;x++){
-        //console.log(this.state.data[x].subjects);
         for(var y=0;y<this.state.data[x].subjects.length;y++){
             subjects.push(this.state.data[x].subjects[y]);
         }
        
     }
-    console.log(subjects);
 
     return (
       <div className={classes.root}>
-        
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="select-multiple-chip">Courses</InputLabel>
           <Select
