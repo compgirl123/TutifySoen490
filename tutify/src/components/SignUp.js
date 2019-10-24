@@ -117,23 +117,35 @@ class SignUp extends React.Component {
     }
   }
 
-  vEmail(email) {
-    if (email === "") {
-      this.FormValid["email"] = false;
-      return false;
-    }
-    else if (validator.isEmail(email)) {
-      this.FormValid["email"] = true;
-      return true;
-    }
-    else if (email === "█") {
-      this.FormValid["email"] = false;
-      return true;
-    }
-    else {
-      this.FormValid["email"] = false;
-      return false;
-    }
+    vEmail(email, callback = ()=>{}){
+      if(email===""){
+        this.FormValid["email"]=false;
+        return false;
+      }
+      else if(validator.isEmail(email)){
+        axios.get('https://webhooks.mongodb-stitch.com/api/client/v2.0/app/tutify-skqbg/service/verifyAccount/incoming_webhook/verifyEmail?email='+email).then((result)=>{
+           if (result.data.length>0)
+          {
+            this.FormValid["email"]=false;            
+          }
+          else{
+            this.FormValid["email"]=true;
+          }
+          callback();
+        });
+        if(!this.FormValid["email"]){
+          return false;
+        }
+        return true;
+      }
+      else if(email==="█"){
+        this.FormValid["email"]=false;
+        return true;
+      }
+      else{
+        this.FormValid["email"]=false;
+        return false;
+      }
   }
 
 
@@ -290,179 +302,180 @@ class SignUp extends React.Component {
             <Typography component="h1" variant="h5">
               Sign Up Page
       </Typography>
-            <form className="form" name="form" noValidate>
-              <Grid container spacing={2} justify="space-between">
-                <Grid item xs={6}>
-                  <TextField
-                    autoComplete="fname"
-                    name="firstName"
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="firstName"
-                    label="First Name"
-                    error={!this.vfName(this.state.first_name)}
-                    helperText={this.state.first_name === true ? "" : "Please Enter First Name"}
-                    onChange={(e) => this.setState({ first_name: e.target.value })}
-                    onSubmit={(e) => this.setState({ first_name: e.target.value })}
-                    autoFocus
-                    InputProps={{
-                      classes: {
-                        notchedOutline: classes.notchedOutline
-                      }
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="lastName"
-                    label="Last Name"
-                    name="lastName"
-                    onChange={(e) => this.setState({ last_name: e.target.value })}
-                    autoComplete="lname"
-                    error={!this.vlName(this.state.last_name)}
-                    helperText={this.state.last_name === true ? "" : "Please Enter Last Name"}
-                    InputProps={{
-                      classes: {
-                        notchedOutline: classes.notchedOutline
-                      }
-                    }}
-                  />
-                </Grid>
+      <form className="form" name="form" noValidate>
+      <Grid container spacing={2} justify="space-between">
+            <Grid item xs={6}>
+              <TextField
+                autoComplete="fname"
+                name="firstName"
+                variant="outlined"
+                required
+                fullWidth
+                id="firstName"
+                label="First Name"
+                error={!this.vfName(this.state.first_name)}
+                helperText={this.state.first_name === true ? "" : "Please Enter First Name"}
+                onChange={(e) => this.setState({ first_name: e.target.value })}
+                onSubmit={(e) => this.setState({ first_name: e.target.value })}
+                autoFocus
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="lastName"
+                onChange={(e) => this.setState({ last_name: e.target.value })}
+                autoComplete="lname"
+                error={!this.vlName(this.state.last_name)}
+                helperText={this.state.last_name === true ? "" : "Please Enter Last Name"}
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
+              />
+            </Grid>
 
-                <Grid item xs={6}>
+            <Grid item xs={6}>
+           
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="ProgramOfStudy"
+                label="Program Of Study"
+                name="programOfStudy"
+                onChange={(e) => this.setState({ program_of_study: e.target.value })}
+                autoComplete="programOfStudy"
+                error={!this.vPOS(this.state.program_of_study)}
+                helperText={this.state.program_of_study === true ? "" : "Please Enter Field of Study"}
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
+              />
+            </Grid>
 
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="ProgramOfStudy"
-                    label="Program Of Study"
-                    name="programOfStudy"
-                    onChange={(e) => this.setState({ program_of_study: e.target.value })}
-                    autoComplete="programOfStudy"
-                    error={!this.vPOS(this.state.program_of_study)}
-                    helperText={this.state.program_of_study === true ? "" : "Please Enter Field of Study"}
-                    InputProps={{
-                      classes: {
-                        notchedOutline: classes.notchedOutline
-                      }
-                    }}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    onChange={e => this.setState({ email: e.target.value })}
-                    autoComplete="email"
-                    error={!this.vEmail(this.state.email)}
-                    helperText={this.state.email === true ? "" : "Please Enter Email"}
-                    InputProps={{
-                      classes: {
-                        notchedOutline: classes.notchedOutline
-                      }
-                    }}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    name="password"
-                    onChange={(e) => this.setState({ password: e.target.value })}
-                    label="Password"
-                    type="password"
-                    id="password"
-                    helperText={this.state.password === true ? "" : "Please Enter Password (Must have both letters and numbers)"}
-                    error={!this.vPassword(this.state.password)}
-                    autoComplete="current-password"
-                    InputProps={{
-                      classes: {
-                        notchedOutline: classes.notchedOutline
-                      }
-                    }}
-                  />
-                </Grid>
-
-
-
-
-                <Grid item xs={6}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    name="confirm-password"
-                    onChange={(e) => this.setState({ cPassword: e.target.value })}
-                    label="Confirm Password"
-                    type="password"
-                    id="confirm-password"
-                    error={!this.vConfirmPassword(this.state.cPassword)}
-                    InputProps={{
-                      classes: {
-                        notchedOutline: classes.notchedOutline
-                      }
-                    }}
-                  />
-                </Grid>
+            <Grid item xs={6}>
+            
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                onChange={e => this.setState({ email: e.target.value })}
+                autoComplete="email"
+                error={!this.vEmail(this.state.email)}
+                helperText={this.state.email === true ? "" : "Please Enter Email"}
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
+              />
+            </Grid>
+            
+            <Grid item xs={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                onChange={(e) => this.setState({ password: e.target.value })}
+                label="Password"
+                type="password"
+                id="password"
+                helperText={this.state.password === true ? "" : "Please Enter Password (Must have both letters and numbers)"}
+                error={!this.vPassword(this.state.password)}
+                autoComplete="current-password"
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
+              />
+            </Grid>
 
 
 
-                <Grid item xs={6}>
 
-                  <FormControl >
-                    <InputLabel htmlFor="education_level">Education Level</InputLabel>
-                    <Select
-                      name="education_level"
-                      value={education_level}
-                      onChange={event => { this.setState({ education_level: event.target.value }); this.FormValid["educationLevel"] = true; }}
-                      // onChange={(e) => this.setState({ first_name: e.target.value })}
-                      input={<Input id="education_level" />}
-                    >
-                      <MenuItem value="elementary">Elementary School</MenuItem>
-                      <MenuItem value="highschool">High School</MenuItem>
-                      <MenuItem value="cegep">Cegep</MenuItem>
-                      <MenuItem value="university">University</MenuItem>
-                      <MenuItem value="adulteducation">Adult Education</MenuItem>
-                    </Select>
-                    {hasError && <FormHelperText>This is required!</FormHelperText>}
-                  </FormControl>
-                </Grid>
-                <Grid item xs={6}>
-                  <form autoComplete="off">
-                    <FormControl >
-                      <InputLabel htmlFor="school" fullWidth>School Name</InputLabel>
-                      <Select
-                        name="school"
-                        value={school}
-                        onChange={event => {
-                          this.setState({ school: event.target.value });
-                          this.setSchool(event.target.value);
-                        }}
-                        input={<Input id="school" />}
-                      >
-                        <MenuItem value="mcgill">McGill</MenuItem>
-                        <MenuItem value="concordia">Concordia</MenuItem>
-                        <MenuItem value="udm">Universite de Montreal</MenuItem>
-                        <MenuItem value="uqam">UQAM</MenuItem>
-                        <MenuItem value="cegep">CEGEP</MenuItem>
-                        <MenuItem value="highschool">High School</MenuItem>
-                        <MenuItem value="other">Other</MenuItem>
-                      </Select>
-                      {hasError && <FormHelperText>This is required!</FormHelperText>}
-                    </FormControl>
+            <Grid item xs={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="confirm-password"
+                onChange={(e) => this.setState({ cPassword: e.target.value })}
+                label="Confirm Password"
+                type="password"
+                id="confirm-password"
+                autoComplete="confirm-password"
+                error={!this.vConfirmPassword(this.state.cPassword)}
+                InputProps={{
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
+              />
+            </Grid>
+            
+            
+
+            <Grid item xs={6}>  
+            
+              <FormControl >
+                <InputLabel htmlFor="education_level">Education Level</InputLabel>
+                <Select
+                  name="education_level"
+                  value={education_level}
+                  onChange={event => { this.setState({ education_level: event.target.value }); this.FormValid["educationLevel"] = true; }}
+                // onChange={(e) => this.setState({ first_name: e.target.value })}
+                  input={<Input id="education_level" />}
+                >
+                  <MenuItem value="elementary">Elementary School</MenuItem>
+                  <MenuItem value="highschool">High School</MenuItem>
+                  <MenuItem value="cegep">Cegep</MenuItem>
+                  <MenuItem value="university">University</MenuItem>
+                  <MenuItem value="adulteducation">Adult Education</MenuItem>
+                </Select>
+                {hasError && <FormHelperText>This is required!</FormHelperText>}
+              </FormControl>
+            </Grid>         
+            <Grid item xs={6}>  
+            <form autoComplete="off">
+              <FormControl >
+                <InputLabel htmlFor="school" fullWidth>School Name</InputLabel>
+                <Select
+                  name="school"
+                  value={school}
+                  onChange={event => {
+                    this.setState({ school: event.target.value });
+                    this.setSchool(event.target.value);
+                  }}
+                  input={<Input id="school" />}
+                >
+                  <MenuItem value="mcgill">McGill</MenuItem>
+                  <MenuItem value="concordia">Concordia</MenuItem>
+                  <MenuItem value="udm">Universite de Montreal</MenuItem>
+                  <MenuItem value="uqam">UQAM</MenuItem>
+                  <MenuItem value="cegep">CEGEP</MenuItem>
+                  <MenuItem value="highschool">High School</MenuItem>
+                  <MenuItem value="other">Other</MenuItem>
+                </Select>
+                {hasError && <FormHelperText>This is required!</FormHelperText>}
+              </FormControl>
                   </form>
                 </Grid>
                 <Grid item xs={6}>
