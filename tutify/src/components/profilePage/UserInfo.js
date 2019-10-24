@@ -5,14 +5,9 @@ import Typography from '@material-ui/core/Typography';
 import Title from './Title';
 import * as tutifyStyle from '../../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
-import { FormControl } from '@material-ui/core';
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
+
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import CourseSelection from './CourseSelection';
 import Paper from '@material-ui/core/Paper';
 
 
@@ -100,8 +95,7 @@ class UserInfo extends React.Component {
       
       <div>
       <Grid item xs={6}>  
-            
-            <FormControl >
+            {/*<FormControl >
               <InputLabel htmlFor="tutoring_type">Tutoring Type</InputLabel>
               <Select
                 name="tutoring_type"
@@ -116,11 +110,11 @@ class UserInfo extends React.Component {
                 <MenuItem value="50">Weekly Tutorials</MenuItem>
               </Select>
               
-            </FormControl>
+            </FormControl>*/}
           </Grid>         
           <Grid item xs={6}>  
           <form autoComplete="off">
-          <CourseSelection />
+          {/*<CourseSelection />*/}
             {/*<FormControl >
               <InputLabel htmlFor="course" fullWidth>Select Courses</InputLabel>
               <Select

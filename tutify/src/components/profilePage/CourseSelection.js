@@ -75,7 +75,7 @@ class CourseSelection extends React.Component {
     return (
       <div className={classes.root}>
         <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="select-multiple-chip">Courses</InputLabel>
+          <InputLabel htmlFor="select-multiple-chip">Courses Taught</InputLabel>
           <Select
             multiple
             value={this.state.name}
@@ -83,7 +83,7 @@ class CourseSelection extends React.Component {
             input={<Input id="select-multiple-chip" />}
             renderValue={selected => (
               <div className={classes.chips}>
-                {selected.map(value => <Chip key={value} label={value} className={classes.chip} />)}
+                {selected.map(value => <Chip key={value} label={value} className={classes.chip}/>)}
               </div>
             )}
             MenuProps={MenuProps}

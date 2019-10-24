@@ -1,11 +1,13 @@
 import React from 'react';
-import Link from '@material-ui/core/Link';
 
 import Typography from '@material-ui/core/Typography';
 import Title from '../profilePage/Title';
 import * as tutifyStyle from '../../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import CourseSelection from '../profilePage/CourseSelection';
+import Button from '@material-ui/core/Button';
 
 
 class TutorInfo extends React.Component {
@@ -61,6 +63,26 @@ class TutorInfo extends React.Component {
       //this.setState({Toggle: false});
       
     };
+
+
+    checkSession = () => {
+      fetch('http://localhost:3001/api/checkSession',{
+                    method: 'GET',
+                    credentials: 'include'
+      })          
+        .then(response => response.json())
+        .then(res => {
+          if(res.isLoggedIn){
+              this.setState({Toggle: true, first_name: res.userInfo.first_name,last_name: res.userInfo.last_name,
+                email:res.email, education_level:res.userInfo.education_level, school:res.userInfo.school,
+              program_of_study: res.userInfo.program_of_study});
+          }
+          else{
+              this.setState({Toggle: false});
+          }
+        })
+        .catch(err => console.log(err));
+      };
   render() {
     const { classes } = this.props;
     
@@ -81,9 +103,20 @@ class TutorInfo extends React.Component {
         French
       </Typography>
 
-        <Link color="primary" href="/">
-          Edit Info
-        </Link>
+      <Grid item xs={6}>
+        <CourseSelection />
+      </Grid>
+
+      <Button
+          
+          type="button"
+          fullWidth
+          variant="contained"
+          className="submit"
+          
+        >
+          Save
+        </Button>
       
       
     </React.Fragment>
