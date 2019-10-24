@@ -116,7 +116,7 @@ exports.authUser = async function (req, res) {
                     console.log('server error');
                 } else if (isMatch === true) {
                     req.session.email = user.email;
-                    req.session.program_of_study = user.program;
+                    req.session.program_of_study = user.program_of_study;
                     console.log(null, 'login successfully');
                     Student.findOne({ _id: user.user_profile }, function (err, user1) {
                         req.session.userInfo = user1;
