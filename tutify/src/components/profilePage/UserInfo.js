@@ -12,10 +12,8 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import CourseSelection from './CourseSelection';
 import Paper from '@material-ui/core/Paper';
-
-
-
 
 
 class UserInfo extends React.Component {
@@ -48,9 +46,9 @@ class UserInfo extends React.Component {
       .then(response => response.json())
       .then(res => {
         if(res.isLoggedIn){
-            this.setState({Toggle: true, first_name: res.user.first_name,last_name: res.user.last_name,
-              email:res.user.email, education_level:res.user.education_level, school:res.user.school,
-            program_of_study: res.user.program_of_study});
+            this.setState({Toggle: true, first_name: res.userInfo.first_name,last_name: res.userInfo.last_name,
+              email:res.email, education_level:res.userInfo.education_level, school:res.userInfo.school,
+            program_of_study: res.userInfo.program_of_study});
         }
         else{
             this.setState({Toggle: false});
@@ -74,9 +72,10 @@ class UserInfo extends React.Component {
   render() {
     const { classes } = this.props;
     
+    
     return (
       <Paper className={classes.paper}>
-      <React.Fragment >
+      <React.Fragment>
       <Title> User Info</Title>
       <Typography component="p" variant="h6">
       {this.state.first_name} {this.state.last_name}
@@ -84,10 +83,10 @@ class UserInfo extends React.Component {
       </Typography>
       <Typography component="p" variant="h7">
        {/*Email: sriahila@hotmail.com*/}
-       Email : {this.state.email}
+       Email : {this.state.email} 
       </Typography>
       <Typography color="textSecondary" className={classes.InfoContext}>
-        {/*Concordia University */}
+        {/*Concordia University */}  
         Program of Study: {this.state.program_of_study}
       </Typography>
       <Typography color="textSecondary" className={classes.InfoContext}>
@@ -121,7 +120,8 @@ class UserInfo extends React.Component {
           </Grid>         
           <Grid item xs={6}>  
           <form autoComplete="off">
-            <FormControl >
+          <CourseSelection />
+            {/*<FormControl >
               <InputLabel htmlFor="course" fullWidth>Select Courses</InputLabel>
               <Select
                 name="course"
@@ -138,11 +138,12 @@ class UserInfo extends React.Component {
                 <MenuItem value="French">French</MenuItem>
               </Select>
               
-            </FormControl>
+              </FormControl>*/}
                 </form>
               </Grid> 
 
-    <p><Button
+
+    <Button
           
           type="button"
           fullWidth
@@ -152,8 +153,6 @@ class UserInfo extends React.Component {
         >
           Save Options
         </Button>
-        </p>
-
         <Link color="primary" href="/">
           Edit Info
         </Link>
@@ -161,8 +160,7 @@ class UserInfo extends React.Component {
       
       
     </React.Fragment>
-    </Paper>
-    );
+    </Paper>);
   }
 }
 

@@ -11,7 +11,6 @@ import { withStyles } from "@material-ui/core/styles";
 import NavBar from './NavBar';
 import Footer from './Footer';
 import './style.css';
-
 class Login extends React.Component {
  // initialize our state
    // initialize our state
@@ -33,7 +32,6 @@ class Login extends React.Component {
     
     }
     
-
   
     // fetch data from the data base
     getDataFromDb = () => {
@@ -66,14 +64,12 @@ class Login extends React.Component {
       })
       .catch(err => console.log(err));
     };
-
   render() {
     const { classes } = this.props;
    
     return (
     <div>
             <NavBar />
-
     <Container component = "main">
      <CssBaseline />
       <div className = "paper">
@@ -134,7 +130,6 @@ class Login extends React.Component {
           </Grid>
           </Grid>
           </Grid>
-
        
           
       </form>
