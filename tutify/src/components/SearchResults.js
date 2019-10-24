@@ -110,13 +110,14 @@ class SearchResults extends Component {
       newList = currentList.filter(tutor => {
         let currentValue = ""
         let returnValue = true
+
         switch (this.state.selectedIndex) {
           default:
-          case 0: tutor.subject.forEach(function (entry) {
+          case 0: tutor.subjects.forEach(function (entry) {
             currentValue += (entry + " ").toLowerCase()
           });
             currentValue += (tutor.first_name + " " + tutor.last_name
-              + " " + tutor.school + " " + tutor.program).toLowerCase()
+              + " " + tutor.school + " " + tutor.program_of_study).toLowerCase()
             break;
           case 1: // name
             currentValue = (tutor.first_name + " " + tutor.last_name).toLowerCase()
@@ -126,12 +127,12 @@ class SearchResults extends Component {
             break;
           case 3: // courses
           case 4: // subjects
-            tutor.subject.forEach(function (entry) {
+            tutor.subjects.forEach(function (entry) {
               currentValue += (entry + " ").toLowerCase()
             });
             break;
           case 5: // program
-            currentValue = (tutor.program).toLowerCase()
+            currentValue = (tutor.program_of_study).toLowerCase()
             break;
         }
 
@@ -234,8 +235,8 @@ class SearchResults extends Component {
                         </Typography>
                         <Typography>
                           <span className={classes.school}>{tutor.school}</span>
-                          {tutor.program !== "" && (
-                            <span className={classes.program}> - {tutor.program}</span>
+                          {tutor.program_of_study !== "" && (
+                            <span className={classes.program_of_study}> - {tutor.program_of_study}</span>
                           )}
                           <br />
                           {tutor.subjects.map(sub => (

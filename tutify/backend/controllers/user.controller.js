@@ -69,7 +69,7 @@ exports.putUser = async function (req, res) {
                     // Create account
                     account.email = email;
                     account.password = encrypted_password;
-                    account.save(function(err,acc) {
+                    account.save(function (err, acc) {
                         if (err) return res.json({ success: false, error: err });
 
                         // Create user profile 
@@ -80,17 +80,17 @@ exports.putUser = async function (req, res) {
                         data.education_level = education_level;
                         data.school = school;
                         data.id = id;
-                        data.save(function (err,user) {  
+                        data.save(function (err, user) {
                             if (err) return res.json({ success: false, error: err });
 
                             // Update account with user id
-                            Account.updateOne({_id: acc._id}, 
-                                {user_profile: user._id}, 
-                                function(err) { if(err) console.log(err) });
-                   
+                            Account.updateOne({ _id: acc._id },
+                                { user_profile: user._id },
+                                function (err) { if (err) console.log(err) });
+
                         });
                         return res.json({ success: true });
-                    });                  
+                    });
                 }
             });
         }
@@ -101,13 +101,13 @@ exports.putUser = async function (req, res) {
 exports.authUser = async function (req, res) {
     var email = req.body.email;
     var password = req.body.password;
+    var profile_id = [];
 
-    Student.findOne({ email: email }, function (err, user) {
+    Account.findOne({ email: email }, function (err, user) {
         if (err) {
             console.log(err);
             return res.status(500).send();
         }
-
         else if (user == undefined) {
             console.log('user not found');
         } else {
@@ -115,11 +115,15 @@ exports.authUser = async function (req, res) {
                 if (err) {
                     console.log('server error');
                 } else if (isMatch === true) {
+                    req.session.email = user.email;
+                    req.session.program_of_study = user.program_of_study;
                     console.log(null, 'login successfully');
-                    req.session.user = user;
-                    req.session.isLoggedIn = true;
-                    req.session.save();
-                    res.send(req.session);
+                    Student.findOne({ _id: user.user_profile }, function (err, user1) {
+                        req.session.userInfo = user1;
+                        req.session.isLoggedIn = true;
+                        req.session.save();
+                        res.send(req.session);
+                    });
                 } else {
                     console.log('login info incorrect');
                 }

@@ -78,7 +78,7 @@ export const styles = theme => ({
   school: {
     color: '#969696',
   },
-  program: {
+  program_of_study: {
     color: '#8ae600',
   },
   
