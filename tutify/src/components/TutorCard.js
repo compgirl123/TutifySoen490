@@ -40,7 +40,6 @@ class TutorCard extends Component {
             .then(response => response.json())
             .then(res => {
                 if (res.isLoggedIn) {
-                    console.log("userid: " + res.userInfo._id)
                     axios.post('http://localhost:3001/api/assignTutor', {
                         student_id: res.userInfo._id, 
                         tutor_id: tutor._id,
@@ -163,8 +162,8 @@ class TutorCard extends Component {
                         </Typography>
                         <Typography component={'span'}>
                             <span className={classes.school}>{tutor.school}</span>
-                            {tutor.program !== "" && (
-                                <span className={classes.program}> - {tutor.program}</span>
+                            {tutor.program_of_study !== "" && (
+                                <span className={classes.program_of_study}> - {tutor.program_of_study}</span>
                             )}
                             <br />
                             {tutor.subjects.map((sub, index) => (
