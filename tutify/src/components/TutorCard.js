@@ -41,7 +41,7 @@ class TutorCard extends Component {
     }
 
     handleFeedback = () => {
-        this.setState({open: true})
+        this.setState({ open: true })
     }
 
     handleClickOpen = () => {
@@ -68,9 +68,9 @@ class TutorCard extends Component {
                     <DialogTitle id="scroll-dialog-title" className={classes.dialogTitle}>
                         <div className={classes.paper}>
                             <Grid container spacing={2}>
-                                    <Grid item>
-                                        <Avatar src={tutor.picture} className={classes.bigAvatar} />
-                                    </Grid>
+                                <Grid item>
+                                    <Avatar src={tutor.picture} className={classes.bigAvatar} />
+                                </Grid>
                                 <Grid item xs={12} sm container>
                                     <Grid item xs container direction="column" spacing={2}>
                                         <Grid item xs>
@@ -91,88 +91,88 @@ class TutorCard extends Component {
                                 </Grid>
                             </Grid>
                         </div>
-                        </DialogTitle>
-                        <DialogContent dividers={scroll === 'paper'}>
-                            <DialogContentText>
-                                <Typography variant="h5">
-                                    {tutor.first_name} {tutor.last_name}
+                    </DialogTitle>
+                    <DialogContent dividers={scroll === 'paper'}>
+                        <DialogContentText>
+                            <Typography variant="h5">
+                                {tutor.first_name} {tutor.last_name}
+                            </Typography>
+                            {[...new Array(10)]
+                                .map(
+                                    () => `\n Personal Tutor description`,
+                                )
+                                .join('\n')}
+                        </DialogContentText>
+                        <DialogContentText>
+                            <Typography>
+                                Contact
                                 </Typography>
-                                {[...new Array(10)]
-                                    .map(
-                                        () => `\n Personal Tutor description`,
-                                    )
-                                    .join('\n')}
-                            </DialogContentText>
-                            <DialogContentText>
-                                <Typography>
-                                    Contact
+                            {tutor.email}
+                        </DialogContentText>
+                        <DialogContentText>
+                            <Typography>
+                                Availabilities
                                 </Typography>
-                                {tutor.email}
-                            </DialogContentText>
-                            <DialogContentText>
-                                <Typography>
-                                    Availabilities
-                                </Typography>
-                                {tutor.availabilities}
-                            </DialogContentText>
+                            {tutor.availabilities}
+                        </DialogContentText>
                     </DialogContent>
                     <Grid
                         container
                         direction="row-reverse"
                         justify="space-between"
                         alignItems="baseline"
-                        >
-                            <Grid item>
-                                <DialogActions>
-                                    <Button onClick={this.handleClose}>Close</Button>
-                                </DialogActions>
-                            </Grid>
-                            <Grid item>
-                                <DialogActions>
-                                    <Button className={classes.connect} onClick={event => this.assignTutor(event, tutor)}>Connect with {tutor.first_name}</Button>
-                                </DialogActions>
-                            </Grid>
+                    >
+                        <Grid item>
+                            <DialogActions>
+                                <Button onClick={this.handleClose}>Close</Button>
+                            </DialogActions>
                         </Grid>
+                        <Grid item>
+                            <DialogActions>
+                                <Button className={classes.connect} onClick={event => this.assignTutor(event, tutor)}>Connect with {tutor.first_name}</Button>
+                            </DialogActions>
+                        </Grid>
+                    </Grid>
                 </Dialog>
-                    <Card className={classes.card}>
-                        <ButtonBase onClick={this.handleClickOpen}>
-                            <CardActionArea>
-                                <CardMedia
-                                    className={classes.cardMedia}
-                                    image={tutor.picture}
-                                    title={tutor.first_name + " " + tutor.last_name}
+                <Card className={classes.card}>
+                    <ButtonBase onClick={this.handleClickOpen}>
+                        <CardActionArea>
+                            <CardMedia
+                                className={classes.cardMedia}
+                                image={tutor.picture}
+                                title={tutor.first_name + " " + tutor.last_name}
+                            />
+                        </CardActionArea>
+                    </ButtonBase>
+                    <CardContent className={classes.cardContent}>
+                        <Typography variant="h5" component="h2">
+
+                            {tutor.first_name} {tutor.last_name}
+
+                        </Typography>
+                        <Typography component={'span'}>
+                            <span className={classes.school}>{tutor.school}</span>
+                            {tutor.program !== "" && (
+                                <span className={classes.program}> - {tutor.program}</span>
+                            )}
+                            <br />
+                            {tutor.subjects.map((sub, index) => (
+                                <Chip
+                                    key={index}
+                                    className={classes.chip}
+                                    icon={<CheckIcon />}
+                                    color="secondary"
+                                    label={sub}
                                 />
-                            </CardActionArea>
-                        </ButtonBase>
-                        <CardContent className={classes.cardContent}>
-                            <Typography variant="h5" component="h2">
+                            ))}
+                            <br />
 
-                                {tutor.first_name} {tutor.last_name}
-
-                            </Typography>
-                            <Typography component={'span'}>
-                                <span className={classes.school}>{tutor.school}</span>
-                                {tutor.program !== "" && (
-                                    <span className={classes.program}> - {tutor.program}</span>
-                                )}
-                                <br />
-                                {tutor.subjects.map((sub, index) => (
-                                    <Chip
-                                        key={index}
-                                        className={classes.chip}
-                                        icon={<CheckIcon />}
-                                        color="secondary"
-                                        label={sub}
-                                    />
-                                ))}
-                                <br />
-                                
-                            </Typography>
-                        </CardContent>
-                    </Card>
+                        </Typography>
+                    </CardContent>
+                </Card>
             </Grid>
-                );
-            }
-        }
-        
-export default withStyles(tutifyStyle.styles, {withTheme: true })(TutorCard);
+        );
+    }
+}
+
+export default withStyles(tutifyStyle.styles, { withTheme: true })(TutorCard);
