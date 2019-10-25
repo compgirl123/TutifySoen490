@@ -24,10 +24,12 @@ class TutorCard extends Component {
         super(props);
         this.state = {
             open: false,
-            scroll: 'paper'
+            openFeedback: false,
+            scroll: 'paper',
         };
         this.handleClickOpen = this.handleClickOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.assignTutor = this.assignTutor.bind(this)
     }
 
     assignTutor(e, tutor) {
@@ -35,6 +37,11 @@ class TutorCard extends Component {
             student_id: "5dacd2a3c5c0dd6bb0dd1d91", //for testing - profile cynthiatt (to get from session) 
             tutor_id: tutor._id,
         });
+        alert('Request successfully sent!')
+    }
+
+    handleFeedback = () => {
+        this.setState({open: true})
     }
 
     handleClickOpen = () => {
@@ -58,7 +65,6 @@ class TutorCard extends Component {
                     aria-labelledby="scroll-dialog-title"
                     className={classes.dialog}
                 >
-                    <DialogActions><Button onClick={this.handleClose}>Close</Button></DialogActions>
                     <DialogTitle id="scroll-dialog-title" className={classes.dialogTitle}>
                         <div className={classes.paper}>
                             <Grid container spacing={2}>
@@ -109,10 +115,24 @@ class TutorCard extends Component {
                                 </Typography>
                                 {tutor.availabilities}
                             </DialogContentText>
-                        </DialogContent>
-                        <DialogActions className={classes.connect}>
-                            <Button onClick={event => this.assignTutor(event, tutor)}>Connect with {tutor.first_name}</Button>
-                        </DialogActions>
+                    </DialogContent>
+                    <Grid
+                        container
+                        direction="row-reverse"
+                        justify="space-between"
+                        alignItems="baseline"
+                        >
+                            <Grid item>
+                                <DialogActions>
+                                    <Button onClick={this.handleClose}>Close</Button>
+                                </DialogActions>
+                            </Grid>
+                            <Grid item>
+                                <DialogActions>
+                                    <Button className={classes.connect} onClick={event => this.assignTutor(event, tutor)}>Connect with {tutor.first_name}</Button>
+                                </DialogActions>
+                            </Grid>
+                        </Grid>
                 </Dialog>
                     <Card className={classes.card}>
                         <ButtonBase onClick={this.handleClickOpen}>
