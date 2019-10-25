@@ -14,10 +14,6 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios';
 
 class TutorCard extends Component {
-    // initialize our state
-    constructor(props) {
-        super(props);
-    }
 
     assignTutor(e, tutor) {
         axios.post('http://localhost:3001/api/assignTutor', {
