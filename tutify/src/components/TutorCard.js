@@ -16,10 +16,21 @@ import axios from 'axios';
 class TutorCard extends Component {
 
     assignTutor(e, tutor) {
-        axios.post('http://localhost:3001/api/assignTutor', {
-            student_id: "5dacd2a3c5c0dd6bb0dd1d91", //for testing - profile cynthiatt (to get from session) 
-            tutor_id: tutor._id,
-        });
+        fetch('http://localhost:3001/api/checkSession', {
+            method: 'GET',
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .then(res => {
+                if (res.isLoggedIn) {
+                    console.log("userid: " + res.userInfo._id)
+                    axios.post('http://localhost:3001/api/assignTutor', {
+                        student_id: res.userInfo._id, //for testing - profile cynthiatt (to get from session) 
+                        tutor_id: tutor._id,
+                    });
+                }
+            })
+            .catch(err => console.log(err));
     }
 
     render() {
