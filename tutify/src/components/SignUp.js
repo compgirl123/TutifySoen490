@@ -23,7 +23,6 @@ import NavBar from './NavBar';
 import validator from 'validator';
 import Footer from './Footer';
 
-
 class SignUp extends React.Component {
   // initialize our state
   state = {

@@ -92,6 +92,11 @@ var Appointment = mongoose.model('Appointment', new Schema({
     ref: 'User',
     required: true
   },
+  //Is this necessary? Since mongodb isn't relational db, i don't think this is needed
+  id: {
+    type: Number,
+    required: true
+  },
   date: {
     type: Date,
     required: true
@@ -101,11 +106,12 @@ var Appointment = mongoose.model('Appointment', new Schema({
   }
 }), "appointments");
 
+
 // export the Schemas
 module.exports = {
   Tutor: Tutor,
   Profile: Profile,
   Student: Student,
   Account: Account,
-  Appointment: Appointment,
+  Appointment: Appointment
 }
