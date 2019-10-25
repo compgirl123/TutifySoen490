@@ -67,7 +67,8 @@ class CourseSelection extends React.Component {
 
     for(var x=0;x<this.state.data.length;x++){
         for(var y=0;y<this.state.data[x].subjects.length;y++){
-            subjects.push(this.state.data[x].subjects[y]);
+            // get email and match to tutor (match to pooja here for now)
+            subjects.push(this.state.data[x].subjects[y]);   
         }
        
     }
@@ -75,7 +76,7 @@ class CourseSelection extends React.Component {
     return (
       <div className={classes.root}>
         <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="select-multiple-chip">Courses Taught</InputLabel>
+          <InputLabel htmlFor="select-multiple-chip">Teach more classes?</InputLabel>
           <Select
             multiple
             value={this.state.name}
@@ -88,7 +89,8 @@ class CourseSelection extends React.Component {
             )}
             MenuProps={MenuProps}
           >
-            {subjects.map(name => (
+            {subjects.map(name => 
+            (
               <MenuItem
                 key={name}
                 value={name}

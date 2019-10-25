@@ -91,19 +91,23 @@ class TutorInfo extends React.Component {
       <React.Fragment >
       <Title> Tutor Info</Title>
       <Typography component="p" variant="h6">
-       Pooja Patel
+       Tutor Name : Pooja Patel
       </Typography>
+      <br/>
       <Typography component="p" variant="h7">
-       Pooja@hotmail.com
+       Email : Pooja@hotmail.com
       </Typography>
-      <Typography color="textSecondary" className={classes.InfoContext}>
-        Concordia University
+      <br/>
+      <Typography component="p" variant="h7">
+        School : Concordia University
       </Typography>
-      <Typography color="textSecondary" className={classes.InfoContext}>
-        French
+      <br/>
+      <Typography component="p" variant="h7">
+        Courses Taught : French
       </Typography>
 
       <Grid item xs={6}>
+   
         <CourseSelection />
       </Grid>
 
