@@ -16,7 +16,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 
-class TutorProfile extends React.Component {
+class StudentList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -111,4 +111,4 @@ class TutorProfile extends React.Component {
     );
   }
 }
-export default withStyles(tutifyStyle.styles, { withTheme: true })(TutorProfile);
+export default withStyles(tutifyStyle.styles, { withTheme: true })(StudentList);

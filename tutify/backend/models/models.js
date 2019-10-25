@@ -106,16 +106,6 @@ var Appointment = mongoose.model('Appointment', new Schema({
   }
 }), "appointments");
 
-// this is used temporarily for testing
-const DataSchema = new Schema(
-  {
-    id: Number,
-    name: String
-  },
-  { timestamps: true },
-);
-
-var Data = mongoose.model('Data', DataSchema, "datas");
 
 // export the Schemas
 module.exports = {
@@ -123,6 +113,5 @@ module.exports = {
   Profile: Profile,
   Student: Student,
   Account: Account,
-  Appointment: Appointment,
-  Data: Data
+  Appointment: Appointment
 }

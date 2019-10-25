@@ -7,25 +7,7 @@ import { MenuItem } from '@material-ui/core';
 import { FormControl } from '@material-ui/core';
 import Select from "@material-ui/core/Select";
 import Chip from "@material-ui/core/Chip";
-
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120,
-    maxWidth: 300,
-  },
-  chips: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  chip: {
-    margin: theme.spacing.unit / 4,
-  },
-});
+import * as tutifyStyle from '../../styles/CourseSelection-styles';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -37,7 +19,6 @@ const MenuProps = {
     },
   },
 };
-
 
 class CourseSelection extends React.Component {
   state = {
@@ -52,7 +33,7 @@ class CourseSelection extends React.Component {
   componentDidMount() {
     this.getDataFromDb();
   }
-  
+
   // our first get method that uses our backend api to
   // fetch data from our data base
   getDataFromDb = () => {
@@ -65,12 +46,12 @@ class CourseSelection extends React.Component {
     const { classes, theme } = this.props;
     const subjects = [];
 
-    for(var x=0;x<this.state.data.length;x++){
-        for(var y=0;y<this.state.data[x].subjects.length;y++){
-            // get email and match to tutor (match to pooja here for now)
-            subjects.push(this.state.data[x].subjects[y]);   
-        }
-       
+    for (var x = 0; x < this.state.data.length; x++) {
+      for (var y = 0; y < this.state.data[x].subjects.length; y++) {
+        // get email and match to tutor (match to pooja here for now)
+        subjects.push(this.state.data[x].subjects[y]);
+      }
+
     }
 
     return (
@@ -84,26 +65,26 @@ class CourseSelection extends React.Component {
             input={<Input id="select-multiple-chip" />}
             renderValue={selected => (
               <div className={classes.chips}>
-                {selected.map(value => <Chip key={value} label={value} className={classes.chip}/>)}
+                {selected.map(value => <Chip key={value} label={value} className={classes.chip} />)}
               </div>
             )}
             MenuProps={MenuProps}
           >
-            {subjects.map(name => 
-            (
-              <MenuItem
-                key={name}
-                value={name}
-                style={{
-                  fontWeight:
-                    this.state.name.indexOf(name) === -1
-                      ? theme.typography.fontWeightRegular
-                      : theme.typography.fontWeightMedium,
-                }}
-              >
-                {name}
-              </MenuItem>
-            ))}
+            {subjects.map(name =>
+              (
+                <MenuItem
+                  key={name}
+                  value={name}
+                  style={{
+                    fontWeight:
+                      this.state.name.indexOf(name) === -1
+                        ? theme.typography.fontWeightRegular
+                        : theme.typography.fontWeightMedium,
+                  }}
+                >
+                  {name}
+                </MenuItem>
+              ))}
           </Select>
         </FormControl>
       </div>
@@ -116,5 +97,5 @@ CourseSelection.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(CourseSelection);
+export default withStyles(tutifyStyle.styles, { withTheme: true })(CourseSelection);
 
