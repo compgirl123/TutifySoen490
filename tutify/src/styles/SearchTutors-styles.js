@@ -81,5 +81,20 @@ export const styles = theme => ({
   program_of_study: {
     color: '#8ae600',
   },
-  
+  bigAvatar: {
+    margin: 'auto',
+    width: 100,
+    height: 100,
+  },
+  dialogTitle: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    margin: 'auto',
+    maxWidth: 500,
+  },
+  connect: {
+    
+  },
 });
