@@ -94,4 +94,7 @@ export const styles = theme => ({
     margin: 'auto',
     maxWidth: 500,
   },
+  connect: {
+    margin:'auto'
+  },
 });

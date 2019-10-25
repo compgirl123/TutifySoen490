@@ -58,6 +58,7 @@ class TutorCard extends Component {
                     aria-labelledby="scroll-dialog-title"
                     className={classes.dialog}
                 >
+                    <DialogActions><Button onClick={this.handleClose}>Close</Button></DialogActions>
                     <DialogTitle id="scroll-dialog-title" className={classes.dialogTitle}>
                         <div className={classes.paper}>
                             <Grid container spacing={2}>
@@ -109,8 +110,8 @@ class TutorCard extends Component {
                                 {tutor.availabilities}
                             </DialogContentText>
                         </DialogContent>
-                        <DialogActions>
-                            <Button onClick={this.handleClose}>Close</Button>
+                        <DialogActions className={classes.connect}>
+                            <Button onClick={event => this.assignTutor(event, tutor)}>Connect with {tutor.first_name}</Button>
                         </DialogActions>
                 </Dialog>
                     <Card className={classes.card}>
@@ -145,7 +146,7 @@ class TutorCard extends Component {
                                     />
                                 ))}
                                 <br />
-                                <Button onClick={event => this.assignTutor(event, tutor)}>Connect</Button>
+                                
                             </Typography>
                         </CardContent>
                     </Card>
