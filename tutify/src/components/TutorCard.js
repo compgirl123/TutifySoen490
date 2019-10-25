@@ -17,6 +17,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { ButtonBase } from '@material-ui/core';
+import Avatar from '@material-ui/core/Avatar';
 
 class TutorCard extends Component {
     constructor(props) {
@@ -55,53 +56,102 @@ class TutorCard extends Component {
                     open={open}
                     scroll={scroll}
                     aria-labelledby="scroll-dialog-title"
+                    className={classes.dialog}
                 >
-                    <DialogActions>
-                        <Button onClick={this.handleClose}>Close</Button>
-                    </DialogActions>
-                    <DialogTitle id="scroll-dialog-title"></DialogTitle>
-                    <DialogContent>
-                    </DialogContent>
+                    <DialogTitle id="scroll-dialog-title" className={classes.dialogTitle}>
+                        <div className={classes.paper}>
+                            <Grid container spacing={2}>
+                                    <Grid item>
+                                        <Avatar src={tutor.picture} className={classes.bigAvatar} />
+                                    </Grid>
+                                <Grid item xs={12} sm container>
+                                    <Grid item xs container direction="column" spacing={2}>
+                                        <Grid item xs>
+                                            <Typography gutterBottom variant="h5">{tutor.first_name} {tutor.last_name}</Typography>
+                                            <Typography>{tutor.school}</Typography>
+                                            <Typography>{tutor.subjects.map((sub, index) => (
+                                                <Chip
+                                                    key={index}
+                                                    className={classes.chip}
+                                                    icon={<CheckIcon />}
+                                                    color="secondary"
+                                                    label={sub}
+                                                />
+                                            ))}
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </div>
+                        </DialogTitle>
+                        <DialogContent dividers={scroll === 'paper'}>
+                            <DialogContentText>
+                                <Typography variant="h5">
+                                    {tutor.first_name} {tutor.last_name}
+                                </Typography>
+                                {[...new Array(10)]
+                                    .map(
+                                        () => `\n Personal Tutor description`,
+                                    )
+                                    .join('\n')}
+                            </DialogContentText>
+                            <DialogContentText>
+                                <Typography>
+                                    Contact
+                                </Typography>
+                                {tutor.email}
+                            </DialogContentText>
+                            <DialogContentText>
+                                <Typography>
+                                    Availabilities
+                                </Typography>
+                                {tutor.availabilities}
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.handleClose}>Close</Button>
+                        </DialogActions>
                 </Dialog>
-                <Card className={classes.card}>
-                    <ButtonBase onClick={this.handleClickOpen}>
-                        <CardActionArea>
-                            <CardMedia
-                                className={classes.cardMedia}
-                                image={tutor.picture}
-                                title={tutor.first_name + " " + tutor.last_name}
-                            />
-                        </CardActionArea>
-                    </ButtonBase>
-                    <CardContent className={classes.cardContent}>
-                        <Typography variant="h5" component="h2">
-
-                            {tutor.first_name} {tutor.last_name}
-
-                        </Typography>
-                        <Typography component={'span'}>
-                            <span className={classes.school}>{tutor.school}</span>
-                            {tutor.program !== "" && (
-                                <span className={classes.program}> - {tutor.program}</span>
-                            )}
-                            <br />
-                            {tutor.subjects.map((sub, index) => (
-                                <Chip
-                                    key={index}
-                                    className={classes.chip}
-                                    icon={<CheckIcon />}
-                                    color="secondary"
-                                    label={sub}
+                    <Card className={classes.card}>
+                        <ButtonBase onClick={this.handleClickOpen}>
+                            <CardActionArea>
+                                <CardMedia
+                                    className={classes.cardMedia}
+                                    image={tutor.picture}
+                                    title={tutor.first_name + " " + tutor.last_name}
                                 />
-                            ))}
-                            <br />
-                            <Button onClick={event => this.assignTutor(event, tutor)}>Connect</Button>
-                        </Typography>
-                    </CardContent>
-                </Card>
-            </Grid>
-        );
-    }
-}
+                            </CardActionArea>
+                        </ButtonBase>
+                        <CardContent className={classes.cardContent}>
+                            <Typography variant="h5" component="h2">
 
-export default withStyles(tutifyStyle.styles, { withTheme: true })(TutorCard);
+                                {tutor.first_name} {tutor.last_name}
+
+                            </Typography>
+                            <Typography component={'span'}>
+                                <span className={classes.school}>{tutor.school}</span>
+                                {tutor.program !== "" && (
+                                    <span className={classes.program}> - {tutor.program}</span>
+                                )}
+                                <br />
+                                {tutor.subjects.map((sub, index) => (
+                                    <Chip
+                                        key={index}
+                                        className={classes.chip}
+                                        icon={<CheckIcon />}
+                                        color="secondary"
+                                        label={sub}
+                                    />
+                                ))}
+                                <br />
+                                <Button onClick={event => this.assignTutor(event, tutor)}>Connect</Button>
+                            </Typography>
+                        </CardContent>
+                    </Card>
+            </Grid>
+                );
+            }
+        }
+        
+export default withStyles(tutifyStyle.styles, {withTheme: true })(TutorCard);
