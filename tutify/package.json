@@ -30,6 +30,7 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.1.1",
     "redux": "^4.0.4",
+    "sweetalert": "^2.1.2",
     "validator": "^11.1.0"
   },
   "scripts": {
