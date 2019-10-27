@@ -326,7 +326,7 @@ class SignUp extends React.Component {
                 id="firstName"
                 label="First Name"
                 error={!this.vfName(this.state.first_name)}
-                helperText={this.state.first_name === true ? "" : "Please Enter First Name"}
+                helperText={this.state.first_name  ? "" : "Please Enter First Name"}
                 onChange={(e) => this.setState({ first_name: e.target.value })}
                 onSubmit={(e) => this.setState({ first_name: e.target.value })}
                 autoFocus
@@ -348,7 +348,7 @@ class SignUp extends React.Component {
                 onChange={(e) => this.setState({ last_name: e.target.value })}
                 autoComplete="lname"
                 error={!this.vlName(this.state.last_name)}
-                helperText={this.state.last_name === true ? "" : "Please Enter Last Name"}
+                helperText={this.state.last_name ? "" : "Please Enter Last Name"}
                 InputProps={{
                   classes: {
                     notchedOutline: classes.notchedOutline
@@ -369,7 +369,7 @@ class SignUp extends React.Component {
                 onChange={(e) => this.setState({ program_of_study: e.target.value })}
                 autoComplete="programOfStudy"
                 error={!this.vPOS(this.state.program_of_study)}
-                helperText={this.state.program_of_study === true ? "" : "Please Enter Field of Study"}
+                helperText={this.state.program_of_study ? "" : "Please Enter Field of Study"}
                 InputProps={{
                   classes: {
                     notchedOutline: classes.notchedOutline
@@ -390,7 +390,7 @@ class SignUp extends React.Component {
                 onChange={e => this.setState({ email: e.target.value })}
                 autoComplete="email"
                 error={!this.vEmail(this.state.email)}
-                helperText={this.state.email === true ? "" : "Please Enter Email"}
+                helperText={this.state.email  ? "" : "Please Enter Email"}
                 InputProps={{
                   classes: {
                     notchedOutline: classes.notchedOutline
@@ -409,7 +409,7 @@ class SignUp extends React.Component {
                 label="Password"
                 type="password"
                 id="password"
-                helperText={this.state.password === true ? "" : "Please Enter Password (Must have both letters and numbers)"}
+                helperText={this.state.password  ? "" : "Please Enter Password (Must have both letters and numbers)"}
                 error={!this.vPassword(this.state.password)}
                 autoComplete="current-password"
                 InputProps={{
