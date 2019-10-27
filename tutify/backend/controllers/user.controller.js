@@ -26,6 +26,27 @@ exports.updateUser = async function (req, res) {
     });
 };
 
+// this method assigns a tutor to the user & vice-versa
+exports.assignTutor = async function (req,res) {
+    const { student_id, tutor_id } = req.body;
+
+    Student.findByIdAndUpdate(student_id,
+        { "$push": { "tutors": tutor_id } },
+        { "new": true, "upsert": true },
+        function (err) {
+            if (err) throw err;
+        }
+    );
+
+    Tutor.findByIdAndUpdate(tutor_id,
+        { "$push": { "students": student_id } },
+        { "new": true, "upsert": true },
+        function (err) {
+            if (err) throw err;
+        }
+    );
+}
+
 // this function encrypts the password for security reasons
 exports.encrypt = function (text) {
     let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), iv);

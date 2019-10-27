@@ -1,17 +1,10 @@
 import React, { Component } from 'react';
-import CheckIcon from '@material-ui/icons/Check';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { ThemeProvider } from "@material-ui/styles";
 import { withStyles } from "@material-ui/core/styles";
-import * as tutifyStyle from '../styles/SearchResults-styles';
-import Chip from '@material-ui/core/Chip'
-import CardActionArea from '@material-ui/core/CardActionArea';
-import { BrowserRouter as Link } from "react-router-dom";
+import * as tutifyStyle from '../styles/SearchTutors-styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
@@ -21,6 +14,7 @@ import DashBoardNavBar from './profilePage/DashBoardNavBar';
 import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import TutorCard from './TutorCard';
 
 
 const options = [
@@ -32,7 +26,7 @@ const options = [
   'Program',
 ];
 
-class SearchResults extends Component {
+class SearchTutors extends Component {
   // initialize our state
   constructor(props) {
     super(props);
@@ -44,6 +38,7 @@ class SearchResults extends Component {
       showDropDown: false,
       selectedIndex: 0,
       anchorEl: null,
+      displayTutor: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClickMenu = this.handleClickMenu.bind(this);
@@ -162,7 +157,6 @@ class SearchResults extends Component {
     return (
       <React.Fragment>
 
-
         <main>
           {/* Hero unit */}
           <DashBoardNavBar />
@@ -199,7 +193,6 @@ class SearchResults extends Component {
                       ))}
                     </Menu>
                   </div>
-
                   <InputBase
                     ref={this.inputRef}
                     className={classes.input}
@@ -207,7 +200,6 @@ class SearchResults extends Component {
                     inputProps={{ 'aria-label': 'enter a name' }}
                     onChange={this.handleChange}
                   />
-
                   <IconButton className={classes.iconButton} aria-label="search">
                     <SearchIcon />
                   </IconButton>
@@ -219,38 +211,8 @@ class SearchResults extends Component {
             <Container className={classes.cardGrid} width="100%">
               {/* End hero unit */}
               <Grid container spacing={4}>
-                {filteredData.map(tutor => (
-                  <Grid item key={tutor.id} xs={12} sm={6} md={4}>
-                    <Card className={classes.card}>
-                      <CardActionArea component={Link} to="/SearchPage">
-                        <CardMedia
-                          className={classes.cardMedia}
-                          image={tutor.picture}
-                          title="Image title"
-                        />
-                      </CardActionArea>
-                      <CardContent className={classes.cardContent}>
-                        <Typography variant="h5" component="h2">
-                          {tutor.first_name} {tutor.last_name}
-                        </Typography>
-                        <Typography>
-                          <span className={classes.school}>{tutor.school}</span>
-                          {tutor.program_of_study !== "" && (
-                            <span className={classes.program_of_study}> - {tutor.program_of_study}</span>
-                          )}
-                          <br />
-                          {tutor.subjects.map(sub => (
-                            <Chip
-                              className={classes.chip}
-                              icon={<CheckIcon />}
-                              color="secondary"
-                              label={sub}
-                            />
-                          ))}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
+                {filteredData.map((tutor, i) => (
+                  <TutorCard key={i} tutor={tutor} />
                 ))}
               </Grid>
             </Container>
@@ -264,4 +226,4 @@ class SearchResults extends Component {
   }
 } // End of component
 
-export default withStyles(tutifyStyle.styles, { withTheme: true })(SearchResults);
+export default withStyles(tutifyStyle.styles, { withTheme: true })(SearchTutors);

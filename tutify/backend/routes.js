@@ -31,7 +31,7 @@ router.get('/logout', userController.logout);
 
 router.get('/checkSession', userController.checkSession);
 
-
+router.post('/assignTutor', userController.assignTutor);
 
 // -------- ACCOUNT ROUTES --------- // 
 
