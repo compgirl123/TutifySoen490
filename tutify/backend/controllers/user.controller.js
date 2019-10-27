@@ -168,9 +168,7 @@ exports.authUser = async function (req, res) {
 
 //this function logs the user out and destroys the session
 exports.logout = async function (req, res) {
-    if (req.session.user) {
         req.session.destroy();
-    }
 };
 
 //this function checks if a session is running
@@ -178,6 +176,7 @@ exports.checkSession = async function (req, res) {
     if (req.session.isLoggedIn) {
         res.send(req.session);
     }
+    
 };
 
 
