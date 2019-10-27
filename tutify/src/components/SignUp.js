@@ -275,31 +275,19 @@ class SignUp extends React.Component {
     }
   }
 
-  submitForm(){
+ submitForm(){
     this.putDataToDB(this.state.first_name,this.state.last_name,this.state.email,this.state.program_of_study,this.state.password,this.state.education_level,this.state.school);
     swal("You have signed up successfully!", "", "success")
           .then((value) => {
             this.props.history.push("/login");
           });
   }
-​
   reloadForm(){
     //alert("Please Fill Out All Required Fields in Appropriate Formats")
     swal("Please fill all required fields","", "error");
-​
     this.props.history.push("/signup");
-​
   }
-
-
-
-
-
-
-
-
-
-
+  
   render() {
     const { education_level, school, hasError } = this.state;
     const { classes } = this.props;
