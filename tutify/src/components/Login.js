@@ -11,6 +11,7 @@ import { withStyles } from "@material-ui/core/styles";
 import NavBar from './NavBar';
 import Footer from './Footer';
 import './style.css';
+import swal from 'sweetalert';
 
 class Login extends React.Component {
   // initialize our state
@@ -54,15 +55,19 @@ class Login extends React.Component {
     })
       .then(response => response.json())
       .then(res => {
-        if (res.isLoggedIn) {
-          alert("Signed in!");
-          window.location = "profile";
+        if(res.isLoggedIn){
+         
+          swal("You have signed in successfully!", "", "success")
+          .then((value) => {
+            window.location = "profile";
+          });
+          //alert("Signed in!");
         }
-        else {
-          alert("Invalid user or password! Please try again.");
+        else{
+          swal("Invalid username or password!", "Please try again.", "error"); 
+          //alert("Invalid user or password! Please try again.");
         }
       })
-      .catch(err => console.log(err));
   };
   render() {
     const { classes } = this.props;
