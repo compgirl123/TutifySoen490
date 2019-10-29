@@ -23,16 +23,34 @@ const MenuProps = {
 class CourseSelection extends React.Component {
   state = {
     name: [],
-    data: []
+    data: [],
+    counter: 15
   };
 
-  handleChange = event => {
-    this.setState({ name: event.target.value });
+  handleSubmit = (txt)=>{
+  };
+
+  handleChange = async (event, callback=this.handleSubmit) => {
+    var value = event.target.value;
+    await this.setState({ name: value, counter : 15 }, this.handleSubmit);
+    this.props.updateCourses(value);
+    console.log(this.state.name);
   };
 
   componentDidMount() {
     this.getDataFromDb();
   }
+
+  wrapperFunction = () => {
+    /*this.props.data(this.state.name);
+    this.hand*/
+    //do something
+    /*function 1();
+    //do something
+    function 2();
+    //do something
+    function 3();*/
+}
 
   // our first get method that uses our backend api to
   // fetch data from our data base
@@ -65,7 +83,7 @@ class CourseSelection extends React.Component {
             input={<Input id="select-multiple-chip" />}
             renderValue={selected => (
               <div className={classes.chips}>
-                {selected.map(value => <Chip key={value} label={value} className={classes.chip} />)}
+                {selected.map(value => <Chip key={value} label={value} className={classes.chip} onChange={this.handleChange.bind(this)}  />)}
               </div>
             )}
             MenuProps={MenuProps}
