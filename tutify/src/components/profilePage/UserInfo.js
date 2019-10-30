@@ -130,19 +130,13 @@ class UserInfo extends React.Component {
   updateDB = () => {
     // Will eventuallu implement it.
     console.log("HEY LISTEN: " + this.state.courses);
-    //console.log(this.state.counter);
-    console.log(this.state.data);
-    console.log(this.state.first_name);
-    console.log(this.state._id);
-    // will eventually
-    console.log(this.state.students);
-    console.log(this.state.subjects);
-    // ^^ tutors tho
-    // for now, do the for loop, eventually do the logged in user. Now hardcoded for Pooja
+    for(var x=0;x<this.state.courses.length;x++){
+      console.log(this.state.courses[x]);
+    }
 
     axios.post('http://localhost:3001/api/updateTutor', {
       _id: "5dae5f8b1c9d44000071cbc2",
-      subjects: "d"                                                                                        //classes_tutored : classes_tutored,
+      subjects: this.state.courses                                                                                        //classes_tutored : classes_tutored,
       //type_tutoring : type_tutoring
     })
       .then(function (response) {

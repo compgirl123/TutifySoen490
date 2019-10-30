@@ -10,9 +10,19 @@ exports.getTutor = async function (req, res) {
 
 // this method overwrites existing tutor in our database
 exports.updateTutor = async function (req, res) {
-    const { id, update } = req.body;
-    Tutor.findByIdAndUpdate(id, update, (err) => {
+    const { _id, subjects } = req.body;
+    console.log("HIII");
+    console.log(subjects);
+    /*Tutor.findByIdAndUpdate(id, update, (err) => {
         if (err) return res.json({ success: false, error: err });
         return res.json({ success: true });
-    });
+    });*/
+
+   Tutor.findByIdAndUpdate(_id,
+        { "$push": {"subjects": subjects } },
+        { "new": true, "upsert": true },
+        function (err) {
+            if (err) throw err;
+        }
+    );
 };
