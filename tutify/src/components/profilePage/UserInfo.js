@@ -8,6 +8,17 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
 import CourseSelection from '../profilePage/CourseSelection';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import Avatar from '@material-ui/core/Avatar';
+import PersonIcon from '@material-ui/icons/Person';
+import TextField from '@material-ui/core/TextField';
+import DialogContent from '@material-ui/core/DialogContent';
 
 class UserInfo extends React.Component {
   constructor(props) {
@@ -19,15 +30,31 @@ class UserInfo extends React.Component {
       email: "",
       education_level: "",
       subjects: [],
-      students : "",
-      data : [],
-      courses: []
+      students: "",
+      data: [],
+      courses: [],
+      open: false,
+      scroll: 'paper'
     };
+    this.handleClickOpen = this.handleClickOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
   toggleDrawer = booleanValue => () => {
     this.setState({
       drawerOpened: booleanValue
     });
+  };
+
+  handleFeedback = () => {
+    this.setState({ open: true })
+  }
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
   };
 
   componentDidMount() {
@@ -67,7 +94,7 @@ class UserInfo extends React.Component {
 
   };
 
-  handleChangeValue = e => this.setState({value: e.target.value});
+  handleChangeValue = e => this.setState({ value: e.target.value });
   checkSession = () => {
     fetch('http://localhost:3001/api/checkSession', {
       method: 'GET',
@@ -77,7 +104,7 @@ class UserInfo extends React.Component {
       .then(res => {
         if (res.isLoggedIn) {
           this.setState({
-            Toggle: true, _id : res.userInfo._id, first_name: res.userInfo.first_name, last_name: res.userInfo.last_name,
+            Toggle: true, _id: res.userInfo._id, first_name: res.userInfo.first_name, last_name: res.userInfo.last_name,
             email: res.email, education_level: res.userInfo.education_level, school: res.userInfo.school,
             program_of_study: res.userInfo.program_of_study, students: res.userInfo.students, subjects: res.userInfo.subjects
           });
@@ -92,47 +119,50 @@ class UserInfo extends React.Component {
 
   getDataFromDb = () => {
     fetch('http://localhost:3001/api/getUser')
-    // get tutor
+      // get tutor
       .then((data) => data.json())
       .then((res) => this.setState({ data: res.data }));
   };
 
-  update = async (value) => {     
+  update = async (value) => {
     await this.setState({
       courses: value
     });
-    console.log("POOTIS: "+this.state.courses);
- 
- }
- 
-  updateDB = () => {
-  // Will eventuallu implement it.
-  console.log("HEY LISTEN: "+this.state.courses);
-  //console.log(this.state.counter);
-  console.log(this.state.data);
-  console.log(this.state.first_name);
-  console.log(this.state._id);
-  // will eventually
-  console.log(this.state.students);
-  console.log(this.state.subjects);
-  // ^^ tutors tho
-  // for now, do the for loop, eventually do the logged in user. Now hardcoded for Pooja
+    console.log("POOTIS: " + this.state.courses);
 
-  axios.post('http://localhost:3001/api/updateTutor', {
-    _id: "5dae5f8b1c9d44000071cbc2",
-    subjects : "d"                                                                                        //classes_tutored : classes_tutored,
-    //type_tutoring : type_tutoring
-  })
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
+  }
+
+  updateDB = () => {
+    // Will eventuallu implement it.
+    console.log("HEY LISTEN: " + this.state.courses);
+    //console.log(this.state.counter);
+    console.log(this.state.data);
+    console.log(this.state.first_name);
+    console.log(this.state._id);
+    // will eventually
+    console.log(this.state.students);
+    console.log(this.state.subjects);
+    // ^^ tutors tho
+    // for now, do the for loop, eventually do the logged in user. Now hardcoded for Pooja
+
+    axios.post('http://localhost:3001/api/updateTutor', {
+      _id: "5dae5f8b1c9d44000071cbc2",
+      subjects: "d"                                                                                        //classes_tutored : classes_tutored,
+      //type_tutoring : type_tutoring
+    })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
   render() {
     const { classes } = this.props;
-
+    const { open } = this.state;
+    const { scroll } = this.state;
+    const emails = [this.state.first_name, this.state.last_name, this.state.email,
+    this.state.program_of_study, this.state.education_level, this.state.school];
 
     return (
       <Paper className={classes.paper}>
@@ -155,31 +185,76 @@ class UserInfo extends React.Component {
           </Typography>
 
           <div>
-          <Grid item xs={6}>
-            <CourseSelection
-              updateCourses={this.update}
-             />
-          </Grid>
+            <Grid item xs={6}>
+              <CourseSelection
+                updateCourses={this.update}
+              />
+            </Grid>
 
-        <Button
-          type="button"
-          fullWidth
-          variant="contained"
-          className="submit"
-          onClick={() => { this.updateDB(); }}
-        >
-            Save Options
+            <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              className="submit"
+              onClick={() => { this.updateDB(); }}
+            >
+              Save Options
         </Button>
-        <br/>
-        <br/>
-        <Button
-          type="button"
-          fullWidth
-          variant="contained"
-          className="submit"
-          onClick={() => { this.updateDB(); }}
-        >
-            Edit Info
+            <br />
+            <br />
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
+              <DialogTitle id="simple-dialog-title">Edit Information</DialogTitle>
+              <DialogContent>
+            <DialogContentText>
+              To edit your information, please change each of the value fields listed in the pop-up and click save.
+            </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="New Email Address"
+            type="email"
+            fullWidth
+            autoFocus
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="New Program of Study"
+            type="program_of_study"
+            fullWidth
+          />
+
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="New Education Level"
+            type="education"
+            fullWidth
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="School"
+            type="school"
+            fullWidth
+          />
+
+          
+        </DialogContent>
+              
+            </Dialog>
+            <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              className="submit"
+              onClick={() => { this.handleClickOpen(); }}
+            >
+              Edit Info
         </Button>
 
           </div>
