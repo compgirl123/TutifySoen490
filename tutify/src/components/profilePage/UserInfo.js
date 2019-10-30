@@ -11,14 +11,9 @@ import CourseSelection from '../profilePage/CourseSelection';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
-import PersonIcon from '@material-ui/icons/Person';
 import TextField from '@material-ui/core/TextField';
 import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
 
 class UserInfo extends React.Component {
   constructor(props) {
@@ -160,10 +155,7 @@ class UserInfo extends React.Component {
   render() {
     const { classes } = this.props;
     const { open } = this.state;
-    const { scroll } = this.state;
-    const emails = [this.state.first_name, this.state.last_name, this.state.email,
-    this.state.program_of_study, this.state.education_level, this.state.school];
-
+  
     return (
       <Paper className={classes.paper}>
         <React.Fragment>
@@ -205,47 +197,59 @@ class UserInfo extends React.Component {
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
               <DialogTitle id="simple-dialog-title">Edit Information</DialogTitle>
               <DialogContent>
-            <DialogContentText>
-              To edit your information, please change each of the value fields listed in the pop-up and click save.
+                <DialogContentText>
+                  To edit your information, please change each of the value fields listed in the pop-up and click save.
             </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="New Email Address"
-            type="email"
-            fullWidth
-            autoFocus
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="New Program of Study"
-            type="program_of_study"
-            fullWidth
-          />
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  label="New Email Address"
+                  type="email"
+                  fullWidth
+                />
+                <TextField
+                  margin="dense"
+                  id="name"
+                  label="New Program of Study"
+                  type="program_of_study"
+                  fullWidth
+                />
 
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="New Education Level"
-            type="education"
-            fullWidth
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="School"
-            type="school"
-            fullWidth
-          />
+                <TextField
+                  margin="dense"
+                  id="name"
+                  label="New Education Level"
+                  type="education"
+                  fullWidth
+                />
+                <TextField
+                  margin="dense"
+                  id="name"
+                  label="School"
+                  type="school"
+                  fullWidth
+                />
 
-          
-        </DialogContent>
-              
+              </DialogContent>
+              <Grid
+                container
+                direction="row-reverse"
+                justify="space-between"
+                alignItems="baseline"
+              >
+                <Grid item>
+                  <DialogActions>
+                    <Button onClick={this.handleClose}>Close</Button>
+                  </DialogActions>
+                </Grid>
+                <Grid item>
+                  <DialogActions>
+                    <Button onClick={this.handleClose}>Update Values</Button>
+                  </DialogActions>
+                </Grid>
+              </Grid>
+
             </Dialog>
             <Button
               type="button"
