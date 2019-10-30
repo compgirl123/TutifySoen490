@@ -107,7 +107,6 @@ class UserInfo extends React.Component {
  
   updateDB = () => {
   // Will eventuallu implement it.
-  console.log("BITCH");
   console.log("HEY LISTEN: "+this.state.courses);
   //console.log(this.state.counter);
   console.log(this.state.data);
@@ -141,81 +140,46 @@ class UserInfo extends React.Component {
           <Title> User Info</Title>
           <Typography component="p" variant="h6">
             {this.state.first_name} {this.state.last_name}
-            {/*Kasthurie Paramasivampillai*/}
           </Typography>
           <Typography component="p" variant="h7">
-            {/*Email: sriahila@hotmail.com*/}
             Email : {this.state.email}
           </Typography>
           <Typography color="textSecondary" className={classes.InfoContext}>
-            {/*Concordia University */}
             Program of Study: {this.state.program_of_study}
           </Typography>
           <Typography color="textSecondary" className={classes.InfoContext}>
-            {/*Concordia University */}
             Education Level: {this.state.education_level}
           </Typography>
           <Typography color="textSecondary" className={classes.InfoContext}>
-            {/*Concordia University */}
             School: {this.state.school}
           </Typography>
 
           <div>
-            <Grid item xs={6}>
-              {/*<FormControl >
-              <InputLabel htmlFor="tutoring_type">Tutoring Type</InputLabel>
-              <Select
-                name="tutoring_type"
-                value={this.state.tutoring_type}
-                onChange={event => {this.setState({tutoring_type:event.target.value}); }}
-              // onChange={(e) => this.setState({ first_name: e.target.value })}
-                input={<Input id="tutoring_type" />}
-              >
-                <MenuItem value="20">Group Tutoring</MenuItem>
-                <MenuItem value="30">Midterm Crash</MenuItem>
-                <MenuItem value="40">Final Crash</MenuItem>
-                <MenuItem value="50">Weekly Tutorials</MenuItem>
-              </Select>
-              
-            </FormControl>*/}
-            </Grid>
-            <Grid item xs={6}>
-              <form autoComplete="off">
-                {/*<CourseSelection />*/}
-                {/*<FormControl >
-              <InputLabel htmlFor="course" fullWidth>Select Courses</InputLabel>
-              <Select
-                name="course"
-                value={this.state.course}
-                onChange={event => {
-                  this.setState({course:event.target.value});
-                }}
-                input={<Input id="course" />}
-              >
-                <MenuItem value="chem204">CHEM 204</MenuItem>
-                <MenuItem value="phys204">PHYS 204</MenuItem>
-                <MenuItem value="math204">Math 204</MenuItem>
-                <MenuItem value="English">English</MenuItem>
-                <MenuItem value="French">French</MenuItem>
-              </Select>
-              
-              </FormControl>*/}
-              </form>
-            </Grid>
           <Grid item xs={6}>
             <CourseSelection
               updateCourses={this.update}
              />
           </Grid>
 
-            <Button
-              type="button"
-              fullWidth
-              variant="contained"
-              className="submit"
-              onClick={() => { this.updateDB(); }}
-            >
-              Save Options
+        <Button
+          type="button"
+          fullWidth
+          variant="contained"
+          className="submit"
+          onClick={() => { this.updateDB(); }}
+        >
+            Save Options
+        </Button>
+        <br/>
+        <br/>
+        <Button
+          type="button"
+          fullWidth
+          variant="contained"
+          className="submit"
+          onClick={() => { this.updateDB(); }}
+        >
+            Edit Info
         </Button>
 
           </div>
