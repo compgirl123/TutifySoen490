@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Footer from "../Footer";
 import TutorInfo from './TutorInfo';
-import TutorDashBoardNavBar from './TutorDashboardNavBar'
+import DashBoardNavBar from '../profilePage/DashBoardNavBar'
 
 class TutorProfile extends React.Component {
   constructor(props) {
@@ -63,7 +63,7 @@ class TutorProfile extends React.Component {
     return (
     <React.Fragment>
       <main>
-        <TutorDashBoardNavBar/>
+        <DashBoardNavBar/>
        <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
