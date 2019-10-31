@@ -123,21 +123,23 @@ class UserInfo extends React.Component {
     await this.setState({
       courses: value
     });
-    console.log("POOTIS: " + this.state.courses);
-
   }
 
   updateDB = () => {
-    // Will eventuallu implement it.
     console.log("HEY LISTEN: " + this.state.courses);
-    for(var x=0;x<this.state.courses.length;x++){
-      console.log(this.state.courses[x]);
+    var coursesToAdd = [];
+    var test = this.state.subjects;
+
+    for (var z = 0; z < this.state.courses.length; z++) {
+      var course_found = test.includes(this.state.courses[z]);
+      if (course_found === false) {
+        coursesToAdd.push(this.state.courses[z])
+      }
     }
 
     axios.post('http://localhost:3001/api/updateTutor', {
-      _id: "5dae5f8b1c9d44000071cbc2",
-      subjects: this.state.courses                                                                                        //classes_tutored : classes_tutored,
-      //type_tutoring : type_tutoring
+      _id: this.state._id,
+      subjects: coursesToAdd
     })
       .then(function (response) {
         console.log(response);
@@ -149,7 +151,7 @@ class UserInfo extends React.Component {
   render() {
     const { classes } = this.props;
     const { open } = this.state;
-  
+
     return (
       <Paper className={classes.paper}>
         <React.Fragment>
