@@ -12,8 +12,6 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SearchIcon from '@material-ui/icons/Search';
 import {List} from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
-import PublishIcon from '@material-ui/icons/Publish';
-import SchoolIcon from '@material-ui/icons/School';
 
 
 export class Sidebar extends Component {
