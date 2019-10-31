@@ -42,6 +42,9 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
   program_of_study: {
     type: String
   },
+  courses: [
+    { type: Schema.Types.ObjectId, ref: 'Course' }
+  ],
 }), 'profiles'
 );
 
@@ -92,11 +95,6 @@ var Appointment = mongoose.model('Appointment', new Schema({
     ref: 'User',
     required: true
   },
-  //Is this necessary? Since mongodb isn't relational db, i don't think this is needed
-  id: {
-    type: Number,
-    required: true
-  },
   date: {
     type: Date,
     required: true
@@ -107,11 +105,28 @@ var Appointment = mongoose.model('Appointment', new Schema({
 }), "appointments");
 
 
+// -------- COURSE --------- // 
+
+var Course = mongoose.model('Course', new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  tutors: [
+    { type: Schema.Types.ObjectId, ref: 'Tutor' }
+  ],
+  students: [
+    { type: Schema.Types.ObjectId, ref: 'Student' }
+  ]
+}), "courses");
+
+
 // export the Schemas
 module.exports = {
   Tutor: Tutor,
   Profile: Profile,
   Student: Student,
   Account: Account,
-  Appointment: Appointment
+  Appointment: Appointment,
+  Course: Course,
 }
