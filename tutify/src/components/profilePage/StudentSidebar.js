@@ -58,13 +58,6 @@ export class Sidebar extends Component {
       <ListItemText primary="Search" />
     </ListItem>
     
-    {/*To Be used in a later iteration */}
-    <ListItem button component="a" href="/payment">
-      <ListItemIcon>
-        <PaymentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Payments" />
-    </ListItem>
 <ListItem button component="a" href="/" onClick={this.handleChange} >
 <ListItemIcon>
   <ExitToAppIcon />
