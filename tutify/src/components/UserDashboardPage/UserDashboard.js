@@ -1,5 +1,4 @@
 import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import NavBar from '../NavBar';
 import Footer from '../Footer';
 import Container from '@material-ui/core/Container';
@@ -20,13 +19,12 @@ class UserDashboard extends React.Component {
                 variant="permanent"
                 >
                     <div className={classes.toolbar}/>
-
-                    
                     <Sidebar/>
                 </Drawer>
-                <main>
+                <main >
                 <Container className={classes.root}>
                     <Grid spacing={3}>
+                    
                         <Grid item xs={12} sm={6}>
                             <Notifications/>
                         </Grid>
