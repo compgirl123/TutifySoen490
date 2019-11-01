@@ -11,6 +11,7 @@ import StudentList from "./components/TutorProfile/StudentList";
 import TutorProfile from "./components/TutorProfile/TutorProfile";
 import CourseList from './components/CourseList';
 import TutorCourses from "./components/TutorProfile/TutorCourses";
+import UserDashboard from "./components/UserDashboardPage/UserDashboard";
 
 // This is all the url routing.
 function MainPage() {
@@ -27,6 +28,7 @@ function MainPage() {
       <Route exact path="/students" component={StudentList} />
       <Route exact path= "/CourseList/:id" component= {CourseList}/>
       <Route exact path= "/tutorCourses" component = {TutorCourses}/>
+      <Route exact path="/welcome" component={UserDashboard} />
     </Router>
   );
 }
