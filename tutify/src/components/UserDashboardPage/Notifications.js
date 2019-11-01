@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
@@ -9,19 +8,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-const useStyles = makeStyles(theme => ({
-    root: {
-        width: '100%',
-        maxWidth: 360,
-        backgroundColor: theme.palette.background.paper,
-    },
-    inline: {
-        display: 'inline',
-    },
-}));
 
-export default function AlignItemsList() {
-    const classes = useStyles();
+export default function Notifications() {
 
     return (
         <React.Fragment>
@@ -30,7 +18,7 @@ export default function AlignItemsList() {
                     <Typography gutterBottom variant="h5" component="h2">
                         Notifications
                     </Typography>
-                    <List className={classes.root}>
+                    <List>
                         <ListItem alignItems="flex-start">
                             <ListItemAvatar>
                                 <Avatar src="" />
@@ -42,7 +30,6 @@ export default function AlignItemsList() {
                                         <Typography
                                             component="span"
                                             variant="body2"
-                                            className={classes.inline}
                                             color="textPrimary"
                                         >
                                             Tutor Name
@@ -64,7 +51,6 @@ export default function AlignItemsList() {
                                         <Typography
                                             component="span"
                                             variant="body2"
-                                            className={classes.inline}
                                             color="textPrimary"
                                         >
                                             Tutor Name
@@ -86,7 +72,6 @@ export default function AlignItemsList() {
                                         <Typography
                                             component="span"
                                             variant="body2"
-                                            className={classes.inline}
                                             color="textPrimary"
                                         >
                                             Tutor Name

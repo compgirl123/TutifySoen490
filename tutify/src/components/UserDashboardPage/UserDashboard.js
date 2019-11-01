@@ -17,7 +17,7 @@ class UserDashboard extends React.Component {
                 <NavBar />
                 <Container className={classes.root}>
                     <Grid spacing={3}>
-                        <Grid item spacing={6}>
+                        <Grid item xs={12} sm={6}>
                             <Notifications/>
                         </Grid>
                     </Grid>
