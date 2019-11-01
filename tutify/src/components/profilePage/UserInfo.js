@@ -178,7 +178,7 @@ class UserInfo extends React.Component {
 
           <div>
             <Grid item xs={6}>
-            {this.state.__t == "tutor"
+            {this.state.__t === "tutor"
               ? <CourseSelection
               updateCourses={this.update}
             />
