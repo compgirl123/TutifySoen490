@@ -47,7 +47,7 @@ export class Sidebar extends Component {
       check: !prevState.openList
     }));
   };
-
+  
   render() {
     const { openList } = this.state;
 

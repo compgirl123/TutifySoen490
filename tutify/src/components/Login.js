@@ -25,14 +25,9 @@ class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  // when component mounts, first thing it does is fetch all existing data in our db
-  // then we incorporate a polling logic so that we can easily see if our db has
-  // changed and implement those changes into our UI
   componentDidMount() {
     this.getDataFromDb();
-
   }
-
 
   // fetch data from the data base
   getDataFromDb = () => {
@@ -55,17 +50,14 @@ class Login extends React.Component {
     })
       .then(response => response.json())
       .then(res => {
-        if(res.isLoggedIn){
-         
+        if(res.isLoggedIn){        
           swal("You have signed in successfully!", "", "success")
           .then((value) => {
             window.location = "profile";
           });
-          //alert("Signed in!");
         }
         else{
           swal("Invalid username or password!", "Please try again.", "error"); 
-          //alert("Invalid user or password! Please try again.");
         }
       })
   };
