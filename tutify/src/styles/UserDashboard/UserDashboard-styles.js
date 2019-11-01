@@ -5,4 +5,5 @@ export const styles = theme => ({
         paddingTop: theme.spacing(10),
         paddingBottom: theme.spacing(8),
       },
+      toolbar: theme.mixins.toolbar,
   });
