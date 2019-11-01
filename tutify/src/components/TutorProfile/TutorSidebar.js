@@ -2,19 +2,21 @@ import React, { Component } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import MenuBookIcon from '@material-ui/icons/MenuBook';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SchoolIcon from '@material-ui/icons/School';
-import BookIcon from '@material-ui/icons/Book';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {List} from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import PublishIcon from '@material-ui/icons/Publish';
 
 export class TutorSidebar extends Component {
-
+  constructor(props) {
+    super(props);
+    
+    this.handleChange = this.handleChange.bind(this);
+    }
+    
+    
     handleChange(event){
       fetch('http://localhost:3001/api/logout',{
                     method: 'GET',
@@ -26,6 +28,7 @@ export class TutorSidebar extends Component {
                   })
                   .catch(err => console.log(err));
     };
+
 
     render(){
       return(
@@ -67,29 +70,7 @@ export class TutorSidebar extends Component {
   
   <Divider/>
   
-  <List>
-  <div>
-    <ListSubheader inset>Homework</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <MenuBookIcon />
-      </ListItemIcon>
-      <ListItemText primary="Course Material" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Documents" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <BookIcon />
-      </ListItemIcon>
-      <ListItemText primary="Useful Readings" />
-    </ListItem>
-  </div>
-  </List>
+ 
   </div>
       );
 
