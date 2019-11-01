@@ -99,7 +99,8 @@ class UserInfo extends React.Component {
       .then(res => {
         if (res.isLoggedIn) {
           this.setState({
-            Toggle: true, _id: res.userInfo._id, first_name: res.userInfo.first_name, last_name: res.userInfo.last_name,
+            Toggle: true, _id: res.userInfo._id, __t:res.userInfo.__t,
+            first_name: res.userInfo.first_name, last_name: res.userInfo.last_name,
             email: res.email, education_level: res.userInfo.education_level, school: res.userInfo.school,
             program_of_study: res.userInfo.program_of_study, students: res.userInfo.students, subjects: res.userInfo.subjects
           });
@@ -155,7 +156,7 @@ class UserInfo extends React.Component {
     return (
       <Paper className={classes.paper}>
         <React.Fragment>
-          <Title> User Info</Title>
+          <Title> {this.state.__t} info</Title>
           <Typography component="p" variant="h6">
             {this.state.first_name} {this.state.last_name}
           </Typography>
@@ -171,12 +172,23 @@ class UserInfo extends React.Component {
           <Typography color="textSecondary" className={classes.InfoContext}>
             School: {this.state.school}
           </Typography>
+          <Typography color="textSecondary" className={classes.InfoContext}>
+            Status: {this.state.__t}
+          </Typography>
 
           <div>
             <Grid item xs={6}>
-              <CourseSelection
-                updateCourses={this.update}
-              />
+            {this.state.__t == "tutor"
+              ? <CourseSelection
+              updateCourses={this.update}
+            />
+              : 
+              <br/>
+            }
+            
+              
+            
+              
             </Grid>
 
             <Button
