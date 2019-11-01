@@ -82,7 +82,7 @@ export class NavBar extends Component {
     return (
       
       <div className={classes.root}>
-        <AppBar position="fixed" color="inherit" elevation={0}  style = {{background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)'}}
+        <AppBar className={classes.appBar} position="fixed" color="inherit" elevation={0}  style = {{background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)'}}
         >
         <Toolbar style={{
           color: 'white'}} >

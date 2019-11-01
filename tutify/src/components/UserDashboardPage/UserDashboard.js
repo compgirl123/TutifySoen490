@@ -7,14 +7,24 @@ import Grid from '@material-ui/core/Grid';
 import Notifications from './Notifications';
 import * as UserDashboardStyles from '../../styles/UserDashboard/UserDashboard-styles';
 import { withStyles } from "@material-ui/core/styles";
-
+import { Sidebar } from '../profilePage/StudentSidebar';
+import Drawer from "@material-ui/core/Drawer";
 class UserDashboard extends React.Component {
     render() {
         const {classes} = this.props;
         return (
             <React.Fragment>
-                <CssBaseline />
-                <NavBar />
+                <NavBar/>
+                <Drawer
+                className={classes.drawer}
+                variant="permanent"
+                >
+                    <div className={classes.toolbar}/>
+
+                    
+                    <Sidebar/>
+                </Drawer>
+                <main>
                 <Container className={classes.root}>
                     <Grid spacing={3}>
                         <Grid item xs={12} sm={6}>
@@ -22,6 +32,7 @@ class UserDashboard extends React.Component {
                         </Grid>
                     </Grid>
                 </Container>
+                </main>
                 <Footer/>
             </React.Fragment>
         );
