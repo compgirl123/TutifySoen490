@@ -6,7 +6,14 @@ import { withStyles } from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-
+import axios from 'axios';
+import CourseSelection from '../profilePage/CourseSelection';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import TextField from '@material-ui/core/TextField';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
 
 class UserInfo extends React.Component {
   constructor(props) {
@@ -17,14 +24,32 @@ class UserInfo extends React.Component {
       last_name: "",
       email: "",
       education_level: "",
-      school: "",
-      program_of_study: ""
+      subjects: [],
+      students: "",
+      data: [],
+      courses: [],
+      open: false,
+      scroll: 'paper'
     };
+    this.handleClickOpen = this.handleClickOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
   toggleDrawer = booleanValue => () => {
     this.setState({
       drawerOpened: booleanValue
     });
+  };
+
+  handleFeedback = () => {
+    this.setState({ open: true })
+  }
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
   };
 
   componentDidMount() {
@@ -41,7 +66,7 @@ class UserInfo extends React.Component {
           this.setState({
             Toggle: true, first_name: res.userInfo.first_name, last_name: res.userInfo.last_name,
             email: res.email, education_level: res.userInfo.education_level, school: res.userInfo.school,
-            program_of_study: res.userInfo.program_of_study
+            program_of_study: res.userInfo.program_of_study, subject: res.tutor.subjects
           });
         }
         else {
@@ -63,88 +88,185 @@ class UserInfo extends React.Component {
     //this.setState({Toggle: false});
 
   };
+
+  handleChangeValue = e => this.setState({ value: e.target.value });
+  checkSession = () => {
+    fetch('http://localhost:3001/api/checkSession', {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then(response => response.json())
+      .then(res => {
+        if (res.isLoggedIn) {
+          this.setState({
+            Toggle: true, _id: res.userInfo._id, __t:res.userInfo.__t,
+            first_name: res.userInfo.first_name, last_name: res.userInfo.last_name,
+            email: res.email, education_level: res.userInfo.education_level, school: res.userInfo.school,
+            program_of_study: res.userInfo.program_of_study, students: res.userInfo.students, subjects: res.userInfo.subjects
+          });
+        }
+        else {
+          this.setState({ Toggle: false });
+        }
+      })
+      .catch(err => console.log(err));
+  };
+
+
+  getDataFromDb = () => {
+    fetch('http://localhost:3001/api/getUser')
+      // get tutor
+      .then((data) => data.json())
+      .then((res) => this.setState({ data: res.data }));
+  };
+
+  update = async (value) => {
+    await this.setState({
+      courses: value
+    });
+  }
+
+  updateDB = () => {
+    console.log("HEY LISTEN: " + this.state.courses);
+    var coursesToAdd = [];
+    var test = this.state.subjects;
+
+    for (var z = 0; z < this.state.courses.length; z++) {
+      var course_found = test.includes(this.state.courses[z]);
+      if (course_found === false) {
+        coursesToAdd.push(this.state.courses[z])
+      }
+    }
+
+    axios.post('http://localhost:3001/api/updateTutor', {
+      _id: this.state._id,
+      subjects: coursesToAdd
+    })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
   render() {
     const { classes } = this.props;
-
+    const { open } = this.state;
 
     return (
       <Paper className={classes.paper}>
         <React.Fragment>
-          <Title> User Info</Title>
+          <Title> {this.state.__t} info</Title>
           <Typography component="p" variant="h6">
             {this.state.first_name} {this.state.last_name}
-            {/*Kasthurie Paramasivampillai*/}
           </Typography>
           <Typography component="p" variant="h7">
-            {/*Email: sriahila@hotmail.com*/}
             Email : {this.state.email}
           </Typography>
           <Typography color="textSecondary" className={classes.InfoContext}>
-            {/*Concordia University */}
             Program of Study: {this.state.program_of_study}
           </Typography>
           <Typography color="textSecondary" className={classes.InfoContext}>
-            {/*Concordia University */}
             Education Level: {this.state.education_level}
           </Typography>
           <Typography color="textSecondary" className={classes.InfoContext}>
-            {/*Concordia University */}
             School: {this.state.school}
+          </Typography>
+          <Typography color="textSecondary" className={classes.InfoContext}>
+            Status: {this.state.__t}
           </Typography>
 
           <div>
             <Grid item xs={6}>
-              {/*<FormControl >
-              <InputLabel htmlFor="tutoring_type">Tutoring Type</InputLabel>
-              <Select
-                name="tutoring_type"
-                value={this.state.tutoring_type}
-                onChange={event => {this.setState({tutoring_type:event.target.value}); }}
-              // onChange={(e) => this.setState({ first_name: e.target.value })}
-                input={<Input id="tutoring_type" />}
-              >
-                <MenuItem value="20">Group Tutoring</MenuItem>
-                <MenuItem value="30">Midterm Crash</MenuItem>
-                <MenuItem value="40">Final Crash</MenuItem>
-                <MenuItem value="50">Weekly Tutorials</MenuItem>
-              </Select>
+            {this.state.__t === "tutor"
+              ? <CourseSelection
+              updateCourses={this.update}
+            />
+              : 
+              <br/>
+            }
+            
               
-            </FormControl>*/}
-            </Grid>
-            <Grid item xs={6}>
-              <form autoComplete="off">
-                {/*<CourseSelection />*/}
-                {/*<FormControl >
-              <InputLabel htmlFor="course" fullWidth>Select Courses</InputLabel>
-              <Select
-                name="course"
-                value={this.state.course}
-                onChange={event => {
-                  this.setState({course:event.target.value});
-                }}
-                input={<Input id="course" />}
-              >
-                <MenuItem value="chem204">CHEM 204</MenuItem>
-                <MenuItem value="phys204">PHYS 204</MenuItem>
-                <MenuItem value="math204">Math 204</MenuItem>
-                <MenuItem value="English">English</MenuItem>
-                <MenuItem value="French">French</MenuItem>
-              </Select>
+            
               
-              </FormControl>*/}
-              </form>
             </Grid>
-
 
             <Button
-
               type="button"
               fullWidth
               variant="contained"
               className="submit"
-
+              onClick={() => { this.updateDB(); }}
             >
               Save Options
+        </Button>
+            <br />
+            <br />
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
+              <DialogTitle id="simple-dialog-title">Edit Information</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  To edit your information, please change each of the value fields listed in the pop-up and click save.
+            </DialogContentText>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  label="New Email Address"
+                  type="email"
+                  fullWidth
+                />
+                <TextField
+                  margin="dense"
+                  id="name"
+                  label="New Program of Study"
+                  type="program_of_study"
+                  fullWidth
+                />
+
+                <TextField
+                  margin="dense"
+                  id="name"
+                  label="New Education Level"
+                  type="education"
+                  fullWidth
+                />
+                <TextField
+                  margin="dense"
+                  id="name"
+                  label="School"
+                  type="school"
+                  fullWidth
+                />
+
+              </DialogContent>
+              <Grid
+                container
+                direction="row-reverse"
+                justify="space-between"
+                alignItems="baseline"
+              >
+                <Grid item>
+                  <DialogActions>
+                    <Button onClick={this.handleClose}>Close</Button>
+                  </DialogActions>
+                </Grid>
+                <Grid item>
+                  <DialogActions>
+                    <Button onClick={this.handleClose}>Update Values</Button>
+                  </DialogActions>
+                </Grid>
+              </Grid>
+
+            </Dialog>
+            <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              className="submit"
+              onClick={() => { this.handleClickOpen(); }}
+            >
+              Edit Info
         </Button>
 
           </div>
