@@ -92,6 +92,7 @@ class Notifications extends React.Component {
                                         }
                                     />
                                 </ListItem>
+                                <Divider variant="inset" component="li" />
                                 <ListItem alignItems="flex-start">
                                     <ListItemAvatar>
                                         <Avatar src="" />
@@ -112,6 +113,7 @@ class Notifications extends React.Component {
                                         }
                                     />
                                 </ListItem>
+                                <Divider variant="inset" component="li" />
                                 <ListItem alignItems="flex-start">
                                     <ListItemAvatar>
                                         <Avatar src="" />
@@ -132,6 +134,7 @@ class Notifications extends React.Component {
                                         }
                                     />
                                 </ListItem>
+                                <Divider variant="inset" component="li" />
                                 <ListItem alignItems="flex-start">
                                     <ListItemAvatar>
                                         <Avatar src="" />
