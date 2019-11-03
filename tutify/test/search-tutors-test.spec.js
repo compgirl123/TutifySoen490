@@ -13,18 +13,12 @@ configure({ adapter: new Adapter() });
 let container;
 describe('The tutor search filter ', () => {
     let mount;
+
     beforeAll(() => {
         mount = createMount();
     });
-    beforeEach(() => {
-        container = document.createElement('div');
-        document.body.appendChild(container);
-    });
-    afterEach(() => {
-        document.body.removeChild(container);
-    });
-    
-    it('should be filtering by course subjects.', () => {
+
+    it('should be filtering according to the input.', () => {
         // The value sent in the input
         const mockedEvent = { target: { value: "fre"} } 
 
@@ -36,6 +30,7 @@ describe('The tutor search filter ', () => {
         // Sending the onChange event
         const input = wrapper.find(InputBase).at(0);
         input.props().onChange(mockedEvent);
+        shallowwrapper.setState({ selectedIndex: 0 });
 
         // Expecting a filtered result
         expect(shallowwrapper.state().filteredData.length).toBe(1);
@@ -60,4 +55,25 @@ describe('The tutor search filter ', () => {
         expect(shallowwrapper.state().filteredData.length).toBe(1);
         expect(shallowwrapper.state().filteredData[0].last_name.toString()).toBe("Patel");
     });
+    
+    it('should be filtering by school.', () => {
+        // The value sent in the input
+        const mockedEvent = { target: { value: "con"} } 
+
+        // All the mounting and state setting
+        const wrapper = mount(<SearchTutors></SearchTutors>);
+        const shallowwrapper = wrapper.find(SearchTutorsClass);
+        shallowwrapper.setState({ data: json.data });
+        shallowwrapper.setState({ selectedIndex: 2 });
+        
+        // Sending the onChange event
+        const input = wrapper.find(InputBase).at(0);
+        input.props().onChange(mockedEvent);
+
+        // Expecting a filtered result
+        expect(shallowwrapper.state().filteredData.length).toBe(3);
+        expect(shallowwrapper.state().filteredData[0].school.toString()).toBe("Concordia University");
+    });
+
+   
 }); 

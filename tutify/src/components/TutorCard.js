@@ -145,15 +145,13 @@ class TutorCard extends Component {
                     </Grid>
                 </Dialog>
                 <Card className={classes.card} onClick={this.handleClickOpen}>
-                    {/* <ButtonBase >  */}
-                        <CardActionArea>
-                            <CardMedia
-                                className={classes.cardMedia}
-                                image={tutor.picture}
-                                title={tutor.first_name + " " + tutor.last_name}
-                            />
-                        </CardActionArea>
-                    {/* </ButtonBase> */}
+                    <CardActionArea>
+                        <CardMedia
+                            className={classes.cardMedia}
+                            image={tutor.picture}
+                            title={tutor.first_name + " " + tutor.last_name}
+                        />
+                    </CardActionArea>
                     <CardContent className={classes.cardContent}>
                         <Typography variant="h5" component="h2">
 
