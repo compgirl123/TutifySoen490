@@ -20,7 +20,7 @@ describe('The tutor search filter ', () => {
 
     it('should be filtering according to the input.', () => {
         // The value sent in the input
-        const mockedEvent = { target: { value: "fre"} } 
+        const mockedEvent = { target: { value: "ma"} } 
 
         // All the mounting and state setting
         const wrapper = mount(<SearchTutors></SearchTutors>);
@@ -33,8 +33,8 @@ describe('The tutor search filter ', () => {
         shallowwrapper.setState({ selectedIndex: 0 });
 
         // Expecting a filtered result
-        expect(shallowwrapper.state().filteredData.length).toBe(1);
-        expect(shallowwrapper.state().filteredData[0].subjects.toString()).toBe("French");
+        expect(shallowwrapper.state().filteredData.length).toBe(2);
+        expect(shallowwrapper.state().filteredData[0].first_name.toString()).toBe("Mo");
     });
 
     it('should be filtering by name.', () => {
@@ -73,6 +73,25 @@ describe('The tutor search filter ', () => {
         // Expecting a filtered result
         expect(shallowwrapper.state().filteredData.length).toBe(3);
         expect(shallowwrapper.state().filteredData[0].school.toString()).toBe("Concordia University");
+    });
+
+    it('should be filtering by course.', () => {
+        // The value sent in the input
+        const mockedEvent = { target: { value: "en"} } 
+
+        // All the mounting and state setting
+        const wrapper = mount(<SearchTutors></SearchTutors>);
+        const shallowwrapper = wrapper.find(SearchTutorsClass);
+        shallowwrapper.setState({ data: json.data });
+        shallowwrapper.setState({ selectedIndex: 3 });
+        
+        // Sending the onChange event
+        const input = wrapper.find(InputBase).at(0);
+        input.props().onChange(mockedEvent);
+
+        // Expecting a filtered result
+        expect(shallowwrapper.state().filteredData.length).toBe(4);
+        expect(shallowwrapper.state().filteredData[0].subjects.toString()).toBe("Computer Science");
     });
 
    
