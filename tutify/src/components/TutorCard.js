@@ -144,8 +144,8 @@ class TutorCard extends Component {
                         </Grid>
                     </Grid>
                 </Dialog>
-                <Card className={classes.card}>
-                    <ButtonBase onClick={this.handleClickOpen}>
+                <Card className={classes.card} onClick={this.handleClickOpen}>
+                    {/* <ButtonBase >  */}
                         <CardActionArea>
                             <CardMedia
                                 className={classes.cardMedia}
@@ -153,7 +153,7 @@ class TutorCard extends Component {
                                 title={tutor.first_name + " " + tutor.last_name}
                             />
                         </CardActionArea>
-                    </ButtonBase>
+                    {/* </ButtonBase> */}
                     <CardContent className={classes.cardContent}>
                         <Typography variant="h5" component="h2">
 

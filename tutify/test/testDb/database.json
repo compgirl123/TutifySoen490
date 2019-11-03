@@ -11,7 +11,7 @@
         "last_name": "Alawami",
         "school": "Concordia University",
         "program": "Engineering",
-        "subject": [
+        "subjects": [
             "Math",
             "Physics",
             "Chemistry"
@@ -29,7 +29,7 @@
         "last_name": "Andrusiak",
         "school": "Elementary School",
         "program": "",
-        "subject": [
+        "subjects": [
             "Computer Science"
         ],
         "picture": "https://i.imgur.com/QD2zlLB.png"
@@ -45,7 +45,7 @@
         "last_name": "Hodess",
         "school": "Concordia University",
         "program": "Computer Science",
-        "subject": [
+        "subjects": [
             "COMP499 Data Analytics"
         ],
         "picture": "https://i.imgur.com/vgZrB5U.jpg"
@@ -61,7 +61,7 @@
         "last_name": "Anisov",
         "school": "Elementary School",
         "program": "",
-        "subject": [
+        "subjects": [
             "English"
         ],
         "picture": "https://i.imgur.com/RIpoMew.jpg"
@@ -77,7 +77,7 @@
         "last_name": "Houari",
         "school": "Concordia University",
         "program": "",
-        "subject": [
+        "subjects": [
             "Software Engineering"
         ],
         "picture": "https://i.imgur.com/wuu5J5c.jpg"
@@ -93,7 +93,7 @@
         "last_name": "Patel",
         "school": "Elementary School",
         "program": "French",
-        "subject": [
+        "subjects": [
             "French"
         ],
         "picture": "https://i.imgur.com/aPehazP.jpg"

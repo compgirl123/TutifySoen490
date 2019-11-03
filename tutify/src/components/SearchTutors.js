@@ -25,7 +25,7 @@ const options = [
   'Subject',
   'Program',
 ];
-export class SearchResults extends Component {
+export class SearchTutors extends Component {
   // initialize our state
   constructor(props) {
     super(props);
