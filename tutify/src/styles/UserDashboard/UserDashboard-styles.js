@@ -18,5 +18,8 @@ export const styles = theme => ({
         maxHeight:400,
         overflow: 'auto',
       },
-      
+      tableWrapper: {
+        maxHeight:400,
+        overflow: 'auto',
+      }
   });
