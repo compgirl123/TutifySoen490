@@ -28,7 +28,7 @@
         },
         "last_name": "Andrusiak",
         "school": "Elementary School",
-        "program": "",
+        "program": "Photography",
         "subjects": [
             "Computer Science"
         ],
@@ -60,7 +60,7 @@
         "first_name": "Vika",
         "last_name": "Anisov",
         "school": "Elementary School",
-        "program": "",
+        "program": "Visual Arts",
         "subjects": [
             "English"
         ],
@@ -76,7 +76,7 @@
         "first_name": "Nora",
         "last_name": "Houari",
         "school": "Concordia University",
-        "program": "",
+        "program": "Business",
         "subjects": [
             "Software Engineering"
         ],

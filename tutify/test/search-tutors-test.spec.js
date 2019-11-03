@@ -94,5 +94,24 @@ describe('The tutor search filter ', () => {
         expect(shallowwrapper.state().filteredData[0].subjects.toString()).toBe("Computer Science");
     });
 
+    it('should be filtering by program.', () => {
+        // The value sent in the input
+        const mockedEvent = { target: { value: "engi"} } 
+
+        // All the mounting and state setting
+        const wrapper = mount(<SearchTutors></SearchTutors>);
+        const shallowwrapper = wrapper.find(SearchTutorsClass);
+        shallowwrapper.setState({ data: json.data });
+        shallowwrapper.setState({ selectedIndex: 4 });
+        
+        // Sending the onChange event
+        const input = wrapper.find(InputBase).at(0);
+        input.props().onChange(mockedEvent);
+
+        // Expecting a filtered result
+        expect(shallowwrapper.state().filteredData.length).toBe(1);
+        expect(shallowwrapper.state().filteredData[0].subjects.toString()).toBe("Software Engineering");
+    });
+
    
 }); 
