@@ -139,7 +139,7 @@ class TutorCard extends Component {
                         </Grid>
                         <Grid item>
                             <DialogActions>
-                                <Button className={classes.connect} onClick={event => this.assignTutor(event, tutor)}>Connect with {tutor.first_name}</Button>
+                                <Button component="a" href="/tutorCourses" className={classes.connect} onClick={event => this.assignTutor(event, tutor)}>Connect with {tutor.first_name}</Button>
                             </DialogActions>
                         </Grid>
                     </Grid>
