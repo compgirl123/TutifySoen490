@@ -10,6 +10,7 @@ import { Sidebar } from '../profilePage/StudentSidebar';
 import Drawer from "@material-ui/core/Drawer";
 import MyCourseList from "./MyCourseList";
 import ToDoList from "./ToDoList/ToDoList";
+
 class UserDashboard extends React.Component {
     render() {
         const { classes } = this.props;
@@ -17,26 +18,28 @@ class UserDashboard extends React.Component {
             <React.Fragment>
                 <NavBar />
                 <Drawer
-                    className={classes.drawer}
-                    variant="permanent"
+                className={classes.drawer}
+                variant="permanent"
                 >
                     <div className={classes.toolbar} />
-                    <Sidebar />
+                <Sidebar />
                 </Drawer>
-                <main >
-                    <Container className={classes.root}>
-                        <Grid item xs={4} sm={6} className={classes.gridItem}>
+                <main className={classes.root}>
+                    <Grid container>
+                        <Grid item sm={6} className={classes.gridItem}>
                             <Notifications />
                         </Grid>
-                        <Grid item xs={4} sm={6} className={classes.gridItem}>
-                            <MyCourseList />
-                        </Grid>
-                        <Grid item xs={4} sm={6} className={classes.gridItem}>
+                        <Grid item sm={6} className={classes.gridItem}>
                             <ToDoList />
                         </Grid>
-                    </Container>
+                    </Grid>
+                    <Grid container>
+                        <Grid item xs={6} sm={6} className={classes.gridItem}>
+                            <MyCourseList />
+                        </Grid>
+                    </Grid>
+                    <Footer />
                 </main>
-                <Footer />
             </React.Fragment>
         );
     }
