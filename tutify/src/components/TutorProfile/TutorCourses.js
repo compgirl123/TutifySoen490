@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button";
 import * as tutifyStyle from '../../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Container from '@material-ui/core/Container';
-import DashBoardNavBar from './DashBoardNavBar';
+import TutorDashBoardNavBar from './TutorDashboardNavBar'
 import Paper from '@material-ui/core/Paper';
 import Footer from './../Footer';
 import Card from '@material-ui/core/Card';
@@ -15,7 +15,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 
 
-class MyCourses extends React.Component {
+class TutorCourses extends React.Component {
 
   constructor(props) {
     super(props);
@@ -36,13 +36,13 @@ class MyCourses extends React.Component {
     <Paper className={classes.paper}>
       <React.Fragment>
         <main>
-          <DashBoardNavBar />
+          <TutorDashBoardNavBar />
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             
             <Container maxWidth="lg" className={classes.container}>
               <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                My courses
+                Courses Offered
         </Typography>
         <Grid container spacing={5}>
         <Grid item xs={4} md={4} lg={4}>
@@ -56,17 +56,17 @@ class MyCourses extends React.Component {
           <Typography gutterBottom variant="h5" component="h2">
             French
           </Typography>
-          <Typography>
-            Pooja Patel
-          </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             This course is designed for elementary students. Grammar, vocabulary, composition, language in context.
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button type="button" size="small" fullWidth variant="contained" className="submit">
-          View Course Documents
+      <Button type="button" size="small" fullWidth  className="submit">
+          View Documents
+        </Button>
+        <Button type="button" size="small" fullWidth className="submit">
+        Upload Document
         </Button>
       </CardActions>
     </Card>
@@ -82,17 +82,17 @@ class MyCourses extends React.Component {
           <Typography gutterBottom variant="h5" component="h2">
             English
           </Typography>
-          <Typography>
-            Pooja Patel
-          </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             This course is designed for elementary students. Grammar, vocabulary, composition, language in context.
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button type="button" size="small" fullWidth variant="contained" className="submit">
-        View Course Documents
+      <Button type="button" size="small" fullWidth className="submit">
+        View Documents
+        </Button>
+        <Button type="button" size="small" fullWidth className="submit">
+        Upload Document
         </Button>
       </CardActions>
     </Card>
@@ -116,4 +116,4 @@ class MyCourses extends React.Component {
     );
   }
 }
-export default withStyles(tutifyStyle.styles, { withTheme: true })(MyCourses);
+export default withStyles(tutifyStyle.styles, { withTheme: true })(TutorCourses);

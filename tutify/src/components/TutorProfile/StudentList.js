@@ -8,7 +8,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Footer from '../Footer';
-import DashBoardNavBar from '../profilePage/DashBoardNavBar';
+import TutorDashBoardNavBar from './TutorDashboardNavBar';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -48,7 +48,7 @@ class StudentList extends React.Component {
     <React.Fragment>
       <main>
      
-        <DashBoardNavBar/>
+        <TutorDashBoardNavBar/>
            <main className={classes.content}>
         
         <div className={classes.appBarSpacer} />

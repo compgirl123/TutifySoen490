@@ -10,6 +10,7 @@ import MyCourses from "./components/profilePage/MyCourses";
 import StudentList from "./components/TutorProfile/StudentList";
 import TutorProfile from "./components/TutorProfile/TutorProfile";
 import CourseList from './components/CourseList';
+import TutorCourses from "./components/TutorProfile/TutorCourses";
 
 // This is all the url routing.
 function MainPage() {
@@ -24,7 +25,8 @@ function MainPage() {
       <Route exact path="/courses" component={MyCourses} />
       <Route exact path="/tutor" component={TutorProfile} />
       <Route exact path="/students" component={StudentList} />
-      <Route exact path= "/tutorCourses" component= {CourseList}/>
+      <Route exact path= "/CourseList" component= {CourseList}/>
+      <Route exact path= "/tutorCourses" component = {TutorCourses}/>
     </Router>
   );
 }
