@@ -4,12 +4,19 @@ import Button from "@material-ui/core/Button";
 import * as tutifyStyle from '../../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
+import DashBoardNavBar from './DashBoardNavBar';
 import Paper from '@material-ui/core/Paper';
-import DashBoardNavBar from "./DashBoardNavBar";
-import Footer from "../Footer";
+import Footer from './../Footer';
+import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Grid from '@material-ui/core/Grid';
 
-class ProfilePage extends React.Component {
+
+class MyCourses extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -26,32 +33,65 @@ class ProfilePage extends React.Component {
     const { classes } = this.props;
 
     return (
+    <Paper className={classes.paper}>
       <React.Fragment>
         <main>
           <DashBoardNavBar />
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
+            
             <Container maxWidth="lg" className={classes.container}>
               <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                Courses Current Enrolled In:
+                My courses
         </Typography>
-              <Grid container spacing={2}>
-
-                {/* Payment Info */}
-                <Grid item xs={4} md={4} lg={4}>
-                  <Paper className={classes.fixedHeightPaper}>
-                    <Typography>
-                      <img src="https://i.imgur.com/L6lDhbz.jpg" alt="Subject">
-                      </img>
-                      <br />
-                      <h3>Tutor Name: Mo Alawami</h3>
-                      <h3>Subject : CHEM 204</h3>
-                      <Button fullWidth variant="contained">View Course Material </Button>
-                      <br />
-                    </Typography>
-                  </Paper>
-                </Grid>
-              </Grid>
+        <Grid container spacing={5}>
+        <Grid item xs={4} md={4} lg={4}>
+        <Card className={classes.card}>
+      <CardActionArea>
+        <CardMedia
+          className={classes.media}
+          title="French"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+            French
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            This course is designed for elementary students. Grammar, vocabulary, composition, language in context.
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+        <Button type="button" size="small" fullWidth variant="contained" className="submit">
+          View Course Documents
+        </Button>
+      </CardActions>
+    </Card>
+    </Grid>
+    <Grid item xs={4} md={4} lg={4}>
+        <Card className={classes.card}>
+      <CardActionArea>
+        <CardMedia
+          className={classes.media}
+          title="French"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+            English
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            This course is designed for elementary students. Grammar, vocabulary, composition, language in context.
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+        <Button type="button" size="small" fullWidth variant="contained" className="submit">
+        View Course Documents
+        </Button>
+      </CardActions>
+    </Card>
+    </Grid>
+    </Grid>
             </Container>
             <main>
               {/* Hero unit */}
@@ -66,7 +106,8 @@ class ProfilePage extends React.Component {
 
         </main>
       </React.Fragment>
+      </Paper>
     );
   }
 }
-export default withStyles(tutifyStyle.styles, { withTheme: true })(ProfilePage);
+export default withStyles(tutifyStyle.styles, { withTheme: true })(MyCourses);
