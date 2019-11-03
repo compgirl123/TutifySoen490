@@ -8,30 +8,31 @@ import * as UserDashboardStyles from '../../styles/UserDashboard/UserDashboard-s
 import { withStyles } from "@material-ui/core/styles";
 import { Sidebar } from '../profilePage/StudentSidebar';
 import Drawer from "@material-ui/core/Drawer";
+import MyCourseList from "./MyCourseList";
 class UserDashboard extends React.Component {
     render() {
-        const {classes} = this.props;
+        const { classes } = this.props;
         return (
             <React.Fragment>
-                <NavBar/>
+                <NavBar />
                 <Drawer
-                className={classes.drawer}
-                variant="permanent"
+                    className={classes.drawer}
+                    variant="permanent"
                 >
-                    <div className={classes.toolbar}/>
-                    <Sidebar/>
+                    <div className={classes.toolbar} />
+                    <Sidebar />
                 </Drawer>
                 <main >
-                <Container className={classes.root}>
-                    <Grid spacing={3}>
-                    
-                        <Grid item xs={12} sm={6}>
-                            <Notifications/>
+                    <Container className={classes.root}>
+                        <Grid item xs={4} sm={6} className={classes.gridItem}>
+                            <Notifications />
                         </Grid>
-                    </Grid>
-                </Container>
+                        <Grid item xs={4} sm={6} className={classes.gridItem}>
+                            <MyCourseList />
+                        </Grid>
+                    </Container>
                 </main>
-                <Footer/>
+                <Footer />
             </React.Fragment>
         );
     }
