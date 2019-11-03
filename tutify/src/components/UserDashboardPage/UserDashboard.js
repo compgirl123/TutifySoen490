@@ -9,6 +9,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Sidebar } from '../profilePage/StudentSidebar';
 import Drawer from "@material-ui/core/Drawer";
 import MyCourseList from "./MyCourseList";
+import ToDoList from "./ToDoList/ToDoList";
 class UserDashboard extends React.Component {
     render() {
         const { classes } = this.props;
@@ -29,6 +30,9 @@ class UserDashboard extends React.Component {
                         </Grid>
                         <Grid item xs={4} sm={6} className={classes.gridItem}>
                             <MyCourseList />
+                        </Grid>
+                        <Grid item xs={4} sm={6} className={classes.gridItem}>
+                            <ToDoList />
                         </Grid>
                     </Container>
                 </main>
