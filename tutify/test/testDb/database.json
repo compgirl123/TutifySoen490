@@ -1,0 +1,102 @@
+{
+    "data": [
+        {
+        "_id": {
+            "$oid": "5d86a28f1c9d440000ae30ca"
+        },
+        "id": {
+            "$numberInt": "1"
+        },
+        "first_name": "Mo",
+        "last_name": "Alawami",
+        "school": "Concordia University",
+        "program": "Engineering",
+        "subject": [
+            "Math",
+            "Physics",
+            "Chemistry"
+        ],
+        "picture": "https://i.imgur.com/kyh5A1e.jpg"
+        },
+        {
+        "_id": {
+            "$oid": "5d8d3ea21c9d440000e19aa7"
+        },
+        "first_name": "Maria",
+        "id": {
+            "$numberInt": "2"
+        },
+        "last_name": "Andrusiak",
+        "school": "Elementary School",
+        "program": "",
+        "subject": [
+            "Computer Science"
+        ],
+        "picture": "https://i.imgur.com/QD2zlLB.png"
+        },
+        {
+        "_id": {
+            "$oid": "5d8d406f1c9d440000e19aa9"
+        },
+        "id": {
+            "$numberInt": "3"
+        },
+        "first_name": "Ross",
+        "last_name": "Hodess",
+        "school": "Concordia University",
+        "program": "Computer Science",
+        "subject": [
+            "COMP499 Data Analytics"
+        ],
+        "picture": "https://i.imgur.com/vgZrB5U.jpg"
+        },
+        {
+        "_id": {
+            "$oid": "5d92d41b1c9d44000003d554"
+        },
+        "id": {
+            "$numberInt": "4"
+        },
+        "first_name": "Vika",
+        "last_name": "Anisov",
+        "school": "Elementary School",
+        "program": "",
+        "subject": [
+            "English"
+        ],
+        "picture": "https://i.imgur.com/RIpoMew.jpg"
+        },
+        {
+        "_id": {
+            "$oid": "5d9e1e211c9d44000022974c"
+        },
+        "id": {
+            "$numberInt": "5"
+        },
+        "first_name": "Nora",
+        "last_name": "Houari",
+        "school": "Concordia University",
+        "program": "",
+        "subject": [
+            "Software Engineering"
+        ],
+        "picture": "https://i.imgur.com/wuu5J5c.jpg"
+        },
+        {
+        "_id": {
+            "$oid": "5da52e141c9d440000ef33f0"
+        },
+        "id": {
+            "$numberInt": "0"
+        },
+        "first_name": "Pooja",
+        "last_name": "Patel",
+        "school": "Elementary School",
+        "program": "French",
+        "subject": [
+            "French"
+        ],
+        "picture": "https://i.imgur.com/aPehazP.jpg"
+        }
+    ]
+}
