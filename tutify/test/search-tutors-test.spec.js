@@ -1,16 +1,13 @@
 import React from "react";
 import InputBase from '@material-ui/core/InputBase';
 import SearchTutors, { SearchTutors as SearchTutorsClass } from "./../src/components/SearchTutors";
-import { createShallow, createMount} from '@material-ui/core/test-utils';
-import { configure, mount } from 'enzyme';
-import { create } from "react-test-renderer";
+import { createMount } from '@material-ui/core/test-utils';
+import { configure } from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
-import ReactDOM from 'react-dom';
-import { act } from 'react-dom/test-utils';
+
 var json = require("./testDb/database.json");
 
 configure({ adapter: new Adapter() });
-let container;
 describe('The tutor search filter ', () => {
     let mount;
 
