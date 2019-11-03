@@ -15,6 +15,7 @@ var courseController = require('./controllers/course.controller')
 router.get('/getTutor', tutorController.getTutor);
 
 router.post('/updateTutor', tutorController.updateTutor);
+router.post('/updateTutorInfo', tutorController.updateTutorInfo);
 
 // -------- USER ROUTES --------- // 
 

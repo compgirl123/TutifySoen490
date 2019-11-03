@@ -23,6 +23,9 @@ class UserInfo extends React.Component {
       first_name: "",
       last_name: "",
       email: "",
+      updatedEmail : "",
+      updatedProgramOfStudy : "",
+      updatedSchool : "",
       education_level: "",
       subjects: [],
       students: "",
@@ -89,6 +92,7 @@ class UserInfo extends React.Component {
 
   };
 
+
   handleChangeValue = e => this.setState({ value: e.target.value });
   checkSession = () => {
     fetch('http://localhost:3001/api/checkSession', {
@@ -149,6 +153,49 @@ class UserInfo extends React.Component {
         console.log(error);
       });
   };
+
+  updateOptions = () => {
+    console.log("HEY LISTEN: " + this.state.courses);
+    var updatedProfileValues = [this.state.updatedEmail,this.state.updatedProgramOfStudy,
+                                this.state.updatedSchool];
+
+    for (var y = 0; y < updatedProfileValues.length; y++) {
+      if (updatedProfileValues[y] === "") {
+        console.log("hi");
+        if(y === 0){
+          updatedProfileValues[y] = this.state.email;
+          console.log(updatedProfileValues[y]);
+        }
+        else if(y === 1){
+          updatedProfileValues[y] = this.state.program_of_study;
+          console.log(updatedProfileValues[y]);
+        }
+        else if(y === 2){
+          updatedProfileValues[y] = this.state.school;
+          console.log(updatedProfileValues[y]);
+        }
+        
+      }
+      else{
+        console.log("ho");
+        console.log(updatedProfileValues[y]);
+      }
+    }                            
+       
+    axios.post('http://localhost:3001/api/updateTutorInfo', {
+      _id: this.state._id,
+      //email: this.state.email,
+      program_of_study : updatedProfileValues[1],
+      school: updatedProfileValues[2]
+    })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   render() {
     const { classes } = this.props;
     const { open } = this.state;
@@ -196,7 +243,7 @@ class UserInfo extends React.Component {
               className="submit"
               onClick={() => { this.updateDB(); }}
             >
-              Save Options
+              Save Course Options
             </Button>
               : this.state.__t === "student"
               ? <Button
@@ -206,7 +253,7 @@ class UserInfo extends React.Component {
               className="submit"
               onClick={() => { this.updateDB(); }}
             >
-              Save Options
+              Save Course Options
             </Button>
               :
               <p></p>
@@ -221,31 +268,20 @@ class UserInfo extends React.Component {
                   To edit your information, please change each of the value fields listed in the pop-up and click save.
             </DialogContentText>
                 <TextField
-                  autoFocus
                   margin="dense"
-                  id="name"
-                  label="New Email Address"
-                  type="email"
-                  fullWidth
-                />
-                <TextField
-                  margin="dense"
-                  id="name"
+                  id="programOfStudy"
+                  name="programOfStudy"
+                  onChange={e => this.setState({updatedProgramOfStudy: e.target.value })}
+                  autoComplete="programOfStudy"
                   label="New Program of Study"
-                  type="program_of_study"
-                  fullWidth
-                />
-
-                <TextField
-                  margin="dense"
-                  id="name"
-                  label="New Education Level"
-                  type="education"
+                  type="programOfStudy"
                   fullWidth
                 />
                 <TextField
                   margin="dense"
-                  id="name"
+                  id="school"
+                  name="school"
+                  onChange={e => this.setState({updatedSchool: e.target.value })}
                   label="School"
                   type="school"
                   fullWidth
@@ -265,7 +301,7 @@ class UserInfo extends React.Component {
                 </Grid>
                 <Grid item>
                   <DialogActions>
-                    <Button onClick={this.handleClose}>Update Values</Button>
+                    <Button onClick={this.updateOptions}>Update Values</Button>
                   </DialogActions>
                 </Grid>
               </Grid>

@@ -19,3 +19,16 @@ exports.updateTutor = async function (req, res) {
         }
     );
 };
+
+// this method overwrites existing tutor in our database
+exports.updateTutorInfo = async function (req, res) {
+    const { _id, school,program_of_study } = req.body;
+    console.log(req.body);
+    Tutor.findByIdAndUpdate(_id,
+        {$set: { "school" : school, "program_of_study": program_of_study } },
+        { "new": true, "upsert": true },
+        function (err) {
+            if (err) throw err;
+        }
+    );
+};
