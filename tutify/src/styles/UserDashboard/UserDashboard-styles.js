@@ -11,4 +11,12 @@ export const styles = theme => ({
           flexShrink: 0,
       },
       toolbar: theme.mixins.toolbar,
+      gridItem: {
+          padding: theme.spacing(1),
+      },
+      cardWrapper: {
+        maxHeight:400,
+        overflow: 'auto',
+      },
+      
   });
