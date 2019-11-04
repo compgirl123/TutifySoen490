@@ -122,10 +122,8 @@ class UserInfo extends React.Component {
             var programStudy = localStorage.getItem('program_of_study');
             pos = programStudy;
             res.userInfo.program_of_study = programStudy;
-            alert("petit");
           }
           else {
-            alert("pierre");
             pos = res.userInfo.program_of_study;
           }
 
@@ -134,14 +132,12 @@ class UserInfo extends React.Component {
           }
 
           if (this.state.updatedSchool !== "") {
-            alert("petit1");
             localStorage.setItem('school', this.state.updatedSchool);
             var school = localStorage.getItem('school');
             schooloption = school;
             res.userInfo.school = school;
           }
           else {
-            alert("pierre3");
             schooloption = res.userInfo.school;
           }
 
