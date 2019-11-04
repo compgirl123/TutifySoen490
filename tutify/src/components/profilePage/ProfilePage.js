@@ -50,10 +50,11 @@ class ProfilePage extends React.Component {
                   .then(response => response.json())
                   .then(res => {
                         this.setState({Toggle: false});
+                        localStorage.removeItem('first_name');
+                        localStorage.removeItem('last_name');
                     
                   })
                   .catch(err => console.log(err));
-      //this.setState({Toggle: false});
       
     };
 

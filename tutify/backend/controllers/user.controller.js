@@ -26,6 +26,21 @@ exports.updateUser = async function (req, res) {
     });
 };
 
+
+// this method overwrites existing user in our database
+exports.updateUserInfo = async function (req, res) {
+    const { _id, school,program_of_study,education_level,first_name,last_name } = req.body;
+    console.log(req.body);
+    Student.findByIdAndUpdate(_id,
+        {$set: { "school" : school,  "program_of_study":program_of_study, "education_level": education_level, 
+                 "first_name": first_name,"last_name":last_name } },
+        { "new": true, "upsert": true },
+        function (err) {
+            if (err) throw err;
+        }
+    );
+};
+
 // this method assigns a tutor to the user & vice-versa
 exports.assignTutor = async function (req, res) {
     const { student_id, tutor_id } = req.body;

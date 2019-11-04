@@ -28,6 +28,7 @@ class UserInfo extends React.Component {
       updatedLastName: "",
       updatedProgramOfStudy: "",
       updatedSchool: "",
+      updatedEducationLevel: "",
       education_level: "",
       subjects: [],
       students: "",
@@ -112,30 +113,46 @@ class UserInfo extends React.Component {
           var schooloption = "";
           var firstName = "";
           var lastName = "";
+          var educationLvl = "";
+          var subjects = "";
 
+          
           if (this.state.updatedProgramOfStudy !== "") {
             localStorage.setItem('program_of_study', this.state.updatedProgramOfStudy);
             var programStudy = localStorage.getItem('program_of_study');
             pos = programStudy;
             res.userInfo.program_of_study = programStudy;
+            alert("petit");
           }
           else {
+            alert("pierre");
             pos = res.userInfo.program_of_study;
           }
 
+          if (localStorage.getItem('program_of_study') == null) {
+            localStorage.setItem('program_of_study', res.userInfo.program_of_study);
+          }
+
           if (this.state.updatedSchool !== "") {
+            alert("petit1");
             localStorage.setItem('school', this.state.updatedSchool);
             var school = localStorage.getItem('school');
             schooloption = school;
             res.userInfo.school = school;
           }
           else {
+            alert("pierre3");
             schooloption = res.userInfo.school;
           }
 
+          if (localStorage.getItem('school') == null) {
+            localStorage.setItem('school', res.userInfo.school);
+          }
+
+          var first_name = "";
           if (this.state.updatedFirstName !== "") {
             localStorage.setItem('first_name', this.state.updatedFirstName);
-            var first_name = localStorage.getItem('first_name');
+            first_name = localStorage.getItem('first_name');
             firstName = first_name;
             res.userInfo.first_name = first_name;
           }
@@ -143,14 +160,56 @@ class UserInfo extends React.Component {
             firstName = res.userInfo.first_name;
           }
 
+          if (localStorage.getItem('first_name') == null) {
+            localStorage.setItem('first_name', res.userInfo.first_name);
+          }
+
+          var last_name = "";
           if (this.state.updatedLastName !== "") {
             localStorage.setItem('last_name', this.state.updatedLastName);
-            var last_name = localStorage.getItem('last_name');
+            last_name = localStorage.getItem('last_name');
             lastName = last_name;
             res.userInfo.last_name = last_name;
           }
           else {
             lastName = res.userInfo.last_name;
+          }
+
+          var educationLevel = "";
+          if (localStorage.getItem('last_name') == null) {
+            localStorage.setItem('last_name', res.userInfo.last_name);
+          }
+
+          if (this.state.updatedEducationLevel !== "") {
+            localStorage.setItem('education_level', this.state.updatedEducationLevel);
+            educationLevel = localStorage.getItem('education_level');
+            educationLvl = educationLevel;
+            res.userInfo.education_level = educationLevel;
+          }
+          else {
+            educationLvl= res.userInfo.education_level;
+            localStorage.setItem('education_level', educationLvl);
+          }
+
+          if (localStorage.getItem('education_level') == null) {
+            localStorage.setItem('education_level', res.userInfo.education_level);
+          }
+
+          var subjectsTaught = "";
+
+          if (this.state.subjects.length !== 0) {
+            localStorage.setItem('subjects', this.state.subjects);
+            subjectsTaught = localStorage.getItem('subjects');
+            subjects = subjectsTaught;
+            res.userInfo.subjects = subjectsTaught;
+          }
+          else {
+            subjects = res.userInfo.subjects;
+            localStorage.setItem('subjects', subjects);
+          }
+
+          if (localStorage.getItem('subjects') == null) {
+            localStorage.setItem('subjects', res.userInfo.subjects);
           }
 
           this.setState({
@@ -182,7 +241,6 @@ class UserInfo extends React.Component {
   }
 
   updateDB = () => {
-    console.log("HEY LISTEN: " + this.state.courses);
     var coursesToAdd = [];
     var test = this.state.subjects;
 
@@ -198,15 +256,13 @@ class UserInfo extends React.Component {
       subjects: coursesToAdd
     })
       .then(function (response) {
-        console.log(response);
       })
       .catch(function (error) {
         console.log(error);
       });
   };
 
-  updateOptions = () => {
-    console.log("HEY LISTEN: " + this.state.courses);
+  updateTutorOptions = () => {
     var updatedProfileValues = [this.state.updatedProgramOfStudy,
     this.state.updatedSchool,
     this.state.updatedFirstName,
@@ -216,24 +272,19 @@ class UserInfo extends React.Component {
       if (updatedProfileValues[y] === "") {
         if (y === 0) {
           updatedProfileValues[y] = this.state.program_of_study;
-          console.log(updatedProfileValues[y]);
         }
         else if (y === 1) {
           updatedProfileValues[y] = this.state.school;
-          console.log(updatedProfileValues[y]);
         }
         else if (y === 2) {
           updatedProfileValues[y] = this.state.first_name;
-          console.log(updatedProfileValues[y]);
         }
         else if (y === 3) {
           updatedProfileValues[y] = this.state.last_name;
-          console.log(updatedProfileValues[y]);
         }
 
       }
       else {
-        console.log(updatedProfileValues[y]);
       }
     }
 
@@ -245,16 +296,64 @@ class UserInfo extends React.Component {
       last_name: updatedProfileValues[3]
     })
       .then(function (response) {
-        console.log(response);
-        console.log(response.data.userInfo.program_of_study);
       })
       .catch(function (error) {
         console.log(error);
       });
   };
 
-  updatebitch = () => {
-    this.updateOptions();
+  updateStudentOptions = () => {
+    var updatedProfileValues = [this.state.updatedProgramOfStudy,
+    this.state.updatedSchool,
+    this.state.updatedEducationLevel,
+    this.state.updatedFirstName,
+    this.state.updatedLastName];
+
+    for (var y = 0; y < updatedProfileValues.length; y++) {
+      if (updatedProfileValues[y] === "") {
+        if (y === 0) {
+          updatedProfileValues[y] = this.state.program_of_study;
+        }
+        else if (y === 1) {
+          updatedProfileValues[y] = this.state.school;
+        }
+        else if (y === 2) {
+          updatedProfileValues[y] = this.state.education_level;
+        }
+        else if (y === 3) {
+          updatedProfileValues[y] = this.state.first_name;
+        }
+        else if (y === 4) {
+          updatedProfileValues[y] = this.state.last_name;
+        }
+
+      }
+      else {
+      }
+    }
+
+    axios.post('http://localhost:3001/api/updateUserInfo', {
+      _id: this.state._id,
+      program_of_study: updatedProfileValues[0],
+      school: updatedProfileValues[1],
+      education_level: updatedProfileValues[2],
+      first_name: updatedProfileValues[3],
+      last_name: updatedProfileValues[4]
+    })
+      .then(function (response) {
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  updateInfo = () => {
+    if (this.state.__t === "tutor") {
+      this.updateTutorOptions();
+    }
+    else if (this.state.__t === "student") {
+      this.updateStudentOptions();
+    }
     this.componentDidMount();
   }
 
@@ -267,41 +366,26 @@ class UserInfo extends React.Component {
         <React.Fragment>
           <Title> {this.state.__t} info</Title>
           <Typography component="p" variant="h6">
-            {this.state.__t === "tutor"
-              ? localStorage.getItem('first_name') + " " + localStorage.getItem('last_name')
-              : this.state.__t === "student"
-                ? localStorage.getItem('first_name') + " " + localStorage.getItem('last_name')
-                :
-                <br />
-            }
+            {localStorage.getItem('first_name') + " " + localStorage.getItem('last_name')}
           </Typography>
           <Typography component="p" variant="h7">
             Email : {this.state.email}
           </Typography>
           <Typography color="textSecondary" className={classes.InfoContext}>
-            Program of Study:
-          {this.state.__t === "tutor"
-              ? localStorage.getItem('program_of_study')
-              :
-              <br />
-            }
+            Program of Study: {localStorage.getItem('program_of_study')}
           </Typography>
           <Typography color="textSecondary" className={classes.InfoContext}>
-          {this.state.__t === "tutor"
-              ?  "Courses Taught:" 
+            {this.state.__t === "tutor"
+              ? "Courses Taught:" + localStorage.getItem('subjects')
               : this.state.__t === "student"
-              ? "Education Level:" 
+                ? "Education Level : " + localStorage.getItem('education_level')
                 :
                 <br />
-          }
+            }
           </Typography>
           <Typography color="textSecondary" className={classes.InfoContext}>
-            School:
-          {this.state.__t === "tutor"
-              ? localStorage.getItem('school')
-              :
-              <br />
-            }
+            School: {localStorage.getItem('school')}
+
           </Typography>
           <Typography color="textSecondary" className={classes.InfoContext}>
             Status: {this.state.__t}
@@ -316,7 +400,6 @@ class UserInfo extends React.Component {
                 :
                 <br />
               }
-
             </Grid>
 
             {this.state.__t === "tutor"
@@ -394,6 +477,19 @@ class UserInfo extends React.Component {
                   type="school"
                   fullWidth
                 />
+                {this.state.__t === "student"
+                  ? <TextField
+                    margin="dense"
+                    id="educationlevel"
+                    name="education_level"
+                    onChange={e => this.setState({ updatedEducationLevel: e.target.value })}
+                    label="Education Level"
+                    type="education_level"
+                    fullWidth
+                  />
+                  :
+                  <br />
+                }
 
               </DialogContent>
               <Grid
@@ -409,7 +505,7 @@ class UserInfo extends React.Component {
                 </Grid>
                 <Grid item>
                   <DialogActions>
-                    <Button onClick={this.updatebitch}>Update Values</Button>
+                    <Button onClick={this.updateInfo}>Update Values</Button>
                   </DialogActions>
                 </Grid>
               </Grid>
