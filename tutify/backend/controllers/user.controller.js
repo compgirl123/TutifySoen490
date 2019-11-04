@@ -162,6 +162,7 @@ exports.authUser = async function (req, res) {
                     else {
 
                         Tutor.findOne({ _id: user.tutor_profile }, function (err, user1) {
+                            //req.session.reload();
                             req.session.userInfo = user1;
                             req.session.isLoggedIn = true;
                             req.session.save();

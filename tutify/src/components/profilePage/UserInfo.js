@@ -18,14 +18,16 @@ import DialogActions from '@material-ui/core/DialogActions';
 class UserInfo extends React.Component {
   constructor(props) {
     super(props);
+    this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
     this.state = {
       drawerOpened: false,
       first_name: "",
       last_name: "",
       email: "",
-      updatedEmail : "",
-      updatedProgramOfStudy : "",
-      updatedSchool : "",
+      updatedFirstName: "",
+      updatedLastName: "",
+      updatedProgramOfStudy: "",
+      updatedSchool: "",
       education_level: "",
       subjects: [],
       students: "",
@@ -37,6 +39,10 @@ class UserInfo extends React.Component {
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
   }
+
+  forceUpdateHandler() {
+    this.forceUpdate();
+  };
   toggleDrawer = booleanValue => () => {
     this.setState({
       drawerOpened: booleanValue
@@ -88,7 +94,6 @@ class UserInfo extends React.Component {
         this.setState({ Toggle: false });
       })
       .catch(err => console.log(err));
-    //this.setState({Toggle: false});
 
   };
 
@@ -101,12 +106,58 @@ class UserInfo extends React.Component {
     })
       .then(response => response.json())
       .then(res => {
+
         if (res.isLoggedIn) {
+          var pos = "";
+          var schooloption = "";
+          var firstName = "";
+          var lastName = "";
+
+          if (this.state.updatedProgramOfStudy !== "") {
+            localStorage.setItem('program_of_study', this.state.updatedProgramOfStudy);
+            var programStudy = localStorage.getItem('program_of_study');
+            pos = programStudy;
+            res.userInfo.program_of_study = programStudy;
+          }
+          else {
+            pos = res.userInfo.program_of_study;
+          }
+
+          if (this.state.updatedSchool !== "") {
+            localStorage.setItem('school', this.state.updatedSchool);
+            var school = localStorage.getItem('school');
+            schooloption = school;
+            res.userInfo.school = school;
+          }
+          else {
+            schooloption = res.userInfo.school;
+          }
+
+          if (this.state.updatedFirstName !== "") {
+            localStorage.setItem('first_name', this.state.updatedFirstName);
+            var first_name = localStorage.getItem('first_name');
+            firstName = first_name;
+            res.userInfo.first_name = first_name;
+          }
+          else {
+            firstName = res.userInfo.first_name;
+          }
+
+          if (this.state.updatedLastName !== "") {
+            localStorage.setItem('last_name', this.state.updatedLastName);
+            var last_name = localStorage.getItem('last_name');
+            lastName = last_name;
+            res.userInfo.last_name = last_name;
+          }
+          else {
+            lastName = res.userInfo.last_name;
+          }
+
           this.setState({
             Toggle: true, _id: res.userInfo._id, __t: res.userInfo.__t,
-            first_name: res.userInfo.first_name, last_name: res.userInfo.last_name,
-            email: res.email, education_level: res.userInfo.education_level, school: res.userInfo.school,
-            program_of_study: res.userInfo.program_of_study, students: res.userInfo.students, subjects: res.userInfo.subjects
+            first_name: firstName, last_name: lastName,
+            email: res.email, education_level: res.userInfo.education_level, school: schooloption,
+            program_of_study: pos, students: res.userInfo.students, subjects: res.userInfo.subjects
           });
         }
         else {
@@ -156,45 +207,56 @@ class UserInfo extends React.Component {
 
   updateOptions = () => {
     console.log("HEY LISTEN: " + this.state.courses);
-    var updatedProfileValues = [this.state.updatedEmail,this.state.updatedProgramOfStudy,
-                                this.state.updatedSchool];
+    var updatedProfileValues = [this.state.updatedProgramOfStudy,
+    this.state.updatedSchool,
+    this.state.updatedFirstName,
+    this.state.updatedLastName];
 
     for (var y = 0; y < updatedProfileValues.length; y++) {
       if (updatedProfileValues[y] === "") {
-        console.log("hi");
-        if(y === 0){
-          updatedProfileValues[y] = this.state.email;
-          console.log(updatedProfileValues[y]);
-        }
-        else if(y === 1){
+        if (y === 0) {
           updatedProfileValues[y] = this.state.program_of_study;
           console.log(updatedProfileValues[y]);
         }
-        else if(y === 2){
+        else if (y === 1) {
           updatedProfileValues[y] = this.state.school;
           console.log(updatedProfileValues[y]);
         }
-        
+        else if (y === 2) {
+          updatedProfileValues[y] = this.state.first_name;
+          console.log(updatedProfileValues[y]);
+        }
+        else if (y === 3) {
+          updatedProfileValues[y] = this.state.last_name;
+          console.log(updatedProfileValues[y]);
+        }
+
       }
-      else{
-        console.log("ho");
+      else {
         console.log(updatedProfileValues[y]);
       }
-    }                            
-       
+    }
+
     axios.post('http://localhost:3001/api/updateTutorInfo', {
       _id: this.state._id,
-      //email: this.state.email,
-      program_of_study : updatedProfileValues[1],
-      school: updatedProfileValues[2]
+      program_of_study: updatedProfileValues[0],
+      school: updatedProfileValues[1],
+      first_name: updatedProfileValues[2],
+      last_name: updatedProfileValues[3]
     })
       .then(function (response) {
         console.log(response);
+        console.log(response.data.userInfo.program_of_study);
       })
       .catch(function (error) {
         console.log(error);
       });
   };
+
+  updatebitch = () => {
+    this.updateOptions();
+    this.componentDidMount();
+  }
 
   render() {
     const { classes } = this.props;
@@ -205,19 +267,41 @@ class UserInfo extends React.Component {
         <React.Fragment>
           <Title> {this.state.__t} info</Title>
           <Typography component="p" variant="h6">
-            {this.state.first_name} {this.state.last_name}
+            {this.state.__t === "tutor"
+              ? localStorage.getItem('first_name') + " " + localStorage.getItem('last_name')
+              : this.state.__t === "student"
+                ? localStorage.getItem('first_name') + " " + localStorage.getItem('last_name')
+                :
+                <br />
+            }
           </Typography>
           <Typography component="p" variant="h7">
             Email : {this.state.email}
           </Typography>
           <Typography color="textSecondary" className={classes.InfoContext}>
-            Program of Study: {this.state.program_of_study}
+            Program of Study:
+          {this.state.__t === "tutor"
+              ? localStorage.getItem('program_of_study')
+              :
+              <br />
+            }
           </Typography>
           <Typography color="textSecondary" className={classes.InfoContext}>
-            Education Level: {this.state.education_level}
+          {this.state.__t === "tutor"
+              ?  "Courses Taught:" 
+              : this.state.__t === "student"
+              ? "Education Level:" 
+                :
+                <br />
+          }
           </Typography>
           <Typography color="textSecondary" className={classes.InfoContext}>
-            School: {this.state.school}
+            School:
+          {this.state.__t === "tutor"
+              ? localStorage.getItem('school')
+              :
+              <br />
+            }
           </Typography>
           <Typography color="textSecondary" className={classes.InfoContext}>
             Status: {this.state.__t}
@@ -237,26 +321,26 @@ class UserInfo extends React.Component {
 
             {this.state.__t === "tutor"
               ? <Button
-              type="button"
-              fullWidth
-              variant="contained"
-              className="submit"
-              onClick={() => { this.updateDB(); }}
-            >
-              Save Course Options
+                type="button"
+                fullWidth
+                variant="contained"
+                className="submit"
+                onClick={() => { this.updateDB(); }}
+              >
+                Save Course Options
             </Button>
               : this.state.__t === "student"
-              ? <Button
-              type="button"
-              fullWidth
-              variant="contained"
-              className="submit"
-              onClick={() => { this.updateDB(); }}
-            >
-              Save Course Options
+                ? <Button
+                  type="button"
+                  fullWidth
+                  variant="contained"
+                  className="submit"
+                  onClick={() => { this.updateDB(); }}
+                >
+                  Save Course Options
             </Button>
-              :
-              <p></p>
+                :
+                <p></p>
             }
 
             <br />
@@ -267,21 +351,45 @@ class UserInfo extends React.Component {
                 <DialogContentText>
                   To edit your information, please change each of the value fields listed in the pop-up and click save.
             </DialogContentText>
+
+                <TextField
+                  margin="dense"
+                  id="firstName"
+                  name="firstName"
+                  onChange={e => this.setState({ updatedFirstName: e.target.value })}
+                  autoComplete="firstName"
+                  label="First Name"
+                  type="firstName"
+                  fullWidth
+                />
+
+                <TextField
+                  margin="dense"
+                  id="lastName"
+                  name="lastName"
+                  onChange={e => this.setState({ updatedLastName: e.target.value })}
+                  autoComplete="lastName"
+                  label="Last Name"
+                  type="lastName"
+                  fullWidth
+                />
+
                 <TextField
                   margin="dense"
                   id="programOfStudy"
                   name="programOfStudy"
-                  onChange={e => this.setState({updatedProgramOfStudy: e.target.value })}
+                  onChange={e => this.setState({ updatedProgramOfStudy: e.target.value })}
                   autoComplete="programOfStudy"
                   label="New Program of Study"
                   type="programOfStudy"
                   fullWidth
                 />
+
                 <TextField
                   margin="dense"
                   id="school"
                   name="school"
-                  onChange={e => this.setState({updatedSchool: e.target.value })}
+                  onChange={e => this.setState({ updatedSchool: e.target.value })}
                   label="School"
                   type="school"
                   fullWidth
@@ -301,7 +409,7 @@ class UserInfo extends React.Component {
                 </Grid>
                 <Grid item>
                   <DialogActions>
-                    <Button onClick={this.updateOptions}>Update Values</Button>
+                    <Button onClick={this.updatebitch}>Update Values</Button>
                   </DialogActions>
                 </Grid>
               </Grid>
@@ -315,7 +423,7 @@ class UserInfo extends React.Component {
                 className="submit"
                 onClick={() => { this.handleClickOpen(); }}
               >
-                Edit Info
+                Edit User Info
              </Button>
               : this.state.__t === "student"
                 ? <Button
