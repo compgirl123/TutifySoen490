@@ -1,6 +1,6 @@
 const Account = require('../models/models').Account;
 const Student = require('../models/models').Student;
-const Tutor = require('../models/models').Tutor;
+const Tutor = require('../models/models').Tutor;
 var session = require('express-session');
 // Nodejs encryption with CTR
 const crypto = require('crypto');
@@ -27,7 +27,7 @@ exports.updateUser = async function (req, res) {
 };
 
 // this method assigns a tutor to the user & vice-versa
-exports.assignTutor = async function (req,res) {
+exports.assignTutor = async function (req, res) {
     const { student_id, tutor_id } = req.body;
 
     Student.findByIdAndUpdate(student_id,
@@ -120,76 +120,76 @@ exports.putUser = async function (req, res) {
 
 };
 
-exports.authUser = async function (req, res) {
-        var email = req.body.email;
-        var password = req.body.password;
-        var profile_id = [];
-    
-        Account.findOne({ email: email }, function (err, user) {
-            if (err) {
-                console.log(err);
-                return res.status(500).send();
-            }
-            else if (user == undefined) {
-                console.log('user not found');
-                req.session.isLoggedIn = false;
-    
-                req.session.save();
-                res.send(req.session);
-    
-                return res.status(400).send();
-            } 
-            else {
-                bcrypt.compare(password, user.password, (err, isMatch) => {
-                    if (err) {
-                        console.log('server error');
-                    } 
-                    
-                    else if (isMatch === true) {
-                        req.session.email = user.email;
-    
-                        //req.session.program_of_study = user.program_of_study;
-                        console.log(null, 'login successfully');
-                        if(user.user_profile){
-                        Student.findOne({ _id: user.user_profile }, function (err, user1) {
-                            req.session.userInfo = user1;
-                            req.session.isLoggedIn = true;
-                            req.session.save();
-                            res.send(req.session);
-                            return res.status(200).send();
-                        });
-                    }
-                    else{
-    
-                            Tutor.findOne({ _id: user.tutor_profile }, function (err, user1) {
-                                req.session.userInfo = user1;
-                                req.session.isLoggedIn = true;
-                                req.session.save();
-                                res.send(req.session);
-        
-                                return res.status(200).send();
-                    });
-                    }
-                
-                    } 
-                    else {
-                        console.log('login info incorrect');
-                        req.session.isLoggedIn = false;
-    
-                        req.session.save();
-                        res.send(req.session);
-    
-                        return res.status(400).send();
-                    }
-                });
-            }
-    
-        })
-    };    
+exports.authUser = async function (req, res) {
+    var email = req.body.email;
+    var password = req.body.password;
+    var profile_id = [];
+
+    Account.findOne({ email: email }, function (err, user) {
+        if (err) {
+            console.log(err);
+            return res.status(500).send();
+        }
+        else if (user == undefined) {
+            console.log('user not found');
+            req.session.isLoggedIn = false;
+
+            req.session.save();
+            res.send(req.session);
+
+            return res.status(400).send();
+        }
+        else {
+            bcrypt.compare(password, user.password, (err, isMatch) => {
+                if (err) {
+                    console.log('server error');
+                }
+
+                else if (isMatch === true) {
+                    req.session.email = user.email;
+
+                    //req.session.program_of_study = user.program_of_study;
+                    console.log(null, 'login successfully');
+                    if (user.user_profile) {
+                        Student.findOne({ _id: user.user_profile }, function (err, user1) {
+                            req.session.userInfo = user1;
+                            req.session.isLoggedIn = true;
+                            req.session.save();
+                            res.send(req.session);
+                            return res.status(200).send();
+                        });
+                    }
+                    else {
+
+                        Tutor.findOne({ _id: user.tutor_profile }, function (err, user1) {
+                            req.session.userInfo = user1;
+                            req.session.isLoggedIn = true;
+                            req.session.save();
+                            res.send(req.session);
+
+                            return res.status(200).send();
+                        });
+                    }
+
+                }
+                else {
+                    console.log('login info incorrect');
+                    req.session.isLoggedIn = false;
+
+                    req.session.save();
+                    res.send(req.session);
+
+                    return res.status(400).send();
+                }
+            });
+        }
+
+    })
+};
 
 //this function logs the user out and destroys the session
 exports.logout = async function (req, res) {
-        req.session.destroy();
+    req.session.destroy();
 };
 
 //this function checks if a session is running
@@ -197,7 +197,7 @@ exports.checkSession = async function (req, res) {
     if (req.session.isLoggedIn) {
         res.send(req.session);
     }
-    
+
 };
 
 
@@ -208,4 +208,13 @@ exports.deleteUser = async function (req, res) {
         if (err) return res.send(err);
         return res.json({ success: true });
     });
+};
+
+// this method fetches the courses associated with the current user
+exports.getUserCourses = async function (req, res) {
+    Student.findOne({ _id: req.session.userInfo._id }).populate('courses').
+        exec(function (err, student) {
+            if (err) return handleError(err);        
+            return res.json({ success: true, data: student.courses });
+        });
 };
