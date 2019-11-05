@@ -8,6 +8,7 @@ var accountController = require('./controllers/account.controller')
 var appointmentController = require('./controllers/appointment.controller')
 var tutorController = require('./controllers/tutor.controller')
 var userController = require('./controllers/user.controller')
+var courseController = require('./controllers/course.controller')
 
 // -------- TUTOR ROUTES --------- // 
 
@@ -33,6 +34,8 @@ router.get('/checkSession', userController.checkSession);
 
 router.post('/assignTutor', userController.assignTutor);
 
+router.get('/getUserCourses', userController.getUserCourses);
+
 // -------- ACCOUNT ROUTES --------- // 
 
 router.get('/getAccount', accountController.getAccount);
@@ -52,5 +55,9 @@ router.post('/updateAppointment', appointmentController.updateAppointment);
 router.post('/putAppointment', appointmentController.putAppointment);
 
 router.delete('/deleteAppointment', appointmentController.deleteAppointment);
+
+// -------- COURSES ROUTES --------- // 
+
+router.get('/getCourses', courseController.getCourses);
 
 module.exports = router;
