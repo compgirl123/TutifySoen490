@@ -16,7 +16,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { ButtonBase } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 
 class TutorCard extends Component {
@@ -144,16 +143,14 @@ class TutorCard extends Component {
                         </Grid>
                     </Grid>
                 </Dialog>
-                <Card className={classes.card}>
-                    <ButtonBase onClick={this.handleClickOpen}>
-                        <CardActionArea>
-                            <CardMedia
-                                className={classes.cardMedia}
-                                image={tutor.picture}
-                                title={tutor.first_name + " " + tutor.last_name}
-                            />
-                        </CardActionArea>
-                    </ButtonBase>
+                <Card className={classes.card} onClick={this.handleClickOpen}>
+                    <CardActionArea>
+                        <CardMedia
+                            className={classes.cardMedia}
+                            image={tutor.picture}
+                            title={tutor.first_name + " " + tutor.last_name}
+                        />
+                    </CardActionArea>
                     <CardContent className={classes.cardContent}>
                         <Typography variant="h5" component="h2">
 

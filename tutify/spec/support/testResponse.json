@@ -1,0 +1,7 @@
+{
+    "data":{
+        "id":0,
+        "name":"Mo"
+    },
+    "invalid":"fails if it has that parameter"
+}
