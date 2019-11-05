@@ -25,8 +25,7 @@ const options = [
   'Subject',
   'Program',
 ];
-
-class SearchTutors extends Component {
+export class SearchTutors extends Component {
   // initialize our state
   constructor(props) {
     super(props);
@@ -40,6 +39,7 @@ class SearchTutors extends Component {
       anchorEl: null,
       displayTutor: false,
     };
+    // this.filterList = this.filterList.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleClickMenu = this.handleClickMenu.bind(this);
     this.handleCloseMenu = this.handleCloseMenu.bind(this);
@@ -85,8 +85,8 @@ class SearchTutors extends Component {
   // Uses our backend api to fetch tutors from our database
   getDataFromDb = () => {
     fetch('http://localhost:3001/api/getTutor')
-      .then((data) => data.json())
-      .then((res) => this.setState({ data: res.data, filteredData: res.data }));
+    .then((data) => data.json())
+    .then((res) => this.setState({ data: res.data, filteredData: res.data }));
   }
 
   // filters the list of tutors displayed
@@ -95,7 +95,6 @@ class SearchTutors extends Component {
     let currentList = this.state.data;
     // Variable to hold the filtered list before putting into state
     let newList = [];
-
     // If the search bar isn't empty
     if (e.target.value !== "") {
       // if search includes whitespace, split it into different search terms
@@ -199,6 +198,7 @@ class SearchTutors extends Component {
                     placeholder={this.state.placeholder}
                     inputProps={{ 'aria-label': 'enter a name' }}
                     onChange={this.handleChange}
+                    testid="searchfilter"
                   />
                   <IconButton className={classes.iconButton} aria-label="search">
                     <SearchIcon />
