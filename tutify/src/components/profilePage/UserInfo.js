@@ -408,15 +408,15 @@ class UserInfo extends React.Component {
               >
                 Save Course Options
             </Button>
-              : this.state.__t === "student"
+                : this.state.__t === "student"
                 ? <Button
                   type="button"
                   fullWidth
                   variant="contained"
                   className="submit"
-                  onClick={() => { this.updateDB(); }}
+                  onClick={() => { this.handleClickOpen(); }}
                 >
-                  Save Course Options
+                  Edit User Info
             </Button>
                 :
                 <p></p>
@@ -515,18 +515,8 @@ class UserInfo extends React.Component {
                 className="submit"
                 onClick={() => { this.handleClickOpen(); }}
               >
-                Edit User Info
+                Edit Tutor Info
              </Button>
-              : this.state.__t === "student"
-                ? <Button
-                  type="button"
-                  fullWidth
-                  variant="contained"
-                  className="submit"
-                  onClick={() => { this.handleClickOpen(); }}
-                >
-                  Edit Info
-            </Button>
                 :
                 <p></p>
             }
