@@ -185,10 +185,7 @@ class UserInfo extends React.Component {
               : 
               <br/>
             }
-            
-              
-            
-              
+         
             </Grid>
 
             <Button

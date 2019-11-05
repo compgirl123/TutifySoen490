@@ -18,6 +18,30 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { ButtonBase } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
+import swal from 'sweetalert';
+
+
+const assignTutor = (e, userID, tutorID) => {
+    axios.post('http://localhost:3001/api/assignTutor', {
+        student_id: userID,
+        tutor_id: tutorID,
+    });
+    swal("Request successfully sent!", "", "success")
+        .then((value) => {
+            window.location.reload();
+        });
+}
+
+function ConnectButton(props) {
+    const isConnected = props.isConnected;
+    const classes = props.classes;
+    const tutor = props.tutor;
+    const userId = props.userId;
+    if (!isConnected) {
+        return <Button component="a" href="/courselist" className={classes.connect} onClick={event => assignTutor(event, userId, tutor._id)}>Connect with {tutor.first_name}</Button>
+    }
+    return <Button className={classes.connect} disabled >Connected <CheckIcon /></Button>
+}
 
 class TutorCard extends Component {
     constructor(props) {
@@ -26,28 +50,11 @@ class TutorCard extends Component {
             open: false,
             openFeedback: false,
             scroll: 'paper',
+            user_id: props.user_id,
+            connectedTutors: props.connectedTutors
         };
         this.handleClickOpen = this.handleClickOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
-        this.assignTutor = this.assignTutor.bind(this)
-    }
-
-    assignTutor(e, tutor) {
-        fetch('http://localhost:3001/api/checkSession', {
-            method: 'GET',
-            credentials: 'include'
-        })
-            .then(response => response.json())
-            .then(res => {
-                if (res.isLoggedIn) {
-                    axios.post('http://localhost:3001/api/assignTutor', {
-                        student_id: res.userInfo._id, 
-                        tutor_id: tutor._id,
-                    });
-                    alert('Request successfully sent!')
-                }
-            })
-            .catch(err => console.log(err));
     }
 
     handleFeedback = () => {
@@ -62,6 +69,11 @@ class TutorCard extends Component {
         this.setState({ open: false });
     };
 
+    checkIfConnected(tutorID) {
+        return this.state.connectedTutors.includes(tutorID);
+    }
+
+    
     render() {
         const { classes } = this.props
         const { tutor } = this.props
@@ -139,7 +151,12 @@ class TutorCard extends Component {
                         </Grid>
                         <Grid item>
                             <DialogActions>
-                                <Button component="a" href="/courselist" className={classes.connect} onClick={event => this.assignTutor(event, tutor)}>Connect with {tutor.first_name}</Button>
+                                <ConnectButton
+                                    isConnected={this.checkIfConnected(tutor._id)}
+                                    classes={classes}
+                                    tutor={tutor}
+                                    userId={this.state.user_id}
+                                />
                             </DialogActions>
                         </Grid>
                     </Grid>
