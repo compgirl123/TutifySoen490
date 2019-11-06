@@ -37,8 +37,9 @@ function ConnectButton(props) {
     const classes = props.classes;
     const tutor = props.tutor;
     const userId = props.userId;
+    var url = "/courselist/"+props.tutor.id.$numberInt;
     if (!isConnected) {
-        return <Button component="a" href="/courselist" className={classes.connect} onClick={event => assignTutor(event, userId, tutor._id)}>Connect with {tutor.first_name}</Button>
+        return <Button component="a" href={url} className={classes.connect} onClick={event => assignTutor(event, userId, tutor._id.$oid)}>Connect with {tutor.first_name}</Button>
     }
     return <Button className={classes.connect} disabled >Connected <CheckIcon /></Button>
 }
@@ -51,10 +52,13 @@ class TutorCard extends Component {
             openFeedback: false,
             scroll: 'paper',
             user_id: props.user_id,
-            connectedTutors: props.connectedTutors
+            connectedTutors: props.connectedTutors,
+            tutor: props.tutor._id,
+            courses: props.tutor.subjects
         };
         this.handleClickOpen = this.handleClickOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        console.log(JSON.stringify(props.tutor));
     }
 
     handleFeedback = () => {
@@ -63,6 +67,7 @@ class TutorCard extends Component {
 
     handleClickOpen = () => {
         this.setState({ open: true });
+        console.log(this.state.tutor);
     };
 
     handleClose = () => {
@@ -98,7 +103,7 @@ class TutorCard extends Component {
                                         <Grid item xs>
                                             <Typography gutterBottom variant="h5">{tutor.first_name} {tutor.last_name}</Typography>
                                             <Typography>{tutor.school}</Typography>
-                                            <Typography>{tutor.subjects.map((sub, index) => (
+                                            <Typography>{this.state.courses.map((sub, index) => (
                                                 <Chip
                                                     key={index}
                                                     className={classes.chip}
@@ -106,7 +111,8 @@ class TutorCard extends Component {
                                                     color="secondary"
                                                     label={sub}
                                                 />
-                                            ))}
+                                            ))
+                                            }
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -156,6 +162,7 @@ class TutorCard extends Component {
                                     classes={classes}
                                     tutor={tutor}
                                     userId={this.state.user_id}
+                                    id={tutor.id}
                                 />
                             </DialogActions>
                         </Grid>
@@ -183,15 +190,17 @@ class TutorCard extends Component {
                                 <span className={classes.program_of_study}> - {tutor.program_of_study}</span>
                             )}
                             <br />
-                            {tutor.subjects.map((sub, index) => (
-                                <Chip
-                                    key={index}
-                                    className={classes.chip}
-                                    icon={<CheckIcon />}
-                                    color="secondary"
-                                    label={sub}
-                                />
-                            ))}
+                            {
+                                tutor.subjects.map((sub, index) => (
+                                    <Chip
+                                        key={index}
+                                        className={classes.chip}
+                                        icon={<CheckIcon />}
+                                        color="secondary"
+                                        label={sub}
+                                    />
+                                ))
+                            }
                             <br />
 
                         </Typography>

@@ -86,9 +86,10 @@ class SearchTutors extends Component {
 
   // Uses our backend api to fetch tutors from our database
   getDataFromDb = () => {
-    fetch('http://localhost:3001/api/getTutor')
+    fetch('https://webhooks.mongodb-stitch.com/api/client/v2.0/app/tutify-skqbg/service/getTutor/incoming_webhook/tutors?secret=d0y0ug0t0th3cl0udd1str1ct0ft3n')
       .then((data) => data.json())
-      .then((res) => this.setState({ data: res.data, filteredData: res.data }));
+      .then((res) => {console.log(res);
+        this.setState({ data: res, filteredData: res });});
   }
 
   checkSession = () => {
