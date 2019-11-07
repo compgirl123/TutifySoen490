@@ -18,8 +18,8 @@ export const useInputValue = (initialValue = "") => {
   };
 };
 
-export const useTodos = (initialValue = []) => {
-  const [todos, setTodos] = useState(initialValue);
+export const useTodos = (initialValue) => {
+  const [ todos, setTodos] = useState(initialValue);
 
   return {
     todos,

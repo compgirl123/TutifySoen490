@@ -24,7 +24,7 @@ function MainPage() {
       <Route exact path="/courses" component={MyCourses} />
       <Route exact path="/tutor" component={TutorProfile} />
       <Route exact path="/students" component={StudentList} />
-      <Route exact path="/welcome" component={UserDashboard} />
+      <Route exact path="/dashboard" component={UserDashboard} />
     </Router>
   );
 }

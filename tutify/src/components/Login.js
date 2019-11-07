@@ -59,13 +59,11 @@ class Login extends React.Component {
          
           swal("You have signed in successfully!", "", "success")
           .then((value) => {
-            window.location = "profile";
+            window.location = "dashboard";
           });
-          //alert("Signed in!");
         }
         else{
           swal("Invalid username or password!", "Please try again.", "error"); 
-          //alert("Invalid user or password! Please try again.");
         }
       })
   };

@@ -6,9 +6,11 @@ import { useInputValue, useTodos } from "./custom-hooks";
 import AddTodo from "./AddToDo";
 import ToDoListLayout from "./ToDoListLayout";
 
-const ToDo = memo(props => {
+
+const ToDo = memo( (props) => {
   const { inputValue, changeInput, clearInput, keyInput } = useInputValue();
-  const { todos, addTodo, checkTodo, removeTodo } = useTodos();
+  let savedTodos = props.todos ? props.todos : []
+  const { todos, addTodo, checkTodo, removeTodo } = useTodos(savedTodos);
 
   const clearInputAndAddTodo = _ => {
     clearInput();

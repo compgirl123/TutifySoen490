@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { List, Paper, Grid } from "@material-ui/core";
+import { List, Paper } from "@material-ui/core";
 
 import ToDoListItem from "./ToDoListItem";
 
