@@ -14,11 +14,11 @@ import Dialog from '@material-ui/core/Dialog';
 import TextField from '@material-ui/core/TextField';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
+import swal from 'sweetalert';
 
 class UserInfo extends React.Component {
   constructor(props) {
     super(props);
-    this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
     this.state = {
       drawerOpened: false,
       first_name: "",
@@ -32,7 +32,6 @@ class UserInfo extends React.Component {
       education_level: "",
       subjects: [],
       students: "",
-      data: [],
       courses: [],
       open: false,
       scroll: 'paper'
@@ -41,9 +40,6 @@ class UserInfo extends React.Component {
     this.handleClose = this.handleClose.bind(this);
   }
 
-  forceUpdateHandler() {
-    this.forceUpdate();
-  };
   toggleDrawer = booleanValue => () => {
     this.setState({
       drawerOpened: booleanValue
@@ -65,26 +61,7 @@ class UserInfo extends React.Component {
   componentDidMount() {
     this.checkSession();
   }
-  checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then(res => {
-        if (res.isLoggedIn) {
-          this.setState({
-            Toggle: true, first_name: res.userInfo.first_name, last_name: res.userInfo.last_name,
-            email: res.email, education_level: res.userInfo.education_level, school: res.userInfo.school,
-            program_of_study: res.userInfo.program_of_study, subject: res.tutor.subjects
-          });
-        }
-        else {
-          this.setState({ Toggle: false });
-        }
-      })
-      .catch(err => console.log(err));
-  };
+
   handleChange(event) {
     fetch('http://localhost:3001/api/logout', {
       method: 'GET',
@@ -95,124 +72,23 @@ class UserInfo extends React.Component {
         this.setState({ Toggle: false });
       })
       .catch(err => console.log(err));
-
   };
 
-
   handleChangeValue = e => this.setState({ value: e.target.value });
+
   checkSession = () => {
     fetch('http://localhost:3001/api/checkSession', {
       method: 'GET',
       credentials: 'include'
     })
       .then(response => response.json())
-      .then(res => {
-
+      .then((res) => {
         if (res.isLoggedIn) {
-          var pos = "";
-          var schooloption = "";
-          var firstName = "";
-          var lastName = "";
-          var educationLvl = "";
-          var subjects = "";
-
-          
-          if (this.state.updatedProgramOfStudy !== "") {
-            localStorage.setItem('program_of_study', this.state.updatedProgramOfStudy);
-            var programStudy = localStorage.getItem('program_of_study');
-            pos = programStudy;
-            res.userInfo.program_of_study = programStudy;
-          }
-          else {
-            pos = res.userInfo.program_of_study;
-          }
-
-          if (localStorage.getItem('program_of_study') == null) {
-            localStorage.setItem('program_of_study', res.userInfo.program_of_study);
-          }
-
-          if (this.state.updatedSchool !== "") {
-            localStorage.setItem('school', this.state.updatedSchool);
-            var school = localStorage.getItem('school');
-            schooloption = school;
-            res.userInfo.school = school;
-          }
-          else {
-            schooloption = res.userInfo.school;
-          }
-
-          if (localStorage.getItem('school') == null) {
-            localStorage.setItem('school', res.userInfo.school);
-          }
-
-          var first_name = "";
-          if (this.state.updatedFirstName !== "") {
-            localStorage.setItem('first_name', this.state.updatedFirstName);
-            first_name = localStorage.getItem('first_name');
-            firstName = first_name;
-            res.userInfo.first_name = first_name;
-          }
-          else {
-            firstName = res.userInfo.first_name;
-          }
-
-          if (localStorage.getItem('first_name') == null) {
-            localStorage.setItem('first_name', res.userInfo.first_name);
-          }
-
-          var last_name = "";
-          if (this.state.updatedLastName !== "") {
-            localStorage.setItem('last_name', this.state.updatedLastName);
-            last_name = localStorage.getItem('last_name');
-            lastName = last_name;
-            res.userInfo.last_name = last_name;
-          }
-          else {
-            lastName = res.userInfo.last_name;
-          }
-
-          var educationLevel = "";
-          if (localStorage.getItem('last_name') == null) {
-            localStorage.setItem('last_name', res.userInfo.last_name);
-          }
-
-          if (this.state.updatedEducationLevel !== "") {
-            localStorage.setItem('education_level', this.state.updatedEducationLevel);
-            educationLevel = localStorage.getItem('education_level');
-            educationLvl = educationLevel;
-            res.userInfo.education_level = educationLevel;
-          }
-          else {
-            educationLvl= res.userInfo.education_level;
-            localStorage.setItem('education_level', educationLvl);
-          }
-
-          if (localStorage.getItem('education_level') == null) {
-            localStorage.setItem('education_level', res.userInfo.education_level);
-          }
-
-          var subjectsTaught = "";
-
-          if (this.state.subjects.length !== 0) {
-            localStorage.setItem('subjects', this.state.subjects);
-            subjectsTaught = localStorage.getItem('subjects');
-            subjects = subjectsTaught;
-            res.userInfo.subjects = subjectsTaught;
-          }
-          else {
-            subjects = res.userInfo.subjects;
-            localStorage.setItem('subjects', subjects);
-          }
-
-          if (localStorage.getItem('subjects') == null) {
-            localStorage.setItem('subjects', res.userInfo.subjects);
-          }
-
           this.setState({
             Toggle: true, _id: res.userInfo._id, __t: res.userInfo.__t,
-            first_name: firstName, last_name: lastName,
-            email: res.email, education_level: res.userInfo.education_level, school: schooloption,
-            program_of_study: pos, students: res.userInfo.students, subjects: res.userInfo.subjects
+            first_name: res.userInfo.first_name, last_name: res.userInfo.last_name,
+            email: res.email, education_level: res.userInfo.education_level, school: res.userInfo.school,
+            program_of_study: res.userInfo.program_of_study, students: res.userInfo.students, subjects: res.userInfo.subjects
           });
         }
         else {
@@ -220,14 +96,6 @@ class UserInfo extends React.Component {
         }
       })
       .catch(err => console.log(err));
-  };
-
-
-  getDataFromDb = () => {
-    fetch('http://localhost:3001/api/getUser')
-      // get tutor
-      .then((data) => data.json())
-      .then((res) => this.setState({ data: res.data }));
   };
 
   update = async (value) => {
@@ -251,18 +119,23 @@ class UserInfo extends React.Component {
       _id: this.state._id,
       subjects: coursesToAdd
     })
-      .then(function (response) {
-      })
-      .catch(function (error) {
-        console.log(error);
+    .then((res) => {
+      this.setState({
+        subjects: res.data.newSubjects
       });
+      swal("Information successfully updated!", "", "success")
+    }, (error) => {
+      console.log(error);
+    });
   };
 
   updateTutorOptions = () => {
-    var updatedProfileValues = [this.state.updatedProgramOfStudy,
-    this.state.updatedSchool,
-    this.state.updatedFirstName,
-    this.state.updatedLastName];
+    var updatedProfileValues = [
+      this.state.updatedProgramOfStudy,
+      this.state.updatedSchool,
+      this.state.updatedFirstName,
+      this.state.updatedLastName
+    ];
 
     for (var y = 0; y < updatedProfileValues.length; y++) {
       if (updatedProfileValues[y] === "") {
@@ -278,9 +151,6 @@ class UserInfo extends React.Component {
         else if (y === 3) {
           updatedProfileValues[y] = this.state.last_name;
         }
-
-      }
-      else {
       }
     }
 
@@ -291,19 +161,25 @@ class UserInfo extends React.Component {
       first_name: updatedProfileValues[2],
       last_name: updatedProfileValues[3]
     })
-      .then(function (response) {
-      })
-      .catch(function (error) {
+      .then((res) => {
+        this.setState({
+          first_name: res.data.userInfo.first_name, last_name: res.data.userInfo.last_name,
+          school: res.data.userInfo.school, program_of_study: res.data.userInfo.program_of_study,
+        });
+        swal("Information successfully updated!", "", "success")
+      }, (error) => {
         console.log(error);
       });
   };
 
   updateStudentOptions = () => {
-    var updatedProfileValues = [this.state.updatedProgramOfStudy,
-    this.state.updatedSchool,
-    this.state.updatedEducationLevel,
-    this.state.updatedFirstName,
-    this.state.updatedLastName];
+    var updatedProfileValues = [
+      this.state.updatedProgramOfStudy,
+      this.state.updatedSchool,
+      this.state.updatedEducationLevel,
+      this.state.updatedFirstName,
+      this.state.updatedLastName
+    ];
 
     for (var y = 0; y < updatedProfileValues.length; y++) {
       if (updatedProfileValues[y] === "") {
@@ -322,7 +198,6 @@ class UserInfo extends React.Component {
         else if (y === 4) {
           updatedProfileValues[y] = this.state.last_name;
         }
-
       }
       else {
       }
@@ -336,9 +211,14 @@ class UserInfo extends React.Component {
       first_name: updatedProfileValues[3],
       last_name: updatedProfileValues[4]
     })
-      .then(function (response) {
-      })
-      .catch(function (error) {
+      .then((res) => {
+        this.setState({
+          first_name: res.data.userInfo.first_name, last_name: res.data.userInfo.last_name,
+          education_level: res.data.userInfo.education_level, school: res.data.userInfo.school,
+          program_of_study: res.data.userInfo.program_of_study,
+        });
+        swal("Information successfully updated!", "", "success")
+      }, (error) => {
         console.log(error);
       });
   };
@@ -350,7 +230,6 @@ class UserInfo extends React.Component {
     else if (this.state.__t === "student") {
       this.updateStudentOptions();
     }
-    this.componentDidMount();
   }
 
   render() {
@@ -362,25 +241,25 @@ class UserInfo extends React.Component {
         <React.Fragment>
           <Title> {this.state.__t} info</Title>
           <Typography component="p" variant="h6">
-            {localStorage.getItem('first_name') + " " + localStorage.getItem('last_name')}
+            {this.state.first_name + " " + this.state.last_name}
           </Typography>
           <Typography component="p" variant="h7">
             Email : {this.state.email}
           </Typography>
           <Typography color="textSecondary" className={classes.InfoContext}>
-            Program of Study: {localStorage.getItem('program_of_study')}
+            Program of Study: {this.state.program_of_study}
           </Typography>
           <Typography color="textSecondary" className={classes.InfoContext}>
             {this.state.__t === "tutor"
-              ? "Courses Taught:" + localStorage.getItem('subjects')
+              ? "Courses Taught:" + this.state.subjects
               : this.state.__t === "student"
-                ? "Education Level : " + localStorage.getItem('education_level')
+                ? "Education Level : " + this.state.education_level
                 :
                 <br />
             }
           </Typography>
           <Typography color="textSecondary" className={classes.InfoContext}>
-            School: {localStorage.getItem('school')}
+            School: {this.state.school}
 
           </Typography>
           <Typography color="textSecondary" className={classes.InfoContext}>
@@ -408,7 +287,7 @@ class UserInfo extends React.Component {
               >
                 Save Course Options
             </Button>
-                : this.state.__t === "student"
+              : this.state.__t === "student"
                 ? <Button
                   type="button"
                   fullWidth
@@ -428,7 +307,7 @@ class UserInfo extends React.Component {
               <DialogTitle id="simple-dialog-title">Edit Information</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  To edit your information, please change each of the value fields listed in the pop-up and click save.
+                  To edit your information, please change the desired value fields and click save.
             </DialogContentText>
 
                 <TextField
@@ -517,8 +396,8 @@ class UserInfo extends React.Component {
               >
                 Edit Tutor Info
              </Button>
-                :
-                <p></p>
+              :
+              <p></p>
             }
 
           </div>

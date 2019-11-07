@@ -30,13 +30,20 @@ exports.updateUser = async function (req, res) {
 // this method overwrites existing user in our database
 exports.updateUserInfo = async function (req, res) {
     const { _id, school,program_of_study,education_level,first_name,last_name } = req.body;
-    console.log(req.body);
     Student.findByIdAndUpdate(_id,
         {$set: { "school" : school,  "program_of_study":program_of_study, "education_level": education_level, 
                  "first_name": first_name,"last_name":last_name } },
         { "new": true, "upsert": true },
-        function (err) {
-            if (err) throw err;
+        (err, user) => {
+            if (err) return res.json({ success: false, error: err });
+            //update the session
+            req.session.userInfo = user;       
+            req.session.save( function(err) {
+                req.session.reload( function (err) {
+                    //session reloaded
+                    return res.json({ success: true, userInfo: user });
+                });
+            });       
         }
     );
 };

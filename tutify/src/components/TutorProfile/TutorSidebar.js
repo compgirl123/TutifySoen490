@@ -18,12 +18,6 @@ export class TutorSidebar extends Component {
 
 
   handleChange(event) {
-    localStorage.removeItem('first_name');
-    localStorage.removeItem('last_name');
-    localStorage.removeItem('program_of_study');
-    localStorage.removeItem('school');
-    localStorage.removeItem('subjects');
-
     fetch('http://localhost:3001/api/logout', {
       method: 'GET',
       credentials: 'include'

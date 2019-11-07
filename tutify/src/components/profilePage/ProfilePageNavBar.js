@@ -76,8 +76,6 @@ export class NavBar extends Component {
 
     handleChange(event){
         fetch('http://localhost:3001/api/logout')
-        localStorage.removeItem('first_name');
-        localStorage.removeItem('last_name');
         this.setState({Toggle: false});
       };
     

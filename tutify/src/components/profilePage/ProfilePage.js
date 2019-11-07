@@ -14,9 +14,9 @@ class ProfilePage extends React.Component {
     super(props);
     this.state = {
       drawerOpened: false,
-      email: "",
     };
   }
+
   toggleDrawer = booleanValue => () => {
     this.setState({
       drawerOpened: booleanValue
@@ -26,6 +26,7 @@ class ProfilePage extends React.Component {
   componentDidMount() {
     this.checkSession();
   }
+
   checkSession = () => {
     fetch('http://localhost:3001/api/checkSession',{
                   method: 'GET',
@@ -41,7 +42,8 @@ class ProfilePage extends React.Component {
         }
       })
       .catch(err => console.log(err));
-    };
+  };
+
   handleChange(event){
       fetch('http://localhost:3001/api/logout',{
                     method: 'GET',
@@ -50,13 +52,10 @@ class ProfilePage extends React.Component {
                   .then(response => response.json())
                   .then(res => {
                         this.setState({Toggle: false});
-                        localStorage.removeItem('first_name');
-                        localStorage.removeItem('last_name');
                     
                   })
-                  .catch(err => console.log(err));
-      
-    };
+                  .catch(err => console.log(err));    
+  };
 
   render() {
     const { classes } = this.props;
@@ -75,13 +74,12 @@ class ProfilePage extends React.Component {
         </Typography>
         <Grid container spacing={4}>
 
-              {/* User Info */}
+          {/* User Info */}
           <Grid item lg={6}>
           <Paper>           
             <UserInfo />
           </Paper>
         </Grid>
-
 
            {/* Adding Picture */}       
            <Grid item xs={12} md={6} lg={6}>
@@ -94,13 +92,11 @@ class ProfilePage extends React.Component {
         <main>
         {/* Hero unit */}
       
-        
       </main>
        <Footer/>
 
       </main>
-
-        
+      
       </main>
     </React.Fragment>
     );

@@ -14,8 +14,16 @@ exports.updateTutor = async function (req, res) {
     Tutor.findByIdAndUpdate(_id,
         { "$push": { "subjects": subjects } },
         { "new": true, "upsert": true },
-        function (err) {
-            if (err) throw err;
+        (err, user) => {
+            if (err) return res.json({ success: false, error: err });
+            //update the session
+            req.session.userInfo.subjects = user.subjects;       
+            req.session.save( function(err) {
+                req.session.reload( function (err) {
+                    //session reloaded
+                    return res.json({ success: true, newSubjects: user.subjects });
+                });
+            });       
         }
     );
 };
@@ -27,8 +35,16 @@ exports.updateTutorInfo = async function (req, res) {
         {$set: { "school" : school, "program_of_study": program_of_study, 
                  "first_name": first_name,"last_name":last_name } },
         { "new": true, "upsert": true },
-        function (err) {
-            if (err) throw err;
+        (err, user) => {
+            if (err) return res.json({ success: false, error: err });
+            //update the session
+            req.session.userInfo = user;       
+            req.session.save( function(err) {
+                req.session.reload( function (err) {
+                    //session reloaded
+                    return res.json({ success: true, userInfo: user });
+                });
+            });       
         }
     );
 };
