@@ -53,7 +53,7 @@ class Login extends React.Component {
         if(res.isLoggedIn){        
           swal("You have signed in successfully!", "", "success")
           .then((value) => {
-            window.location = "profile";
+            window.location = "dashboard";
           });
         }
         else{

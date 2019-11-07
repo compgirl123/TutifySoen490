@@ -13,28 +13,26 @@ import ToDo from "./ToDo";
 
 class ToDoList extends React.Component {
     render() {
-        const {classes} = this.props;
+        const { classes, todos } = this.props;
         return (
             <React.Fragment>
-                        <Paper className={classes.tableWrapper}>
-                            <Table stickyHeader aria-label="sticky table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell><Typography variant="h6">My To-Do List</Typography></TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow>
-                                        <ToDo/>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </Paper>
+                <Paper className={classes.tableWrapper}>
+                    <Table stickyHeader aria-label="sticky table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell><Typography variant="h6">My To-Do List</Typography></TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            <TableRow>
+                                <ToDo todos={todos} />
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </Paper>
             </React.Fragment>
-    
-    
         );
     }
-    
+
 }
 export default withStyles(UserDashboardStyles.styles, { withTheme: true })(ToDoList);
