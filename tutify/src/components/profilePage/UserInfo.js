@@ -251,7 +251,7 @@ class UserInfo extends React.Component {
           </Typography>
           <Typography color="textSecondary" className={classes.InfoContext}>
             {this.state.__t === "tutor"
-              ? "Courses Taught:" + this.state.subjects
+              ? "Courses Taught : " + this.state.subjects
               : this.state.__t === "student"
                 ? "Education Level : " + this.state.education_level
                 :
@@ -404,7 +404,8 @@ class UserInfo extends React.Component {
 
 
         </React.Fragment>
-      </Paper>);
+      </Paper>
+      );
   }
 }
 
