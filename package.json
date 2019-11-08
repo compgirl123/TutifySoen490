@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/register": "^7.6.2",
+    "@babel/runtime": "^7.6.3",
     "@csstools/normalize.css": "github:csstools/normalize.css",
     "@material-ui/core": "^4.4.3",
     "@material-ui/icons": "^4.4.3",
@@ -39,7 +41,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "homepage": "https://cryptic-stream-59537.herokuapp.com/",
+  "homepage": "https://tutifycapstone490.herokuapp.com/",
   "eslintConfig": {
     "extends": "react-app"
   },
