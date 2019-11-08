@@ -82,7 +82,7 @@ class MyCourses extends React.Component {
               <Container maxWidth="lg" className={classes.container}>
                 <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                   My courses
-        </Typography>
+                </Typography>
                 <Grid container spacing={5}>
                   {courses.map((course, i) => (
                     <Grid item key={i} xs={4} md={4} lg={4}>
@@ -98,13 +98,13 @@ class MyCourses extends React.Component {
                             </Typography>
                             <Typography variant="body2" color="textSecondary" component="p">
                               This course is designed for elementary students. Grammar, vocabulary, composition, language in context.
-          </Typography>
+                         </Typography>
                           </CardContent>
                         </CardActionArea>
                         <CardActions>
                           <Button type="button" size="small" fullWidth variant="contained" className="submit">
                             View Course Documents
-        </Button>
+                        </Button>
                         </CardActions>
                       </Card>
                     </Grid>

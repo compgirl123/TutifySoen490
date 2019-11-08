@@ -14,9 +14,11 @@ class ProfilePage extends React.Component {
     super(props);
     this.state = {
       drawerOpened: false,
-      email: "",
+      tutorPicture: "",
+      __t: ""
     };
   }
+
   toggleDrawer = booleanValue => () => {
     this.setState({
       drawerOpened: booleanValue
@@ -26,83 +28,84 @@ class ProfilePage extends React.Component {
   componentDidMount() {
     this.checkSession();
   }
+
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession',{
-                  method: 'GET',
-                  credentials: 'include'
-    })          
+    fetch('http://localhost:3001/api/checkSession', {
+      method: 'GET',
+      credentials: 'include'
+    })
       .then(response => response.json())
       .then(res => {
-        if(res.isLoggedIn){
-            this.setState({Toggle: true});
+        if (res.isLoggedIn) {
+          this.setState({ Toggle: true });
+          this.setState({ tutorPicture: res.userInfo.picture, __t: res.userInfo.__t });
         }
-        else{
-            this.setState({Toggle: false});
+        else {
+          this.setState({ Toggle: false });
         }
       })
       .catch(err => console.log(err));
-    };
-  handleChange(event){
-      fetch('http://localhost:3001/api/logout',{
-                    method: 'GET',
-                    credentials: 'include'
-                })
-                  .then(response => response.json())
-                  .then(res => {
-                        this.setState({Toggle: false});
-                    
-                  })
-                  .catch(err => console.log(err));
-      //this.setState({Toggle: false});
-      
-    };
+  };
+
+  handleChange(event) {
+    fetch('http://localhost:3001/api/logout', {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.setState({ Toggle: false });
+
+      })
+      .catch(err => console.log(err));
+  };
 
   render() {
     const { classes } = this.props;
-    
+
     return (
-    <React.Fragment>
-      <main>
-        <DashBoardNavBar/>
-       <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-        <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                  My Profile
-                  
-                 {/*{this.props.location.state.color}*/} 
-        </Typography>
-        <Grid container spacing={4}>
-
-              {/* User Info */}
-          <Grid item lg={6}>
-          <Paper>           
-            <UserInfo />
-          </Paper>
-        </Grid>
-
-
-           {/* Adding Picture */}       
-           <Grid item xs={12} md={6} lg={6}>
-          <img src="https://i.imgur.com/L6lDhbz.jpg" alt = "Profile">
-          </img>        
-          </Grid>
-          
-        </Grid>
-      </Container>
+      <React.Fragment>
         <main>
-        {/* Hero unit */}
-      
-        
-      </main>
-       <Footer/>
+          <DashBoardNavBar />
+          <main className={classes.content}>
+            <div className={classes.appBarSpacer} />
+            <Container maxWidth="lg" className={classes.container}>
+              <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
+                My Profile
+              </Typography>
+              <Grid container spacing={4}>
 
-      </main>
+                {/* User Info */}
+                <Grid item lg={6}>
+                  <Paper>
+                    <UserInfo />
+                  </Paper>
+                </Grid>
+                <Grid item xs={12} md={6} lg={6}>
+                  {/* Adding Picture */}
+                  {this.state.__t === "tutor"
+                    ? <img src={this.state.tutorPicture} alt="Profile" width="225" height="225">
+                    </img>
+                    : this.state.__t === "student"
+                      ? <img src={"https://i.imgur.com/L6lDhbz.jpg"} alt="Profile" width="225" height="225">
+                      </img>
+                      :
+                      <p></p>
+                  }
+                </Grid>
+              </Grid>
+            </Container>
+            <main>
+              {/* Hero unit */}
 
-        
-      </main>
-    </React.Fragment>
+            </main>
+            <Footer />
+
+          </main>
+
+        </main>
+      </React.Fragment>
     );
   }
 }
-export default withStyles(tutifyStyle.styles, { withTheme: true })(ProfilePage );
+export default withStyles(tutifyStyle.styles, { withTheme: true })(ProfilePage);

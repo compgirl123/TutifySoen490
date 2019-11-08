@@ -23,7 +23,6 @@ const MenuProps = {
 class CourseSelection extends React.Component {
   state = {
     name: [],
-    data: [],
     counter: 15
   };
 
@@ -34,43 +33,11 @@ class CourseSelection extends React.Component {
     var value = event.target.value;
     await this.setState({ name: value, counter : 15 }, this.handleSubmit);
     this.props.updateCourses(value);
-    console.log(this.state.name);
-  };
-
-  componentDidMount() {
-    this.getDataFromDb();
-  }
-
-  wrapperFunction = () => {
-    /*this.props.data(this.state.name);
-    this.hand*/
-    //do something
-    /*function 1();
-    //do something
-    function 2();
-    //do something
-    function 3();*/
-}
-
-  // our first get method that uses our backend api to
-  // fetch data from our data base
-  getDataFromDb = () => {
-    fetch('http://localhost:3001/api/getTutor')
-      .then((data) => data.json())
-      .then((res) => this.setState({ data: res.data }));
   };
 
   render() {
     const { classes, theme } = this.props;
-    const subjects = [];
-
-    for (var x = 0; x < this.state.data.length; x++) {
-      for (var y = 0; y < this.state.data[x].subjects.length; y++) {
-        // get email and match to tutor (match to pooja here for now)
-        subjects.push(this.state.data[x].subjects[y]);
-      }
-
-    }
+    const subjects = ["Math", "Physics", "Chemistry", "French", "English"];
 
     return (
       <div className={classes.root}>
@@ -116,4 +83,3 @@ CourseSelection.propTypes = {
 };
 
 export default withStyles(tutifyStyle.styles, { withTheme: true })(CourseSelection);
-
