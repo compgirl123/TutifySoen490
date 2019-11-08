@@ -169,8 +169,6 @@ exports.authUser = async function (req, res) {
 
                 else if (isMatch === true) {
                     req.session.email = user.email;
-
-                    //req.session.program_of_study = user.program_of_study;
                     console.log(null, 'login successfully');
                     if (user.user_profile) {
                         Student.findOne({ _id: user.user_profile }, function (err, user1) {
@@ -184,12 +182,10 @@ exports.authUser = async function (req, res) {
                     else {
 
                         Tutor.findOne({ _id: user.tutor_profile }, function (err, user1) {
-                            //req.session.reload();
                             req.session.userInfo = user1;
                             req.session.isLoggedIn = true;
                             req.session.save();
                             res.send(req.session);
-
                             return res.status(200).send();
                         });
                     }
