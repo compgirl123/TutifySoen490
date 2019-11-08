@@ -86,11 +86,6 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "jest": {
-    "automock": false,
-    "setupFiles": [
-      "./setupJest.js"
-    ]
-  }
+  "license": "ISC"
+  
 }
