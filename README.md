@@ -6,6 +6,10 @@ An application system for helping tutors and their students. Created for the gra
 Website is Currently live at:
 https://tutifycapstone490.herokuapp.com/
 
+# Setup Instructions
+The instruction to setting up the environment and to locally run the app can be found in our Wiki page:
+https://github.com/compgirl123/TutifySoen490/wiki/Setting-up-your-local-environment
+
 # Team Members:
 ### 1.[ Claudia Feochari, (40000060)](https://github.com/compgirl123)
 ### 2.[ Cynthia Cherrier, (40005808)](https://github.com/cynthiac3)
