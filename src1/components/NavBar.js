@@ -5,21 +5,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import SchoolIcon from '@material-ui/icons/School';
-import '../../index.css'
 import { Link } from '@material-ui/core';
-import * as NavBarStyles from '../NavBar-styles';
+import * as NavBarStyles from '../styles/NavBar-styles';
 import { withStyles } from "@material-ui/core/styles";
-
-class Logout extends Component{
-    render() {
-      return (
-        <Button href= "/" variant="contained"style ={{background: "white"}}>
-        Logout
-      </Button>
-    );
-    }
-   
-  }
 
   class SignUp extends Component{
     render() {
@@ -60,10 +48,12 @@ export class NavBar extends Component {
       }
 
     checkSession = () => {
-        fetch('http://localhost:3001/api/checkSession')
+        fetch('http://localhost:3001/api/checkSession',{
+                      method: 'GET',
+                      credentials: 'include'
+        })          
           .then(response => response.json())
           .then(res => {
-            
             if(res.isLoggedIn){
                 this.setState({Toggle: true});
             }
@@ -75,8 +65,15 @@ export class NavBar extends Component {
         };
 
     handleChange(event){
-        fetch('http://localhost:3001/api/logout')
-        this.setState({Toggle: false});
+        fetch('http://localhost:3001/api/logout',{
+                      method: 'GET',
+                      credentials: 'include'
+                  })
+                    .then(response => response.json())
+                    .then(res => {
+                          this.setState({Toggle: false});
+                    })
+                    .catch(err => console.log(err));        
       };
     
 
@@ -100,24 +97,19 @@ export class NavBar extends Component {
             </Link>
             
           <div className={classes.buttonContain}>
-          
            <Button href="/login">
-            { this.state.Toggle ? null : <Login />}
+            <Login />
             </Button>
          
           <Button href="/signup">
-            { this.state.Toggle ? null : <SignUp /> }   
+            <SignUp />   
             </Button>
-            <Button onClick={this.handleChange} href="/">
-            { this.state.Toggle ? null : <Logout /> }
-            </Button>
-            </div>
+        </div>
         </Toolbar>
       </AppBar>
       </div>
     );
    }
-
 }
 
 export default withStyles(NavBarStyles.styles, { withTheme: true })(NavBar);
