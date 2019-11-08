@@ -30,15 +30,22 @@ class Login extends React.Component {
   // changed and implement those changes into our UI
   componentDidMount() {
     this.getDataFromDb();
-
+    console.log(this.state.data);
+    alert("DD");
   }
 
-
   // fetch data from the data base
-  getDataFromDb = () => {
+  /*getDataFromDb = () => {
     fetch('http://localhost:3001/api/getUser')
       .then((data) => data.json())
       .then((res) => this.setState({ data: res.data }));
+  };*/
+
+  // fetch data from the data base
+  getDataFromDb = () => {
+    fetch('https://webhooks.mongodb-stitch.com/api/client/v2.0/app/tutify-skqbg/service/TutifyHeroku/incoming_webhook/LoginUser')
+      .then((data) => data.json())
+      .then((res) => console.log(res.data));
   };
 
   //Authenticates User when submit button is pressed

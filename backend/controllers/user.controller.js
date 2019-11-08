@@ -11,10 +11,13 @@ const iv = crypto.randomBytes(16);
 
 // this method fetches all available users in our database
 exports.getUser = async function (req, res) {
-    Student.find((err, data) => {
+    /*Student.find((err, data) => {
         if (err) return res.json({ success: false, error: err });
         return res.json({ success: true, data: data });
-    });
+    });*/
+    fetch('https://webhooks.mongodb-stitch.com/api/client/v2.0/app/tutify-skqbg/service/TutifyHeroku/incoming_webhook/LoginUser')
+      .then((data) => data.json())
+      .then((res) => console.log(res));
 };
 
 // this method overwrites existing user in our database
