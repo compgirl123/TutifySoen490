@@ -76,9 +76,7 @@ export class NavBar extends Component {
 
     handleChange(event){
         fetch('http://localhost:3001/api/logout')
-      
         this.setState({Toggle: false});
-        
       };
     
 

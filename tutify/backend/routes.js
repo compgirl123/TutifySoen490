@@ -16,11 +16,15 @@ router.get('/getTutor', tutorController.getTutor);
 
 router.post('/updateTutor', tutorController.updateTutor);
 
+router.post('/updateTutorInfo', tutorController.updateTutorInfo);
+
 // -------- USER ROUTES --------- // 
 
 router.get('/getUser', userController.getUser);
 
 router.post('/updateUser', userController.updateUser);
+
+router.post('/updateUserInfo', userController.updateUserInfo);
 
 router.post('/putUser', userController.putUser);
 

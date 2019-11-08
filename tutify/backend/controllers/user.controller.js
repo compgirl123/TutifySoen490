@@ -26,6 +26,28 @@ exports.updateUser = async function (req, res) {
     });
 };
 
+
+// this method overwrites existing user in our database
+exports.updateUserInfo = async function (req, res) {
+    const { _id, school,program_of_study,education_level,first_name,last_name } = req.body;
+    Student.findByIdAndUpdate(_id,
+        {$set: { "school" : school,  "program_of_study":program_of_study, "education_level": education_level, 
+                 "first_name": first_name,"last_name":last_name } },
+        { "new": true, "upsert": true },
+        (err, user) => {
+            if (err) return res.json({ success: false, error: err });
+            //update the session
+            req.session.userInfo = user;       
+            req.session.save( function(err) {
+                req.session.reload( function (err) {
+                    //session reloaded
+                    return res.json({ success: true, userInfo: user });
+                });
+            });       
+        }
+    );
+};
+
 // this method assigns a tutor to the user & vice-versa
 exports.assignTutor = async function (req, res) {
     const { student_id, tutor_id } = req.body;
@@ -147,8 +169,6 @@ exports.authUser = async function (req, res) {
 
                 else if (isMatch === true) {
                     req.session.email = user.email;
-
-                    //req.session.program_of_study = user.program_of_study;
                     console.log(null, 'login successfully');
                     if (user.user_profile) {
                         Student.findOne({ _id: user.user_profile }, function (err, user1) {
@@ -166,7 +186,6 @@ exports.authUser = async function (req, res) {
                             req.session.isLoggedIn = true;
                             req.session.save();
                             res.send(req.session);
-
                             return res.status(200).send();
                         });
                     }
