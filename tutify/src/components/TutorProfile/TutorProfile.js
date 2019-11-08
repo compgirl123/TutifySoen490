@@ -67,27 +67,16 @@ class TutorProfile extends React.Component {
        <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-        <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                  My Profile
-                  
-                 {/*{this.props.location.state.color}*/} 
-        </Typography>
+          
         <Grid container spacing={4}>
 
               {/* User Info */}
-          <Grid item lg={6}>
+          <Grid item xs = {6}>
           <Paper>           
             <TutorInfo />
           </Paper>
         </Grid>
 
-
-           {/* Adding Picture */}       
-           <Grid item xs={12} md={6} lg={6}>
-          <img src="https://i.imgur.com/L6lDhbz.jpg" alt = "Profile">
-          </img>        
-          </Grid>
-          
         </Grid>
       </Container>
         <main>

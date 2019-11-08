@@ -36,7 +36,7 @@ export class TutorSidebar extends Component {
         <Divider />
         <List>
           <div>
-            <ListItem button component="a" href="/profile">
+            <ListItem button component="a" href="/tutor">
               <ListItemIcon>
                 <AccountBoxIcon />
               </ListItemIcon>
