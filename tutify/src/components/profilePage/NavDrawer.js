@@ -2,7 +2,7 @@ import React from "react";
 import Drawer from "@material-ui/core/Drawer";
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import {Sidebar} from './StudentSidebar';
+import Sidebar from './StudentSidebar';
 import {TutorSidebar} from '../TutorProfile/TutorSidebar';
 
 

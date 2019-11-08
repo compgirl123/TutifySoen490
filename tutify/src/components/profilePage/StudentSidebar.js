@@ -11,14 +11,21 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SearchIcon from '@material-ui/icons/Search';
 import { List } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
+import * as StudentSidebarStyle from "../../styles/StudentSidebar-styles";
+import { withStyles } from "@material-ui/core/styles";
+import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+import StarBorder from '@material-ui/icons/StarBorder';
 
+const tutors = ["tutor1", "tutor2", "tutor3", "tutor4", "tutor5"];
 
-export class Sidebar extends Component {
+class Sidebar extends Component {
 
 
   constructor(props) {
     super(props);
-
+    this.state = {
+      openList: false
+    };
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -32,70 +39,105 @@ export class Sidebar extends Component {
       })
       .catch(err => console.log(err));
   };
+
+  handleClick = () => {
+    this.setState(prevState => ({
+      check: !prevState.openList
+    }));
+  };
+
   render() {
+    const { classes } = this.props;
     return (
       <div>
         <Divider />
         <List>
-          <div>
-            <ListItem button component="a" href="/profile">
-              <ListItemIcon>
-                <AccountBoxIcon />
-              </ListItemIcon>
-              <ListItemText primary="My Profile" />
-            </ListItem>
-            <ListItem button component="a" href="/courses">
-              <ListItemIcon>
-                <MenuBookIcon />
-              </ListItemIcon>
-              <ListItemText primary="My Courses" />
-            </ListItem>
-            <ListItem button component="a" href="/search">
-              <ListItemIcon>
-                <SearchIcon />
-              </ListItemIcon>
-              <ListItemText primary="Search" />
-            </ListItem>
-
-            <ListItem button component="a" href="/" onClick={this.handleChange} >
-              <ListItemIcon>
-                <ExitToAppIcon />
-              </ListItemIcon>
-              <ListItemText primary="Logout" />
-            </ListItem>
-          </div>
+          <ListItem button component="a" href="/profile">
+            <ListItemIcon>
+              <AccountBoxIcon />
+            </ListItemIcon>
+            <ListItemText primary="My Profile" />
+          </ListItem>
+          <ListItem button component="a" href="/courses">
+            <ListItemIcon>
+              <MenuBookIcon />
+            </ListItemIcon>
+            <ListItemText primary="My Courses" />
+          </ListItem>
+          <ListItem button component="a" href="/search">
+            <ListItemIcon>
+              <SearchIcon />
+            </ListItemIcon>
+            <ListItemText primary="Search" />
+          </ListItem>
+          <ListItem button component="a" href="/" onClick={this.handleChange} >
+            <ListItemIcon>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItem>
+          <Divider/>
+          <ListItem button onClick={this.handleClick}>
+            <ListItemIcon>
+              <MenuBookIcon />
+            </ListItemIcon>
+            <ListItemText primary="My Tutors" />
+          </ListItem>
+          <ListItem>
+            <div className={classes.tutorListContainer}>
+              <List disablePadding className={classes.tutorList} >
+                  {tutors.map(tutor => (
+                  <ListItem
+                    key={tutor}>
+                    <ListItemIcon>
+                      <PermIdentityIcon />
+                    </ListItemIcon>
+                    <ListItemText>
+                      {tutor}
+                    </ListItemText>
+                  </ListItem>
+                  ))}
+              </List>
+            </div>
+          </ListItem>
+          <Divider />
+            <List>
+              <ListItem button>
+                <ListItemIcon>
+                  <StarBorder />
+                </ListItemIcon>
+                <ListItemText primary="Starred" />
+              </ListItem>
+            </List>
         </List>
+          <Divider />
 
-
-
-        <Divider />
-
-        <List>
-          <div>
-            <ListSubheader inset>Homework</ListSubheader>
-            <ListItem button>
-              <ListItemIcon>
-                <AssignmentIcon />
-              </ListItemIcon>
-              <ListItemText primary="My Assignments" />
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon>
-                <AssignmentIcon />
-              </ListItemIcon>
-              <ListItemText primary="Extra Problems" />
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon>
-                <BookIcon />
-              </ListItemIcon>
-              <ListItemText primary="Useful Readings" />
-            </ListItem>
-          </div>
-        </List>
+          <List>
+            <div>
+              <ListSubheader inset>Homework</ListSubheader>
+              <ListItem button>
+                <ListItemIcon>
+                  <AssignmentIcon />
+                </ListItemIcon>
+                <ListItemText primary="My Assignments" />
+              </ListItem>
+              <ListItem button>
+                <ListItemIcon>
+                  <AssignmentIcon />
+                </ListItemIcon>
+                <ListItemText primary="Extra Problems" />
+              </ListItem>
+              <ListItem button>
+                <ListItemIcon>
+                  <BookIcon />
+                </ListItemIcon>
+                <ListItemText primary="Useful Readings" />
+              </ListItem>
+            </div>
+          </List>
 
       </div>
-    );
-  }
-}
-export default Sidebar;
+        );
+      }
+    }
+export default withStyles(StudentSidebarStyle.styles, {withTheme: true })(Sidebar);
