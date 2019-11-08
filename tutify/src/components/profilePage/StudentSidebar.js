@@ -11,15 +11,14 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SearchIcon from '@material-ui/icons/Search';
 import { List } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
-
-
-import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
+import * as StudentSidebarStyle from "../../styles/StudentSidebar-styles";
+import { withStyles } from "@material-ui/core/styles";
+import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import StarBorder from '@material-ui/icons/StarBorder';
 
+const tutors = ["tutor1", "tutor2", "tutor3", "tutor4", "tutor5"];
 
-export class Sidebar extends Component {
+class Sidebar extends Component {
 
 
   constructor(props) {
@@ -27,7 +26,6 @@ export class Sidebar extends Component {
     this.state = {
       openList: false
     };
-
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -47,10 +45,9 @@ export class Sidebar extends Component {
       check: !prevState.openList
     }));
   };
-  
-  render() {
-    const { openList } = this.state;
 
+  render() {
+    const { classes } = this.props;
     return (
       <div>
         <Divider />
@@ -79,15 +76,32 @@ export class Sidebar extends Component {
             </ListItemIcon>
             <ListItemText primary="Logout" />
           </ListItem>
+          <Divider/>
           <ListItem button onClick={this.handleClick}>
             <ListItemIcon>
               <MenuBookIcon />
             </ListItemIcon>
             <ListItemText primary="My Tutors" />
-            {openList ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
-          <Collapse in={openList} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
+          <ListItem>
+            <div className={classes.tutorListContainer}>
+              <List disablePadding className={classes.tutorList} >
+                  {tutors.map(tutor => (
+                  <ListItem
+                    key={tutor}>
+                    <ListItemIcon>
+                      <PermIdentityIcon />
+                    </ListItemIcon>
+                    <ListItemText>
+                      {tutor}
+                    </ListItemText>
+                  </ListItem>
+                  ))}
+              </List>
+            </div>
+          </ListItem>
+          <Divider />
+            <List>
               <ListItem button>
                 <ListItemIcon>
                   <StarBorder />
@@ -95,37 +109,35 @@ export class Sidebar extends Component {
                 <ListItemText primary="Starred" />
               </ListItem>
             </List>
-          </Collapse>
         </List>
+          <Divider />
 
-        <Divider />
-
-        <List>
-          <div>
-            <ListSubheader inset>Homework</ListSubheader>
-            <ListItem button>
-              <ListItemIcon>
-                <AssignmentIcon />
-              </ListItemIcon>
-              <ListItemText primary="My Assignments" />
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon>
-                <AssignmentIcon />
-              </ListItemIcon>
-              <ListItemText primary="Extra Problems" />
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon>
-                <BookIcon />
-              </ListItemIcon>
-              <ListItemText primary="Useful Readings" />
-            </ListItem>
-          </div>
-        </List>
+          <List>
+            <div>
+              <ListSubheader inset>Homework</ListSubheader>
+              <ListItem button>
+                <ListItemIcon>
+                  <AssignmentIcon />
+                </ListItemIcon>
+                <ListItemText primary="My Assignments" />
+              </ListItem>
+              <ListItem button>
+                <ListItemIcon>
+                  <AssignmentIcon />
+                </ListItemIcon>
+                <ListItemText primary="Extra Problems" />
+              </ListItem>
+              <ListItem button>
+                <ListItemIcon>
+                  <BookIcon />
+                </ListItemIcon>
+                <ListItemText primary="Useful Readings" />
+              </ListItem>
+            </div>
+          </List>
 
       </div>
-    );
-  }
-}
-export default Sidebar;
+        );
+      }
+    }
+export default withStyles(StudentSidebarStyle.styles, {withTheme: true })(Sidebar);
