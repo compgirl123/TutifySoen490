@@ -55,6 +55,7 @@ class Login extends React.Component {
     })
       .then(response => response.json())
       .then(res => {
+        console.log(res.userInfo);
         if(res.isLoggedIn){
          
           swal("You have signed in successfully!", "", "success")

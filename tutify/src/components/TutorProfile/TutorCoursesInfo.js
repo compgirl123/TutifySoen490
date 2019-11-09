@@ -14,7 +14,13 @@ import CardContent from '@material-ui/core/CardContent';
 import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
 import Box from '@material-ui/core/Box';
-
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Avatar from '@material-ui/core/Avatar';
 
 
 class TutorCoursesInfo extends React.Component {
@@ -120,30 +126,48 @@ class TutorCoursesInfo extends React.Component {
  
           <Typography component="p" variant="h5" >
             <Box fontWeight="fontWeightBold">
-              Courses Taught
+                My Courses
               </Box>
             </Typography>
 
-                       
-        <hr  style={{
-          color: '#FFFFFF',
-          backgroundColor: '#FFFFFF',
-          height: .5,
-          borderColor : '#FFFFFF'
-      }}/>
-    
+        <Table size="medium">
+        
+        <TableBody>
+          {this.state.subjects.map(subject => (
+            <TableRow key={subject.id}>
+              <TableCell padding="none" >
+              <Avatar className={classes.avatar} style={{width: '15px' ,height:'15px'}}></Avatar>
 
-          
-            <Typography color="textSecondary" className={classes.InfoContext}>
-             { this.state.subjects}
-                
-                  <br />
-              
-            </Typography>
+              </TableCell>
+              <TableCell style ={{fontSize: '14pt'}}>
+              {subject}
 
-      
+              </TableCell> <TableCell>
+              </TableCell><TableCell>
+              </TableCell>
+              <TableCell>
+              <Fab
+          variant="extended"
+          size="small"
+          color="yellow"
+          aria-label="add"
+          fontSize="small"
+          className={classes.margin}
+        >
+            <CloudUploadIcon fontSize="small" style={{width: '15px' ,height:'15px'}}/>
+            &nbsp; Upload Documents
+        </Fab>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
 
-            <div>
+      <br />
+      <br />
+
+
+            <Grid container spacing={3}>
               <Grid item xs={6}>
                
                   <CourseSelection
@@ -151,24 +175,19 @@ class TutorCoursesInfo extends React.Component {
                   />
                   
                   <br />
-                
-              </Grid>
- </div>
- <div >
-
- <Grid justify = "center">
+                  </Grid>
+                  <Grid item xs={6} >
               <Fab variant="extended" aria-label="edit"  
                 onClick={() => { this.updateDB(); }}
-               style={{background: 'linear-gradient(300deg, #ff9966, #ff5e62'}}>
-              <EditIcon/>
+                style = {{background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)'}}>
+              <EditIcon/> {" "}
                 Save Course Changes 
               </Fab>
               <br />
               </Grid>
-
-</div>
-
-  
+                
+              </Grid>  
+ 
 </CardContent>
 
         </Card>
