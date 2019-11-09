@@ -16,129 +16,179 @@ import EditIcon from '@material-ui/icons/Edit';
 import Box from '@material-ui/core/Box';
 
 
-
 class TutorStudentsInfo extends React.Component {
 
-    constructor(props) {
-      super(props);
-      this.state = {
-        drawerOpened: false,
-        subjects: [],
-        students: "",
-        courses: [],
-        open: false,
-        scroll: 'paper',
-      };
-      this.handleClickOpen = this.handleClickOpen.bind(this);
-      this.handleClose = this.handleClose.bind(this);
-    }
-  
-    toggleDrawer = booleanValue => () => {
-      this.setState({
-        drawerOpened: booleanValue
-      });
+  constructor(props) {
+    super(props);
+    this.state = {
+      drawerOpened: false,
+      subjects: [],
+      students: [],
+      courses: [],
+      open: false,
+      scroll: 'paper',
     };
-  
-    handleFeedback = () => {
-      this.setState({ open: true })
-    }
-  
-    handleClickOpen = () => {
-      this.setState({ open: true });
-    };
-  
-    handleClose = () => {
-      this.setState({ open: false });
-    };
-  
-    componentDidMount() {
-      this.checkSession();
-    }
-  
-    handleChangeValue = e => this.setState({ value: e.target.value });
-  
-    checkSession = () => {
-      fetch('http://localhost:3001/api/checkSession', {
-        method: 'GET',
-        credentials: 'include'
-      })
-        .then(response => response.json())
-        .then((res) => {
-          if (res.isLoggedIn) {
-            this.setState({
-              Toggle: true, _id: res.userInfo._id, __t: res.userInfo.__t,
-              first_name: res.userInfo.first_name, last_name: res.userInfo.last_name,
-              email: res.email, education_level: res.userInfo.education_level, school: res.userInfo.school,
-              program_of_study: res.userInfo.program_of_study, students: res.userInfo.students, subjects: res.userInfo.subjects, tutorPicture: res.userInfo.picture
-            });
-          }
-          else {
-            this.setState({ Toggle: false });
-          }
-        })
-        .catch(err => console.log(err));
-    };
-  
-    update = async (value) => {
-      await this.setState({
-        courses: value
-      });
-    }
-  
-    updateDB = () => {
-      var coursesToAdd = [];
-      var test = this.state.subjects;
-  
-      for (var z = 0; z < this.state.courses.length; z++) {
-        var course_found = test.includes(this.state.courses[z]);
-        if (course_found === false) {
-          coursesToAdd.push(this.state.courses[z])
-        }
-      }
+    this.handleClickOpen = this.handleClickOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
 
-      axios.post('http://localhost:3001/api/updateTutor', {
-        _id: this.state._id,
-        subjects: coursesToAdd
-      })
+  }
+
+  toggleDrawer = booleanValue => () => {
+    this.setState({
+      drawerOpened: booleanValue
+    });
+  };
+
+  handleFeedback = () => {
+    this.setState({ open: true })
+  }
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  componentDidMount() {
+    this.checkSession();
+  }
+
+  handleChangeValue = e => this.setState({ value: e.target.value });
+
+  checkSession = () => {
+    fetch('http://localhost:3001/api/checkSession', {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then(response => response.json())
       .then((res) => {
-        this.setState({
-          subjects: res.data.newSubjects
-        });
-        swal("Information successfully updated!", "", "success")
-      }, (error) => {
-        console.log(error);
-      });
-    };
-  
-  
-    render() {
-      const { classes } = this.props;
-      const { open } = this.state;
-  
-      return (
-        <Card className={classes.card} style={{height:"25vw"}}>
-            <CardContent>
- 
-          <Typography component="p" variant="h5" >
-            <Box fontWeight="fontWeightBold">
-              My Students
-              </Box>
-            </Typography>
+        if (res.isLoggedIn) {
+          console.log("yooooo"); 
 
-                       
-        <hr  style={{
-          color: '#FFFFFF',
-          backgroundColor: '#FFFFFF',
-          height: .5,
-          borderColor : '#FFFFFF'
-      }}/>
-    
+          this.setState({
+            Toggle: true, _id: res.userInfo._id, __t: res.userInfo.__t,
+            first_name: res.userInfo.first_name, last_name: res.userInfo.last_name,
+            email: res.email, education_level: res.userInfo.education_level, school: res.userInfo.school,
+            program_of_study: res.userInfo.program_of_study, students: res.userInfo.students, subjects: res.userInfo.subjects, tutorPicture: res.userInfo.picture
+          })
+          this.state.students = res.userInfo.students;
+          console.log(this.state.students[0]);
+          
+              this.FindStudents();
+            
+            console.log("yooooo part 2");
+            
+        }
+        else {
+          this.setState({ Toggle: false });
+        }
+      })
+      .catch(err => console.log(err));
+  };
+
+  FindStudents = () => {
+    //var actualStudents = [];
+    console.log(this.state.students);
+    //for (var z = 0; z < this.state.students.length; z++) {
+        //studentss.push(this.state.students[z]);
+       /** fetch('http://localhost:3001/api/findStudents', {
+      method: 'GET',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({        
+        "students": this.state.students
+
+      })      
+    })       */ 
+    axios.post('http://localhost:3001/api/findStudents', {
+      students: this.state.students
+    })
+    .then((res) => {
+      console.log(res);
+      this.setState({ students: res.data.data[0]});
+
+       //actualStudents.push(res.data.data);
+        console.log(this.state.students);
+        
+        //this.setState({
+          //students: state.actualStudents
+         //});
+         //this.setState((state) => ({ students: state.students + res.data.data}));
+
+         //window.location = "tutor";
+      
+        }, (error) => {
+      console.log(error);
+    })
   
+  
+  } 
+
+  update = async (value) => {
+    await this.setState({
+      courses: value
+    });
+  }
+
+  updateDB = () => {
+    var coursesToAdd = [];
+    var test = this.state.subjects;
+
+    for (var z = 0; z < this.state.courses.length; z++) {
+      var course_found = test.includes(this.state.courses[z]);
+      if (course_found === false) {
+        coursesToAdd.push(this.state.courses[z])
+      }
+    }
+
+    axios.post('http://localhost:3001/api/updateTutor', {
+      _id: this.state._id,
+      subjects: coursesToAdd
+    })
+    .then((res) => {
+      this.setState({
+        subjects: res.data.newSubjects
+      });
+      swal("Information successfully updated!", "", "success")
+    }, (error) => {
+      console.log(error);
+    });
+  };
+
+
+ render() {
+    const { classes } = this.props;
+    const { open } = this.state;
+
+    return (
+      <Card className={classes.card} style={{height:"25vw"}}>
+          <CardContent>
+
+        <Typography component="p" variant="h5" >
+          <Box fontWeight="fontWeightBold">
+            My Students
+            </Box>
+          </Typography>
+
+                     
+      <hr  style={{
+        color: '#FFFFFF',
+        backgroundColor: '#FFFFFF',
+        height: .5,
+        borderColor : '#FFFFFF'
+    }}/>
+  
+  <Typography color="textSecondary" >
+    {this.state.students.first_name} {this.state.students.last_name}
+
+          </Typography>
 </CardContent>
 
-        </Card>
-        );
-    }
+      </Card>
+      );
   }
-  
+}
+
 export default withStyles(tutifyStyle.styles, { withTheme: true })(TutorStudentsInfo);
