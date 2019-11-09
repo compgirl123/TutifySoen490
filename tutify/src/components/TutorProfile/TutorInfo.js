@@ -269,7 +269,11 @@ class TutorInfo extends React.Component {
               {this.state.first_name + " " + this.state.last_name}
               </Box>
             </Typography>
-            
+            <Typography color="textSecondary" className={classes.InfoContext}>
+            <br />
+
+              Status: Tutor
+            </Typography>
             <Typography component="p" variant="h7">
             <br />
 
@@ -280,60 +284,18 @@ class TutorInfo extends React.Component {
 
               Program of Study: {this.state.program_of_study}
             </Typography>
+            
             <Typography color="textSecondary" className={classes.InfoContext}>
-              {this.state.__t === "tutor"
-                ? "Courses Taught : " + this.state.subjects
-                : this.state.__t === "student"
-                  ? "Education Level : " + this.state.education_level
-                  :
-                  <br />
-              }
-            </Typography>
-            <Typography color="textSecondary" className={classes.InfoContext}>
+            <br />
+
               School: {this.state.school}
   
             </Typography>
-            <Typography color="textSecondary" className={classes.InfoContext}>
-              Status: {this.state.__t}
-            </Typography>
+            
             </CardContent>
 
             <div>
-              <Grid item xs={6}>
-                {this.state.__t === "tutor"
-                  ? <CourseSelection
-                    updateCourses={this.update}
-                  />
-                  :
-                  <br />
-                }
-              </Grid>
-  
-              {this.state.__t === "tutor"
-                ? <Button
-                  type="button"
-                  fullWidth
-                  variant="contained"
-                  className="submit"
-                  onClick={() => { this.updateDB(); }}
-                >
-                  Save Course Options
-              </Button>
-                : this.state.__t === "student"
-                  ? <Button
-                    type="button"
-                    fullWidth
-                    variant="contained"
-                    className="submit"
-                    onClick={() => { this.handleClickOpen(); }}
-                  >
-                    Edit User Info
-              </Button>
-                  :
-                  <p></p>
-              }
-  
-              <br />
+            
               <br />
               <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
                 <DialogTitle id="simple-dialog-title">Edit Information</DialogTitle>
@@ -418,8 +380,7 @@ class TutorInfo extends React.Component {
                 </Grid>
   
               </Dialog>
-              {this.state.__t === "tutor"
-                ? <Button
+              <Button
                   type="button"
                   fullWidth
                   variant="contained"
@@ -428,9 +389,7 @@ class TutorInfo extends React.Component {
                 >
                   Edit Tutor Info
                </Button>
-                :
-                <p></p>
-              }
+                
   
             </div>
   

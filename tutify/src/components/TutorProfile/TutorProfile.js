@@ -7,6 +7,8 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Footer from "../Footer";
 import TutorInfo from './TutorInfo';
+import TutorCoursesInfo from './TutorCoursesInfo';
+
 import DashBoardNavBar from '../profilePage/DashBoardNavBar'
 
 class TutorProfile extends React.Component {
@@ -71,9 +73,15 @@ class TutorProfile extends React.Component {
         <Grid container spacing={4}>
 
               {/* User Info */}
-          <Grid item xs = {6}>
+              <Grid item xs = {6}>
           <Paper>           
             <TutorInfo />
+          </Paper>
+        </Grid>
+        
+        <Grid item xs = {4}>
+          <Paper>           
+            <TutorCoursesInfo />
           </Paper>
         </Grid>
 
