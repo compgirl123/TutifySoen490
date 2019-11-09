@@ -57,7 +57,6 @@ class TutorCard extends Component {
         };
         this.handleClickOpen = this.handleClickOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
-        console.log(JSON.stringify(props.tutor));
     }
 
     handleFeedback = () => {
@@ -66,7 +65,6 @@ class TutorCard extends Component {
 
     handleClickOpen = () => {
         this.setState({ open: true });
-        console.log(this.state.tutor);
     };
 
     handleClose = () => {
