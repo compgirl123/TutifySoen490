@@ -122,11 +122,7 @@ class TutorCard extends Component {
                             <Typography variant="h5">
                                 {tutor.first_name} {tutor.last_name}
                             </Typography>
-                            {[...new Array(10)]
-                                .map(
-                                    () => `\n Personal Tutor description`,
-                                )
-                                .join('\n')}
+                            { tutor.description ? tutor.description : ""}
                         </DialogContentText>
                         <DialogContentText>
                             <Typography>

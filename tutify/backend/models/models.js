@@ -59,7 +59,8 @@ const TutorSchema = mongoose.Schema({
   },
   students: [
     { type: Schema.Types.ObjectId, ref: 'Student' }
-  ]
+  ],
+  description: String,
 });
 
 var Tutor = Profile.discriminator('Tutor', TutorSchema, "tutor");

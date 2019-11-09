@@ -100,18 +100,9 @@ class Sidebar extends Component {
               </List>
             </div>
           </ListItem>
-          <Divider />
-            <List>
-              <ListItem button>
-                <ListItemIcon>
-                  <StarBorder />
-                </ListItemIcon>
-                <ListItemText primary="Starred" />
-              </ListItem>
-            </List>
         </List>
-          <Divider />
 
+          <Divider />
           <List>
             <div>
               <ListSubheader inset>Homework</ListSubheader>
