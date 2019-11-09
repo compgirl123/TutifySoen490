@@ -17,6 +17,32 @@ exports.getUser = async function (req, res) {
     });
 };
 
+exports.findStudents = async function (req, res) {
+    var count = 0;
+    const { students } = req.body;
+    var users = [];
+    console.log(students);
+//for loop is not working for now
+​
+for (var z = 0; z < students.length; z++) {
+    Student.findOne({ _id: students[z] }, function (err, user1) {
+        if (err) {
+            console.log("ok then");
+        };
+        users.push(user1);
+​
+        count++;
+​
+        if(count == students.length){
+            console.log("i should be here only once");
+            }
+        console.log("hello");
+    });
+}
+console.log(users);
+​
+};
+
 // this method overwrites existing user in our database
 exports.updateUser = async function (req, res) {
     const { id, update } = req.body;
