@@ -17,6 +17,31 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Avatar from '@material-ui/core/Avatar';
+import swal from 'sweetalert';
+
+
+const assignTutor = (e, userID, tutorID) => {
+    axios.post('http://localhost:3001/api/assignTutor', {
+        student_id: userID,
+        tutor_id: tutorID,
+    });
+    swal("Request successfully sent!", "", "success")
+        .then((value) => {
+            window.location.reload();
+        });
+}
+
+function ConnectButton(props) {
+    const isConnected = props.isConnected;
+    const classes = props.classes;
+    const tutor = props.tutor;
+    const userId = props.userId;
+    var url = "/courselist/"+props.tutor.id.$numberInt;
+    if (!isConnected) {
+        return <Button component="a" href={url} className={classes.connect} onClick={event => assignTutor(event, userId, tutor._id.$oid)}>Connect with {tutor.first_name}</Button>
+    }
+    return <Button className={classes.connect} disabled >Connected <CheckIcon /></Button>
+}
 
 class TutorCard extends Component {
     constructor(props) {
@@ -25,28 +50,13 @@ class TutorCard extends Component {
             open: false,
             openFeedback: false,
             scroll: 'paper',
+            user_id: props.user_id,
+            connectedTutors: props.connectedTutors,
+            tutor: props.tutor._id,
+            courses: props.tutor.subjects
         };
         this.handleClickOpen = this.handleClickOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
-        this.assignTutor = this.assignTutor.bind(this)
-    }
-
-    assignTutor(e, tutor) {
-        fetch('http://localhost:3001/api/checkSession', {
-            method: 'GET',
-            credentials: 'include'
-        })
-            .then(response => response.json())
-            .then(res => {
-                if (res.isLoggedIn) {
-                    axios.post('http://localhost:3001/api/assignTutor', {
-                        student_id: res.userInfo._id, 
-                        tutor_id: tutor._id,
-                    });
-                    alert('Request successfully sent!')
-                }
-            })
-            .catch(err => console.log(err));
     }
 
     handleFeedback = () => {
@@ -61,6 +71,11 @@ class TutorCard extends Component {
         this.setState({ open: false });
     };
 
+    checkIfConnected(tutorID) {
+        return this.state.connectedTutors.includes(tutorID);
+    }
+
+    
     render() {
         const { classes } = this.props
         const { tutor } = this.props
@@ -85,7 +100,7 @@ class TutorCard extends Component {
                                         <Grid item xs>
                                             <Typography gutterBottom variant="h5">{tutor.first_name} {tutor.last_name}</Typography>
                                             <Typography>{tutor.school}</Typography>
-                                            <Typography>{tutor.subjects.map((sub, index) => (
+                                            <Typography>{this.state.courses.map((sub, index) => (
                                                 <Chip
                                                     key={index}
                                                     className={classes.chip}
@@ -93,7 +108,8 @@ class TutorCard extends Component {
                                                     color="secondary"
                                                     label={sub}
                                                 />
-                                            ))}
+                                            ))
+                                            }
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -138,7 +154,13 @@ class TutorCard extends Component {
                         </Grid>
                         <Grid item>
                             <DialogActions>
-                                <Button className={classes.connect} onClick={event => this.assignTutor(event, tutor)}>Connect with {tutor.first_name}</Button>
+                                <ConnectButton
+                                    isConnected={this.checkIfConnected(tutor._id)}
+                                    classes={classes}
+                                    tutor={tutor}
+                                    userId={this.state.user_id}
+                                    id={tutor.id}
+                                />
                             </DialogActions>
                         </Grid>
                     </Grid>
@@ -163,15 +185,17 @@ class TutorCard extends Component {
                                 <span className={classes.program_of_study}> - {tutor.program_of_study}</span>
                             )}
                             <br />
-                            {tutor.subjects.map((sub, index) => (
-                                <Chip
-                                    key={index}
-                                    className={classes.chip}
-                                    icon={<CheckIcon />}
-                                    color="secondary"
-                                    label={sub}
-                                />
-                            ))}
+                            {
+                                tutor.subjects.map((sub, index) => (
+                                    <Chip
+                                        key={index}
+                                        className={classes.chip}
+                                        icon={<CheckIcon />}
+                                        color="secondary"
+                                        label={sub}
+                                    />
+                                ))
+                            }
                             <br />
 
                         </Typography>
