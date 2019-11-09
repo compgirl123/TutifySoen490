@@ -246,9 +246,12 @@ class TutorInfo extends React.Component {
   
       return (
         <Card className={classes.card}>
-         
-            <img src={this.state.tutorPicture} alt="Profile" width="100%" height="50%">
+              <CardContent>
+
+            <img src={this.state.tutorPicture} width="100%" height="40%">
                     </img>
+                    </CardContent>
+
               <CardContent>
               <Typography component="p" variant="h5" >
             <Box fontWeight="fontWeightBold">

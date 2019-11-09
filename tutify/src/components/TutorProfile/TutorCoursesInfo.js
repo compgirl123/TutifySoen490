@@ -121,17 +121,17 @@ class TutorCoursesInfo extends React.Component {
       const { open } = this.state;
   
       return (
-        <Card className={classes.card}>
+        <Card className={classes.card}  >
             <CardContent>
  
-          <Typography component="p" variant="h5" >
+          <Typography component="p" variant="h6" >
             <Box fontWeight="fontWeightBold">
                 My Courses
               </Box>
             </Typography>
            
 
-        <Table size="medium">
+        <Table size="small">
         <TableBody>
         <TableCell>
               </TableCell>
@@ -146,7 +146,7 @@ class TutorCoursesInfo extends React.Component {
               <Avatar className={classes.avatar} style={{width: '15px' ,height:'15px'}}></Avatar>
 
               </TableCell>
-              <TableCell style ={{fontSize: '14pt'}}>
+              <TableCell style ={{fontSize: '12pt'}}>
               {subject}
 
               </TableCell> <TableCell>
@@ -155,11 +155,10 @@ class TutorCoursesInfo extends React.Component {
               <TableCell>
               <Fab
           variant="extended"
-          size="small"
           color="yellow"
           aria-label="add"
           fontSize="small"
-          className={classes.margin}
+          className={classes.margin} style={{ maxHeight: '25px'}}
         >
             <CloudUploadIcon fontSize="small" style={{width: '15px' ,height:'15px'}}/>
             &nbsp; Upload Documents
@@ -171,26 +170,23 @@ class TutorCoursesInfo extends React.Component {
       </Table>
 
       <br />
-      <br />
 
 
-            <Grid container spacing={4}>
+            <Grid container spacing={1}>
               <Grid item xs={6}>
                
                   <CourseSelection
                     updateCourses={this.update}
                   />
                   
-                  <br />
                   </Grid>
                   <Grid item xs={6} >
-              <Fab variant="extended" aria-label="edit"  
+              <Fab variant="extended" aria-label="edit"
                 onClick={() => { this.updateDB(); }}
                 style = {{background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)'}}>
               <EditIcon/>   &nbsp;
                 Save Course Changes 
               </Fab>
-              <br />
               </Grid>
                 
               </Grid>  

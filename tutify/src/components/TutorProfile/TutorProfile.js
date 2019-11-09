@@ -74,13 +74,13 @@ class TutorProfile extends React.Component {
         <Grid container spacing={4}>
 
               {/* User Info */}
-              <Grid item xs = {6}>
+              <Grid item xs = {4}>
           <Paper>           
             <TutorInfo />
           </Paper>
         </Grid>
         
-        <Grid item xs = {6}>
+        <Grid item xs = {7}>
         <Grid >
 
           <Paper>           

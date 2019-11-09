@@ -116,7 +116,7 @@ class TutorStudentsInfo extends React.Component {
       const { open } = this.state;
   
       return (
-        <Card className={classes.card}>
+        <Card className={classes.card} style={{height:"25vw"}}>
             <CardContent>
  
           <Typography component="p" variant="h5" >
