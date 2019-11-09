@@ -79,7 +79,7 @@ class TutorProfile extends React.Component {
           </Paper>
         </Grid>
         
-        <Grid item xs = {4}>
+        <Grid item xs = {6}>
           <Paper>           
             <TutorCoursesInfo />
           </Paper>

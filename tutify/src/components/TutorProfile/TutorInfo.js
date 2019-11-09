@@ -16,24 +16,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import swal from 'sweetalert';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import Fab from '@material-ui/core/Fab';
+import EditIcon from '@material-ui/icons/Edit';
 import Box from '@material-ui/core/Box';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import IconButton from '@material-ui/core/IconButton';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
-
 
 
 class TutorInfo extends React.Component {
@@ -269,6 +255,14 @@ class TutorInfo extends React.Component {
               {this.state.first_name + " " + this.state.last_name}
               </Box>
             </Typography>
+           
+        <hr  style={{
+          color: '#000000',
+          backgroundColor: '#000000',
+          height: .5,
+          borderColor : '#000000'
+      }}/>
+    
             <Typography color="textSecondary" className={classes.InfoContext}>
             <br />
 
@@ -291,12 +285,20 @@ class TutorInfo extends React.Component {
               School: {this.state.school}
   
             </Typography>
-            
+            <br />
+
+            <Fab variant="extended" aria-label="edit"  
+               justify = "center"          
+               onClick={() => { this.handleClickOpen(); }}
+               style={{background: 'linear-gradient(300deg, #ff9966, #ff5e62'}}>
+              <EditIcon/>
+              Edit Info
+              </Fab>
+
             </CardContent>
 
             <div>
             
-              <br />
               <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
                 <DialogTitle id="simple-dialog-title">Edit Information</DialogTitle>
                 <DialogContent>
@@ -346,19 +348,7 @@ class TutorInfo extends React.Component {
                     type="school"
                     fullWidth
                   />
-                  {this.state.__t === "student"
-                    ? <TextField
-                      margin="dense"
-                      id="educationlevel"
-                      name="education_level"
-                      onChange={e => this.setState({ updatedEducationLevel: e.target.value })}
-                      label="Education Level"
-                      type="education_level"
-                      fullWidth
-                    />
-                    :
-                    <br />
-                  }
+                  
   
                 </DialogContent>
                 <Grid
@@ -380,16 +370,6 @@ class TutorInfo extends React.Component {
                 </Grid>
   
               </Dialog>
-              <Button
-                  type="button"
-                  fullWidth
-                  variant="contained"
-                  className="submit"
-                  onClick={() => { this.handleClickOpen(); }}
-                >
-                  Edit Tutor Info
-               </Button>
-                
   
             </div>
   

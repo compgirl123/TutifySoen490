@@ -10,6 +10,11 @@ import axios from 'axios';
 import CourseSelection from '../profilePage/CourseSelection';
 import swal from 'sweetalert';
 import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Fab from '@material-ui/core/Fab';
+import EditIcon from '@material-ui/icons/Edit';
+import Box from '@material-ui/core/Box';
+
 
 
 class TutorCoursesInfo extends React.Component {
@@ -111,7 +116,13 @@ class TutorCoursesInfo extends React.Component {
   
       return (
         <Card className={classes.card}>
-         
+            <CardContent>
+ 
+          <Typography component="p" variant="h4" >
+            <Box fontWeight="fontWeightBold">
+              Courses Taught
+              </Box>
+            </Typography>
           
             <Typography color="textSecondary" className={classes.InfoContext}>
               {this.state.__t === "tutor"
@@ -122,7 +133,7 @@ class TutorCoursesInfo extends React.Component {
                   <br />
               }
             </Typography>
-            
+
 
             <div>
               <Grid item xs={6}>
@@ -134,20 +145,22 @@ class TutorCoursesInfo extends React.Component {
                   <br />
                 
               </Grid>
+ </div>
+ <div>
+
+
+              <Fab variant="extended" aria-label="edit"  
+                onClick={() => { this.updateDB(); }}
+               style={{background: 'linear-gradient(300deg, #ff9966, #ff5e62'}}>
+              <EditIcon/>
+                Save Course Changes 
+              </Fab>
+              <br />
+</div>
+
   
-               <Button
-                  type="button"
-                  fullWidth
-                  variant="contained"
-                  className="submit"
-                  onClick={() => { this.updateDB(); }}
-                >
-                  Save Course Options
-              </Button>
-                
-            </div>
-  
-  
+</CardContent>
+
         </Card>
         );
     }
