@@ -95,6 +95,10 @@
   "license": "ISC",
   "jest": {
     "automock": false,
+    "moduleNameMapper": {
+      "\\.(css|scss|less)$": "<rootDir>/test/login-test.spec.js",
+      "\\.(png|jpg|gif|ttf|eot|svg)$": "<rootDir>/test/login-test.spec.js"
+    },
     "setupFiles": [
       "./setupJest.js"
     ]

@@ -1,10 +1,13 @@
 import React from "react";
 import InputBase from '@material-ui/core/InputBase';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import Login, { Login as LoginClass } from "./../src/components/Login";
+import SearchTutors, { SearchTutors as SearchTutorsClass } from "./../src/components/SearchTutors";
 import { createMount } from '@material-ui/core/test-utils';
 import { configure } from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
-import large_tutify from './../assets/large_tutify.png';
+
 
 var json = require("./testDb/accounts.json");
 
@@ -18,98 +21,37 @@ describe('The Login Page ', () => {
 
     it('should be filtering according to the input.', () => {
         // The value sent in the input
-        const mockedEvent = { target: { value: "ma"} } 
-
+        //const mockedEvent = { target: { value: "test@gmail.com"} } 
+        const mocked2 = {email : "francesca@gmail.com", password: "test1"}
         // All the mounting and state setting
         const wrapper = mount(<Login></Login>);
         const shallowwrapper = wrapper.find(LoginClass);
         shallowwrapper.setState({ data: json.data });
-        
+        console.log(shallowwrapper);
+        //console.log(this.state.data);
+
         // Sending the onChange event
-        const input = wrapper.find(InputBase).at(0);
-        input.props().onChange(mockedEvent);
-        shallowwrapper.setState({ selectedIndex: 0 });
+        const input = wrapper.find(TextField).at(0);
+        console.log(input.props().id);
+        console.log(document.getElementById(input.props().id).value);
+        document.getElementById(input.props().id).setAttribute('value', mocked2.email);
+        console.log(document.getElementById(input.props().id).value);
+        shallowwrapper.setState({ email: document.getElementById(input.props().id).value });
+
+        const input1 = wrapper.find(TextField).at(1);
+        console.log(input1.props().id);
+        console.log(document.getElementById(input1.props().id).value);
+        document.getElementById(input1.props().id).setAttribute('value', mocked2.password);
+        console.log(document.getElementById(input1.props().id).value);
+
+        //input.props().onChange(mockedEvent);
+        /*shallowwrapper.setState({ selectedIndex: 0 });*/
 
         // Expecting a filtered result
-        expect(shallowwrapper.state().filteredData.length).toBe(2);
-        expect(shallowwrapper.state().filteredData[0].first_name.toString()).toBe("Mo");
+        /*expect(shallowwrapper.state().filteredData.length).toBe(2);
+        expect(shallowwrapper.state().filteredData[0].first_name.toString()).toBe("Mo");*/
     });
 
-    it('should be filtering by name.', () => {
-        // The value sent in the input
-        const mockedEvent = { target: { value: "pate"} } 
-
-        // All the mounting and state setting
-        const wrapper = mount(<Login></Login>);
-        const shallowwrapper = wrapper.find(LoginClass);
-        shallowwrapper.setState({ data: json.data });
-        shallowwrapper.setState({ selectedIndex: 1 });
-        
-        // Sending the onChange event
-        const input = wrapper.find(InputBase).at(0);
-        input.props().onChange(mockedEvent);
-
-        // Expecting a filtered result
-        expect(shallowwrapper.state().filteredData.length).toBe(1);
-        expect(shallowwrapper.state().filteredData[0].last_name.toString()).toBe("Patel");
-    });
-    
-    it('should be filtering by school.', () => {
-        // The value sent in the input
-        const mockedEvent = { target: { value: "con"} } 
-
-        // All the mounting and state setting
-        const wrapper = mount(<Login></Login>);
-        const shallowwrapper = wrapper.find(LoginClass);
-        shallowwrapper.setState({ data: json.data });
-        shallowwrapper.setState({ selectedIndex: 2 });
-        
-        // Sending the onChange event
-        const input = wrapper.find(InputBase).at(0);
-        input.props().onChange(mockedEvent);
-
-        // Expecting a filtered result
-        expect(shallowwrapper.state().filteredData.length).toBe(3);
-        expect(shallowwrapper.state().filteredData[0].school.toString()).toBe("Concordia University");
-    });
-
-    it('should be filtering by course.', () => {
-        // The value sent in the input
-        const mockedEvent = { target: { value: "en"} } 
-
-        // All the mounting and state setting
-        const wrapper = mount(<Login></Login>);
-        const shallowwrapper = wrapper.find(LoginClass);
-        shallowwrapper.setState({ data: json.data });
-        shallowwrapper.setState({ selectedIndex: 3 });
-        
-        // Sending the onChange event
-        const input = wrapper.find(InputBase).at(0);
-        input.props().onChange(mockedEvent);
-
-        // Expecting a filtered result
-        expect(shallowwrapper.state().filteredData.length).toBe(4);
-        expect(shallowwrapper.state().filteredData[0].subjects.toString()).toBe("Computer Science");
-    });
-
-    it('should be filtering by program.', () => {
-        // The value sent in the input
-        const mockedEvent = { target: { value: "engi"} } 
-
-        // All the mounting and state setting
-        const wrapper = mount(<Login></Login>);
-        const shallowwrapper = wrapper.find(LoginClass);
-        shallowwrapper.setState({ data: json.data });
-        shallowwrapper.setState({ selectedIndex: 4 });
-        
-        // Sending the onChange event
-        const input = wrapper.find(InputBase).at(0);
-        input.props().onChange(mockedEvent);
-
-        // Expecting a filtered result
-        expect(shallowwrapper.state().filteredData.length).toBe(1);
-        expect(shallowwrapper.state().filteredData[0].subjects.toString()).toBe("Software Engineering");
-    });
 
    
 }); 

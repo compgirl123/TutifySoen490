@@ -13,7 +13,7 @@ import Footer from './Footer';
 import './style.css';
 import swal from 'sweetalert';
 
-class Login extends React.Component {
+export class Login extends React.Component {
   // initialize our state
   constructor(props) {
     super(props);
@@ -119,7 +119,7 @@ class Login extends React.Component {
                     className="submit"
                   >
                     Login
-          </Button>
+                </Button>
                   <Grid item style={{ paddingTop: '20px' }}>
                     <Link href="#" variant="body2" justify="flex-end">
                       Forgot password?
