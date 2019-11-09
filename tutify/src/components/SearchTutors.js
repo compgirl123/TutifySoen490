@@ -25,6 +25,7 @@ const options = [
   'Subject',
   'Program',
 ];
+
 export class SearchTutors extends Component {
   // initialize our state
   constructor(props) {
@@ -86,7 +87,7 @@ export class SearchTutors extends Component {
 
   // Uses our backend api to fetch tutors from our database
   getDataFromDb = () => {
-    fetch('http://localhost:3001/api/getTutor')
+    fetch('http://localhost:3001/api/getTutors')
       .then((data) => data.json())
       .then((res) => {
         this.setState({ data: res.data, filteredData: res.data });});

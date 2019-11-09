@@ -36,9 +36,9 @@ function ConnectButton(props) {
     const classes = props.classes;
     const tutor = props.tutor;
     const userId = props.userId;
-    var url = "/courselist/"+props.tutor.id.$numberInt;
+    var url = "/courselist/"+props.tutor._id;
     if (!isConnected) {
-        return <Button component="a" href={url} className={classes.connect} onClick={event => assignTutor(event, userId, tutor._id.$oid)}>Connect with {tutor.first_name}</Button>
+        return <Button component="a" href={url} className={classes.connect} >Connect with {tutor.first_name}</Button>
     }
     return <Button className={classes.connect} disabled >Connected <CheckIcon /></Button>
 }

@@ -113,6 +113,7 @@ var Course = mongoose.model('Course', new Schema({
     type: String,
     required: true
   },
+  description: String,
   tutors: [
     { type: Schema.Types.ObjectId, ref: 'Tutor' }
   ],

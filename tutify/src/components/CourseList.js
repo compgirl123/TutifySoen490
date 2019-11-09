@@ -13,6 +13,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
+import axios from "axios";
 
 
 class CourseList extends React.Component {
@@ -20,14 +21,14 @@ class CourseList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tutorName:{},
-      tutorSubjects:{subjects:[""]},
-      user_id:"",
-      connectedTutors:[],
+      tutor_id: "",
+      tutorName: {},
+      tutorSubjects: [],
+      user_id: "",
       drawerOpened: false
     };
-    this.tutor={
-      name:"",
+    this.tutor = {
+      name: "",
       subjects: ["Englishies", "French", "Memes"]
     }
   }
@@ -36,23 +37,29 @@ class CourseList extends React.Component {
       drawerOpened: booleanValue
     });
   };
-  // when component mounts, first thing it does is fetch all existing data in our db
-  async componentDidMount() {
-    
+
+  componentDidMount() {
     const { match: { params } } = this.props;
-    await fetch("https://webhooks.mongodb-stitch.com/api/client/v2.0/app/tutify-skqbg/service/getTutor/incoming_webhook/name?secret=1wantanam3&id="+params.id)
-    .then((response) => response.json())
-    .then(async (res, callback=(txt)=>{})=>{
-      await this.setState({ tutorName: res[0] }, callback);
-    });
-    await fetch("https://webhooks.mongodb-stitch.com/api/client/v2.0/app/tutify-skqbg/service/getTutor/incoming_webhook/subjects?secret=1s33u&id="+params.id)
-    .then((response) => response.json())
-    .then(async (res, callback=(txt)=>{})=>{
-      await this.setState({ tutorSubjects: res[0] }, callback);
-    });
-    this.checkSession();
+    this.setState({
+      tutor_id: params.id
+    })
+    this.checkSession()
   }
-  
+
+  getTutorFromDB = () => {  
+    axios.get('http://localhost:3001/api/getTutor', {
+        params: {
+          ID: this.state.tutor_id
+        }
+    }).then((res) => {
+          this.setState({
+            tutorName: res.data.tutor.first_name,
+            tutorSubjects: res.data.tutor.subjects,
+          });
+      })
+      .catch(err => console.log(err));
+  }
+
   checkSession = () => {
     fetch('http://localhost:3001/api/checkSession', {
       method: 'GET',
@@ -63,8 +70,8 @@ class CourseList extends React.Component {
         if (res.isLoggedIn) {
           this.setState({
             user_id: res.userInfo._id,
-            connectedTutors: res.userInfo.tutors
           });
+          this.getTutorFromDB()
         }
       })
       .catch(err => console.log(err));
@@ -74,59 +81,59 @@ class CourseList extends React.Component {
     const { classes } = this.props;
 
     return (
-    <Paper className={classes.paper}>
-      <React.Fragment>
-        <main>
-          <DashBoardNavBar />
-          <main className={classes.content}>
-            <div className={classes.appBarSpacer} />
-            
-            <Container maxWidth="lg" className={classes.container}>
-              <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                Courses Offered by {this.state.tutorName.first_name} {this.state.tutorName.last_name}
-        </Typography>
-        <Grid container spacing={5}>
-          {this.state.tutorSubjects.subjects.map((sub, index) => (
-          <Grid item xs={4} md={4} lg={4} key={index}>
-              <Card className={classes.card}>
-                <CardActionArea>
-                  <CardMedia
-                    src="/"
-                    className={classes.media}
-                    title={sub}
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {sub}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                      This course is designed for elementary students. Grammar, vocabulary, composition, language in context.
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Button type="button" size="small" fullWidth variant="contained" className="submit">
-                    Enroll
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>                                  
-          ))}
-        </Grid>
-            </Container>
-            <main>
-              {/* Hero unit */}
+      <Paper className={classes.paper}>
+        <React.Fragment>
+          <main>
+            <DashBoardNavBar />
+            <main className={classes.content}>
+              <div className={classes.appBarSpacer} />
 
+              <Container maxWidth="lg" className={classes.container}>
+                <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
+                  Courses Offered by {this.state.tutorName.first_name} {this.state.tutorName.last_name}
+                </Typography>
+                <Grid container spacing={5}>
+                  {this.state.tutorSubjects.map((sub, index) => (
+                    <Grid item xs={4} md={4} lg={4} key={index}>
+                      <Card className={classes.card}>
+                        <CardActionArea>
+                          <CardMedia
+                            src="/"
+                            className={classes.media}
+                            title={sub}
+                          />
+                          <CardContent>
+                            <Typography gutterBottom variant="h5" component="h2">
+                              {sub}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" component="p">
+                              This course is designed for elementary students. Grammar, vocabulary, composition, language in context.
+                    </Typography>
+                          </CardContent>
+                        </CardActionArea>
+                        <CardActions>
+                          <Button type="button" size="small" fullWidth variant="contained" className="submit">
+                            Enroll
+                  </Button>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Container>
+              <main>
+                {/* Hero unit */}
+
+
+              </main>
+              {/* Footer */}
+              <Footer />
 
             </main>
-            {/* Footer */}
-            <Footer />
+
 
           </main>
-
-
-        </main>
-      </React.Fragment>
+        </React.Fragment>
       </Paper>
     );
   }
