@@ -129,12 +129,19 @@ class TutorCoursesInfo extends React.Component {
                 My Courses
               </Box>
             </Typography>
+           
 
         <Table size="medium">
-        
         <TableBody>
+        <TableCell>
+              </TableCell>
+              <TableCell>
+              </TableCell> <TableCell>
+              </TableCell> <TableCell>
+              </TableCell> <TableCell>
+              </TableCell>
           {this.state.subjects.map(subject => (
-            <TableRow key={subject.id}>
+            <TableRow key={subject.id} >
               <TableCell padding="none" >
               <Avatar className={classes.avatar} style={{width: '15px' ,height:'15px'}}></Avatar>
 
@@ -167,7 +174,7 @@ class TutorCoursesInfo extends React.Component {
       <br />
 
 
-            <Grid container spacing={3}>
+            <Grid container spacing={4}>
               <Grid item xs={6}>
                
                   <CourseSelection
@@ -180,7 +187,7 @@ class TutorCoursesInfo extends React.Component {
               <Fab variant="extended" aria-label="edit"  
                 onClick={() => { this.updateDB(); }}
                 style = {{background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)'}}>
-              <EditIcon/> {" "}
+              <EditIcon/>   &nbsp;
                 Save Course Changes 
               </Fab>
               <br />
