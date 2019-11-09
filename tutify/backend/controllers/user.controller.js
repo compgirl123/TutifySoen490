@@ -35,6 +35,7 @@ for (var z = 0; z < students.length; z++) {
 ​
         if(count == students.length){
             console.log("i should be here only once");
+            return res.json({ success: true, data: users});
             }
         console.log("hello");
     });
