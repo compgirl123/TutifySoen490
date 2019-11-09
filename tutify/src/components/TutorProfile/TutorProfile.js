@@ -80,9 +80,20 @@ class TutorProfile extends React.Component {
         </Grid>
         
         <Grid item xs = {6}>
+        <Grid >
+
           <Paper>           
             <TutorCoursesInfo />
           </Paper>
+          </Grid>
+          <br />
+
+          <Grid >
+          <Paper>           
+            <TutorCoursesInfo />
+          </Paper>
+          </Grid>
+
         </Grid>
 
         </Grid>

@@ -118,22 +118,30 @@ class TutorCoursesInfo extends React.Component {
         <Card className={classes.card}>
             <CardContent>
  
-          <Typography component="p" variant="h4" >
+          <Typography component="p" variant="h5" >
             <Box fontWeight="fontWeightBold">
               Courses Taught
               </Box>
             </Typography>
+
+                       
+        <hr  style={{
+          color: '#FFFFFF',
+          backgroundColor: '#FFFFFF',
+          height: .5,
+          borderColor : '#FFFFFF'
+      }}/>
+    
+
           
             <Typography color="textSecondary" className={classes.InfoContext}>
-              {this.state.__t === "tutor"
-                ? "Courses Taught : " + this.state.subjects
-                : this.state.__t === "student"
-                  ? "Education Level : " + this.state.education_level
-                  :
+             { this.state.subjects}
+                
                   <br />
-              }
+              
             </Typography>
 
+      
 
             <div>
               <Grid item xs={6}>
@@ -146,9 +154,9 @@ class TutorCoursesInfo extends React.Component {
                 
               </Grid>
  </div>
- <div>
+ <div >
 
-
+ <Grid justify = "center">
               <Fab variant="extended" aria-label="edit"  
                 onClick={() => { this.updateDB(); }}
                style={{background: 'linear-gradient(300deg, #ff9966, #ff5e62'}}>
@@ -156,6 +164,8 @@ class TutorCoursesInfo extends React.Component {
                 Save Course Changes 
               </Fab>
               <br />
+              </Grid>
+
 </div>
 
   
