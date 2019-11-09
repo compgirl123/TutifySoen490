@@ -24,6 +24,8 @@ router.get('/getUser', userController.getUser);
 
 router.post('/updateUser', userController.updateUser);
 
+router.post('/findStudents', userController.findStudents);
+
 router.post('/updateUserInfo', userController.updateUserInfo);
 
 router.post('/putUser', userController.putUser);
