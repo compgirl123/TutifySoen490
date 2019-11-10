@@ -45,6 +45,12 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
   courses: [
     { type: Schema.Types.ObjectId, ref: 'Course' }
   ],
+  todos: [
+    {
+      text: { type: String },
+      checked: { type: Boolean }
+    }
+  ]
 }), 'profiles'
 );
 

@@ -54,7 +54,7 @@ class Login extends React.Component {
           swal("You have signed in successfully!", "", "success")
           .then((value) => {
             if(res.userInfo.__t === 'student'){
-              window.location = "profile";
+              window.location = "dashboard";
             }
           else if(res.userInfo.__t === 'tutor'){
             window.location = "tutor";

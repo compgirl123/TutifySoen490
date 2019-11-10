@@ -22,7 +22,7 @@ export class NavBar extends Component {
       Toggle: false
     };
   }
-  
+
   toggleDrawer = booleanValue => () => {
     this.setState({
       drawerOpened: booleanValue
@@ -32,7 +32,7 @@ export class NavBar extends Component {
   componentDidMount() {
     this.checkSession();
   }
-  
+
   checkSession = () => {
     fetch('http://localhost:3001/api/checkSession', {
       method: 'GET',
@@ -72,13 +72,19 @@ export class NavBar extends Component {
 
             <SchoolIcon />
             <Box m={1} />
-            {this.state.Toggle ? <Typography variant="h6" color="inherit" >
-              Tutify
-            </Typography> : <Link href="/" style={{ textDecoration: 'none', color: '#FFF' }}>
+            {this.state.Toggle ?
+              <Link href="/dashboard" style={{ textDecoration: 'none', color: '#FFF' }}>
                 <Typography variant="h6" color="inherit" >
                   Tutify
-            </Typography>
-              </Link>}
+                </Typography>
+              </Link>
+              :
+              <Link href="/" style={{ textDecoration: 'none', color: '#FFF' }}>
+                <Typography variant="h6" color="inherit" >
+                  Tutify
+                </Typography>
+              </Link>
+            }
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             </Typography>
 

@@ -21,7 +21,7 @@ class Sidebar extends Component {
     super(props);
     this.state = {
       openList: false,
-      tutors: props.tutors
+      tutors: props.tutors ? props.tutors : []
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -44,7 +44,8 @@ class Sidebar extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, tutors } = this.props;
+
     return (
       <div>
         <Divider />
@@ -82,9 +83,8 @@ class Sidebar extends Component {
             <ListItemText primary="My Tutors" />
           </ListItem>
           <ListItem>
-            <div className={classes.tutorListContainer}>
               <List disablePadding className={classes.tutorList} >
-                {this.state.tutors.map(tutor => (
+                {tutors.map(tutor => (
                   <ListItem
                     key={tutor._id}>
                     <ListItemIcon>
@@ -96,7 +96,7 @@ class Sidebar extends Component {
                   </ListItem>
                 ))}
               </List>
-            </div>
+            
           </ListItem>
         </List>
 
