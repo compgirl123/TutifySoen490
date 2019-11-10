@@ -15,6 +15,12 @@ import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
 import Box from '@material-ui/core/Box';
 
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Avatar from '@material-ui/core/Avatar';
 
 class TutorStudentsInfo extends React.Component {
 
@@ -107,7 +113,7 @@ class TutorStudentsInfo extends React.Component {
     })
     .then((res) => {
       console.log(res);
-      this.setState({ students: res.data.data[0]});
+      this.setState({ students: res.data.data});
 
        //actualStudents.push(res.data.data);
         console.log(this.state.students);
@@ -163,7 +169,7 @@ class TutorStudentsInfo extends React.Component {
     const { open } = this.state;
 
     return (
-      <Card className={classes.card} style={{height:"25vw"}}>
+      <Card className={classes.card} >
           <CardContent>
 
         <Typography component="p" variant="h5" >
@@ -180,10 +186,44 @@ class TutorStudentsInfo extends React.Component {
         borderColor : '#FFFFFF'
     }}/>
   
-  <Typography color="textSecondary" >
-    {this.state.students.first_name} {this.state.students.last_name}
+          <Table size="small">
+        <TableBody>
+        <TableCell>
+              </TableCell>
+              <TableCell>
+              </TableCell> <TableCell>
+              </TableCell> <TableCell>
+              </TableCell> <TableCell>
+              </TableCell>
+          {this.state.students.map(student => (
+            <TableRow key={student.id} >
+              <TableCell padding="none" >
+              <Avatar className={classes.avatar} style={{width: '15px' ,height:'15px'}}></Avatar>
 
-          </Typography>
+              </TableCell>
+              <TableCell style ={{fontSize: '12pt'}}>
+              {student.first_name} 
+              {student.last_name}
+
+              </TableCell> <TableCell>
+              </TableCell><TableCell>
+              </TableCell>
+              <TableCell>
+              <Fab
+          variant="extended"
+          color="yellow"
+          aria-label="add"
+          fontSize="small"
+          className={classes.margin} style={{ maxHeight: '25px'}}
+        >
+           Message
+        </Fab>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+ 
 </CardContent>
 
       </Card>
