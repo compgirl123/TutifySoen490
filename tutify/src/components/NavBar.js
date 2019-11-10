@@ -90,11 +90,19 @@ export class NavBar extends Component {
             <SchoolIcon className={classes.icon} />
             <Box m={1} />
 
-            <Link href="/" className={classes.title} style={{ textDecoration: 'none', color: '#FFF' }}>
-              <Typography variant="h6" color="inherit" >
-                Tutify
-            </Typography>
-            </Link>
+            {this.state.Toggle ?
+              <Link href="/dashboard" className={classes.title} style={{ textDecoration: 'none', color: '#FFF' }}>
+                <Typography variant="h6" color="inherit" >
+                  Tutify
+                </Typography>
+              </Link> 
+              :
+              <Link href="/" className={classes.title} style={{ textDecoration: 'none', color: '#FFF' }}>
+                <Typography variant="h6" color="inherit" >
+                  Tutify
+                </Typography>
+              </Link>
+            }
 
             {this.state.Toggle ?
               <p></p>
