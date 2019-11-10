@@ -103,37 +103,6 @@ class TutorInfo extends React.Component {
         .catch(err => console.log(err));
     };
   
-    update = async (value) => {
-      await this.setState({
-        courses: value
-      });
-    }
-  
-    updateDB = () => {
-      var coursesToAdd = [];
-      var test = this.state.subjects;
-  
-      for (var z = 0; z < this.state.courses.length; z++) {
-        var course_found = test.includes(this.state.courses[z]);
-        if (course_found === false) {
-          coursesToAdd.push(this.state.courses[z])
-        }
-      }
-  
-      axios.post('http://localhost:3001/api/updateTutor', {
-        _id: this.state._id,
-        subjects: coursesToAdd
-      })
-      .then((res) => {
-        this.setState({
-          subjects: res.data.newSubjects
-        });
-        swal("Information successfully updated!", "", "success")
-      }, (error) => {
-        console.log(error);
-      });
-    };
-  
     updateTutorOptions = () => {
       var updatedProfileValues = [
         this.state.updatedProgramOfStudy,
@@ -245,7 +214,7 @@ class TutorInfo extends React.Component {
         <Card className={classes.card}>
               <CardContent>
 
-            <img src={this.state.tutorPicture} width="100%" height="40%">
+            <img src={this.state.tutorPicture} width="100%" height="40%" alt="Profile">
                     </img>
                     </CardContent>
 

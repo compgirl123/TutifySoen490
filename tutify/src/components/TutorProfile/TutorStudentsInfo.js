@@ -37,9 +37,7 @@ class TutorStudentsInfo extends React.Component {
         if (res.isLoggedIn) {
           this.setState({
             students: res.userInfo.students
-          })
-          this.state.students = res.userInfo.students;
-          
+          })          
               this.FindStudents();
         }
         else {
@@ -64,7 +62,6 @@ class TutorStudentsInfo extends React.Component {
 
  render() {
     const { classes } = this.props;
-    const { open } = this.state;
 
     return (
       <Card className={classes.card} >
