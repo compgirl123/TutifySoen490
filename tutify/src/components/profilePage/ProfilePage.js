@@ -7,6 +7,9 @@ import Footer from "../Footer";
 import DashBoardNavBar from "./DashBoardNavBar";
 import UserInfo from './UserInfo';
 import Card from '@material-ui/core/Card';
+import UserCoursesInfo from './UserCoursesInfo';
+import UserTutorsInfo from './UserTutorsInfo';
+import Paper from '@material-ui/core/Paper';
 
 class ProfilePage extends React.Component {
   constructor(props) {
@@ -69,9 +72,21 @@ class ProfilePage extends React.Component {
               <Grid container spacing={4}>
 ​
                 {/* User Info */}
-                <Grid item xs={5}>
+                <Grid item xs={4}>
                   <Card>
-                 
+                 <Grid item xs = {6}>
+       <Grid >
+         <Paper>
+           <UserCoursesInfo />
+         </Paper>
+         </Grid>
+         <br />
+         <Grid >
+         <Paper>
+           <UserTutorsInfo />
+         </Paper>
+         </Grid>
+       </Grid>
                 <UserInfo /> 
                   </Card>
                  
