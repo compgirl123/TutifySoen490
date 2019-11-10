@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Notifications from './Notifications';
 import * as UserDashboardStyles from '../../styles/UserDashboard/UserDashboard-styles';
 import { withStyles } from "@material-ui/core/styles";
-import { Sidebar } from '../profilePage/StudentSidebar';
+import Sidebar  from '../profilePage/StudentSidebar';
 import Drawer from "@material-ui/core/Drawer";
 import MyCourseList from "./MyCourseList";
 import ToDoList from "./ToDoList/ToDoList";
@@ -15,7 +15,8 @@ class UserDashboard extends React.Component {
         super(props);
         this.state = {
             courses: [],
-            todos: []
+            todos: [],
+            tutors: []
         };
     }
 
@@ -31,7 +32,7 @@ class UserDashboard extends React.Component {
             .then(response => response.json())
             .then(res => {
                 if (res.isLoggedIn) {
-                    this.setState({ Toggle: true, todos: res.userInfo.todos  });
+                    this.setState({ Toggle: true, todos: res.userInfo.todos, tutors: res.userInfo.tutors   });
                     this.getDataFromDb()
                 }
                 else {
@@ -58,7 +59,7 @@ class UserDashboard extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const { courses, todos } = this.state;
+        const { courses, todos, tutors } = this.state;
 
         return (
             <React.Fragment>
@@ -68,7 +69,7 @@ class UserDashboard extends React.Component {
                     variant="permanent"
                 >
                     <div className={classes.toolbar} />
-                    <Sidebar />
+                    <Sidebar tutors={tutors} />
                 </Drawer>
                 <main className={classes.root}>
                     <Grid container>

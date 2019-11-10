@@ -21,7 +21,7 @@ class Sidebar extends Component {
     super(props);
     this.state = {
       openList: false,
-      tutors: props.tutors
+      tutors: props.tutors ? props.tutors : []
     };
     this.handleChange = this.handleChange.bind(this);
   }
