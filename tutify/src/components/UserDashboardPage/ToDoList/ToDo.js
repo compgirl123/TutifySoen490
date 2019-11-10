@@ -1,11 +1,8 @@
 import React, { memo } from "react";
 import ReactDOM from "react-dom";
-
 import { useInputValue, useTodos } from "./custom-hooks";
-
 import AddTodo from "./AddToDo";
 import ToDoListLayout from "./ToDoListLayout";
-
 
 const ToDo = memo( (props) => {
   const { inputValue, changeInput, clearInput, keyInput } = useInputValue();

@@ -15,8 +15,7 @@ export class TutorNavDrawer extends React.Component {
         <div
           onClick={this.props.toggleDrawer(false)}
           onKeyDown={this.props.toggleDrawer(false)}
-        >
-         
+        >   
           <div>
             <IconButton>
                 <ChevronLeftIcon />

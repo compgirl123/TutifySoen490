@@ -18,7 +18,6 @@ class Logout extends Component {
       </Button>
     );
   }
-
 }
 
 class SignUp extends Component {
@@ -29,7 +28,6 @@ class SignUp extends Component {
       </Button>
     );
   }
-
 }
 
 class Login extends Component {
@@ -40,7 +38,6 @@ class Login extends Component {
       </Button>
     );
   }
-
 }
 
 export class NavBar extends Component {
@@ -51,9 +48,7 @@ export class NavBar extends Component {
       Toggle: false
     };
     this.handleChange = this.handleChange.bind(this);
-
   }
-
 
   componentDidMount() {
     this.checkSession();
@@ -76,16 +71,13 @@ export class NavBar extends Component {
 
   handleChange(event) {
     fetch('http://localhost:3001/api/logout')
-
     this.setState({ Toggle: false });
-
   };
-
 
   render() {
     const { classes } = this.props;
-    return (
 
+    return (
       <div className={classes.root}>
         <AppBar position="fixed" color="inherit" elevation={0} style={{ background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)' }}
         >
@@ -120,7 +112,6 @@ export class NavBar extends Component {
       </div>
     );
   }
-
 }
 
 export default withStyles(NavBarStyles.styles, { withTheme: true })(NavBar);

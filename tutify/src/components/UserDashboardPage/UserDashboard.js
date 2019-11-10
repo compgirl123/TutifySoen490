@@ -3,9 +3,9 @@ import NavBar from '../NavBar';
 import Footer from '../Footer';
 import Grid from '@material-ui/core/Grid';
 import Notifications from './Notifications';
-import * as UserDashboardStyles from '../../styles/UserDashboard/UserDashboard-styles';
+import * as UserDashboardStyles from '../../styles/UserDashboard-styles';
 import { withStyles } from "@material-ui/core/styles";
-import Sidebar  from '../profilePage/StudentSidebar';
+import Sidebar from '../ProfilePage/StudentSidebar';
 import Drawer from "@material-ui/core/Drawer";
 import MyCourseList from "./MyCourseList";
 import ToDoList from "./ToDoList/ToDoList";
@@ -32,7 +32,7 @@ class UserDashboard extends React.Component {
             .then(response => response.json())
             .then(res => {
                 if (res.isLoggedIn) {
-                    this.setState({ Toggle: true, todos: res.userInfo.todos, tutors: res.userInfo.tutors   });
+                    this.setState({ Toggle: true, todos: res.userInfo.todos, tutors: res.userInfo.tutors });
                     this.getDataFromDb()
                 }
                 else {
@@ -42,7 +42,6 @@ class UserDashboard extends React.Component {
             .catch(err => console.log(err));
     };
 
-    // Uses our backend api to fetch the courses from our database
     getDataFromDb = () => {
         fetch('http://localhost:3001/api/getUserCourses', {
             method: 'GET',
@@ -55,7 +54,6 @@ class UserDashboard extends React.Component {
             })
             .catch(err => console.log(err));
     }
-
 
     render() {
         const { classes } = this.props;

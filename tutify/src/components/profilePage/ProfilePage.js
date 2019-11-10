@@ -17,20 +17,24 @@ class ProfilePage extends React.Component {
     this.state = {
       drawerOpened: false,
       tutorPicture: "",
-      __t: ""
+      __t: "",
+      tutors: [],
+      courses: [],
     };
   }
-  
+
   toggleDrawer = booleanValue => () => {
     this.setState({
       drawerOpened: booleanValue
     });
   };
+
   componentDidMount() {
     this.checkSession();
-  
+
   }
-	 checkSession = () => {
+
+  checkSession = () => {
     fetch('http://localhost:3001/api/checkSession', {
       method: 'GET',
       credentials: 'include'
@@ -38,28 +42,47 @@ class ProfilePage extends React.Component {
       .then(response => response.json())
       .then(res => {
         if (res.isLoggedIn) {
-          this.setState({ Toggle: true });
-          this.setState({ tutorPicture: res.userInfo.picture, __t: res.userInfo.__t });
+          this.setState({ 
+            Toggle: true,
+            tutorPicture: res.userInfo.picture, 
+            __t: res.userInfo.__t,
+            tutors: res.userInfo.tutors,
+          });
+          this.getUserCourses()
         }
         else {
           this.setState({ Toggle: false });
         }
       })
       .catch(err => console.log(err));
-  
-	 };
-	handleChange(event) {
+  };
+
+  getUserCourses = () => {
+    fetch('http://localhost:3001/api/getUserCourses', {
+        method: 'GET',
+        credentials: 'include'
+    })
+        .then(response => response.json())
+        .then(res => {
+            this.setState({ courses: res.data });
+
+        })
+        .catch(err => console.log(err));
+  }
+
+  handleChange(event) {
     fetch('http://localhost:3001/api/logout', {
       method: 'GET',
       credentials: 'include'
     })
       .then(response => response.json())
       .then(res => {
-	  this.setState({ Toggle: false });
- })
- .catch(err => console.log(err));
- };
- render() {
+        this.setState({ Toggle: false });
+      })
+      .catch(err => console.log(err));
+  };
+
+  render() {
     const { classes } = this.props;
     return (
       <React.Fragment>
@@ -68,40 +91,39 @@ class ProfilePage extends React.Component {
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             <Container maxWidth="lg" className={classes.container}>
-              
+
               <Grid container spacing={4}>
-​
+
                 {/* User Info */}
                 <Grid item xs={4}>
                   <Card>
-                <UserInfo /> 
+                    <UserInfo />
                   </Card>
-                  </Grid>
+                </Grid>
 
-                  <Grid item xs = {6}>
-       <Grid >
-         <Paper>
-           <UserCoursesInfo />
-         </Paper>
-         </Grid>
-         <br />
-         <Grid >
-         <Paper>
-           <UserTutorsInfo />
-         </Paper>
-         </Grid>
-       </Grid>
-                
+                <Grid item xs={6}>
+                  <Grid >
+                    <Paper>
+                      <UserCoursesInfo courses={this.state.courses} />
+                    </Paper>
+                  </Grid>
+                  <br />
+                  <Grid >
+                    <Paper>
+                      <UserTutorsInfo tutors={this.state.tutors} />
+                    </Paper>
+                  </Grid>
+                </Grid>
+
               </Grid>
             </Container>
             <main>
               {/* Hero unit */}
-​
+
             </main>
             <Footer />
-​
           </main>
-​
+
         </main>
       </React.Fragment>
     );

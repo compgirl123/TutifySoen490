@@ -3,7 +3,7 @@ import Drawer from "@material-ui/core/Drawer";
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Sidebar from './StudentSidebar';
-import {TutorSidebar} from '../TutorProfile/TutorSidebar';
+import { TutorSidebar } from '../TutorProfile/TutorSidebar';
 
 
 export class NavDrawer extends React.Component {
@@ -13,29 +13,31 @@ export class NavDrawer extends React.Component {
       Toggle: false,
       tutorList: []
     };
-    }
-    componentDidMount() {
-      this.checkSession();
-    }
+  }
+
+  componentDidMount() {
+    this.checkSession();
+  }
+
   checkSession = () => {
-      fetch('http://localhost:3001/api/checkSession',{
-                    method: 'GET',
-                    credentials: 'include'
-      })          
-        .then(response => response.json())
-        .then(res => {
-          if(res.userInfo.__t === 'student'){
-              this.setState({
-                Toggle: true,
-                tutorList: res.userInfo.tutors
-              });
-          }
-          else if(res.userInfo.__t === 'tutor'){
-              this.setState({Toggle: false});
-          }
-        })
-        .catch(err => console.log(err));
-      };
+    fetch('http://localhost:3001/api/checkSession', {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then(response => response.json())
+      .then(res => {
+        if (res.userInfo.__t === 'student') {
+          this.setState({
+            Toggle: true,
+            tutorList: res.userInfo.tutors
+          });
+        }
+        else if (res.userInfo.__t === 'tutor') {
+          this.setState({ Toggle: false });
+        }
+      })
+      .catch(err => console.log(err));
+  };
 
 
   render() {
@@ -49,16 +51,15 @@ export class NavDrawer extends React.Component {
           onClick={this.props.toggleDrawer(false)}
           onKeyDown={this.props.toggleDrawer(false)}
         >
-         
           <div>
             <IconButton>
-                <ChevronLeftIcon />
+              <ChevronLeftIcon />
             </IconButton>
           </div>
-          { this.state.Toggle ? 
-
-          <Sidebar tutors={this.state.tutorList} /> : <TutorSidebar/>}
-       </div>
+          {this.state.Toggle ?
+            <Sidebar tutors={this.state.tutorList} /> : <TutorSidebar />
+          }
+        </div>
       </Drawer>
     );
   }
