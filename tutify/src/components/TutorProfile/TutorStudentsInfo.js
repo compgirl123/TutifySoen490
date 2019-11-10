@@ -28,41 +28,13 @@ class TutorStudentsInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      drawerOpened: false,
-      subjects: [],
-      students: [],
-      courses: [],
-      open: false,
-      scroll: 'paper',
+      students: []
     };
-    this.handleClickOpen = this.handleClickOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-
   }
-
-  toggleDrawer = booleanValue => () => {
-    this.setState({
-      drawerOpened: booleanValue
-    });
-  };
-
-  handleFeedback = () => {
-    this.setState({ open: true })
-  }
-
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
 
   componentDidMount() {
     this.checkSession();
   }
-
-  handleChangeValue = e => this.setState({ value: e.target.value });
 
   checkSession = () => {
     fetch('http://localhost:3001/api/checkSession', {
@@ -72,21 +44,12 @@ class TutorStudentsInfo extends React.Component {
       .then(response => response.json())
       .then((res) => {
         if (res.isLoggedIn) {
-          console.log("yooooo"); 
-
           this.setState({
-            Toggle: true, _id: res.userInfo._id, __t: res.userInfo.__t,
-            first_name: res.userInfo.first_name, last_name: res.userInfo.last_name,
-            email: res.email, education_level: res.userInfo.education_level, school: res.userInfo.school,
-            program_of_study: res.userInfo.program_of_study, students: res.userInfo.students, subjects: res.userInfo.subjects, tutorPicture: res.userInfo.picture
+            students: res.userInfo.students
           })
           this.state.students = res.userInfo.students;
-          console.log(this.state.students[0]);
           
               this.FindStudents();
-            
-            console.log("yooooo part 2");
-            
         }
         else {
           this.setState({ Toggle: false });
@@ -95,75 +58,18 @@ class TutorStudentsInfo extends React.Component {
       .catch(err => console.log(err));
   };
 
-  FindStudents = () => {
-    //var actualStudents = [];
-    console.log(this.state.students);
-    //for (var z = 0; z < this.state.students.length; z++) {
-        //studentss.push(this.state.students[z]);
-       /** fetch('http://localhost:3001/api/findStudents', {
-      method: 'GET',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({        
-        "students": this.state.students
-
-      })      
-    })       */ 
+  FindStudents = () => { 
     axios.post('http://localhost:3001/api/findStudents', {
       students: this.state.students
     })
     .then((res) => {
-      console.log(res);
+      
       this.setState({ students: res.data.data});
 
-       //actualStudents.push(res.data.data);
-        console.log(this.state.students);
-        
-        //this.setState({
-          //students: state.actualStudents
-         //});
-         //this.setState((state) => ({ students: state.students + res.data.data}));
-
-         //window.location = "tutor";
-      
         }, (error) => {
       console.log(error);
     })
-  
-  
-  } 
-
-  update = async (value) => {
-    await this.setState({
-      courses: value
-    });
-  }
-
-  updateDB = () => {
-    var coursesToAdd = [];
-    var test = this.state.subjects;
-
-    for (var z = 0; z < this.state.courses.length; z++) {
-      var course_found = test.includes(this.state.courses[z]);
-      if (course_found === false) {
-        coursesToAdd.push(this.state.courses[z])
-      }
-    }
-
-    axios.post('http://localhost:3001/api/updateTutor', {
-      _id: this.state._id,
-      subjects: coursesToAdd
-    })
-    .then((res) => {
-      this.setState({
-        subjects: res.data.newSubjects
-      });
-      swal("Information successfully updated!", "", "success")
-    }, (error) => {
-      console.log(error);
-    });
   };
-
 
  render() {
     const { classes } = this.props;
