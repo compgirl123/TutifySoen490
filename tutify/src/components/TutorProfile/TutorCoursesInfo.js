@@ -1,11 +1,8 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import Title from './Title';
 import * as tutifyStyle from '../../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
 import CourseSelection from '../profilePage/CourseSelection';
 import swal from 'sweetalert';
@@ -18,7 +15,6 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Avatar from '@material-ui/core/Avatar';
 

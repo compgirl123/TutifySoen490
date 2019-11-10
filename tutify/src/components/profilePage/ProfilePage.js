@@ -4,17 +4,13 @@ import * as tutifyStyle from '../../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import Footer from "../Footer";
 import DashBoardNavBar from "./DashBoardNavBar";
 import UserInfo from './UserInfo';
 import TutorInfo from '../TutorProfile/TutorInfo'
 
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
+
 
 class ProfilePage extends React.Component {
   constructor(props) {

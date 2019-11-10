@@ -1,13 +1,10 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import Title from './Title';
 import * as tutifyStyle from '../../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
-import CourseSelection from '../profilePage/CourseSelection';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
