@@ -16,10 +16,11 @@ import Grid from '@material-ui/core/Grid';
 import axios from "axios";
 import swal from 'sweetalert';
 
-const assignTutor = (e, userID, tutorID) => {
+const assignTutor = (e, userID, tutorID, courseID) => {
   axios.post('http://localhost:3001/api/assignTutor', {
       student_id: userID,
       tutor_id: tutorID,
+      course_id: courseID,
   });
   swal("Request successfully sent!", "", "success")
       .then((value) => {
@@ -121,7 +122,7 @@ class CourseList extends React.Component {
                         </CardActionArea>
                         <CardActions>
                           <Button type="button" size="small" fullWidth variant="contained" className="submit" 
-                          onClick={event => assignTutor(event, this.state.user_id, this.state.tutor_id)}>
+                          onClick={event => assignTutor(event, this.state.user_id, this.state.tutor_id, course._id)}>
                             Enroll
                           </Button>
                         </CardActions>

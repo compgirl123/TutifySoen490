@@ -73,8 +73,9 @@ class Sidebar extends Component {
             </ListItemIcon>
             <ListItemText primary="Logout" />
           </ListItem>
-          <Divider/>
-          <ListItem button onClick={this.handleClick}>
+
+          <Divider />
+          <ListItem>
             <ListItemIcon>
               <MenuBookIcon />
             </ListItemIcon>
@@ -83,7 +84,7 @@ class Sidebar extends Component {
           <ListItem>
             <div className={classes.tutorListContainer}>
               <List disablePadding className={classes.tutorList} >
-                  {this.state.tutors.map(tutor => (
+                {this.state.tutors.map(tutor => (
                   <ListItem
                     key={tutor._id}>
                     <ListItemIcon>
@@ -93,39 +94,40 @@ class Sidebar extends Component {
                       {tutor.first_name + " " + tutor.last_name}
                     </ListItemText>
                   </ListItem>
-                  ))}
+                ))}
               </List>
             </div>
           </ListItem>
         </List>
 
-          <Divider />
-          <List>
-            <div>
-              <ListSubheader inset>Homework</ListSubheader>
-              <ListItem button>
-                <ListItemIcon>
-                  <AssignmentIcon />
-                </ListItemIcon>
-                <ListItemText primary="My Assignments" />
-              </ListItem>
-              <ListItem button>
-                <ListItemIcon>
-                  <AssignmentIcon />
-                </ListItemIcon>
-                <ListItemText primary="Extra Problems" />
-              </ListItem>
-              <ListItem button>
-                <ListItemIcon>
-                  <BookIcon />
-                </ListItemIcon>
-                <ListItemText primary="Useful Readings" />
-              </ListItem>
-            </div>
-          </List>
+        <Divider />
+        <List>
+          <div>
+            <ListSubheader inset>Homework</ListSubheader>
+            <ListItem button>
+              <ListItemIcon>
+                <AssignmentIcon />
+              </ListItemIcon>
+              <ListItemText primary="My Assignments" />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <AssignmentIcon />
+              </ListItemIcon>
+              <ListItemText primary="Extra Problems" />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <BookIcon />
+              </ListItemIcon>
+              <ListItemText primary="Useful Readings" />
+            </ListItem>
+          </div>
+        </List>
 
       </div>
-        );
-      }
-    }
-export default withStyles(StudentSidebarStyle.styles, {withTheme: true })(Sidebar);
+    );
+  }
+}
+
+export default withStyles(StudentSidebarStyle.styles, { withTheme: true })(Sidebar);
