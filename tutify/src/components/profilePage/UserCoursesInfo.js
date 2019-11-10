@@ -19,6 +19,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Avatar from '@material-ui/core/Avatar';
 class UserCoursesInfo extends React.Component {
    render() {
+	   const { classes } = this.props;
      return (
        <Card className={classes.card}  >
            <CardContent>
@@ -42,25 +43,7 @@ class UserCoursesInfo extends React.Component {
              </TableCell>
              <TableCell style ={{fontSize: '12pt'}}>
              ENGR 391
-             </TableCell>
-             <TableCell>
-             </TableCell><TableCell>
-             </TableCell>
-             <TableCell>
-             <Fab variant="extended" color="yellow" aria-label="add" fontSize="small" className={classes.margin}
-             style={{ maxHeight: '25px', background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)'}}>
-             <CloudUploadIcon fontSize="small" style={{width: '15px' ,height:'15px'}}/>
-           &nbsp; View Documents
-           </Fab>
-             </TableCell>
-           </TableRow>
-		   <TableRow >
-             <TableCell padding="none" >
-             <Avatar className={classes.avatar} style={{width: '15px' ,height:'15px'}}></Avatar>
-             </TableCell>
-             <TableCell style ={{fontSize: '12pt'}}>
-             ENGR 392
-             </TableCell>
+</TableCell>
              <TableCell>
              </TableCell><TableCell>
              </TableCell>
@@ -77,8 +60,26 @@ class UserCoursesInfo extends React.Component {
              <Avatar className={classes.avatar} style={{width: '15px' ,height:'15px'}}></Avatar>
              </TableCell>
              <TableCell style ={{fontSize: '12pt'}}>
-             ENGR 301
+             ENGR 392
+</TableCell>
+ <TableCell>
+             </TableCell><TableCell>
              </TableCell>
+             <TableCell>
+             <Fab variant="extended" color="yellow" aria-label="add" fontSize="small" className={classes.margin}
+             style={{ maxHeight: '25px', background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)'}}>
+             <CloudUploadIcon fontSize="small" style={{width: '15px' ,height:'15px'}}/>
+           &nbsp; View Documents
+           </Fab>
+             </TableCell>
+           </TableRow>
+           <TableRow >
+             <TableCell padding="none" >
+             <Avatar className={classes.avatar} style={{width: '15px' ,height:'15px'}}></Avatar>
+             </TableCell>
+             <TableCell style ={{fontSize: '12pt'}}>
+             ENGR 301
+</TableCell>
              <TableCell>
              </TableCell><TableCell>
              </TableCell>
@@ -90,8 +91,7 @@ class UserCoursesInfo extends React.Component {
            </Fab>
              </TableCell>
            </TableRow>
-		   export default withStyles(tutifyStyle.styles, { withTheme: true })(UserCoursesInfo);\
-</TableBody>
+       </TableBody>
      </Table>
      <br />
 </CardContent>
