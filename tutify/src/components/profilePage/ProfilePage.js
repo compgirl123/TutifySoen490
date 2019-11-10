@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Footer from "../Footer";
 import DashBoardNavBar from "./DashBoardNavBar";
 import UserInfo from './UserInfo';
-​import Card from '@material-ui/core/Card';
+import Card from '@material-ui/core/Card';
 
 class ProfilePage extends React.Component {
   constructor(props) {
@@ -17,18 +17,17 @@ class ProfilePage extends React.Component {
       __t: ""
     };
   }
-​
+  
   toggleDrawer = booleanValue => () => {
     this.setState({
       drawerOpened: booleanValue
     });
   };
-​
   componentDidMount() {
     this.checkSession();
+  
   }
-​
-  checkSession = () => {
+	 checkSession = () => {
     fetch('http://localhost:3001/api/checkSession', {
       method: 'GET',
       credentials: 'include'
@@ -44,24 +43,21 @@ class ProfilePage extends React.Component {
         }
       })
       .catch(err => console.log(err));
-  };
-​
-  handleChange(event) {
+  
+	 };
+	handleChange(event) {
     fetch('http://localhost:3001/api/logout', {
       method: 'GET',
       credentials: 'include'
     })
       .then(response => response.json())
       .then(res => {
-        this.setState({ Toggle: false });
-​
-      })
-      .catch(err => console.log(err));
-  };
-​
-  render() {
+	  this.setState({ Toggle: false });
+ })
+ .catch(err => console.log(err));
+ };
+ render() {
     const { classes } = this.props;
-​
     return (
       <React.Fragment>
         <main>

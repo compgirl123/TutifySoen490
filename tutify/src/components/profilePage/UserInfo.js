@@ -41,29 +41,23 @@ class UserInfo extends React.Component {
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
   }
-​
   toggleDrawer = booleanValue => () => {
     this.setState({
       drawerOpened: booleanValue
     });
   };
-​
   handleFeedback = () => {
     this.setState({ open: true })
   }
-​
   handleClickOpen = () => {
     this.setState({ open: true });
   };
-​
   handleClose = () => {
     this.setState({ open: false });
   };
-​
   componentDidMount() {
     this.checkSession();
   }
-​
   handleChange(event) {
     fetch('http://localhost:3001/api/logout', {
       method: 'GET',
@@ -74,10 +68,8 @@ class UserInfo extends React.Component {
         this.setState({ Toggle: false });
       })
       .catch(err => console.log(err));
-  };
-​
+  }; 
   handleChangeValue = e => this.setState({ value: e.target.value });
-​
   checkSession = () => {
     fetch('http://localhost:3001/api/checkSession', {
       method: 'GET',
@@ -99,25 +91,22 @@ class UserInfo extends React.Component {
       })
       .catch(err => console.log(err));
   };
-​
   update = async (value) => {
     await this.setState({
       courses: value
     });
   }
-​
   updateDB = () => {
     var coursesToAdd = [];
     var test = this.state.subjects;
-​
-    for (var z = 0; z < this.state.courses.length; z++) {
+	
+	for (var z = 0; z < this.state.courses.length; z++) {
       var course_found = test.includes(this.state.courses[z]);
       if (course_found === false) {
         coursesToAdd.push(this.state.courses[z])
       }
     }
-​
-    axios.post('http://localhost:3001/api/updateTutor', {
+	axios.post('http://localhost:3001/api/updateTutor', {
       _id: this.state._id,
       subjects: coursesToAdd
     })
@@ -130,7 +119,6 @@ class UserInfo extends React.Component {
       console.log(error);
     });
   };
-​
   updateTutorOptions = () => {
     var updatedProfileValues = [
       this.state.updatedProgramOfStudy,
@@ -138,8 +126,8 @@ class UserInfo extends React.Component {
       this.state.updatedFirstName,
       this.state.updatedLastName
     ];
-​
-    for (var y = 0; y < updatedProfileValues.length; y++) {
+	
+	for (var y = 0; y < updatedProfileValues.length; y++) {
       if (updatedProfileValues[y] === "") {
         if (y === 0) {
           updatedProfileValues[y] = this.state.program_of_study;
@@ -155,8 +143,7 @@ class UserInfo extends React.Component {
         }
       }
     }
-​
-    axios.post('http://localhost:3001/api/updateTutorInfo', {
+	axios.post('http://localhost:3001/api/updateTutorInfo', {
       _id: this.state._id,
       program_of_study: updatedProfileValues[0],
       school: updatedProfileValues[1],
@@ -173,7 +160,6 @@ class UserInfo extends React.Component {
         console.log(error);
       });
   };
-​
   updateStudentOptions = () => {
     var updatedProfileValues = [
       this.state.updatedProgramOfStudy,
@@ -182,8 +168,8 @@ class UserInfo extends React.Component {
       this.state.updatedFirstName,
       this.state.updatedLastName
     ];
-​
-    for (var y = 0; y < updatedProfileValues.length; y++) {
+	
+	for (var y = 0; y < updatedProfileValues.length; y++) {
       if (updatedProfileValues[y] === "") {
         if (y === 0) {
           updatedProfileValues[y] = this.state.program_of_study;
@@ -204,8 +190,7 @@ class UserInfo extends React.Component {
       else {
       }
     }
-​
-    axios.post('http://localhost:3001/api/updateUserInfo', {
+	axios.post('http://localhost:3001/api/updateUserInfo', {
       _id: this.state._id,
       program_of_study: updatedProfileValues[0],
       school: updatedProfileValues[1],
@@ -224,7 +209,6 @@ class UserInfo extends React.Component {
         console.log(error);
       });
   };
-​
   updateInfo = () => {
     if (this.state.__t === "tutor") {
       this.updateTutorOptions();
@@ -233,12 +217,10 @@ class UserInfo extends React.Component {
       this.updateStudentOptions();
     }
   }
-​
   render() {
     const { classes } = this.props;
     const { open } = this.state;
-​
-    return (
+	return (
       <Card className={classes.card}>
                 <React.Fragment>
       <CardContent>
@@ -384,5 +366,4 @@ class UserInfo extends React.Component {
 );
   }
 }
-​
 export default withStyles(tutifyStyle.styles, { withTheme: true })(UserInfo);
