@@ -241,21 +241,21 @@ class UserInfo extends React.Component {
   borderColor : '#FFFFFF'
 }}/>
 ​
-    <Typography color="textSecondary" className={classes.InfoContext}>
+    <Typography  className={classes.InfoContext}>
 ​
       Status: Student
     </Typography>
-    <Typography color="textSecondary" className={classes.InfoContext}>
+    <Typography  className={classes.InfoContext}>
             <br />
 ​
               Email : {this.state.email}
             </Typography>
-            <Typography color="textSecondary" className={classes.InfoContext}>
+            <Typography  className={classes.InfoContext}>
             <br />
 ​
               Program of Study: {this.state.program_of_study}
             </Typography>
-            <Typography color="textSecondary" className={classes.InfoContext}>
+            <Typography  className={classes.InfoContext}>
             <br />
 ​
               School: {this.state.school}
@@ -272,8 +272,7 @@ class UserInfo extends React.Component {
     </CardContent>
     <div>
 ​
-            <br />
-            <br />
+           
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
               <DialogTitle id="simple-dialog-title">Edit Information</DialogTitle>
               <DialogContent>
