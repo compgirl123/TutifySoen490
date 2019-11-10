@@ -74,7 +74,11 @@ class ProfilePage extends React.Component {
                 {/* User Info */}
                 <Grid item xs={4}>
                   <Card>
-                 <Grid item xs = {6}>
+                <UserInfo /> 
+                  </Card>
+                  </Grid>
+
+                  <Grid item xs = {6}>
        <Grid >
          <Paper>
            <UserCoursesInfo />
@@ -87,10 +91,6 @@ class ProfilePage extends React.Component {
          </Paper>
          </Grid>
        </Grid>
-                <UserInfo /> 
-                  </Card>
-                 
-                </Grid>
                 
               </Grid>
             </Container>
