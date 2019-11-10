@@ -21,6 +21,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Avatar from '@material-ui/core/Avatar';
+import MessageIcon from '@material-ui/icons/Message';
 
 class TutorStudentsInfo extends React.Component {
 
@@ -177,14 +178,6 @@ class TutorStudentsInfo extends React.Component {
             My Students
             </Box>
           </Typography>
-
-                     
-      <hr  style={{
-        color: '#FFFFFF',
-        backgroundColor: '#FFFFFF',
-        height: .5,
-        borderColor : '#FFFFFF'
-    }}/>
   
           <Table size="small">
         <TableBody>
@@ -201,8 +194,8 @@ class TutorStudentsInfo extends React.Component {
               <Avatar className={classes.avatar} style={{width: '15px' ,height:'15px'}}></Avatar>
 
               </TableCell>
-              <TableCell style ={{fontSize: '12pt'}}>
-              {student.first_name} 
+              <TableCell style ={{fontSize: '12pt'}} >
+              {student.first_name} {" "}
               {student.last_name}
 
               </TableCell> <TableCell>
@@ -211,11 +204,10 @@ class TutorStudentsInfo extends React.Component {
               <TableCell>
               <Fab
           variant="extended"
-          color="yellow"
           aria-label="add"
-          fontSize="small"
-          className={classes.margin} style={{ maxHeight: '25px'}}
+          className={classes.margin} style={{ maxHeight: '25px'}} labelStyle={{ fontSize: '6px'}}
         >
+           <MessageIcon fontSize="small" style={{width: '15px' ,height:'15px'}}/>   &nbsp;
            Message
         </Fab>
               </TableCell>
