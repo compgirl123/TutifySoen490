@@ -8,6 +8,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { List } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import PublishIcon from '@material-ui/icons/Publish';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
 
 export class TutorSidebar extends Component {
   constructor(props) {
@@ -49,7 +50,7 @@ export class TutorSidebar extends Component {
               </ListItemIcon>
               <ListItemText primary="Upload Documents" />
             </ListItem>
-            <ListItem button component="a" href="/courses">
+            <ListItem button component="a" href="/upload">
               <ListItemIcon>
                 <MenuBookIcon />
               </ListItemIcon>

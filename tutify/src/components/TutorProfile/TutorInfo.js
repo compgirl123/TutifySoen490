@@ -232,22 +232,22 @@ class TutorInfo extends React.Component {
           borderColor : '#FFFFFF'
       }}/>
     
-            <Typography color="textSecondary" className={classes.InfoContext}>
+            <Typography className={classes.InfoContext}>
 
               Status: Tutor
             </Typography>
-            <Typography color="textSecondary" className={classes.InfoContext}>
+            <Typography className={classes.InfoContext}>
             <br />
 
               Email : {this.state.email}
             </Typography>
-            <Typography color="textSecondary" className={classes.InfoContext}>
+            <Typography  className={classes.InfoContext}>
             <br />
 
               Program of Study: {this.state.program_of_study}
             </Typography>
             
-            <Typography color="textSecondary" className={classes.InfoContext}>
+            <Typography className={classes.InfoContext}>
             <br />
 
               School: {this.state.school}
