@@ -1,13 +1,10 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import Title from './Title';
 import * as tutifyStyle from '../../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
-import CourseSelection from '../profilePage/CourseSelection';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
@@ -15,6 +12,11 @@ import TextField from '@material-ui/core/TextField';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import swal from 'sweetalert';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Fab from '@material-ui/core/Fab';
+import EditIcon from '@material-ui/icons/Edit';
+import Box from '@material-ui/core/Box';
 
 class UserInfo extends React.Component {
   constructor(props) {
@@ -39,29 +41,23 @@ class UserInfo extends React.Component {
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
   }
-
   toggleDrawer = booleanValue => () => {
     this.setState({
       drawerOpened: booleanValue
     });
   };
-
   handleFeedback = () => {
     this.setState({ open: true })
   }
-
   handleClickOpen = () => {
     this.setState({ open: true });
   };
-
   handleClose = () => {
     this.setState({ open: false });
   };
-
   componentDidMount() {
     this.checkSession();
   }
-
   handleChange(event) {
     fetch('http://localhost:3001/api/logout', {
       method: 'GET',
@@ -72,10 +68,8 @@ class UserInfo extends React.Component {
         this.setState({ Toggle: false });
       })
       .catch(err => console.log(err));
-  };
-
+  }; 
   handleChangeValue = e => this.setState({ value: e.target.value });
-
   checkSession = () => {
     fetch('http://localhost:3001/api/checkSession', {
       method: 'GET',
@@ -97,25 +91,22 @@ class UserInfo extends React.Component {
       })
       .catch(err => console.log(err));
   };
-
   update = async (value) => {
     await this.setState({
       courses: value
     });
   }
-
   updateDB = () => {
     var coursesToAdd = [];
     var test = this.state.subjects;
-
-    for (var z = 0; z < this.state.courses.length; z++) {
+	
+	for (var z = 0; z < this.state.courses.length; z++) {
       var course_found = test.includes(this.state.courses[z]);
       if (course_found === false) {
         coursesToAdd.push(this.state.courses[z])
       }
     }
-
-    axios.post('http://localhost:3001/api/updateTutor', {
+	axios.post('http://localhost:3001/api/updateTutor', {
       _id: this.state._id,
       subjects: coursesToAdd
     })
@@ -128,7 +119,6 @@ class UserInfo extends React.Component {
       console.log(error);
     });
   };
-
   updateTutorOptions = () => {
     var updatedProfileValues = [
       this.state.updatedProgramOfStudy,
@@ -136,8 +126,8 @@ class UserInfo extends React.Component {
       this.state.updatedFirstName,
       this.state.updatedLastName
     ];
-
-    for (var y = 0; y < updatedProfileValues.length; y++) {
+	
+	for (var y = 0; y < updatedProfileValues.length; y++) {
       if (updatedProfileValues[y] === "") {
         if (y === 0) {
           updatedProfileValues[y] = this.state.program_of_study;
@@ -153,8 +143,7 @@ class UserInfo extends React.Component {
         }
       }
     }
-
-    axios.post('http://localhost:3001/api/updateTutorInfo', {
+	axios.post('http://localhost:3001/api/updateTutorInfo', {
       _id: this.state._id,
       program_of_study: updatedProfileValues[0],
       school: updatedProfileValues[1],
@@ -171,7 +160,6 @@ class UserInfo extends React.Component {
         console.log(error);
       });
   };
-
   updateStudentOptions = () => {
     var updatedProfileValues = [
       this.state.updatedProgramOfStudy,
@@ -180,8 +168,8 @@ class UserInfo extends React.Component {
       this.state.updatedFirstName,
       this.state.updatedLastName
     ];
-
-    for (var y = 0; y < updatedProfileValues.length; y++) {
+	
+	for (var y = 0; y < updatedProfileValues.length; y++) {
       if (updatedProfileValues[y] === "") {
         if (y === 0) {
           updatedProfileValues[y] = this.state.program_of_study;
@@ -202,8 +190,7 @@ class UserInfo extends React.Component {
       else {
       }
     }
-
-    axios.post('http://localhost:3001/api/updateUserInfo', {
+	axios.post('http://localhost:3001/api/updateUserInfo', {
       _id: this.state._id,
       program_of_study: updatedProfileValues[0],
       school: updatedProfileValues[1],
@@ -222,7 +209,6 @@ class UserInfo extends React.Component {
         console.log(error);
       });
   };
-
   updateInfo = () => {
     if (this.state.__t === "tutor") {
       this.updateTutorOptions();
@@ -231,85 +217,69 @@ class UserInfo extends React.Component {
       this.updateStudentOptions();
     }
   }
-
   render() {
     const { classes } = this.props;
     const { open } = this.state;
-
-    return (
-      <Paper className={classes.paper}>
-        <React.Fragment>
-          <Title> {this.state.__t} info</Title>
-          <Typography component="p" variant="h6">
-            {this.state.first_name + " " + this.state.last_name}
-          </Typography>
-          <Typography component="p" variant="h7">
-            Email : {this.state.email}
-          </Typography>
-          <Typography color="textSecondary" className={classes.InfoContext}>
-            Program of Study: {this.state.program_of_study}
-          </Typography>
-          <Typography color="textSecondary" className={classes.InfoContext}>
-            {this.state.__t === "tutor"
-              ? "Courses Taught : " + this.state.subjects
-              : this.state.__t === "student"
-                ? "Education Level : " + this.state.education_level
-                :
-                <br />
-            }
-          </Typography>
-          <Typography color="textSecondary" className={classes.InfoContext}>
-            School: {this.state.school}
-
-          </Typography>
-          <Typography color="textSecondary" className={classes.InfoContext}>
-            Status: {this.state.__t}
-          </Typography>
-
-          <div>
-            <Grid item xs={6}>
-              {this.state.__t === "tutor"
-                ? <CourseSelection
-                  updateCourses={this.update}
-                />
-                :
-                <br />
-              }
-            </Grid>
-
-            {this.state.__t === "tutor"
-              ? <Button
-                type="button"
-                fullWidth
-                variant="contained"
-                className="submit"
-                onClick={() => { this.updateDB(); }}
-              >
-                Save Course Options
-            </Button>
-              : this.state.__t === "student"
-                ? <Button
-                  type="button"
-                  fullWidth
-                  variant="contained"
-                  className="submit"
-                  onClick={() => { this.handleClickOpen(); }}
-                >
-                  Edit User Info
-            </Button>
-                :
-                <p></p>
-            }
-
+	return (
+      <Card className={classes.card}>
+                <React.Fragment>
+      <CardContent>
+​
+      <img src={"https://i.imgur.com/L6lDhbz.jpg"} alt="Profile" width="100%" height="40%"></img>
+            </CardContent>
+            <CardContent>
+      <Typography component="p" variant="h5" >
+    <Box fontWeight="fontWeightBold">
+      {this.state.first_name + " " + this.state.last_name}
+      </Box>
+    </Typography>
+   
+<hr  style={{
+  color: '#FFFFFF',
+  backgroundColor: '#FFFFFF',
+  height: .5,
+  borderColor : '#FFFFFF'
+}}/>
+​
+    <Typography  className={classes.InfoContext}>
+​
+      Status: Student
+    </Typography>
+    <Typography  className={classes.InfoContext}>
             <br />
+​
+              Email : {this.state.email}
+            </Typography>
+            <Typography  className={classes.InfoContext}>
             <br />
+​
+              Program of Study: {this.state.program_of_study}
+            </Typography>
+            <Typography  className={classes.InfoContext}>
+            <br />
+​
+              School: {this.state.school}
+  
+            </Typography>
+            <br />
+            <Fab variant="extended" aria-label="edit"  
+               justify = "center"          
+               onClick={() => { this.handleClickOpen(); }}
+               style = {{background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)'}}>
+              <EditIcon/>
+              Edit Info
+              </Fab>
+    </CardContent>
+    <div>
+​
+           
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
               <DialogTitle id="simple-dialog-title">Edit Information</DialogTitle>
               <DialogContent>
                 <DialogContentText>
                   To edit your information, please change the desired value fields and click save.
             </DialogContentText>
-
+​
                 <TextField
                   margin="dense"
                   id="firstName"
@@ -320,7 +290,7 @@ class UserInfo extends React.Component {
                   type="firstName"
                   fullWidth
                 />
-
+​
                 <TextField
                   margin="dense"
                   id="lastName"
@@ -331,7 +301,7 @@ class UserInfo extends React.Component {
                   type="lastName"
                   fullWidth
                 />
-
+​
                 <TextField
                   margin="dense"
                   id="programOfStudy"
@@ -342,7 +312,7 @@ class UserInfo extends React.Component {
                   type="programOfStudy"
                   fullWidth
                 />
-
+​
                 <TextField
                   margin="dense"
                   id="school"
@@ -365,7 +335,7 @@ class UserInfo extends React.Component {
                   :
                   <br />
                 }
-
+​
               </DialogContent>
               <Grid
                 container
@@ -384,28 +354,15 @@ class UserInfo extends React.Component {
                   </DialogActions>
                 </Grid>
               </Grid>
-
+​
             </Dialog>
-            {this.state.__t === "tutor"
-              ? <Button
-                type="button"
-                fullWidth
-                variant="contained"
-                className="submit"
-                onClick={() => { this.handleClickOpen(); }}
-              >
-                Edit Tutor Info
-             </Button>
-              :
-              <p></p>
-            }
-
+           
           </div>
-
-
+​
+​
         </React.Fragment>
-      </Paper>
-      );
+</Card>
+);
   }
 }
 
