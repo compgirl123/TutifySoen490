@@ -79,8 +79,15 @@ exports.assignTutor = async function (req, res) {
     Student.findByIdAndUpdate(student_id,
         { "$push": { "tutors": tutor_id } },
         { "new": true, "upsert": true },
-        function (err) {
+        function (err, user) {
             if (err) throw err;
+            //update the session
+            req.session.userInfo.tutors = user.tutors;
+            req.session.save( function(err) {
+                req.session.reload( function (err) {
+                    // session reloaded
+                });
+            });
         }
     );
 
@@ -91,6 +98,10 @@ exports.assignTutor = async function (req, res) {
             if (err) throw err;
         }
     );
+    
+
+
+    
 }
 
 // this function encrypts the password for security reasons
@@ -204,7 +215,6 @@ exports.authUser = async function (req, res) {
                         });
                     }
                     else {
-
                         Tutor.findOne({ _id: user.tutor_profile }, function (err, user1) {
                             req.session.userInfo = user1;
                             req.session.isLoggedIn = true;

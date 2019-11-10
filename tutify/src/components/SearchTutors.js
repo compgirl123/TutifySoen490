@@ -38,6 +38,8 @@ export class SearchTutors extends Component {
       selectedIndex: 0,
       anchorEl: null,
       displayTutor: false,
+      user_id: null,
+      connectedTutors: []
     };
     // this.filterList = this.filterList.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -47,7 +49,7 @@ export class SearchTutors extends Component {
 
   // when component mounts, first thing it does is fetch all existing data in our db
   componentDidMount() {
-    this.getDataFromDb();
+    this.checkSession();
   }
 
   handleClickMenu = event => {
@@ -85,9 +87,28 @@ export class SearchTutors extends Component {
   // Uses our backend api to fetch tutors from our database
   getDataFromDb = () => {
     fetch('http://localhost:3001/api/getTutor')
-    .then((data) => data.json())
-    .then((res) => this.setState({ data: res.data, filteredData: res.data }));
+      .then((data) => data.json())
+      .then((res) => {
+        this.setState({ data: res.data, filteredData: res.data });});
   }
+
+  checkSession = () => {
+    fetch('http://localhost:3001/api/checkSession', {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then(response => response.json())
+      .then(res => {
+        if (res.isLoggedIn) {
+          this.setState({
+            user_id: res.userInfo._id,
+            connectedTutors: res.userInfo.tutors
+          });
+        }
+        this.getDataFromDb();
+      })
+      .catch(err => console.log(err));
+  };
 
   // filters the list of tutors displayed
   handleChange(e) {
@@ -212,7 +233,12 @@ export class SearchTutors extends Component {
               {/* End hero unit */}
               <Grid container spacing={4}>
                 {filteredData.map((tutor, i) => (
-                  <TutorCard key={i} tutor={tutor} />
+                  <TutorCard
+                    key={i}
+                    tutor={tutor}
+                    user_id= {this.state.user_id}
+                    connectedTutors= {this.state.connectedTutors}
+                  />
                 ))}
               </Grid>
             </Container>

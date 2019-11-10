@@ -83,4 +83,3 @@ CourseSelection.propTypes = {
 };
 
 export default withStyles(tutifyStyle.styles, { withTheme: true })(CourseSelection);
-

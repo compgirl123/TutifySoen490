@@ -8,8 +8,8 @@ import Footer from "../Footer";
 import TutorInfo from './TutorInfo';
 import TutorCoursesInfo from './TutorCoursesInfo';
 import TutorStudentsInfo from './TutorStudentsInfo';
-
 import DashBoardNavBar from '../profilePage/DashBoardNavBar'
+
 
 class TutorProfile extends React.Component {
   constructor(props) {

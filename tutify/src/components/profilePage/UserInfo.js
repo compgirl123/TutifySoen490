@@ -365,4 +365,5 @@ class UserInfo extends React.Component {
 );
   }
 }
+
 export default withStyles(tutifyStyle.styles, { withTheme: true })(UserInfo);
