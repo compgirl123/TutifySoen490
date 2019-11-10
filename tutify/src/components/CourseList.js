@@ -14,7 +14,18 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import axios from "axios";
+import swal from 'sweetalert';
 
+const assignTutor = (e, userID, tutorID) => {
+  axios.post('http://localhost:3001/api/assignTutor', {
+      student_id: userID,
+      tutor_id: tutorID,
+  });
+  swal("Request successfully sent!", "", "success")
+      .then((value) => {
+        window.location = "/search";
+      });
+}
 
 class CourseList extends React.Component {
 
@@ -22,15 +33,11 @@ class CourseList extends React.Component {
     super(props);
     this.state = {
       tutor_id: "",
-      tutorName: {},
+      tutorName: "",
       tutorSubjects: [],
       user_id: "",
       drawerOpened: false
     };
-    this.tutor = {
-      name: "",
-      subjects: ["Englishies", "French", "Memes"]
-    }
   }
   toggleDrawer = booleanValue => () => {
     this.setState({
@@ -46,17 +53,18 @@ class CourseList extends React.Component {
     this.checkSession()
   }
 
-  getTutorFromDB = () => {  
+  getTutorFromDB = () => {
     axios.get('http://localhost:3001/api/getTutor', {
-        params: {
-          ID: this.state.tutor_id
-        }
+      params: {
+        ID: this.state.tutor_id
+      }
     }).then((res) => {
-          this.setState({
-            tutorName: res.data.tutor.first_name,
-            tutorSubjects: res.data.tutor.subjects,
-          });
-      })
+      this.setState({
+        tutorName: res.data.tutor.first_name + " " + res.data.tutor.last_name,
+        tutorSubjects: res.data.tutor.courses,
+      });
+      console.log(this.state.tutorSubjects)
+    })
       .catch(err => console.log(err));
   }
 
@@ -90,31 +98,32 @@ class CourseList extends React.Component {
 
               <Container maxWidth="lg" className={classes.container}>
                 <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                  Courses Offered by {this.state.tutorName.first_name} {this.state.tutorName.last_name}
+                  Courses Offered by {this.state.tutorName}
                 </Typography>
                 <Grid container spacing={5}>
-                  {this.state.tutorSubjects.map((sub, index) => (
+                  {this.state.tutorSubjects.map((course, index) => (
                     <Grid item xs={4} md={4} lg={4} key={index}>
                       <Card className={classes.card}>
                         <CardActionArea>
                           <CardMedia
                             src="/"
                             className={classes.media}
-                            title={sub}
+                            title={course.name}
                           />
                           <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">
-                              {sub}
+                              {course.name}
                             </Typography>
                             <Typography variant="body2" color="textSecondary" component="p">
-                              This course is designed for elementary students. Grammar, vocabulary, composition, language in context.
-                    </Typography>
+                              {course.description}
+                            </Typography>
                           </CardContent>
                         </CardActionArea>
                         <CardActions>
-                          <Button type="button" size="small" fullWidth variant="contained" className="submit">
+                          <Button type="button" size="small" fullWidth variant="contained" className="submit" 
+                          onClick={event => assignTutor(event, this.state.user_id, this.state.tutor_id)}>
                             Enroll
-                  </Button>
+                          </Button>
                         </CardActions>
                       </Card>
                     </Grid>
@@ -124,13 +133,10 @@ class CourseList extends React.Component {
               <main>
                 {/* Hero unit */}
 
-
               </main>
               {/* Footer */}
               <Footer />
-
             </main>
-
 
           </main>
         </React.Fragment>

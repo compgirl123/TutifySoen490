@@ -10,7 +10,7 @@ exports.getTutors = async function (req, res) {
 
 // this method fetches one tutor in our database
 exports.getTutor = async function (req, res) {
-    Tutor.findOne({ _id: req.query.ID }).populate('students').
+    Tutor.findOne({ _id: req.query.ID }).populate('courses').
         exec(function (err, tutor) {
             if (err) return handleError(err);    
             return res.json({ success: true, tutor: tutor });
