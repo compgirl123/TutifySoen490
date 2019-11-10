@@ -97,7 +97,7 @@ class MyCourses extends React.Component {
                               {course.name}
                             </Typography>
                             <Typography variant="body2" color="textSecondary" component="p">
-                              This course is designed for elementary students. Grammar, vocabulary, composition, language in context.
+                              {course.description? course.description: ""}
                          </Typography>
                           </CardContent>
                         </CardActionArea>

@@ -26,7 +26,6 @@ exports.updateUser = async function (req, res) {
     });
 };
 
-
 // this method overwrites existing user in our database
 exports.updateUserInfo = async function (req, res) {
     const { _id, school,program_of_study,education_level,first_name,last_name } = req.body;
@@ -50,33 +49,34 @@ exports.updateUserInfo = async function (req, res) {
 
 // this method assigns a tutor to the user & vice-versa
 exports.assignTutor = async function (req, res) {
-    const { student_id, tutor_id } = req.body;
-
-    Student.findByIdAndUpdate(student_id,
-        { "$push": { "tutors": tutor_id } },
-        { "new": true, "upsert": true },
-        function (err, user) {
-            if (err) throw err;
-            //update the session
-            req.session.userInfo.tutors = user.tutors;
-            req.session.save( function(err) {
-                req.session.reload( function (err) {
-                    // session reloaded
-                });
-            });
-        }
-    );
+    const { student_id, tutor_id, course_id } = req.body;
 
     Tutor.findByIdAndUpdate(tutor_id,
         { "$push": { "students": student_id } },
         { "new": true, "upsert": true },
-        function (err) {
+        function (err, tutor) {
             if (err) throw err;
+
+            Student.findByIdAndUpdate(student_id,
+                { "$push": { "tutors": tutor_id,  "courses": course_id, } },
+                { "new": true, "upsert": true },
+                function (err, user) {
+                    if (err) throw err;
+
+                    //update the session
+                    req.session.userInfo.courses.push(course_id);
+                    req.session.userInfo.tutors.push(tutor);
+                    req.session.save( function(err) {
+                        req.session.reload( function (err) {
+                            // session reloaded
+                        });
+                    });
+                }
+            );
         }
     );
+
     
-
-
     
 }
 
@@ -182,7 +182,8 @@ exports.authUser = async function (req, res) {
                     req.session.email = user.email;
                     console.log(null, 'login successfully');
                     if (user.user_profile) {
-                        Student.findOne({ _id: user.user_profile }, function (err, user1) {
+                        Student.findOne({ _id: user.user_profile }).populate('tutors').
+                        exec(function (err, user1) {
                             req.session.userInfo = user1;
                             req.session.isLoggedIn = true;
                             req.session.save();
