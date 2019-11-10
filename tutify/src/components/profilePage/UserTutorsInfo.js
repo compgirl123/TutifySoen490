@@ -15,8 +15,8 @@ import Avatar from '@material-ui/core/Avatar';
 import MessageIcon from '@material-ui/icons/Message';
 class UserTutorsInfo extends React.Component {
 render() {
-   const { classes } = this.props;
-   const { open } = this.state;
+  const { classes } = this.props;
+   
    return (
      <Card className={classes.card} >
          <CardContent>
