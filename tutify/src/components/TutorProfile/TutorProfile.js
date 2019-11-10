@@ -1,5 +1,4 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
 import * as tutifyStyle from '../../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Container from '@material-ui/core/Container';
@@ -7,7 +6,10 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Footer from "../Footer";
 import TutorInfo from './TutorInfo';
-import TutorDashBoardNavBar from './TutorDashboardNavBar'
+import TutorCoursesInfo from './TutorCoursesInfo';
+import TutorStudentsInfo from './TutorStudentsInfo';
+import DashBoardNavBar from '../profilePage/DashBoardNavBar'
+
 
 class TutorProfile extends React.Component {
   constructor(props) {
@@ -63,31 +65,37 @@ class TutorProfile extends React.Component {
     return (
     <React.Fragment>
       <main>
-        <TutorDashBoardNavBar/>
+        <DashBoardNavBar/>
        <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-        <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                  My Profile
-                  
-                 {/*{this.props.location.state.color}*/} 
-        </Typography>
+          
         <Grid container spacing={4}>
 
               {/* User Info */}
-          <Grid item lg={6}>
+              <Grid item xs = {5}>
           <Paper>           
             <TutorInfo />
           </Paper>
         </Grid>
+        
+        <Grid item xs = {6}>
+        <Grid >
 
-
-           {/* Adding Picture */}       
-           <Grid item xs={12} md={6} lg={6}>
-          <img src="https://i.imgur.com/L6lDhbz.jpg" alt = "Profile">
-          </img>        
+          <Paper>           
+            <TutorCoursesInfo />
+          </Paper>
           </Grid>
-          
+          <br />
+
+          <Grid >
+          <Paper>           
+            <TutorStudentsInfo />
+          </Paper>
+          </Grid>
+
+        </Grid>
+
         </Grid>
       </Container>
         <main>
