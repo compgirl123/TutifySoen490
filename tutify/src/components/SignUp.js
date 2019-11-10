@@ -293,8 +293,8 @@ class SignUp extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div className={classes.container}>
-        <NavBar />
+      <div className={classes.container}> 
+      <NavBar />
         <Container component="main">
           <CssBaseline />
           <div className={classes.paper}>
@@ -454,9 +454,9 @@ class SignUp extends React.Component {
               </FormControl>
             </Grid>         
             <Grid item xs={6}>  
-            <form autoComplete="off">
-              <FormControl >
-                <InputLabel htmlFor="school" fullWidth>School Name</InputLabel>
+         
+              <FormControl autoComplete="off">
+                <InputLabel htmlFor="school" >School Name</InputLabel>
                 <Select
                   name="school"
                   value={school}
@@ -476,7 +476,7 @@ class SignUp extends React.Component {
                 </Select>
                 {hasError && <FormHelperText>This is required!</FormHelperText>}
               </FormControl>
-                  </form>
+             
                 </Grid>
                 <Grid item xs={6}>
                 </Grid>
