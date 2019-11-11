@@ -80,9 +80,6 @@ class MyCourses extends React.Component {
               <div className={classes.appBarSpacer} />
 
               <Container maxWidth="lg" className={classes.container}>
-                <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                  My courses
-                </Typography>
                 <Grid container spacing={5}>
                   {courses.map((course, i) => (
                     <Grid item key={i} xs={4} md={4} lg={4}>
