@@ -121,9 +121,8 @@ export class NavBar extends Component {
                   <Login />
                 </Button>
 
-                <Button href="/signup">
                   <SignUp />
-                </Button>
+               
               </div>
             }
 

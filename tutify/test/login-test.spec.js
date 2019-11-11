@@ -3,7 +3,6 @@ import InputBase from '@material-ui/core/InputBase';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Login, { Login as LoginClass } from "./../src/components/Login";
-import SearchTutors, { SearchTutors as SearchTutorsClass } from "./../src/components/SearchTutors";
 import { createMount } from '@material-ui/core/test-utils';
 import { configure } from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";

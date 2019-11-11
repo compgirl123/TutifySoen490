@@ -13,7 +13,7 @@ import Footer from './Footer';
 import './style.css';
 import swal from 'sweetalert';
 
-class Login extends React.Component {
+export class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

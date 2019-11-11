@@ -18,7 +18,7 @@ import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
 import Box from '@material-ui/core/Box';
 
-class UserInfo extends React.Component {
+export class UserInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -369,7 +369,7 @@ class UserInfo extends React.Component {
                 </Grid>
                 <Grid item>
                   <DialogActions>
-                    <Button onClick={this.updateInfo}>Update Values</Button>
+                    <Button onClick={this.updateInfo} id="UpdateValue">Update Values</Button>
                   </DialogActions>
                 </Grid>
               </Grid>
