@@ -19,6 +19,9 @@ router.post('/updateTutor', tutorController.updateTutor);
 
 router.post('/updateTutorInfo', tutorController.updateTutorInfo);
 
+router.get('/getTutorCourses', tutorController.getTutorCourses);
+
+
 // -------- USER ROUTES --------- // 
 
 router.get('/getUser', userController.getUser);
