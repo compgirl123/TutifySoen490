@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var session = require('express-session');
 
-
 // Controllers
 var accountController = require('./controllers/account.controller')
 var appointmentController = require('./controllers/appointment.controller')

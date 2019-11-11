@@ -22,7 +22,7 @@ function ConnectButton(props) {
     const isConnected = props.isConnected;
     const classes = props.classes;
     const tutor = props.tutor;
-    var url = "/courselist/"+props.tutor._id;
+    var url = "/courselist/" + props.tutor._id;
     if (!isConnected) {
         return <Button component="a" href={url} className={classes.connect} >Connect with {tutor.first_name}</Button>
     }
@@ -60,12 +60,11 @@ class TutorCard extends Component {
     checkIfConnected(tutorID) {
         return this.state.connectedTutors.some(item => item._id === tutorID)
     }
-    
+
     render() {
-        const { classes } = this.props
-        const { tutor } = this.props
-        const { open } = this.state
-        const { scroll } = this.state
+        const { classes, tutor } = this.props
+        const { open, scroll } = this.state
+
         return (
             <Grid item xs={12} sm={6} md={4}>
                 <Dialog
@@ -107,7 +106,7 @@ class TutorCard extends Component {
                             <Typography variant="h5">
                                 {tutor.first_name} {tutor.last_name}
                             </Typography>
-                            { tutor.description ? tutor.description : ""}
+                            {tutor.description ? tutor.description : ""}
                         </DialogContentText>
                         <DialogContentText>
                             <Typography>
@@ -178,7 +177,6 @@ class TutorCard extends Component {
                                 ))
                             }
                             <br />
-
                         </Typography>
                     </CardContent>
                 </Card>

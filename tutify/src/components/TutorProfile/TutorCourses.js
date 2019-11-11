@@ -16,13 +16,13 @@ import Grid from '@material-ui/core/Grid';
 
 
 class TutorCourses extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
       drawerOpened: false
     };
   }
+
   toggleDrawer = booleanValue => () => {
     this.setState({
       drawerOpened: booleanValue
@@ -33,85 +33,83 @@ class TutorCourses extends React.Component {
     const { classes } = this.props;
 
     return (
-    <Paper className={classes.paper}>
-      <React.Fragment>
-        <main>
-          <TutorDashBoardNavBar />
-          <main className={classes.content}>
-            <div className={classes.appBarSpacer} />
-            
-            <Container maxWidth="lg" className={classes.container}>
-              <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                Courses Offered
-        </Typography>
-        <Grid container spacing={5}>
-        <Grid item xs={4} md={4} lg={4}>
-        <Card className={classes.card}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          title="French"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            French
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            This course is designed for elementary students. Grammar, vocabulary, composition, language in context.
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-      <Button type="button" size="small" fullWidth  className="submit">
-          View Documents
-        </Button>
-        <Button type="button" size="small" fullWidth className="submit">
-        Upload Document
-        </Button>
-      </CardActions>
-    </Card>
-    </Grid>
-    <Grid item xs={4} md={4} lg={4}>
-        <Card className={classes.card}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          title="French"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            English
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            This course is designed for elementary students. Grammar, vocabulary, composition, language in context.
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-      <Button type="button" size="small" fullWidth className="submit">
-        View Documents
-        </Button>
-        <Button type="button" size="small" fullWidth className="submit">
-        Upload Document
-        </Button>
-      </CardActions>
-    </Card>
-    </Grid>
-    </Grid>
-            </Container>
-            <main>
-              {/* Hero unit */}
+      <Paper className={classes.paper}>
+        <React.Fragment>
+          <main>
+            <TutorDashBoardNavBar />
+            <main className={classes.content}>
+              <div className={classes.appBarSpacer} />
 
+              <Container maxWidth="lg" className={classes.container}>
+                <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
+                  Courses Offered
+                </Typography>
+                <Grid container spacing={5}>
+                  <Grid item xs={4} md={4} lg={4}>
+                    <Card className={classes.card}>
+                      <CardActionArea>
+                        <CardMedia
+                          className={classes.media}
+                          title="French"
+                        />
+                        <CardContent>
+                          <Typography gutterBottom variant="h5" component="h2">
+                            French
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary" component="p">
+                            This course is designed for elementary students. Grammar, vocabulary, composition, language in context.
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                      <CardActions>
+                        <Button type="button" size="small" fullWidth className="submit">
+                          View Documents
+                        </Button>
+                        <Button type="button" size="small" fullWidth className="submit">
+                          Upload Document
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                  <Grid item xs={4} md={4} lg={4}>
+                    <Card className={classes.card}>
+                      <CardActionArea>
+                        <CardMedia
+                          className={classes.media}
+                          title="French"
+                        />
+                        <CardContent>
+                          <Typography gutterBottom variant="h5" component="h2">
+                            English
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary" component="p">
+                            This course is designed for elementary students. Grammar, vocabulary, composition, language in context.
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                      <CardActions>
+                        <Button type="button" size="small" fullWidth className="submit">
+                          View Documents
+                        </Button>
+                        <Button type="button" size="small" fullWidth className="submit">
+                          Upload Document
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                </Grid>
+              </Container>
+              <main>
+                {/* Hero unit */}
+
+              </main>
+              {/* Footer */}
+              <Footer />
 
             </main>
-            {/* Footer */}
-            <Footer />
 
           </main>
-
-
-        </main>
-      </React.Fragment>
+        </React.Fragment>
       </Paper>
     );
   }

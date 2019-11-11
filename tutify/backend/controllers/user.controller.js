@@ -21,24 +21,22 @@ exports.findStudents = async function (req, res) {
     var count = 0;
     const { students } = req.body;
     var users = [];
-    
 
     for (var z = 0; z < students.length; z++) {
-    Student.findOne({ _id: students[z] }, function (err, user1) {
-        if (err) {
-            
-        };
-        users.push(user1)
-        count++;
+        Student.findOne({ _id: students[z] }, function (err, user1) {
+            if (err) {
 
-        if(count == students.length){
-            
-            return res.json({ success: true, data: users});
+            };
+            users.push(user1)
+            count++;
+
+            if (count == students.length) {
+
+                return res.json({ success: true, data: users });
             }
-        
-    });
-}
 
+        });
+    }
 };
 
 // this method overwrites existing user in our database
@@ -52,21 +50,25 @@ exports.updateUser = async function (req, res) {
 
 // this method overwrites existing user in our database
 exports.updateUserInfo = async function (req, res) {
-    const { _id, school,program_of_study,education_level,first_name,last_name } = req.body;
+    const { _id, school, program_of_study, education_level, first_name, last_name } = req.body;
     Student.findByIdAndUpdate(_id,
-        {$set: { "school" : school,  "program_of_study":program_of_study, "education_level": education_level, 
-                 "first_name": first_name,"last_name":last_name } },
+        {
+            $set: {
+                "school": school, "program_of_study": program_of_study, "education_level": education_level,
+                "first_name": first_name, "last_name": last_name
+            }
+        },
         { "new": true, "upsert": true },
         (err, user) => {
             if (err) return res.json({ success: false, error: err });
             //update the session
-            req.session.userInfo = user;       
-            req.session.save( function(err) {
-                req.session.reload( function (err) {
+            req.session.userInfo = user;
+            req.session.save(function (err) {
+                req.session.reload(function (err) {
                     //session reloaded
                     return res.json({ success: true, userInfo: user });
                 });
-            });       
+            });
         }
     );
 };
@@ -82,7 +84,7 @@ exports.assignTutor = async function (req, res) {
             if (err) throw err;
 
             Student.findByIdAndUpdate(student_id,
-                { "$push": { "tutors": tutor_id,  "courses": course_id, } },
+                { "$push": { "tutors": tutor_id, "courses": course_id, } },
                 { "new": true, "upsert": true },
                 function (err, user) {
                     if (err) throw err;
@@ -90,8 +92,8 @@ exports.assignTutor = async function (req, res) {
                     //update the session
                     req.session.userInfo.courses.push(course_id);
                     req.session.userInfo.tutors.push(tutor);
-                    req.session.save( function(err) {
-                        req.session.reload( function (err) {
+                    req.session.save(function (err) {
+                        req.session.reload(function (err) {
                             // session reloaded
                         });
                     });
@@ -99,9 +101,6 @@ exports.assignTutor = async function (req, res) {
             );
         }
     );
-
-    
-    
 }
 
 // this function encrypts the password for security reasons
@@ -207,13 +206,13 @@ exports.authUser = async function (req, res) {
                     console.log(null, 'login successfully');
                     if (user.user_profile) {
                         Student.findOne({ _id: user.user_profile }).populate('tutors').
-                        exec(function (err, user1) {
-                            req.session.userInfo = user1;
-                            req.session.isLoggedIn = true;
-                            req.session.save();
-                            res.send(req.session);
-                            return res.status(200).send();
-                        });
+                            exec(function (err, user1) {
+                                req.session.userInfo = user1;
+                                req.session.isLoggedIn = true;
+                                req.session.save();
+                                res.send(req.session);
+                                return res.status(200).send();
+                            });
                     }
                     else {
                         Tutor.findOne({ _id: user.tutor_profile }, function (err, user1) {
@@ -254,7 +253,6 @@ exports.checkSession = async function (req, res) {
 
 };
 
-
 // this method removes existing user in our database
 exports.deleteUser = async function (req, res) {
     const { id } = req.body;
@@ -268,7 +266,7 @@ exports.deleteUser = async function (req, res) {
 exports.getUserCourses = async function (req, res) {
     Student.findOne({ _id: req.session.userInfo._id }).populate('courses').
         exec(function (err, student) {
-            if (err) return handleError(err);        
+            if (err) return handleError(err);
             return res.json({ success: true, data: student.courses });
         });
 };

@@ -44,13 +44,13 @@ export class TutorSidebar extends Component {
               <ListItemText primary="My Profile" />
             </ListItem>
 
-            <ListItem button component="a" href="/upload">
+            <ListItem button component="a" href="/tutor">
               <ListItemIcon>
                 <PublishIcon />
               </ListItemIcon>
               <ListItemText primary="Upload Documents" />
             </ListItem>
-            <ListItem button component="a" href="/upload">
+            <ListItem button component="a" href="/tutor">
               <ListItemIcon>
                 <MenuBookIcon />
               </ListItemIcon>
@@ -62,9 +62,6 @@ export class TutorSidebar extends Component {
               </ListItemIcon>
               <ListItemText primary="My Students" />
             </ListItem>
-
-            {/*To Be used in a later iteration */}
-
             <ListItem button component="a" href="/" onClick={this.handleChange} >
               <ListItemIcon>
                 <ExitToAppIcon />
