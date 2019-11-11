@@ -13,8 +13,7 @@ import Footer from './Footer';
 import './style.css';
 import swal from 'sweetalert';
 
-export class Login extends React.Component {
-  // initialize our state
+class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,7 +28,6 @@ export class Login extends React.Component {
     this.getDataFromDb();
   }
 
-  // fetch data from the data base
   getDataFromDb = () => {
     fetch('http://localhost:3001/api/getUser')
       .then((data) => data.json())
@@ -51,19 +49,16 @@ export class Login extends React.Component {
 
       .then(response => response.json())
       .then(res => {
-        if(res.isLoggedIn){        
-          swal("You have signed in successfully!", "", "success")
-          .then((value) => {
-            if(res.userInfo.__t === 'student'){
-              window.location = "dashboard";
-            }
-          else if(res.userInfo.__t === 'tutor'){
+        if (res.isLoggedIn) {
+          if (res.userInfo.__t === 'student') {
+            window.location = "dashboard";
+          }
+          else if (res.userInfo.__t === 'tutor') {
             window.location = "tutor";
           }
-          });
         }
-        else{
-          swal("Invalid username or password!", "Please try again.", "error"); 
+        else {
+          swal("Invalid username or password!", "Please try again.", "error");
         }
       })
   };
@@ -127,16 +122,14 @@ export class Login extends React.Component {
                     onClick={this.handleSubmit}
                   >
                     Login
-                </Button>
+                  </Button>
                   <Grid item style={{ paddingTop: '20px' }}>
                     <Link href="#" variant="body2" justify="flex-end">
                       Forgot password?
-              </Link>
+                    </Link>
                   </Grid>
                 </Grid>
               </Grid>
-
-
             </form>
           </div>
           <Footer />
@@ -145,4 +138,5 @@ export class Login extends React.Component {
     );
   }
 }
+
 export default withStyles(tutifyStyle.styles, { withTheme: true })(Login);

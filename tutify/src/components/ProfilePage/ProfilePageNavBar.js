@@ -58,7 +58,6 @@ export class NavBar extends Component {
     fetch('http://localhost:3001/api/checkSession')
       .then(response => response.json())
       .then(res => {
-
         if (res.isLoggedIn) {
           this.setState({ Toggle: true });
         }
@@ -76,10 +75,11 @@ export class NavBar extends Component {
 
   render() {
     const { classes } = this.props;
-
     return (
+
       <div className={classes.root}>
-        <AppBar position="fixed" color="inherit" elevation={0} style={{ background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)' }}
+        <AppBar position="fixed" color="inherit" elevation={0} 
+                style={{ background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)' }}
         >
           <Toolbar style={{
             color: 'white'
@@ -91,11 +91,10 @@ export class NavBar extends Component {
             <Link href="/" className={classes.title} style={{ textDecoration: 'none', color: '#FFF' }}>
               <Typography variant="h6" color="inherit" >
                 Tutify
-            </Typography>
+              </Typography>
             </Link>
 
             <div className={classes.buttonContain}>
-
               <Button href="/login">
                 {this.state.Toggle ? null : <Login />}
               </Button>
@@ -107,6 +106,7 @@ export class NavBar extends Component {
                 {this.state.Toggle ? null : <Logout />}
               </Button>
             </div>
+
           </Toolbar>
         </AppBar>
       </div>

@@ -5,7 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import * as UserDashboardStyles from '../../styles/UserDashboard/UserDashboard-styles';
+import * as UserDashboardStyles from '../../styles/UserDashboard-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Typography from '@material-ui/core/Typography';
 
@@ -27,21 +27,19 @@ class MyCourseList extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {courses.map(row => (
-                                <TableRow key={row.name}>
+                            {courses.map(course => (
+                                <TableRow key={course.name}>
                                     <TableCell scope="row">
-                                        {row.name}
+                                        {course.name}
                                     </TableCell>
-                                    <TableCell align="right">Tutor Name</TableCell>
-                                    <TableCell align="right">Semester</TableCell>
+                                    <TableCell align="right">-</TableCell>
+                                    <TableCell align="right">2019</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </Paper>
             </React.Fragment>
-
-
         );
     }
 

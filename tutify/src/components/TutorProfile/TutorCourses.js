@@ -16,7 +16,6 @@ import Grid from '@material-ui/core/Grid';
 
 
 class TutorCourses extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -25,6 +24,7 @@ class TutorCourses extends React.Component {
 
     };
   }
+
   toggleDrawer = booleanValue => () => {
     this.setState({
       drawerOpened: booleanValue
@@ -115,16 +115,14 @@ class TutorCourses extends React.Component {
             <main>
               {/* Hero unit */}
 
+              </main>
+              {/* Footer */}
+              <Footer />
 
             </main>
-            {/* Footer */}
-            <Footer />
 
           </main>
-
-
-        </main>
-      </React.Fragment>
+        </React.Fragment>
       </Paper>
     );
   }

@@ -83,20 +83,19 @@ class Sidebar extends Component {
             <ListItemText primary="My Tutors" />
           </ListItem>
           <ListItem>
-              <List disablePadding className={classes.tutorList} >
-                {tutors.map(tutor => (
-                  <ListItem
-                    key={tutor._id}>
-                    <ListItemIcon>
-                      <PermIdentityIcon />
-                    </ListItemIcon>
-                    <ListItemText>
-                      {tutor.first_name + " " + tutor.last_name}
-                    </ListItemText>
-                  </ListItem>
-                ))}
-              </List>
-            
+            <List disablePadding className={classes.tutorList} >
+              {tutors.map(tutor => (
+                <ListItem
+                  key={tutor._id}>
+                  <ListItemIcon>
+                    <PermIdentityIcon />
+                  </ListItemIcon>
+                  <ListItemText>
+                    {tutor.first_name + " " + tutor.last_name}
+                  </ListItemText>
+                </ListItem>
+              ))}
+            </List>
           </ListItem>
         </List>
 

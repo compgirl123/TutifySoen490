@@ -19,7 +19,8 @@ export class NavBar extends Component {
     super(props);
     this.state = {
       drawerOpened: false,
-      Toggle: false
+      Toggle: false,
+      userType: "",
     };
   }
 
@@ -41,7 +42,7 @@ export class NavBar extends Component {
       .then(response => response.json())
       .then(res => {
         if (res.isLoggedIn) {
-          this.setState({ Toggle: true, email: true });
+          this.setState({ Toggle: true, email: true, userType: res.userInfo.__t });
         }
         else {
           this.setState({ Toggle: false, email: true });
@@ -72,19 +73,30 @@ export class NavBar extends Component {
 
             <SchoolIcon />
             <Box m={1} />
-            {this.state.Toggle ?
-              <Link href="/dashboard" style={{ textDecoration: 'none', color: '#FFF' }}>
+
+            {this.state.Toggle && this.state.userType === 'student' ?
+              <Link href="/dashboard" className={classes.title} style={{ textDecoration: 'none', color: '#FFF' }}>
                 <Typography variant="h6" color="inherit" >
                   Tutify
                 </Typography>
               </Link>
-              :
-              <Link href="/" style={{ textDecoration: 'none', color: '#FFF' }}>
+              : <></>
+            }
+            {this.state.Toggle && this.state.userType === 'tutor' ?
+              < Link href="/tutor" className={classes.title} style={{ textDecoration: 'none', color: '#FFF' }}>
                 <Typography variant="h6" color="inherit" >
                   Tutify
                 </Typography>
+              </Link> : <></>
+            }
+            {this.state.Toggle ? <></>:
+              <Link href="/" className={classes.title} style={{ textDecoration: 'none', color: '#FFF' }}>
+                <Typography variant="h6" color="inherit" >
+                  Tutify
+               </Typography>
               </Link>
             }
+
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             </Typography>
 

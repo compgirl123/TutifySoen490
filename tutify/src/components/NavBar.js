@@ -17,7 +17,6 @@ class SignUp extends Component {
       </Button>
     );
   }
-
 }
 
 class Login extends Component {
@@ -28,19 +27,17 @@ class Login extends Component {
       </Button>
     );
   }
-
 }
 
 export class NavBar extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      Toggle: false
+      Toggle: false,
+      userType: "",
     };
     this.handleChange = this.handleChange.bind(this);
   }
-
 
   componentDidMount() {
     this.checkSession();
@@ -54,7 +51,10 @@ export class NavBar extends Component {
       .then(response => response.json())
       .then(res => {
         if (res.isLoggedIn) {
-          this.setState({ Toggle: true });
+          this.setState({
+            Toggle: true,
+            userType: res.userInfo.__t
+          });
         }
         else {
           this.setState({ Toggle: false });
@@ -78,8 +78,8 @@ export class NavBar extends Component {
 
   render() {
     const { classes } = this.props;
-    return (
 
+    return (
       <div className={classes.root}>
         <AppBar className={classes.appBar} position="fixed" color="inherit" elevation={0} style={{ background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)' }}
         >
@@ -90,17 +90,26 @@ export class NavBar extends Component {
             <SchoolIcon className={classes.icon} />
             <Box m={1} />
 
-            {this.state.Toggle ?
+            {this.state.Toggle && this.state.userType === 'student' ?
               <Link href="/dashboard" className={classes.title} style={{ textDecoration: 'none', color: '#FFF' }}>
                 <Typography variant="h6" color="inherit" >
                   Tutify
                 </Typography>
-              </Link> 
-              :
-              <Link href="/" className={classes.title} style={{ textDecoration: 'none', color: '#FFF' }}>
+              </Link>
+              : <></>
+            }
+            {this.state.Toggle && this.state.userType === 'tutor' ?
+              < Link href="/tutor" className={classes.title} style={{ textDecoration: 'none', color: '#FFF' }}>
                 <Typography variant="h6" color="inherit" >
                   Tutify
                 </Typography>
+              </Link> : <></>
+            }
+            {this.state.Toggle ? <></>:
+              <Link href="/" className={classes.title} style={{ textDecoration: 'none', color: '#FFF' }}>
+                <Typography variant="h6" color="inherit" >
+                  Tutify
+               </Typography>
               </Link>
             }
 
@@ -120,7 +129,7 @@ export class NavBar extends Component {
 
           </Toolbar>
         </AppBar>
-      </div>
+      </div >
     );
   }
 }
