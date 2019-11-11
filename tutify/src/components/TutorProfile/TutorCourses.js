@@ -78,10 +78,10 @@ class TutorCourses extends React.Component {
             <div className={classes.appBarSpacer} />
             
             <Container maxWidth="lg" className={classes.container}>
-              <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                Courses Offered
-        </Typography>
+             
         <Grid container spacing={5}>
+        {courses.map((course, i) => (
+
         <Grid item xs={4} md={4} lg={4}>
         <Card className={classes.card}>
       <CardActionArea>
@@ -91,10 +91,10 @@ class TutorCourses extends React.Component {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            French
+          {course.name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            This course is designed for elementary students. Grammar, vocabulary, composition, language in context.
+          {course.description ? course.description: ""}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -108,32 +108,9 @@ class TutorCourses extends React.Component {
       </CardActions>
     </Card>
     </Grid>
-    <Grid item xs={4} md={4} lg={4}>
-        <Card className={classes.card}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          title="French"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            English
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            This course is designed for elementary students. Grammar, vocabulary, composition, language in context.
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-      <Button type="button" size="small" fullWidth className="submit">
-        View Documents
-        </Button>
-        <Button type="button" size="small" fullWidth className="submit">
-        Upload Document
-        </Button>
-      </CardActions>
-    </Card>
-    </Grid>
+   
+                      ))}
+
     </Grid>
             </Container>
             <main>
