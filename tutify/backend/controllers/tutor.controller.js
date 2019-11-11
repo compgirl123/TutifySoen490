@@ -65,3 +65,4 @@ exports.getTutorCourses = async function (req, res) {
             if (err) return handleError(err);        
             return res.json({ success: true, data: tutor.courses });
         });
+};
