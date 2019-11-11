@@ -11,7 +11,7 @@ import UserCoursesInfo from './UserCoursesInfo';
 import UserTutorsInfo from './UserTutorsInfo';
 import Paper from '@material-ui/core/Paper';
 
-class ProfilePage extends React.Component {
+export class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
