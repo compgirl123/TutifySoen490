@@ -46,6 +46,7 @@ class Login extends React.Component {
         "password": document.getElementById("password").value
       })
     })
+
       .then(response => response.json())
       .then(res => {
         if (res.isLoggedIn) {
@@ -113,10 +114,12 @@ class Login extends React.Component {
 
                 <Grid item xs={6} >
                   <Button
+                    name= "submit"
                     type="submit"
                     style={{ width: 350 }}
                     variant="contained"
-                    className="submit"
+                    className="loginSubmit"
+                    onClick={this.handleSubmit}
                   >
                     Login
                   </Button>
