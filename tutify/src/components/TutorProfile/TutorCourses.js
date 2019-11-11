@@ -60,7 +60,6 @@ class TutorCourses extends React.Component {
       .then(response => response.json())
       .then(res => {
         this.setState({ courses: res.data });
-        console.log(this.state.courses);
       })
       .catch(err => console.log(err));
   }

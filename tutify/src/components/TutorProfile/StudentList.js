@@ -39,9 +39,9 @@ class StudentList extends React.Component {
     const { classes } = this.props;
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     const rows = [
-      this.createData(0, 'kasthu', 'kasthu@hotmail.com', 'Software', 'Concordia','University', 'science'),
-      this.createData(1, 'Claudia', 'claudia@hotmail.com', 'Software', 'Concordia','University', 'science'),
-      this.createData(2, 'Tanya', 'tanya@hotmail.com', 'Software', 'Concordia','University', 'science'),
+      this.createData(0, 'kasthu', 'kasthu@hotmail.com', 'Software', 'Concordia','University', 'MATH 203'),
+      this.createData(1, 'Claudia', 'claudia@hotmail.com', 'Software', 'Concordia','University', 'MATH 203'),
+      this.createData(2, 'Tanya', 'tanya@hotmail.com', 'Software', 'Concordia','University', 'MATH 203'),
 
     ];
     return (
