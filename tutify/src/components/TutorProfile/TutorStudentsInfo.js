@@ -37,8 +37,8 @@ class TutorStudentsInfo extends React.Component {
         if (res.isLoggedIn) {
           this.setState({
             students: res.userInfo.students
-          })          
-              this.FindStudents();
+          })
+          this.FindStudents();
         }
         else {
           this.setState({ Toggle: false });
@@ -47,73 +47,72 @@ class TutorStudentsInfo extends React.Component {
       .catch(err => console.log(err));
   };
 
-  FindStudents = () => { 
+  FindStudents = () => {
     axios.post('http://localhost:3001/api/findStudents', {
       students: this.state.students
     })
-    .then((res) => {
-      
-      this.setState({ students: res.data.data});
+      .then((res) => {
 
-        }, (error) => {
-      console.log(error);
-    })
+        this.setState({ students: res.data.data });
+
+      }, (error) => {
+        console.log(error);
+      })
   };
 
- render() {
+  render() {
     const { classes } = this.props;
 
     return (
       <Card className={classes.card} >
-          <CardContent>
+        <CardContent>
 
-        <Typography component="p" variant="h5" >
-          <Box fontWeight="fontWeightBold">
-            My Students
+          <Typography component="p" variant="h5" >
+            <Box fontWeight="fontWeightBold">
+              My Students
             </Box>
           </Typography>
-  
+
           <Table size="small">
-        <TableBody>
-        <TableCell>
+            <TableBody>
+              <TableCell>
               </TableCell>
               <TableCell>
               </TableCell> <TableCell>
               </TableCell> <TableCell>
               </TableCell> <TableCell>
               </TableCell>
-          {this.state.students.map(student => (
-            <TableRow key={student.id} >
-              <TableCell padding="none" >
-              <Avatar className={classes.avatar} style={{width: '15px' ,height:'15px'}}></Avatar>
+              {this.state.students.map(student => (
+                <TableRow key={student.id} >
+                  <TableCell padding="none" >
+                    <Avatar className={classes.avatar} style={{ width: '15px', height: '15px' }}></Avatar>
 
-              </TableCell>
-              <TableCell style ={{fontSize: '12pt'}} >
-              {student.first_name} {" "}
-              {student.last_name}
+                  </TableCell>
+                  <TableCell style={{ fontSize: '12pt' }} >
+                    {student.first_name} {" "}
+                    {student.last_name}
 
-              </TableCell> <TableCell>
-              </TableCell><TableCell>
-              </TableCell>
-              <TableCell>
-              <Fab
-          variant="extended"
-          aria-label="add"
-          className={classes.margin} style={{ maxHeight: '25px'}} labelStyle={{ fontSize: '6px'}}
-        >
-           <MessageIcon fontSize="small" style={{width: '15px' ,height:'15px'}}/>   &nbsp;
-           Message
-        </Fab>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
- 
-</CardContent>
+                  </TableCell> <TableCell>
+                  </TableCell><TableCell>
+                  </TableCell>
+                  <TableCell>
+                    <Fab
+                      variant="extended"
+                      aria-label="add"
+                      className={classes.margin} style={{ maxHeight: '25px' }} labelStyle={{ fontSize: '6px' }}
+                    >
+                      <MessageIcon fontSize="small" style={{ width: '15px', height: '15px' }} />   &nbsp;
+                      Message
+                    </Fab>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
 
       </Card>
-      );
+    );
   }
 }
 

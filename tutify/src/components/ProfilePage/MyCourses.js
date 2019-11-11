@@ -6,7 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Container from '@material-ui/core/Container';
 import DashBoardNavBar from './DashBoardNavBar';
 import Paper from '@material-ui/core/Paper';
-import Footer from './../Footer';
+import Footer from '../Footer';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -114,13 +114,10 @@ class MyCourses extends React.Component {
               <main>
                 {/* Hero unit */}
 
-
               </main>
               {/* Footer */}
               <Footer />
-
             </main>
-
 
           </main>
         </React.Fragment>

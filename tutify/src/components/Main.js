@@ -30,8 +30,8 @@ const benefit = [
     title: 'Become a tutor',
     subheader: 'Math, French, English and Many More',
     description: [
-      'Get paid for your services',
-      'Price depends on background studies',
+      'Make your Services Available',
+      'Connect With Your Students and Manage Documents',
     ],
     buttonText: 'Get started',
     buttonVariant: 'contained',
@@ -57,7 +57,7 @@ class Main extends React.Component {
         {/* Hero unit */}
         <Container maxWidth="sm" component="main" className={classes.heroContent}>
           <Typography component="h2" variant="h2" align="center" color="textPrimary" gutterBottom>
-            Why should you apply?
+            Why join Tutify?
           </Typography>
         </Container>
         {/* End hero unit */}
