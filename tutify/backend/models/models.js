@@ -45,6 +45,12 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
   courses: [
     { type: Schema.Types.ObjectId, ref: 'Course' }
   ],
+  todos: [
+    {
+      text: { type: String },
+      checked: { type: Boolean }
+    }
+  ]
 }), 'profiles'
 );
 
@@ -59,7 +65,8 @@ const TutorSchema = mongoose.Schema({
   },
   students: [
     { type: Schema.Types.ObjectId, ref: 'Student' }
-  ]
+  ],
+  description: String,
 });
 
 var Tutor = Profile.discriminator('Tutor', TutorSchema, "tutor");
@@ -112,6 +119,7 @@ var Course = mongoose.model('Course', new Schema({
     type: String,
     required: true
   },
+  description: String,
   tutors: [
     { type: Schema.Types.ObjectId, ref: 'Tutor' }
   ],

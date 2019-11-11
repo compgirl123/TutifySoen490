@@ -10,35 +10,21 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import { withStyles } from "@material-ui/core/styles";
 import * as tutifyStyle from '../styles/SearchTutors-styles';
 import Button from '@material-ui/core/Button';
-import axios from 'axios';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Avatar from '@material-ui/core/Avatar';
-import swal from 'sweetalert';
 
-
-const assignTutor = (e, userID, tutorID) => {
-    axios.post('http://localhost:3001/api/assignTutor', {
-        student_id: userID,
-        tutor_id: tutorID,
-    });
-    swal("Request successfully sent!", "", "success")
-        .then((value) => {
-            window.location.reload();
-        });
-}
 
 function ConnectButton(props) {
     const isConnected = props.isConnected;
     const classes = props.classes;
     const tutor = props.tutor;
-    const userId = props.userId;
-    var url = "/courselist/"+props.tutor.id.$numberInt;
+    var url = "/courselist/"+props.tutor._id;
     if (!isConnected) {
-        return <Button component="a" href={url} className={classes.connect} onClick={event => assignTutor(event, userId, tutor._id.$oid)}>Connect with {tutor.first_name}</Button>
+        return <Button component="a" href={url} className={classes.connect} >Connect with {tutor.first_name}</Button>
     }
     return <Button className={classes.connect} disabled >Connected <CheckIcon /></Button>
 }
@@ -57,7 +43,6 @@ class TutorCard extends Component {
         };
         this.handleClickOpen = this.handleClickOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
-        console.log(JSON.stringify(props.tutor));
     }
 
     handleFeedback = () => {
@@ -66,7 +51,6 @@ class TutorCard extends Component {
 
     handleClickOpen = () => {
         this.setState({ open: true });
-        console.log(this.state.tutor);
     };
 
     handleClose = () => {
@@ -74,9 +58,8 @@ class TutorCard extends Component {
     };
 
     checkIfConnected(tutorID) {
-        return this.state.connectedTutors.includes(tutorID);
+        return this.state.connectedTutors.some(item => item._id === tutorID)
     }
-
     
     render() {
         const { classes } = this.props
@@ -124,11 +107,7 @@ class TutorCard extends Component {
                             <Typography variant="h5">
                                 {tutor.first_name} {tutor.last_name}
                             </Typography>
-                            {[...new Array(10)]
-                                .map(
-                                    () => `\n Personal Tutor description`,
-                                )
-                                .join('\n')}
+                            { tutor.description ? tutor.description : ""}
                         </DialogContentText>
                         <DialogContentText>
                             <Typography>

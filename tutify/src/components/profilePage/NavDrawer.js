@@ -2,7 +2,7 @@ import React from "react";
 import Drawer from "@material-ui/core/Drawer";
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import {Sidebar} from './StudentSidebar';
+import Sidebar from './StudentSidebar';
 import {TutorSidebar} from '../TutorProfile/TutorSidebar';
 
 
@@ -10,7 +10,8 @@ export class NavDrawer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      Toggle: false
+      Toggle: false,
+      tutorList: []
     };
     }
     componentDidMount() {
@@ -24,7 +25,10 @@ export class NavDrawer extends React.Component {
         .then(response => response.json())
         .then(res => {
           if(res.userInfo.__t === 'student'){
-              this.setState({Toggle: true});
+              this.setState({
+                Toggle: true,
+                tutorList: res.userInfo.tutors
+              });
           }
           else if(res.userInfo.__t === 'tutor'){
               this.setState({Toggle: false});
@@ -53,7 +57,7 @@ export class NavDrawer extends React.Component {
           </div>
           { this.state.Toggle ? 
 
-          <Sidebar /> : <TutorSidebar/>}
+          <Sidebar tutors={this.state.tutorList} /> : <TutorSidebar/>}
        </div>
       </Drawer>
     );

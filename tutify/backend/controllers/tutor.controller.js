@@ -1,11 +1,20 @@
 const Tutor = require('../models/models').Tutor;
 
 // this method fetches all available tutors in our database
-exports.getTutor = async function (req, res) {
+exports.getTutors = async function (req, res) {
     Tutor.find((err, data) => {
         if (err) return res.json({ success: false, error: err });
         return res.json({ success: true, data: data });
     });
+};
+
+// this method fetches one tutor in our database
+exports.getTutor = async function (req, res) {
+    Tutor.findOne({ _id: req.query.ID }).populate('courses').
+        exec(function (err, tutor) {
+            if (err) return handleError(err);    
+            return res.json({ success: true, tutor: tutor });
+        });
 };
 
 // this method overwrites existing tutor in our database
