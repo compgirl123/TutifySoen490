@@ -57,3 +57,11 @@ exports.updateTutorInfo = async function (req, res) {
         }
     );
 };
+
+// this method fetches the courses associated with the current tutor
+exports.getTutorCourses = async function (req, res) {
+    Tutor.findOne({ _id: req.session.userInfo._id }).populate('courses').
+        exec(function (err, tutor) {
+            if (err) return handleError(err);        
+            return res.json({ success: true, data: tutor.courses });
+        });
