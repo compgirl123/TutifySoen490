@@ -50,7 +50,7 @@ export class TutorSidebar extends Component {
               </ListItemIcon>
               <ListItemText primary="Upload Documents" />
             </ListItem>
-            <ListItem button component="a" href="/tutor">
+            <ListItem button component="a" href="/tutorCourses">
               <ListItemIcon>
                 <MenuBookIcon />
               </ListItemIcon>
