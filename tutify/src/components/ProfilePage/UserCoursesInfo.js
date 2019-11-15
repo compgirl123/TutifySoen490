@@ -36,13 +36,13 @@ class UserCoursesInfo extends React.Component {
               </TableCell> <TableCell>
               </TableCell>
 
-              {courses.map((course) => (
+              {courses.map((c) => (
                 <TableRow >
                   <TableCell padding="none" >
                     <Avatar className={classes.avatar} style={{ width: '15px', height: '15px' }}></Avatar>
                   </TableCell>
                   <TableCell style={{ fontSize: '12pt' }} scope="row">
-                  {course.name}
+                  {c.course.name}
                   </TableCell>
                   <TableCell></TableCell> 
                   <TableCell></TableCell>

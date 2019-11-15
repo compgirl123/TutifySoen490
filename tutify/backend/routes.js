@@ -44,6 +44,8 @@ router.get('/checkSession', userController.checkSession);
 
 router.post('/assignTutor', userController.assignTutor);
 
+router.post('/assignCourse', userController.assignCourse);
+
 router.get('/getUserCourses', userController.getUserCourses);
 
 // -------- ACCOUNT ROUTES --------- // 

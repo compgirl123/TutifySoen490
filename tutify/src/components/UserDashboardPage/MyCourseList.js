@@ -27,12 +27,12 @@ class MyCourseList extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {courses.map(course => (
-                                <TableRow key={course.name}>
+                            {courses.map(c => (
+                                <TableRow key={c.course.name}>
                                     <TableCell scope="row">
-                                        {course.name}
+                                        {c.course.name}
                                     </TableCell>
-                                    <TableCell align="right">-</TableCell>
+                                    <TableCell align="right">{c.tutor.first_name + " " + c.tutor.last_name}</TableCell>
                                     <TableCell align="right">2019</TableCell>
                                 </TableRow>
                             ))}
