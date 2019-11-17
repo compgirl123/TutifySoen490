@@ -16,5 +16,8 @@ export const styles = theme => ({
       tableWrapper: {
         maxHeight:400,
         overflow: 'auto',
+      },
+      addToDoButton: {
+          margin: theme.spacing(1),
       }
   });
