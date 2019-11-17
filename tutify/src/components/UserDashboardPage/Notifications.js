@@ -42,6 +42,7 @@ class Notifications extends React.Component {
                                             notif={notif}
                                             tutorName={tutorName}
                                             tutorAnnouncement={tutorAnnouncement}
+                                            announcementTitle={announcementTitle}
                                         />
                                     ))}
                                 </List>
