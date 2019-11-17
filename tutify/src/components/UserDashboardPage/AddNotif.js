@@ -12,11 +12,11 @@ class AddNotif extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-           
         };
     }
-    render() {
 
+    render() {
+        const { notif } = this.props
         return (
             <Paper style={{ margin: 16, padding: 16 }}>
                 <Grid container>
@@ -26,7 +26,7 @@ class AddNotif extends React.Component {
                                 <Avatar src="" />
                             </ListItemAvatar>
                             <ListItemText
-                                primary="Announcement title"
+                                primary={notif.announcementTitle}
                                 value="notif"
                                 secondary={
                                     <React.Fragment>
@@ -35,9 +35,9 @@ class AddNotif extends React.Component {
                                             variant="body2"
                                             color="textPrimary"
                                         >
-                                            Tutor Name
+                                            {notif.tutorName}
                                             </Typography>
-                                        {" — Tutor announcement"}
+                                        {" — "}{notif.tutorAnnouncement}
                                     </React.Fragment>
                                 }
                             />
@@ -48,7 +48,7 @@ class AddNotif extends React.Component {
                             size="small"
                             color="secondary"
                             aria-label="add"
-                       
+                            
                         >
                             <AddIcon />
                         </Fab>

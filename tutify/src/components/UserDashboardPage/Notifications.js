@@ -15,11 +15,15 @@ class Notifications extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            notifications: []
+            tutorName: "",
+            tutorAnnouncement: "",
+            announcementTitle: "",
+            notifications: [{announcementTitle:"Some title", tutorName:"Jasmine", tutorAnnouncement:"AnnouncementTest"}],
         };
     }
     render() {
         const { classes } = this.props
+        const { tutorName, tutorAnnouncement, notifications, announcementTitle } = this.state
         return (
             <React.Fragment>
                 <Paper className={classes.tableWrapper}>
@@ -32,7 +36,14 @@ class Notifications extends React.Component {
                         <TableBody>
                             <TableRow>
                                 <List>
-                                    <AddNotif/>
+                                    {notifications.map((notif, i) => (
+                                        <AddNotif
+                                            key={i}
+                                            notif={notif}
+                                            tutorName={tutorName}
+                                            tutorAnnouncement={tutorAnnouncement}
+                                        />
+                                    ))}
                                 </List>
                             </TableRow>
                         </TableBody>
