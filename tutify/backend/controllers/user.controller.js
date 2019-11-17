@@ -75,7 +75,7 @@ exports.updateUserInfo = async function (req, res) {
 
 // this method assigns a tutor to the user & vice-versa
 exports.assignTutor = async function (req, res) {
-    const { student_id, tutor_id, course_id } = req.body;
+    const { student_id, tutor_id } = req.body;
 
     Tutor.findByIdAndUpdate(tutor_id,
         { "$push": { "students": student_id } },
@@ -84,14 +84,50 @@ exports.assignTutor = async function (req, res) {
             if (err) throw err;
 
             Student.findByIdAndUpdate(student_id,
-                { "$push": { "tutors": tutor_id, "courses": course_id, } },
+                { "$push": { "tutors": tutor_id } },
                 { "new": true, "upsert": true },
                 function (err, user) {
                     if (err) throw err;
 
                     //update the session
-                    req.session.userInfo.courses.push(course_id);
                     req.session.userInfo.tutors.push(tutor);
+                    req.session.save(function (err) {
+                        req.session.reload(function (err) {
+                            // session reloaded
+                        });
+                    });
+                }
+            );
+        }
+    );
+}
+
+// this method assigns a course to the user & a student to the course for the tutor
+exports.assignCourse = async function (req, res) {
+    const { student_id, tutor_id, course_id } = req.body;
+
+    let newCourse = {
+        course: course_id,
+        tutor: tutor_id,
+    }
+
+    Tutor.findByIdAndUpdate(tutor_id,
+        { $push: { "courses.$[element].students": student_id } },
+        {
+            arrayFilters: [{ element: course_id }],
+            upsert: true
+        },
+        function (err, tutor) {
+            if (err) throw err;
+
+            Student.findByIdAndUpdate(student_id,
+                { "$push": { "courses": newCourse } },
+                { "new": true, "upsert": true },
+                function (err, user) {
+                    if (err) throw err;
+
+                    //update the session
+                    req.session.userInfo.courses.push(newCourse);
                     req.session.save(function (err) {
                         req.session.reload(function (err) {
                             // session reloaded
@@ -250,7 +286,6 @@ exports.checkSession = async function (req, res) {
     if (req.session.isLoggedIn) {
         res.send(req.session);
     }
-
 };
 
 // this method removes existing user in our database
@@ -264,7 +299,7 @@ exports.deleteUser = async function (req, res) {
 
 // this method fetches the courses associated with the current user
 exports.getUserCourses = async function (req, res) {
-    Student.findOne({ _id: req.session.userInfo._id }).populate('courses').
+    Student.findOne({ _id: req.session.userInfo._id }).populate('courses.course').populate('courses.tutor').
         exec(function (err, student) {
             if (err) return handleError(err);
             return res.json({ success: true, data: student.courses });

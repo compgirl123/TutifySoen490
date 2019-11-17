@@ -69,7 +69,6 @@ class MyCourses extends React.Component {
     const { classes } = this.props;
     const { courses } = this.state;
 
-
     return (
 
       <Paper className={classes.paper}>
@@ -84,7 +83,7 @@ class MyCourses extends React.Component {
                   My courses
                 </Typography>
                 <Grid container spacing={5}>
-                  {courses.map((course, i) => (
+                  {courses.map((c, i) => (
                     <Grid item key={i} xs={4} md={4} lg={4}>
                       <Card className={classes.card}>
                         <CardActionArea>
@@ -94,10 +93,13 @@ class MyCourses extends React.Component {
                           />
                           <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">
-                              {course.name}
+                              {c.course.name}
+                            </Typography>
+                            <Typography gutterBottom component="h3">
+                              {c.tutor.first_name + " " + c.tutor.last_name}
                             </Typography>
                             <Typography variant="body2" color="textSecondary" component="p">
-                              {course.description? course.description: ""}
+                              {c.course.description? c.course.description: ""}
                          </Typography>
                           </CardContent>
                         </CardActionArea>

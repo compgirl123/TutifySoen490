@@ -67,44 +67,44 @@ class TutorCourses extends React.Component {
 
     return (
       <Paper className={classes.paper}>
-      <React.Fragment>
-        <main>
-          <DashBoardNavBar />
-          <main className={classes.content}>
-            <div className={classes.appBarSpacer} />
+        <React.Fragment>
+          <main>
+            <DashBoardNavBar />
+            <main className={classes.content}>
+              <div className={classes.appBarSpacer} />
 
-            <Container maxWidth="lg" className={classes.container}>
+              <Container maxWidth="lg" className={classes.container}>
 
-        <Grid container spacing={5}>
-        {courses.map((course, i) => (
+                <Grid container spacing={5}>
+                  {courses.map((c, i) => (
 
-        <Grid item xs={4} md={4} lg={4}>
-        <Card className={classes.card}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          title="French"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-          {course.name}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-          {course.description ? course.description: ""}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-      <Button type="button" size="small" fullWidth  className="submit">
-          View Documents
-        </Button>
-        <Button type="button" size="small" fullWidth className="submit">
-        Upload Document
-        </Button>
-      </CardActions>
-    </Card>
-    </Grid>
-                      ))}
+                    <Grid item xs={4} md={4} lg={4}>
+                      <Card className={classes.card}>
+                        <CardActionArea>
+                          <CardMedia
+                            className={classes.media}
+                            title="French"
+                          />
+                          <CardContent>
+                            <Typography gutterBottom variant="h5" component="h2">
+                              {c.course.name}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" component="p">
+                              {c.course.description ? c.course.description : ""}
+                            </Typography>
+                          </CardContent>
+                        </CardActionArea>
+                        <CardActions>
+                          <Button type="button" size="small" fullWidth className="submit">
+                            View Documents
+                          </Button>
+                          <Button type="button" size="small" fullWidth className="submit">
+                            Upload Document
+                          </Button>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  ))}
                 </Grid>
               </Container>
               <main>

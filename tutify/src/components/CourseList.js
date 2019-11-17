@@ -15,17 +15,29 @@ import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import axios from "axios";
 import swal from 'sweetalert';
+import CheckIcon from '@material-ui/icons/Check';
 
-const assignTutor = (e, userID, tutorID, courseID) => {
-  axios.post('http://localhost:3001/api/assignTutor', {
-      student_id: userID,
-      tutor_id: tutorID,
-      course_id: courseID,
+const assignCourse = (e, userID, tutorID, courseID) => {
+  axios.post('http://localhost:3001/api/assignCourse', {
+    student_id: userID,
+    tutor_id: tutorID,
+    course_id: courseID,
   });
-  swal("Request successfully sent!", "", "success")
-      .then((value) => {
-        window.location = "/search";
-      });
+  swal("Successfully enrolled in course!", "", "success")
+    .then((value) => {
+      window.location = "/search";
+    });
+}
+
+function EnrollButton(props) {
+  const isConnected = props.isConnected;
+  if (!isConnected) {
+    return <Button type="button" size="small" fullWidth variant="contained" className="submit"
+      onClick={event => assignCourse(event, props.userId, props.tutorId, props.courseId)}>
+      Enroll
+      </Button>
+  }
+  return <Button type="button" size="small" fullWidth variant="contained" className="submit" disabled> Enrolled <CheckIcon /></Button>
 }
 
 class CourseList extends React.Component {
@@ -35,9 +47,10 @@ class CourseList extends React.Component {
     this.state = {
       tutor_id: "",
       tutorName: "",
-      tutorSubjects: [],
+      tutorCourses: [],
       user_id: "",
-      drawerOpened: false
+      drawerOpened: false,
+      userCourses: [],
     };
   }
   toggleDrawer = booleanValue => () => {
@@ -62,10 +75,22 @@ class CourseList extends React.Component {
     }).then((res) => {
       this.setState({
         tutorName: res.data.tutor.first_name + " " + res.data.tutor.last_name,
-        tutorSubjects: res.data.tutor.courses,
+        tutorCourses: res.data.tutor.courses,
       });
-      console.log(this.state.tutorSubjects)
+      this.getUserCoursesFromDb()
     })
+      .catch(err => console.log(err));
+  }
+
+  getUserCoursesFromDb = () => {
+    fetch('http://localhost:3001/api/getUserCourses', {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.setState({ userCourses: res.data });
+      })
       .catch(err => console.log(err));
   }
 
@@ -86,6 +111,10 @@ class CourseList extends React.Component {
       .catch(err => console.log(err));
   };
 
+  checkIfConnected(courseID) {
+    return this.state.userCourses.some(item => item.course._id === courseID)
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -102,29 +131,32 @@ class CourseList extends React.Component {
                   Courses Offered by {this.state.tutorName}
                 </Typography>
                 <Grid container spacing={5}>
-                  {this.state.tutorSubjects.map((course, index) => (
+                  {this.state.tutorCourses.map((c, index) => (
                     <Grid item xs={4} md={4} lg={4} key={index}>
                       <Card className={classes.card}>
                         <CardActionArea>
                           <CardMedia
                             src="/"
                             className={classes.media}
-                            title={course.name}
+                            title={c.course.name}
                           />
                           <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">
-                              {course.name}
+                              {c.course.name}
                             </Typography>
                             <Typography variant="body2" color="textSecondary" component="p">
-                              {course.description}
+                              {c.course.description}
                             </Typography>
                           </CardContent>
                         </CardActionArea>
                         <CardActions>
-                          <Button type="button" size="small" fullWidth variant="contained" className="submit" 
-                          onClick={event => assignTutor(event, this.state.user_id, this.state.tutor_id, course._id)}>
-                            Enroll
-                          </Button>
+                          <EnrollButton
+                            isConnected={this.checkIfConnected(c.course._id)}
+                            classes={classes}
+                            userId={this.state.user_id}
+                            tutorId={this.state.tutor_id}
+                            courseId={c.course._id}
+                          />
                         </CardActions>
                       </Card>
                     </Grid>
