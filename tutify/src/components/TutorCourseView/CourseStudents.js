@@ -9,6 +9,7 @@ import * as CourseViewStyles from '../../styles/CourseView-styles';
 import { withStyles } from "@material-ui/core/styles";
 import MessageIcon from '@material-ui/icons/Message';
 import Button from "@material-ui/core/Button";
+import Link from '@material-ui/core/Link';
 
 class CourseStudents extends React.Component {
 
@@ -42,7 +43,7 @@ class CourseStudents extends React.Component {
                               <TableCell><Button type="button"size="small" className="submit">
         View Profile
         </Button></TableCell>
-        <TableCell><MessageIcon/></TableCell>
+        <TableCell><Link href="/Postblog"><MessageIcon/></Link></TableCell>
                               
                             </TableRow>
                         </TableBody>
