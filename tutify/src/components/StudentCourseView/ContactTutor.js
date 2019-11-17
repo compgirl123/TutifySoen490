@@ -23,21 +23,22 @@ class ContactTutor extends React.Component {
                           <CardMedia
                             className={classes.media}
                             title="French"
+                            height="140"
                           />
                           <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">
-                              French
+                              Pooja Patel
                             </Typography>
                             <Typography variant="body2" color="textSecondary" component="p">
-                            Pooja Patel
+                            French
                          </Typography>
                          <Typography variant="body2" color="textSecondary" component="p">
-                            Pooja@gmail.com
+                            Email: Pooja@gmail.com
                          </Typography>
                           </CardContent>
                         </CardActionArea>
                         <CardActions>
-                          <Button type="button" size="small" fullWidth variant="contained" className="submit">
+                          <Button type="button" size="small" href="/Postblog" fullWidth variant="contained" className="submit">
                             Contact
                         </Button>
                         </CardActions>

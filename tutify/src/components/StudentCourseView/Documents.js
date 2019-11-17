@@ -9,7 +9,6 @@ import TableRow from '@material-ui/core/TableRow';
 import * as CourseViewStyles from '../../styles/CourseView-styles';
 import { withStyles } from "@material-ui/core/styles";
 import GetAppIcon from '@material-ui/icons/GetApp';
-import ShareIcon from '@material-ui/icons/Share';
 import Button from "@material-ui/core/Button";
 
 class Documents extends React.Component {
@@ -24,10 +23,9 @@ class Documents extends React.Component {
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
-                            <TableCell><Typography variant="h6">Title</Typography></TableCell>
-                            <TableCell align="right"><Typography variant="h6">Category</Typography></TableCell>
-                            <TableCell align="right"><Typography variant="h6">Date</Typography></TableCell>
-                            <TableCell></TableCell>
+                        <TableCell>Title</TableCell>
+                            <TableCell>Category</TableCell>
+                            <TableCell>Date</TableCell>
                             <TableCell></TableCell>
                             <TableCell></TableCell>
                         </TableRow>
@@ -40,7 +38,6 @@ class Documents extends React.Component {
                               <TableCell><Button type="button"size="small" className="submit">
         View Document
         </Button></TableCell>
-                              <TableCell><ShareIcon/></TableCell>
                               <TableCell><GetAppIcon/></TableCell>
                               
                             </TableRow>

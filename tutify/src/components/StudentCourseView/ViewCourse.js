@@ -7,6 +7,9 @@ import { withStyles } from "@material-ui/core/styles";
 import ContactTutor from "./ContactTutor";
 import Documents from "./Documents";
 import Drawer from "@material-ui/core/Drawer";
+import Sidebar from '../ProfilePage/StudentSidebar';
+import { typography } from '@material-ui/system';
+
 
 class ViewCourse extends React.Component {
         constructor(props) {
@@ -56,11 +59,15 @@ class ViewCourse extends React.Component {
                     <div className={classes.toolbar} />
                 </Drawer>
                 <main className={classes.root}>
-                    <Grid container>
-                        <Grid item sm={6} className={classes.gridItem}>
+                <Grid container spacing={3}>
+                        <Grid item sm={4} className={classes.gridItem}>
+                        <typography>Contact Info</typography><p></p>
                             <ContactTutor />
                         </Grid>
-                        <Grid item sm={6} className={classes.gridItem}>
+                        <p></p>
+                      
+                        <Grid item sm={12} className={classes.gridItem}>
+                        <typography>Course Documents</typography><p></p>
                             <Documents/>
                         </Grid>
                     </Grid>
