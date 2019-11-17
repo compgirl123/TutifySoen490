@@ -10,6 +10,8 @@ import Drawer from "@material-ui/core/Drawer";
 import clsx from 'clsx';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
+import TutorSidebar from '../TutorProfile/TutorSidebar';
+import { typography } from '@material-ui/system';
 
 class TutorCourseView extends React.Component {
 
@@ -58,15 +60,18 @@ class TutorCourseView extends React.Component {
                     variant="permanent"
                 >
                     <div className={classes.toolbar} />
+                    <TutorSidebar/>
                 </Drawer>
 
                 <main className={classes.root}>
+                <typography>Students</typography><p></p>
                     <Grid container spacing={3}>
-                        <Grid item xs={12} md={8} lg={9} className={classes.gridItem}>
+                        <Grid item xs={12}  className={classes.gridItem}>
                             <CourseStudents />
                         </Grid>
                     </Grid>
                     <p></p>
+                    <typography>Documents Uploaded</typography><p></p>
                     <Grid container>
                         <Grid item xs={12} className={classes.gridItem}>
                             <UploadDoc/>

@@ -50,10 +50,10 @@ class UploadDoc extends React.Component {
                     </TableBody>
                 </Table>
                 <p></p>
-<Button type="button" variant="contained"size="small" className="submit"><AddCircleIcon/>
-    Upload document 
-    </Button>
             </Paper>
+            <p></p>
+            <Button type="button" variant="contained"size="small" className="submit"> New Document
+    </Button>
         </React.Fragment>
         );
     }
