@@ -11,6 +11,7 @@ import TutorProfile from "./components/TutorProfile/TutorProfile";
 import CourseList from './components/CourseList';
 import TutorCourses from "./components/TutorProfile/TutorCourses";
 import UserDashboard from "./components/UserDashboardPage/UserDashboard";
+import UploadDocuments from "./components/UploadDocuments/UploadDocuments";
 
 // This is all the url routing.
 function MainPage() {
@@ -27,6 +28,8 @@ function MainPage() {
       <Route exact path= "/CourseList/:id" component= {CourseList}/>
       <Route exact path= "/tutorCourses" component = {TutorCourses}/>
       <Route exact path="/dashboard" component={UserDashboard} />
+      <Route exact path= "/uploadingDocs" component = {UploadDocuments}/>
+
     </Router>
   );
 }
