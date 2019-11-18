@@ -92,11 +92,9 @@ export const styles = theme => ({
     margin: 'auto',
     maxWidth: 500,
   },
-
   uploadDocApp:{
     textAlign: 'center'
   },
-
   button: {
     margin: theme.spacing(1)
   },
@@ -104,6 +102,13 @@ export const styles = theme => ({
     width: "70%",
     margin: "10px auto",
     borderCollapse:  "collapse"
+  },
+  AppTableTr: {
+    border: "1px solid black"
+  },
+  AppHeader:{
+    height: "75px",
+    padding: "20px",
   },
   inputUpload:{
     border: "1px solid #ccc",

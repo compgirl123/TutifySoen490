@@ -82,17 +82,16 @@ export class UploadDocuments extends Component {
         <main>
           <NavBar />
           <div className={classes.heroContent}>
-            <Container>
+            <Container className={classes.container}>
               <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
                 Upload Documents
               </Typography> </Container>
           </div>
           <div className={classes.uploadDocApp}>
-            <header className="App-header">
+            <header className={classes.AppHeader}>
 
             </header>
             <div className="App-content">
-              {/*<input type="file" onChange={this.fileChanged.bind(this)} />*/}
 
               <input
                 type="file"
@@ -100,19 +99,19 @@ export class UploadDocuments extends Component {
                 className={classes.inputUpload}
                 style={{ size: 74 }}
               />
-              {/*<button onClick={this.uploadFile.bind(this)}>Upload</button>*/}
+
               <Button onClick={this.uploadFile.bind(this)} raised component="span" className={classes.button} color="primary"
-                size="small" variant="contained">
+                size="medium" variant="contained">
                 Upload
               </Button>
 
               <table className={classes.AppTable}>
                 <thead>
-                  <tr>
-                    <th>File</th>
-                    <th>Uploaded</th>
-                    <th>Size</th>
-                    <th></th>
+                  <tr className={classes.AppTableTr}>
+                    <th className={classes.AppTableTr}>File</th>
+                    <th className={classes.AppTableTr}>Uploaded</th>
+                    <th className={classes.AppTableTr}>Size</th>
+                    <th className={classes.AppTableTr}></th>
                   </tr>
                 </thead>
                 <tbody>
