@@ -7,7 +7,9 @@
     "@babel/runtime": "^7.6.3",
     "@csstools/normalize.css": "github:csstools/normalize.css",
     "@material-ui/core": "^4.4.3",
-    "@material-ui/icons": "^4.4.3",
+    "@material-ui/icons": "^4.5.1",
+    "@mdi/js": "^4.5.95",
+    "@mdi/react": "^1.2.1",
     "axios": "^0.19.0",
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "bcryptjs": "^2.4.3",
@@ -41,9 +43,9 @@
     "react-scripts": "3.1.1",
     "react-test-renderer": "^16.9.0",
     "redux": "^4.0.4",
-    "sweetalert": "^2.1.2",
     "requirejs": "^2.3.6",
     "response": "^0.18.0",
+    "sweetalert": "^2.1.2",
     "validator": "^11.1.0"
   },
   "scripts": {

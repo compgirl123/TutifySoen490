@@ -96,6 +96,23 @@ export const styles = theme => ({
   uploadDocApp:{
     textAlign: 'center'
   },
+
+  button: {
+    margin: theme.spacing(1)
+  },
+  AppTable: {
+    width: "70%",
+    margin: "10px auto",
+    borderCollapse:  "collapse"
+  },
+  inputUpload:{
+    border: "1px solid #ccc",
+    display: "inline-block",
+    padding: "6px 12px",
+    cursor: "pointer",
+    fontSize: "20px",
+    background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)' ,
+  },
   connect: {
     
   },

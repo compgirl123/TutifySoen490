@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import NavBar from '../NavBar';
-import Footer from '../Footer';
 import Container from '@material-ui/core/Container';
-//import '../../styles/UploadDocuments.css';
 import Typography from '@material-ui/core/Typography';
 import * as tutifyStyle from '../../styles/UploadDocuments-styles';
 import { withStyles } from "@material-ui/core/styles";
-
+import Button from '@material-ui/core/Button';
 
 export class UploadDocuments extends Component {
   constructor(props) {
@@ -94,9 +92,21 @@ export class UploadDocuments extends Component {
 
             </header>
             <div className="App-content">
-              <input type="file" onChange={this.fileChanged.bind(this)} />
-              <button onClick={this.uploadFile.bind(this)}>Upload</button>
-              <table className="App-table">
+              {/*<input type="file" onChange={this.fileChanged.bind(this)} />*/}
+
+              <input
+                type="file"
+                onChange={this.fileChanged.bind(this)}
+                className={classes.inputUpload}
+                style={{ size: 74 }}
+              />
+              {/*<button onClick={this.uploadFile.bind(this)}>Upload</button>*/}
+              <Button onClick={this.uploadFile.bind(this)} raised component="span" className={classes.button} color="primary"
+                size="small" variant="contained">
+                Upload
+              </Button>
+
+              <table className={classes.AppTable}>
                 <thead>
                   <tr>
                     <th>File</th>
