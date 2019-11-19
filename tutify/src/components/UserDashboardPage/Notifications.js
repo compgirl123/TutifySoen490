@@ -18,7 +18,7 @@ class Notifications extends React.Component {
             tutorName: "",
             tutorAnnouncement: "",
             announcementTitle: "",
-            notifications: [{announcementTitle:"Some title", tutorName:"Jasmine", tutorAnnouncement:"AnnouncementTest"}],
+            notifications: [{announcementTitle:"Some title", tutorName:"Jasmine", tutorAnnouncement:"AnnouncementTest"}, {announcementTitle:"Some title", tutorName:"Jasmine", tutorAnnouncement:"AnnouncementTest"}],
         };
     }
     render() {

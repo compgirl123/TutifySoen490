@@ -21,7 +21,7 @@ export class AddTodo extends Component {
         return (
             <Paper style={{ margin: 16, padding: 16 }}>
                 <form onSubmit={this.onSubmit}>
-                    <Grid container>
+                    <Grid container >
                         <Grid xs={10} md={11} item style={{ paddingRight: 16 }}>
                             <TextField
                                 placeholder="Add Todo..."

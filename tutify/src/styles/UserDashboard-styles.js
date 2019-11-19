@@ -15,7 +15,6 @@ export const styles = theme => ({
       },
       tableWrapper: {
         height:400,
-
         overflow: 'auto',
       },
       addToDoButton: {
