@@ -19,7 +19,7 @@ export class AddTodo extends Component {
 
     render() {
         return (
-            <Paper style={{ margin: 16, padding: 16 }}>
+            <Paper style={{ margin: 12, padding: 12 }}>
                 <form onSubmit={this.onSubmit}>
                     <Grid container >
                         <Grid xs={10} md={11} item style={{ paddingRight: 16 }}>
