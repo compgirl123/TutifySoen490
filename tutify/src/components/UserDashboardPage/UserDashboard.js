@@ -21,8 +21,6 @@ class UserDashboard extends React.Component {
     }
 
     
-  
-
     componentDidMount() {
         this.checkSession();
     }

@@ -20,33 +20,37 @@ class TodoList extends React.Component {
         this.state = {
             todos: [],
         };
+        this.addTodo = this.addTodo.bind(this)
     }
 
+
+    // Add strike to a task when checkbox is checked
     markComplete = (id) => {
         this.setState({
-          todos: this.state.todos.map(todo => {
-            if(todo.id === id)
-              todo.completed = !todo.completed;
-            return todo;
-          })
+            todos: this.state.todos.map(todo => {
+                if (todo.id === id)
+                    todo.completed = !todo.completed;
+                return todo;
+            })
         });
     }
 
 
-     // Delete Todo
-  delTodo = (id) => {
-    axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
-      .then(res => this.setState({ todos: [...this.state.todos.filter(todo => todo.id !== id)]}));
-  }
-
-  addTodo = (title) => {
-    const newTodo = {
-      id: uuid.v4(),
-      title: title,
-      completed: false
+    // Delete Todo from list
+    delTodo = (id) => {
+        axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
+            .then(res => this.setState({ todos: [...this.state.todos.filter(todo => todo.id !== id)] }));
     }
-    this.setState({ todos: [...this.state.todos, newTodo]})
-  }
+
+    // Adds a todo to the list
+    addTodo = (title) => {
+        const newTodo = {
+            id: uuid.v4(),
+            title: title,
+            completed: false
+        }
+        this.setState({ todos: [...this.state.todos, newTodo]})
+    }
 
     render() {
         const { classes } = this.props;
@@ -63,7 +67,7 @@ class TodoList extends React.Component {
                         <TableBody>
                             <TableRow>
                                 <AddTodo addTodo={this.addTodo} />
-                                <Todos todos={todos} markComplete = {this.markComplete} delTodo={this.delTodo}/>
+                                <Todos todos={todos} markComplete={this.markComplete} delTodo={this.delTodo} />
                             </TableRow>
                         </TableBody>
                     </Table>
