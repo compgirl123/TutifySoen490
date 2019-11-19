@@ -8,7 +8,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Sidebar from '../ProfilePage/StudentSidebar';
 import Drawer from "@material-ui/core/Drawer";
 import MyCourseList from "./MyCourseList";
-import TodoList from "../Todo/TodoList";
+import TodoList from "./Todo/TodoList";
 
 class UserDashboard extends React.Component {
     constructor(props) {

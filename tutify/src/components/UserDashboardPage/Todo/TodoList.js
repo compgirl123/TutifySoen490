@@ -5,7 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import * as UserDashboardStyles from '../../styles/UserDashboard-styles';
+import * as UserDashboardStyles from '../../../styles/UserDashboard-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Typography from '@material-ui/core/Typography';
 import AddTodo from "./AddTodo";
