@@ -11,8 +11,8 @@ import Typography from '@material-ui/core/Typography';
 import AddTodo from "./AddTodo";
 import Todos from "./Todos";
 import axios from "axios";
+import uuid from 'uuid';
 
-const BASE_URL = 'https://jsonplaceholder.typicode.com';
 
 class TodoList extends React.Component {
     constructor(props) {
@@ -40,21 +40,12 @@ class TodoList extends React.Component {
   }
 
   addTodo = (title) => {
-    /*
     const newTodo = {
       id: uuid.v4(),
       title: title,
       completed: false
     }
     this.setState({ todos: [...this.state.todos, newTodo]})
-    */
-    axios.post('https://jsonplaceholder.typicode.com/todos', {
-      title: title,
-      completed: false
-    })
-      .then(res => this.setState({
-        todos: [...this.state.todos, res.data]
-      }));
   }
 
     render() {
