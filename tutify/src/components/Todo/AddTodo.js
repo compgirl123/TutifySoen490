@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { TextField, Paper, Grid } from "@material-ui/core";
+import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
 
 export class AddTodo extends Component {
     state = {
@@ -16,22 +19,27 @@ export class AddTodo extends Component {
 
     render() {
         return (
-            <form onSubmit={this.onSubmit} style={{display: 'flex'}}>
-                <input 
-                    type="text" 
-                    name="title"
-                    style={{flex: '10', padding: '5px'}}
-                    placeholder="Add Todo..." 
-                    value={this.state.title}
-                    onChange={this.onChange}
-                />
-                <input 
-                    type="submit"
-                    value="Submit"
-                    className="btn"
-                    style= {{flex: '1'}}
-                />
-            </form>
+            <Paper style={{ margin: 16, padding: 16 }}>
+                <form onSubmit={this.onSubmit}>
+                    <Grid xs={10} md={11} item style={{ paddingRight: 16 }}>
+                        <TextField
+                            placeholder="Add Todo..."
+                            value={this.state.title}
+                            onChange={this.onChange}
+                            fullWidth
+                        />
+                    </Grid>
+                    <Grid xs={4} md={1} item>
+                        <input
+                            type="submit"
+                            value="Submit"
+                            className="btn"
+                            style={{ flex: '1' }}
+                        />
+                    </Grid>
+                </form>
+            </Paper>
+            
         )
     }
 }

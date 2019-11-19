@@ -20,7 +20,11 @@ class TodoList extends React.Component {
             todos: [],
         };
     }
-
+    componentDidMount() {
+        axios.get('https://jsonplaceholder.typicode.com/todos?_limit=10')
+      .then(res => this.setState({ todos: res.data }));
+    }
+    
     markComplete = (id) => {
         this.setState({
           todos: this.state.todos.map(todo => {
@@ -31,10 +35,6 @@ class TodoList extends React.Component {
         });
     }
 
-    componentDidMount() {
-        axios.get('https://jsonplaceholder.typicode.com/todos?_limit=10')
-      .then(res => this.setState({ todos: res.data }));
-    }
 
      // Delete Todo
   delTodo = (id) => {
