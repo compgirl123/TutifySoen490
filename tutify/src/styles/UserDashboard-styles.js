@@ -14,10 +14,12 @@ export const styles = theme => ({
           padding: theme.spacing(1),
       },
       tableWrapper: {
-        maxHeight:400,
+        height:400,
+
         overflow: 'auto',
       },
       addToDoButton: {
           margin: theme.spacing(1),
-      }
+      },
+
   });

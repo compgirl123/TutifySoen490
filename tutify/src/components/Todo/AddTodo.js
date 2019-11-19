@@ -22,24 +22,24 @@ export class AddTodo extends Component {
             <Paper style={{ margin: 16, padding: 16 }}>
                 <form onSubmit={this.onSubmit}>
                     <Grid container>
-                    <Grid xs={10} md={11} item style={{ paddingRight: 16 }}>
-                        <TextField
-                            placeholder="Add Todo..."
-                            value={this.state.title}
-                            onChange={this.onChange}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid xs={4} md={1} item>
-                        <Fab
-                            size="small"
-                            color="secondary"
-                            aria-label="add"
-                            type="submit"
-                        >
-                            <AddIcon />
-                        </Fab>
-                    </Grid>
+                        <Grid xs={10} md={11} item style={{ paddingRight: 16 }}>
+                            <TextField
+                                placeholder="Add Todo..."
+                                value={this.state.title}
+                                onChange={this.onChange}
+                                fullWidth
+                            />
+                        </Grid>
+                        <Grid xs={4} md={1} item>
+                            <Fab
+                                size="small"
+                                color="secondary"
+                                aria-label="add"
+                                type="submit"
+                            >
+                                <AddIcon />
+                            </Fab>
+                        </Grid>
                     </Grid>
                 </form>
             </Paper>

@@ -73,15 +73,15 @@ class UserDashboard extends React.Component {
                     <Sidebar tutors={tutors} />
                 </Drawer>
                 <main className={classes.root}>
-                    <Grid container>
+                    <Grid container className={classes.container}>
                         <Grid item sm={6} className={classes.gridItem}>
                             <Notifications />
                         </Grid>
-                        <Grid item sm={6} className={classes.gridItem}>
+                        <Grid item xs={4} sm={6} className={classes.gridItem}>
                             <TodoList/>
                         </Grid>
                     </Grid>
-                    <Grid container>
+                    <Grid container className={classes.container}>
                         <Grid item xs={6} sm={6} className={classes.gridItem}>
                             <MyCourseList courses={courses} />
                         </Grid>
