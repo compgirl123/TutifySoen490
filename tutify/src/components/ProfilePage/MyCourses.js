@@ -104,8 +104,8 @@ class MyCourses extends React.Component {
                           </CardContent>
                         </CardActionArea>
                         <CardActions>
-                          <Button type="button" size="small" fullWidth variant="contained" className="submit">
-                            View Course Documents
+                          <Button type="button"size="small" fullWidth variant="contained" className="submit">
+                            View Course
                         </Button>
                         </CardActions>
                       </Card>
