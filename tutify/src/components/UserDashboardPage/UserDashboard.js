@@ -8,7 +8,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Sidebar from '../ProfilePage/StudentSidebar';
 import Drawer from "@material-ui/core/Drawer";
 import MyCourseList from "./MyCourseList";
-import ToDoList from "./ToDoList/ToDoList";
+import TodoList from "../Todo/TodoList";
 
 class UserDashboard extends React.Component {
     constructor(props) {
@@ -19,6 +19,9 @@ class UserDashboard extends React.Component {
             tutors: []
         };
     }
+
+    
+  
 
     componentDidMount() {
         this.checkSession();
@@ -57,7 +60,7 @@ class UserDashboard extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const { courses, todos, tutors } = this.state;
+        const { courses, tutors } = this.state;
 
         return (
             <React.Fragment>
@@ -75,7 +78,8 @@ class UserDashboard extends React.Component {
                             <Notifications />
                         </Grid>
                         <Grid item sm={6} className={classes.gridItem}>
-                            <ToDoList todos={todos} />
+                            <TodoList/>
+                            {/*<ToDoList todos={todos} />*/}
                         </Grid>
                     </Grid>
                     <Grid container>

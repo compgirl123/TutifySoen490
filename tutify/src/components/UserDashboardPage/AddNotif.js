@@ -16,6 +16,7 @@ class AddNotif extends React.Component {
     }
 
     render() {
+
         const { notif } = this.props
         return (
             <Paper style={{ margin: 16, padding: 16 }}>
