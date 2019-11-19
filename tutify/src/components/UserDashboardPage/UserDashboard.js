@@ -79,7 +79,6 @@ class UserDashboard extends React.Component {
                         </Grid>
                         <Grid item sm={6} className={classes.gridItem}>
                             <TodoList/>
-                            {/*<ToDoList todos={todos} />*/}
                         </Grid>
                     </Grid>
                     <Grid container>
