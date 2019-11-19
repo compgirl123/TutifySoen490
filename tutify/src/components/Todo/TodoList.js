@@ -12,6 +12,7 @@ import AddTodo from "./AddTodo";
 import Todos from "./Todos";
 import axios from "axios";
 
+const BASE_URL = 'https://jsonplaceholder.typicode.com';
 
 class TodoList extends React.Component {
     constructor(props) {
@@ -20,11 +21,7 @@ class TodoList extends React.Component {
             todos: [],
         };
     }
-    componentDidMount() {
-        axios.get('https://jsonplaceholder.typicode.com/todos?_limit=10')
-      .then(res => this.setState({ todos: res.data }));
-    }
-    
+
     markComplete = (id) => {
         this.setState({
           todos: this.state.todos.map(todo => {

@@ -6,8 +6,6 @@ import {
     IconButton,
     ListItemText,
     ListItemSecondaryAction,
-    Container,
-    Typography,
   } from "@material-ui/core";
   import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
 
