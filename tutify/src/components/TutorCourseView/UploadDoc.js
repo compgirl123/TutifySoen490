@@ -1,5 +1,4 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -11,8 +10,6 @@ import { withStyles } from "@material-ui/core/styles";
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Button from "@material-ui/core/Button";
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-
 
 class UploadDoc extends React.Component {
 
@@ -41,8 +38,8 @@ class UploadDoc extends React.Component {
                               <TableCell>Practice Problems</TableCell>
                               <TableCell>Nov 16, 2019</TableCell>
                               <TableCell><Button type="button"size="small" className="submit">
-        View Document
-        </Button></TableCell>
+                                View Document
+                             </Button></TableCell>
                               <TableCell><EditIcon/></TableCell>
                               <TableCell><DeleteIcon/></TableCell>
                               
@@ -52,7 +49,7 @@ class UploadDoc extends React.Component {
                 <p></p>
             </Paper>
             <p></p>
-            <Button type="button" variant="contained"size="small" className="submit"> New Document
+            <Button type="button" href= "/uploadingDocs" variant="contained"size="small" className="submit"> New Document
     </Button>
         </React.Fragment>
         );

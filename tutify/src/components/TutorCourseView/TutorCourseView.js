@@ -1,5 +1,4 @@
 import React from 'react';
-import NavBar from '../NavBar';
 import Footer from '../Footer';
 import Grid from '@material-ui/core/Grid';
 import * as CourseViewStyles from '../../styles/CourseView-styles';
@@ -7,66 +6,63 @@ import { withStyles } from "@material-ui/core/styles";
 import CourseStudents from "./CourseStudents";
 import UploadDoc from "./UploadDoc";
 import Drawer from "@material-ui/core/Drawer";
-import clsx from 'clsx';
-import Paper from '@material-ui/core/Paper';
-import Container from '@material-ui/core/Container';
-import TutorSidebar from '../TutorProfile/TutorSidebar';
 import { typography } from '@material-ui/system';
+import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
 
 class TutorCourseView extends React.Component {
 
-        constructor(props) {
-          super(props);
-          this.state = {
+    constructor(props) {
+        super(props);
+        this.state = {
             drawerOpened: false,
-      
-          };
-        }
-      
-        toggleDrawer = booleanValue => () => {
-          this.setState({
-            drawerOpened: booleanValue
-          });
-        };
 
-      
-        componentDidMount() {
-          this.checkSession();
-        }
-      
-          checkSession = () => {
-              fetch('http://localhost:3001/api/checkSession', {
-                method: 'GET',
-                credentials: 'include'
-              })
-                .then(response => response.json())
-                .then(res => {
-                  if (res.isLoggedIn) {
+        };
+    }
+
+    toggleDrawer = booleanValue => () => {
+        this.setState({
+            drawerOpened: booleanValue
+        });
+    };
+
+
+    componentDidMount() {
+        this.checkSession();
+    }
+
+    checkSession = () => {
+        fetch('http://localhost:3001/api/checkSession', {
+            method: 'GET',
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .then(res => {
+                if (res.isLoggedIn) {
                     this.getDataFromDb()
-                  }
-          
-                })
-                .catch(err => console.log(err));
-            };
+                }
+
+            })
+            .catch(err => console.log(err));
+    };
 
     render() {
         const { classes } = this.props;
 
         return (
             <React.Fragment>
-                <NavBar />
+                <DashBoardNavBar />
                 <Drawer
                     className={classes.drawer}
                     variant="permanent"
                 >
                     <div className={classes.toolbar} />
-                    <TutorSidebar/>
+
                 </Drawer>
 
                 <main className={classes.root}>
-                <typography>Students</typography><p></p>
+                    <typography>Students</typography><p></p>
                     <Grid container spacing={3}>
-                        <Grid item xs={12}  className={classes.gridItem}>
+                        <Grid item xs={12} className={classes.gridItem}>
                             <CourseStudents />
                         </Grid>
                     </Grid>
@@ -74,7 +70,7 @@ class TutorCourseView extends React.Component {
                     <typography>Documents Uploaded</typography><p></p>
                     <Grid container>
                         <Grid item xs={12} className={classes.gridItem}>
-                            <UploadDoc/>
+                            <UploadDoc />
                         </Grid>
                     </Grid>
                     <Footer />

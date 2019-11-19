@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import NavBar from '../NavBar';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import * as tutifyStyle from '../../styles/UploadDocuments-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Button from '@material-ui/core/Button';
+import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
 
 export class UploadDocuments extends Component {
   constructor(props) {
@@ -80,7 +80,7 @@ export class UploadDocuments extends Component {
     return (
       <React.Fragment>
         <main>
-          <NavBar />
+        <DashBoardNavBar /> 
           <div className={classes.heroContent}>
             <Container className={classes.container}>
               <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>

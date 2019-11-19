@@ -1,7 +1,7 @@
 
 import React from "react";
 import ReactQuill from "react-quill";
-import { Card, CardBody, Form, FormInput } from "shards-react";
+import {CardBody, Form } from "shards-react";
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import "react-quill/dist/quill.snow.css";
@@ -9,7 +9,6 @@ import "./quill.css";
 import Paper from '@material-ui/core/Container';
 import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
-import { height } from "@material-ui/system";
 import * as tutifyStyle from '../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
 import DashBoardNavBar from './ProfilePage/DashBoardNavBar';
@@ -50,7 +49,6 @@ class BlogPost extends React.Component {
     };
     render() {
       const { classes } = this.props;
-      const { courses } = this.state;
   
       return (
         <Paper className={classes.paper}>

@@ -11,14 +11,11 @@ import TutorProfile from "./components/TutorProfile/TutorProfile";
 import CourseList from './components/CourseList';
 import TutorCourses from "./components/TutorProfile/TutorCourses";
 import UserDashboard from "./components/UserDashboardPage/UserDashboard";
-<<<<<<< HEAD
 import UploadDocuments from "./components/UploadDocuments/UploadDocuments";
-=======
 import BlogPost from "./components/BlogPost";
 import ViewCourse from "./components/StudentCourseView/ViewCourse";
 import TutorCourseView from "./components/TutorCourseView/TutorCourseView";
 
->>>>>>> a58c667ced04971c43b6b22dad1190f0fa5e0539
 // This is all the url routing.
 function MainPage() {
   return (
@@ -34,13 +31,10 @@ function MainPage() {
       <Route exact path= "/CourseList/:id" component= {CourseList}/>
       <Route exact path= "/tutorCourses" component = {TutorCourses}/>
       <Route exact path="/dashboard" component={UserDashboard} />
-<<<<<<< HEAD
       <Route exact path= "/uploadingDocs" component = {UploadDocuments}/>
-=======
       <Route exact path= "/Postblog" component={BlogPost} />
       <Route exact path= "/ViewCourse" component={ViewCourse} />
       <Route exact path= "/TutorCourseView" component={TutorCourseView} />
->>>>>>> a58c667ced04971c43b6b22dad1190f0fa5e0539
     </Router>
   );
 }

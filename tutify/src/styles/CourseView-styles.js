@@ -16,5 +16,15 @@ export const styles = theme => ({
       tableWrapper: {
         maxHeight:400,
         overflow: 'auto',
+      },
+      heroContent: {
+        background: '#EEEEEE',
+        padding: theme.spacing(8, 0, 6),
+      },
+      heroButtons: {
+        marginTop: theme.spacing(4),
+      },
+      container: {
+        marginTop: '30px',
       }
   });
