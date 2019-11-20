@@ -5,9 +5,10 @@ import * as CourseViewStyles from '../../styles/CourseView-styles';
 import { withStyles } from "@material-ui/core/styles";
 import CourseStudents from "./CourseStudents";
 import UploadDoc from "./UploadDoc";
-import Drawer from "@material-ui/core/Drawer";
 import { typography } from '@material-ui/system';
-import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
+import TutorDashBoardNavBar from '../TutorProfile/TutorDashboardNavBar';
+import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
 
 class TutorCourseView extends React.Component {
 
@@ -49,18 +50,20 @@ class TutorCourseView extends React.Component {
         const { classes } = this.props;
 
         return (
-            <React.Fragment>
-                <DashBoardNavBar />
-                <Drawer
-                    className={classes.drawer}
-                    variant="permanent"
-                >
-                    <div className={classes.toolbar} />
+<Paper className={classes.paper}>
+<React.Fragment>
+   <main>
+    <TutorDashBoardNavBar />
+    <main className={classes.content}>
+      <div className={classes.appBarSpacer} />
+      <div>
 
-                </Drawer>
+    <Container maxWidth="lg" className={classes.container}>
+    <p></p>
 
-                <main className={classes.root}>
+
                     <typography>Students</typography><p></p>
+
                     <Grid container spacing={3}>
                         <Grid item xs={12} className={classes.gridItem}>
                             <CourseStudents />
@@ -73,9 +76,19 @@ class TutorCourseView extends React.Component {
                             <UploadDoc />
                         </Grid>
                     </Grid>
-                    <Footer />
-                </main>
-            </React.Fragment>
+
+              </Container>
+              </div>
+                {/* Hero unit */}
+
+
+              </main>
+              {/* Footer */}
+              <Footer />
+            </main>
+
+        </React.Fragment>
+      </Paper>
         );
     }
 }
