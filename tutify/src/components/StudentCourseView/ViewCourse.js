@@ -10,6 +10,8 @@ import { typography } from '@material-ui/system';
 import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
 import Container from '@material-ui/core/Container';
 import Typography from "@material-ui/core/Typography";
+import Paper from '@material-ui/core/Paper';
+
 
 class ViewCourse extends React.Component {
     constructor(props) {
@@ -68,8 +70,14 @@ render() {
     const { courses } = this.state;
 
     return (
+      <Paper className={classes.paper}>
         <React.Fragment>
+           <main>
             <DashBoardNavBar />
+            <main className={classes.content}>
+              <div className={classes.appBarSpacer} />
+
+            <Container maxWidth="lg" className={classes.container}>
             <div className={classes.heroContent}>
             <Container className={classes.container}>
             {courses.map((c, i) => (
@@ -77,13 +85,7 @@ render() {
                 {c.course.name}
               </Typography> ))} </Container>
           </div>
-            <Drawer
-                className={classes.drawer}
-                variant="permanent"
-            >
-                <div className={classes.toolbar} />
-            </Drawer>
-            <main className={classes.root}>
+
             <Grid container spacing={3}>
                 <Grid item sm={4} className={classes.gridItem}>
                 <typography>Contact Info</typography><p></p>
@@ -96,9 +98,18 @@ render() {
                     <Documents/>
                 </Grid>
             </Grid>
-            <Footer />
-        </main>
-    </React.Fragment>
+            </Container>
+              <main>
+                {/* Hero unit */}
+
+              </main>
+              {/* Footer */}
+              <Footer />
+            </main>
+
+          </main>
+        </React.Fragment>
+      </Paper>
         );
     }
 }
