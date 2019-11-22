@@ -10,10 +10,14 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Calendar from 'react-calendar'
 import AddToCalendar from 'react-add-to-calendar';
+import Grid from '@material-ui/core/Grid';
+import AddIcon from '@material-ui/icons/Add';
+
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 
+import Fab from '@material-ui/core/Fab';
 
 class Notifications extends React.Component {
     render() {
@@ -29,7 +33,23 @@ class Notifications extends React.Component {
                         </TableHead>
                         <TableBody>
                         <CardContent >
+                        <Grid container spacing={2}>
+
+                        <Grid item xs={8}>
 <Calendar />
+</Grid>
+<Grid item xs={4}>
+
+<Fab variant="extended" aria-label="edit"
+              justify="center"
+              onClick={() => { this.handleClickOpen(); }}
+              className={classes.editButton}>
+                                <AddIcon />
+
+              Add Event
+            </Fab>
+            </Grid>
+            </Grid>
 
 </CardContent>
                             
