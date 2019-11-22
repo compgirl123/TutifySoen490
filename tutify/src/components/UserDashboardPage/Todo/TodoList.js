@@ -12,6 +12,7 @@ import AddTodo from "./AddTodo";
 import Todos from "./Todos";
 import axios from "axios";
 import uuid from 'uuid';
+import PropTypes from 'prop-types';
 
 
 class TodoList extends React.Component {
@@ -76,4 +77,12 @@ class TodoList extends React.Component {
         );
     }
 }
+TodoList.propTypes = {
+    todos: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      completed: PropTypes.bool.isRequired,
+      text: PropTypes.string.isRequired
+    }).isRequired).isRequired,
+    toggleTodo: PropTypes.func.isRequired
+  }
 export default withStyles(UserDashboardStyles.styles, { withTheme: true })(TodoList);
