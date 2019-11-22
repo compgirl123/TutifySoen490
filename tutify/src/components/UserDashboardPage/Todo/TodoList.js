@@ -81,8 +81,8 @@ TodoList.propTypes = {
     todos: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired,
       completed: PropTypes.bool.isRequired,
-      text: PropTypes.string.isRequired
+      title: PropTypes.string.isRequired
     }).isRequired).isRequired,
-    toggleTodo: PropTypes.func.isRequired
+    markComplete: PropTypes.func.isRequired
   }
 export default withStyles(UserDashboardStyles.styles, { withTheme: true })(TodoList);

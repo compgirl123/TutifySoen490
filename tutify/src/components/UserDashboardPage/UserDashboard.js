@@ -11,7 +11,7 @@ import MyCourseList from "./MyCourseList";
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from "../../redux/reducers";
-import VisibleTodoList from '../../redux/containers/visibleTodoList'
+import VisibleTodoList from '../../redux/containers/VisibleTodoList'
 
 class UserDashboard extends React.Component {
     constructor(props) {
