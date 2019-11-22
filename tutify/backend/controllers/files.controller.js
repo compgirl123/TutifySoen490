@@ -30,17 +30,17 @@ var upload = multer({
 
 exports.testUpload= (req, res, next) => {
   const url = req.protocol + '://' + req.get('host')
-  const user = new User({
+  const file = new Files({
       _id: new mongoose.Types.ObjectId(),
       name: req.body.name,
-      profileImg: url + '/public/' + req.file.filename
+      file: url + '/public/' + req.file.filename
   });
-  user.save().then(result => {
+  file.save().then(result => {
       res.status(201).json({
-          message: "User registered successfully!",
+          message: "File uploaded successfully!",
           userCreated: {
               _id: result._id,
-              profileImg: result.profileImg
+              file: result.file
           }
       })
   }).catch(err => {
