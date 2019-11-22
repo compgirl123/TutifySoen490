@@ -41,7 +41,6 @@ class AddNotif extends React.Component {
                                     </Typography>
                                     {" — "}{notif.tutorAnnouncement}
                                 </React.Fragment>
-
                             }
                         />
                         <Grid xs={6} md={1} item>

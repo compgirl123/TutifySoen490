@@ -17,7 +17,7 @@ export class TodoItem extends Component {
 
     render() {
         const { id, title, completed } = this.props.todo;
-        const { classses } = this.props
+        const { classes } = this.props
         return (
             <ListItem>
                 <Checkbox
