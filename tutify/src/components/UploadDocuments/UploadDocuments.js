@@ -3,8 +3,10 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import * as tutifyStyle from '../../styles/UploadDocuments-styles';
 import { withStyles } from "@material-ui/core/styles";
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
+import axios from "axios";
+import swal from 'sweetalert';
 
 // Display a Ui for Tutors in order to be able to upload their documents
 export class UploadDocuments extends Component {
@@ -15,8 +17,8 @@ export class UploadDocuments extends Component {
       files: [],
       file: ''
     }
-
     this.loadFiles = this.loadFiles.bind(this);
+    this.fileChanged = this.fileChanged.bind(this);
   }
 
   componentDidMount() {
@@ -43,6 +45,7 @@ export class UploadDocuments extends Component {
     });
   }
 
+
   deleteFile(event) {
     event.preventDefault();
     const id = event.target.id;
@@ -56,24 +59,79 @@ export class UploadDocuments extends Component {
         else alert('Delete Failed');
       })
   }
+  updateTutorOptions = () => {
+    var updatedProfileValues = [
+      this.state.updatedProgramOfStudy,
+      this.state.updatedSchool,
+      this.state.updatedFirstName,
+      this.state.updatedLastName
+    ];
 
-  uploadFile(event) {
-    event.preventDefault();
-    let data = new FormData();
-    data.append('file', this.state.file);
-
-    fetch('/api/files', {
-      method: 'POST',
-      body: data
-    }).then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          this.loadFiles();
-        } else {
-          alert('Upload failed');
+    for (var y = 0; y < updatedProfileValues.length; y++) {
+      if (updatedProfileValues[y] === "") {
+        if (y === 0) {
+          updatedProfileValues[y] = this.state.program_of_study;
         }
+        else if (y === 1) {
+          updatedProfileValues[y] = this.state.school;
+        }
+        else if (y === 2) {
+          updatedProfileValues[y] = this.state.first_name;
+        }
+        else if (y === 3) {
+          updatedProfileValues[y] = this.state.last_name;
+        }
+      }
+    }
+    axios.post('http://localhost:3001/api/updateTutorInfo', {
+      _id: this.state._id,
+      program_of_study: updatedProfileValues[0],
+      school: updatedProfileValues[1],
+      first_name: updatedProfileValues[2],
+      last_name: updatedProfileValues[3]
+    })
+      .then((res) => {
+        this.setState({
+          first_name: res.data.userInfo.first_name, last_name: res.data.userInfo.last_name,
+          school: res.data.userInfo.school, program_of_study: res.data.userInfo.program_of_study,
+        });
+        swal("File successfully uploaded!", "", "success")
+      }, (error) => {
+        console.log(error);
       });
-  }
+  };
+//   uploadFile(event) {
+//     event.preventDefault();
+//     let data = new FormData();
+//     data.append('file', this.state.file);
+
+//     fetch('/api/files', {
+//       method: 'POST',
+//       body: data
+//     }).then(res => res.json())
+//       .then(data => {
+//         if (data.success) {
+//           this.loadFiles();
+//         } else {
+//           alert('Upload failed');
+//         }
+//       });
+//   }
+  onFileChange(e) {
+    this.setState({ profileImg: e.target.files[0] })
+}
+
+ 
+handleSubmit(event) {
+  alert('A file was submitted: ' + this.state.value);
+  event.preventDefault();
+  const formData = new FormData();
+  formData.append('file', this.state.file);
+  axios.post("http://localhost:4000/api/testUpload", formData, {
+  }).then(res => {
+      console.log(res)
+  })
+}
 
   render() {
     const { files } = this.state;
@@ -93,42 +151,67 @@ export class UploadDocuments extends Component {
 
             </header>
             <div className="App-content">
+              {/* <form action="/upload" method="POST" encType="multipart/form-data"> */}
+                {/* <input
+                  type="file"
+                  onChange={this.fileChanged}
+                  className={classes.inputUpload}
+                  style={{ size: 74 }}
+                />
 
-              <input
-                type="file"
-                onChange={this.fileChanged.bind(this)}
-                className={classes.inputUpload}
-                style={{ size: 74 }}
-              />
+                <Button onClick={(event)=>{this.uploadFile(event)}} class="file" id="file" raised component="span" className={classes.button} color="primary"
+                  size="medium" variant="contained">
+                  Upload
+                </Button> */}
 
-              <Button onClick={this.uploadFile.bind(this)} raised component="span" className={classes.button} color="primary"
-                size="medium" variant="contained">
-                Upload
-              </Button>
 
-              <table className={classes.AppTable}>
-                <thead>
-                  <tr className={classes.AppTableTr}>
-                    <th className={classes.AppTableTr}>File</th>
-                    <th className={classes.AppTableTr}>Uploaded</th>
-                    <th className={classes.AppTableTr}>Size</th>
-                    <th className={classes.AppTableTr}></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {files.map((file, index) => {
-                    var d = new Date(file.uploadDate);
-                    return (
-                      <tr key={index}>
-                        <td><a href={`http://127.0.0.1:3001/api/files/${file.filename}`}>{file.filename}</a></td>
-                        <td>{`${d.toLocaleDateString()} ${d.toLocaleTimeString()}`}</td>
-                        <td>{(Math.round(file.length / 100) / 10) + 'KB'}</td>
-                        <td><button onClick={this.deleteFile.bind(this)} id={file._id}>Remove</button></td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
+
+
+
+                <form onSubmit={this.handleSubmit} action="upload" ectype="multipart/form-data">
+                  <label>
+                    Upload:
+                    <input
+                      type="file"
+                      onChange={this.fileChanged}
+                      className={classes.inputUpload}
+                      style={{ size: 74 }}
+                    />
+                  </label>
+                  <input type="submit" value="Upload"/>
+                </form>
+
+
+
+
+
+
+
+
+                <table className={classes.AppTable}>
+                  <thead>
+                    <tr className={classes.AppTableTr}>
+                      <th className={classes.AppTableTr}>File</th>
+                      <th className={classes.AppTableTr}>Uploaded</th>
+                      <th className={classes.AppTableTr}>Size</th>
+                      <th className={classes.AppTableTr}></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {files.map((file, index) => {
+                      var d = new Date(file.uploadDate);
+                      return (
+                        <tr key={index}>
+                          <td><a href={`http://127.0.0.1:3001/api/files/${file.filename}`}>{file.filename}</a></td>
+                          <td>{`${d.toLocaleDateString()} ${d.toLocaleTimeString()}`}</td>
+                          <td>{(Math.round(file.length / 100) / 10) + 'KB'}</td>
+                          <td><button onClick={this.deleteFile.bind(this)} id={file._id}>Remove</button></td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              {/* </form> */}
             </div>
           </div>
 
