@@ -34,6 +34,7 @@
     "morgan": "^1.9.1",
     "node-fetch": "^2.6.0",
     "react": "^16.9.0",
+    "react-add-to-calendar": "^0.1.5",
     "react-bootstrap": "^1.0.0-beta.14",
     "react-dom": "^16.9.0",
     "react-router-config": "^5.0.1",
@@ -41,9 +42,9 @@
     "react-scripts": "3.1.1",
     "react-test-renderer": "^16.9.0",
     "redux": "^4.0.4",
-    "sweetalert": "^2.1.2",
     "requirejs": "^2.3.6",
     "response": "^0.18.0",
+    "sweetalert": "^2.1.2",
     "validator": "^11.1.0"
   },
   "scripts": {
