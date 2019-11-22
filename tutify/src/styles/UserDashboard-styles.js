@@ -17,11 +17,16 @@ export const styles = theme => ({
         height:400,
         overflow: 'auto',
       },
+      //AddTodo component
       addTodoPaper: {
         margin: 12, 
         padding: 12,
       },
       addTodoGrid: {
         paddingRight: 16,
-      }
+      },
+      //TodoItem component
+      todoItemButton: {
+          float: 'right',
+      },
   });

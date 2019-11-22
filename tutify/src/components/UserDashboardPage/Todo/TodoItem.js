@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-    ListItem,
-    Checkbox,
-    IconButton,
-    ListItemText,
-    ListItemSecondaryAction,
-  } from "@material-ui/core";
-  import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
+import { withStyles } from "@material-ui/core/styles";
+import * as UserDashboardStyles from '../../../styles/UserDashboard-styles';
+import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
+import { ListItem, Checkbox, IconButton, ListItemText, ListItemSecondaryAction } from "@material-ui/core";
+ 
 
 export class TodoItem extends Component {
     getStyle = () => {
@@ -20,6 +17,7 @@ export class TodoItem extends Component {
 
     render() {
         const { id, title, completed } = this.props.todo;
+        const { classses } = this.props
         return (
             <ListItem>
                 <Checkbox
@@ -27,7 +25,7 @@ export class TodoItem extends Component {
                 />{' '}
                 <ListItemText primary={title}/>
                 <ListItemSecondaryAction>
-                    <IconButton aria-label="Delete Todo" onClick={this.props.delTodo.bind(this, id)} style={{ float: 'right' }}>
+                    <IconButton className={classes.todoItemButton} aria-label="Delete Todo" onClick={this.props.delTodo.bind(this, id)}>
                         <DeleteOutlined />
                     </IconButton>
                 </ListItemSecondaryAction>
@@ -44,4 +42,4 @@ TodoItem.propTypes = {
 }
 
 
-export default TodoItem;
+export default withStyles(UserDashboardStyles.styles, { withTheme: true })(TodoItem);
