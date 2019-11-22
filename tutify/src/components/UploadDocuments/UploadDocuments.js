@@ -19,6 +19,7 @@ export class UploadDocuments extends Component {
     }
     this.loadFiles = this.loadFiles.bind(this);
     this.fileChanged = this.fileChanged.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -38,9 +39,9 @@ export class UploadDocuments extends Component {
       });
   }
 
-  fileChanged(event) {
+  async fileChanged(event) {
     const f = event.target.files[0];
-    this.setState({
+    await this.setState({
       file: f
     });
   }
@@ -117,17 +118,14 @@ export class UploadDocuments extends Component {
 //         }
 //       });
 //   }
-  onFileChange(e) {
-    this.setState({ profileImg: e.target.files[0] })
-}
+
 
  
-handleSubmit(event) {
-  alert('A file was submitted: ' + this.state.value);
+async handleSubmit(event) {
   event.preventDefault();
   const formData = new FormData();
   formData.append('file', this.state.file);
-  axios.post("http://localhost:4000/api/testUpload", formData, {
+  axios.post("http://localhost:3001/api/testUpload", formData, {
   }).then(res => {
       console.log(res)
   })
@@ -168,7 +166,7 @@ handleSubmit(event) {
 
 
 
-                <form onSubmit={this.handleSubmit} action="upload" ectype="multipart/form-data">
+                <form onSubmit={this.handleSubmit}>
                   <label>
                     Upload:
                     <input
