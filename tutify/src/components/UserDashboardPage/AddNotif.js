@@ -9,20 +9,15 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 
-
-
 class AddNotif extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            todos: [],
-            title: ''
+
         };
     }
 
-
     render() {
-        const { addTodo } = this.props
         const { notif } = this.props
         return (
 
@@ -54,8 +49,6 @@ class AddNotif extends React.Component {
                                 size="small"
                                 color="secondary"
                                 aria-label="add"
-                                onClick={() => addTodo(notif.announcementTitle)}
-
                             >
                                 <AddIcon />
                             </Fab>
@@ -66,7 +59,6 @@ class AddNotif extends React.Component {
             </Grid>
         )
     }
-
 }
 
 export default AddNotif;

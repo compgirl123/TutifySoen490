@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { TextField, Paper, Grid } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
+import { withStyles } from "@material-ui/core/styles";
+import * as UserDashboardStyles from '../../../styles/UserDashboard-styles';
 
 export class AddTodo extends Component {
     state = {
@@ -18,11 +20,12 @@ export class AddTodo extends Component {
     onChange = (e) => this.setState({ title: e.target.value });
 
     render() {
+        const { classes } = this.props
         return (
-            <Paper style={{ margin: 12, padding: 12 }}>
+            <Paper className={classes.addTodoPaper}>
                 <form onSubmit={this.onSubmit}>
                     <Grid container >
-                        <Grid xs={10} md={11} item style={{ paddingRight: 16 }}>
+                        <Grid className={classes.addTodoGrid} xs={10} md={11} item>
                             <TextField
                                 placeholder="Add Todo..."
                                 value={this.state.title}
@@ -43,7 +46,6 @@ export class AddTodo extends Component {
                     </Grid>
                 </form>
             </Paper>
-
         )
     }
 }
@@ -53,4 +55,4 @@ AddTodo.propTypes = {
     addTodo: PropTypes.func.isRequired
 }
 
-export default AddTodo;
+export default withStyles(UserDashboardStyles.styles, { withTheme: true })(AddTodo);

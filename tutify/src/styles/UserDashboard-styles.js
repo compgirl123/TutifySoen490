@@ -17,8 +17,11 @@ export const styles = theme => ({
         height:400,
         overflow: 'auto',
       },
-      addToDoButton: {
-          margin: theme.spacing(1),
+      addTodoPaper: {
+        margin: 12, 
+        padding: 12,
       },
-
+      addTodoGrid: {
+        paddingRight: 16,
+      }
   });
