@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var session = require('express-session');
+    
 
 // Controllers
 var accountController = require('./controllers/account.controller')
@@ -8,6 +9,7 @@ var appointmentController = require('./controllers/appointment.controller')
 var tutorController = require('./controllers/tutor.controller')
 var userController = require('./controllers/user.controller')
 var courseController = require('./controllers/course.controller')
+var filesController = require('./controllers/files.controller')
 
 // -------- TUTOR ROUTES --------- // 
 
@@ -71,5 +73,11 @@ router.delete('/deleteAppointment', appointmentController.deleteAppointment);
 // -------- COURSES ROUTES --------- // 
 
 router.get('/getCourses', courseController.getCourses);
+
+// -------- Files ROUTES --------- // 
+
+router.get('/getFiles', filesController.getFiles);
+router.post('/uploadFiles', filesController.uploadFiles);
+router.post('/testUpload', upload.single('file'),filesController.testUpload)
 
 module.exports = router;
