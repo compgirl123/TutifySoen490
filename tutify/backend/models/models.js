@@ -151,7 +151,7 @@ var Course = mongoose.model('Course', new Schema({
 
 // -------- FILES --------- // 
 
-var Course = mongoose.model('Files', new Schema({
+var Files = mongoose.model('Files', new Schema({
   name: {
     type: String,
     required: true
