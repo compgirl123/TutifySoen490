@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var uuidv4 = require('uuid/v4');
 var bp = require("body-parser");
 const DIR = './../public/';
-var FileCollection = mongoose.model("files", Files, "files");
+
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -20,20 +20,12 @@ const storage = multer.diskStorage({
 exports.upload = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
-      if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
-          cb(null, true);
-      } else {
-          cb(null, false);
-          return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
-      }
+    cb(null, true); 
   }
 });
 
 exports.testUpload= async (req, res, next) => {
-  alert("HELLO");
   const url = req.protocol + '://' + req.get('host');
-  alert(url);
-  alert(JSON.stringify(req));
   const file = new Files({
       _id: new mongoose.Types.ObjectId(),
       name: req.body.name,
@@ -48,18 +40,19 @@ exports.testUpload= async (req, res, next) => {
           }
       })
   }).catch(err => {
-      alert(err);
       console.log(err),
           res.status(500).json({
               error: err
           });
   });
 
+    
+
 }
 
 // this method fetches all files accounts in our database
 exports.getFiles = async function (req, res) {
-  FileCollection.find((err, data) => {
+  Files.find((err, data) => {
       if (err) return res.json({ success: false, error: err });
       return res.json({ success: true, data: data });
     });
@@ -67,7 +60,7 @@ exports.getFiles = async function (req, res) {
 
 // this method fetches all files accounts in our database
 exports.uploadFiles = async function (req, res) {
-  FileCollection.find((err, data) => {
+  Files.find((err, data) => {
       if (err) return res.json({ success: false, error: err });
       return res.json({ success: true, data: data });
     });
