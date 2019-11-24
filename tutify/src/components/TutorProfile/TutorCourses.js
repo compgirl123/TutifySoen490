@@ -95,10 +95,10 @@ class TutorCourses extends React.Component {
                           </CardContent>
                         </CardActionArea>
                         <CardActions>
-                          <Button type="button" size="small" fullWidth className="submit">
+                          <Button type="button" size="small" href = "/TutorCourseView" fullWidth className="submit">
                             View Documents
                           </Button>
-                          <Button type="button" size="small" fullWidth className="submit">
+                          <Button type="button" size="small" href = "/uploadingDocs" fullWidth className="submit">
                             Upload Document
                           </Button>
                         </CardActions>
