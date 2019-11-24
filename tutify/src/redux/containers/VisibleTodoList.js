@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import TodoList from '/Users/jasminelatendresse/TutifySoen490/tutify/src/components/UserDashboardPage/Todo/TodoList.js'
+import TodoList from '../../components/UserDashboardPage/Todo/TodoList.js'
 import { VisibilityFilters, markComplete } from '../actions/todolist_action'
 
 const getVisibleTodos = (todos, filter) => {
