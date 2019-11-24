@@ -29,12 +29,12 @@ export class UploadDocuments extends Component {
   async loadFiles() {
     fetch('http://localhost:3001/api/getFiles')
       .then(res => res.json())
-      .then(async (files) => {
-        if (files.message) {
+      .then(async (fetchedFiles) => {
+        if (fetchedFiles.message) {
           console.log('No Files');
-          await this.setState({ files: [] })
+          await this.setState({ files: [] });
         } else {
-          await this.setState({ files })
+          await this.setState({ files: ["fetchedFiles", "a"] });
         }
       });
   }
@@ -132,7 +132,7 @@ async handleSubmit(event) {
 }
 
   render() {
-    const { files } = this.state.files;
+    const { files } = this.state;
     const { classes } = this.props;
     return (
       <React.Fragment>
