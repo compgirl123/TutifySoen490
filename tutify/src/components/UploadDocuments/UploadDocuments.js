@@ -15,7 +15,8 @@ export class UploadDocuments extends Component {
 
     this.state = {
       files: [],
-      file: ''
+      file: '',
+      user_id: ""
     }
     this.loadFiles = this.loadFiles.bind(this);
     this.fileChanged = this.fileChanged.bind(this);
@@ -23,8 +24,25 @@ export class UploadDocuments extends Component {
   }
 
   componentDidMount() {
+    this.checkSession();
     this.loadFiles();
   }
+  checkSession = () => {
+    fetch('http://localhost:3001/api/checkSession', {
+        method: 'GET',
+        credentials: 'include'
+    })
+        .then(response => response.json())
+        .then(res => {
+            if (res.isLoggedIn) {
+                this.setState({ user_id: res.userInfo._id });
+            }
+            else {
+                this.setState({ user_id: "Not logged in" });
+            }
+        })
+        .catch(err => console.log(err));
+  };
 
   async loadFiles() {
     fetch('http://localhost:3001/api/getFiles')
@@ -125,10 +143,14 @@ async handleSubmit(event) {
   event.preventDefault();
   const formData = new FormData();
   formData.append('file', this.state.file);
-  axios.post("http://localhost:3001/api/testUpload", formData, {
-  }).then(res => {
+  formData.append('adminTutor', this.state.user_id);
+  formData.append('name', this.state.file.name)
+  axios.post("http://localhost:3001/api/testUpload", formData).then(res => {
       console.log(res)
-  })
+  }).catch(err => {
+    console.log(err);
+    
+  });
 }
 
   render() {

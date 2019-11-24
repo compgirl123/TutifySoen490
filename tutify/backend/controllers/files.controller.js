@@ -26,11 +26,11 @@ exports.upload = multer({
 
 exports.testUpload= async (req, res, next) => {
   const url = req.protocol + '://' + req.get('host');
-  const file = new Files({
-      _id: new mongoose.Types.ObjectId(),
-      name: req.body.name,
-      file: url + '/public/' + req.file.filename
-  });
+  const file = new Files();
+  file.name = req.body.name;
+  file.adminTutor = req.body.adminTutor;
+  file.url = "http://localhost:3000"+file.name;
+ 
   file.save().then(result => {
       res.status(201).json({
           message: "File uploaded successfully!",
