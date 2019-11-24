@@ -157,5 +157,5 @@ module.exports = {
   Student: Student,
   Account: Account,
   Appointment: Appointment,
-  Course: Course,
+  Course: Course
 }
