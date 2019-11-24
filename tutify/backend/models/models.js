@@ -154,15 +154,17 @@ var Course = mongoose.model('Course', new Schema({
 var Files = mongoose.model('Files', new Schema({
   name: {
     type: String,
+    required: true
   },
   adminTutor: {
     type: Schema.Types.ObjectId, 
     ref: 'Tutor', 
+    required: true
   },
   relatedCourse: [
     { 
       type: Schema.Types.ObjectId, 
-      ref: 'Course', 
+      ref: 'Course'
     }
   ],
   sharedToStudents: [
