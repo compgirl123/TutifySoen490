@@ -12,8 +12,8 @@ import Button from "@material-ui/core/Button";
 import Link from '@material-ui/core/Link';
 import axios from 'axios';
 
+// View the List of Students Currently Enrolled in a Class
 class CourseStudents extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -63,7 +63,6 @@ class CourseStudents extends React.Component {
 
         return (
             <React.Fragment>
-
                 <Paper className={classes.tableWrapper}>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
@@ -80,6 +79,7 @@ class CourseStudents extends React.Component {
                         <TableBody>
                         {this.state.students.map(student => (
                             <TableRow>
+                                {/* Student Information is Displayed here */}
                                 <TableCell>{student.first_name}</TableCell>
                                 <TableCell>{student.last_name}</TableCell>
                                 <TableCell>{student.education_level}</TableCell>

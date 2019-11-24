@@ -6,6 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Button from '@material-ui/core/Button';
 import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
 
+// Display a Ui for Tutors in order to be able to upload their documents
 export class UploadDocuments extends Component {
   constructor(props) {
     super(props);

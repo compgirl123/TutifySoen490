@@ -1,7 +1,7 @@
 
 import React from "react";
 import ReactQuill from "react-quill";
-import {CardBody, Form } from "shards-react";
+import { CardBody, Form } from "shards-react";
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import "react-quill/dist/quill.snow.css";
@@ -14,44 +14,45 @@ import { withStyles } from "@material-ui/core/styles";
 import DashBoardNavBar from './ProfilePage/DashBoardNavBar';
 import Footer from './Footer';
 
+// Created a Blog Post Page for Interaction Between Tutors and Students
 class BlogPost extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        drawerOpened: false,
-        courses: []
-  
-      };
-    }
-  
-    toggleDrawer = booleanValue => () => {
-      this.setState({
-        drawerOpened: booleanValue
-      });
+  constructor(props) {
+    super(props);
+    this.state = {
+      drawerOpened: false,
+      courses: []
+
     };
-    componentDidMount() {
-      this.checkSession();
-    }
-  
-    checkSession = () => {
-      fetch('http://localhost:3001/api/checkSession', {
-        method: 'GET',
-        credentials: 'include'
+  }
+
+  toggleDrawer = booleanValue => () => {
+    this.setState({
+      drawerOpened: booleanValue
+    });
+  };
+  componentDidMount() {
+    this.checkSession();
+  }
+
+  checkSession = () => {
+    fetch('http://localhost:3001/api/checkSession', {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then(response => response.json())
+      .then(res => {
+        if (res.isLoggedIn) {
+          this.getDataFromDb()
+        }
+
       })
-        .then(response => response.json())
-        .then(res => {
-          if (res.isLoggedIn) {
-            this.getDataFromDb()
-          }
-  
-        })
-        .catch(err => console.log(err));
-    };
-    render() {
-      const { classes } = this.props;
-  
-      return (
-        <Paper className={classes.paper}>
+      .catch(err => console.log(err));
+  };
+  render() {
+    const { classes } = this.props;
+
+    return (
+      <Paper className={classes.paper}>
         <React.Fragment>
           <main>
             <DashBoardNavBar />
@@ -59,30 +60,30 @@ class BlogPost extends React.Component {
               <div className={classes.appBarSpacer} />
 
               <Container maxWidth="lg" className={classes.container}>
-  <Typography variant="h5" component="h3">
-    Contact your Tutor
-    </Typography>
-    <p></p>
+                <Typography variant="h5" component="h3">
+                  Contact your Tutor
+                </Typography>
+                <p></p>
 
-  <CardBody>
-      <Form className="add-new-post">
-      <TextField
-                    variant="outlined"
-                    required
-                    label="Subject"
-                    name="subject"
-                  />
-                  <p></p>
+                <CardBody>
+                  <Form className="add-new-post">
+                    <TextField
+                      variant="outlined"
+                      required
+                      label="Subject"
+                      name="subject"
+                    />
+                    <p></p>
 
-        <ReactQuill className="add-new-post__editor mb-1" />
-      </Form>
-    </CardBody>
+                    <ReactQuill className="add-new-post__editor mb-1" />
+                  </Form>
+                </CardBody>
 
-    <p></p>
-    <Button type="button" variant="contained"size="small" className="submit">
-        Send Message
-        </Button>
-        </Container>
+                <p></p>
+                <Button type="button" variant="contained" size="small" className="submit">
+                  Send Message
+                </Button>
+              </Container>
               <main>
                 {/* Hero unit */}
 

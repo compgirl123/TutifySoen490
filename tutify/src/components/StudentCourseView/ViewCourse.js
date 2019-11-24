@@ -5,14 +5,12 @@ import * as CourseViewStyles from '../../styles/CourseView-styles';
 import { withStyles } from "@material-ui/core/styles";
 import ContactTutor from "./ContactTutor";
 import Documents from "./Documents";
-import Drawer from "@material-ui/core/Drawer";
-import { typography } from '@material-ui/system';
 import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
 import Container from '@material-ui/core/Container';
 import Typography from "@material-ui/core/Typography";
 import Paper from '@material-ui/core/Paper';
 
-
+// View the Specific Course Page with all of the Course Details as well as the Tutor Information
 class ViewCourse extends React.Component {
     constructor(props) {
         super(props);
@@ -76,30 +74,29 @@ render() {
             <DashBoardNavBar />
             <main className={classes.content}>
               <div className={classes.appBarSpacer} />
+                <Container maxWidth="lg" className={classes.container}>
+                <div className={classes.heroContent}>
+                <Container className={classes.container}>
+                {courses.map((c, i) => (
+                <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+                    {c.course.name}
+                </Typography> ))} </Container>
+              </div>
 
-            <Container maxWidth="lg" className={classes.container}>
-            <div className={classes.heroContent}>
-            <Container className={classes.container}>
-            {courses.map((c, i) => (
-              <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-                {c.course.name}
-              </Typography> ))} </Container>
-          </div>
-
-            <Grid container spacing={3}>
-                <Grid item sm={4} className={classes.gridItem}>
-                <typography>Contact Info</typography><p></p>
-                    <ContactTutor />
+                <Grid container spacing={3}>
+                    <Grid item sm={4} className={classes.gridItem}>
+                    <typography>Contact Info</typography><p></p>
+                        <ContactTutor />
+                    </Grid>
+                    <p></p>
+                    
+                    <Grid item sm={12} className={classes.gridItem}>
+                    <typography>Course Documents</typography><p></p>
+                        <Documents/>
+                    </Grid>
                 </Grid>
-                <p></p>
-                
-                <Grid item sm={12} className={classes.gridItem}>
-                <typography>Course Documents</typography><p></p>
-                    <Documents/>
-                </Grid>
-            </Grid>
-            </Container>
-              <main>
+                </Container>
+               <main>
                 {/* Hero unit */}
 
               </main>

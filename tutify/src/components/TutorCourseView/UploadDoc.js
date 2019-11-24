@@ -11,15 +11,13 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Button from "@material-ui/core/Button";
 
+// View the List of Students Currently Enrolled in a Class
 class UploadDoc extends React.Component {
-
-      render() {
-        const { classes } = this.props;
-
+    render() {
+      const { classes } = this.props;
 
     return (
       <React.Fragment>
-
             <Paper className={classes.tableWrapper}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -33,24 +31,24 @@ class UploadDoc extends React.Component {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                            <TableRow>
-                              <TableCell>Document 1</TableCell>
-                              <TableCell>Practice Problems</TableCell>
-                              <TableCell>Nov 16, 2019</TableCell>
-                              <TableCell><Button type="button"size="small" className="submit">
-                                View Document
-                             </Button></TableCell>
-                              <TableCell><EditIcon/></TableCell>
-                              <TableCell><DeleteIcon/></TableCell>
-                              
-                            </TableRow>
+                        <TableRow>
+                        <TableCell>Document 1</TableCell>
+                        <TableCell>Practice Problems</TableCell>
+                        <TableCell>Nov 16, 2019</TableCell>
+                        <TableCell><Button type="button"size="small" className="submit">
+                            View Document
+                        </Button></TableCell>
+                        <TableCell><EditIcon/></TableCell>
+                        <TableCell><DeleteIcon/></TableCell>
+                        
+                        </TableRow>
                     </TableBody>
                 </Table>
                 <p></p>
             </Paper>
             <p></p>
             <Button type="button" href= "/uploadingDocs" variant="contained"size="small" className="submit"> New Document
-    </Button>
+            </Button>
         </React.Fragment>
         );
     }

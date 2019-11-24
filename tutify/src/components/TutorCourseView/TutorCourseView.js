@@ -10,8 +10,8 @@ import TutorDashBoardNavBar from '../TutorProfile/TutorDashboardNavBar';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 
+// Tutor views all of the documents uploaded for each individual course
 class TutorCourseView extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -50,17 +50,16 @@ class TutorCourseView extends React.Component {
         const { classes } = this.props;
 
         return (
-<Paper className={classes.paper}>
-<React.Fragment>
-   <main>
-    <TutorDashBoardNavBar />
-    <main className={classes.content}>
-      <div className={classes.appBarSpacer} />
-      <div>
+            <Paper className={classes.paper}>
+                <React.Fragment>
+                <main>
+                    <TutorDashBoardNavBar />
+                    <main className={classes.content}>
+                    <div className={classes.appBarSpacer} />
+                    <div>
 
-    <Container maxWidth="lg" className={classes.container}>
-    <p></p>
-
+                    <Container maxWidth="lg" className={classes.container}>
+                    <p></p>
 
                     <typography>Students</typography><p></p>
 
@@ -80,13 +79,10 @@ class TutorCourseView extends React.Component {
               </Container>
               </div>
                 {/* Hero unit */}
-
-
               </main>
               {/* Footer */}
               <Footer />
             </main>
-
         </React.Fragment>
       </Paper>
         );

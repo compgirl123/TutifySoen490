@@ -10,14 +10,12 @@ import { withStyles } from "@material-ui/core/styles";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import Button from "@material-ui/core/Button";
 
+// Display documents uploaded by the tutor for specific classes
 class Documents extends React.Component {
       render() {
-        const { classes } = this.props;
-
+    const { classes } = this.props;
     return (
-      
         <React.Fragment>
-
             <Paper className={classes.tableWrapper}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -30,16 +28,15 @@ class Documents extends React.Component {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                            <TableRow>
-                              <TableCell>Document 1</TableCell>
-                              <TableCell>Practice Problems</TableCell>
-                              <TableCell>Nov 16, 2019</TableCell>
-                              <TableCell><Button type="button"size="small" className="submit">
-        View Document
-        </Button></TableCell>
-                              <TableCell><GetAppIcon/></TableCell>
-                              
-                            </TableRow>
+                        <TableRow>
+                            <TableCell>Document 1</TableCell>
+                            <TableCell>Practice Problems</TableCell>
+                            <TableCell>Nov 16, 2019</TableCell>
+                            <TableCell><Button type="button"size="small" className="submit">
+                            View Document
+                            </Button></TableCell>
+                        <TableCell><GetAppIcon/></TableCell>
+                        </TableRow>
                     </TableBody>
                 </Table>
             </Paper>

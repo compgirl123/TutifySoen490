@@ -14,7 +14,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 
-
+// Created a Courses Page for Students to View the Courses they are enrolled in
 class MyCourses extends React.Component {
   constructor(props) {
     super(props);
@@ -92,12 +92,15 @@ class MyCourses extends React.Component {
                             title="French"
                           />
                           <CardContent>
+                            {/* Display Course Name */}
                             <Typography gutterBottom variant="h5" component="h2">
                               {c.course.name}
                             </Typography>
+                            {/* Display Tutor Full Name */}
                             <Typography gutterBottom component="h3">
                               {c.tutor.first_name + " " + c.tutor.last_name}
                             </Typography>
+                             {/* Display Course Description */}
                             <Typography variant="body2" color="textSecondary" component="p">
                               {c.course.description? c.course.description: ""}
                          </Typography>

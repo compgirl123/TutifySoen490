@@ -10,8 +10,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 
+// Created a Contact Tutor Page for Students to be able to communicate with their tutors
 class ContactTutor extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -80,9 +80,11 @@ class ContactTutor extends React.Component {
               />
               {courses.map((c, i) => (
                 <CardContent>
+                   {/* Display Tutor Full Name */}
                   <Typography gutterBottom variant="h5" component="h2">
                     {c.tutor.first_name + " " + c.tutor.last_name}
                   </Typography>
+                   {/* Display Course Name */}
                   <Typography variant="body2" color="textSecondary" component="p">
                     {c.course.name}
                   </Typography>
