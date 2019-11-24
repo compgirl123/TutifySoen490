@@ -40,7 +40,6 @@ class ContactTutor extends React.Component {
         if (res.isLoggedIn) {
           this.setState({ Toggle: true });
           this.getDataFromDb()
-          this.getDataFromDb2()
         }
         else {
           this.setState({ Toggle: false });
