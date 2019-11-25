@@ -3,6 +3,7 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import * as tutifyStyle from '../../styles/UploadDocuments-styles';
 import { withStyles } from "@material-ui/core/styles";
+import Button from '@material-ui/core/Button';
 import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
 import axios from "axios";
 import swal from 'sweetalert';
@@ -63,7 +64,6 @@ export class UploadDocuments extends Component {
           await this.setState({ files: [] });
         } else {
           await this.setState({ files: fetchedFiles.data });
-          //await this.setState({ files: [fetchedFiles.name] });
         }
       });
   }
@@ -155,12 +155,15 @@ async handleSubmit(event) {
   formData.append('file', this.state.file);
   formData.append('adminTutor', this.state.user_id);
   formData.append('name', this.state.file.name);
-  axios.post("http://localhost:3001/api/testUpload", formData).then(res => {
-      console.log(res)
+  await axios.post("http://localhost:3001/api/uploadFile", formData).then(res => {
+      console.log(res);
+
   }).catch(err => {
     console.log(err);
     
   });
+  window.location.reload();
+  
 }
 
   render() {
@@ -226,21 +229,21 @@ async handleSubmit(event) {
                 </Button> */}
 
                 <form onSubmit={this.handleSubmit}>
-                  <label>
-                    Upload:
+                  <label forHTML="fileUpload">Upload:</label>
                     <input
+                      id="fileUpload"
                       type="file"
                       onChange={this.fileChanged}
                       className={classes.inputUpload}
                       style={{ size: 74 }}
                     />
-                  </label>
-                    <p></p>
-
-                    <Button type="button" variant="contained" size="small" className="submit">
-                  Upload
+                  
+                  <Button type="submit" variant="contained" size="large" className="submit">
+                  Upload it!
                 </Button>
                 </form>
+
+          
               {/* </form> */}
             </div>
           </div>

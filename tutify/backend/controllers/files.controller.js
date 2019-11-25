@@ -24,7 +24,7 @@ exports.upload = multer({
   }
 });
 
-exports.testUpload= async (req, res, next) => {
+exports.uploadFile= async (req, res, next) => {
   const url = req.protocol + '://' + req.get('host');
   const file = new Files();
   //console.log(req.body);

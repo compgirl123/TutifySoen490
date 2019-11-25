@@ -85,6 +85,6 @@ router.get('/getCourses', courseController.getCourses);
 
 router.get('/getFiles', filesController.getFiles);
 router.post('/uploadFiles', filesController.uploadFiles);
-router.post('/testUpload', filesController.upload.single('file'), filesController.testUpload)
+router.post('/uploadFile', filesController.upload.single('file'),filesController.uploadFile)
 
 module.exports = router;
