@@ -12,8 +12,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from "../../redux/reducers";
 import VisibleTodoList from '../../redux/containers/VisibleTodoList'
-import Calendar from 'react-calendar'
-import ToDoList from "./ToDoList/ToDoList";
+
 
 class UserDashboard extends React.Component {
     constructor(props) {
