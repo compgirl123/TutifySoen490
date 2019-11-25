@@ -34,7 +34,6 @@ class NewCalendar extends React.Component {
           endTime: "",
           open: false,
           scroll: 'paper',
-          date: ""
         };
         this.handleClickOpen = this.handleClickOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
