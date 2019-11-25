@@ -27,6 +27,7 @@ exports.upload = multer({
 exports.testUpload= async (req, res, next) => {
   const url = req.protocol + '://' + req.get('host');
   const file = new Files();
+  //console.log(req.body);
   file.name = req.body.name;
   file.adminTutor = req.body.adminTutor;
   file.url = "http://localhost:3000"+file.name;
@@ -47,7 +48,6 @@ exports.testUpload= async (req, res, next) => {
   });
 
     
-
 }
 
 // this method fetches all files accounts in our database

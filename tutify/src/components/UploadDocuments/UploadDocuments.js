@@ -48,11 +48,13 @@ export class UploadDocuments extends Component {
     fetch('http://localhost:3001/api/getFiles')
       .then(res => res.json())
       .then(async (fetchedFiles) => {
+        //console.log(fetchedFiles);
         if (fetchedFiles.message) {
           console.log('No Files');
           await this.setState({ files: [] });
         } else {
-          await this.setState({ files: ["fetchedFiles", "a"] });
+          await this.setState({ files: fetchedFiles.data });
+          //await this.setState({ files: [fetchedFiles.name] });
         }
       });
   }
@@ -73,7 +75,7 @@ export class UploadDocuments extends Component {
       method: 'DELETE'
     }).then(res => res.json())
       .then(response => {
-        console.log(response);
+        //console.log(response);
         if (response.success) this.loadFiles()
         else alert('Delete Failed');
       })
@@ -137,11 +139,10 @@ export class UploadDocuments extends Component {
 //       });
 //   }
 
-
- 
 async handleSubmit(event) {
   event.preventDefault();
   const formData = new FormData();
+  console.log(this.state.file);
   formData.append('file', this.state.file);
   formData.append('adminTutor', this.state.user_id);
   formData.append('name', this.state.file.name)
@@ -184,10 +185,6 @@ async handleSubmit(event) {
                   Upload
                 </Button> */}
 
-
-
-
-
                 <form onSubmit={this.handleSubmit}>
                   <label>
                     Upload:
@@ -201,30 +198,26 @@ async handleSubmit(event) {
                   <input type="submit" value="Upload"/>
                 </form>
 
-
-
-
-
-
-
-
                 <table className={classes.AppTable}>
                   <thead>
                     <tr className={classes.AppTableTr}>
                       <th className={classes.AppTableTr}>File</th>
                       <th className={classes.AppTableTr}>Uploaded</th>
-                      <th className={classes.AppTableTr}>Size</th>
-                      <th className={classes.AppTableTr}></th>
+                      {/*<th className={classes.AppTableTr}>Size</th>*/}
+                      {/*<th className={classes.AppTableTr}></th>*/}
                     </tr>
                   </thead>
                   <tbody>
                     {files.map((file, index) => {
-                      var d = new Date(file.uploadDate);
+                      //var d = new Date(file.uploadDate);
+                      var d = file.name;
+                      var filename = file.name;
                       return (
                         <tr key={index}>
-                          <td><a href={`http://127.0.0.1:3001/api/files/${file.filename}`}>{file.filename}</a></td>
-                          <td>{`${d.toLocaleDateString()} ${d.toLocaleTimeString()}`}</td>
-                          <td>{(Math.round(file.length / 100) / 10) + 'KB'}</td>
+                          <td><a href={`http://localhost:3000/${filename}`}>{filename}</a></td>
+                          {/*<td><a href={`http://127.0.0.1:3001/api/files/${file.filename}`}>{file.filename}</a></td>*/}
+                          {/*<td>{`${d.toLocaleDateString()} ${d.toLocaleTimeString()}`}</td>*/}
+                          {/*<td>{(Math.round(file.length / 100) / 10) + 'KB'}</td>*/}
                           <td><button onClick={this.deleteFile.bind(this)} id={file._id}>Remove</button></td>
                         </tr>
                       )
