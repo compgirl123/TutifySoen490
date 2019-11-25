@@ -15,7 +15,7 @@ const dbRoute =
   'mongodb+srv://app:Mdfi8g6IMFagCOOE@tutify-q6b06.mongodb.net/tutify?retryWrites=true&w=majority';
 
 // connects our back end code with the database
-mongoose.connect(dbRoute, { useNewUrlParser: true });
+mongoose.connect(dbRoute, { useNewUrlParser: true, useUnifiedTopology: true });
 
 let db = mongoose.connection;
 
@@ -34,6 +34,7 @@ app.use(session({secret:"sdshkgjdhgkhgkjsd322k3j4nkjkjhb3", resave:false, saveUn
 
 // append /api for our http requests
 app.use('/api', router);
+app.use('/public', express.static('public'));
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
