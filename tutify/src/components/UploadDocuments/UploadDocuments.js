@@ -210,7 +210,6 @@ async handleSubmit(event) {
                   <tbody>
                     {files.map((file, index) => {
                       //var d = new Date(file.uploadDate);
-                      var d = file.name;
                       var filename = file.name;
                       var url = file.url
                       return (
