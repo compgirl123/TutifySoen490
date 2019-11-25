@@ -35,14 +35,11 @@ class NewCalendar extends React.Component {
           description: "",
           location: "",
           date: "",
-          updatedEducationLevel: "",
-          education_level: "",
-          subjects: [],
-          students: "",
-          courses: [],
+          startTime: "",
+          endTime: "",
           open: false,
           scroll: 'paper',
-          date: new Date()
+          date: ""
         };
         this.handleClickOpen = this.handleClickOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
