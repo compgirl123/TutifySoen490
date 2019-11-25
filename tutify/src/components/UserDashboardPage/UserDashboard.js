@@ -8,7 +8,10 @@ import { withStyles } from "@material-ui/core/styles";
 import Sidebar from '../ProfilePage/StudentSidebar';
 import Drawer from "@material-ui/core/Drawer";
 import MyCourseList from "./MyCourseList";
-import ToDoList from "./ToDoList/ToDoList";
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import rootReducer from "../../redux/reducers";
+import VisibleTodoList from '../../redux/containers/VisibleTodoList'
 
 class UserDashboard extends React.Component {
     constructor(props) {
@@ -56,10 +59,12 @@ class UserDashboard extends React.Component {
     }
 
     render() {
+        const store = createStore(rootReducer)
         const { classes } = this.props;
-        const { courses, todos, tutors } = this.state;
+        const { courses, tutors } = this.state;
 
         return (
+            <Provider store={store}>
             <React.Fragment>
                 <NavBar />
                 <Drawer
@@ -70,15 +75,15 @@ class UserDashboard extends React.Component {
                     <Sidebar tutors={tutors} />
                 </Drawer>
                 <main className={classes.root}>
-                    <Grid container>
+                    <Grid container className={classes.container}>
                         <Grid item sm={6} className={classes.gridItem}>
                             <Notifications />
                         </Grid>
-                        <Grid item sm={6} className={classes.gridItem}>
-                            <ToDoList todos={todos} />
+                        <Grid item xs={4} sm={6} className={classes.gridItem}>
+                            <VisibleTodoList/>
                         </Grid>
                     </Grid>
-                    <Grid container>
+                    <Grid container className={classes.container}>
                         <Grid item xs={6} sm={6} className={classes.gridItem}>
                             <MyCourseList courses={courses} />
                         </Grid>
@@ -86,6 +91,7 @@ class UserDashboard extends React.Component {
                     <Footer />
                 </main>
             </React.Fragment>
+            </Provider>
         );
     }
 }

@@ -1,10 +1,5 @@
 import React from 'react';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import * as UserDashboardStyles from '../../styles/UserDashboard-styles';
 import { withStyles } from "@material-ui/core/styles";
@@ -14,10 +9,21 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import AddNotif from "./AddNotif.js";
 
 class Notifications extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            tutorName: "",
+            tutorAnnouncement: "",
+            announcementTitle: "",
+            notifications: [{announcementTitle:"Some title", tutorName:"Jasmine", tutorAnnouncement:"AnnouncementTest"}, {announcementTitle:"Some title", tutorName:"Jasmine", tutorAnnouncement:"AnnouncementTest"}],
+        };
+    }
     render() {
         const { classes } = this.props
+        const { tutorName, tutorAnnouncement, notifications, announcementTitle } = this.state
         return (
             <React.Fragment>
                 <Paper className={classes.tableWrapper}>
@@ -30,131 +36,15 @@ class Notifications extends React.Component {
                         <TableBody>
                             <TableRow>
                                 <List>
-                                    <ListItem alignItems="flex-start">
-                                        <ListItemAvatar>
-                                            <Avatar src="" />
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            primary="Announcement title"
-                                            secondary={
-                                                <React.Fragment>
-                                                    <Typography
-                                                        component="span"
-                                                        variant="body2"
-                                                        color="textPrimary"
-                                                    >
-                                                        Tutor Name
-                                            </Typography>
-                                                    {" — Tutor announcement"}
-                                                </React.Fragment>
-                                            }
+                                    {notifications.map((notif, i) => (
+                                        <AddNotif
+                                            key={i}
+                                            notif={notif}
+                                            tutorName={tutorName}
+                                            tutorAnnouncement={tutorAnnouncement}
+                                            announcementTitle={announcementTitle}
                                         />
-                                    </ListItem>
-                                    <Divider variant="inset" component="li" />
-                                    <ListItem alignItems="flex-start">
-                                        <ListItemAvatar>
-                                            <Avatar src="" />
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            primary="Announcement title"
-                                            secondary={
-                                                <React.Fragment>
-                                                    <Typography
-                                                        component="span"
-                                                        variant="body2"
-                                                        color="textPrimary"
-                                                    >
-                                                        Tutor Name
-                                            </Typography>
-                                                    {" — Tutor announcement"}
-                                                </React.Fragment>
-                                            }
-                                        />
-                                    </ListItem>
-                                    <Divider variant="inset" component="li" />
-                                    <ListItem alignItems="flex-start">
-                                        <ListItemAvatar>
-                                            <Avatar src="" />
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            primary="Announcement Title"
-                                            secondary={
-                                                <React.Fragment>
-                                                    <Typography
-                                                        component="span"
-                                                        variant="body2"
-                                                        color="textPrimary"
-                                                    >
-                                                        Tutor Name
-                                            </Typography>
-                                                    {' — Tutor announcement'}
-                                                </React.Fragment>
-                                            }
-                                        />
-                                    </ListItem>
-                                    <Divider variant="inset" component="li" />
-                                    <ListItem alignItems="flex-start">
-                                        <ListItemAvatar>
-                                            <Avatar src="" />
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            primary="Announcement title"
-                                            secondary={
-                                                <React.Fragment>
-                                                    <Typography
-                                                        component="span"
-                                                        variant="body2"
-                                                        color="textPrimary"
-                                                    >
-                                                        Tutor Name
-                                            </Typography>
-                                                    {" — Tutor announcement"}
-                                                </React.Fragment>
-                                            }
-                                        />
-                                    </ListItem>
-                                    <Divider variant="inset" component="li" />
-                                    <ListItem alignItems="flex-start">
-                                        <ListItemAvatar>
-                                            <Avatar src="" />
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            primary="Announcement title"
-                                            secondary={
-                                                <React.Fragment>
-                                                    <Typography
-                                                        component="span"
-                                                        variant="body2"
-                                                        color="textPrimary"
-                                                    >
-                                                        Tutor Name
-                                            </Typography>
-                                                    {" — Tutor announcement"}
-                                                </React.Fragment>
-                                            }
-                                        />
-                                    </ListItem>
-                                    <Divider variant="inset" component="li" />
-                                    <ListItem alignItems="flex-start">
-                                        <ListItemAvatar>
-                                            <Avatar src="" />
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            primary="Announcement title"
-                                            secondary={
-                                                <React.Fragment>
-                                                    <Typography
-                                                        component="span"
-                                                        variant="body2"
-                                                        color="textPrimary"
-                                                    >
-                                                        Tutor Name
-                                            </Typography>
-                                                    {" — Tutor announcement"}
-                                                </React.Fragment>
-                                            }
-                                        />
-                                    </ListItem>
+                                    ))}
                                 </List>
                             </TableRow>
                         </TableBody>
