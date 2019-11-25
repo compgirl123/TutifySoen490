@@ -161,6 +161,15 @@ var Files = mongoose.model('Files', new Schema({
     ref: 'Tutor', 
     required: true
   },
+  url: {
+    type: String,
+    required: true
+  },
+  encryptedName: {
+    type: String,
+    required: true
+  },
+
   relatedCourse: [
     { 
       type: Schema.Types.ObjectId, 

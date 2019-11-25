@@ -145,7 +145,7 @@ async handleSubmit(event) {
   console.log(this.state.file);
   formData.append('file', this.state.file);
   formData.append('adminTutor', this.state.user_id);
-  formData.append('name', this.state.file.name)
+  formData.append('name', this.state.file.name);
   axios.post("http://localhost:3001/api/testUpload", formData).then(res => {
       console.log(res)
   }).catch(err => {
@@ -212,9 +212,10 @@ async handleSubmit(event) {
                       //var d = new Date(file.uploadDate);
                       var d = file.name;
                       var filename = file.name;
+                      var url = file.url
                       return (
                         <tr key={index}>
-                          <td><a href={`http://localhost:3000/${filename}`}>{filename}</a></td>
+                          <td><a href={url}>{filename}</a></td>
                           {/*<td><a href={`http://127.0.0.1:3001/api/files/${file.filename}`}>{file.filename}</a></td>*/}
                           {/*<td>{`${d.toLocaleDateString()} ${d.toLocaleTimeString()}`}</td>*/}
                           {/*<td>{(Math.round(file.length / 100) / 10) + 'KB'}</td>*/}

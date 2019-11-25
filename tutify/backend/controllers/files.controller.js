@@ -30,12 +30,12 @@ exports.testUpload= async (req, res, next) => {
   //console.log(req.body);
   file.name = req.body.name;
   file.adminTutor = req.body.adminTutor;
-  file.url = "http://localhost:3000"+file.name;
- 
+  file.url = "http://localhost:3000/"+req.file.filename;
+  file.encryptedName = req.file.filename;
   file.save().then(result => {
       res.status(201).json({
           message: "File uploaded successfully!",
-          userCreated: {
+          fileCreated: {
               _id: result._id,
               file: result.file
           }
