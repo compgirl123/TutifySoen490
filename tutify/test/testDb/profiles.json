@@ -1,0 +1,436 @@
+{
+    "success": true,
+    "data": [
+      {
+        "_id": {
+          "$oid": "5dacd1cf1c9d440000aa0b1b"
+        },
+        "students": [
+          {
+            "$oid": "5dc8735ebb22af5ae4ca23e6"
+          },
+          {
+            "$oid": "5dc4642fe4f11463e0dbdbc8"
+          },
+          {
+            "$oid": "5dc8b00b67f316e016a8ea93"
+          }
+        ],
+        "first_name": "Mohammad",
+        "last_name": "Alawami",
+        "school": "MoTutoring",
+        "program_of_study": "Engineering",
+        "subjects": [
+          "Math",
+          "Physics",
+          "Chemistry",
+          "French",
+          "English"
+        ],
+        "picture": "https://i.imgur.com/kyh5A1e.jpg",
+        "__t": "tutor",
+        "account": {
+          "$oid": "5db4bc7c1c9d440000de44e5"
+        },
+        "id": {
+          "$numberInt": "2"
+        },
+        "description": "I'm an engineering student in Concordia University. I love science and teaching and would love to be a university professor in the future. I teach general chemistry, Algabra math and calculus, physics mechanics & electricity and magnetism, English as a second language, basic C++ programming, and high school and Lower levels sciences. Prices are for one on one sessions. My prices ranges by the experience I have for teaching each of the courses. For school tutoring, we can discuss the price depending on what kind of tutoring you are looking for (frequency, how many courses, how many students, location, etc)",
+        "courses": [
+          {
+            "$oid": "5dbaef561c9d440000c0ab0a"
+          },
+          {
+            "$oid": "5dba6e4e1c9d440000b48a81"
+          }
+        ]
+      },
+      {
+        "_id": {
+          "$oid": "5dae5f8b1c9d44000071cbc2"
+        },
+        "id": {
+          "$numberInt": "3"
+        },
+        "first_name": "Pooja",
+        "last_name": "Patel",
+        "school": "Elementary School",
+        "program_of_study": "French",
+        "subjects": [
+          "French",
+          "English"
+        ],
+        "picture": "https://i.imgur.com/aPehazP.jpg",
+        "__t": "tutor",
+        "students": [
+          {
+            "$oid": "5dbfb5fd0b238605fb4b7349"
+          },
+          {
+            "$oid": "5dbfb5fd0b238605fb4b7349"
+          },
+          {
+            "$oid": "5dbfb5fd0b238605fb4b7349"
+          },
+          {
+            "$oid": "5dbfb5fd0b238605fb4b7349"
+          },
+          {
+            "$oid": "5dbfb5fd0b238605fb4b7349"
+          },
+          {
+            "$oid": "5dbfb5fd0b238605fb4b7349"
+          },
+          {
+            "$oid": "5dc4642fe4f11463e0dbdbc8"
+          },
+          {
+            "$oid": "5dc4642fe4f11463e0dbdbc8"
+          },
+          {
+            "$oid": "5dc4642fe4f11463e0dbdbc8"
+          },
+          {
+            "$oid": "5dc4642fe4f11463e0dbdbc8"
+          },
+          {
+            "$oid": "5dc4642fe4f11463e0dbdbc8"
+          },
+          {
+            "$oid": "5dc8735ebb22af5ae4ca23e6"
+          },
+          {
+            "$oid": "5dc8735ebb22af5ae4ca23e6"
+          },
+          {
+            "$oid": "5dc8735ebb22af5ae4ca23e6"
+          },
+          {
+            "$oid": "5dc23bad66cb8918f06d501b"
+          }
+        ],
+        "courses": [
+          {
+            "$oid": "5dbaf0751c9d440000c0ab0c"
+          }
+        ]
+      },
+      {
+        "_id": {
+          "$oid": "5db25477167150a539cb5edb"
+        },
+        "tutors": [],
+        "__t": "student",
+        "account": {
+          "$oid": "5db25477167150a539cb5eda"
+        },
+        "first_name": "tanya",
+        "last_name": "tutor",
+        "program_of_study": "soen",
+        "education_level": "university",
+        "school": "udm",
+        "id": {
+          "$numberInt": "13"
+        },
+        "__v": {
+          "$numberInt": "0"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "5db388c387a78d01b42c9aff"
+        },
+        "courses": [
+          {
+            "$oid": "5dbb0bd51c9d440000ce6e66"
+          },
+          {
+            "$oid": "5dba6e4e1c9d440000b48a81"
+          }
+        ],
+        "tutors": [
+          {
+            "$oid": "5dacd1cf1c9d440000aa0b1b"
+          }
+        ],
+        "__t": "student",
+        "account": {
+          "$oid": "5db388c387a78d01b42c9afe"
+        },
+        "first_name": "cynthiact",
+        "last_name": "cherrier",
+        "program_of_study": "soen",
+        "education_level": "university",
+        "school": "concordia",
+        "id": {
+          "$numberInt": "14"
+        },
+        "__v": {
+          "$numberInt": "0"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "5dbf7137d159aa8050140e78"
+        },
+        "students": [
+          {
+            "$oid": "5dbfb5fd0b238605fb4b7349"
+          }
+        ],
+        "__t": "tutor",
+        "account": {
+          "$oid": "5dbf7137d159aa8050140e77"
+        },
+        "first_name": "Viktoria",
+        "last_name": "Anisov",
+        "program_of_study": "Education",
+        "school": "Independent Teacher",
+        "subjects": [
+          "French",
+          "English"
+        ],
+        "picture": "https://i.imgur.com/rwQhttP.jpg",
+        "id": {
+          "$numberInt": "21"
+        },
+        "__v": {
+          "$numberInt": "0"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "5dbfb5fd0b238605fb4b7349"
+        },
+        "tutors": [
+          {
+            "$oid": "5dbfb5fd0b238605fb4b7348"
+          },
+          {
+            "$oid": "5dacd1cf1c9d440000aa0b1b"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "$oid": "5dacd1cf1c9d440000aa0b1b"
+          },
+          {
+            "$oid": "5dacd1cf1c9d440000aa0b1b"
+          },
+          {
+            "$oid": "5dae5f8b1c9d44000071cbc2"
+          },
+          {
+            "$oid": "5dae5f8b1c9d44000071cbc2"
+          },
+          {
+            "$oid": "5dae5f8b1c9d44000071cbc2"
+          },
+          {
+            "$oid": "5dbf7137d159aa8050140e78"
+          },
+          {
+            "$oid": "5dacd1cf1c9d440000aa0b1b"
+          }
+        ],
+        "courses": [],
+        "__t": "student",
+        "account": {
+          "$oid": "5dbfb5fd0b238605fb4b7348"
+        },
+        "first_name": "Claudia",
+        "last_name": "Feochari",
+        "program_of_study": "English",
+        "education_level": "Elementary",
+        "school": "Concordia",
+        "id": {
+          "$numberInt": "1"
+        },
+        "__v": {
+          "$numberInt": "0"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "5dc0630e9897640c2f7fdf51"
+        },
+        "tutors": [],
+        "courses": [],
+        "__t": "student",
+        "account": {
+          "$oid": "5dc0630e9897640c2f7fdf50"
+        },
+        "first_name": "Pierre",
+        "last_name": "Watine",
+        "program_of_study": "Software Engineering",
+        "education_level": "elementary",
+        "school": "elementary",
+        "id": {
+          "$numberInt": "0"
+        },
+        "__v": {
+          "$numberInt": "0"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "5dc0950d32517e6ada7afbca"
+        },
+        "tutors": [],
+        "courses": [],
+        "__t": "student",
+        "account": {
+          "$oid": "5dc0950d32517e6ada7afbc9"
+        },
+        "first_name": "kas",
+        "last_name": "para",
+        "program_of_study": "software",
+        "education_level": "highschool",
+        "school": "uqam",
+        "id": {
+          "$numberInt": "3"
+        },
+        "__v": {
+          "$numberInt": "0"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "5dc23bad66cb8918f06d501b"
+        },
+        "tutors": [
+          {
+            "$oid": "5dacd1cf1c9d440000aa0b1b"
+          },
+          {
+            "$oid": "5dae5f8b1c9d44000071cbc2"
+          }
+        ],
+        "__t": "student",
+        "account": {
+          "$oid": "5dc23bad66cb8918f06d501a"
+        },
+        "first_name": "Tanya",
+        "last_name": "Multani",
+        "program_of_study": "soen",
+        "education_level": "university",
+        "school": "concordia",
+        "id": {
+          "$numberInt": "2"
+        },
+        "__v": {
+          "$numberInt": "0"
+        },
+        "courses": [
+          {
+            "$oid": "5dbaf0751c9d440000c0ab0c"
+          }
+        ]
+      },
+      {
+        "_id": {
+          "$oid": "5dc4642fe4f11463e0dbdbc8"
+        },
+        "tutors": [
+          {
+            "$oid": "5dacd1cf1c9d440000aa0b1b"
+          }
+        ],
+        "courses": [
+          {
+            "$oid": "5dba6e4e1c9d440000b48a81"
+          }
+        ],
+        "todos": [
+          {
+            "text": "Saved todo 1"
+          },
+          {
+            "text": "Saved todo 2"
+          }
+        ],
+        "__t": "student",
+        "account": {
+          "$oid": "5dc4642fe4f11463e0dbdbc7"
+        },
+        "first_name": "testc",
+        "last_name": "CC",
+        "program_of_study": "SOEN",
+        "education_level": "university",
+        "school": "concordia",
+        "id": {
+          "$numberInt": "4"
+        },
+        "__v": {
+          "$numberInt": "0"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "5dc8735ebb22af5ae4ca23e6"
+        },
+        "tutors": [
+          {
+            "$oid": "5dacd1cf1c9d440000aa0b1b"
+          }
+        ],
+        "courses": [
+          {
+            "$oid": "5dba6e4e1c9d440000b48a81"
+          }
+        ],
+        "__t": "student",
+        "todos": [],
+        "account": {
+          "$oid": "5dc8735ebb22af5ae4ca23e5"
+        },
+        "first_name": "Cynthia",
+        "last_name": "Cherrier",
+        "program_of_study": "Software Engineering",
+        "education_level": "College",
+        "school": "McGill",
+        "id": {
+          "$numberInt": "5"
+        },
+        "__v": {
+          "$numberInt": "0"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "5dc8b00b67f316e016a8ea93"
+        },
+        "tutors": [
+          {
+            "$oid": "5dacd1cf1c9d440000aa0b1b"
+          }
+        ],
+        "courses": [
+          {
+            "$oid": "5dbaef561c9d440000c0ab0a"
+          }
+        ],
+        "__t": "student",
+        "todos": [],
+        "account": {
+          "$oid": "5dc8b00b67f316e016a8ea92"
+        },
+        "first_name": "Vanessa",
+        "last_name": "Gonzales",
+        "program_of_study": "Engineering",
+        "education_level": "university",
+        "school": "concordia",
+        "id": {
+          "$numberInt": "6"
+        },
+        "__v": {
+          "$numberInt": "0"
+        }
+      }
+    ]
+  }

@@ -18,7 +18,7 @@ import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
 import Box from '@material-ui/core/Box';
 
-class UserInfo extends React.Component {
+export class UserInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -236,6 +236,7 @@ class UserInfo extends React.Component {
     const { open } = this.state;
 
     return (
+      
       <Card className={classes.card}>
         <React.Fragment>
           <CardContent>
@@ -243,7 +244,7 @@ class UserInfo extends React.Component {
           </CardContent>
           <CardContent>
             <Typography component="p" variant="h5" >
-              <Box fontWeight="fontWeightBold">
+              <Box fontWeight="fontWeightBold" >
                 {this.state.first_name + " " + this.state.last_name}
               </Box>
             </Typography>
@@ -254,9 +255,8 @@ class UserInfo extends React.Component {
               height: .5,
               borderColor: '#FFFFFF'
             }} />
-
+           
             <Typography className={classes.InfoContext}>
-
               Status: Student
             </Typography>
 
