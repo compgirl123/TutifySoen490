@@ -260,27 +260,32 @@ export class UserInfo extends React.Component {
               Status: Student
             </Typography>
 
+            <br/>
+
             <Typography className={classes.InfoContext}>
-              <br />
               Email : {this.state.email}
             </Typography>
 
+            <br />
+
             <Typography className={classes.InfoContext}>
-              <br />
               Program of Study: {this.state.program_of_study}
             </Typography>
 
+            <br />
+
             <Typography className={classes.InfoContext}>
-              <br />
               School: {this.state.school}
             </Typography>
 
+            <br />
+
             <Typography className={classes.InfoContext}>
-              <br />
               Education Level: {this.state.education_level}
             </Typography>
 
             <br />
+            
             <Fab variant="extended" aria-label="edit"
               justify="center"
               onClick={() => { this.handleClickOpen(); }}

@@ -8,127 +8,74 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
+// importing the json object with the profile information
 var json = require("./testDb/profiles.json");
-// get mo as mocked object and set his name and then change it to someone else
 
 configure({ adapter: new Adapter() });
-describe('The tutor search filter ', () => {
+
+// Get a mocked student object and set all her information on the page. 
+describe('The Profile Page updating Profile Feature', () => {
     let mount;
 
     beforeAll(() => {
         mount = createMount();
     });
 
-    it('setting the default values present on profile page for Student', () => {
-        // The value sent in the input
-        const mockedEvent = { target: { value: "Rogerino"} } 
-
-        // All the mounting and state setting
+    it('Setting the default values on Profile Page for Students and updating these values too', () => {
+        // All the mounting and state setting for UserInfo Class
         const wrapper = mount(<UserInfo></UserInfo>);
         const shallowwrapper = wrapper.find(UserInfoClass);
         shallowwrapper.setState({ data: json.data });
         
-        // Sending the onChange event
-        const input2 = wrapper.find(Typography).at(1);
-        console.log(input2.props().children);
-        var student = input2.props().children.includes("Student");
+        // Finding the Typography html document that contains whether the object is a student or not.
+        const student_status_input = wrapper.find(Typography).at(1);
+        console.log(student_status_input.props().children);
+
+        // Checks if this Typography html document includes the word student to see if this is a student object
+        var student = student_status_input.props().children.includes("Student");
         console.log(student);
+        
+        // Saving all of the profile data from the profile.json into a variable.
+        var profile_array = shallowwrapper.state().data;
+        var student_selected = 0;
+
+        // Select the first profile that appears as a student profile that will be used as a mocked event.
+        // Save this student profile index information in a variable.
+        for(var x=0;x<profile_array.length;x++){
+            if(profile_array[x].__t == "student"){
+                student_selected = x;
+                break;
+            }
+        }
+        console.log(student_selected);
+
+        // The Student profile that is mocked. This is taken from the profiles.json file
+        const mockedEvent = profile_array[student_selected];
+        console.log(mockedEvent.email);
+    
+        // if the description of the type of user on the page is a student, then perform this if statement.
         if(student){
-            const input1 = wrapper.find(Box).at(0);
-            console.log(input1.props().children);
-            input1.props().children = "Claudia Francesca";
-            console.log(input1.props().children);
-            console.log(document.getElementById(input1.props().id).value);
-            document.getElementById(input1.props().children).setAttribute('value', input1.props().children);
-            console.log(document.getElementById(input1.props().children).value);
-            //const input = wrapper.find("input[name=firstName]").at(0);
-            //input.props().onChange(mockedEvent);
-            // shallowwrapper.setState({ selectedIndex: 0 });
+            // Finding the Typography HTML document that contains the email of the student.
+            const email_input = wrapper.find(Typography).at(2);
+            console.log(email_input.props().children[0]);
+            // Setting the email component on the page with the email of the student (setting initial variables)
+            email_input.props().children = email_input.props().children[0] + profile_array[student_selected].email;
+            console.log(email_input.props().children);
+            /* Setting the state of the wrapper in order to take the information from the email and set the wrapper 
+               with the student's email address */
+            shallowwrapper.setState({ student_email: email_input.props().children });
+            // Finding the Typography HTML document that contains the first and last name of the student.
+            const name_input = wrapper.find(Box).at(0);
+            console.log(name_input.props().children);
+            // Setting the full name component on the page with the full name of the student (setting initial variables)
+            name_input.props().children = profile_array[student_selected].first_name + " " 
+                                        + profile_array[student_selected].last_name;
+            console.log(name_input.props().children);
         }
         
-
-        // Expecting a filtered result
-        expect(shallowwrapper.state().updatedFirstName).toBe("Rogerino");
-        const button = wrapper.find("button#UpdateValue");
-        btn.simulate("click");
-        expect(shallowwrapper.state().first_name.toString()).toBe("Rogerino");
+        // Expecting a result that contains the appropriate email of the student.
+        expect(shallowwrapper.state().student_email).toBe("Email : "+profile_array[student_selected].email);
+        
     });
 
-    // it('should be filtering by name.', () => {
-    //     // The value sent in the input
-    //     const mockedEvent = { target: { value: "pate"} } 
-
-    //     // All the mounting and state setting
-    //     const wrapper = mount(<UserInfo></UserInfo>);
-    //     const shallowwrapper = wrapper.find(UserInfoClass);
-    //     shallowwrapper.setState({ data: json.data });
-    //     shallowwrapper.setState({ selectedIndex: 1 });
-        
-    //     // Sending the onChange event
-    //     const input = wrapper.find(InputBase).at(0);
-    //     input.props().onChange(mockedEvent);
-
-    //     // Expecting a filtered result
-    //     expect(shallowwrapper.state().filteredData.length).toBe(1);
-    //     expect(shallowwrapper.state().filteredData[0].last_name.toString()).toBe("Patel");
-    // });
-    
-    // it('should be filtering by school.', () => {
-    //     // The value sent in the input
-    //     const mockedEvent = { target: { value: "con"} } 
-
-    //     // All the mounting and state setting
-    //     const wrapper = mount(<UserInfo></UserInfo>);
-    //     const shallowwrapper = wrapper.find(UserInfoClass);
-    //     shallowwrapper.setState({ data: json.data });
-    //     shallowwrapper.setState({ selectedIndex: 2 });
-        
-    //     // Sending the onChange event
-    //     const input = wrapper.find(InputBase).at(0);
-    //     input.props().onChange(mockedEvent);
-
-    //     // Expecting a filtered result
-    //     expect(shallowwrapper.state().filteredData.length).toBe(3);
-    //     expect(shallowwrapper.state().filteredData[0].school.toString()).toBe("Concordia University");
-    // });
-
-    // it('should be filtering by course.', () => {
-    //     // The value sent in the input
-    //     const mockedEvent = { target: { value: "en"} } 
-
-    //     // All the mounting and state setting
-    //     const wrapper = mount(<UserInfo></UserInfo>);
-    //     const shallowwrapper = wrapper.find(UserInfoClass);
-    //     shallowwrapper.setState({ data: json.data });
-    //     shallowwrapper.setState({ selectedIndex: 3 });
-        
-    //     // Sending the onChange event
-    //     const input = wrapper.find(InputBase).at(0);
-    //     input.props().onChange(mockedEvent);
-
-    //     // Expecting a filtered result
-    //     expect(shallowwrapper.state().filteredData.length).toBe(4);
-    //     expect(shallowwrapper.state().filteredData[0].subjects.toString()).toBe("Computer Science");
-    // });
-
-    // it('should be filtering by program.', () => {
-    //     // The value sent in the input
-    //     const mockedEvent = { target: { value: "engi"} } 
-
-    //     // All the mounting and state setting
-    //     const wrapper = mount(<UserInfo></UserInfo>);
-    //     const shallowwrapper = wrapper.find(UserInfoClass);
-    //     shallowwrapper.setState({ data: json.data });
-    //     shallowwrapper.setState({ selectedIndex: 4 });
-        
-    //     // Sending the onChange event
-    //     const input = wrapper.find(InputBase).at(0);
-    //     input.props().onChange(mockedEvent);
-
-    //     // Expecting a filtered result
-    //     expect(shallowwrapper.state().filteredData.length).toBe(1);
-    //     expect(shallowwrapper.state().filteredData[0].subjects.toString()).toBe("Software Engineering");
-    // });
-
-   
 }); 
