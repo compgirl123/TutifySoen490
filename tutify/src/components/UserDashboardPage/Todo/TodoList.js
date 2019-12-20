@@ -10,7 +10,6 @@ import { withStyles } from "@material-ui/core/styles";
 import Typography from '@material-ui/core/Typography';
 import AddTodo from "./AddTodo";
 import Todos from "./Todos";
-import axios from "axios";
 import uuid from 'uuid';
 import PropTypes from 'prop-types';
 
