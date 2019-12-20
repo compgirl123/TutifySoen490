@@ -1,7 +1,9 @@
 import React from 'react';
 import Footer from '../Footer';
 import TutorDashBoardNavBar from '../TutorProfile/TutorDashboardNavBar';
-import Paper from '@material-ui/core/Paper';
+import { Grid, TextField, Container, } from '@material-ui/core';
+import * as TutorAnnouncementsStyles from '../../styles/TutorAnnouncements-styles';
+import { withStyles } from "@material-ui/core/styles";
 
 // Tutor views all of the documents uploaded for each individual course
 class Announcements extends React.Component {
@@ -40,19 +42,35 @@ class Announcements extends React.Component {
     };
 
     render() {
+        const { classes } = this.props;
         return (
-            <Paper>
-                <React.Fragment>
+            <React.Fragment>
                 <main>
                     <TutorDashBoardNavBar />
-              {/* Footer */}
-              <Footer />
-            </main>
-        </React.Fragment>
-      </Paper>
+                    <Container className={classes.container}>
+                        <form>
+                            <Grid container spacing={3} direction="column">
+                                <Grid item xs={10}>
+                                    <TextField id="outlined-basic" label="Announcement Title" variant="outlined" className={classes.announcementTitle} />
+                                </Grid>
+                                <Grid item xs={30}>
+                                    <TextField
+                                    className={classes.announcementText}
+                                    id="outlined-multiline-static"
+                                    label="Announcement"
+                                    multiline
+                                    rows="6"
+                                    variant="outlined"
+                                    />
+                                </Grid>
+                            </Grid>
+                        </form>
+                    </Container>
+                    <Footer />
+
+                </main>
+            </React.Fragment>
         );
     }
 }
-
-
-export default Announcements;
+export default withStyles(TutorAnnouncementsStyles.styles, { withTheme: true })(Announcements);
