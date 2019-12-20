@@ -51,11 +51,16 @@ class Announcements extends React.Component {
                         <form>
                             <Grid container spacing={3} direction="column">
                                 <Grid item xs={10}>
-                                    <TextField id="outlined-basic" label="Announcement Title" variant="outlined" className={classes.announcementTitle} />
+                                    <TextField id="outlined-basic" 
+                                    required 
+                                    label="Announcement Title" 
+                                    variant="outlined" 
+                                    className={classes.announcementTitle} />
                                 </Grid>
                                 <Grid item xs={30}>
                                     <TextField
                                     className={classes.announcementText}
+                                    required
                                     id="outlined-multiline-static"
                                     label="Announcement"
                                     multiline
