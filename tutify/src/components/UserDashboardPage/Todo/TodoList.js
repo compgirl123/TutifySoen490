@@ -39,8 +39,7 @@ class TodoList extends React.Component {
 
     // Delete Todo from list
     delTodo = (id) => {
-        axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
-            .then(res => this.setState({ todos: [...this.state.todos.filter(todo => todo.id !== id)] }));
+        this.setState({ todos: [...this.state.todos.filter(todo => todo.id !== id)] })
     }
 
     // Adds a todo to the list
