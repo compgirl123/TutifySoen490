@@ -15,6 +15,7 @@ import UploadDocuments from "./components/UploadDocuments/UploadDocuments";
 import BlogPost from "./components/BlogPost";
 import ViewCourse from "./components/StudentCourseView/ViewCourse";
 import TutorCourseView from "./components/TutorCourseView/TutorCourseView";
+import Announcements from "./components/TutorAnnouncements/Announcements";
 
 // This is all the url routing.
 function MainPage() {
@@ -35,6 +36,7 @@ function MainPage() {
       <Route exact path= "/Postblog" component={BlogPost} />
       <Route exact path= "/ViewCourse" component={ViewCourse} />
       <Route exact path= "/TutorCourseView" component={TutorCourseView} />
+      <Route exact path= "/Announcements" component={Announcements} />
     </Router>
   );
 }

@@ -43,7 +43,6 @@ export class TutorSidebar extends Component {
               </ListItemIcon>
               <ListItemText primary="My Profile" />
             </ListItem>
-
             <ListItem button component="a" href="/uploadingDocs">
               <ListItemIcon>
                 <PublishIcon />
@@ -55,6 +54,12 @@ export class TutorSidebar extends Component {
                 <MenuBookIcon />
               </ListItemIcon>
               <ListItemText primary="My Courses" />
+            </ListItem>
+            <ListItem button component="a" href="/Announcements">
+              <ListItemIcon>
+                <MenuBookIcon />
+              </ListItemIcon>
+              <ListItemText primary="Announcements" />
             </ListItem>
             <ListItem button component="a" href="/students">
               <ListItemIcon>
