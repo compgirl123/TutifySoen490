@@ -10,8 +10,6 @@ import { withStyles } from "@material-ui/core/styles";
 import Typography from '@material-ui/core/Typography';
 import AddTodo from "./AddTodo";
 import Todos from "./Todos";
-import axios from "axios";
-import uuid from 'uuid';
 import PropTypes from 'prop-types';
 
 
@@ -24,38 +22,23 @@ class TodoList extends React.Component {
         this.addTodo = this.addTodo.bind(this)
     }
 
-
     // Add strike to a task when checkbox is checked
     markComplete = (id) => {
-        this.setState({
-            todos: this.state.todos.map(todo => {
-                if (todo.id === id)
-                    todo.completed = !todo.completed;
-                return todo;
-            })
-        });
+        this.props.markComplete(id)
     }
-
 
     // Delete Todo from list
     delTodo = (id) => {
-        axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
-            .then(res => this.setState({ todos: [...this.state.todos.filter(todo => todo.id !== id)] }));
+        this.props.delTodo(id)
     }
 
     // Adds a todo to the list
     addTodo = (title) => {
-        const newTodo = {
-            id: uuid.v4(),
-            title: title,
-            completed: false
-        }
-        this.setState({ todos: [...this.state.todos, newTodo]})
+        this.props.addTodo(title)
     }
 
     render() {
-        const { classes } = this.props;
-        const { todos } = this.state;
+        const { classes, todos } = this.props;
         return (
             <React.Fragment>
                 <Paper className={classes.tableWrapper}>
@@ -77,12 +60,16 @@ class TodoList extends React.Component {
         );
     }
 }
+
 TodoList.propTypes = {
     todos: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
       completed: PropTypes.bool.isRequired,
-      title: PropTypes.string.isRequired
     }).isRequired).isRequired,
-    markComplete: PropTypes.func.isRequired
-  }
+    markComplete: PropTypes.func.isRequired,
+    delTodo: PropTypes.func.isRequired,
+    addTodo: PropTypes.func.isRequired
+}
+
 export default withStyles(UserDashboardStyles.styles, { withTheme: true })(TodoList);

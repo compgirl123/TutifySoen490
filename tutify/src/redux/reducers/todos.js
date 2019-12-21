@@ -5,7 +5,7 @@ const todos = (state = [], action) => {
         ...state,
         {
           id: action.id,
-          text: action.text,
+          title: action.title,
           completed: false
         }
       ]
@@ -16,10 +16,8 @@ const todos = (state = [], action) => {
           : todo
       )
     case 'DEL_TODO':
-      return Object.assign({}, state, {
-        todos: state.todos.filter((todo) => {
+      return state.filter((todo) => {
           return todo.id !== action.id
-        })
       })
     default:
       return state

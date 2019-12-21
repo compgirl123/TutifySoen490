@@ -8,9 +8,6 @@ import { withStyles } from "@material-ui/core/styles";
 import Sidebar from '../ProfilePage/StudentSidebar';
 import Drawer from "@material-ui/core/Drawer";
 import MyCourseList from "./MyCourseList";
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import rootReducer from "../../redux/reducers";
 import VisibleTodoList from '../../redux/containers/VisibleTodoList'
 
 class UserDashboard extends React.Component {
@@ -59,12 +56,10 @@ class UserDashboard extends React.Component {
     }
 
     render() {
-        const store = createStore(rootReducer)
         const { classes } = this.props;
         const { courses, tutors } = this.state;
 
         return (
-            <Provider store={store}>
             <React.Fragment>
                 <NavBar />
                 <Drawer
@@ -91,7 +86,6 @@ class UserDashboard extends React.Component {
                     <Footer />
                 </main>
             </React.Fragment>
-            </Provider>
         );
     }
 }
