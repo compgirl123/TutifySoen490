@@ -9,5 +9,8 @@ export const styles = theme => ({
     },
     announcementTitle: {
         width: 300,
-    }
+    },
+    submitButton: {
+        marginLeft: theme.spacing(52),
+    },
 });

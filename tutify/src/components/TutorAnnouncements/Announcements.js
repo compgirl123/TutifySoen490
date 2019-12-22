@@ -202,6 +202,12 @@ class Announcements extends React.Component {
                                             </MenuItem>
                                         ))}
                                     </Menu>
+                                    <Button className={classes.submitButton} aria-controls="simple-menu" aria-haspopup="true" variant="outlined">
+                                        Submit
+                                    </Button>
+                                </Grid>
+                                <Grid item>
+                                    
                                 </Grid>
                             </Grid>
                         </form>
