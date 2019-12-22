@@ -296,6 +296,7 @@ export class UserInfo extends React.Component {
           </CardContent>
           <div>
 
+
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
               <DialogTitle id="simple-dialog-title">Edit Information</DialogTitle>
               <DialogContent>
@@ -311,6 +312,7 @@ export class UserInfo extends React.Component {
                   autoComplete="firstName"
                   label="First Name"
                   type="firstName"
+                  value = {this.state.updatedFirstName}
                   fullWidth
                 />
 
