@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import TodoList from '../../components/UserDashboardPage/Todo/TodoList.js'
-import { VisibilityFilters, markComplete, addTodo, delTodo, setTodos } from '../actions/todolist_action'
+import { VisibilityFilters, markComplete, addTodo, delTodo, setTodos, saveTodos } from '../actions/todolist_action'
 
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
@@ -26,7 +26,8 @@ const mapDispatchToProps = dispatch => {
     markComplete: id => dispatch(markComplete(id)),
     addTodo: title => dispatch(addTodo(title)),
     delTodo: id => dispatch(delTodo(id)),
-    setTodos: todos => dispatch(setTodos(todos))
+    setTodos: todos => dispatch(setTodos(todos)),
+    saveTodos: id => dispatch(saveTodos(id))
   }
 }
 

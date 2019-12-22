@@ -11,8 +11,15 @@ import Typography from '@material-ui/core/Typography';
 import AddTodo from "./AddTodo";
 import Todos from "./Todos";
 import PropTypes from 'prop-types';
-import axios from 'axios';
+import Button from "@material-ui/core/Button";
 
+
+function SaveButton(props) {
+    if(props.sessionTodosSet && props.todoChanged ){
+        return <Button variant="primary" onClick={event => props.saveTodosDB()}>Save</Button>
+    }
+    return <Button variant="primary" disabled >Save</Button>
+}
 
 class TodoList extends React.Component {
     constructor(props) {
@@ -20,7 +27,8 @@ class TodoList extends React.Component {
         this.state = {
             todos: [],
             sessionTodosSet: false,
-            _id: null
+            _id: null,
+            todoChanged: false
         };
         this.addTodo = this.addTodo.bind(this)
     }
@@ -33,27 +41,30 @@ class TodoList extends React.Component {
         }
     }
 
-    componentWillUnmount(){
-        axios.post('http://localhost:3001/api/updateUserTodos', {
-            _id: this.state._id,
-            todos: this.props.todos,
-          }).catch(err => console.log(err));
-    }
-
     // Add strike to a task when checkbox is checked
     markComplete = (id) => {
         this.props.markComplete(id)
+        this.setState({ todoChanged: true });
     }
 
     // Delete Todo from list
     delTodo = (id) => {
         this.props.delTodo(id)
+        this.setState({ todoChanged: true });
     }
 
     // Adds a todo to the list
     addTodo = (title) => {
         this.props.addTodo(title)
+        this.setState({ todoChanged: true});
     }
+
+    // Save new todo list to the DB
+    saveTodosDB = () => {
+        this.props.saveTodos(this.state._id)
+        this.setState({ todoChanged: false });
+    }
+
 
     render() {
         const { classes, todos } = this.props;
@@ -63,7 +74,13 @@ class TodoList extends React.Component {
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                             <TableRow>
-                                <TableCell><Typography variant="h6">My To-Do List</Typography></TableCell>
+                                <TableCell><Typography variant="h6">My To-Do List</Typography>
+                                <SaveButton
+                                    sessionTodosSet={this.state.sessionTodosSet}
+                                    todoChanged={this.state.todoChanged}
+                                    saveTodosDB={this.saveTodosDB}
+                                />
+                                </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -81,7 +98,7 @@ class TodoList extends React.Component {
 
 TodoList.propTypes = {
     todos: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       completed: PropTypes.bool.isRequired,
     }).isRequired).isRequired,
@@ -89,7 +106,7 @@ TodoList.propTypes = {
     delTodo: PropTypes.func.isRequired,
     addTodo: PropTypes.func.isRequired,
     sessionTodos: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.number.isRequired,
+        id: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         completed: PropTypes.bool.isRequired,
       }).isRequired),

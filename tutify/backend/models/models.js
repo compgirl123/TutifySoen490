@@ -44,8 +44,9 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
   },
   todos: [
     {
-      text: { type: String },
-      checked: { type: Boolean }
+      id: { type: String },
+      title: { type: String },
+      completed: { type: Boolean }
     }
   ]
 }), 'profiles'

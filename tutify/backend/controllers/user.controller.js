@@ -8,6 +8,7 @@ const bcrypt = require('bcryptjs')
 const algorithm = 'aes-256-cbc';
 const key = crypto.randomBytes(32);
 const iv = crypto.randomBytes(16);
+var mongoose = require('mongoose');
 
 // this method fetches all available users in our database
 exports.getUser = async function (req, res) {
@@ -301,6 +302,13 @@ exports.getUserCourses = async function (req, res) {
 // this method overwrites existing user todos in our database
 exports.updateUserTodos = async function (req, res) {
     const { _id, todos } = req.body;
+
+    todos.forEach(function (todo) {
+        if(todo._id == null){ // if todo doesnt have an object id, generate one
+            todo._id = new mongoose.Types.ObjectId();
+        }
+    });
+
     Student.findByIdAndUpdate(_id, {$set: { "todos": todos }},
         { "new": true, "upsert": true },
         (err) => {
