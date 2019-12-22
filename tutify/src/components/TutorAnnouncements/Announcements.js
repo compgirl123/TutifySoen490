@@ -1,24 +1,79 @@
 import React from 'react';
 import Footer from '../Footer';
 import TutorDashBoardNavBar from '../TutorProfile/TutorDashboardNavBar';
-import { Grid, TextField, Container, } from '@material-ui/core';
+import { Grid, TextField, Container, ListItem, } from '@material-ui/core';
 import * as TutorAnnouncementsStyles from '../../styles/TutorAnnouncements-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import List from '@material-ui/core/List';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Checkbox from '@material-ui/core/Checkbox';
+import Typography from '@material-ui/core/Typography';
 
+function ShowCourses(props) {
+    if (!props.show) {
+        return '';
+    }
+    return (<Paper>
+        <Table stickyHeader aria-label="">
+            <TableHead>
+                <TableRow>
+                    <TableCell><Typography variant="h6">Courses</Typography></TableCell>
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                <TableRow>
+                    <List>
+                        {courses.map(value => {
+                            const labelId = `checkbox-list-label-${value}`
+                            return (
+                                <ListItem key={value} role={undefined} dense button >
+                                    <ListItemIcon>
+                                        <Checkbox
+                                            edge="start"
+                                            tabIndex={-1}
+                                            disableRipple
+                                            inputProps={{ 'aria-labelledby': labelId }}
+                                        />
+                                    </ListItemIcon>
+                                    <ListItemText id={labelId} primary={value} />
+                                </ListItem>
+                            );
+                        })}
+                    </List>
+                </TableRow>
+            </TableBody>
+        </Table>
+    </Paper>);
+}
 const options = [
     'All',
     'Course',
     'Student',
 ];
 
+const courses = [
+    'MATH101',
+    'MATH102',
+    'MATH103',
+];
+
+
 // Tutor views all of the documents uploaded for each individual course
 class Announcements extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            isCoursesSelected: false,
             drawerOpened: false,
             data: [],
             filteredData: [],
@@ -27,11 +82,14 @@ class Announcements extends React.Component {
             selectedIndex: 0,
             anchorEl: null,
             user_id: null,
+            checked: 1,
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleClickMenu = this.handleClickMenu.bind(this);
         this.handleCloseMenu = this.handleCloseMenu.bind(this);
     }
+
+    
 
     toggleDrawer = booleanValue => () => {
         this.setState({
@@ -52,22 +110,16 @@ class Announcements extends React.Component {
         this.setState({ anchorEl: null });
 
         if (index === 0) {
-            this.setState({ placeholder: 'Search' });
+            this.setState({ placeholder: 'All' });
+            this.setState({ isCoursesSelected: false })
         }
         else if (index === 1) {
-            this.setState({ placeholder: 'Search by Tutor' });
+            this.setState({ placeholder: 'Course' });
+            this.setState({ isCoursesSelected: true });
         }
         else if (index === 2) {
-            this.setState({ placeholder: 'Search by School' });
-        }
-        else if (index === 3) {
-            this.setState({ placeholder: 'Search by Course' });
-        }
-        else if (index === 4) {
-            this.setState({ placeholder: 'Search by Subject' });
-        }
-        else if (index === 5) {
-            this.setState({ placeholder: 'Search by Program' });
+            this.setState({ placeholder: 'Student' });
+            this.setState({ isCoursesSelected: false })
         }
     };
 
@@ -202,12 +254,10 @@ class Announcements extends React.Component {
                                             </MenuItem>
                                         ))}
                                     </Menu>
+                                    <ShowCourses show={this.state.isCoursesSelected} />
                                     <Button className={classes.submitButton} aria-controls="simple-menu" aria-haspopup="true" variant="outlined">
                                         Submit
                                     </Button>
-                                </Grid>
-                                <Grid item>
-                                    
                                 </Grid>
                             </Grid>
                         </form>
