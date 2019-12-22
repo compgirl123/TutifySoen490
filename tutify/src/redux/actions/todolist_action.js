@@ -1,7 +1,8 @@
-let nextTodoId = 0
+import uuid from 'uuid';
+
 export const addTodo = title => ({
   type: 'ADD_TODO',
-  id: nextTodoId++,
+  id: uuid.v4(),
   title
 })
 
@@ -18,6 +19,11 @@ export const markComplete = id => ({
 export const delTodo = id => ({
     type: 'DEL_TODO',
     id
+})
+
+export const setTodos = todos => ({
+  type: 'SET_TODO',
+  todos
 })
 
 export const VisibilityFilters = {

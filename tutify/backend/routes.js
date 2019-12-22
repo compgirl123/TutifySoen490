@@ -26,8 +26,6 @@ router.get('/getTutorCourses', tutorController.getTutorCourses);
 
 router.get('/getUser', userController.getUser);
 
-router.post('/updateUser', userController.updateUser);
-
 router.post('/findStudents', userController.findStudents);
 
 router.post('/updateUserInfo', userController.updateUserInfo);
@@ -47,6 +45,8 @@ router.post('/assignTutor', userController.assignTutor);
 router.post('/assignCourse', userController.assignCourse);
 
 router.get('/getUserCourses', userController.getUserCourses);
+
+router.post('/updateUserTodos', userController.updateUserTodos);
 
 // -------- ACCOUNT ROUTES --------- // 
 

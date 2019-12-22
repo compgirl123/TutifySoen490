@@ -39,16 +39,7 @@ exports.findStudents = async function (req, res) {
     }
 };
 
-// this method overwrites existing user in our database
-exports.updateUser = async function (req, res) {
-    const { id, update } = req.body;
-    Student.findByIdAndUpdate(id, update, (err) => {
-        if (err) return res.json({ success: false, error: err });
-        return res.json({ success: true });
-    });
-};
-
-// this method overwrites existing user in our database
+// this method overwrites existing user info in our database
 exports.updateUserInfo = async function (req, res) {
     const { _id, school, program_of_study, education_level, first_name, last_name } = req.body;
     Student.findByIdAndUpdate(_id,
@@ -194,6 +185,7 @@ exports.putUser = async function (req, res) {
                         data.education_level = education_level;
                         data.school = school;
                         data.id = id;
+                        data.todos = []
                         data.save(function (err, user) {
                             if (err) return res.json({ success: false, error: err });
 
@@ -304,4 +296,23 @@ exports.getUserCourses = async function (req, res) {
             if (err) return handleError(err);
             return res.json({ success: true, data: student.courses });
         });
+};
+
+// this method overwrites existing user todos in our database
+exports.updateUserTodos = async function (req, res) {
+    const { _id, todos } = req.body;
+    Student.findByIdAndUpdate(_id, {$set: { "todos": todos }},
+        { "new": true, "upsert": true },
+        (err) => {
+            if (err) return res.json({ success: false, error: err });
+            //update the session
+            req.session.userInfo.todos = todos;
+            req.session.save(function (err) {
+                req.session.reload(function (err) {
+                    //session reloaded
+                    return res.json({ success: true });
+                });
+            });
+        }
+    );
 };

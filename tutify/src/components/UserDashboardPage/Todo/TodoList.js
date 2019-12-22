@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import AddTodo from "./AddTodo";
 import Todos from "./Todos";
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 
 class TodoList extends React.Component {
@@ -18,8 +19,25 @@ class TodoList extends React.Component {
         super(props);
         this.state = {
             todos: [],
+            sessionTodosSet: false,
+            _id: null
         };
         this.addTodo = this.addTodo.bind(this)
+    }
+
+    // when component receives the todos from the session as props, update the state of TodoList
+    componentDidUpdate() {
+        if(!this.state.sessionTodosSet){
+            this.props.setTodos(this.props.sessionTodos)
+            this.setState({ sessionTodosSet: true, _id: this.props._id });
+        }
+    }
+
+    componentWillUnmount(){
+        axios.post('http://localhost:3001/api/updateUserTodos', {
+            _id: this.state._id,
+            todos: this.props.todos,
+          }).catch(err => console.log(err));
     }
 
     // Add strike to a task when checkbox is checked
@@ -69,7 +87,12 @@ TodoList.propTypes = {
     }).isRequired).isRequired,
     markComplete: PropTypes.func.isRequired,
     delTodo: PropTypes.func.isRequired,
-    addTodo: PropTypes.func.isRequired
+    addTodo: PropTypes.func.isRequired,
+    sessionTodos: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        completed: PropTypes.bool.isRequired,
+      }).isRequired),
 }
 
 export default withStyles(UserDashboardStyles.styles, { withTheme: true })(TodoList);

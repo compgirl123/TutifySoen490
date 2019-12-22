@@ -19,6 +19,8 @@ const todos = (state = [], action) => {
       return state.filter((todo) => {
           return todo.id !== action.id
       })
+    case 'SET_TODO':
+      return action.todos
     default:
       return state
   }
