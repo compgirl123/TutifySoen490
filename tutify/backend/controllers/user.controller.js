@@ -103,32 +103,34 @@ exports.assignCourse = async function (req, res) {
         tutor: tutor_id,
     }
 
-    Tutor.findByIdAndUpdate(tutor_id,
-        { $push: { "courses.$[element].students": student_id } },
-        {
-            arrayFilters: [{ element: course_id }],
-            upsert: true
-        },
-        function (err, tutor) {
-            if (err) throw err;
+    Tutor.findOne({ _id: tutor_id }).then(tutor => {
+        // Add student to list for the specific course
+        tutor.courses.forEach((course) => {
+            if (course.course == course_id) {
+                course.students.push(student_id)
+            }
+        });
+        tutor.save();
 
-            Student.findByIdAndUpdate(student_id,
-                { "$push": { "courses": newCourse } },
-                { "new": true, "upsert": true },
-                function (err, user) {
-                    if (err) throw err;
+        // Student side
+        Student.findByIdAndUpdate(student_id,
+            { "$push": { "courses": newCourse } },
+            { "new": true, "upsert": true },
+            function (err, user) {
+                if (err) throw err;
 
-                    //update the session
-                    req.session.userInfo.courses.push(newCourse);
-                    req.session.save(function (err) {
-                        req.session.reload(function (err) {
-                            // session reloaded
-                        });
+                //update the session
+                req.session.userInfo.courses.push(newCourse);
+                req.session.save(function (err) {
+                    req.session.reload(function (err) {
+                        // session reloaded
                     });
-                }
-            );
-        }
-    );
+                });
+            }
+        );
+    }).catch(err => {
+        console.log(err)
+    });
 }
 
 // this function encrypts the password for security reasons
@@ -304,12 +306,12 @@ exports.updateUserTodos = async function (req, res) {
     const { _id, todos } = req.body;
 
     todos.forEach(function (todo) {
-        if(todo._id == null){ // if todo doesnt have an object id, generate one
+        if (todo._id == null) { // if todo doesnt have an object id, generate one
             todo._id = new mongoose.Types.ObjectId();
         }
     });
 
-    Student.findByIdAndUpdate(_id, {$set: { "todos": todos }},
+    Student.findByIdAndUpdate(_id, { $set: { "todos": todos } },
         { "new": true, "upsert": true },
         (err) => {
             if (err) return res.json({ success: false, error: err });
