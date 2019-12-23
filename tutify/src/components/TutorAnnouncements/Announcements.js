@@ -20,6 +20,18 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 
+const options = [
+    'All',
+    'Course',
+    'Student',
+];
+
+const courses = [
+    'MATH101',
+    'MATH102',
+    'MATH103',
+];
+
 function ShowCourses(props) {
     if (!props.show) {
         return '';
@@ -56,17 +68,6 @@ function ShowCourses(props) {
         </Table>
     </Paper>);
 }
-const options = [
-    'All',
-    'Course',
-    'Student',
-];
-
-const courses = [
-    'MATH101',
-    'MATH102',
-    'MATH103',
-];
 
 
 // Tutor views all of the documents uploaded for each individual course
