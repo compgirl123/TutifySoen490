@@ -26,6 +26,8 @@ const options = [
     'Student',
 ];
 
+// Function that returns the layout for the list of courses of tutor
+// If course is selected from dropdown, the layout will be rendered
 function ShowCourses(props) {
     if (!props.show) {
         return '';
@@ -63,6 +65,8 @@ function ShowCourses(props) {
     </Paper>);
 }
 
+// Function that returns the layout for the list of students of tutor
+// If student is selected from dropdown, the layout will be rendered
 function ShowStudents(props) {
     if (!props.show) {
         return '';
@@ -136,6 +140,7 @@ class Announcements extends React.Component {
         this.setState({ anchorEl: event.currentTarget });
     };
 
+    // Function that handles the dropdown menu to select who receives the announcement
     handleMenuItemClick = (event, index) => {
         this.setState({ selectedIndex: index });
         this.setState({ anchorEl: null });
