@@ -326,3 +326,27 @@ exports.updateUserTodos = async function (req, res) {
         }
     );
 };
+
+// Sends a announcement to students
+exports.sendAnnouncementStudents = async function (req, res) {
+    const { students, announcement } = req.body;
+
+    students.forEach(function (student) {
+        Student.findByIdAndUpdate(student, 
+        { "$push": { "notifications": announcement } },
+        { "new": true, "upsert": true },
+            (err) => {
+                if (err) return res.json({ success: false, error: err });
+                //update the session
+                req.session.save(function (err) {
+                    req.session.reload(function (err) {
+                        //session reloaded
+                        return res.json({ success: true });
+                    });
+                });
+            }
+        );
+    });
+
+
+};

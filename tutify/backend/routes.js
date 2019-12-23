@@ -48,6 +48,8 @@ router.get('/getUserCourses', userController.getUserCourses);
 
 router.post('/updateUserTodos', userController.updateUserTodos);
 
+router.post('/sendAnnouncementStudents', userController.sendAnnouncementStudents);
+
 // -------- ACCOUNT ROUTES --------- // 
 
 router.get('/getAccount', accountController.getAccount);

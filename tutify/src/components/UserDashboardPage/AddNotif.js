@@ -13,22 +13,21 @@ class AddNotif extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
         };
     }
 
     render() {
         const { notif } = this.props
-        return (
 
+        return (
             <Grid container>
                 <Grid xs={10} md={12} item >
                     <ListItem alignItems="flex-start">
                         <ListItemAvatar>
-                            <Avatar src="" />
+                            <Avatar src={notif.tutorImg} />
                         </ListItemAvatar>
                         <ListItemText
-                            primary={notif.announcementTitle}
+                            primary={notif.title}
                             value="notif"
                             secondary={
                                 <React.Fragment>
@@ -39,7 +38,7 @@ class AddNotif extends React.Component {
                                     >
                                         {notif.tutorName}
                                     </Typography>
-                                    {" — "}{notif.tutorAnnouncement}
+                                    {" — "}{notif.text}
                                 </React.Fragment>
                             }
                         />

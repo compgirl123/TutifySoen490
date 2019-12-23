@@ -32,7 +32,13 @@ class UserDashboard extends React.Component {
             .then(response => response.json())
             .then(res => {
                 if (res.isLoggedIn) {
-                    this.setState({ Toggle: true, _id: res.userInfo._id, todos: res.userInfo.todos, tutors: res.userInfo.tutors });
+                    this.setState({ 
+                        Toggle: true, 
+                        _id: res.userInfo._id, 
+                        todos: res.userInfo.todos, 
+                        tutors: res.userInfo.tutors,
+                        notifications: res.userInfo.notifications 
+                    });
                     this.getDataFromDb()
                 }
                 else {
@@ -57,7 +63,7 @@ class UserDashboard extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const { courses, tutors, todos, _id } = this.state;
+        const { courses, tutors, todos, _id, notifications } = this.state;
 
         return (
             <React.Fragment>
@@ -72,7 +78,7 @@ class UserDashboard extends React.Component {
                 <main className={classes.root}>
                     <Grid container className={classes.container}>
                         <Grid item sm={6} className={classes.gridItem}>
-                            <Notifications />
+                            <Notifications notifications={notifications} />
                         </Grid>
                         <Grid item xs={4} sm={6} className={classes.gridItem}>
                             <VisibleTodoList sessionTodos={todos} _id={_id}/>

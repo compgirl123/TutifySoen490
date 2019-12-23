@@ -42,6 +42,15 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
   program_of_study: {
     type: String
   },
+  notifications: [
+    {
+      title: { type: String },
+      text: { type: String },
+      tutorImg: { type: String },
+      tutorName: { type: String },
+      tutorid: {type: Schema.Types.ObjectId, ref: 'Tutor'}
+    }
+  ],
   todos: [
     {
       id: { type: String },
