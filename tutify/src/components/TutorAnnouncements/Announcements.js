@@ -26,6 +26,12 @@ const options = [
     'Student',
 ];
 
+const courses = [
+    'MATH101',
+    'MATH102',
+    'MATH103',
+];
+
 function ShowCourses(props) {
     if (!props.show) {
         return '';

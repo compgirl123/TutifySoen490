@@ -16,9 +16,9 @@ import Button from "@material-ui/core/Button";
 
 function SaveButton(props) {
     if(props.sessionTodosSet && props.todoChanged ){
-        return <Button variant="primary" onClick={event => props.saveTodosDB()}>Save</Button>
+        return <Button variant="outlined" onClick={event => props.saveTodosDB()}>Save</Button>
     }
-    return <Button variant="primary" disabled >Save</Button>
+    return <Button variant="outlined" disabled >Save</Button>
 }
 
 class TodoList extends React.Component {
@@ -73,20 +73,29 @@ class TodoList extends React.Component {
                 <Paper className={classes.tableWrapper}>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
-                            <TableRow>
-                                <TableCell><Typography variant="h6">My To-Do List</Typography>
-                                <SaveButton
+                            <TableRow >
+                                <TableCell>
+                                    <Typography variant="h6">My To-Do List</Typography>
+                                </TableCell>
+                                <TableCell align="right">
+                                    <SaveButton
                                     sessionTodosSet={this.state.sessionTodosSet}
                                     todoChanged={this.state.todoChanged}
                                     saveTodosDB={this.saveTodosDB}
-                                />
+                                    />
                                 </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
+                            <TableRow variant="head" style={{background:"white",}} >
+                                <TableCell colspan={2}>
+                                    <AddTodo addTodo={this.addTodo} />
+                                </TableCell>
+                            </TableRow>
                             <TableRow>
-                                <AddTodo addTodo={this.addTodo} />
-                                <Todos todos={todos} markComplete={this.markComplete} delTodo={this.delTodo} />
+                                <TableCell style={{borderBottom: "none"}} colspan={2}>
+                                    <Todos todos={todos} markComplete={this.markComplete} delTodo={this.delTodo} />
+                                </TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
