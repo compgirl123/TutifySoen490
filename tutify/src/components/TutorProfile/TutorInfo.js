@@ -252,14 +252,13 @@ class TutorInfo extends React.Component {
           </Typography>
           <br />
 
-          <Fab variant="extended" aria-label="edit"
+          <Button variant="outlined" aria-label="edit"
             justify="center"
             onClick={() => { this.handleClickOpen(); }}
-            style={{ background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)',
-            color: '#FFFFFF' }}>
-            <EditIcon />
+           >
+            <EditIcon /> &nbsp;
             Edit Info
-          </Fab>
+          </Button>
 
         </CardContent>
 
