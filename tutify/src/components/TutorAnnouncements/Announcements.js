@@ -20,6 +20,12 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 
+const options = [
+    'All',
+    'Course',
+    'Student',
+];
+
 function ShowCourses(props) {
     if (!props.show) {
         return '';
@@ -34,10 +40,10 @@ function ShowCourses(props) {
             <TableBody>
                 <TableRow>
                     <List>
-                        {courses.map(value => {
-                            const labelId = `checkbox-list-label-${value}`
+                        {props.courses.map(value => {
+                            const labelId = `checkbox-list-label-${value.course.name}`
                             return (
-                                <ListItem key={value} role={undefined} dense button >
+                                <ListItem key={value.course.name} role={undefined} dense button >
                                     <ListItemIcon>
                                         <Checkbox
                                             edge="start"
@@ -46,7 +52,7 @@ function ShowCourses(props) {
                                             inputProps={{ 'aria-labelledby': labelId }}
                                         />
                                     </ListItemIcon>
-                                    <ListItemText id={labelId} primary={value} />
+                                    <ListItemText id={labelId} primary={value.course.name} />
                                 </ListItem>
                             );
                         })}
@@ -56,18 +62,44 @@ function ShowCourses(props) {
         </Table>
     </Paper>);
 }
-const options = [
-    'All',
-    'Course',
-    'Student',
-];
 
-const courses = [
-    'MATH101',
-    'MATH102',
-    'MATH103',
-];
-
+function ShowStudents(props) {
+    if (!props.show) {
+        return '';
+    }
+    return (<Paper>
+        <Table stickyHeader aria-label="">
+            <TableHead>
+                <TableRow>
+                    <TableCell><Typography variant="h6">Students</Typography></TableCell>
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                <TableRow>
+                    <List>
+                        {props.students.map(value => {
+                            const Name = `${value.first_name + " " + value.last_name}`
+                            const labelId = `checkbox-list-label-${Name}`                           
+                            return (
+                                <ListItem key={labelId} role={undefined} dense button >
+                                    <ListItemIcon>
+                                        <Checkbox
+                                            edge="start"
+                                            tabIndex={-1}
+                                            disableRipple
+                                            inputProps={{ 'aria-labelledby': labelId }}
+                                        />
+                                    </ListItemIcon>
+                                    <ListItemText id={labelId} primary={Name} />
+                                </ListItem>
+                            );
+                        })}
+                    </List>
+                </TableRow>
+            </TableBody>
+        </Table>
+    </Paper>);
+}
 
 // Tutor views all of the documents uploaded for each individual course
 class Announcements extends React.Component {
@@ -75,6 +107,7 @@ class Announcements extends React.Component {
         super(props);
         this.state = {
             isCoursesSelected: false,
+            isStudentsSelected: false,
             drawerOpened: false,
             placeholder: 'Send to',
             showDropDown: false,
@@ -109,15 +142,15 @@ class Announcements extends React.Component {
 
         if (index === 0) {
             this.setState({ placeholder: 'All' });
-            this.setState({ isCoursesSelected: false })
+            this.setState({ isCoursesSelected: false, isStudentsSelected: false  })
         }
         else if (index === 1) {
             this.setState({ placeholder: 'Course' });
-            this.setState({ isCoursesSelected: true });
+            this.setState({ isCoursesSelected: true, isStudentsSelected: false  });
         }
         else if (index === 2) {
             this.setState({ placeholder: 'Student' });
-            this.setState({ isCoursesSelected: false })
+            this.setState({ isCoursesSelected: false, isStudentsSelected: true })
         }
     };
 
@@ -166,12 +199,10 @@ class Announcements extends React.Component {
         .catch(err => console.log(err));
     }
 
-
-
     render() {
         const { classes } = this.props;
-        const { anchorEl } = this.state;
-        const { selectedIndex } = this.state;
+        const { anchorEl, selectedIndex, courses, students } = this.state;
+
         return (
             <React.Fragment>
                 <main>
@@ -222,7 +253,8 @@ class Announcements extends React.Component {
                                             </MenuItem>
                                         ))}
                                     </Menu>
-                                    <ShowCourses show={this.state.isCoursesSelected} />
+                                    <ShowCourses show={this.state.isCoursesSelected} courses={courses} />
+                                    <ShowStudents show={this.state.isStudentsSelected} students={students} />
                                     <Button className={classes.submitButton} aria-controls="simple-menu" aria-haspopup="true" variant="outlined">
                                         Submit
                                     </Button>
