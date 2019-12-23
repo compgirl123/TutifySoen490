@@ -26,12 +26,6 @@ const options = [
     'Student',
 ];
 
-const courses = [
-    'MATH101',
-    'MATH102',
-    'MATH103',
-];
-
 function ShowCourses(props) {
     if (!props.show) {
         return '';
@@ -236,7 +230,7 @@ class Announcements extends React.Component {
                                 </Grid>
                                 <Grid item>
                                     <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClickMenu} variant="outlined">
-                                        Send to
+                                        {this.state.placeholder} &#x2B07;
                                     </Button>
                                     <Menu
                                         id="lock-menu"
