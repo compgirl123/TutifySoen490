@@ -5,12 +5,10 @@ export const styles = theme => ({
         paddingLeft: theme.spacing(20),
     },
     announcementText: {
-        width: 600,
+        width: 642,
     },
     announcementTitle: {
         width: 300,
     },
-    submitButton: {
-        marginLeft: theme.spacing(52),
-    },
+  
 });

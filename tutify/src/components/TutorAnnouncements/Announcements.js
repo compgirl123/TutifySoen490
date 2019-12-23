@@ -109,7 +109,7 @@ class Announcements extends React.Component {
             isCoursesSelected: false,
             isStudentsSelected: false,
             drawerOpened: false,
-            placeholder: 'Send to',
+            placeholder: 'Send to...',
             showDropDown: false,
             selectedIndex: 0,
             anchorEl: null,
@@ -209,7 +209,7 @@ class Announcements extends React.Component {
                     <TutorDashBoardNavBar />
                     <Container className={classes.container}>
                         <form>
-                            <Grid container spacing={3} direction="column">
+                            <Grid container spacing={3}>
                                 <Grid item xs={10}>
                                     <TextField id="outlined-basic"
                                         required
@@ -228,9 +228,9 @@ class Announcements extends React.Component {
                                         variant="outlined"
                                     />
                                 </Grid>
-                                <Grid item>
+                                <Grid item sm={6}>
                                     <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClickMenu} variant="outlined">
-                                        {this.state.placeholder} &#x2B07;
+                                        {this.state.placeholder}
                                     </Button>
                                     <Menu
                                         id="lock-menu"
@@ -253,11 +253,15 @@ class Announcements extends React.Component {
                                             </MenuItem>
                                         ))}
                                     </Menu>
-                                    <ShowCourses show={this.state.isCoursesSelected} courses={courses} />
-                                    <ShowStudents show={this.state.isStudentsSelected} students={students} />
+                                </Grid>
+                                <Grid item >
                                     <Button className={classes.submitButton} aria-controls="simple-menu" aria-haspopup="true" variant="outlined">
                                         Submit
                                     </Button>
+                                </Grid>
+                                <Grid item sm={6}>
+                                    <ShowCourses show={this.state.isCoursesSelected} courses={courses} />
+                                    <ShowStudents show={this.state.isStudentsSelected} students={students} />
                                 </Grid>
                             </Grid>
                         </form>
