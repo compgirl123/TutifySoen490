@@ -18,6 +18,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
+import axios from 'axios';
 
 function ShowCourses(props) {
     if (!props.show) {
@@ -75,21 +76,18 @@ class Announcements extends React.Component {
         this.state = {
             isCoursesSelected: false,
             drawerOpened: false,
-            data: [],
-            filteredData: [],
             placeholder: 'Send to',
             showDropDown: false,
             selectedIndex: 0,
             anchorEl: null,
             user_id: null,
             checked: 1,
+            courses: [],
+            students: []
         };
-        this.handleChange = this.handleChange.bind(this);
         this.handleClickMenu = this.handleClickMenu.bind(this);
         this.handleCloseMenu = this.handleCloseMenu.bind(this);
     }
-
-    
 
     toggleDrawer = booleanValue => () => {
         this.setState({
@@ -123,64 +121,6 @@ class Announcements extends React.Component {
         }
     };
 
-    handleChange(e) {
-        // Variable to hold the original version of the list
-        let currentList = this.state.data;
-        // Variable to hold the filtered list before putting into state
-        let newList = [];
-        // If the search bar isn't empty
-        if (e.target.value !== "") {
-            // if search includes whitespace, split it into different search terms
-            const filters = e.target.value.toLowerCase().split(" ");
-
-            // Determine which tutors should be displayed based on search term
-            newList = currentList.filter(tutor => {
-                let currentValue = ""
-                let returnValue = true
-
-                switch (this.state.selectedIndex) {
-                    default:
-                    case 0: tutor.subjects.forEach(function (entry) {
-                        currentValue += (entry + " ").toLowerCase()
-                    });
-                        currentValue += (tutor.first_name + " " + tutor.last_name
-                            + " " + tutor.school + " " + tutor.program_of_study).toLowerCase()
-                        break;
-                    case 1: // name
-                        currentValue = (tutor.first_name + " " + tutor.last_name).toLowerCase()
-                        break;
-                    case 2: // school
-                        currentValue = (tutor.school).toLowerCase()
-                        break;
-                    case 3: // courses
-                    case 4: // subjects
-                        tutor.subjects.forEach(function (entry) {
-                            currentValue += (entry + " ").toLowerCase()
-                        });
-                        break;
-                    case 5: // program
-                        currentValue = (tutor.program_of_study).toLowerCase()
-                        break;
-                }
-
-                // If all search terms are found for the tutor, he/she is included 
-                filters.forEach(function (entry) {
-                    if (!currentValue.includes(entry)) {
-                        return returnValue = false;
-                    }
-                });
-                return returnValue;
-
-            });
-        } else {
-            newList = currentList;
-        }
-
-        this.setState({
-            filteredData: newList
-        });
-    }
-
     componentDidMount() {
         this.checkSession();
     }
@@ -193,12 +133,40 @@ class Announcements extends React.Component {
             .then(response => response.json())
             .then(res => {
                 if (res.isLoggedIn) {
-                    this.getDataFromDb()
+                    this.setState({ user_id: res.userInfo._id, students: res.userInfo.students });
+                    this.getCourses()            
                 }
 
             })
             .catch(err => console.log(err));
     };
+
+    getStudents = () => {
+        axios.post('http://localhost:3001/api/findStudents', {
+          students: this.state.students
+        })
+          .then((res) => {
+            this.setState({ students: res.data.data });
+          }, (error) => {
+            console.log(error);
+          })
+    };
+
+    // Uses our backend api to fetch the tutor's courses from our database
+    getCourses = () => {
+        fetch('http://localhost:3001/api/getTutorCourses', {
+        method: 'GET',
+        credentials: 'include'
+        })
+        .then(response => response.json())
+        .then(res => {
+            this.setState({ courses: res.data });
+            this.getStudents()
+        })
+        .catch(err => console.log(err));
+    }
+
+
 
     render() {
         const { classes } = this.props;
