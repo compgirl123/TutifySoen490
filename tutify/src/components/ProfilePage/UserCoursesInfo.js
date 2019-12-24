@@ -47,7 +47,7 @@ class UserCoursesInfo extends React.Component {
                   <TableCell></TableCell> 
                   <TableCell></TableCell>
                   <TableCell>
-                    <Fab variant="extended" color="yellow" aria-label="add" fontSize="small" className={classes.courseButton}>
+                    <Fab variant="extended" aria-label="add" fontSize="small" className={classes.courseButton}>
                       <CloudUploadIcon fontSize="small" style={{ width: '15px', height: '15px' }} />
                       &nbsp; View Documents
                     </Fab>

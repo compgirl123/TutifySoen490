@@ -26,7 +26,6 @@ function arrayUnique(array) {
                 a.splice(j--, 1);
         }
     }
-
     return a;
 }
 
@@ -71,6 +70,7 @@ class Announcements extends React.Component {
         this.setState({ anchorEl: event.currentTarget });
     };
 
+    // Function that handles the dropdown menu to select who receives the announcement
     handleMenuItemClick = (event, index) => {
         this.setState({ selectedIndex: index });
         this.setState({ anchorEl: null });

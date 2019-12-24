@@ -17,6 +17,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
 
 
 class TutorCoursesInfo extends React.Component {
@@ -150,10 +151,9 @@ class TutorCoursesInfo extends React.Component {
                   <TableCell>
                     <Fab
                       variant="extended"
-                      color="yellow"
                       aria-label="add"
                       fontSize="small"
-                      className={classes.margin} style={{ maxHeight: '25px', color: '#FFFFF' }}
+                      className={classes.margin} style={{ maxHeight: '25px',}}
                     >
                       <CloudUploadIcon fontSize="small" style={{ width: '15px', height: '15px' }} />
                       &nbsp; Upload Documents
@@ -174,13 +174,15 @@ class TutorCoursesInfo extends React.Component {
               />
             </Grid>
             <Grid item xs={6} >
-              <Fab variant="extended" aria-label="edit"
+              <Button style={{ marginTop: 20,}}
+                variant="outlined" 
+                aria-label="edit"
+                fontSize="small"
                 onClick={() => { this.updateDB(); }}
-                style={{ background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)',
-                color: '#FFFFFF' }}>
-                <EditIcon />   &nbsp;
+              >
+                <EditIcon fontSize="small" />   &nbsp;
                   Save Course Changes
-              </Fab>
+              </Button>
             </Grid>
           </Grid>
         </CardContent>
