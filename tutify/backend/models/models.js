@@ -159,6 +159,38 @@ var Course = mongoose.model('Course', new Schema({
   ]
 }), "courses");
 
+// -------- FILES --------- // 
+
+var Files = mongoose.model('Files', new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  adminTutor: {
+    type: Schema.Types.ObjectId, 
+    ref: 'Tutor', 
+    required: true
+  },
+  url: {
+    type: String,
+    required: true
+  },
+  encryptedName: {
+    type: String,
+    required: true
+  },
+
+  relatedCourse: [
+    { 
+      type: Schema.Types.ObjectId, 
+      ref: 'Course'
+    }
+  ],
+  sharedToStudents: [
+    { type: Schema.Types.ObjectId, ref: 'Student' }
+  ]
+}), "files");
+
 
 // export the Schemas
 module.exports = {
@@ -167,5 +199,6 @@ module.exports = {
   Student: Student,
   Account: Account,
   Appointment: Appointment,
-  Course: Course
+  Course: Course,
+  Files: Files
 }

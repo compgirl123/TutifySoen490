@@ -10,6 +10,7 @@ import Drawer from "@material-ui/core/Drawer";
 import MyCourseList from "./MyCourseList";
 import VisibleTodoList from '../../redux/containers/VisibleTodoList'
 
+
 class UserDashboard extends React.Component {
     constructor(props) {
         super(props);
@@ -88,6 +89,7 @@ class UserDashboard extends React.Component {
                         <Grid item xs={6} sm={6} className={classes.gridItem}>
                             <MyCourseList courses={courses} />
                         </Grid>
+                        
                     </Grid>
                     <Footer />
                 </main>
