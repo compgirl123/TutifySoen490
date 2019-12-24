@@ -75,6 +75,14 @@ const TutorSchema = mongoose.Schema({
         ref: 'Course'
       },
     }
+  ],
+  events: [
+    {
+      event: {
+        type: Schema.Types.ObjectId,
+        ref: 'Event'
+      }
+    }
   ]
 });
 
@@ -149,6 +157,7 @@ var Course = mongoose.model('Course', new Schema({
   ]
 }), "courses");
 
+
 // -------- FILES --------- // 
 
 var Files = mongoose.model('Files', new Schema({
@@ -182,6 +191,22 @@ var Files = mongoose.model('Files', new Schema({
 }), "files");
 
 
+
+// --------  Event --------- // 
+
+var Event = mongoose.model('Event', new Schema({
+  title: {
+    type: String,
+    required: true
+  },
+  description: String,
+  location:String,
+  date: String,
+  startTime: String,
+  endTime: String
+}), "events");
+
+
 // export the Schemas
 module.exports = {
   Tutor: Tutor,
@@ -190,5 +215,6 @@ module.exports = {
   Account: Account,
   Appointment: Appointment,
   Course: Course,
-  Files: Files
+  Files: Files,
+  Event: Event
 }
