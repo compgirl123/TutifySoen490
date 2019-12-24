@@ -1,25 +1,16 @@
 import React from 'react';
 import Footer from '../Footer';
 import TutorDashBoardNavBar from '../TutorProfile/TutorDashboardNavBar';
-import { Grid, TextField, Container, ListItem, } from '@material-ui/core';
+import { Grid, TextField, Container } from '@material-ui/core';
 import * as TutorAnnouncementsStyles from '../../styles/TutorAnnouncements-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import List from '@material-ui/core/List';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
-import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 import swal from 'sweetalert';
+import ShowCourses from "./ShowCourses";
+import ShowStudents from "./ShowStudents";
 
 const options = [
     'All',
@@ -27,79 +18,16 @@ const options = [
     'Student',
 ];
 
-function ShowCourses(props) {
-    if (!props.show) {
-        return '';
+function arrayUnique(array) {
+    var a = array.concat();
+    for (var i = 0; i < a.length; ++i) {
+        for (var j = i + 1; j < a.length; ++j) {
+            if (a[i] === a[j])
+                a.splice(j--, 1);
+        }
     }
-    return (<Paper>
-        <Table stickyHeader aria-label="">
-            <TableHead>
-                <TableRow>
-                    <TableCell><Typography variant="h6">Courses</Typography></TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                <TableRow>
-                    <List>
-                        {props.courses.map(value => {
-                            const labelId = `checkbox-list-label-${value.course.name}`
-                            return (
-                                <ListItem key={value.course.name} role={undefined} dense button >
-                                    <ListItemIcon>
-                                        <Checkbox
-                                            edge="start"
-                                            tabIndex={-1}
-                                            disableRipple
-                                            inputProps={{ 'aria-labelledby': labelId }}
-                                        />
-                                    </ListItemIcon>
-                                    <ListItemText id={labelId} primary={value.course.name} />
-                                </ListItem>
-                            );
-                        })}
-                    </List>
-                </TableRow>
-            </TableBody>
-        </Table>
-    </Paper>);
-}
 
-function ShowStudents(props) {
-    if (!props.show) {
-        return '';
-    }
-    return (<Paper>
-        <Table stickyHeader aria-label="">
-            <TableHead>
-                <TableRow>
-                    <TableCell><Typography variant="h6">Students</Typography></TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                <TableRow>
-                    <List>
-                        {props.students.map(value => {
-                            const Name = `${value.first_name + " " + value.last_name}`
-                            const labelId = `checkbox-list-label-${Name}`
-                            return (
-                                <ListItem key={labelId} role={undefined} dense button >
-                                    <ListItemIcon>
-                                        <Checkbox
-                                            edge="start"
-                                            tabIndex={-1}
-                                            disableRipple
-                                            inputProps={{ 'aria-labelledby': labelId }}
-                                        />
-                                    </ListItemIcon>
-                                    <ListItemText id={labelId} primary={Name} />
-                                </ListItem>
-                            );
-                        })}
-                    </List>
-                </TableRow>
-            </TableBody>
-        </Table>
-    </Paper>);
+    return a;
 }
 
 // Tutor views all of the documents uploaded for each individual course
@@ -119,7 +47,8 @@ class Announcements extends React.Component {
             courses: [],
             students: [],
             aTitle: "",
-            aText:""
+            aText: "",
+            studentsSelected: []
         };
         this.handleClickMenu = this.handleClickMenu.bind(this);
         this.handleCloseMenu = this.handleCloseMenu.bind(this);
@@ -161,16 +90,21 @@ class Announcements extends React.Component {
     };
 
     handleTitleFieldChange = (e) => {
-        this.setState({ aTitle: e.target.value});
+        this.setState({ aTitle: e.target.value });
     };
 
     handleTextFieldChange = (e) => {
         this.setState({ aText: e.target.value });
     };
 
+    handleSelection = (students) => {
+        this.setState({studentsSelected: arrayUnique(students)});
+    }
+
+    // creates a new announcement to send to list of selected students
     handleSubmit(event) {
         axios.post('http://localhost:3001/api/sendAnnouncementStudents', {
-            students: ["5dc8735ebb22af5ae4ca23e6"],
+            students: this.state.studentsSelected,
             announcement: {
                 title: this.state.aTitle,
                 text: this.state.aText,
@@ -182,7 +116,7 @@ class Announcements extends React.Component {
             .then((res) => {
                 swal("Announcement sent!", "", "success")
                     .then((value) => {
-                       window.location = "/Announcements";
+                        window.location = "/Announcements";
                     });
             }, (error) => {
                 swal("Something went wrong...", "", "error")
@@ -205,10 +139,10 @@ class Announcements extends React.Component {
             .then(response => response.json())
             .then(res => {
                 if (res.isLoggedIn) {
-                    this.setState({ 
-                        tutor_id: res.userInfo._id, 
-                        students: res.userInfo.students, 
-                        tutorName:  res.userInfo.first_name + " " + res.userInfo.last_name,
+                    this.setState({
+                        tutor_id: res.userInfo._id,
+                        students: res.userInfo.students,
+                        tutorName: res.userInfo.first_name + " " + res.userInfo.last_name,
                         tutorImg: res.userInfo.picture
                     });
                     this.getCourses()
@@ -218,6 +152,7 @@ class Announcements extends React.Component {
             .catch(err => console.log(err));
     };
 
+    // fetch the tutor's students from our database
     getStudents = () => {
         axios.post('http://localhost:3001/api/findStudents', {
             students: this.state.students
@@ -229,7 +164,7 @@ class Announcements extends React.Component {
             })
     };
 
-    // Uses our backend api to fetch the tutor's courses from our database
+    // fetch the tutor's courses from our database
     getCourses = () => {
         fetch('http://localhost:3001/api/getTutorCourses', {
             method: 'GET',
@@ -259,7 +194,7 @@ class Announcements extends React.Component {
                                         required
                                         label="Announcement Title"
                                         variant="outlined"
-                                        className={classes.announcementTitle} 
+                                        className={classes.announcementTitle}
                                         value={this.state.aTitle}
                                         onChange={this.handleTitleFieldChange}
                                     />
@@ -309,8 +244,12 @@ class Announcements extends React.Component {
                                     </Button>
                                 </Grid>
                                 <Grid item sm={6}>
-                                    <ShowCourses show={this.state.isCoursesSelected} courses={courses} />
-                                    <ShowStudents show={this.state.isStudentsSelected} students={students} />
+                                    {this.state.isCoursesSelected ?
+                                        <ShowCourses courses={courses} handleSelection={this.handleSelection} /> : <></>
+                                    }
+                                    {this.state.isStudentsSelected ?
+                                        <ShowStudents students={students} handleSelection={this.handleSelection} /> : <></>
+                                    }                                  
                                 </Grid>
                             </Grid>
                         </form>

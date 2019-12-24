@@ -39,7 +39,7 @@ class Notifications extends React.Component {
                                     {notifications ? notifications.map((notif, i) => (
                                         <AddNotif
                                             key={i}
-                                            notif={notif}
+                                            notif={notifications[notifications.length - 1 - i]}
                                         />
                                     )) : <></>}
                                 </List>

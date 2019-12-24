@@ -337,16 +337,8 @@ exports.sendAnnouncementStudents = async function (req, res) {
         { "new": true, "upsert": true },
             (err) => {
                 if (err) return res.json({ success: false, error: err });
-                //update the session
-                req.session.save(function (err) {
-                    req.session.reload(function (err) {
-                        //session reloaded
-                        return res.json({ success: true });
-                    });
-                });
             }
         );
     });
-
-
+    return res.json({ success: true });
 };
