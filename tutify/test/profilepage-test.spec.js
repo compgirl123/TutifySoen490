@@ -8,10 +8,13 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import { shallow } from 'enzyme';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import Button from '@material-ui/core/Button';
 
 // importing the json object with the profile information
 var json = require("./testDb/profiles.json");
@@ -34,6 +37,7 @@ describe('The Profile Page updating Profile Feature', () => {
 
         // All the mounting and state setting for UserInfo Class
         const wrapper = mount(<UserInfo></UserInfo>);
+        const wrapper4 = shallow(<UserInfo></UserInfo>);
         const shallowwrapper = wrapper.find(UserInfoClass);
         shallowwrapper.setState({ data: json.data });
         
@@ -82,6 +86,9 @@ describe('The Profile Page updating Profile Feature', () => {
             name_input.props().children = profile_array[student_selected].first_name + " " 
                                         + profile_array[student_selected].last_name;
             console.log(name_input.props().children);
+            /* Setting the state of the wrapper in order to take the information from the email and set the wrapper 
+               with the student's Full Name */
+            shallowwrapper.setState({ full_name: name_input.props().children });
 
             // Finding the Typography HTML document that contains the program of study of the student.
             const program_input = wrapper.find(Typography).at(3);
@@ -89,6 +96,9 @@ describe('The Profile Page updating Profile Feature', () => {
             // Setting the full name component on the page with the full name of the student (setting initial variables)
             program_input.props().children = program_input.props().children[0] + profile_array[student_selected].program_of_study;
             console.log(program_input.props().children);
+            /* Setting the state of the wrapper in order to take the information from the email and set the wrapper 
+               with the student's Program of Study */
+            shallowwrapper.setState({ program: program_input.props().children });
 
             // Finding the Typography HTML document that contains the school of the student.
             const school_input = wrapper.find(Typography).at(4);
@@ -96,6 +106,9 @@ describe('The Profile Page updating Profile Feature', () => {
             // Setting the full name component on the page with the full name of the student (setting initial variables)
             school_input.props().children = school_input.props().children[0] + profile_array[student_selected].school;
             console.log(school_input.props().children);
+            /* Setting the state of the wrapper in order to take the information from the email and set the wrapper 
+               with the student's school */
+            shallowwrapper.setState({ school: school_input.props().children });
 
             // Finding the Typography HTML document that contains the education level of the student.
             const education_input = wrapper.find(Typography).at(5);
@@ -103,48 +116,97 @@ describe('The Profile Page updating Profile Feature', () => {
             // Setting the full name component on the page with the full name of the student (setting initial variables)
             education_input.props().children = education_input.props().children[0] + profile_array[student_selected].education_level;
             console.log(education_input.props().children);
+            /* Setting the state of the wrapper in order to take the information from the email and set the wrapper 
+               with the student's education */
+            shallowwrapper.setState({ education: education_input.props().children });
         }
+        // Expecting a result that contains the appropriate email of the student.
+        expect(shallowwrapper.state().student_email).toBe("Email : "+profile_array[student_selected].email);
+        // Expecting a result that contains the appropriate email of the student.
+        expect(shallowwrapper.state().full_name).toBe(profile_array[student_selected].first_name + " " 
+        + profile_array[student_selected].last_name); 
+        // Expecting a result that contains the appropriate email of the student.
+        expect(shallowwrapper.state().program).toBe("Program of Study: "+profile_array[student_selected].program_of_study);
+        // Expecting a result that contains the appropriate email of the student.
+        expect(shallowwrapper.state().school).toBe("School: "+profile_array[student_selected].school);
+        // Expecting a result that contains the appropriate email of the student.
+        expect(shallowwrapper.state().education).toBe("Education Level: "+profile_array[student_selected].education_level);
+
         
-        // Expecting a result that contains the appropriate email of the student.
-        expect(shallowwrapper.state().student_email).toBe("Email : "+profile_array[student_selected].email);
-        // Expecting a result that contains the appropriate email of the student.
-        expect(shallowwrapper.state().student_email).toBe("Email : "+profile_array[student_selected].email);
-        // Expecting a result that contains the appropriate email of the student.
-        expect(shallowwrapper.state().student_email).toBe("Email : "+profile_array[student_selected].email);
-        // Expecting a result that contains the appropriate email of the student.
-        expect(shallowwrapper.state().student_email).toBe("Email : "+profile_array[student_selected].email);
-        // Expecting a result that contains the appropriate email of the student.
-        expect(shallowwrapper.state().student_email).toBe("Email : "+profile_array[student_selected].email);
-        // Expecting a result that contains the appropriate email of the student.
-        expect(shallowwrapper.state().student_email).toBe("Email : "+profile_array[student_selected].email);
-
-
         /**
          * Setting values present on profile page and collecting that data and simulating an "update" 
          */
-
-        const wrapper2 = mount(<UserInfo></UserInfo>);
-        //const wrapper3 = wrapper.find(DialogContent).props().children;
-
-        //console.log(wrapper3);
-        console.log(wrapper2.find(Dialog).props().children[0].props.children);
-        console.log(wrapper2.find(Dialog).props().children[1].props.children[0].props.children);
-        console.log(wrapper2.find(Dialog).props().children[1].props.children[1].props.id);
-        // set value of bottom
-        console.log(wrapper2.find(Dialog).props().children[1].props.children[1].props.value);
-        //console.log(document.getElementById('firstName').value);
-        document.getElementById(wrapper2.find(Dialog).props().children[1].props.children[1].props.id).setAttribute('value', 'test');
-        console.log(document.getElementById(wrapper2.find(Dialog).props().children[1].props.children[1].props.id).value);
+        //var edit_information_text_on_page = wrapper.find(Dialog).props().children[0].props.children;
+        var edit_information_text_on_page = wrapper4.dive().find(DialogTitle).props().children;
+        console.log(edit_information_text_on_page);
+        //var edit_information_description_on_page = wrapper.find(Dialog).props().children[1].props.children[0].props.children;
+        var edit_information_description_on_page = wrapper4.dive().find(DialogContentText).props().children;
+        console.log(edit_information_description_on_page);
+       // var id_first_name = wrapper.find(Dialog).props().children[1].props.children[1].props.id;
+     
+        //var first_name_value =  wrapper.find(Dialog).props().children[1].props.children[1].props.value;
+        var first_name_value = wrapper4.dive().find(TextField).at(0);
+        console.log(first_name_value);
+        id_first_name.value = "Paul";
+        console.log(id_first_name.value);
+        console.log(id_first_name.props().id);
         
-        const input1 = wrapper2.find(TextField).at(0);
-        console.log(input1.props());
+        console.log(wrapper.find(Dialog).props().children[1].props.children[1].props.onChange);
+        var newObj = Object.assign("Jane", wrapper.find(Dialog).props().children[1].props.children[1].props.value);
+        console.log(newObj);
+
+        var id_last_name = wrapper.find(Dialog).props().children[1].props.children[2].props.id;
+        console.log(wrapper.find(Dialog).props().children[1].props.children[2].props);
+        var newObj1 = Object.assign("Doe", wrapper.find(Dialog).props().children[1].props.children[2].props.value);
+        console.log(newObj1);
+
+        console.log(wrapper.find(Dialog).props().children[1].props.children[3].props);
+        var newObj2 = Object.assign("Mechanical Engineering", wrapper.find(Dialog).props().children[1].props.children[3].props.value);
+        console.log(newObj2);
+
+        console.log(wrapper.find(Dialog).props().children[1].props.children[4].props);
+        var newObj3 = Object.assign("Concordia", wrapper.find(Dialog).props().children[1].props.children[4].props.value);
+        console.log(newObj3);
+
+        console.log(wrapper.find(Dialog).props().children[1].props.children[5].props);
+        var newObj4 = Object.assign("University", wrapper.find(Dialog).props().children[1].props.children[5].props.value);
+        console.log(newObj3);
+        shallowwrapper.setState({ education: "University"});
+
+        console.log(wrapper.find(Dialog).props().children[2].props.children);
+
+        console.log(wrapper.find(Dialog).props().children[1].props.children[1].props.value);
+        const st = wrapper.find(Button).at(0);
+        console.log(st);
+
+        //console.log(document.getElementById(id_first_name).value);
+        
+        const input1 = wrapper.find(TextField).at(0);
+        //console.log(input1.props());
         const first_name_update = wrapper.find(Dialog).at(0);
-        console.log(first_name_update.props());
-        console.log(document.getElementById('firstName'));
-        //document.getElementById('firstName').setAttribute('value', 'testtt');
-        //console.log(document.getElementById('firstName').value);
+        //console.log(first_name_update.props());
+        //console.log(document.getElementById('firstName'));
+
+        //wrapper.find('.loginSubmit').simulate('click');
+        //console.log(wrapper.find(Dialog.Grid.Grid.DialogActions.Button.loginSubmit))
+        console.log(wrapper4.dive().find(TextField).exists())
+        console.log(wrapper4.dive().find(TextField).at(0).props())
+
+        /*wrapper.find(Dialog).props().children[2].props.children[1].props.children.props.children.props.onClick = jest.fn()
+        wrapper.update()*/
+
         
     });
+
+    it('Testing the update profile function for Tutors', () => {
+        
+    });
+
+    it('Testing the update courses for Tutors', () => {
+        
+    });
+
+
 
 
 }); 

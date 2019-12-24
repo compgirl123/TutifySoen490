@@ -312,7 +312,6 @@ export class UserInfo extends React.Component {
                   autoComplete="firstName"
                   label="First Name"
                   type="firstName"
-                  value = {this.state.updatedFirstName}
                   fullWidth
                 />
 
@@ -376,7 +375,7 @@ export class UserInfo extends React.Component {
                 </Grid>
                 <Grid item>
                   <DialogActions>
-                    <Button onClick={this.updateInfo}>Update Values</Button>
+                    <Button onClick={this.updateInfo} className="loginSubmit" id="hi">Update Values</Button>
                   </DialogActions>
                 </Grid>
               </Grid>
