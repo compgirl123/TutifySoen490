@@ -84,6 +84,36 @@ class NewCalendar extends React.Component {
           .catch(err => console.log(err));
       };
 
+      populateEvents = () => {
+        var newDates = [];
+
+    axios.post('http://localhost:3001/api/populateEvents', {
+          events: this.state.events          
+    })
+      .then((res) => {
+        for (var z = 0; z < res.data.data.length; z++) {
+          var str = res.data.data[z].date;
+          str = str.substring(0,11)
+          var newStr = str.replace(/\D/g, "");
+          newDates.push(newStr);
+          //this.state.dates.push(newStr);
+
+      }
+      newDates.sort();
+      
+      for (var i = 0; i < newDates.length; i++) {
+        var stri = newDates[i].substring(6) + "/" + newDates[i].substring(4,6) + "/" + newDates[i].substring(0,4);
+        stri = stri.toString();
+        newDates[i] = stri;
+      }
+
+      this.setState({ dates: newDates });
+
+      }, (error) => {
+        console.log(error);
+      });
+      };
+
       addEvent = () => {
    
 
