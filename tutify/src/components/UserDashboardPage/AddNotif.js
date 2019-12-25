@@ -1,7 +1,5 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
-import AddIcon from '@material-ui/icons/Add';
-import Fab from '@material-ui/core/Fab';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -43,13 +41,6 @@ class AddNotif extends React.Component {
                             }
                         />
                         <Grid xs={6} md={1} item>
-                            <Fab
-                                size="small"
-                                color="secondary"
-                                aria-label="add"
-                            >
-                                <AddIcon />
-                            </Fab>
                         </Grid>
                     </ListItem>
                     <Divider />
