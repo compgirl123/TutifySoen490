@@ -189,6 +189,23 @@ onChange = {date => this.setState({ date })}
             </Grid>
             </Grid>
 
+            &nbsp;
+            <Grid>
+            <Table size="small">
+                        
+                        <TableHead>
+                          {this.state.dates.map(date => (
+                            <TableRow >
+                              <TableCell style={{background:'gray'}}>{date}</TableCell>
+                            </TableRow>
+                            
+
+
+                          ))}
+                        </TableHead>
+                      </Table>
+              </Grid>
+
 </CardContent>
                             
                         </TableBody>
