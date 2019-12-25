@@ -1,4 +1,5 @@
 const Tutor = require('../models/models').Tutor;
+const Event = require('../models/models').Event;
 
 // this method fetches all available tutors in our database
 exports.getTutors = async function (req, res) {
@@ -57,6 +58,68 @@ exports.updateTutorInfo = async function (req, res) {
         }
     );
 };
+
+// this method adds an event to the database
+exports.addEvent = async function (req, res) {
+    const {events, tutor_id, title , description, location, date, startTime, endTime} = req.body;
+    
+    let event = new Event();
+    var newEvents = [];
+    var count = 0;
+
+    //create event
+    event.title = title;
+    event.description = description;
+    event.location = location; 
+    event.date = date;
+    event.startTime = startTime;
+    event.endTime = endTime;
+
+    event.save(function (err, eve) {
+       
+        if (err) return res.json({ success: false, error: err });
+        events.push(eve.id);
+        Tutor.findByIdAndUpdate(tutor_id,
+            { "$push": { "events": eve.id } },
+            { "new": true, "upsert": true },
+            function (err, tutor) {
+                if (err) throw err;
+
+                    //update the session
+                    req.session.userInfo = tutor;       
+                    req.session.save(function (err) {
+                        req.session.reload(function (err) {
+                            // session reloaded
+                        });
+
+                          for (var z = 0; z < events.length; z++) {
+                            Event.findOne({ _id: events[z] }, function (err, event) {
+                                if (err) {
+                                    
+                                };
+                                newEvents.push(event);
+                                count++;
+                    
+                                if (count == events.length) {
+                    
+                                    return res.json({ success: true, data: newEvents });
+                                }
+                    
+                            });
+                        }
+
+                        //return res.json({ success: true, data: tutor });
+
+
+            });
+
+
+        });    
+    });
+
+};
+
+
 
 // this method fetches the courses associated with the current tutor
 exports.getTutorCourses = async function (req, res) {
