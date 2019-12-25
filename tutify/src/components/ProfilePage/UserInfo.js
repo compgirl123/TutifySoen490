@@ -375,7 +375,7 @@ export class UserInfo extends React.Component {
                 </Grid>
                 <Grid item>
                   <DialogActions>
-                    <Button onClick={this.updateInfo} className="loginSubmit" id="hi">Update Values</Button>
+                    <Button onClick={this.updateInfo} className="loginSubmit">Update Values</Button>
                   </DialogActions>
                 </Grid>
               </Grid>
