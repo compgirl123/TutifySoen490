@@ -23,6 +23,8 @@ router.post('/updateTutorInfo', tutorController.updateTutorInfo);
 
 router.get('/getTutorCourses', tutorController.getTutorCourses);
 
+router.post('/addEvent', tutorController.addEvent);
+
 
 // -------- USER ROUTES --------- // 
 
