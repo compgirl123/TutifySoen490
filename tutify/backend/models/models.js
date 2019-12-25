@@ -88,10 +88,9 @@ const TutorSchema = mongoose.Schema({
   ],
   events: [
     {
-      event: {
         type: Schema.Types.ObjectId,
         ref: 'Event'
-      }
+      
     }
   ]
 });
