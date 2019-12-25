@@ -8,6 +8,7 @@ const bcrypt = require('bcryptjs')
 const algorithm = 'aes-256-cbc';
 const key = crypto.randomBytes(32);
 const iv = crypto.randomBytes(16);
+var mongoose = require('mongoose');
 
 // this method fetches all available users in our database
 exports.getUser = async function (req, res) {
@@ -39,16 +40,7 @@ exports.findStudents = async function (req, res) {
     }
 };
 
-// this method overwrites existing user in our database
-exports.updateUser = async function (req, res) {
-    const { id, update } = req.body;
-    Student.findByIdAndUpdate(id, update, (err) => {
-        if (err) return res.json({ success: false, error: err });
-        return res.json({ success: true });
-    });
-};
-
-// this method overwrites existing user in our database
+// this method overwrites existing user info in our database
 exports.updateUserInfo = async function (req, res) {
     const { _id, school, program_of_study, education_level, first_name, last_name } = req.body;
     Student.findByIdAndUpdate(_id,
@@ -111,32 +103,34 @@ exports.assignCourse = async function (req, res) {
         tutor: tutor_id,
     }
 
-    Tutor.findByIdAndUpdate(tutor_id,
-        { $push: { "courses.$[element].students": student_id } },
-        {
-            arrayFilters: [{ element: course_id }],
-            upsert: true
-        },
-        function (err, tutor) {
-            if (err) throw err;
+    Tutor.findOne({ _id: tutor_id }).then(tutor => {
+        // Add student to list for the specific course
+        tutor.courses.forEach((course) => {
+            if (course.course == course_id) {
+                course.students.push(student_id)
+            }
+        });
+        tutor.save();
 
-            Student.findByIdAndUpdate(student_id,
-                { "$push": { "courses": newCourse } },
-                { "new": true, "upsert": true },
-                function (err, user) {
-                    if (err) throw err;
+        // Student side
+        Student.findByIdAndUpdate(student_id,
+            { "$push": { "courses": newCourse } },
+            { "new": true, "upsert": true },
+            function (err, user) {
+                if (err) throw err;
 
-                    //update the session
-                    req.session.userInfo.courses.push(newCourse);
-                    req.session.save(function (err) {
-                        req.session.reload(function (err) {
-                            // session reloaded
-                        });
+                //update the session
+                req.session.userInfo.courses.push(newCourse);
+                req.session.save(function (err) {
+                    req.session.reload(function (err) {
+                        // session reloaded
                     });
-                }
-            );
-        }
-    );
+                });
+            }
+        );
+    }).catch(err => {
+        console.log(err)
+    });
 }
 
 // this function encrypts the password for security reasons
@@ -194,6 +188,7 @@ exports.putUser = async function (req, res) {
                         data.education_level = education_level;
                         data.school = school;
                         data.id = id;
+                        data.todos = []
                         data.save(function (err, user) {
                             if (err) return res.json({ success: false, error: err });
 
@@ -304,4 +299,46 @@ exports.getUserCourses = async function (req, res) {
             if (err) return handleError(err);
             return res.json({ success: true, data: student.courses });
         });
+};
+
+// this method overwrites existing user todos in our database
+exports.updateUserTodos = async function (req, res) {
+    const { _id, todos } = req.body;
+
+    todos.forEach(function (todo) {
+        if (todo._id == null) { // if todo doesnt have an object id, generate one
+            todo._id = new mongoose.Types.ObjectId();
+        }
+    });
+
+    Student.findByIdAndUpdate(_id, { $set: { "todos": todos } },
+        { "new": true, "upsert": true },
+        (err) => {
+            if (err) return res.json({ success: false, error: err });
+            //update the session
+            req.session.userInfo.todos = todos;
+            req.session.save(function (err) {
+                req.session.reload(function (err) {
+                    //session reloaded
+                    return res.json({ success: true });
+                });
+            });
+        }
+    );
+};
+
+// Sends a announcement to students
+exports.sendAnnouncementStudents = async function (req, res) {
+    const { students, announcement } = req.body;
+
+    students.forEach(function (student) {
+        Student.findByIdAndUpdate(student, 
+        { "$push": { "notifications": announcement } },
+        { "new": true, "upsert": true },
+            (err) => {
+                if (err) return res.json({ success: false, error: err });
+            }
+        );
+    });
+    return res.json({ success: true });
 };

@@ -29,5 +29,8 @@ export const styles = theme => ({
       todoItemButton: {
           float: 'right',
       },
+      saveButton: {
+        marginLeft: theme.spacing(30),
+      }
       
   });

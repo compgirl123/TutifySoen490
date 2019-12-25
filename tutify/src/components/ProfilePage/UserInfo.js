@@ -14,7 +14,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import swal from 'sweetalert';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
 import Box from '@material-ui/core/Box';
 
@@ -281,13 +280,13 @@ class UserInfo extends React.Component {
             </Typography>
 
             <br />
-            <Fab variant="extended" aria-label="edit"
+            <Button variant="outlined" aria-label="edit"
               justify="center"
               onClick={() => { this.handleClickOpen(); }}
               className={classes.editButton}>
-              <EditIcon />
+              <EditIcon /> &nbsp;
               Edit Info
-            </Fab>
+            </Button>
           </CardContent>
           <div>
 

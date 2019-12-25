@@ -21,7 +21,7 @@ export class TodoItem extends Component {
         return (
             <ListItem>
                 <Checkbox
-                    onChange={ this.props.markComplete.bind(this, id )}checked={ completed ? 'checked':  '' }
+                    onChange={ this.props.markComplete.bind(this, id )} checked={ completed ? true : false }
                 />{' '}
                 <ListItemText primary={title}/>
                 <ListItemSecondaryAction>
@@ -36,7 +36,7 @@ export class TodoItem extends Component {
 
 // PropTypes
 TodoItem.propTypes = {
-    todos: PropTypes.object.isRequired,
+    todo: PropTypes.object.isRequired,
     markComplete: PropTypes.func.isRequired,
     delTodo: PropTypes.func.isRequired
 }
