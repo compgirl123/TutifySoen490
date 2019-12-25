@@ -78,11 +78,16 @@ class NewCalendar extends React.Component {
         })
           .then(response => response.json())
           .then((res) => {
-           
-            
+            console.log(res);
+              this.setState({
+                tutor_id: res.userInfo._id,
+                events : res.userInfo.events
+              });
+              this.populateEvents();
           })
           .catch(err => console.log(err));
       };
+
 
       populateEvents = () => {
         var newDates = [];
