@@ -20,6 +20,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Fab from '@material-ui/core/Fab';
+import axios from 'axios';
+import swal from 'sweetalert';
+
 
 class NewCalendar extends React.Component {
     constructor(props) {
@@ -34,6 +37,9 @@ class NewCalendar extends React.Component {
           endTime: "",
           open: false,
           scroll: 'paper',
+          tutor_id: "",
+          events: [],
+          dates : [],
         };
         this.handleClickOpen = this.handleClickOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -77,6 +83,41 @@ class NewCalendar extends React.Component {
           })
           .catch(err => console.log(err));
       };
+
+      addEvent = () => {
+   
+
+        axios.post('http://localhost:3001/api/addEvent', {
+              events: this.state.events,
+              tutor_id: this.state.tutor_id,
+              title: this.state.title,
+              description: this.state.description,
+              location: this.state.location,
+              date: this.state.date,
+              startTime: this.state.startTime,
+              endTime: this.state.endTime,
+        })
+          .then((res) => {
+            var newDates = [];
+            for (var z = 0; z < res.data.data.length; z++) {
+              var str = res.data.data[z].date;
+              str = str.substring(0,11)
+              var newStr = str.replace(/\D/g, "");
+              this.state.dates.push(newStr);
+    
+          }
+          this.state.dates.sort();
+          
+          for (var i = 0; i < this.state.dates.length; i++) {
+            var stri = this.state.dates[i].substring(6) + "/" + this.state.dates[i].substring(4,6) + "/" + this.state.dates[i].substring(0,4);
+            stri = stri.toString();
+            this.state.dates[i] = stri;
+          }
+            swal("Event successfully added!", "", "success")
+          }, (error) => {
+            console.log(error);
+          });
+      };    
     
     render() {
         const { classes } = this.props;
