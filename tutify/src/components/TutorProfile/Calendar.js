@@ -39,6 +39,7 @@ class NewCalendar extends React.Component {
           scroll: 'paper',
           tutor_id: "",
           events: [],
+          eventsDecoded: [],
           dates : [],
         };
         this.handleClickOpen = this.handleClickOpen.bind(this);
@@ -91,20 +92,30 @@ class NewCalendar extends React.Component {
 
       populateEvents = () => {
         var newDates = [];
+        var newEvents = [];
 
     axios.post('http://localhost:3001/api/populateEvents', {
           events: this.state.events          
     })
       .then((res) => {
-        for (var z = 0; z < res.data.data.length; z++) {
-          var str = res.data.data[z].date;
+
+          newEvents = res.data.data;
+        
+        for (var z = 0; z < newEvents.length; z++) {
+          var str = newEvents[z].date;
           str = str.substring(0,11)
           var newStr = str.replace(/\D/g, "");
           newDates.push(newStr);
+          newStr = newStr.substring(6) + "/" + newStr.substring(4,6) + "/" + newStr.substring(0,4);
+          newStr = newStr.toString();
+          newEvents[z].date = newStr;
           //this.state.dates.push(newStr);
 
       }
       newDates.sort();
+      newDates = newDates.filter(function(elem, pos) {
+        return newDates.indexOf(elem) === pos;
+    })
       
       for (var i = 0; i < newDates.length; i++) {
         var stri = newDates[i].substring(6) + "/" + newDates[i].substring(4,6) + "/" + newDates[i].substring(0,4);
@@ -112,7 +123,9 @@ class NewCalendar extends React.Component {
         newDates[i] = stri;
       }
 
-      this.setState({ dates: newDates });
+      this.setState({ dates: newDates, eventsDecoded: newEvents });
+      console.log(this.state.dates);
+      console.log(this.state.eventsDecoded);
 
       }, (error) => {
         console.log(error);
