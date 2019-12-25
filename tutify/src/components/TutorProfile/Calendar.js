@@ -167,7 +167,8 @@ class NewCalendar extends React.Component {
           });
       };    
     
-    render() {
+   
+      render() {
         const { classes } = this.props;
         const { open } = this.state;
 
@@ -201,21 +202,40 @@ onChange = {date => this.setState({ date })}
             </Fab>
             </Grid>
             </Grid>
-
             &nbsp;
             <Grid>
             <Table size="small">
                         
-                        <TableHead>
                           {this.state.dates.map(date => (
-                            <TableRow >
-                              <TableCell style={{background:'gray'}}>{date}</TableCell>
-                            </TableRow>
-                            
+                                                    <TableBody>
 
+                            <TableRow >
+                              <TableCell style={{background:'lightgray'}}>{date}</TableCell>
+                              <TableCell style={{background:'lightgray'}}></TableCell>
+                              <TableCell style={{background:'lightgray'}}></TableCell>
+                              <TableCell style={{background:'lightgray'}}></TableCell>
+
+                              </TableRow>
+
+                              
+                            {this.state.eventsDecoded.map(event => {
+                            return date === event.date ?
+                             
+                                  <TableRow >
+
+<TableCell >{event.startTime}     {event.endTime}</TableCell>
+<TableCell >{event.location}</TableCell>
+<TableCell >{event.title}       {event.description}</TableCell>
+                              
+                                </TableRow>
+                              : 
+<TableRow ></TableRow>
+                                      
+                                    })}
+
+                              </TableBody>
 
                           ))}
-                        </TableHead>
                       </Table>
               </Grid>
 
