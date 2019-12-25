@@ -132,41 +132,58 @@ class NewCalendar extends React.Component {
       });
       };
 
-      addEvent = () => {
-   
+     
+  addEvent = () => {
+    this.setState({ open: false });
 
-        axios.post('http://localhost:3001/api/addEvent', {
-              events: this.state.events,
-              tutor_id: this.state.tutor_id,
-              title: this.state.title,
-              description: this.state.description,
-              location: this.state.location,
-              date: this.state.date,
-              startTime: this.state.startTime,
-              endTime: this.state.endTime,
-        })
-          .then((res) => {
-            var newDates = [];
-            for (var z = 0; z < res.data.data.length; z++) {
-              var str = res.data.data[z].date;
-              str = str.substring(0,11)
-              var newStr = str.replace(/\D/g, "");
-              this.state.dates.push(newStr);
-    
-          }
-          this.state.dates.sort();
-          
-          for (var i = 0; i < this.state.dates.length; i++) {
-            var stri = this.state.dates[i].substring(6) + "/" + this.state.dates[i].substring(4,6) + "/" + this.state.dates[i].substring(0,4);
-            stri = stri.toString();
-            this.state.dates[i] = stri;
-          }
-            swal("Event successfully added!", "", "success")
-          }, (error) => {
-            console.log(error);
-          });
-      };    
-    
+    axios.post('http://localhost:3001/api/addEvent', {
+          events: this.state.events,
+          tutor_id: this.state.tutor_id,
+          title: this.state.title,
+          description: this.state.description,
+          location: this.state.location,
+          date: this.state.date,
+          startTime: this.state.startTime,
+          endTime: this.state.endTime,
+    })
+      .then((res) => {
+        var newDates = [];
+        var newEvents = [];
+        
+        newEvents = res.data.data;
+        
+        for (var z = 0; z < newEvents.length; z++) {
+          var str = newEvents[z].date;
+          str = str.substring(0,11)
+          var newStr = str.replace(/\D/g, "");
+          newDates.push(newStr);
+          newStr = newStr.substring(6) + "/" + newStr.substring(4,6) + "/" + newStr.substring(0,4);
+          newStr = newStr.toString();
+          newEvents[z].date = newStr;
+          //this.state.dates.push(newStr);
+
+      }
+      newDates.sort();
+      newDates = newDates.filter(function(elem, pos) {
+        return newDates.indexOf(elem) === pos;
+    })
+      
+      for (var i = 0; i < newDates.length; i++) {
+        var stri = newDates[i].substring(6) + "/" + newDates[i].substring(4,6) + "/" + newDates[i].substring(0,4);
+        stri = stri.toString();
+        newDates[i] = stri;
+      }
+
+      this.setState({ dates: newDates, eventsDecoded: newEvents });
+      console.log(this.state.dates);
+      console.log(this.state.eventsDecoded);
+
+        swal("Event successfully added!", "", "success")
+      }, (error) => {
+        console.log(error);
+      });
+  };
+
    
       render() {
         const { classes } = this.props;
