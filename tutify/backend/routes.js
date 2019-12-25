@@ -25,6 +25,7 @@ router.get('/getTutorCourses', tutorController.getTutorCourses);
 
 router.post('/addEvent', tutorController.addEvent);
 
+router.post('/populateEvents', tutorController.populateEvents);
 
 // -------- USER ROUTES --------- // 
 
