@@ -120,6 +120,30 @@ exports.addEvent = async function (req, res) {
 };
 
 
+// this method gets events from the database
+exports.populateEvents = async function (req, res) {
+    const {events} = req.body;
+    
+    var newEvents = [];
+    var count = 0;
+          
+                          for (var z = 0; z < events.length; z++) {
+                            Event.findOne({ _id: events[z] }, function (err, event) {
+                                if (err) {
+                                    
+                                };
+                                newEvents.push(event);
+                                count++;
+                    
+                                if (count == events.length) {
+                    
+                                    return res.json({ success: true, data: newEvents });
+                                }
+                    
+                            });
+                        }
+
+};
 
 // this method fetches the courses associated with the current tutor
 exports.getTutorCourses = async function (req, res) {
