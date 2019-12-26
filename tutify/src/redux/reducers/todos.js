@@ -1,11 +1,14 @@
+import axios from 'axios';
+
 const todos = (state = [], action) => {
   switch (action.type) {
     case 'ADD_TODO':
       return [
         ...state,
         {
+          _id: null,
           id: action.id,
-          text: action.text,
+          title: action.title,
           completed: false
         }
       ]
@@ -16,11 +19,17 @@ const todos = (state = [], action) => {
           : todo
       )
     case 'DEL_TODO':
-      return Object.assign({}, state, {
-        todos: state.todos.filter((todo) => {
-          return todo.id !== action.id
-        })
+      return state.filter((todo) => {
+        return todo.id !== action.id
       })
+    case 'SET_TODO':
+      return action.todos
+    case 'SAVE_TODO':
+      axios.post('http://localhost:3001/api/updateUserTodos', {
+        _id: action.id,
+        todos: state,
+      }).catch(err => console.log(err));
+      return state
     default:
       return state
   }

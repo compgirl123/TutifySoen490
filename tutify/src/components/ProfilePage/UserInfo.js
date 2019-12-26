@@ -14,7 +14,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import swal from 'sweetalert';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
 import Box from '@material-ui/core/Box';
 
@@ -26,6 +25,7 @@ export class UserInfo extends React.Component {
       first_name: "",
       last_name: "",
       email: "",
+      program_of_study: "",
       updatedFirstName: "",
       updatedLastName: "",
       updatedProgramOfStudy: "",
@@ -236,7 +236,6 @@ export class UserInfo extends React.Component {
     const { open } = this.state;
 
     return (
-      
       <Card className={classes.card}>
         <React.Fragment>
           <CardContent>
@@ -244,7 +243,7 @@ export class UserInfo extends React.Component {
           </CardContent>
           <CardContent>
             <Typography component="p" variant="h5" >
-              <Box fontWeight="fontWeightBold" >
+              <Box fontWeight="fontWeightBold">
                 {this.state.first_name + " " + this.state.last_name}
               </Box>
             </Typography>
@@ -255,47 +254,42 @@ export class UserInfo extends React.Component {
               height: .5,
               borderColor: '#FFFFFF'
             }} />
-           
+
             <Typography className={classes.InfoContext}>
+
               Status: Student
             </Typography>
 
-            <br/>
-
             <Typography className={classes.InfoContext}>
+              <br />
               Email : {this.state.email}
             </Typography>
 
-            <br />
-
             <Typography className={classes.InfoContext}>
+              <br />
               Program of Study: {this.state.program_of_study}
             </Typography>
 
-            <br />
-
             <Typography className={classes.InfoContext}>
+              <br />
               School: {this.state.school}
             </Typography>
 
-            <br />
-
             <Typography className={classes.InfoContext}>
+              <br />
               Education Level: {this.state.education_level}
             </Typography>
 
             <br />
-            
-            <Fab variant="extended" aria-label="edit"
+            <Button variant="outlined" aria-label="edit"
               justify="center"
               onClick={() => { this.handleClickOpen(); }}
               className={classes.editButton}>
-              <EditIcon />
+              <EditIcon /> &nbsp;
               Edit Info
-            </Fab>
+            </Button>
           </CardContent>
           <div>
-
 
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
               <DialogTitle id="simple-dialog-title">Edit Information</DialogTitle>
@@ -375,7 +369,7 @@ export class UserInfo extends React.Component {
                 </Grid>
                 <Grid item>
                   <DialogActions>
-                    <Button onClick={this.updateInfo} className="loginSubmit">Update Values</Button>
+                    <Button onClick={this.updateInfo}>Update Values</Button>
                   </DialogActions>
                 </Grid>
               </Grid>

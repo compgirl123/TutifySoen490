@@ -42,10 +42,20 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
   program_of_study: {
     type: String
   },
+  notifications: [
+    {
+      title: { type: String },
+      text: { type: String },
+      tutorImg: { type: String },
+      tutorName: { type: String },
+      tutorid: {type: Schema.Types.ObjectId, ref: 'Tutor'}
+    }
+  ],
   todos: [
     {
-      text: { type: String },
-      checked: { type: Boolean }
+      id: { type: String },
+      title: { type: String },
+      completed: { type: Boolean }
     }
   ]
 }), 'profiles'
@@ -74,6 +84,14 @@ const TutorSchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'Course'
       },
+    }
+  ],
+  events: [
+    {
+      event: {
+        type: Schema.Types.ObjectId,
+        ref: 'Event'
+      }
     }
   ]
 });
@@ -149,6 +167,7 @@ var Course = mongoose.model('Course', new Schema({
   ]
 }), "courses");
 
+
 // -------- FILES --------- // 
 
 var Files = mongoose.model('Files', new Schema({
@@ -182,6 +201,22 @@ var Files = mongoose.model('Files', new Schema({
 }), "files");
 
 
+
+// --------  Event --------- // 
+
+var Event = mongoose.model('Event', new Schema({
+  title: {
+    type: String,
+    required: true
+  },
+  description: String,
+  location:String,
+  date: String,
+  startTime: String,
+  endTime: String
+}), "events");
+
+
 // export the Schemas
 module.exports = {
   Tutor: Tutor,
@@ -190,5 +225,6 @@ module.exports = {
   Account: Account,
   Appointment: Appointment,
   Course: Course,
-  Files: Files
+  Files: Files,
+  Event: Event
 }

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import TodoList from '../../components/UserDashboardPage/Todo/TodoList.js'
-import { VisibilityFilters, markComplete } from '../actions/todolist_action'
+import { VisibilityFilters, markComplete, addTodo, delTodo, setTodos, saveTodos } from '../actions/todolist_action'
 
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
@@ -15,13 +15,21 @@ const getVisibleTodos = (todos, filter) => {
   }
 }
 
-const mapStateToProps = state => ({
-  todos: getVisibleTodos(state.todos, state.visibilityFilter)
+const mapStateToProps = (state, ownProps) => ({
+  todos: getVisibleTodos(state.todos, state.visibilityFilter),
+  sessionTodos: ownProps.sessionTodos
 })
 
-const mapDispatchToProps = dispatch => ({
-  markComplete: id => dispatch(markComplete(id))
-})
+const mapDispatchToProps = dispatch => {
+  return {
+    // dispatching actions returned by action creators
+    markComplete: id => dispatch(markComplete(id)),
+    addTodo: title => dispatch(addTodo(title)),
+    delTodo: id => dispatch(delTodo(id)),
+    setTodos: todos => dispatch(setTodos(todos)),
+    saveTodos: id => dispatch(saveTodos(id))
+  }
+}
 
 export default connect(
   mapStateToProps,

@@ -1,5 +1,4 @@
 import React from "react";
-import InputBase from '@material-ui/core/InputBase';
 import UserInfo, { UserInfo as UserInfoClass } from "../src/components/profilePage/UserInfo";
 import { createMount } from '@material-ui/core/test-utils';
 import { configure } from 'enzyme';
@@ -9,11 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import { shallow } from 'enzyme';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 
 // importing the json object with the profile information
@@ -42,7 +38,7 @@ describe('The Profile Page updating Profile Feature', () => {
         const shallowwrapper = wrapper.find(UserInfoClass);
         shallowwrapper.setState({ data: json.data });
         
-        // Finding the Typography html document that contains whether the object is a student or not.
+         // Finding the Typography html document that contains the type of user on the page (Tutor or Student).
         const student_status_input = wrapper.find(Typography).at(1);
         console.log(student_status_input.props().children);
 
@@ -62,11 +58,9 @@ describe('The Profile Page updating Profile Feature', () => {
                 break;
             }
         }
-        console.log(student_selected);
 
         // The Student profile that is mocked. This is taken from the profiles.json file
         const mockedEvent = profile_array[student_selected];
-        console.log(mockedEvent.email);
     
         // if the description of the type of user on the page is a student, then perform this if statement.
        if(student){
@@ -135,7 +129,7 @@ describe('The Profile Page updating Profile Feature', () => {
 
         /**
          * Setting values present on profile page and collecting that data and simulating an "update" 
-         */
+        */
 
         var edit_information_text_on_page = wrapper4.dive().find(DialogTitle).props().children;
         console.log(edit_information_text_on_page);

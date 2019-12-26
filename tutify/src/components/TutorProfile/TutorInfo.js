@@ -14,12 +14,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import swal from 'sweetalert';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
 import Box from '@material-ui/core/Box';
 
 
-class TutorInfo extends React.Component {
+export class TutorInfo extends React.Component {
 
   constructor(props) {
     super(props);
@@ -28,6 +27,7 @@ class TutorInfo extends React.Component {
       first_name: "",
       last_name: "",
       email: "",
+      school: "",
       updatedFirstName: "",
       updatedLastName: "",
       updatedProgramOfStudy: "",
@@ -252,14 +252,13 @@ class TutorInfo extends React.Component {
           </Typography>
           <br />
 
-          <Fab variant="extended" aria-label="edit"
+          <Button variant="outlined" aria-label="edit"
             justify="center"
             onClick={() => { this.handleClickOpen(); }}
-            style={{ background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)',
-            color: '#FFFFFF' }}>
-            <EditIcon />
+           >
+            <EditIcon /> &nbsp;
             Edit Info
-          </Fab>
+          </Button>
 
         </CardContent>
 
