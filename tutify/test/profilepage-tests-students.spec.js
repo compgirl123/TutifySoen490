@@ -1,5 +1,5 @@
 import React from "react";
-import UserInfo, { UserInfo as UserInfoClass } from "../src/components/profilePage/UserInfo";
+import UserInfo, { UserInfo as UserInfoClass } from "../src/components/ProfilePage/UserInfo";
 import { createMount } from '@material-ui/core/test-utils';
 import { configure } from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
