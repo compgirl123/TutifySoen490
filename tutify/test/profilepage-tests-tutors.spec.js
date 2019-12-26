@@ -476,12 +476,43 @@ describe('The Profile Page updating Profile Feature for Tutors.', () => {
 
 describe('The Profile Page updating Courses Feature for Tutors.', () => {
     let mount;
-    /*TO DO*/
+    /*TO DO */
+
     beforeAll(() => {
         mount = createMount();
     });
 
     it('Testing the add courses for Tutors feature. Adding only one course.', () => {
+        // All the mounting and state setting
+        const wrapper = mount(<TutorInfo></TutorInfo>);
+        const wrapper_shallow = shallow(<TutorInfo></TutorInfo>);
+        const tutor_class_wrapper = wrapper.find(TutorInfoClass);
+        tutor_class_wrapper.setState({ data: json.data });
+
+        /**
+         * Part 1 : Setting of the default profile page settings.
+        */
+
+         /*// Finding the Typography html document that contains the type of user on the page (Tutor or Student).
+         const tutor_status_input = wrapper.find(Typography).at(1);
+
+         // Checks if this Typography html document includes the word tutor to see if this is a tutor object
+         var tutor = tutor_status_input.props().children.includes("Tutor");
+         
+         // Saving all of the profile data from the profile.json into a variable.
+         var profile_array = tutor_class_wrapper.state().data;
+         var tutor_selected = 0;
+ 
+         // Select the first profile that appears as a tutor profile that will be used as a mocked event.
+         // Save this tutor profile index information in a variable.
+         for(var x=0;x<profile_array.length;x++){
+             if(profile_array[x].__t == "tutor"){
+                 tutor_selected = x;
+                 break;
+             }
+         }*/
+ 
+
         
     });
 
