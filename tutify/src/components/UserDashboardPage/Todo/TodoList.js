@@ -21,7 +21,7 @@ function SaveButton(props) {
     return <Button variant="outlined" disabled >Save</Button>
 }
 
-class TodoList extends React.Component {
+export class TodoList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
