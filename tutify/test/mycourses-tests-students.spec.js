@@ -22,7 +22,7 @@ describe('The Students Courses Page', () => {
         mount = createMount();
     });
 
-    it('Testing the student courses for Students. Checking if all of the required information for student course page exists on the page.', () => {
+    it('Testing the Student Course Pages. Checking if all the required elements are present on this page', () => {
         // All the mounting and state setting
         const wrapper = mount(<MyCourses></MyCourses>);
         const wrapper_shallow = shallow(<MyCourses></MyCourses>);

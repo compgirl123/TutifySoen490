@@ -21,7 +21,7 @@ describe('The Tutors Courses Page', () => {
         mount = createMount();
     });
 
-    it('Testing the update courses for Students. Updating one of the values present in the Dialog Box (education level of student)', () => {
+    it('Testing the Tutor Course Pages. Checking if all the required elements are present on this page', () => {
         // All the mounting and state setting
         const wrapper = mount(<TutorCourses></TutorCourses>);
         const wrapper_shallow = shallow(<TutorCourses></TutorCourses>);

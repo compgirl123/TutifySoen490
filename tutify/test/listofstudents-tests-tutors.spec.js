@@ -23,7 +23,7 @@ describe('The Tutors List of Students Page', () => {
         mount = createMount();
     });
 
-    it('Testing the update courses for Students. Updating one of the values present in the Dialog Box (education level of student)', () => {
+    it('Testing the Student List for Tutors. Checking if all the required elements are present on this page', () => {
         // All the mounting and state setting
         const wrapper = mount(<StudentList></StudentList>);
         const wrapper_shallow = shallow(<StudentList></StudentList>);
@@ -80,9 +80,9 @@ describe('The Tutors List of Students Page', () => {
         expect(leveleducation_column.props().children).toBe("Level of Education");
 
         // Finding the Link component. 
-        const course_title1111111 = wrapper_shallow.dive().find(Link).at(0);
+        const link_component = wrapper_shallow.dive().find(Link).at(0);
         // Make sure there exists a component at the end of the table that has "See More" value attached to it.
-        expect(course_title1111111.props().children).toBe("See more");
+        expect(link_component.props().children).toBe("See more");
 
     });
 }); 
