@@ -27,6 +27,8 @@ router.post('/addEvent', tutorController.addEvent);
 
 router.post('/populateEvents', tutorController.populateEvents);
 
+router.post('/deleteEvent', tutorController.deleteEvent);
+
 // -------- USER ROUTES --------- // 
 
 router.get('/getUser', userController.getUser);
