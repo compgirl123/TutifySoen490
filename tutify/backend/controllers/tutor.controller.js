@@ -61,14 +61,13 @@ exports.updateTutorInfo = async function (req, res) {
 
 // this method adds an event to the database
 exports.addEvent = async function (req, res) {
-    const {events, tutor_id, title , description, location, date, startTime, endTime} = req.body;
+    const {events, tutor_id, description, location, date, startTime, endTime} = req.body;
     
     let event = new Event();
     var newEvents = [];
     var count = 0;
 
     //create event
-    event.title = title;
     event.description = description;
     event.location = location; 
     event.date = date;

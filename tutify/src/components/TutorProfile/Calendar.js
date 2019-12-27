@@ -32,7 +32,6 @@ class NewCalendar extends React.Component {
         super(props);
         this.state = {
           drawerOpened: false,
-          title: "",
           description: "",
           location: "",
           date: "",
@@ -145,7 +144,6 @@ class NewCalendar extends React.Component {
     axios.post('http://localhost:3001/api/addEvent', {
           events: this.state.events,
           tutor_id: this.state.tutor_id,
-          title: this.state.title,
           description: this.state.description,
           location: this.state.location,
           date: this.state.date,
@@ -155,6 +153,7 @@ class NewCalendar extends React.Component {
       .then((res) => {
         var newDates = [];
         var newEvents = [];
+        var replaceEvents = [];
         
         newEvents = res.data.data;
         
@@ -166,6 +165,7 @@ class NewCalendar extends React.Component {
           newStr = newStr.substring(6) + "/" + newStr.substring(4,6) + "/" + newStr.substring(0,4);
           newStr = newStr.toString();
           newEvents[z].date = newStr;
+          replaceEvents.push(newEvents[z]._id)
       }
       newDates.sort();
       newDates = newDates.filter(function(elem, pos) {
@@ -177,8 +177,8 @@ class NewCalendar extends React.Component {
         stri = stri.toString();
         newDates[i] = stri;
       }
-
-      this.setState({ dates: newDates, eventsDecoded: newEvents });
+      console.log(res);
+      this.setState({ dates: newDates, eventsDecoded: newEvents, events: replaceEvents });
       swal("Event successfully added!", "", "success")
       }, (error) => {
         console.log(error);
@@ -257,7 +257,7 @@ onChange = {date => this.setState({ date })}
 <TableRow key={event._id}>
 <TableCell >{event.startTime}     {event.endTime}</TableCell>
 <TableCell >{event.location}</TableCell>
-<TableCell >{event.title}       {event.description}</TableCell>
+<TableCell >{event.description}</TableCell>
 <TableCell ><IconButton onClick = {e =>this.deleteEvent(event._id)}>
                         <DeleteOutlined />
                     </IconButton></TableCell>
@@ -293,20 +293,6 @@ onChange = {date => this.setState({ date })}
         shrink: true,
       }}
       margin="dense"
-      id="title"
-      name="title"
-      onChange={e => this.setState({ title: e.target.value })}
-      autoComplete="title"
-      label="Title"
-      type="title"
-      fullWidth
-    />
-
-    <TextField
-       InputLabelProps={{
-        shrink: true,
-      }}
-      margin="dense"
       id="description"
       name="description"
       onChange={e => this.setState({ description: e.target.value })}
@@ -329,20 +315,6 @@ onChange = {date => this.setState({ date })}
       type="location"
       fullWidth
     />
-
-
-    <TextField
-     InputLabelProps={{
-      shrink: true,
-    }}
-      margin="dense"
-      id="date"
-      name="date"
-      label="Date"
-      onChange={e => this.setState({ date: e.target.value })}
-      type="date"
-      fullWidth
-    /> 
 
      <TextField
            margin="dense"

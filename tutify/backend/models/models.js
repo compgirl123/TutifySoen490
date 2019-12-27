@@ -204,10 +204,6 @@ var Files = mongoose.model('Files', new Schema({
 // --------  Event --------- // 
 
 var Event = mongoose.model('Event', new Schema({
-  title: {
-    type: String,
-    required: true
-  },
   description: String,
   location:String,
   date: String,
