@@ -17,7 +17,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import axios from 'axios';
 
-class StudentList extends React.Component {
+export class StudentList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
