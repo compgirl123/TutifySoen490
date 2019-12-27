@@ -22,6 +22,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Fab from '@material-ui/core/Fab';
 import axios from 'axios';
 import swal from 'sweetalert';
+import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
+import IconButton from '@material-ui/core/IconButton';
+
 
 
 class NewCalendar extends React.Component {
@@ -38,12 +41,16 @@ class NewCalendar extends React.Component {
           open: false,
           scroll: 'paper',
           tutor_id: "",
+          event_id: "",
           events: [],
           eventsDecoded: [],
           dates : [],
+          eventId: "",
         };
         this.handleClickOpen = this.handleClickOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.deleteEvent = this.deleteEvent.bind(this);
+
       }
     
       toggleDrawer = booleanValue => () => {
@@ -131,7 +138,6 @@ class NewCalendar extends React.Component {
         console.log(error);
       });
       };
-
      
   addEvent = () => {
     this.setState({ open: false });
@@ -160,8 +166,6 @@ class NewCalendar extends React.Component {
           newStr = newStr.substring(6) + "/" + newStr.substring(4,6) + "/" + newStr.substring(0,4);
           newStr = newStr.toString();
           newEvents[z].date = newStr;
-          //this.state.dates.push(newStr);
-
       }
       newDates.sort();
       newDates = newDates.filter(function(elem, pos) {
@@ -175,15 +179,28 @@ class NewCalendar extends React.Component {
       }
 
       this.setState({ dates: newDates, eventsDecoded: newEvents });
-      console.log(this.state.dates);
-      console.log(this.state.eventsDecoded);
-
-        swal("Event successfully added!", "", "success")
+      swal("Event successfully added!", "", "success")
       }, (error) => {
         console.log(error);
       });
   };
 
+  deleteEvent = (id) => {
+    axios.post('http://localhost:3001/api/deleteEvent', {
+      event_id: id,
+      tutor_id: this.state.tutor_id         
+})
+  .then((res) => {
+
+    this.setState({ events: res.data.userInfo.events });
+    console.log(res);
+    console.log(this.state.events);
+
+    this.populateEvents();
+  }, (error) => {
+    console.log(error);
+  });
+  };    
    
       render() {
         const { classes } = this.props;
@@ -234,15 +251,17 @@ onChange = {date => this.setState({ date })}
 
                               </TableRow>
 
-                              
                             {this.state.eventsDecoded.map(event => {
                             return date === event.date ?
                              
-                                  <TableRow >
-
+<TableRow key={event._id}>
 <TableCell >{event.startTime}     {event.endTime}</TableCell>
 <TableCell >{event.location}</TableCell>
 <TableCell >{event.title}       {event.description}</TableCell>
+<TableCell ><IconButton onClick = {e =>this.deleteEvent(event._id)}>
+                        <DeleteOutlined />
+                    </IconButton></TableCell>
+
                               
                                 </TableRow>
                               : 
