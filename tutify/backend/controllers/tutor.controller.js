@@ -126,7 +126,12 @@ exports.populateEvents = async function (req, res) {
     
     var newEvents = [];
     var count = 0;
-          
+    
+    if (count == events.length) {
+                    
+        return res.json({ success: true, data: newEvents });
+    }
+    
                           for (var z = 0; z < events.length; z++) {
                             Event.findOne({ _id: events[z] }, function (err, event) {
                                 if (err) {
@@ -142,6 +147,40 @@ exports.populateEvents = async function (req, res) {
                     
                             });
                         }
+
+};
+
+// this method deletes an event from the database
+exports.deleteEvent = async function (req, res) {
+    const {event_id, tutor_id} = req.body;
+
+    Event.findByIdAndRemove(event_id, (err) => {
+        if (err) return res.send(err);
+       /**  Tutor.update(
+            { _id: tutor_id },
+            { $pull: { 'events': event_id } }
+          );
+
+          */
+        Tutor.findByIdAndUpdate(tutor_id,
+            { "$pull": { "events": event_id } },
+            function (err, tutor) {  
+                console.log(tutor.events); 
+                var index = tutor.events.indexOf(event_id);
+                        if (index > -1) {
+                        tutor.events.splice(index, 1);
+                        }  
+                req.session.userInfo = tutor;       
+                    req.session.save(function (err) {
+                        req.session.reload(function (err) {  
+                            
+                        
+                            
+                return res.json({ success: true, userInfo: tutor });
+            });    
+        });
+            });
+    });
 
 };
 
