@@ -9,6 +9,10 @@ import Adapter from "enzyme-adapter-react-16";
 import { shallow } from 'enzyme';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardContent from '@material-ui/core/CardContent';
+import Button from "@material-ui/core/Button";
+import Container from '@material-ui/core/Container';
 
 // importing the json object with the profile information
 var json = require("./testDb/profiles.json");
@@ -22,26 +26,89 @@ describe('The Students Courses Page', () => {
         mount = createMount();
     });
 
-    it('Testing the Student Course Pages. Checking if all the required elements are present on this page', () => {
+    it('Testing the general student courses for Students. Checking if all of the required information for student course page exists on the page.', () => {
         // All the mounting and state setting
-        const wrapper = mount(<MyCourses></MyCourses>);
-        const wrapper_shallow = shallow(<MyCourses></MyCourses>);
+        
+        const mockedStudent =  [
+            {
+              _id: {
+                "$oid": "5e02882c641f2eac8f2837b0"
+              },
+              course: {
+                name: "COMP 472",
+                description : "Automated reasoning. Search and heuristic search. Game‑playing.",
+              },
+              tutor: {
+                first_name: "Mohammed",
+                last_name : "Alawami"
+              }
+            }
+          ]
+        const wrapper_shallow = shallow(<MyCourses courses = {mockedStudent}></MyCourses>);
+        const wrapper = mount(<MyCourses courses = {mockedStudent}></MyCourses>);
         const student_class_wrapper = wrapper.find(MyCoursesClass);
         student_class_wrapper.setState({ data: json.data });
 
         /**
-         * Checking the two student courses page (general and specific course page) and see if all elements are present 
+         * General Student Course Page
         */
-
+        
         // Finding the Typography component that contains the Main Title Header Present on the Page.
         const course_title = wrapper_shallow.dive().find(Typography).at(0);
         // Make sure the header name for the student page has the value My Enrolled Courses
         expect(course_title.props().children).toBe("My Enrolled Courses");
 
-        // Go to next page which contains information about a particular course the student is registered in.
-        const wrapper_shallow_specific_course = shallow(<ViewCourse></ViewCourse>);
+        student_class_wrapper.setState({ courses: mockedStudent });
 
-        // Finding the Grid component containing the Different classes the student is registered for.
+        // Getting the Card that contains information about the course.
+        const cardInfo = wrapper.find(CardContent).at(0);
+
+        // Making sure that the Course name matches the mock student's.
+        expect(cardInfo.props().children[0].props.children).toBe("COMP 472");
+
+        // Making sure that the Tutor's full name matches the mock student's.
+        expect(cardInfo.props().children[1].props.children).toBe("Mohammed Alawami");
+
+        // Making sure that the Course Description matches the mock student's.
+        expect(cardInfo.props().children[2].props.children).toBe("Automated reasoning. Search and heuristic search. Game‑playing.");
+
+        // Getting the Card that contains information about the course.
+        const buttonInfo = wrapper.find(Button).at(0);
+
+        // Making sure that the Button matches the mock student's.
+        expect(buttonInfo.props().children).toBe("View Course");
+    
+    });
+
+    it('Testing the specific student courses for Students. Checking if all of the required information for specfic student course page exists on the page.', () => {
+        // All the mounting and state setting
+        
+        const mockedStudent =  [
+            {
+              _id: {
+                "$oid": "5e02882c641f2eac8f2837b0"
+              },
+              course: {
+                name: "COMP 472",
+                description : "Automated reasoning. Search and heuristic search. Game‑playing.",
+              },
+              tutor: {
+                first_name: "Mohammed",
+                last_name : "Alawami"
+              }
+            }
+          ]
+        // Go to next page which contains information about a particular course the student is registered in.
+        const wrapper_shallow_specific_course = shallow(<ViewCourse courses = {mockedStudent}></ViewCourse>);
+        const wrapper_specific_course = mount(<ViewCourse courses = {mockedStudent}></ViewCourse>);
+        const student_class_wrapper = wrapper_specific_course.find(ViewCourseClass);
+        student_class_wrapper.setState({ data: json.data });
+
+        /**
+         * Specific Course Page
+        */
+
+        // Finding the Grid component containing the Different classes student is registered for.
         const test = wrapper_shallow_specific_course.dive().find(Grid).at(0);
         // Seeing if the Grid components Exists (import grid)
         expect(test.exists()).toBeTruthy();
