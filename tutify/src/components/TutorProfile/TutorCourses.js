@@ -15,13 +15,12 @@ import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 
 
-class TutorCourses extends React.Component {
+export class TutorCourses extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       drawerOpened: false,
       courses: []
-
     };
   }
 
@@ -74,10 +73,11 @@ class TutorCourses extends React.Component {
               <div className={classes.appBarSpacer} />
 
               <Container maxWidth="lg" className={classes.container}>
-
+               <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
+                  Courses Currently Taught
+               </Typography>
                 <Grid container spacing={5}>
                   {courses.map((c, i) => (
-
                     <Grid item xs={4} md={4} lg={4}>
                       <Card className={classes.card}>
                         <CardActionArea>
@@ -95,7 +95,7 @@ class TutorCourses extends React.Component {
                           </CardContent>
                         </CardActionArea>
                         <CardActions>
-                          <Button type="button" size="small" href = "/TutorCourseView" fullWidth className="submit">
+                          <Button type="button"  size="small" href = "/TutorCourseView" fullWidth className="submit">
                             View Documents
                           </Button>
                           <Button type="button" size="small" href = "/uploadingDocs" fullWidth className="submit">
