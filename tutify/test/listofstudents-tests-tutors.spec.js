@@ -144,7 +144,6 @@ describe('The Tutors List of Students Page', () => {
         // Making sure that the School of student matches the name on page
         expect(studentInformation.props().children[3].props.children).toBe("concordia");
 
-        console.log(studentInformation2.props().children[4]);
         // Making sure that the Education Level of student matches the name on page
         expect(studentInformation2.props().children[4].props.children).toBe("university");
 
