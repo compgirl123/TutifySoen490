@@ -26,7 +26,8 @@ export class UploadDocuments extends Component {
     this.state = {
       files: [],
       file: '',
-      user_id: ""
+      user_id: "",
+      course: ""
     }
     this.loadFiles = this.loadFiles.bind(this);
     this.fileChanged = this.fileChanged.bind(this);
@@ -165,7 +166,7 @@ async handleSubmit(event) {
 }
 
   render() {
-    const { files } = this.state;
+    const { files,course } = this.state;
     const { classes } = this.props;
     return (
       <React.Fragment>
@@ -194,18 +195,22 @@ async handleSubmit(event) {
                                 </label>  
                       <p></p>
 
+
             <FormControl >
               <label> Course:
-            <Select
-              name="course"
-              value="course"
-            >
-              <MenuItem value="one_on_one">Math 203</MenuItem>
-              <MenuItem value="group_tutoring ">Comp 472</MenuItem>
-              <MenuItem value="midterm_crash">Other</MenuItem>
-            </Select> 
-            </label>  
-          </FormControl>
+                    <Select
+                      name="course"
+                      value={course}
+                      onChange={event => { this.setState({ course: event.target.value }) }}
+                      input={<Input id="course" />}
+                    >
+                      <MenuItem value="assignment">Assignment</MenuItem>
+                      <MenuItem value="past midterm">Past Midterm</MenuItem>
+                      <MenuItem value="past final">Past Final</MenuItem>
+                      <MenuItem value="other">Other</MenuItem>
+                    </Select>
+                    </label>
+                  </FormControl>
           <p></p>
               {/* <form action="/upload" method="POST" encType="multipart/form-data"> */}
                 {/* <input
