@@ -16,8 +16,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Grid from '@material-ui/core/Grid';
 
 
-
-
 // Display a Ui for Tutors in order to be able to upload their documents
 export class UploadDocuments extends Component {
   constructor(props) {
@@ -202,6 +200,7 @@ async handleSubmit(event) {
                       name="course"
                       value={course}
                       onChange={event => { this.setState({ course: event.target.value }) }}
+
                       input={<Input id="course" />}
                     >
                       <MenuItem value="assignment">Assignment</MenuItem>
@@ -212,6 +211,7 @@ async handleSubmit(event) {
                     </label>
                   </FormControl>
           <p></p>
+          
               {/* <form action="/upload" method="POST" encType="multipart/form-data"> */}
                 {/* <input
                   type="file"
