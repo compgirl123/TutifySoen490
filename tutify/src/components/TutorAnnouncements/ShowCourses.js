@@ -15,7 +15,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 
 
-class ShowCourses extends React.Component {
+export class ShowCourses extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
