@@ -1,8 +1,4 @@
-
-// TO DO: FIX COMMENTS AND 
-// FIX Button stuff
 import React from "react";
-import AddTodo, { AddTodo as AddTodoClass } from "../src/components/UserDashboardPage/Todo/AddTodo";
 import { createMount } from '@material-ui/core/test-utils';
 import { configure } from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
@@ -10,11 +6,9 @@ import { shallow } from 'enzyme';
 import TextField from '@material-ui/core/TextField';
 import Announcements,{ Announcements as AnnouncementsClass } from "../src/components/TutorAnnouncements/Announcements";
 import ShowCourses,{ ShowCourses as ShowCoursesClass } from "../src/components/TutorAnnouncements/ShowCourses";
-import ShowStudents from "../src/components/TutorAnnouncements/ShowStudents";
-import Button from '@material-ui/core/Button';
+import ShowStudents ,{ ShowStudents as ShowStudentsClass }from "../src/components/TutorAnnouncements/ShowStudents";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Checkbox from '@material-ui/core/Checkbox';
 import List from '@material-ui/core/List';
 
 configure({ adapter: new Adapter() });
@@ -46,10 +40,10 @@ describe('The Student Dashboard Page', () => {
         const wrapper = mount(<Announcements></Announcements>);
         const wrapper_shallow = shallow(<Announcements></Announcements>);
 
-        const student_class_wrapper = wrapper.find(AnnouncementsClass);
+        const announcement_class_wrapper = wrapper.find(AnnouncementsClass);
         
         // Setting state of Title of notification 
-        student_class_wrapper.setState({ aTitle: announcement.title });
+        announcement_class_wrapper.setState({ aTitle: announcement.title });
 
         // Finding TextField Element for announcement title.
         const announcementTitle = wrapper.find(TextField).at(0);
@@ -57,7 +51,7 @@ describe('The Student Dashboard Page', () => {
         expect(announcementTitle.props().value).toBe(announcement.title);
 
         // Setting state of text field of notification. 
-        student_class_wrapper.setState({ aText: announcement.text });
+        announcement_class_wrapper.setState({ aText: announcement.text });
 
         // Finding TextField Element for announcement text.
         const announcementText = wrapper.find(TextField).at(1);
@@ -75,20 +69,17 @@ describe('The Student Dashboard Page', () => {
 
         // Finding MenuItem Element for announcement text.
         const menuItem = wrapper.find(MenuItem).at(0);
-
-        // Setting state of is course selected in drop down to be true.
-        student_class_wrapper.setState({ isCoursesSelected: true });
-
         const courses = 
         [
             {
-              students: [],
+              students: [{first_name:"Pierre",last_name : "LeGallois"},{first_name:"William",last_name : "Watine"}
+              ],
               course: {
                 name : "COMP 472"
               }
             },
             {
-               students: [],
+               students: [{first_name:"Pina",last_name : "Brutezezze"},{first_name:"Miranda",last_name : "Singer"}],
                course: {
                 name : "MATH 203"
                }
@@ -96,19 +87,41 @@ describe('The Student Dashboard Page', () => {
 
         ]
 
+        const students =
+        [
+            {
+                first_name: "Pina",
+                last_name: "Brutezezze",
+                program_of_study: "Soen",
+                school: "concordia",
+                education_level : "university"
+            },
+            {
+                first_name: "Pierre Arthur",
+                last_name: "Watine",
+                program_of_study: "Soen",
+                school: "concordia",
+                education_level : "university"
+            }
+
+        ]
+
+        // Setting state of is course selected in drop down to be true.
+        announcement_class_wrapper.setState({ isCoursesSelected: true,isStudentsSelected: false });
+
         // Finding ShowCourses Element for page that should contain it now.
         const show_courses = wrapper.find(ShowCourses).at(0);
         const show_courses_wrapper = mount(<ShowCourses courses ={courses}></ShowCourses>);
         const show_courses_shallow_wrapper = shallow(<ShowCourses courses ={courses}></ShowCourses>);
-        const student_class_show_courses_wrapper = wrapper.find(ShowCoursesClass);
+        const course_class_show_courses_wrapper = wrapper.find(ShowCoursesClass);
 
         // Finding List Element on page that should contain announcements there.
-        const test2 = show_courses_wrapper.find(List).at(0);
+        const list_element_announcements_1 = show_courses_wrapper.find(List).at(0);
 
         // Expect dropdown menu option Course from Send To... to have a course with the value COMP 472 as a list option.
-        expect(test2.props().children[0].key).toBe("COMP 472");
+        expect(list_element_announcements_1 .props().children[0].key).toBe("COMP 472");
         // Expect dropdown menu option Course from Send To... to have a course with the value MATH 203 as a list option.
-        expect(test2.props().children[1].key).toBe("MATH 203");
+        expect(list_element_announcements_1 .props().children[1].key).toBe("MATH 203");
 
         // Finding the ShowCourses component containing the Different classes student is registered for.
         const show_courses_component = show_courses_wrapper.find(ShowCourses).at(0);
@@ -120,22 +133,35 @@ describe('The Student Dashboard Page', () => {
         // Expect the ShowStudents component does not Exist. It should not exist as the Students Option is not selected.
         expect(show_students_component.exists()).not.toBeTruthy();
 
-        // Selecting isStudentsSelected as the option 
-        student_class_show_courses_wrapper.setState({ isStudentsSelected: true });
+        // Setting state of is student selected in drop down to be true.
+        const announcement_class_wrapper2 = wrapper.find(AnnouncementsClass);
+        announcement_class_wrapper2.setState({ isStudentsSelected: true,isCoursesSelected: false });
 
-        // Do Stuff Here
-        //const test21 = show_courses_wrapper.find(ShowStudents).at(0);
-        //console.log(test21.props());
-        //expect(testprops().value).toBe(announcement.title);
+        // Finding Show Students Element for page that should contain it now.
+        const show_students = wrapper.find(ShowCourses).at(0);
+        const show_students_wrapper = mount(<ShowStudents students ={students}></ShowStudents>);
+        const show_students_shallow_wrapper = shallow(<ShowStudents students ={students}></ShowStudents>);
+        const student_class_show_courses_wrapper = wrapper.find(ShowStudentsClass);
+
+        // Finding List Element on page that should contain announcements there.
+        const list_element_announcements_2 = show_students_wrapper.find(List).at(0);
         
-        // send to button
-        //const sendToButton = wrapper.find(Button).at(0);
-        //toDo.props().onClick();
-        //console.log(sendToButton.props());
-        //expect(input.props().value).toBe(announcement.text);
+        // Expect dropdown menu option Student from Send To... to have a name with the value Pina Brutezezze
+        expect((list_element_announcements_2.props().children[0].key).split("-").pop()).toBe("Pina Brutezezze");
+        // Expect dropdown menu option Student from Send To... to have a course with the value Pierre Arthur Watine
+        expect((list_element_announcements_2.props().children[1].key).split("-").pop()).toBe("Pierre Arthur Watine");
 
-        // submit button
-        //const input = wrapper.find(Button).at(0);
+        // Finding the ShowStudents component containing the Different students registered with a particular tutor.
+        const show_students_component2 = show_students_wrapper.find(ShowStudents).at(0);
+        // Finding the ShowCourses component containing the Different classes student is registered for.
+        const show_courses_component2 = show_courses_wrapper.find(ShowStudents).at(0);
+ 
+        // Expect the ShowStudents component Exists. It should exist as the Course Option is selected.
+        expect(show_students_component2.exists()).toBeTruthy();
+        // Expect the ShowCourses component Exists. It should exist as the Course Option is selected.
+        expect(show_courses_component2.exists()).not.toBeTruthy();
+        // Expect the ShowCourses component does not Exist. It should not exist as the Students Option is not selected.
+        expect(show_students_component2.exists()).toBeTruthy();
 
     });
 
