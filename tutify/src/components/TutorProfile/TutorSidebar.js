@@ -43,26 +43,28 @@ export class TutorSidebar extends Component {
               </ListItemIcon>
               <ListItemText primary="My Profile" />
             </ListItem>
+
             <ListItem button component="a" href="/uploadingDocs">
               <ListItemIcon>
                 <PublishIcon />
               </ListItemIcon>
               <ListItemText primary="Upload Documents" />
             </ListItem>
-            <ListItem button component="a" href="/tutorCourses">
-              <ListItemIcon>
-                <MenuBookIcon />
-              </ListItemIcon>
 
-              <ListItemText primary="All Documents" />
-            </ListItem>
             <ListItem button component="a" href="/doclist">
               <ListItemIcon>
                 <MenuBookIcon />
               </ListItemIcon>
+              <ListItemText primary="All Documents" />
+            </ListItem>
 
+            <ListItem button component="a" href="/tutorCourses">
+              <ListItemIcon>
+                <MenuBookIcon />
+              </ListItemIcon>
               <ListItemText primary="My Courses" />
             </ListItem>
+
             <ListItem button component="a" href="/Announcements">
               <ListItemIcon>
                 <MenuBookIcon />
