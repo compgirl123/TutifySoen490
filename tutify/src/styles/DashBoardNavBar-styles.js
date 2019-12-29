@@ -8,4 +8,7 @@ export const styles = theme => ({
     buttonContainer: {
       marginLeft:0,
     },
+    appBar: {
+      zIndex: theme.zIndex.drawer + 1,
+    }
   });

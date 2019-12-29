@@ -10,6 +10,11 @@ import TutorCoursesInfo from './TutorCoursesInfo';
 import NewCalendar from './Calendar';
 import TutorStudentsInfo from './TutorStudentsInfo';
 import DashBoardNavBar from '../ProfilePage/DashBoardNavBar'
+import IconButton from '@material-ui/core/IconButton';
+import Drawer from "@material-ui/core/Drawer";
+import Avatar from '@material-ui/core/Avatar';
+import calendarIcon from '../../assets/calendarIcon.png';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 
 class TutorProfile extends React.Component {
@@ -19,12 +24,14 @@ class TutorProfile extends React.Component {
       drawerOpened: false,
       email: ""
     };
+    this.toggleDrawer = this.toggleDrawer.bind(this);
+
   }
 
-  toggleDrawer = booleanValue => () => {
+  toggleDrawer = booleanValue => event => {
     this.setState({
       drawerOpened: booleanValue
-    });
+    });   
   };
 
   componentDidMount() {
@@ -48,6 +55,7 @@ class TutorProfile extends React.Component {
       .catch(err => console.log(err));
   };
 
+
   handleChange(event) {
     fetch('http://localhost:3001/api/logout', {
       method: 'GET',
@@ -68,6 +76,30 @@ class TutorProfile extends React.Component {
       <React.Fragment>
         <main>
           <DashBoardNavBar />
+          <Drawer variant="permanent"  anchor="right" overflow="hidden">
+                <IconButton style={{paddingTop: '100%', paddingLeft: '40px', paddingRight:'40px'}} shadow="none" >
+                    </IconButton>
+                    <IconButton onClick={this.toggleDrawer(true)}>
+                    <Avatar src={calendarIcon} style={{alignSelf: 'center', width:'60px', height: '60px'}}  ></Avatar>
+                    </IconButton>
+          </Drawer>
+
+        <Drawer
+        anchor="right"
+        open={this.state.drawerOpened}
+        onClose={this.toggleDrawer(false)}
+      >
+        
+          <div>
+            <IconButton   onClick={this.toggleDrawer(false)}>
+              <ChevronRightIcon />
+            </IconButton>
+          </div>
+          <Paper>
+    <NewCalendar />
+  </Paper>
+      </Drawer>
+
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             <Container maxWidth="lg" className={classes.container}>
@@ -97,14 +129,8 @@ class TutorProfile extends React.Component {
 
                   <br />
 
-<Grid >
-  <Paper>
-    <NewCalendar />
-  </Paper>
-</Grid>
-
                 </Grid>
-
+            
               </Grid>
             </Container>
             <main>

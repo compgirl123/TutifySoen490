@@ -24,8 +24,8 @@ import axios from 'axios';
 import swal from 'sweetalert';
 import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
 import IconButton from '@material-ui/core/IconButton';
-
-
+import Drawer from '@material-ui/core/Drawer';
+import TodaySharpIcon from '@material-ui/icons/TodaySharp';
 
 class NewCalendar extends React.Component {
     constructor(props) {
@@ -237,7 +237,8 @@ onChange = {date => this.setState({ date })}
             </Grid>
             </Grid>
             &nbsp;
-            <Grid>
+            <Grid style= {{height:300,
+        overflow: 'auto'}}>
             <Table size="small">
                         
                           {this.state.dates.map(date => (
@@ -247,7 +248,6 @@ onChange = {date => this.setState({ date })}
                               <TableCell style={{background:'lightgray'}}>{date}</TableCell>
                               <TableCell style={{background:'lightgray'}}></TableCell>
                               <TableCell style={{background:'lightgray'}}></TableCell>
-                              <TableCell style={{background:'lightgray'}}></TableCell>
 
                               </TableRow>
 
@@ -255,17 +255,19 @@ onChange = {date => this.setState({ date })}
                             return date === event.date ?
                              
 <TableRow key={event._id}>
-<TableCell >{event.startTime}     {event.endTime}</TableCell>
-<TableCell >{event.location}</TableCell>
-<TableCell >{event.description}</TableCell>
+<TableCell style={{width: 100}}>{event.startTime} to {event.endTime}</TableCell>
+                            <TableCell style={{width: 300}}>{event.description}           @{event.location}</TableCell>
 <TableCell ><IconButton onClick = {e =>this.deleteEvent(event._id)}>
                         <DeleteOutlined />
                     </IconButton></TableCell>
 
                               
                                 </TableRow>
+                               
                               : 
-<TableRow ></TableRow>
+<TableRow >
+
+</TableRow>
                                       
                                     })}
 
@@ -280,6 +282,9 @@ onChange = {date => this.setState({ date })}
                         </TableBody>
                     </Table>
                     <div>
+
+
+
 
 <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
   <DialogTitle id="simple-dialog-title">Add an Event</DialogTitle>
