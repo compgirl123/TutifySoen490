@@ -36,5 +36,9 @@ app.use(session({secret:"sdshkgjdhgkhgkjsd322k3j4nkjkjhb3", resave:false, saveUn
 app.use('/api', router);
 app.use('/public', express.static('public'));
 
+// file upload requirements
+app.use(express.json());
+app.set("view engine", "ejs");
+
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));

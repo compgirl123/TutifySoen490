@@ -7,18 +7,17 @@ import Button from '@material-ui/core/Button';
 import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
 import axios from "axios";
 import swal from 'sweetalert';
-import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
 import { FormControl } from '@material-ui/core';
 import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import Grid from '@material-ui/core/Grid';
+
 
 
 // Display a Ui for Tutors in order to be able to upload their documents
 export class UploadDocuments extends Component {
+
   constructor(props) {
     super(props);
 
@@ -167,7 +166,7 @@ async handleSubmit(event) {
 }
 
   render() {
-    const { files,course } = this.state;
+    const { course } = this.state;
     const { classes } = this.props;
     return (
       <React.Fragment>
@@ -229,7 +228,7 @@ async handleSubmit(event) {
                 </Button> */}
 
                 <form onSubmit={this.handleSubmit}>
-                  <label forHTML="fileUpload">Upload:</label>
+                  <label>Upload:
                     <input
                       id="fileUpload"
                       type="file"
@@ -237,7 +236,7 @@ async handleSubmit(event) {
                       className={classes.inputUpload}
                       style={{ size: 74 }}
                     />
-                  
+                  </label>
                   <Button type="submit" variant="contained" size="large" className="submit">
                   Upload it!
                 </Button>
