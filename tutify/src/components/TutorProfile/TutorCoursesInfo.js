@@ -20,7 +20,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 
 
-class TutorCoursesInfo extends React.Component {
+export class TutorCoursesInfo extends React.Component {
 
   constructor(props) {
     super(props);
@@ -161,6 +161,7 @@ class TutorCoursesInfo extends React.Component {
                   </TableCell>
                 </TableRow>
               ))}
+              
             </TableBody>
           </Table>
 
