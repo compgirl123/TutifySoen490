@@ -5,7 +5,6 @@ var mongoose = require('mongoose');
 // var uuidv4 = require('uuid/v4');
 // var bp = require("body-parser");
 // const DIR = './../public/';
-// const crypto = require("crypto");
 // const path = require("path");
 // const GridFsStorage = require("multer-gridfs-storage");
 

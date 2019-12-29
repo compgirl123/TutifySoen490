@@ -10,6 +10,7 @@ const GridFsStorage = require("multer-gridfs-storage");
 const crypto = require('crypto');
 const API_PORT = 3001;
 const app = express();
+const path = require("path");
 app.use(cors({credentials: true, origin: true}));
 
 // this is our MongoDB databases
