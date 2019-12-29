@@ -20,7 +20,7 @@ const MenuProps = {
   },
 };
 
-class CourseSelection extends React.Component {
+export class CourseSelection extends React.Component {
   state = {
     name: [],
     counter: 15

@@ -5,10 +5,10 @@ import * as CourseViewStyles from '../../styles/CourseView-styles';
 import { withStyles } from "@material-ui/core/styles";
 import CourseStudents from "./CourseStudents";
 import UploadDoc from "./UploadDoc";
-import { typography } from '@material-ui/system';
 import TutorDashBoardNavBar from '../TutorProfile/TutorDashboardNavBar';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 // Tutor views all of the documents uploaded for each individual course
 class TutorCourseView extends React.Component {
@@ -60,8 +60,8 @@ class TutorCourseView extends React.Component {
 
                     <Container maxWidth="lg" className={classes.container}>
                     <p></p>
-
-                    <typography>Students</typography><p></p>
+                    <br/><br/><br/>
+                    <Typography>Students</Typography><p></p>
 
                     <Grid container spacing={3}>
                         <Grid item xs={12} className={classes.gridItem}>
@@ -69,7 +69,7 @@ class TutorCourseView extends React.Component {
                         </Grid>
                     </Grid>
                     <p></p>
-                    <typography>Documents Uploaded</typography><p></p>
+                    <Typography>Documents Uploaded</Typography><p></p>
                     <Grid container>
                         <Grid item xs={12} className={classes.gridItem}>
                             <UploadDoc />
