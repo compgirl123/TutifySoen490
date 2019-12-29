@@ -77,27 +77,25 @@ class TutorProfile extends React.Component {
         <main>
           <DashBoardNavBar />
           <Drawer variant="permanent"  anchor="right" overflow="hidden">
-                <IconButton style={{paddingTop: '100%', paddingLeft: '40px', paddingRight:'40px'}} shadow="none" >
+                <IconButton style={{paddingTop: '100%', paddingLeft: '40px', paddingRight:'40px', backgroundColor: 'transparent'}} >
                     </IconButton>
                     <IconButton onClick={this.toggleDrawer(true)}>
                     <Avatar src={calendarIcon} style={{alignSelf: 'center', width:'60px', height: '60px'}}  ></Avatar>
                     </IconButton>
           </Drawer>
-
         <Drawer
         anchor="right"
         open={this.state.drawerOpened}
         onClose={this.toggleDrawer(false)}
-      >
-        
+        >
           <div>
-            <IconButton   onClick={this.toggleDrawer(false)}>
+            <IconButton onClick={this.toggleDrawer(false)}>
               <ChevronRightIcon />
             </IconButton>
           </div>
           <Paper>
-    <NewCalendar />
-  </Paper>
+      <NewCalendar />
+      </Paper>
       </Drawer>
 
           <main className={classes.content}>

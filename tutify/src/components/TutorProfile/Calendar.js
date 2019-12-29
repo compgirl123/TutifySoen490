@@ -24,8 +24,7 @@ import axios from 'axios';
 import swal from 'sweetalert';
 import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
 import IconButton from '@material-ui/core/IconButton';
-import Drawer from '@material-ui/core/Drawer';
-import TodaySharpIcon from '@material-ui/icons/TodaySharp';
+
 
 class NewCalendar extends React.Component {
     constructor(props) {
@@ -35,8 +34,8 @@ class NewCalendar extends React.Component {
           description: "",
           location: "",
           date: "",
-          startTime: "",
-          endTime: "",
+          startTime: "00:00",
+          endTime: "00:00",
           open: false,
           scroll: 'paper',
           tutor_id: "",
@@ -85,7 +84,6 @@ class NewCalendar extends React.Component {
         })
           .then(response => response.json())
           .then((res) => {
-            console.log(res);
               this.setState({
                 tutor_id: res.userInfo._id,
                 events : res.userInfo.events
@@ -130,9 +128,6 @@ class NewCalendar extends React.Component {
       }
 
       this.setState({ dates: newDates, eventsDecoded: newEvents });
-      console.log(this.state.dates);
-      console.log(this.state.eventsDecoded);
-
       }, (error) => {
         console.log(error);
       });
@@ -140,12 +135,16 @@ class NewCalendar extends React.Component {
      
   addEvent = () => {
     this.setState({ open: false });
+    if(this.state.location !== ""){
+      var newLocation = "@" + this.state.location;
+      }
+  
 
     axios.post('http://localhost:3001/api/addEvent', {
           events: this.state.events,
           tutor_id: this.state.tutor_id,
           description: this.state.description,
-          location: this.state.location,
+          location: newLocation,
           date: this.state.date,
           startTime: this.state.startTime,
           endTime: this.state.endTime,
@@ -191,11 +190,7 @@ class NewCalendar extends React.Component {
       tutor_id: this.state.tutor_id         
 })
   .then((res) => {
-
     this.setState({ events: res.data.userInfo.events });
-    console.log(res);
-    console.log(this.state.events);
-
     this.populateEvents();
   }, (error) => {
     console.log(error);
@@ -242,56 +237,53 @@ onChange = {date => this.setState({ date })}
             <Table size="small">
                         
                           {this.state.dates.map(date => (
-                                                    <TableBody>
-
+                            <TableBody>
                             <TableRow >
                               <TableCell style={{background:'lightgray'}}>{date}</TableCell>
                               <TableCell style={{background:'lightgray'}}></TableCell>
                               <TableCell style={{background:'lightgray'}}></TableCell>
-
-                              </TableRow>
-
+                            </TableRow>
                             {this.state.eventsDecoded.map(event => {
-                            return date === event.date ?
-                             
-<TableRow key={event._id}>
-<TableCell style={{width: 100}}>{event.startTime} to {event.endTime}</TableCell>
-                            <TableCell style={{width: 300}}>{event.description}           @{event.location}</TableCell>
-<TableCell ><IconButton onClick = {e =>this.deleteEvent(event._id)}>
-                        <DeleteOutlined />
-                    </IconButton></TableCell>
-
-                              
-                                </TableRow>
-                               
+                            return date === event.date ? 
+                            <TableRow key={event._id}>
+                            <TableCell style={{width: 100}}>{event.startTime} - {event.endTime}</TableCell>
+                            <TableCell style={{width: 300}}>{event.description} {event.location}</TableCell>
+                            <TableCell ><IconButton onClick = {e =>this.deleteEvent(event._id)}>
+                            <DeleteOutlined />
+                            </IconButton>
+                            </TableCell>
+                            </TableRow>                    
                               : 
-<TableRow >
-
-</TableRow>
-                                      
-                                    })}
-
-                              </TableBody>
-
+                            <TableRow ></TableRow>
+                             })}
+                            </TableBody>
                           ))}
                       </Table>
-              </Grid>
-
-</CardContent>
-                            
-                        </TableBody>
+                      </Grid>
+                      </CardContent>        
+                    </TableBody>
                     </Table>
                     <div>
-
-
-
 
 <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
   <DialogTitle id="simple-dialog-title">Add an Event</DialogTitle>
   <DialogContent>
+    {this.state.date === ""  ?
+        <div>
+  <DialogContentText>
+      To add an event, fill out the desired value fields and click save.
+    </DialogContentText> 
+    <DialogContentText style={{color: "red"}}>
+      Select a date before continuing
+    </DialogContentText>
+    </div>
+    : 
+    <div>
     <DialogContentText>
       To add an event, fill out the desired value fields and click save.
-    </DialogContentText>
+    </DialogContentText> 
+    </div>
+      }
 
     <TextField
        InputLabelProps={{
@@ -322,8 +314,7 @@ onChange = {date => this.setState({ date })}
     />
 
      <TextField
-           margin="dense"
-
+     margin="dense"
      InputLabelProps={{
       shrink: true,
     }}
@@ -333,9 +324,7 @@ onChange = {date => this.setState({ date })}
       onChange={e => this.setState({ startTime: e.target.value })}
       type="time"
       fullWidth
-      
     /> 
-
 
    <TextField
          margin="dense"
@@ -363,19 +352,27 @@ onChange = {date => this.setState({ date })}
         <Button onClick={this.handleClose}>Close</Button>
       </DialogActions>
     </Grid>
+    {this.state.date === ""  ?
+
     <Grid item>
       <DialogActions>
-        <Button onClick={this.addEvent}>Save</Button>
+        <Button onClick={this.addEvent} disabled>Save</Button>
       </DialogActions>
     </Grid>
-  </Grid>
+    :
+
+    <Grid item>
+      <DialogActions>
+        <Button onClick={this.addEvent} >Save</Button>
+      </DialogActions>
+    </Grid>
+      }
+    </Grid>
 
 </Dialog>
 </div>
-
-
-                </Card>
-            </React.Fragment>
+</Card>
+</React.Fragment>
         );
     }
 }

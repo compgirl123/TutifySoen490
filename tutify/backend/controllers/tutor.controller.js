@@ -106,13 +106,7 @@ exports.addEvent = async function (req, res) {
                     
                             });
                         }
-
-                        //return res.json({ success: true, data: tutor });
-
-
             });
-
-
         });    
     });
 
@@ -130,7 +124,6 @@ exports.populateEvents = async function (req, res) {
                     
         return res.json({ success: true, data: newEvents });
     }
-    
                           for (var z = 0; z < events.length; z++) {
                             Event.findOne({ _id: events[z] }, function (err, event) {
                                 if (err) {
@@ -155,16 +148,9 @@ exports.deleteEvent = async function (req, res) {
 
     Event.findByIdAndRemove(event_id, (err) => {
         if (err) return res.send(err);
-       /**  Tutor.update(
-            { _id: tutor_id },
-            { $pull: { 'events': event_id } }
-          );
-
-          */
         Tutor.findByIdAndUpdate(tutor_id,
             { "$pull": { "events": event_id } },
             function (err, tutor) {  
-                console.log(tutor.events); 
                 var index = tutor.events.indexOf(event_id);
                         if (index > -1) {
                         tutor.events.splice(index, 1);
