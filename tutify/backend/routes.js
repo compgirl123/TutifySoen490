@@ -85,9 +85,9 @@ router.get('/getCourses', courseController.getCourses);
 
 router.get('/getFiles', filesController.getFiles);
 // router.post('/uploadFiles', filesController.uploadFiles);
-router.post('/uploadFile', filesController.upload.single('file'),(req, res) => {
-    res.redirect("/uploadingDocs");
-});
+// router.post('/uploadFile', upload.single('file'),(req, res) => {
+//     res.redirect("/uploadingDocs");
+// });
 router.get("/image/:filename", filesController.downloadFile);
 
 router.post("/files/del/:id", filesController.deleteFile);

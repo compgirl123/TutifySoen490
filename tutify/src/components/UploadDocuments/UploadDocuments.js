@@ -154,7 +154,7 @@ async handleSubmit(event) {
   formData.append('file', this.state.file);
   formData.append('adminTutor', this.state.user_id);
   formData.append('name', this.state.file.name);
-  await axios.post("http://localhost:3001/api/uploadFile", formData).then(res => {
+  await axios.post("http://localhost:3001/uploadFile", formData).then(res => {
       console.log(res);
 
   }).catch(err => {

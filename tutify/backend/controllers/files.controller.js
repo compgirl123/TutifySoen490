@@ -1,55 +1,15 @@
 
 const Files = require('../models/models').Files;
-var multer = require('multer');
+// var multer = require('multer');
 var mongoose = require('mongoose');
-var uuidv4 = require('uuid/v4');
-var bp = require("body-parser");
-const DIR = './../public/';
-const crypto = require("crypto");
-const path = require("path");
-const GridFsStorage = require("multer-gridfs-storage");
+// var uuidv4 = require('uuid/v4');
+// var bp = require("body-parser");
+// const DIR = './../public/';
+// const crypto = require("crypto");
+// const path = require("path");
+// const GridFsStorage = require("multer-gridfs-storage");
 
 
-
-  // DB
-  const mongoURI = "mongodb+srv://app:Mdfi8g6IMFagCOOE@tutify-q6b06.mongodb.net/tutify?retryWrites=true&w=majority";
-
-  // connection
-  const conn = mongoose.createConnection(mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  });
-  let gfs;
-  conn.once("open", () => {
-    // init stream
-    gfs = new mongoose.mongo.GridFSBucket(conn.db, {
-      bucketName: "uploads"
-    });
-  });
-  
-  // Storage
-  const storage = new GridFsStorage({
-    url: mongoURI,
-    file: (req, file) => {
-      return new Promise((resolve, reject) => {
-        crypto.randomBytes(16, (err, buf) => {
-          if (err) {
-            return reject(err);
-          }
-          const filename = buf.toString("hex") + path.extname(file.originalname);
-          const fileInfo = {
-            filename: filename,
-            bucketName: "uploads"
-          };
-          resolve(fileInfo);
-        });
-      });
-    }
-  });
-
-  exports.upload = multer({
-    storage
-  });
 
 exports.downloadFile = async (req, res) => {
    // console.log('id', req.params.id)
