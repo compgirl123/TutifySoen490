@@ -112,13 +112,18 @@ describe('The Student Dashboard Page Notifications', () => {
               }
             }
           ]
+
         // All the mounting and state setting
         const wrapper = mount(<Notifications notifications ={notificationsArray}></Notifications>);
         const wrapper_shallow = shallow(<Notifications notifications ={notificationsArray}></Notifications>);
         const student_class_wrapper = wrapper.find(NotificationsClass);
+
+        // Setting State for notifications.
         student_class_wrapper.setState({ notifications: notificationsArray });
 
+        // Getting TableCell element from page.
         const notifications_title = wrapper.find(TableCell).at(0);
+        // Expect Title to equal title value of newest notification posted by tutor to student.
         expect(notifications_title.props().children.props.children).toBe("Notifications");
 
         /* Checking if appropriate notifications are displayed on the student's side. */
