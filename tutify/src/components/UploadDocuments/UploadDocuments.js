@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
 import axios from "axios";
 import swal from 'sweetalert';
-import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
 import { FormControl } from '@material-ui/core';
 import Input from "@material-ui/core/Input";
