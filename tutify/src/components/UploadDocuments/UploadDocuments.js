@@ -3,10 +3,17 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import * as tutifyStyle from '../../styles/UploadDocuments-styles';
 import { withStyles } from "@material-ui/core/styles";
-// import Button from '@material-ui/core/Button';
 import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
 import axios from "axios";
 import swal from 'sweetalert';
+import Button from "@material-ui/core/Button";
+import TextField from '@material-ui/core/TextField';
+import { FormControl } from '@material-ui/core';
+import Input from "@material-ui/core/Input";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+
+
 
 // Display a Ui for Tutors in order to be able to upload their documents
 export class UploadDocuments extends Component {
@@ -16,7 +23,8 @@ export class UploadDocuments extends Component {
     this.state = {
       files: [],
       file: '',
-      user_id: ""
+      user_id: "",
+      course: ""
     }
     this.loadFiles = this.loadFiles.bind(this);
     this.fileChanged = this.fileChanged.bind(this);
@@ -155,7 +163,7 @@ async handleSubmit(event) {
 }
 
   render() {
-    const { files } = this.state;
+    const {course } = this.state;
     const { classes } = this.props;
     return (
       <React.Fragment>
@@ -172,6 +180,37 @@ async handleSubmit(event) {
 
             </header>
             <div className="App-content">
+  
+            <label>File Type:
+                    <TextField
+                    
+                      variant="outlined"
+                      required
+                      label="Type"
+                      name="Type"
+                    />
+                                </label>  
+                      <p></p>
+
+
+            <FormControl >
+              <label> Course:
+                    <Select
+                      name="course"
+                      value={course}
+                      onChange={event => { this.setState({ course: event.target.value }) }}
+
+                      input={<Input id="course" />}
+                    >
+                      <MenuItem value="assignment">Assignment</MenuItem>
+                      <MenuItem value="past midterm">Past Midterm</MenuItem>
+                      <MenuItem value="past final">Past Final</MenuItem>
+                      <MenuItem value="other">Other</MenuItem>
+                    </Select>
+                    </label>
+                  </FormControl>
+          <p></p>
+          
               {/* <form action="/upload" method="POST" encType="multipart/form-data"> */}
                 {/* <input
                   type="file"
@@ -195,35 +234,12 @@ async handleSubmit(event) {
                       style={{ size: 74 }}
                     />
                   </label>
-                  <input type="submit" value="Upload"/>
-                </form>
+                    <p></p>
 
-                <table className={classes.AppTable}>
-                  <thead>
-                    <tr className={classes.AppTableTr}>
-                      <th className={classes.AppTableTr}>File</th>
-                      <th className={classes.AppTableTr}>Uploaded</th>
-                      {/*<th className={classes.AppTableTr}>Size</th>*/}
-                      {/*<th className={classes.AppTableTr}></th>*/}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {files.map((file, index) => {
-                      //var d = new Date(file.uploadDate);
-                      var filename = file.name;
-                      var url = file.url
-                      return (
-                        <tr key={index}>
-                          <td><a href={url}>{filename}</a></td>
-                          {/*<td><a href={`http://127.0.0.1:3001/api/files/${file.filename}`}>{file.filename}</a></td>*/}
-                          {/*<td>{`${d.toLocaleDateString()} ${d.toLocaleTimeString()}`}</td>*/}
-                          {/*<td>{(Math.round(file.length / 100) / 10) + 'KB'}</td>*/}
-                          <td><button onClick={this.deleteFile.bind(this)} id={file._id}>Remove</button></td>
-                        </tr>
-                      )
-                    })}
-                  </tbody>
-                </table>
+                    <Button type="button" variant="contained" size="small" className="submit">
+                  Upload
+                </Button>
+                </form>
               {/* </form> */}
             </div>
           </div>
@@ -236,3 +252,4 @@ async handleSubmit(event) {
 } // End of component
 
 export default withStyles(tutifyStyle.styles, { withTheme: true })(UploadDocuments);
+
