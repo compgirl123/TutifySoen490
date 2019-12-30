@@ -11,7 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import AddNotif from "./AddNotif.js";
 
-class Notifications extends React.Component {
+export class Notifications extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

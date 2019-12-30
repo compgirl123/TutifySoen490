@@ -24,7 +24,7 @@ import validator from 'validator';
 import Footer from './Footer';
 import swal from 'sweetalert';
 
-class SignUp extends React.Component {
+export class SignUp extends React.Component {
   state = {
     data: [],
     id: 0,

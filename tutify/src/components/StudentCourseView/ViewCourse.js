@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import Paper from '@material-ui/core/Paper';
 
 // View the Specific Course Page with all of the Course Details as well as the Tutor Information
-class ViewCourse extends React.Component {
+export class ViewCourse extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -85,13 +85,13 @@ render() {
 
                 <Grid container spacing={3}>
                     <Grid item sm={4} className={classes.gridItem}>
-                    <typography>Contact Info</typography><p></p>
+                    <Typography>Contact Info</Typography><p></p>
                         <ContactTutor />
                     </Grid>
                     <p></p>
                     
                     <Grid item sm={12} className={classes.gridItem}>
-                    <typography>Course Documents</typography><p></p>
+                    <Typography>Course Documents</Typography><p></p>
                         <Documents/>
                     </Grid>
                 </Grid>

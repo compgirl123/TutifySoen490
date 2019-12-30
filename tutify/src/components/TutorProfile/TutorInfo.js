@@ -18,7 +18,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import Box from '@material-ui/core/Box';
 
 
-class TutorInfo extends React.Component {
+export class TutorInfo extends React.Component {
 
   constructor(props) {
     super(props);
@@ -27,6 +27,7 @@ class TutorInfo extends React.Component {
       first_name: "",
       last_name: "",
       email: "",
+      school: "",
       updatedFirstName: "",
       updatedLastName: "",
       updatedProgramOfStudy: "",
