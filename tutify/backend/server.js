@@ -13,9 +13,7 @@ const app = express();
 const path = require("path");
 app.use(cors({credentials: true, origin: true}));
 
-// this is our MongoDB databases
-const filesRoute = 
-  'mongodb+srv://app:Mdfi8g6IMFagCOOE@tutify-q6b06.mongodb.net/filesDb?retryWrites=true&w=majority';
+// this is our MongoDB database
 const dbRoute =
   'mongodb+srv://app:Mdfi8g6IMFagCOOE@tutify-q6b06.mongodb.net/tutify?retryWrites=true&w=majority';
 
@@ -79,9 +77,23 @@ app.post('/uploadFile', upload.single('file'),(req, res) => {
   res.redirect("/uploadingDocs");
 });
 
+
+
 // file upload requirements
 app.use(express.json());
 app.set("view engine", "ejs");
+
+app.get("/download/:filename", (req, res)=>{
+ 
+  gfs.find({ filename: req.params.filename }).toArray((err, files) => {
+    if (!files || files.length === 0) {
+      return res.status(404).json({
+        err: "no files exist"
+      });
+    }
+    gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+  });
+});
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));

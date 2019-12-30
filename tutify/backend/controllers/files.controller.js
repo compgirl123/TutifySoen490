@@ -1,4 +1,3 @@
-
 const Files = require('../models/models').Files;
 // var multer = require('multer');
 var mongoose = require('mongoose');
@@ -10,20 +9,83 @@ var mongoose = require('mongoose');
 
 
 
-exports.downloadFile = async (req, res) => {
-   // console.log('id', req.params.id)
-   const file = gfs
-   .find({
-     filename: req.params.filename
-   })
-   .toArray((err, files) => {
-     if (!files || files.length === 0) {
-       return res.status(404).json({
-         err: "no files exist"
-       });
-     }
-     gfs.openDownloadStreamByName(req.params.filename).pipe(res);
-   });
+// exports.downloadFile = async (req, res) => {
+//    // console.log('id', req.params.id)
+//   //  return gfs
+//   //  .find({
+//   //    filename: req.params.filename
+//   //  })
+//   //  .toArray((err, files) => {
+//   //    if (!files || files.length === 0) {
+//   //      return res.status(404).json({
+//   //        err: "no files exist"
+//   //      });
+//   //    }
+//   //    gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+//   //  });
+//   // var conn = mongoose.connection;
+//   // var gfs = Grid(conn.db, mongoose.mongo);
+//   console.error("I AM HERE NYAAAA <3");
+//   gfs.findOne({ _id: req.params.id, root: 'resume' }, function (err, file) {
+//     if (err) {
+//         return res.status(400).send(err);
+//     }
+//     else if (!file) {
+//         return res.status(404).send('Error on the database looking for the file.');
+//     }
+
+//     res.set('Content-Type', file.contentType);
+//     res.set('Content-Disposition', 'attachment; filename="' + file.filename + '"');
+
+//     var readstream = gfs.createReadStream({
+//       _id: req.params.id,
+//       root: 'resume'
+//     });
+
+//     readstream.on("error", function(err) { 
+//         res.end();
+//     });
+//     readstream.pipe(res);
+//   });
+// }
+exports.createFile = async function (req, res) {
+  const { tutor_id, course_id, file_id, name , type} = req.body;
+
+  let newFile = {
+      course: course_id,
+      tutor: tutor_id,
+      name: name,
+      type: type
+  }
+  let createFile
+  Files.findOne({ _id: tutor_id }).then(tutor => {
+      // Add student to list for the specific course
+      tutor.courses.forEach((course) => {
+          if (course.course == course_id) {
+              course.students.push(student_id)
+          }
+      });
+      tutor.save();
+
+      // Student side
+      Student.findByIdAndUpdate(student_id,
+          { "$push": { "courses": newFile } },
+          { "new": true, "upsert": true },
+          function (err, user) {
+              if (err) throw err;
+
+              //update the session
+              req.session.userInfo.courses.push(newFile);
+              req.session.save(function (err) {
+                  req.session.reload(function (err) {
+                      // session reloaded
+                  });
+              });
+          }
+      );
+  }).catch(err => {
+      console.log(err)
+  });
 }
 exports.getFiles = (req, res) => {
   if(!gfs) {
@@ -66,7 +128,9 @@ exports.getFiles = (req, res) => {
 
 exports.deleteFile = async (req, res) => {
   gfs.delete(new mongoose.Types.ObjectId(req.params.id), (err, data) => {
-    if (err) return res.status(404).json({ err: err.message });
+    if (err) {
+      return res.status(404).json({ err: err.message });
+    }
     res.redirect("/uploadingDocs");
   });
 }
@@ -97,7 +161,10 @@ exports.uploadFile = async (req, res, next) => {
 
     
 }
-
+exports.downloadFile = (req, res) => {
+  var filename = req.params.filename;
+  res.download(uploadFolder + filename);  
+}
 // this method fetches all files accounts in our database
 exports.getFiles = async function (req, res) {
   Files.find((err, data) => {
