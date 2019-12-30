@@ -239,9 +239,8 @@ async handleSubmit(event) {
                       style={{ size: 74 }}
                     />
                   </label>
-                    <p></p>
 
-                    <Button type="button" variant="contained" size="small" className="submit">
+                    <Button type="submit" variant="contained" size="small" className="submit">
                   Upload
                 </Button>
                 </form>
