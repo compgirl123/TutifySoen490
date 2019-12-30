@@ -164,7 +164,7 @@ async handleSubmit(event) {
 }
 
   render() {
-    const { files,course } = this.state;
+    const {course } = this.state;
     const { classes } = this.props;
     return (
       <React.Fragment>
