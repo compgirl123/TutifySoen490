@@ -26,6 +26,8 @@ class DocList extends React.Component {
       students: [],
       files:[]
     };
+    this.loadFiles = this.loadFiles.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   toggleDrawer = booleanValue => () => {
@@ -45,7 +47,6 @@ class DocList extends React.Component {
           await this.setState({ files: [] });
         } else {
           await this.setState({ files: fetchedFiles.data });
-          //await this.setState({ files: [fetchedFiles.name] });
         }
       });
   }

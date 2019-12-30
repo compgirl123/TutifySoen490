@@ -5,9 +5,12 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const router = require('./routes');
 var session = require('express-session');
-
+var multer = require('multer');
+const GridFsStorage = require("multer-gridfs-storage");
+const crypto = require('crypto');
 const API_PORT = 3001;
 const app = express();
+const path = require("path");
 app.use(cors({credentials: true, origin: true}));
 
 // this is our MongoDB database
@@ -16,10 +19,45 @@ const dbRoute =
 
 // connects our back end code with the database
 mongoose.connect(dbRoute, { useNewUrlParser: true, useUnifiedTopology: true });
+// connection
 
 let db = mongoose.connection;
 
-db.once('open', () => console.log('connected to the database'));
+// // connection with file databaseconst 
+// conn = mongoose.createConnection(filesRoute, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// });
+let gfs;
+const conn = db.once('open', () => {
+   // init stream
+   gfs = new mongoose.mongo.GridFSBucket(conn.db, {
+    bucketName: "uploads"
+  });
+  console.log('connected to the database');
+});
+ // Storage
+ const storage = new GridFsStorage({
+  url: dbRoute,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err);
+        }
+        const filename = buf.toString("hex") + path.extname(file.originalname);
+        const fileInfo = {
+          filename: filename,
+          bucketName: "uploads"
+        };
+        resolve(fileInfo);
+      });
+    });
+  }
+});
+const upload = multer({
+  storage
+});
 
 // checks if connection with the database is successful
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -35,6 +73,27 @@ app.use(session({secret:"sdshkgjdhgkhgkjsd322k3j4nkjkjhb3", resave:false, saveUn
 // append /api for our http requests
 app.use('/api', router);
 app.use('/public', express.static('public'));
+app.post('/uploadFile', upload.single('file'),(req, res) => {
+  res.redirect("/uploadingDocs");
+});
+
+
+
+// file upload requirements
+app.use(express.json());
+app.set("view engine", "ejs");
+
+app.get("/download/:filename", (req, res)=>{
+ 
+  gfs.find({ filename: req.params.filename }).toArray((err, files) => {
+    if (!files || files.length === 0) {
+      return res.status(404).json({
+        err: "no files exist"
+      });
+    }
+    gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+  });
+});
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
