@@ -21,7 +21,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Fab from '@material-ui/core/Fab';
 
-class NewCalendar extends React.Component {
+export class NewCalendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -57,13 +57,9 @@ class NewCalendar extends React.Component {
     this.setState({ open: false });
   };
 
-
-
   componentDidMount() {
     this.checkSession();
   }
-
-
 
   checkSession = () => {
     fetch('http://localhost:3001/api/checkSession', {
@@ -109,7 +105,7 @@ class NewCalendar extends React.Component {
                       <AddIcon />
 
                       Add Event
-            </Fab>
+                   </Fab>
                   </Grid>
                 </Grid>
 
@@ -124,7 +120,7 @@ class NewCalendar extends React.Component {
               <DialogContent>
                 <DialogContentText>
                   To add an event, fill out the desired value fields and click save.
-    </DialogContentText>
+               </DialogContentText>
 
                 <TextField
                   InputLabelProps={{
