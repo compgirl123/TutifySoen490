@@ -8,9 +8,10 @@ import NewCalendar,{ NewCalendar as NewCalendarClass } from "../src/components/T
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
 
 // importing the json object with the calendar events information
-var json = require("./testDb/profiles.json");
+var json = require("./testDb/tutorevents.json");
 
 configure({ adapter: new Adapter() });
 
@@ -28,19 +29,23 @@ describe('The Calendar Widget on Tutor Profile Dashboard', () => {
         // All the mounting and state setting
         const wrapper = mount(<NewCalendar></NewCalendar>);
         const wrapper_shallow = shallow(<NewCalendar></NewCalendar>);
-
-        const announcement_class_wrapper = wrapper.find(NewCalendarClass);
+ 
+        const calendar_class_wrapper = wrapper.find(NewCalendarClass);
         
         // Setting state of Title of notification 
-        announcement_class_wrapper.setState({ aTitle: announcement.title });
+        calendar_class_wrapper.setState({ data: json.data });
+        // Assign all events present in database to dates state array in Calendar.js
+        console.log(json.data);
+        //calendar_class_wrapper.setState({ dates: json.data });
 
-        // Finding TextField Element for announcement title.
-        const announcementTitle = wrapper.find(TextField).at(0);
-        // Expect announcement title on page to equal title value passed in. 
-        expect(announcementTitle.props().value).toBe(announcement.title);
+        // Finding TextField Element for Calendar title.
+        const calendarTitle = wrapper.find(Typography).at(0);
+        console.log(calendarTitle.props().children);
+        // Expect Calendar title on page to equal title value passed in. 
+        expect(calendarTitle.props().children).toBe("Calendar");
 
         // Setting state of text field of notification. 
-        announcement_class_wrapper.setState({ aText: announcement.text });
+        /*announcement_class_wrapper.setState({ aText: announcement.text });
 
         // Finding TextField Element for announcement text.
         const announcementText = wrapper.find(TextField).at(1);
@@ -150,7 +155,7 @@ describe('The Calendar Widget on Tutor Profile Dashboard', () => {
         // Expect the ShowCourses component Exists. It should exist as the Course Option is selected.
         expect(show_courses_component2.exists()).not.toBeTruthy();
         // Expect the ShowCourses component does not Exist. It should not exist as the Students Option is not selected.
-        expect(show_students_component2.exists()).toBeTruthy();
+        expect(show_students_component2.exists()).toBeTruthy();*/
 
     });
 

@@ -220,7 +220,6 @@ export class NewCalendar extends React.Component {
                       value={this.state.date} />
                   </Grid>
                   <Grid item xs={4}>
-
                     <Fab variant="extended" aria-label="edit"
                       justify="center"
                       onClick={() => { this.handleClickOpen(); }}
@@ -228,7 +227,7 @@ export class NewCalendar extends React.Component {
                       <AddIcon />
 
                       Add Event
-            </Fab>
+                    </Fab>
                   </Grid>
                 </Grid>
                 &nbsp;
