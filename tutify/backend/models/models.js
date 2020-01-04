@@ -48,7 +48,7 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
       text: { type: String },
       tutorImg: { type: String },
       tutorName: { type: String },
-      tutorid: {type: Schema.Types.ObjectId, ref: 'Tutor'}
+      tutorid: { type: Schema.Types.ObjectId, ref: 'Tutor' }
     }
   ],
   todos: [
@@ -88,10 +88,9 @@ const TutorSchema = mongoose.Schema({
   ],
   events: [
     {
-      event: {
-        type: Schema.Types.ObjectId,
-        ref: 'Event'
-      }
+      type: Schema.Types.ObjectId,
+      ref: 'Event'
+
     }
   ]
 });
@@ -176,22 +175,22 @@ var Files = mongoose.model('Files', new Schema({
     required: true
   },
   adminTutor: {
-    type: Schema.Types.ObjectId, 
-    ref: 'Tutor', 
+    type: Schema.Types.ObjectId,
+    ref: 'Tutor',
     required: true
   },
   url: {
     type: String,
     required: true
   },
-  encryptedName: {
-    type: String,
+  fileObject: {type: Schema.Types.ObjectId, 
+    ref: 'Tutor', 
     required: true
   },
 
   relatedCourse: [
-    { 
-      type: Schema.Types.ObjectId, 
+    {
+      type: Schema.Types.ObjectId,
       ref: 'Course'
     }
   ],
@@ -205,12 +204,8 @@ var Files = mongoose.model('Files', new Schema({
 // --------  Event --------- // 
 
 var Event = mongoose.model('Event', new Schema({
-  title: {
-    type: String,
-    required: true
-  },
   description: String,
-  location:String,
+  location: String,
   date: String,
   startTime: String,
   endTime: String

@@ -20,23 +20,35 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Fab from '@material-ui/core/Fab';
+import axios from 'axios';
+import swal from 'sweetalert';
+import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
+import IconButton from '@material-ui/core/IconButton';
+
 
 export class NewCalendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       drawerOpened: false,
-      title: "",
       description: "",
       location: "",
       date: "",
-      startTime: "",
-      endTime: "",
+      startTime: "00:00",
+      endTime: "00:00",
       open: false,
       scroll: 'paper',
+      tutor_id: "",
+      event_id: "",
+      events: [],
+      eventsDecoded: [],
+      dates: [],
+      eventId: "",
     };
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.deleteEvent = this.deleteEvent.bind(this);
+
   }
 
   toggleDrawer = booleanValue => () => {
@@ -57,9 +69,29 @@ export class NewCalendar extends React.Component {
     this.setState({ open: false });
   };
 
+  function1 = (newDates) => {
+    newDates.sort();
+    newDates = newDates.filter(function (elem, pos) {
+      return newDates.indexOf(elem) === pos;
+    })
+
+    for (var i = 0; i < newDates.length; i++) {
+      var stri = newDates[i].substring(6) + "/" + newDates[i].substring(4, 6) + "/" + newDates[i].substring(0, 4);
+      stri = stri.toString();
+      newDates[i] = stri;
+    }
+    return newDates;
+  };
+
+  function2 = () => {
+
+  };
+
   componentDidMount() {
     this.checkSession();
   }
+
+
 
   checkSession = () => {
     fetch('http://localhost:3001/api/checkSession', {
@@ -68,10 +100,101 @@ export class NewCalendar extends React.Component {
     })
       .then(response => response.json())
       .then((res) => {
-
-
+        this.setState({
+          tutor_id: res.userInfo._id,
+          events: res.userInfo.events
+        });
+        this.populateEvents();
       })
       .catch(err => console.log(err));
+  };
+
+
+  populateEvents = () => {
+    var newDates = [];
+    var newEvents = [];
+
+    axios.post('http://localhost:3001/api/populateEvents', {
+      events: this.state.events
+    })
+      .then((res) => {
+
+        newEvents = res.data.data;
+
+        for (var z = 0; z < newEvents.length; z++) {
+          var str = newEvents[z].date;
+          str = str.substring(0, 11)
+          var newStr = str.replace(/\D/g, "");
+          newDates.push(newStr);
+          newStr = newStr.substring(6) + "/" + newStr.substring(4, 6) + "/" + newStr.substring(0, 4);
+          newStr = newStr.toString();
+          newEvents[z].date = newStr;
+        }
+
+        newDates = this.function1(newDates);
+
+        this.setState({ dates: newDates, eventsDecoded: newEvents });
+      }, (error) => {
+        console.log(error);
+      });
+  };
+
+  addEvent = () => {
+    this.setState({ open: false });
+    if (this.state.location !== "") {
+      var newLocation = "@ " + this.state.location;
+    }
+
+    axios.post('http://localhost:3001/api/addEvent', {
+      events: this.state.events,
+      tutor_id: this.state.tutor_id,
+      description: this.state.description,
+      location: newLocation,
+      date: this.state.date,
+      startTime: this.state.startTime,
+      endTime: this.state.endTime,
+    })
+      .then((res) => {
+        var newDates = [];
+        var newEvents = [];
+        var replaceEvents = [];
+
+        newEvents = res.data.data;
+
+        for (var z = 0; z < newEvents.length; z++) {
+          var str = newEvents[z].date;
+          str = str.substring(0, 11)
+          var newStr = str.replace(/\D/g, "");
+          newDates.push(newStr);
+          newStr = newStr.substring(6) + "/" + newStr.substring(4, 6) + "/" + newStr.substring(0, 4);
+          newStr = newStr.toString();
+          newEvents[z].date = newStr;
+          replaceEvents.push(newEvents[z]._id)
+        }
+
+        newDates = this.function1(newDates);
+
+        this.setState({
+          dates: newDates, eventsDecoded: newEvents, events: replaceEvents, location: "", description: "", startTime: "00:00",
+          endTime: "00:00"
+        });
+        swal("Event successfully added!", "", "success")
+      }, (error) => {
+        console.log(error);
+      });
+  };
+
+  deleteEvent = (id) => {
+    axios.post('http://localhost:3001/api/deleteEvent', {
+      event_id: id,
+      tutor_id: this.state.tutor_id
+    })
+      .then((res) => {
+        this.setState({ events: res.data.userInfo.events });
+        this.populateEvents();
+      }, (error) => {
+        console.log(error);
+      });
   };
 
   render() {
@@ -105,12 +228,41 @@ export class NewCalendar extends React.Component {
                       <AddIcon />
 
                       Add Event
-                   </Fab>
+            </Fab>
                   </Grid>
                 </Grid>
+                &nbsp;
+            <Grid style={{
+                  height: 300,
+                  overflow: 'auto'
+                }}>
+                  <Table size="small">
 
+                    {this.state.dates.map(date => (
+                      <TableBody>
+                        <TableRow >
+                          <TableCell style={{ background: 'lightgray' }}>{date}</TableCell>
+                          <TableCell style={{ background: 'lightgray' }}></TableCell>
+                          <TableCell style={{ background: 'lightgray' }}></TableCell>
+                        </TableRow>
+                        {this.state.eventsDecoded.map(event => {
+                          return date === event.date ?
+                            <TableRow key={event._id}>
+                              <TableCell style={{ width: 100 }}>{event.startTime} - {event.endTime}</TableCell>
+                              <TableCell style={{ width: 300 }}>{event.description} {event.location}</TableCell>
+                              <TableCell ><IconButton onClick={e => this.deleteEvent(event._id)}>
+                                <DeleteOutlined />
+                              </IconButton>
+                              </TableCell>
+                            </TableRow>
+                            :
+                            <TableRow ></TableRow>
+                        })}
+                      </TableBody>
+                    ))}
+                  </Table>
+                </Grid>
               </CardContent>
-
             </TableBody>
           </Table>
           <div>
@@ -118,23 +270,22 @@ export class NewCalendar extends React.Component {
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
               <DialogTitle id="simple-dialog-title">Add an Event</DialogTitle>
               <DialogContent>
-                <DialogContentText>
-                  To add an event, fill out the desired value fields and click save.
-               </DialogContentText>
-
-                <TextField
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  margin="dense"
-                  id="title"
-                  name="title"
-                  onChange={e => this.setState({ title: e.target.value })}
-                  autoComplete="title"
-                  label="Title"
-                  type="title"
-                  fullWidth
-                />
+                {this.state.date === "" ?
+                  <div>
+                    <DialogContentText>
+                      To add an event, fill out the desired value fields and click save.
+                    </DialogContentText>
+                    <DialogContentText style={{ color: "red" }}>
+                      Select a date before continuing
+                    </DialogContentText>
+                  </div>
+                  :
+                  <div>
+                    <DialogContentText>
+                      To add an event, fill out the desired value fields and click save.
+                    </DialogContentText>
+                  </div>
+                }
 
                 <TextField
                   InputLabelProps={{
@@ -164,23 +315,8 @@ export class NewCalendar extends React.Component {
                   fullWidth
                 />
 
-
-                <TextField
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  margin="dense"
-                  id="date"
-                  name="date"
-                  label="Date"
-                  onChange={e => this.setState({ date: e.target.value })}
-                  type="date"
-                  fullWidth
-                />
-
                 <TextField
                   margin="dense"
-
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -190,9 +326,7 @@ export class NewCalendar extends React.Component {
                   onChange={e => this.setState({ startTime: e.target.value })}
                   type="time"
                   fullWidth
-
                 />
-
 
                 <TextField
                   margin="dense"
@@ -220,17 +354,25 @@ export class NewCalendar extends React.Component {
                     <Button onClick={this.handleClose}>Close</Button>
                   </DialogActions>
                 </Grid>
-                <Grid item>
-                  <DialogActions>
-                    <Button onClick={this.addEvent}>Save</Button>
-                  </DialogActions>
-                </Grid>
+                {this.state.date === "" ?
+
+                  <Grid item>
+                    <DialogActions>
+                      <Button onClick={this.addEvent} disabled>Save</Button>
+                    </DialogActions>
+                  </Grid>
+                  :
+
+                  <Grid item>
+                    <DialogActions>
+                      <Button onClick={this.addEvent} >Save</Button>
+                    </DialogActions>
+                  </Grid>
+                }
               </Grid>
 
             </Dialog>
           </div>
-
-
         </Card>
       </React.Fragment>
     );

@@ -4,43 +4,32 @@ import { configure } from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
 import { shallow } from 'enzyme';
 import TextField from '@material-ui/core/TextField';
-import Announcements,{ Announcements as AnnouncementsClass } from "../src/components/TutorAnnouncements/Announcements";
-import ShowCourses,{ ShowCourses as ShowCoursesClass } from "../src/components/TutorAnnouncements/ShowCourses";
-import ShowStudents ,{ ShowStudents as ShowStudentsClass }from "../src/components/TutorAnnouncements/ShowStudents";
+import NewCalendar,{ NewCalendar as NewCalendarClass } from "../src/components/TutorProfile/Calendar";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import List from '@material-ui/core/List';
 
+// importing the json object with the calendar events information
+var json = require("./testDb/profiles.json");
+
 configure({ adapter: new Adapter() });
 
-describe('The Student Dashboard Page', () => {
+describe('The Calendar Widget on Tutor Profile Dashboard', () => {
     let mount;
 
     beforeAll(() => {
         mount = createMount();
     });
 
-    it('Add To Do Item to List', () => {
+    // get tutor's event's and then query by that thru tutor array
 
-        const announcement = 
-        {
-            _id: {
-            $oid: "5e01689fbd1ef084d89dec5b"
-            },
-            title: "A1",
-            text: "New announcement.",
-            tutorImg: "https://i.imgur.com/kyh5A1e.jpg",
-            tutorName: "Mohammed Alawami",
-            tutorid: {
-            $oid: "5dacd1cf1c9d440000aa0b1b"
-            }
-        }
+    it('Viewing Current Upcoming Events for Tutor', () => {
 
         // All the mounting and state setting
-        const wrapper = mount(<Announcements></Announcements>);
-        const wrapper_shallow = shallow(<Announcements></Announcements>);
+        const wrapper = mount(<NewCalendar></NewCalendar>);
+        const wrapper_shallow = shallow(<NewCalendar></NewCalendar>);
 
-        const announcement_class_wrapper = wrapper.find(AnnouncementsClass);
+        const announcement_class_wrapper = wrapper.find(NewCalendarClass);
         
         // Setting state of Title of notification 
         announcement_class_wrapper.setState({ aTitle: announcement.title });

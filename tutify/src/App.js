@@ -7,6 +7,7 @@ import Login from "./components/Login"
 import ProfilePage from "./components/ProfilePage/ProfilePage"
 import MyCourses from "./components/ProfilePage/MyCourses";
 import StudentList from "./components/TutorProfile/StudentList";
+import DocList from "./components/TutorProfile/DocList";
 import TutorProfile from "./components/TutorProfile/TutorProfile";
 import CourseList from './components/CourseList';
 import TutorCourses from "./components/TutorProfile/TutorCourses";
@@ -34,6 +35,7 @@ function MainPage() {
       <Route exact path="/dashboard" component={UserDashboard} />
       <Route exact path= "/uploadingDocs" component = {UploadDocuments}/>
       <Route exact path= "/Postblog" component={BlogPost} />
+      <Route exact path= "/doclist" component={DocList} />
       <Route exact path= "/ViewCourse" component={ViewCourse} />
       <Route exact path= "/TutorCourseView" component={TutorCourseView} />
       <Route exact path= "/Announcements" component={Announcements} />
