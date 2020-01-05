@@ -173,11 +173,12 @@ export class NewCalendar extends React.Component {
         }
 
         newDates = this.function1(newDates);
-
+        console.log(newEvents);
         this.setState({
           dates: newDates, eventsDecoded: newEvents, events: replaceEvents, location: "", description: "", startTime: "00:00",
           endTime: "00:00"
         });
+
         swal("Event successfully added!", "", "success")
       }, (error) => {
         console.log(error);

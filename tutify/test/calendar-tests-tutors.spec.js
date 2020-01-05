@@ -9,6 +9,10 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
+import Fab from '@material-ui/core/Fab';
+import TableBody from '@material-ui/core/TableBody';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
 
 // importing the json object with the calendar events information
 var json = require("./testDb/tutorevents.json");
@@ -32,131 +36,80 @@ describe('The Calendar Widget on Tutor Profile Dashboard', () => {
  
         const calendar_class_wrapper = wrapper.find(NewCalendarClass);
         
-        // Setting state of Title of notification 
-        calendar_class_wrapper.setState({ data: json.data });
-        // Assign all events present in database to dates state array in Calendar.js
-        console.log(json.data);
-        //calendar_class_wrapper.setState({ dates: json.data });
+        // Setting state of 4th element of array date.
+        calendar_class_wrapper.setState({ data: json.data[4] });
 
-        // Finding TextField Element for Calendar title.
+        const dates = [];
+
+        // Finding Typography Element for Calendar title.
         const calendarTitle = wrapper.find(Typography).at(0);
-        console.log(calendarTitle.props().children);
         // Expect Calendar title on page to equal title value passed in. 
         expect(calendarTitle.props().children).toBe("Calendar");
 
-        // Setting state of text field of notification. 
-        /*announcement_class_wrapper.setState({ aText: announcement.text });
+        // Finding Fab (Floating Action Button) Element for Add Event on Calendar Widget.
+        const addEventButton = wrapper.find(Fab).at(0);
+        // Expect Calendar title on page to equal title value passed in. 
+        expect(addEventButton.props().children[1]).toBe("Add Event");
 
-        // Finding TextField Element for announcement text.
-        const announcementText = wrapper.find(TextField).at(1);
-        // Expect announcement text on page to equal text value passed in. 
-        expect(announcementText.props().value).toBe(announcement.text);
-        
-        // Finding Menu Element for announcement text.
-        const sendToButton = wrapper.find(Menu).at(0);
-        // Expect dropdown menu from Send To... button to show All as a first element.
-        expect(sendToButton.props().children[0].props.children).toBe("All");
-        // Expect dropdown menu from Send To... button to show Course as a second element.
-        expect(sendToButton.props().children[1].props.children).toBe("Course");
-        // Expect dropdown menu from Send To... button to show Student as a third element.
-        expect(sendToButton.props().children[2].props.children).toBe("Student");
+        /**
+         *  Events Decoded : Bascially Setting up events like they are done in Calendar.js in order to decode them
+         *  from the raw data present in the sample .json db. 
+        */
 
-        // Finding MenuItem Element for announcement text.
-        const menuItem = wrapper.find(MenuItem).at(0);
-        const courses = 
-        [
-            {
-              students: [{first_name:"Pierre",last_name : "LeGallois"},{first_name:"William",last_name : "Watine"}
-              ],
-              course: {
-                name : "COMP 472"
-              }
-            },
-            {
-               students: [{first_name:"Pina",last_name : "Brutezezze"},{first_name:"Miranda",last_name : "Singer"}],
-               course: {
-                name : "MATH 203"
-               }
-            }
+        for(var x=0;x<json.data.length;x++){
+            // Fixing Date Formats
+            var d = (json.data[x].date).substring(0,10);
+            var d2 = d.replace(/\D/g, "");
+            d2 = d2.substring(6) + "/" + d2.substring(4, 6) + "/" + d2.substring(0, 4);
+            d2 = d2.toString();
+            dates.push(d2);
+            json.data[x].date = d2;
+        }
 
-        ]
+        /**
+         * Setting one event from Event Array for Particular Tutor
+         * Choosing a date at random, here the "4" element of array is taken
+         * Assign all events present in database to events state array in Calendar.js
+        */
 
-        const students =
-        [
-            {
-                first_name: "Pina",
-                last_name: "Brutezezze",
-                program_of_study: "Soen",
-                school: "concordia",
-                education_level : "university"
-            },
-            {
-                first_name: "Pierre Arthur",
-                last_name: "Watine",
-                program_of_study: "Soen",
-                school: "concordia",
-                education_level : "university"
-            }
+        calendar_class_wrapper.setState({ dates: [dates[4]] });
+        calendar_class_wrapper.setState({ eventsDecoded: [json.data[4]] });
+        calendar_class_wrapper.setState({ startTime: json.data[4].startTime });
+        calendar_class_wrapper.setState({ endTime: json.data[4].endTime });
+        calendar_class_wrapper.setState({ location: json.data[4].location });
+        calendar_class_wrapper.setState({ description: json.data[4].description });
 
-        ]
+        // Finding TableCell Element for Calendar date.
+        const dateOfEvent = wrapper.find(TableCell).at(1);
+        // Expect Calendar date on page to equal date string passed in. 
+        expect(dateOfEvent.props().children).toBe("13/12/2019");
+        // Expect Calendar date on page to equal date string from tutorevents.json. 
+        expect(dateOfEvent.props().children).toBe(json.data[4].date);
 
-        // Setting state of is course selected in drop down to be true.
-        announcement_class_wrapper.setState({ isCoursesSelected: true,isStudentsSelected: false });
+        // Finding TableCell Element for Calendar startTime and endTime.
+        const times = wrapper.find(TableCell).at(4);
+        // Expect Calendar start time on page to equal start time value passed in. 
+        expect(times.props().children[0]).toBe('13:00');
+        // Expect Calendar start time on page to equal start time from tutorevents.json. 
+        expect(times.props().children[0]).toBe(json.data[4].startTime);
 
-        // Finding ShowCourses Element for page that should contain it now.
-        const show_courses = wrapper.find(ShowCourses).at(0);
-        const show_courses_wrapper = mount(<ShowCourses courses ={courses}></ShowCourses>);
-        const show_courses_shallow_wrapper = shallow(<ShowCourses courses ={courses}></ShowCourses>);
-        const course_class_show_courses_wrapper = wrapper.find(ShowCoursesClass);
+        // Expect Calendar end time on page to equal start time value passed in. 
+        expect(times.props().children[2]).toBe('15:00');
+        // Expect Calendar end time on page to equal start time from tutorevents.json. 
+        expect(times.props().children[2]).toBe(json.data[4].endTime);
 
-        // Finding List Element on page that should contain announcements there.
-        const list_element_announcements_1 = show_courses_wrapper.find(List).at(0);
+        // Finding TableCell Element for Calendar description and location.
+        const descriptionLocation = wrapper.find(TableCell).at(5);
+        // Expect Calendar description on page to equal description value passed in. 
+        expect(descriptionLocation.props().children[0]).toBe('French tutoring for Bilal');
+        // Expect Calendar description on page to equal description from tutorevents.json.
+        expect(descriptionLocation.props().children[0]).toBe(json.data[4].description);
 
-        // Expect dropdown menu option Course from Send To... to have a course with the value COMP 472 as a list option.
-        expect(list_element_announcements_1 .props().children[0].key).toBe("COMP 472");
-        // Expect dropdown menu option Course from Send To... to have a course with the value MATH 203 as a list option.
-        expect(list_element_announcements_1 .props().children[1].key).toBe("MATH 203");
-
-        // Finding the ShowCourses component containing the Different classes student is registered for.
-        const show_courses_component = show_courses_wrapper.find(ShowCourses).at(0);
-        // Expect the ShowCourses component Exists. It should exist as the Course Option is selected.
-        expect(show_courses_component.exists()).toBeTruthy();
-
-        // Finding the ShowStudents component containing the Different students registered with a particular tutor.
-        const show_students_component = show_courses_wrapper.find(ShowStudents).at(0);
-        // Expect the ShowStudents component does not Exist. It should not exist as the Students Option is not selected.
-        expect(show_students_component.exists()).not.toBeTruthy();
-
-        // Setting state of is student selected in drop down to be true.
-        const announcement_class_wrapper2 = wrapper.find(AnnouncementsClass);
-        announcement_class_wrapper2.setState({ isStudentsSelected: true,isCoursesSelected: false });
-
-        // Finding Show Students Element for page that should contain it now.
-        const show_students = wrapper.find(ShowCourses).at(0);
-        const show_students_wrapper = mount(<ShowStudents students ={students}></ShowStudents>);
-        const show_students_shallow_wrapper = shallow(<ShowStudents students ={students}></ShowStudents>);
-        const student_class_show_courses_wrapper = wrapper.find(ShowStudentsClass);
-
-        // Finding List Element on page that should contain announcements there.
-        const list_element_announcements_2 = show_students_wrapper.find(List).at(0);
-        
-        // Expect dropdown menu option Student from Send To... to have a name with the value Pina Brutezezze
-        expect((list_element_announcements_2.props().children[0].key).split("-").pop()).toBe("Pina Brutezezze");
-        // Expect dropdown menu option Student from Send To... to have a course with the value Pierre Arthur Watine
-        expect((list_element_announcements_2.props().children[1].key).split("-").pop()).toBe("Pierre Arthur Watine");
-
-        // Finding the ShowStudents component containing the Different students registered with a particular tutor.
-        const show_students_component2 = show_students_wrapper.find(ShowStudents).at(0);
-        // Finding the ShowCourses component containing the Different classes student is registered for.
-        const show_courses_component2 = show_courses_wrapper.find(ShowStudents).at(0);
+        // Expect Calendar location on page to equal location value passed in. 
+        expect(descriptionLocation.props().children[2]).toBe('Concordia University');
+        // Expect Calendar location on page to equal location from tutorevents.json.
+        expect(descriptionLocation.props().children[2]).toBe(json.data[4].location);
  
-        // Expect the ShowStudents component Exists. It should exist as the Course Option is selected.
-        expect(show_students_component2.exists()).toBeTruthy();
-        // Expect the ShowCourses component Exists. It should exist as the Course Option is selected.
-        expect(show_courses_component2.exists()).not.toBeTruthy();
-        // Expect the ShowCourses component does not Exist. It should not exist as the Students Option is not selected.
-        expect(show_students_component2.exists()).toBeTruthy();*/
-
     });
 
     
