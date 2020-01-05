@@ -28,8 +28,7 @@ describe('The Calendar Widget on Tutor Profile Dashboard', () => {
 
     // get tutor's event's and then query by that thru tutor array
 
-    it('Viewing Current Upcoming Events for Tutor', () => {
-
+    it('Adding and Viewing Current Upcoming Events for Tutor', () => {
         // All the mounting and state setting
         const wrapper = mount(<NewCalendar></NewCalendar>);
         const wrapper_shallow = shallow(<NewCalendar></NewCalendar>);
@@ -110,6 +109,50 @@ describe('The Calendar Widget on Tutor Profile Dashboard', () => {
         // Expect Calendar location on page to equal location from tutorevents.json.
         expect(descriptionLocation.props().children[2]).toBe(json.data[4].location);
  
+    });
+
+    it('Deleting Upcoming Events for Tutor', () => {
+        // Deletes events, finds current event displayed, takes it and deletes it (resets the events to null)
+        // All the mounting and state setting
+        // TO DO
+
+        /**
+         * ADDING AN EVENT HERE (More details described in the 'Adding and Viewing Current Upcoming Events for Tutor' test)
+        */
+        const wrapper = mount(<NewCalendar></NewCalendar>);
+        const wrapper_shallow = shallow(<NewCalendar></NewCalendar>);
+        const calendar_class_wrapper = wrapper.find(NewCalendarClass);
+        
+        calendar_class_wrapper.setState({ data: json.data[4] });
+        const dates = [];
+
+        const calendarTitle = wrapper.find(Typography).at(0);
+        expect(calendarTitle.props().children).toBe("Calendar");
+
+        const addEventButton = wrapper.find(Fab).at(0);
+        expect(addEventButton.props().children[1]).toBe("Add Event");
+
+        for(var x=0;x<json.data.length;x++){
+            var d = (json.data[x].date).substring(0,10);
+            var d2 = d.replace(/\D/g, "");
+            d2 = d2.substring(6) + "/" + d2.substring(4, 6) + "/" + d2.substring(0, 4);
+            d2 = d2.toString();
+            dates.push(d2);
+            json.data[x].date = d2;
+        }
+
+        calendar_class_wrapper.setState({ dates: [dates[4]] });
+        calendar_class_wrapper.setState({ eventsDecoded: [json.data[4]] });
+        calendar_class_wrapper.setState({ startTime: json.data[4].startTime });
+        calendar_class_wrapper.setState({ endTime: json.data[4].endTime });
+        calendar_class_wrapper.setState({ location: json.data[4].location });
+        calendar_class_wrapper.setState({ description: json.data[4].description });
+
+        /**
+         * DELETING AN EVENT HERE
+        */
+        
+        // finding event to delete by id.
     });
 
     
