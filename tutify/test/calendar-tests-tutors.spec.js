@@ -15,7 +15,9 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 
 // importing the json object with the calendar events information
-var json = require("./testDb/tutorevents.json");
+var jsonEvents = require("./testDb/tutorevents.json");
+// importing the json object with the calendar events information
+var jsonProfiles = require("./testDb/enhanced-profile.json");
 
 configure({ adapter: new Adapter() });
 
@@ -36,7 +38,7 @@ describe('The Calendar Widget on Tutor Profile Dashboard', () => {
         const calendar_class_wrapper = wrapper.find(NewCalendarClass);
         
         // Setting state of 4th element of array date.
-        calendar_class_wrapper.setState({ data: json.data[4] });
+        calendar_class_wrapper.setState({ events: [jsonEvents.data[jsonEvents.data.length-1]] });
 
         const dates = [];
 
@@ -55,104 +57,120 @@ describe('The Calendar Widget on Tutor Profile Dashboard', () => {
          *  from the raw data present in the sample .json db. 
         */
 
-        for(var x=0;x<json.data.length;x++){
+        for(var x=0;x<jsonEvents.data.length;x++){
             // Fixing Date Formats
-            var d = (json.data[x].date).substring(0,10);
+            var d = (jsonEvents.data[x].date).substring(0,10);
             var d2 = d.replace(/\D/g, "");
             d2 = d2.substring(6) + "/" + d2.substring(4, 6) + "/" + d2.substring(0, 4);
             d2 = d2.toString();
             dates.push(d2);
-            json.data[x].date = d2;
+            jsonEvents.data[x].date = d2;
         }
 
         /**
          * Setting one event from Event Array for Particular Tutor
-         * Choosing a date at random, here the "4" element of array is taken
+         * Choosing a date at random, here the last element of array is taken
          * Assign all events present in database to events state array in Calendar.js
         */
 
-        calendar_class_wrapper.setState({ dates: [dates[4]] });
-        calendar_class_wrapper.setState({ eventsDecoded: [json.data[4]] });
-        calendar_class_wrapper.setState({ startTime: json.data[4].startTime });
-        calendar_class_wrapper.setState({ endTime: json.data[4].endTime });
-        calendar_class_wrapper.setState({ location: json.data[4].location });
-        calendar_class_wrapper.setState({ description: json.data[4].description });
+        calendar_class_wrapper.setState({ id: jsonEvents.data[jsonEvents.data.length-1]._id });
+        calendar_class_wrapper.setState({ dates: [dates[jsonEvents.data.length-1]]});
+        calendar_class_wrapper.setState({ eventsDecoded: [jsonEvents.data[jsonEvents.data.length-1]] });
+        calendar_class_wrapper.setState({ startTime: jsonEvents.data[jsonEvents.data.length-1].startTime });
+        calendar_class_wrapper.setState({ endTime: jsonEvents.data[jsonEvents.data.length-1].endTime });
+        calendar_class_wrapper.setState({ location: jsonEvents.data[jsonEvents.data.length-1].location });
+        calendar_class_wrapper.setState({ description: jsonEvents.data[jsonEvents.data.length-1].description });
+
 
         // Finding TableCell Element for Calendar date.
         const dateOfEvent = wrapper.find(TableCell).at(1);
         // Expect Calendar date on page to equal date string passed in. 
         expect(dateOfEvent.props().children).toBe("13/12/2019");
         // Expect Calendar date on page to equal date string from tutorevents.json. 
-        expect(dateOfEvent.props().children).toBe(json.data[4].date);
+        expect(dateOfEvent.props().children).toBe(jsonEvents.data[jsonEvents.data.length-1].date);
 
         // Finding TableCell Element for Calendar startTime and endTime.
         const times = wrapper.find(TableCell).at(4);
         // Expect Calendar start time on page to equal start time value passed in. 
         expect(times.props().children[0]).toBe('13:00');
         // Expect Calendar start time on page to equal start time from tutorevents.json. 
-        expect(times.props().children[0]).toBe(json.data[4].startTime);
+        expect(times.props().children[0]).toBe(jsonEvents.data[jsonEvents.data.length-1].startTime);
 
         // Expect Calendar end time on page to equal start time value passed in. 
         expect(times.props().children[2]).toBe('15:00');
         // Expect Calendar end time on page to equal start time from tutorevents.json. 
-        expect(times.props().children[2]).toBe(json.data[4].endTime);
+        expect(times.props().children[2]).toBe(jsonEvents.data[jsonEvents.data.length-1].endTime);
 
         // Finding TableCell Element for Calendar description and location.
         const descriptionLocation = wrapper.find(TableCell).at(5);
         // Expect Calendar description on page to equal description value passed in. 
         expect(descriptionLocation.props().children[0]).toBe('French tutoring for Bilal');
         // Expect Calendar description on page to equal description from tutorevents.json.
-        expect(descriptionLocation.props().children[0]).toBe(json.data[4].description);
+        expect(descriptionLocation.props().children[0]).toBe(jsonEvents.data[jsonEvents.data.length-1].description);
 
         // Expect Calendar location on page to equal location value passed in. 
-        expect(descriptionLocation.props().children[2]).toBe('Concordia University');
+        expect(descriptionLocation.props().children[2]).toBe('@ Concordia University');
         // Expect Calendar location on page to equal location from tutorevents.json.
-        expect(descriptionLocation.props().children[2]).toBe(json.data[4].location);
+        expect(descriptionLocation.props().children[2]).toBe(jsonEvents.data[jsonEvents.data.length-1].location);
  
     });
 
     it('Deleting Upcoming Events for Tutor', () => {
-        // Deletes events, finds current event displayed, takes it and deletes it (resets the events to null)
-        // All the mounting and state setting
-        // TO DO
-
         /**
          * ADDING AN EVENT HERE (More details described in the 'Adding and Viewing Current Upcoming Events for Tutor' test)
         */
         const wrapper = mount(<NewCalendar></NewCalendar>);
         const wrapper_shallow = shallow(<NewCalendar></NewCalendar>);
+ 
         const calendar_class_wrapper = wrapper.find(NewCalendarClass);
         
-        calendar_class_wrapper.setState({ data: json.data[4] });
+        calendar_class_wrapper.setState({ events: [jsonEvents.data[jsonEvents.data.length-1]] });
+        
         const dates = [];
 
-        const calendarTitle = wrapper.find(Typography).at(0);
-        expect(calendarTitle.props().children).toBe("Calendar");
+        calendar_class_wrapper.setState({ id: jsonEvents.data[jsonEvents.data.length-1]._id });
+        calendar_class_wrapper.setState({ dates: [dates[jsonEvents.data.length-1]]});
+        calendar_class_wrapper.setState({ eventsDecoded: [jsonEvents.data[jsonEvents.data.length-1]] });
+        calendar_class_wrapper.setState({ startTime: jsonEvents.data[jsonEvents.data.length-1].startTime });
+        calendar_class_wrapper.setState({ endTime: jsonEvents.data[jsonEvents.data.length-1].endTime });
+        calendar_class_wrapper.setState({ location: jsonEvents.data[jsonEvents.data.length-1].location });
+        calendar_class_wrapper.setState({ description: jsonEvents.data[jsonEvents.data.length-1].description });
+       
+       /**
+        * DELETING AN EVENT HERE
+       */
 
-        const addEventButton = wrapper.find(Fab).at(0);
-        expect(addEventButton.props().children[1]).toBe("Add Event");
-
-        for(var x=0;x<json.data.length;x++){
-            var d = (json.data[x].date).substring(0,10);
-            var d2 = d.replace(/\D/g, "");
-            d2 = d2.substring(6) + "/" + d2.substring(4, 6) + "/" + d2.substring(0, 4);
-            d2 = d2.toString();
-            dates.push(d2);
-            json.data[x].date = d2;
-        }
-
-        calendar_class_wrapper.setState({ dates: [dates[4]] });
-        calendar_class_wrapper.setState({ eventsDecoded: [json.data[4]] });
-        calendar_class_wrapper.setState({ startTime: json.data[4].startTime });
-        calendar_class_wrapper.setState({ endTime: json.data[4].endTime });
-        calendar_class_wrapper.setState({ location: json.data[4].location });
-        calendar_class_wrapper.setState({ description: json.data[4].description });
-
-        /**
-         * DELETING AN EVENT HERE
-        */
+       // search for events
+       var tutorEvents = jsonProfiles.data[0].events;
+       var exists = 0;
+      
+       for (var y=0;y<tutorEvents.length;y++){
+         // if event exists under tutor name, then set exists flag to 1 (true) as event exists.
+         if(tutorEvents[y].$oid == calendar_class_wrapper.state().id.$oid){
+           exists = 1;
+         }
+       }
+       // if event exists under tutor, execute the following.
+       if(exists == 1){
+          // Setting state of tutor_id
+          calendar_class_wrapper.setState({ tutor_id: jsonProfiles.data[0]._id });
+          for (var y=0;y<calendar_class_wrapper.state().events.length;y++){
+            /** 
+             * If the state of a particular event from tutors collection
+             * is equal to the state of already defined id from events collection , then execute this if statement.
+            */
+            if((calendar_class_wrapper.state().events)[y]._id.$oid == calendar_class_wrapper.state().id.$oid ){
+                // set particular event in array to be empty
+                (calendar_class_wrapper.state().events)[y] = {};
+                // remove empty event.
+                calendar_class_wrapper.state().events.splice(y,1);
+                // Expect that the particular event does not exist anymore and has been deleted. 
+                expect((calendar_class_wrapper.state().events)[y]).toBe(undefined);
+            }
+          }
         
-        // finding event to delete by id.
+       }
+       
     });
 
     
