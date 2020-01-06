@@ -1,126 +1,138 @@
 {
-    "data":
-    [
-      {
-        "_id": {
-          "$oid": "5e02a37e63cf49b25d0ef00f"
-        },
-        "title": "test",
-        "description": "test",
-        "location": "test",
-        "date": "2019-12-28T05:00:00.000Z",
-        "startTime": "01:02",
-        "endTime": "01:00",
-        "__v": {
-          "$numberInt": "0"
-        }
+  "data": [
+    {
+      "_id": {
+        "$oid": "5e02a37e63cf49b25d0ef00f"
       },
-      {
-        "_id": {
-          "$oid": "5e02a952bdd6d2b601d76b39"
-        },
-        "title": "haha",
-        "description": "haha",
-        "location": "hahah",
-        "date": "2019-12-28T05:00:00.000Z",
-        "startTime": "",
-        "endTime": "",
-        "__v": {
-          "$numberInt": "0"
-        }
-      },
-      {
-        "_id": {
-          "$oid": "5e0594ca9e24fa0b1f6dbede"
-        },
-        "title": "gdfgfdgfgfg",
-        "description": "",
-        "location": "",
-        "date": "2019-12-13T05:00:00.000Z",
-        "startTime": "",
-        "endTime": "",
-        "__v": {
-          "$numberInt": "0"
-        }
-      },
-      {
-        "_id": {
-          "$oid": "5e0595348261d10b3af8960a"
-        },
-        "title": "dfgfdgdfg",
-        "description": "",
-        "location": "",
-        "date": "2019-12-20T05:00:00.000Z",
-        "startTime": "",
-        "endTime": "",
-        "__v": {
-          "$numberInt": "0"
-        }
-      },
-      {
-        "_id": {
-          "$oid": "5e05991eed49930c99a452dc"
-        },
-        "description": "French tutoring for Bilal",
-        "location": "Concordia University",
-        "date": "2019-12-13T05:00:00.000Z",
-        "startTime": "13:00",
-        "endTime": "15:00",
-        "__v": {
-          "$numberInt": "0"
-        }
-      },
-      {
-        "_id": {
-          "$oid": "5e0947c9403b1918cce38ef7"
-        },
-        "description": "Cynthia test",
-        "location": "@ Concordia",
-        "date": "2019-12-12T05:00:00.000Z",
-        "startTime": "13:00",
-        "endTime": "14:00",
-        "__v": {
-          "$numberInt": "0"
-        }
-      },
-      {
-        "_id": {
-          "$oid": "5e09753f97ca441092b31f93"
-        },
-        "description": "Ring Ceremony",
-        "location": "@ H-110",
-        "date": "2020-03-21T04:00:00.000Z",
-        "startTime": "18:05",
-        "endTime": "22:00",
-        "__v": {
-          "$numberInt": "0"
-        }
-      },
-      {
-        "_id": {
-          "$oid": "5e098d8b6205332339dbaf92"
-        },
-        "description": "team meeting",
-        "location": "@ lb-353",
-        "date": "2019-11-29T05:00:00.000Z",
-        "startTime": "10:30",
-        "endTime": "11:30",
-        "__v": {
-          "$numberInt": "0"
-        }
-      },
-      {
-        "_id": {
-          "$oid": "5e10bf4a990f73570ca5c216"
-        },
-        "description": "Tutor Grade 3 student Vanessa ",
-        "location": "@ Kumon",
-        "date": "2020-01-17T05:00:00.000Z",
-        "startTime": "18:00",
-        "endTime": "21:00",
-        "__v": {
-          "$numberInt": "0"
-        }
+      "title": "test",
+      "description": "test",
+      "location": "test",
+      "date": "2019-12-28T05:00:00.000Z",
+      "startTime": "01:02",
+      "endTime": "01:00",
+      "__v": {
+        "$numberInt": "0"
       }
-    ]
+    },
+    {
+      "_id": {
+        "$oid": "5e02a952bdd6d2b601d76b39"
+      },
+      "title": "haha",
+      "description": "haha",
+      "location": "hahah",
+      "date": "2019-12-28T05:00:00.000Z",
+      "startTime": "",
+      "endTime": "",
+      "__v": {
+        "$numberInt": "0"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "5e0594ca9e24fa0b1f6dbede"
+      },
+      "title": "gdfgfdgfgfg",
+      "description": "",
+      "location": "",
+      "date": "2019-12-13T05:00:00.000Z",
+      "startTime": "",
+      "endTime": "",
+      "__v": {
+        "$numberInt": "0"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "5e0595348261d10b3af8960a"
+      },
+      "title": "dfgfdgdfg",
+      "description": "",
+      "location": "",
+      "date": "2019-12-20T05:00:00.000Z",
+      "startTime": "",
+      "endTime": "",
+      "__v": {
+        "$numberInt": "0"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "5e05991eed49930c99a452dc"
+      },
+      "description": "French tutoring for Bilal",
+      "location": "Concordia University",
+      "date": "2019-12-13T05:00:00.000Z",
+      "startTime": "13:00",
+      "endTime": "15:00",
+      "__v": {
+        "$numberInt": "0"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "5e0947c9403b1918cce38ef7"
+      },
+      "description": "Cynthia test",
+      "location": "@ Concordia",
+      "date": "2019-12-12T05:00:00.000Z",
+      "startTime": "13:00",
+      "endTime": "14:00",
+      "__v": {
+        "$numberInt": "0"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "5e09753f97ca441092b31f93"
+      },
+      "description": "Ring Ceremony",
+      "location": "@ H-110",
+      "date": "2020-03-21T04:00:00.000Z",
+      "startTime": "18:05",
+      "endTime": "22:00",
+      "__v": {
+        "$numberInt": "0"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "5e10bf4a990f73570ca5c216"
+      },
+      "description": "Tutor Grade 3 student Vanessa ",
+      "location": "@ Kumon",
+      "date": "2020-01-17T05:00:00.000Z",
+      "startTime": "18:00",
+      "endTime": "21:00",
+      "__v": {
+        "$numberInt": "0"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "5e1243f23bf4126a290884be"
+      },
+      "description": "Test",
+      "location": "@ Test",
+      "date": "2020-01-16T05:00:00.000Z",
+      "startTime": "09:00",
+      "endTime": "19:09",
+      "__v": {
+        "$numberInt": "0"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "5e128233a4633171d48f6844"
+      },
+      "description": "French tutoring for Bilal",
+      "location": "@ Concordia University",
+      "date": "2019-12-13T05:00:00.000Z",
+      "startTime": "13:00",
+      "endTime": "15:00",
+      "__v": {
+        "$numberInt": "0"
+      }
+    }
+  ]
 }
