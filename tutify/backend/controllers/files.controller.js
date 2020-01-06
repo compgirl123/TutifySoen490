@@ -1,4 +1,8 @@
+// import FilePage from "../../src/components/FilePage"
 const Files = require('../models/models').Files;
+const Mfiles = require('../models/models').Mfiles;
+const Mchunks = require('../models/models').Mchunks;
+
 // var multer = require('multer');
 var mongoose = require('mongoose');
 // var uuidv4 = require('uuid/v4');
@@ -88,42 +92,99 @@ exports.createFile = async function (req, res) {
   });
 }
 exports.getFiles = (req, res) => {
-  if(!gfs) {
-    console.log("some error occured, check connection to db");
-    res.send("some error occured, check connection to db");
-    process.exit(0);
-  }
-  gfs.find().toArray((err, files) => {
-    // check if files
-    if (!files || files.length === 0) {
-      return res.render("index", {
-        files: false
-      });
-    } else {
-      const f = files
-        .map(file => {
-          if (
-            file.contentType === "image/png" ||
-            file.contentType === "image/jpeg"
-          ) {
-            file.isImage = true;
-          } else {
-            file.isImage = false;
-          }
-          return file;
-        })
-        .sort((a, b) => {
-          return (
-            new Date(b["uploadDate"]).getTime() -
-            new Date(a["uploadDate"]).getTime()
-          );
-        });
+  // Mfiles.find({}, (err, files) => {
+  //   if (!files || files.length === 0) {
+  //     return res.status(404).json({
+  //       err: "no files exist"
+  //     });
+  //   }
+  //   res.render('Main', {
+  //     files: files,
+  //     success: true
+  //   });  
+  // });
+}
 
-      return res.render("index", {
-        files: f
-      });
-    }
-  });
+
+
+
+
+exports.getFile = (req, res) => {  
+
+  Mfiles.findOne({filename: req.params.filename}, (err, file) => {        
+      if(err){        
+        return res.render('index', {
+         title: 'File error', 
+         message: 'Error finding file', 
+          error: err.errMsg});      
+      }
+    if(!file || file.length === 0){        
+      return res.render('index', {
+       title: 'Download Error', 
+       message: 'No file found'});      
+     }else{
+
+     //Retrieving the chunks from the db          
+     Mchunks.find({files_id : file._id},(err, chunks)=>{
+       var chunkArray = chunks;
+       if(!chunkArray || chunkArray.length === 0){            
+              //No data found            
+              return res.render('index', {
+                 title: 'Download Error', 
+                 message: 'No data found'});          
+            }
+
+        let fileData = [];          
+      for(let i=0; i<chunkArray.length;i++){            
+        //This is in Binary JSON or BSON format, which is stored               
+        //in fileData array in base64 endocoded string format               
+       
+        fileData.push(chunkArray[i].data.toString('base64'));          
+      }
+      console.warn("Get ready!");
+       //Display the chunks using the data URI format          
+       let finalFile = 'data:' + file.contentType + ';base64,' 
+            + fileData.join(''); 
+        console.warn("Gone through: final file");
+        console.warn(finalFile);
+        console.warn("DONE!");
+        return finalFile;         
+       
+       console.warn("Gone through");
+      });  
+     
+    //    .sort({n: 1}).toArray(function(err, chunks){          
+    //      if(err){            
+    //         return res.render('index', {
+    //          title: 'Download Error', 
+    //          message: 'Error retrieving chunks', 
+    //          error: err.errmsg});          
+    //       }
+    //     if(!chunks || chunks.length === 0){            
+    //       //No data found            
+    //       return res.render('index', {
+    //          title: 'Download Error', 
+    //          message: 'No data found'});          
+    //     }
+      
+    //   let fileData = [];          
+    //   for(let i=0; i<chunks.length;i++){            
+    //     //This is in Binary JSON or BSON format, which is stored               
+    //     //in fileData array in base64 endocoded string format               
+       
+    //     fileData.push(chunks[i].data.toString('base64'));          
+    //   }
+      
+    //    //Display the chunks using the data URI format          
+    //    let finalFile = 'data:' + docs[0].contentType + ';base64,' 
+    //         + fileData.join('');          
+    //     res.render('imageView', {
+    //        title: 'Image File', 
+    //        message: 'Image loaded from MongoDB GridFS', 
+    //        imgurl: finalFile});
+    //    });      
+    }          
+  });  
 }
 
 exports.deleteFile = async (req, res) => {
@@ -134,51 +195,17 @@ exports.deleteFile = async (req, res) => {
     res.redirect("/uploadingDocs");
   });
 }
-
-exports.uploadFile = async (req, res, next) => {
-
-  // const url = req.protocol + '://' + req.get('host');
-  // const file = new Files();
-  // //console.log(req.body);
-  // file.name = req.body.name;
-  // file.adminTutor = req.body.adminTutor;
-  // file.url = "http://localhost:3000/"+req.file.filename;
-  // file.encryptedName = req.file.filename;
-  // file.save().then(result => {
-  //     res.status(201).json({
-  //         message: "File uploaded successfully!",
-  //         fileCreated: {
-  //             _id: result._id,
-  //             file: result.file
-  //         }
-  //     })
-  // }).catch(err => {
-  //     console.log(err),
-  //         res.status(500).json({
-  //             error: err
-  //         });
-  // });
-
     
-}
 exports.downloadFile = (req, res) => {
   var filename = req.params.filename;
   res.download(uploadFolder + filename);  
 }
 // this method fetches all files accounts in our database
-exports.getFiles = async function (req, res) {
-  Files.find((err, data) => {
-      if (err) return res.json({ success: false, error: err });
-      return res.json({ success: true, data: data });
-    });
-}
-
-// this method fetches all files accounts in our database
-exports.uploadFiles = async function (req, res) {
-  Files.find((err, data) => {
-      if (err) return res.json({ success: false, error: err });
-      return res.json({ success: true, data: data });
-    });
-}
+// exports.getFiles = async function (req, res) {
+//   Mfiles.find((err, data) => {
+//       if (err) return res.json({ success: false, error: err });
+//       return res.json({ success: true, data: data });
+//     });
+// }
 
 

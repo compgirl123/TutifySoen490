@@ -211,6 +211,23 @@ var Event = mongoose.model('Event', new Schema({
   endTime: String
 }), "events");
 
+// --------  Multer files --------- // 
+var Mfiles = mongoose.model('Mfiles', new Schema({
+  length:  Number,
+  chunkSize: Number,
+  uploadDate: Date,
+  md5: Schema.Types.Mixed,
+  filename: String,
+  contentType: String,
+  aliases: [{type: String}],
+  metadata: Schema.Types.Mixed
+}), "uploads.files");
+var Mchunks = mongoose.model('Mchunks', new Schema({   
+     files_id : {type:Schema.Types.ObjectId, ref: 'uploads.files'},    
+     n : Number,    
+     data : Schema.Types.Buffer
+}), "uploads.chunks");
+
 
 // export the Schemas
 module.exports = {
@@ -221,5 +238,9 @@ module.exports = {
   Appointment: Appointment,
   Course: Course,
   Files: Files,
-  Event: Event
+  Event: Event,
+  Mfiles: Mfiles,
+  Mchunks: Mchunks
 }
+
+

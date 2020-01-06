@@ -83,17 +83,9 @@ app.post('/uploadFile', upload.single('file'),(req, res) => {
 app.use(express.json());
 app.set("view engine", "ejs");
 
-app.get("/download/:filename", (req, res)=>{
+
  
-  gfs.find({ filename: req.params.filename }).toArray((err, files) => {
-    if (!files || files.length === 0) {
-      return res.status(404).json({
-        err: "no files exist"
-      });
-    }
-    gfs.openDownloadStreamByName(req.params.filename).pipe(res);
-  });
-});
+
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
