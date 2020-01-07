@@ -17,6 +17,7 @@ import BlogPost from "./components/BlogPost";
 import ViewCourse from "./components/StudentCourseView/ViewCourse";
 import TutorCourseView from "./components/TutorCourseView/TutorCourseView";
 import Announcements from "./components/TutorAnnouncements/Announcements";
+import ResourceLevels from "./components/Resources/ResourceLevels";
 
 // This is all the url routing.
 function MainPage() {
@@ -39,6 +40,7 @@ function MainPage() {
       <Route exact path= "/ViewCourse" component={ViewCourse} />
       <Route exact path= "/TutorCourseView" component={TutorCourseView} />
       <Route exact path= "/Announcements" component={Announcements} />
+      <Route exact path= "/resources" component={ResourceLevels} />
     </Router>
   );
 }
