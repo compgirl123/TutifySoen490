@@ -199,6 +199,37 @@ var Files = mongoose.model('Files', new Schema({
   ]
 }), "files");
 
+// -------- UploadedFiles --------- // 
+
+var UploadedFiles = mongoose.model('UploadedFiles', new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  adminTutor: {
+    type: Schema.Types.ObjectId,
+    ref: 'Tutor',
+    required: true
+  }
+  /*,url: {
+    type: String,
+    required: true
+  },
+  fileObject: {type: Schema.Types.ObjectId, 
+    ref: 'Tutor', 
+    required: true
+  },
+
+  relatedCourse: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Course'
+    }
+  ],
+  sharedToStudents: [
+    { type: Schema.Types.ObjectId, ref: 'Student' }
+  ]*/
+}), "uploaded_files");
 
 
 // --------  Event --------- // 
@@ -237,6 +268,7 @@ module.exports = {
   Account: Account,
   Appointment: Appointment,
   Course: Course,
+  UploadedFiles: UploadedFiles,
   Files: Files,
   Event: Event,
   Mfiles: Mfiles,
