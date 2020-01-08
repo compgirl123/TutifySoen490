@@ -201,8 +201,12 @@ var Files = mongoose.model('Files', new Schema({
 
 // -------- UploadedFiles --------- // 
 
-var UploadedFiles = mongoose.model('UploadedFiles', new Schema({
+var UploadedFiles = mongoose.model('UploadedFiles', new mongoose.Schema({
   name: {
+    type: String,
+    required: true
+  },
+  encryptedname:{
     type: String,
     required: true
   },
@@ -213,32 +217,23 @@ var UploadedFiles = mongoose.model('UploadedFiles', new Schema({
   },
   uploadedDocs: [
     { type: Schema.Types.ObjectId, ref: 'Mfiles' }
-  ]
-  /*uploadedDocs: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Event'
-
-    }
-  ]*/
-  /*,url: {
+  ],
+  sharedToStudents: [{
     type: String,
     required: true
-  },
-  fileObject: {type: Schema.Types.ObjectId, 
-    ref: 'Tutor', 
-    required: true
-  },
-
-  relatedCourse: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Course'
-    }
+  }
+    //{ type: Schema.Types.ObjectId, ref: 'Student' }
+    // for testing purposes only temporary.
+    // Kasthurie: implement option for tutor to share stuff.
   ],
-  sharedToStudents: [
-    { type: Schema.Types.ObjectId, ref: 'Student' }
-  ]*/
+  sharedToCourses: [{
+    type: String,
+    required: true
+  }
+    //{ type: Schema.Types.ObjectId, ref: 'Student' }
+    // for testing purposes only temporary.
+    // Kasthurie: implement option for tutor to share stuff.
+  ]
 }), "uploaded_files");
 
 
