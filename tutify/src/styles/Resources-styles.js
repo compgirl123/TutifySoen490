@@ -10,5 +10,19 @@ export const styles = theme => ({
           anchor: 'left',
       },
       toolbar: theme.mixins.toolbar,
+      card: {
+        width: 345,
+        margin: theme.spacing(2),
+      },
+      media: {
+        height: 140,
+      },
+      divContainer:{
+        padding: theme.spacing(10, 0, 8),
+      },
+      container:{
+          marginLeft: theme.spacing(14),
+      }
+      
       
   });
