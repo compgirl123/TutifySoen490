@@ -210,7 +210,17 @@ var UploadedFiles = mongoose.model('UploadedFiles', new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Tutor',
     required: true
-  }
+  },
+  uploadedDocs: [
+    { type: Schema.Types.ObjectId, ref: 'Mfiles' }
+  ]
+  /*uploadedDocs: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Event'
+
+    }
+  ]*/
   /*,url: {
     type: String,
     required: true
