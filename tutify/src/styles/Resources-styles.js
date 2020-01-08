@@ -22,6 +22,9 @@ export const styles = theme => ({
       },
       container:{
           marginLeft: theme.spacing(14),
+      },
+      link: {
+          textDecoration: 'none',
       }
       
       
