@@ -186,15 +186,27 @@ export class NewCalendar extends React.Component {
   };
 
   deleteEvent = (id) => {
-    axios.post('http://localhost:3001/api/deleteEvent', {
-      event_id: id,
-      tutor_id: this.state.tutor_id
+    swal({
+      title: "Are you sure you want delete this event?",
+      icon: "warning",
+      buttons: [true, "Yes"],
+      dangerMode: true,
     })
-      .then((res) => {
-        this.setState({ events: res.data.userInfo.events });
-        this.populateEvents();
-      }, (error) => {
-        console.log(error);
+      .then((willDelete) => {
+        if (willDelete) {
+          axios.post('http://localhost:3001/api/deleteEvent', {
+            event_id: id,
+            tutor_id: this.state.tutor_id
+          })
+            .then((res) => {
+              this.setState({ events: res.data.userInfo.events });
+              this.populateEvents();
+            }, (error) => {
+              console.log(error);
+            });
+          swal("Event successfully deleted!", "", "success")
+
+        }
       });
   };
 
