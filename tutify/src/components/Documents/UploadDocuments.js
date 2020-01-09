@@ -241,7 +241,7 @@ async handleSubmit(event) {
       </Paper>
 
       <div className={classes.seeMore}>
-        <Link color="primary" href="#">
+        <Link color="primary" href="/doclist">
           See more
         </Link>
       </div>
