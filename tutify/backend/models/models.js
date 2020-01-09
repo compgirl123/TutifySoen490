@@ -169,7 +169,7 @@ var Course = mongoose.model('Course', new Schema({
 
 // -------- FILES --------- // 
 
-var Files = mongoose.model('Files', new Schema({
+var Files = mongoose.model('uploaded_files', new Schema({
   name: {
     type: String,
     required: true
@@ -197,7 +197,7 @@ var Files = mongoose.model('Files', new Schema({
   sharedToStudents: [
     { type: Schema.Types.ObjectId, ref: 'Student' }
   ]
-}), "files");
+}), "uploaded_files");
 
 // -------- UploadedFiles --------- // 
 
@@ -258,6 +258,7 @@ var Mfiles = mongoose.model('Mfiles', new Schema({
   aliases: [{type: String}],
   metadata: Schema.Types.Mixed
 }), "uploads.files");
+
 var Mchunks = mongoose.model('Mchunks', new Schema({   
      files_id : {type:Schema.Types.ObjectId, ref: 'uploads.files'},    
      n : Number,    

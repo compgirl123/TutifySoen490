@@ -62,7 +62,9 @@ exports.getFiles = (req, res) => {
 
 
 exports.getFile = async (req, res, next) => {  
-  var value = await Mfiles.findOne({filename: req.params.filename}, async (err, file) => {        
+
+  // Retrieving the file information from the db (from uploads.files)
+  await Mfiles.findOne({filename: req.params.filename}, async (err, file) => {        
     if(err){    
       response = "File Error";     
          
@@ -78,7 +80,7 @@ exports.getFile = async (req, res, next) => {
        title: 'Download Error', 
        message: 'No file found'});      
      }else{
-      //Retrieving the chunks from the db          
+      //Retrieving the chunks from the db (from uploads.chunks)       
       await Mchunks.find({files_id : file._id}, async (err, chunks)=>{
         var chunkArray = chunks;
         if(!chunkArray || chunkArray.length === 0){   
@@ -89,18 +91,40 @@ exports.getFile = async (req, res, next) => {
             message: 'No data found'});          
         }
 
-          let fileData = [];          
+        //Concatinate the data in an array
+        let fileData = [];          
         for(let i=0; i<chunkArray.length;i++){            
-          //This is in Binary JSON or BSON format, which is stored               
-          //in fileData array in base64 endocoded string format               
-        
          fileData.push(chunkArray[i].data.toString('base64'));          
         }
         //Display the chunks using the data URI format          
         let finalFile = 'data:' + file.contentType + ';base64,' 
               + fileData.join(''); 
-        response = finalFile;         
-        res.status(200).send({data:finalFile});
+        response = finalFile;   
+        
+
+        // Find the initial name in uploaded_files
+        await Files.findOne({encryptedname : req.params.filename}, async (err, uploadedfile) => {
+          if(err){    
+            response = "File name Error";     
+                
+            return await res.status(500).send({
+              title: 'File error', 
+              message: 'Error finding the file name', 
+              error: err.errMsg});      
+               
+          }else{
+            res.status(200).send({data:finalFile, datatype:file.contentType, filename:uploadedfile.name});
+          }
+        }); 
+
+      
+      
+      
+      
+      
+      
+      
+      
       }); 
      }
   });  
