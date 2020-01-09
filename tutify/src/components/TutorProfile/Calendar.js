@@ -24,7 +24,18 @@ import axios from 'axios';
 import swal from 'sweetalert';
 import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
 import IconButton from '@material-ui/core/IconButton';
+import ShowStudents from "../TutorAnnouncements/ShowStudents";
 
+function arrayUnique(array) {
+  var a = array.concat();
+  for (var i = 0; i < a.length; ++i) {
+    for (var j = i + 1; j < a.length; ++j) {
+      if (a[i] === a[j])
+        a.splice(j--, 1);
+    }
+  }
+  return a;
+}
 
 class NewCalendar extends React.Component {
   constructor(props) {
@@ -44,9 +55,14 @@ class NewCalendar extends React.Component {
       eventsDecoded: [],
       dates: [],
       eventId: "",
+      students: [],
+      studentsSelected: [],
+      Toggle: false,
+      placeholder: "Share with student"
     };
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.shareWithStudent = this.shareWithStudent.bind(this);
     this.deleteEvent = this.deleteEvent.bind(this);
 
   }
@@ -83,15 +99,13 @@ class NewCalendar extends React.Component {
     return newDates;
   };
 
-  function2 = () => {
-
-  };
-
   componentDidMount() {
     this.checkSession();
   }
 
-
+  handleSelection = (students) => {
+    this.setState({ studentsSelected: arrayUnique(students) });
+  }
 
   checkSession = () => {
     fetch('http://localhost:3001/api/checkSession', {
@@ -102,13 +116,36 @@ class NewCalendar extends React.Component {
       .then((res) => {
         this.setState({
           tutor_id: res.userInfo._id,
-          events: res.userInfo.events
+          events: res.userInfo.events,
+          students: res.userInfo.students
         });
         this.populateEvents();
+        this.FindStudents();
       })
       .catch(err => console.log(err));
   };
 
+  FindStudents = () => {
+    axios.post('http://localhost:3001/api/findStudents', {
+      students: this.state.students
+    })
+      .then((res) => {
+
+        this.setState({ students: res.data.data });
+
+      }, (error) => {
+        console.log(error);
+      })
+  };
+
+  shareWithStudent = () => {
+    if (this.state.placeholder === "Share with student") {
+      this.setState({ Toggle: true, placeholder: "Hide student list" });
+    }
+    else {
+      this.setState({ Toggle: false, placeholder: "Share with student" });
+    }
+  }
 
   populateEvents = () => {
     var newDates = [];
@@ -185,15 +222,27 @@ class NewCalendar extends React.Component {
   };
 
   deleteEvent = (id) => {
-    axios.post('http://localhost:3001/api/deleteEvent', {
-      event_id: id,
-      tutor_id: this.state.tutor_id
+    swal({
+      title: "Are you sure you want delete this event?",
+      icon: "warning",
+      buttons: [true, "Yes"],
+      dangerMode: true,
     })
-      .then((res) => {
-        this.setState({ events: res.data.userInfo.events });
-        this.populateEvents();
-      }, (error) => {
-        console.log(error);
+      .then((willDelete) => {
+        if (willDelete) {
+          axios.post('http://localhost:3001/api/deleteEvent', {
+            event_id: id,
+            tutor_id: this.state.tutor_id
+          })
+            .then((res) => {
+              this.setState({ events: res.data.userInfo.events });
+              this.populateEvents();
+            }, (error) => {
+              console.log(error);
+            });
+          swal("Event successfully deleted!", "", "success")
+
+        }
       });
   };
 
@@ -341,6 +390,15 @@ class NewCalendar extends React.Component {
                   type="time"
                   fullWidth
                 />
+
+                <Button aria-controls="simple-menu" aria-haspopup="true" variant="outlined" style={{ marginTop: '30px', marginBottom: '30px' }} onClick={this.shareWithStudent}>
+                  {this.state.placeholder}
+                </Button>
+                {this.state.Toggle ?
+                  <ShowStudents students={this.state.students} handleSelection={this.handleSelection} />
+                  : <></>
+                }
+
 
               </DialogContent>
               <Grid
