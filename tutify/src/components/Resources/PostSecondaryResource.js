@@ -61,61 +61,9 @@ class PostSecondaryResource extends React.Component {
                         Resources and Tools
                     </Typography>
                     <div className={classes.postSecLogo}>
-                        <img alt="postSecLogo" src={'https://24t9d72kcs873my15o9hr1pu-wpengine.netdna-ssl.com/wp-content/uploads/2017/09/student-productivity-toggl-702x526.jpg'}/>
+                        <img alt="postSecLogo" src={'https://24t9d72kcs873my15o9hr1pu-wpengine.netdna-ssl.com/wp-content/uploads/2017/09/student-productivity-toggl-702x526.jpg'} />
                     </div>
-                    <ResourceNavigation/>
-                    <Container className={classes.container}>
-                        <Grid container spacing={4}>
-                            <Link className={classes.link} to={'/'}>
-                                <Card className={classes.card}>
-                                    <CardActionArea>
-                                        <CardMedia
-                                            className={classes.media}
-                                            image=""
-                                            title=""
-                                        />
-                                        <CardContent>
-                                            <Typography gutterBottom align="center" variant="h5" component="h2">
-                                                Some Resource
-                                        </Typography>
-                                        </CardContent>
-                                    </CardActionArea>
-                                </Card>
-                            </Link>
-                            <Link className={classes.link} to={'/'}>
-                                <Card className={classes.card}>
-                                    <CardActionArea>
-                                        <CardMedia
-                                            className={classes.media}
-                                            image=""
-                                            title=""
-                                        />
-                                        <CardContent>
-                                            <Typography gutterBottom align="center" variant="h5" component="h2">
-                                                Some Resource
-                                        </Typography>
-                                        </CardContent>
-                                    </CardActionArea>
-                                </Card>
-                            </Link>
-                            <Link className={classes.link} to={'/'}>
-                                <Card className={classes.card}>
-                                    <CardActionArea>
-                                        <CardMedia
-                                            className={classes.media}
-                                            image=""
-                                            title=""
-                                        />
-                                        <CardContent>
-                                            <Typography gutterBottom align="center" variant="h5" component="h2">
-                                                Some Resource
-                                        </Typography>
-                                        </CardContent>
-                                    </CardActionArea>
-                                </Card>
-                            </Link>
-                        </Grid>
-                    </Container>
+                    <ResourceNavigation />
                 </div>
                 <Footer />
             </React.Fragment>

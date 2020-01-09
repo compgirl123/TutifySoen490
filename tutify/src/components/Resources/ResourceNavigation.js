@@ -6,6 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import ResourceCard from './ResourceCard';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -55,7 +56,7 @@ export default function ResourceNavigation() {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static" color="default">
+            <AppBar position="static" color="default" textAlign="center">
                 <Tabs
                     value={value}
                     onChange={handleChange}
@@ -65,36 +66,40 @@ export default function ResourceNavigation() {
                     scrollButtons="auto"
                     aria-label="scrollable auto tabs example"
                 >
-                    <Tab label="Item One" {...a11yProps(0)} />
-                    <Tab label="Item Two" {...a11yProps(1)} />
-                    <Tab label="Item Three" {...a11yProps(2)} />
-                    <Tab label="Item Four" {...a11yProps(3)} />
-                    <Tab label="Item Five" {...a11yProps(4)} />
-                    <Tab label="Item Six" {...a11yProps(5)} />
-                    <Tab label="Item Seven" {...a11yProps(6)} />
+                    <Tab label="All" {...a11yProps(0)} />
+                    <Tab label="Studying" {...a11yProps(1)} />
+                    <Tab label="Writing" {...a11yProps(2)} />
+                    <Tab label="Learning" {...a11yProps(3)} />
+                    <Tab label="Career" {...a11yProps(4)} />
+                    <Tab label="Financial" {...a11yProps(5)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-                Item One
-      </TabPanel>
+                <ResourceCard
+                    image="https://www.irishtimes.com/polopoly_fs/1.3625946.1536688503!/image/image.jpg_gen/derivatives/box_620_330/image.jpg"
+                    title='Hello'
+                    description='some desc'
+                    link='www.google.com'
+                />
+            </TabPanel>
             <TabPanel value={value} index={1}>
                 Item Two
-      </TabPanel>
+            </TabPanel>
             <TabPanel value={value} index={2}>
                 Item Three
-      </TabPanel>
+            </TabPanel>
             <TabPanel value={value} index={3}>
                 Item Four
-      </TabPanel>
+            </TabPanel>
             <TabPanel value={value} index={4}>
                 Item Five
-      </TabPanel>
+            </TabPanel>
             <TabPanel value={value} index={5}>
                 Item Six
-      </TabPanel>
+            </TabPanel>
             <TabPanel value={value} index={6}>
                 Item Seven
-      </TabPanel>
+            </TabPanel>
         </div>
     );
 }
