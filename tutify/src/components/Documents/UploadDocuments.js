@@ -7,14 +7,13 @@ import Button from '@material-ui/core/Button';
 import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
 import axios from "axios";
 import swal from 'sweetalert';
-import TextField from '@material-ui/core/TextField';
-import { FormControl } from '@material-ui/core';
-import Input from "@material-ui/core/Input";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-
-
-
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Link from '@material-ui/core/Link';
+import Paper from '@material-ui/core/Paper';
 
 
 // Display a Ui for Tutors in order to be able to upload their documents
@@ -185,36 +184,6 @@ async handleSubmit(event) {
 
             </header>
             <div className="App-content">
-  
-            <label>File Type:
-                    <TextField
-                    
-                      variant="outlined"
-                      required
-                      label="Type"
-                      name="Type"
-                    />
-                                </label>  
-                      <p></p>
-
-
-            <FormControl >
-              <label> Course:
-                    <Select
-                      name="course"
-                      value={course}
-                      onChange={event => { this.setState({ course: event.target.value }) }}
-
-                      input={<Input id="course" />}
-                    >
-                      <MenuItem value="assignment">Assignment</MenuItem>
-                      <MenuItem value="past midterm">Past Midterm</MenuItem>
-                      <MenuItem value="past final">Past Final</MenuItem>
-                      <MenuItem value="other">Other</MenuItem>
-                    </Select>
-                    </label>
-                  </FormControl>
-          <p></p>
           
               {/* <form action="/upload" method="POST" encType="multipart/form-data"> */}
                 {/* <input
@@ -230,7 +199,7 @@ async handleSubmit(event) {
                 </Button> */}
 
                 <form onSubmit={this.handleSubmit}>
-                  <label>Upload:
+                  <label> Upload: 
                     <input
                       id="fileUpload"
                       type="file"
@@ -248,6 +217,34 @@ async handleSubmit(event) {
             </div>
           </div>
 
+          <p></p>
+
+          <Paper>
+                <Table stickyHeader aria-label="">
+        <TableHead>
+          <TableRow>
+            <TableCell>Date</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Size</TableCell>
+            <TableCell align="right">Uploaded By</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+            <TableRow>
+              <TableCell>Jan 9th 2020</TableCell>
+              <TableCell>Test</TableCell>
+              <TableCell>30Mb</TableCell>
+              <TableCell align="right">Mo Alawami</TableCell>
+            </TableRow>
+        </TableBody>
+      </Table>
+      </Paper>
+
+      <div className={classes.seeMore}>
+        <Link color="primary" href="#">
+          See more
+        </Link>
+      </div>
 
         </main>
       </React.Fragment>
