@@ -79,7 +79,7 @@ app.use('/public', express.static('public'));
   res.redirect("/uploadingDocs",req.body.name);
 });*/
 
-app.post('/uploadFile', upload.single('file'), uploadController.getUploadedFiles);
+app.post('/uploadFile', upload.single('file'), uploadController.addUploadedFiles);
 
 
 

@@ -1,10 +1,10 @@
 const UploadedFiles = require('../models/models').UploadedFiles;
 const Files = require('../models/models').Files;
 const Tutor = require('../models/models').Tutor;
-const Event = require('../models/models').Event;
 var mongoose = require('mongoose');
 
-exports.getUploadedFiles = async function (req, res) {
+// This method adds restriction information for uploaded documents.
+exports.addUploadedFiles = async function (req, res) {
     let uploaded_files = new UploadedFiles();
     const { name, adminTutor, uploadedDocs } = req.body;
     const { filename } = req.file;
