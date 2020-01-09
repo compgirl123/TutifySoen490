@@ -73,6 +73,7 @@ app.use(session({secret:"sdshkgjdhgkhgkjsd322k3j4nkjkjhb3", resave:false, saveUn
 // append /api for our http requests
 app.use('/api', router);
 app.use('/public', express.static('public'));
+
 app.post('/uploadFile', upload.single('file'),(req, res) => {
   res.redirect("/uploadingDocs");
 });
