@@ -183,8 +183,8 @@ var Files = mongoose.model('Files', new Schema({
     type: String,
     required: true
   },
-  encryptedName: {
-    type: String,
+  fileObject: {type: Schema.Types.ObjectId, 
+    ref: 'Tutor', 
     required: true
   },
 

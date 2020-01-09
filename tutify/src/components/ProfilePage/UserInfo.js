@@ -17,7 +17,7 @@ import CardContent from '@material-ui/core/CardContent';
 import EditIcon from '@material-ui/icons/Edit';
 import Box from '@material-ui/core/Box';
 
-class UserInfo extends React.Component {
+export class UserInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,6 +25,7 @@ class UserInfo extends React.Component {
       first_name: "",
       last_name: "",
       email: "",
+      program_of_study: "",
       updatedFirstName: "",
       updatedLastName: "",
       updatedProgramOfStudy: "",

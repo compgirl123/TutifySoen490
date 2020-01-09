@@ -30,7 +30,7 @@ function arrayUnique(array) {
 }
 
 // Tutor views all of the documents uploaded for each individual course
-class Announcements extends React.Component {
+export class Announcements extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

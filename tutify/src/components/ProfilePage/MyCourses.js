@@ -15,7 +15,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 
 // Created a Courses Page for Students to View the Courses they are enrolled in
-class MyCourses extends React.Component {
+export class MyCourses extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -80,7 +80,7 @@ class MyCourses extends React.Component {
 
               <Container maxWidth="lg" className={classes.container}>
                 <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                  My courses
+                  My Enrolled Courses
                 </Typography>
                 <Grid container spacing={5}>
                   {courses.map((c, i) => (
