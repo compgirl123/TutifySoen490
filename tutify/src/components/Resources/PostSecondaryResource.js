@@ -3,6 +3,15 @@ import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
 import Footer from '../Footer';
 import * as ResourcesStyles from '../../styles/Resources-styles';
 import { withStyles } from "@material-ui/core/styles";
+import Container from '@material-ui/core/Container';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import { Link } from 'react-router-dom';
+import ResourceNavigation from './ResourceNavigation';
 
 
 class PostSecondaryResource extends React.Component {
@@ -47,6 +56,67 @@ class PostSecondaryResource extends React.Component {
         return (
             <React.Fragment>
                 <DashBoardNavBar />
+                <div className={classes.divContainer}>
+                    <Typography variant="h2" component="h1" align="center" gutterBottom>
+                        Resources and Tools
+                    </Typography>
+                    <div className={classes.postSecLogo}>
+                        <img alt="postSecLogo" src={'https://24t9d72kcs873my15o9hr1pu-wpengine.netdna-ssl.com/wp-content/uploads/2017/09/student-productivity-toggl-702x526.jpg'}/>
+                    </div>
+                    <ResourceNavigation/>
+                    <Container className={classes.container}>
+                        <Grid container spacing={4}>
+                            <Link className={classes.link} to={'/'}>
+                                <Card className={classes.card}>
+                                    <CardActionArea>
+                                        <CardMedia
+                                            className={classes.media}
+                                            image=""
+                                            title=""
+                                        />
+                                        <CardContent>
+                                            <Typography gutterBottom align="center" variant="h5" component="h2">
+                                                Some Resource
+                                        </Typography>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Card>
+                            </Link>
+                            <Link className={classes.link} to={'/'}>
+                                <Card className={classes.card}>
+                                    <CardActionArea>
+                                        <CardMedia
+                                            className={classes.media}
+                                            image=""
+                                            title=""
+                                        />
+                                        <CardContent>
+                                            <Typography gutterBottom align="center" variant="h5" component="h2">
+                                                Some Resource
+                                        </Typography>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Card>
+                            </Link>
+                            <Link className={classes.link} to={'/'}>
+                                <Card className={classes.card}>
+                                    <CardActionArea>
+                                        <CardMedia
+                                            className={classes.media}
+                                            image=""
+                                            title=""
+                                        />
+                                        <CardContent>
+                                            <Typography gutterBottom align="center" variant="h5" component="h2">
+                                                Some Resource
+                                        </Typography>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Card>
+                            </Link>
+                        </Grid>
+                    </Container>
+                </div>
                 <Footer />
             </React.Fragment>
         );
