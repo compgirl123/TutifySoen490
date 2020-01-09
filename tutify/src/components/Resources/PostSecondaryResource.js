@@ -11,7 +11,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
-import ResourceNavigation from './ResourceNavigation';
+import PostSecResourceNavigation from './PostSecResourceNavigation';
 
 
 class PostSecondaryResource extends React.Component {
@@ -63,7 +63,7 @@ class PostSecondaryResource extends React.Component {
                     <div className={classes.postSecLogo}>
                         <img alt="postSecLogo" src={'https://24t9d72kcs873my15o9hr1pu-wpengine.netdna-ssl.com/wp-content/uploads/2017/09/student-productivity-toggl-702x526.jpg'} />
                     </div>
-                    <ResourceNavigation />
+                    <PostSecResourceNavigation />
                 </div>
                 <Footer />
             </React.Fragment>

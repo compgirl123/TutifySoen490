@@ -11,8 +11,11 @@ export const styles = theme => ({
       },
       toolbar: theme.mixins.toolbar,
       card: {
-        width: 345,
-        margin: theme.spacing(2),
+        width: 410,
+        margin: theme.spacing(3),
+      },
+      cardContent: {
+        background: '#e5e5e5'
       },
       media: {
         height: 140,
@@ -32,7 +35,5 @@ export const styles = theme => ({
         alignItems:'center',
         paddingBottom: theme.spacing(2),
       },
-      
-      
       
   });

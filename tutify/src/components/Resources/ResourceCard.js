@@ -11,7 +11,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
-import ResourceNavigation from './ResourceNavigation';
+import PostSecResourceNavigation from './PostSecResourceNavigation';
 
 
 class ResourceCard extends React.Component {
@@ -29,16 +29,15 @@ class ResourceCard extends React.Component {
         const { classes } = this.props;
         return (
             <React.Fragment>
-                <Link className={classes.link} to={this.state.link}>
+                <a target="_blank" className={classes.link} href={this.state.link}>
                     <Card className={classes.card}>
                         <CardActionArea>
                             <CardMedia
                                 className={classes.media}
                                 image={this.state.image}
-                                title={this.state.title}
                             />
-                            <CardContent>
-                                <Typography gutterBottom align="center" variant="h5" component="h2">
+                            <CardContent className={classes.cardContent}>
+                                <Typography gutterBottom variant="h5" component="h2">
                                     {this.state.title}
                                 </Typography>
                                 <Typography gutterBottom >
@@ -47,7 +46,7 @@ class ResourceCard extends React.Component {
                             </CardContent>
                         </CardActionArea>
                     </Card>
-                </Link>
+                </a>
             </React.Fragment>
         );
     }
