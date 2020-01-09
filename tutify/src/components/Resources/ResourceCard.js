@@ -1,18 +1,11 @@
 import React from 'react';
-import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
-import Footer from '../Footer';
 import * as ResourcesStyles from '../../styles/Resources-styles';
 import { withStyles } from "@material-ui/core/styles";
-import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import { Link } from 'react-router-dom';
-import PostSecResourceNavigation from './PostSecResourceNavigation';
-
 
 class ResourceCard extends React.Component {
     constructor(props) {
