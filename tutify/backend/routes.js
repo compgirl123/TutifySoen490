@@ -84,6 +84,8 @@ router.get('/getCourses', courseController.getCourses);
 // -------- Files ROUTES --------- // 
 
 router.get('/getFiles', filesController.getFiles);
+
+router.get('/getFile/:filename', filesController.getFile)
 // router.post('/uploadFiles', filesController.uploadFiles);
 // router.post('/uploadFile', upload.single('file'),(req, res) => {
 //     res.redirect("/uploadingDocs");
