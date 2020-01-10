@@ -79,7 +79,6 @@ export default function PostSecResourceNavigation() {
             <TabPanel value={value} index={0}>
                 Coming soon...
             </TabPanel>
-            <hr></hr>
             <TabPanel value={value} index={1}>
                 <Typography variant="h2" component="h1" align="center" gutterBottom>
                     Studying Tools and Resources
