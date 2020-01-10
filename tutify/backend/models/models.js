@@ -210,6 +210,10 @@ var UploadedFiles = mongoose.model('UploadedFiles', new mongoose.Schema({
     type: String,
     required: true
   },
+  link:{
+    type: String,
+    required: true
+  },
   adminTutor: {
     type: Schema.Types.ObjectId,
     ref: 'Tutor',

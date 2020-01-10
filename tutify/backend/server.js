@@ -80,7 +80,7 @@ app.use('/public', express.static('public'));
 });*/
 
 app.post('/uploadFile', upload.single('file'), uploadController.addUploadedFiles);
-
+app.get('/doclist', uploadController.populateUploadedFiles);
 
 
 // file upload requirements

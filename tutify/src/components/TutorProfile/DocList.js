@@ -39,17 +39,13 @@ class DocList extends React.Component {
 
   async loadFiles() {
     //fetch('http://localhost:3001/api/getFiles')
-    fetch('http://localhost:3001/api/populateUploadedFiles')
+    fetch('http://localhost:3001/api/uploadFile')
       .then(res => res.json())
-      .then(async (fetchedFiles) => {
-        //console.log(fetchedFiles);
-        if (fetchedFiles.message) {
-          console.log('No Files');
-          await this.setState({ files: [] });
-        } else {
-          await this.setState({ files: fetchedFiles.data });
-        }
-      });
+      .then(res => {
+        //console.log(res.file);
+        this.setState({ files: res.file });
+    })
+    .catch(err => console.log(err));
   }
 
   componentDidMount() {
@@ -98,7 +94,7 @@ class DocList extends React.Component {
       students: this.state.students
     })
       .then((res) => {
-        console.log(res.data.data)
+        //console.log(res.data.data)
         this.setState({ students: res.data.data });
       }, (error) => {
         console.log(error);
@@ -189,7 +185,7 @@ class DocList extends React.Component {
 async handleSubmit(event) {
   event.preventDefault();
   const formData = new FormData();
-  console.log(this.state.file);
+  //console.log(this.state.file);
   formData.append('file', this.state.file);
   formData.append('adminTutor', this.state.user_id);
   formData.append('name', this.state.file.name);
@@ -205,7 +201,7 @@ async handleSubmit(event) {
   render() {
     const { classes } = this.props;
     const { files } = this.state;
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    const fixedHeightPaper = clsx(classes.paper);
 
     return (
       <React.Fragment>
@@ -240,13 +236,16 @@ async handleSubmit(event) {
                       //var d = new Date(file.uploadDate);
                       var filename = file.name;
                       var url = file.url
+                      var link = file.link
                       return (
                         <TableRow key={index}>
                           <td><a href={url}>{filename}</a></td>
-                          <td><a href={`http://127.0.0.1:3001/api/files/${file.filename}`}>{file.filename}</a></td>
-                         {/* <td>{`${d.toLocaleDateString()} ${d.toLocaleTimeString()}`}</td> */}
-                          <td>{(Math.round(file.length / 100) / 10) + 'KB'}</td>
-                          <p><td><Button type="button" variant="contained" className="submit" size="small" onClick={this.deleteFile.bind(this)} id={file._id}>Remove</Button></td></p>
+                          {/*<td><a href={`http://127.0.0.1:3001/api/files/${file.filename}`}>{file.filename}</a></td>*/}
+                          <td>COMP 472</td>
+                          <td>Kasthu</td>
+                          <td></td>
+                          {/*<p><td><Button type="button" variant="contained" className="submit" size="small" onClick={this.deleteFile.bind(this)} id={file._id}>Share</Button></td></p>*/}
+                          <td><a href={link}><Button type="button" variant="contained" className="submit" size="small" onClick={this.deleteFile.bind(this)} id={file._id}>Down</Button></a></td>
                         </TableRow>
                       )
                     })}
