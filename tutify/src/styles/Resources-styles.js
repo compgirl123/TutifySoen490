@@ -14,6 +14,10 @@ export const styles = theme => ({
         width: 410,
         margin: theme.spacing(3),
       },
+      ResCard: {
+          width: 380,
+          margin: theme.spacing(2),
+      },
       cardContent: {
         background: '#e5e5e5'
       },
@@ -24,7 +28,7 @@ export const styles = theme => ({
         padding: theme.spacing(10, 0, 8),
       },
       container:{
-          marginLeft: theme.spacing(14),
+          marginLeft: theme.spacing(6),
       },
       link: {
           textDecoration: 'none',

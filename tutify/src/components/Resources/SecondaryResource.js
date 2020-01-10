@@ -3,6 +3,8 @@ import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
 import Footer from '../Footer';
 import * as ResourcesStyles from '../../styles/Resources-styles';
 import { withStyles } from "@material-ui/core/styles";
+import SecondaryResourceNavigation from './SecondaryResourceNavigation';
+import Typography from '@material-ui/core/Typography';
 
 
 class SecondaryResource extends React.Component {
@@ -47,6 +49,15 @@ class SecondaryResource extends React.Component {
         return (
             <React.Fragment>
                 <DashBoardNavBar />
+                <div className={classes.divContainer}>
+                    <Typography variant="h2" component="h1" align="center" gutterBottom>
+                        Resources and Tools
+                    </Typography>
+                    <div className={classes.postSecLogo}>
+                        <img alt="postSecLogo" src={'https://24t9d72kcs873my15o9hr1pu-wpengine.netdna-ssl.com/wp-content/uploads/2017/09/student-productivity-toggl-702x526.jpg'} />
+                    </div>
+                    <SecondaryResourceNavigation />
+                </div>
                 <Footer />
             </React.Fragment>
         );

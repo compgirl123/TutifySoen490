@@ -62,7 +62,7 @@ class ResourceLevels extends React.Component {
                     <Container className={classes.container}>
                         <Grid container spacing={4}>
                         <Link className={classes.link} to={'/primary'}>
-                            <Card className={classes.card}>
+                            <Card className={classes.ResCard}>
                                 <CardActionArea>
                                     <CardMedia
                                         className={classes.media}
@@ -78,7 +78,7 @@ class ResourceLevels extends React.Component {
                             </Card>
                             </Link>
                             <Link className={classes.link} to={'/secondary'}>
-                            <Card className={classes.card}>
+                            <Card className={classes.ResCard}>
                                 <CardActionArea>
                                     <CardMedia
                                         className={classes.media}
@@ -94,7 +94,7 @@ class ResourceLevels extends React.Component {
                             </Card>
                             </Link>
                             <Link className={classes.link} to={'/postsecondary'}>
-                            <Card className={classes.card}>
+                            <Card className={classes.ResCard}>
                                 <CardActionArea>
                                     <CardMedia
                                         className={classes.media}
