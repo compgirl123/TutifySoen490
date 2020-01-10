@@ -38,7 +38,8 @@ class DocList extends React.Component {
 
 
   async loadFiles() {
-    fetch('http://localhost:3001/api/getFiles')
+    //fetch('http://localhost:3001/api/getFiles')
+    fetch('http://localhost:3001/api/populateUploadedFiles')
       .then(res => res.json())
       .then(async (fetchedFiles) => {
         //console.log(fetchedFiles);
@@ -228,9 +229,10 @@ async handleSubmit(event) {
                         <TableHead>
                           <TableRow>
                             <TableCell>Name</TableCell>
-                            <TableCell></TableCell>
-                            <TableCell></TableCell>
-                            <TableCell></TableCell>
+                            <TableCell>Course</TableCell>
+                            <TableCell>Specific Students</TableCell>
+                            <TableCell>Share to Button</TableCell>
+                            <TableCell>Download File</TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
