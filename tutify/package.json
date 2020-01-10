@@ -59,7 +59,7 @@
     "validator": "^11.1.0"
   },
   "scripts": {
-    "start": "concurrently \"cd backend && node server.js\" \"react-scripts start\"",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test-init": "./node_modules/jasmine/bin/jasmine.js init",
     "test": "jest test/*.spec.js",
