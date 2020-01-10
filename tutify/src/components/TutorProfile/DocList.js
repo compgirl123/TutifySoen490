@@ -46,7 +46,13 @@ class DocList extends React.Component {
       .then(res => res.json())
       .then(res => {
         //console.log(res.file);
-        this.setState({ files: res.file });
+        if (res.isLoggedIn) {
+          this.setState({ files: res.file });
+        }
+        else{
+          this.setState({ files: [] });
+        }
+        
     })
     .catch(err => console.log(err));
   }
