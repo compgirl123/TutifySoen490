@@ -14,25 +14,19 @@ exports.addUploadedFiles = async function (req, res) {
     var count = 0;
     var name_shortened = "";
 
-    /*console.log("HEY");
-    console.log(name);
-    console.log(name.split(".")[0]);
-    console.log(name.split(".")[1]);
-    console.log(name.split(".")[0].length);*/
     // Eventually, this will be implemented
-    /*if(name.split(".")[0].length > 50){
-       //console.log("HERE");
-       name_new=name.substring(0,50)+"."+name.split(".")[1];
+    if(name.split(".")[0].length > 25){
+       name_new = name.substring(0,25)+"."+name.split(".")[1];
     }
     else{
-        name_new = name;
-    }*/
-    //console.log(name_new);
+       name_new = name;
+    }
+
     uploaded_files.save(function (err) {
         UploadedFiles.findByIdAndUpdate(_id,
             {
                 $set: {
-                    "name": name,
+                    "name": name_new,
                     "adminTutor": adminTutor,
                     "encryptedname": filename,
                     "link": "http://localhost:3000/document/" + filename

@@ -17,6 +17,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import axios from 'axios';
 import Button from "@material-ui/core/Button";
+import GetAppIcon from '@material-ui/icons/GetApp';
+import DeleteIcon from '@material-ui/icons/Delete';
+import ShareIcon from '@material-ui/icons/Share';
 
 class DocList extends React.Component {
   constructor(props) {
@@ -229,6 +232,7 @@ async handleSubmit(event) {
                             <TableCell>Specific Students</TableCell>
                             <TableCell>Share to Button</TableCell>
                             <TableCell>Download File</TableCell>
+                            <TableCell>Remove File</TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
@@ -240,12 +244,11 @@ async handleSubmit(event) {
                       return (
                         <TableRow key={index}>
                           <td><a href={url}>{filename}</a></td>
-                          {/*<td><a href={`http://127.0.0.1:3001/api/files/${file.filename}`}>{file.filename}</a></td>*/}
                           <td>COMP 472</td>
                           <td>Kasthu</td>
-                          <td></td>
-                          {/*<p><td><Button type="button" variant="contained" className="submit" size="small" onClick={this.deleteFile.bind(this)} id={file._id}>Share</Button></td></p>*/}
-                          <td><a href={link}><Button type="button" variant="contained" className="submit" size="small" onClick={this.deleteFile.bind(this)} id={file._id}>Down</Button></a></td>
+                          <td><Button type="button" variant="contained" className="submit" size="small"><ShareIcon/></Button></td>
+                          <td><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon/></Button></td>
+                          <td><Button type="button" variant="contained" className="submit" size="small"><DeleteIcon/></Button></td>
                         </TableRow>
                       )
                     })}
