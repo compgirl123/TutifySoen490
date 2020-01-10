@@ -45,11 +45,13 @@ class DocList extends React.Component {
     fetch('http://localhost:3001/api/uploadFile')
       .then(res => res.json())
       .then(res => {
-        //console.log(res.file);
-        if (res.isLoggedIn) {
+        console.log(res);
+        if (res.file !== undefined) {
+          console.log("HERE");
           this.setState({ files: res.file });
         }
         else{
+          console.log("no HERE");
           this.setState({ files: [] });
         }
         
