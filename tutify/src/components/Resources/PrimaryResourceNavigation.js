@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import ResourceCard from './ResourceCard';
 import Grid from '@material-ui/core/Grid';
 
+// Defines the content of the tab panel
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -32,6 +33,7 @@ TabPanel.propTypes = {
     value: PropTypes.any.isRequired,
 };
 
+// Defines what content is shown based on index of selected tab
 function a11yProps(index) {
     return {
         id: `scrollable-auto-tab-${index}`,
@@ -48,6 +50,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+// Renders the actual navigation bar and dynamic content based on selected tab
 export default function PrimaryResourceNavigation() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
