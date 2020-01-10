@@ -53,8 +53,8 @@ class PrimaryResource extends React.Component {
                     <Typography variant="h2" component="h1" align="center" gutterBottom>
                         Resources and Tools
                     </Typography>
-                    <div className={classes.postSecLogo}>
-                        <img alt="postSecLogo" src={'https://24t9d72kcs873my15o9hr1pu-wpengine.netdna-ssl.com/wp-content/uploads/2017/09/student-productivity-toggl-702x526.jpg'} />
+                    <div className={classes.logo}>
+                        <img alt="logo" src={'https://www.clipartwiki.com/clipimg/full/257-2579818_teacher-clip-early-childhood-kids-learn-cartoon-png.png'} />
                     </div>
                     <PrimaryResourceNavigation />
                 </div>

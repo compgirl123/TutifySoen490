@@ -33,7 +33,7 @@ export const styles = theme => ({
       link: {
           textDecoration: 'none',
       },
-      postSecLogo: {
+      logo: {
         display: 'flex', 
         justifyContent:'center', 
         alignItems:'center',

@@ -83,6 +83,7 @@ export default function SecondaryResourceNavigation() {
                 <Typography variant="h2" component="h1" align="center" gutterBottom>
                     Studying Tools and Resources
                 </Typography>
+                <hr></hr>
                 <Grid container spacing={4}> 
                     <ResourceCard
                         image="https://static.wixstatic.com/media/b470fe_19d8658f20074eddb3fc739477259f4b~mv2.jpg"
@@ -108,6 +109,7 @@ export default function SecondaryResourceNavigation() {
                 <Typography variant="h2" component="h1" align="center" gutterBottom>
                     Writing Tools and Resources
                 </Typography>
+                <hr></hr>
                 <Grid container spacing={4}> 
                     <ResourceCard
                         image="https://static.wixstatic.com/media/b470fe_19d8658f20074eddb3fc739477259f4b~mv2.jpg"
@@ -133,6 +135,7 @@ export default function SecondaryResourceNavigation() {
                 <Typography variant="h2" component="h1" align="center" gutterBottom>
                     Learning Tools and Resources
                 </Typography>
+                <hr></hr>
                 <Grid container spacing={4}> 
                     <ResourceCard
                         image="https://static.wixstatic.com/media/b470fe_19d8658f20074eddb3fc739477259f4b~mv2.jpg"
@@ -158,6 +161,7 @@ export default function SecondaryResourceNavigation() {
                 <Typography variant="h2" component="h1" align="center" gutterBottom>
                     Post-Secondary Tools and Resources
                 </Typography>
+                <hr></hr>
                 <Grid container spacing={4}> 
                     <ResourceCard
                         image="https://static.wixstatic.com/media/b470fe_19d8658f20074eddb3fc739477259f4b~mv2.jpg"
@@ -183,6 +187,7 @@ export default function SecondaryResourceNavigation() {
                 <Typography variant="h2" component="h1" align="center" gutterBottom>
                     Health Tools and Resources
                 </Typography>
+                <hr></hr>
                 <Grid container spacing={4}> 
                     <ResourceCard
                         image="https://static.wixstatic.com/media/b470fe_19d8658f20074eddb3fc739477259f4b~mv2.jpg"
