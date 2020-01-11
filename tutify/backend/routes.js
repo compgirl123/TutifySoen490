@@ -10,6 +10,7 @@ var tutorController = require('./controllers/tutor.controller')
 var userController = require('./controllers/user.controller')
 var courseController = require('./controllers/course.controller')
 var filesController = require('./controllers/files.controller')
+var uploadedFilesController = require('./controllers/uploaded_files.controller')
 
 // -------- TUTOR ROUTES --------- // 
 
@@ -83,7 +84,7 @@ router.get('/getCourses', courseController.getCourses);
 
 // -------- Files ROUTES --------- // 
 
-router.get('/getFiles', filesController.getFiles);
+//router.get('/getFiles', filesController.getFiles);
 
 router.get('/getFile/:filename', filesController.getFile)
 // router.post('/uploadFiles', filesController.uploadFiles);
@@ -91,7 +92,8 @@ router.get('/getFile/:filename', filesController.getFile)
 //     res.redirect("/uploadingDocs");
 // });
 
-
 router.post("/files/del/:id", filesController.deleteFile);
+router.get('/uploadFile', uploadedFilesController.populateUploadedFiles);
+router.get('/deletelistitem', uploadedFilesController.deleteUploadedFiles);
 
 module.exports = router;

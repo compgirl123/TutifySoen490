@@ -21,6 +21,10 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import CourseView from "./CourseView";
 import StudentSelection from "./StudentSelection";
+import GetAppIcon from '@material-ui/icons/GetApp';
+import DeleteIcon from '@material-ui/icons/Delete';
+import ShareIcon from '@material-ui/icons/Share';
+import swal from 'sweetalert';
 
 const options = [
     'All',
@@ -38,7 +42,7 @@ class DocList extends React.Component {
       files:[],
       data: [],
       filteredData: [],
-      placeholder: 'Share to',
+      placeholder: '',
       showDropDown: false,
       selectedIndex: 0,
       anchorEl: null,
@@ -55,6 +59,7 @@ class DocList extends React.Component {
 
   openDialog() {
     this.setState({ open: true });
+    this.deleteListItem = this.deleteListItem.bind(this);
   }
 
   toggleDrawer = booleanValue => () => {
@@ -152,18 +157,17 @@ handleChange(e) {
 
 
   async loadFiles() {
-    //fetch('http://localhost:3001/api/getFiles')
-    fetch('http://localhost:3001/api/populateUploadedFiles')
+    fetch('http://localhost:3001/api/uploadFile')
       .then(res => res.json())
-      .then(async (fetchedFiles) => {
-        //console.log(fetchedFiles);
-        if (fetchedFiles.message) {
-          console.log('No Files');
-          await this.setState({ files: [] });
-        } else {
-          await this.setState({ files: fetchedFiles.data });
+      .then(res => {
+        if (res.file !== undefined) {
+          this.setState({ files: res.file });
         }
-      });
+        else{
+          this.setState({ files: [] });
+        } 
+    })
+    .catch(err => console.log(err));
   }
 
   componentDidMount() {
@@ -213,7 +217,7 @@ handleChange(e) {
       students: this.state.students
     })
       .then((res) => {
-        console.log(res.data.data)
+        //console.log(res.data.data)
         this.setState({ students: res.data.data });
       }, (error) => {
         console.log(error);
@@ -228,7 +232,6 @@ handleChange(e) {
     });
   }
 
-
   deleteFile(event) {
     event.preventDefault();
     const id = event.target.id;
@@ -242,6 +245,47 @@ handleChange(e) {
         else alert('Delete Failed');
       })
   }
+
+  deleteListItem = () => {
+    swal({
+      title: "Are you sure you want delete this document?",
+      icon: "warning",
+      buttons: [true, "Yes"],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        console.log("deleted");
+        if(willDelete){
+          fetch('http://localhost:3001/api/deleteUploadedFiles')
+          .then(res => res.json())
+            .then(res => {
+              console.log(res);
+              /*if (res.file !== undefined) {
+                this.setState({ files: res.file });
+              }
+              else{
+                this.setState({ files: [] });
+              } */
+          })
+        .catch(err => console.log(err));  
+        }
+        
+        /*if (willDelete) {
+          axios.post('http://localhost:3001/api/deleteEvent', {
+            event_id: id,
+            tutor_id: this.state.tutor_id
+          })
+            .then((res) => {
+              this.setState({ events: res.data.userInfo.events });
+              this.populateEvents();
+            }, (error) => {
+              console.log(error);
+            });
+          swal("Event successfully deleted!", "", "success")
+      }*/
+      });
+  };
+
   updateTutorOptions = () => {
     var updatedProfileValues = [
       this.state.updatedProgramOfStudy,
@@ -304,7 +348,7 @@ handleChange(e) {
 async handleSubmit(event) {
   event.preventDefault();
   const formData = new FormData();
-  console.log(this.state.file);
+  //console.log(this.state.file);
   formData.append('file', this.state.file);
   formData.append('adminTutor', this.state.user_id);
   formData.append('name', this.state.file.name);
@@ -335,7 +379,8 @@ getCourses = () => {
     const { anchorEl } = this.state;
     const { selectedIndex, courses, students} = this.state;
     const { classes } = this.props;
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    const { files } = this.state;
+    const fixedHeightPaper = clsx(classes.paper);
 
     return (
       <React.Fragment>
@@ -363,15 +408,24 @@ getCourses = () => {
                             <TableCell>Specific Students</TableCell>
                             <TableCell>Share</TableCell>
                             <TableCell>Download File</TableCell>
+                            <TableCell>Remove File</TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                        <TableRow>
+                        {files.map((file, index) => {
+                      //var d = new Date(file.uploadDate);
+                      var filename = file.name;
+                      var url = file.url
+                      var link = file.link
+                      return (
+                        <TableRow key={index}>
+                          <td><a href={url}>{filename}</a></td>
                           <td>COMP 472</td>
                           <td>Kasthu</td>
-                          <td>COMP 472</td>
+                          {/*<td><Button type="button" variant="contained" className="submit" size="small"><ShareIcon/></Button></td>*/}
                           <td><Grid item sm={6}>
                                     <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClickMenu} variant="outlined">
+                                    <ShareIcon/>
                                         {this.state.placeholder}
                                     </Button>
                                     <Menu
@@ -397,15 +451,18 @@ getCourses = () => {
                                     </Menu>
                                 </Grid>
                                 <Grid item sm={6}>
-                                    {this.state.isCoursesSelected ?
+                                    {/*{this.state.isCoursesSelected ?
                                         <CourseView courses={courses} handleSelection={this.handleSelection} onClick={this.openDialog.bind(this)} /> : <></>
                                     }
                                     {this.state.isStudentsSelected ?
                                         <StudentSelection students={students} handleSelection={this.handleSelection} /> : <></>
-                                    }                                  
+                                    } */}                                 
                                 </Grid></td>
-                          <td>COMP 472</td>
+                          <td><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon/></Button></td>
+                          <td><Button type="button" variant="contained" className="submit" size="small" onClick={e => this.deleteListItem()} ><DeleteIcon/></Button></td>
                         </TableRow>
+                      )
+                    })}
                         </TableBody>
                       </Table>
                       <div className={classes.seeMore}>
