@@ -9,7 +9,7 @@ import PrimaryResourceNavigation from './PrimaryResourceNavigation';
 import SecondaryResourceNavigation from './SecondaryResourceNavigation';
 
 
-class PostSecondaryResource extends React.Component {
+class ResourcePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -68,8 +68,8 @@ class PostSecondaryResource extends React.Component {
                         <img alt="logo" src={this.imgForLevel()} />
                     </div>
                     {primary ?  <PrimaryResourceNavigation /> : <></>}
-                    {secondary ?  <PostSecResourceNavigation /> : <></>}
-                    {postsecondary ?  <SecondaryResourceNavigation /> : <></>}
+                    {postsecondary ?  <PostSecResourceNavigation /> : <></>}
+                    {secondary ?  <SecondaryResourceNavigation /> : <></>}
                 </div>
                 <Footer />
             </React.Fragment>
@@ -77,4 +77,4 @@ class PostSecondaryResource extends React.Component {
     }
 }
 
-export default withStyles(ResourcesStyles.styles, { withTheme: true })(PostSecondaryResource);
+export default withStyles(ResourcesStyles.styles, { withTheme: true })(ResourcePage);

@@ -22,7 +22,7 @@ class ResourceCard extends React.Component {
         const { classes } = this.props;
         return (
             <React.Fragment>
-                <a target="_blank" className={classes.link} href={this.state.link}>
+                <a target="_blank" rel="noopener noreferrer" className={classes.link} href={this.state.link}>
                     <Card className={classes.card}>
                         <CardActionArea>
                             <CardMedia
