@@ -61,11 +61,11 @@ class ResourcePage extends React.Component {
             <React.Fragment>
                 <DashBoardNavBar />
                 <div className={classes.divContainer}>
-                    <Typography variant="h2" component="h1" align="center" gutterBottom>
-                        Resources and Tools
+                    <div className={classes.logo} >
+                    <Typography variant="h2" component="h1" style={{marginRight: '20px'}} gutterBottom>
+                        Tools and Resources
                     </Typography>
-                    <div className={classes.logo}>
-                        <img alt="logo" src={this.imgForLevel()} />
+                        <img alt="logo" src={this.imgForLevel()}/>
                     </div>
                     {primary ?  <PrimaryResourceNavigation /> : <></>}
                     {postsecondary ?  <PostSecResourceNavigation /> : <></>}
