@@ -19,7 +19,6 @@ import axios from 'axios';
 import Button from "@material-ui/core/Button";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import DeleteIcon from '@material-ui/icons/Delete';
-import ShareIcon from '@material-ui/icons/Share';
 import swal from 'sweetalert';
 
 /*const options = [
