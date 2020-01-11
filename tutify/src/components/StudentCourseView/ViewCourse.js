@@ -31,7 +31,7 @@ export class ViewCourse extends React.Component {
     }
     
     checkSession = () => {
-        fetch('http://localhost:3001/api/checkSession', {
+        fetch('/api/checkSession', {
           method: 'GET',
           credentials: 'include'
         })
@@ -50,7 +50,7 @@ export class ViewCourse extends React.Component {
   
     // Uses our backend api to fetch the courses from our database
     getDataFromDb = () => {
-        fetch('http://localhost:3001/api/getUserCourses', {
+        fetch('/api/getUserCourses', {
         method: 'GET',
         credentials: 'include'
         })

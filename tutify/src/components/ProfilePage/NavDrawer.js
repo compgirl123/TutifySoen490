@@ -20,7 +20,7 @@ export class NavDrawer extends React.Component {
   }
 
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession', {
+    fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
     })

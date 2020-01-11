@@ -94,7 +94,7 @@ class NewCalendar extends React.Component {
 
 
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession', {
+    fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
     })
@@ -114,7 +114,7 @@ class NewCalendar extends React.Component {
     var newDates = [];
     var newEvents = [];
 
-    axios.post('http://localhost:3001/api/populateEvents', {
+    axios.post('/api/populateEvents', {
       events: this.state.events
     })
       .then((res) => {
@@ -145,7 +145,7 @@ class NewCalendar extends React.Component {
       var newLocation = "@ " + this.state.location;
     }
 
-    axios.post('http://localhost:3001/api/addEvent', {
+    axios.post('/api/addEvent', {
       events: this.state.events,
       tutor_id: this.state.tutor_id,
       description: this.state.description,
@@ -185,7 +185,7 @@ class NewCalendar extends React.Component {
   };
 
   deleteEvent = (id) => {
-    axios.post('http://localhost:3001/api/deleteEvent', {
+    axios.post('/api/deleteEvent', {
       event_id: id,
       tutor_id: this.state.tutor_id
     })

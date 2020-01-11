@@ -61,7 +61,6 @@
   "scripts": {
     "start": "DANGEROUSLY_DISABLE_HOST_CHECK=true react-scripts start",
     "build": "react-scripts build",
-    "test-init": "./node_modules/jasmine/bin/jasmine.js init",
     "test": "jest test/*.spec.js",
     "eject": "react-scripts eject"
   },

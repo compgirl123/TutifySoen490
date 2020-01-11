@@ -27,7 +27,7 @@ class Sidebar extends Component {
   }
 
   handleChange(event) {
-    fetch('http://localhost:3001/api/logout', {
+    fetch('/api/logout', {
       method: 'GET',
       credentials: 'include'
     })

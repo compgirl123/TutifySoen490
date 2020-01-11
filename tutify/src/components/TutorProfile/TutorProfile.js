@@ -39,7 +39,7 @@ class TutorProfile extends React.Component {
   }
 
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession', {
+    fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
     })
@@ -57,7 +57,7 @@ class TutorProfile extends React.Component {
 
 
   handleChange(event) {
-    fetch('http://localhost:3001/api/logout', {
+    fetch('/api/logout', {
       method: 'GET',
       credentials: 'include'
     })

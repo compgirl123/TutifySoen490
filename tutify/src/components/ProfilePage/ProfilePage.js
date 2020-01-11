@@ -35,7 +35,7 @@ class ProfilePage extends React.Component {
   }
 
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession', {
+    fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
     })
@@ -58,7 +58,7 @@ class ProfilePage extends React.Component {
   };
 
   getUserCourses = () => {
-    fetch('http://localhost:3001/api/getUserCourses', {
+    fetch('/api/getUserCourses', {
         method: 'GET',
         credentials: 'include'
     })
@@ -71,7 +71,7 @@ class ProfilePage extends React.Component {
   }
 
   handleChange(event) {
-    fetch('http://localhost:3001/api/logout', {
+    fetch('/api/logout', {
       method: 'GET',
       credentials: 'include'
     })

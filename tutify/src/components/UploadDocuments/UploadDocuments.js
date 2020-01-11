@@ -28,7 +28,7 @@ export class UploadDocuments extends Component {
     this.loadFiles();
   }
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession', {
+    fetch('/api/checkSession', {
         method: 'GET',
         credentials: 'include'
     })
@@ -45,7 +45,7 @@ export class UploadDocuments extends Component {
   };
 
   async loadFiles() {
-    fetch('http://localhost:3001/api/getFiles')
+    fetch('/api/getFiles')
       .then(res => res.json())
       .then(async (fetchedFiles) => {
         //console.log(fetchedFiles);
@@ -104,7 +104,7 @@ export class UploadDocuments extends Component {
         }
       }
     }
-    axios.post('http://localhost:3001/api/updateTutorInfo', {
+    axios.post('/api/updateTutorInfo', {
       _id: this.state._id,
       program_of_study: updatedProfileValues[0],
       school: updatedProfileValues[1],
@@ -146,7 +146,7 @@ async handleSubmit(event) {
   formData.append('file', this.state.file);
   formData.append('adminTutor', this.state.user_id);
   formData.append('name', this.state.file.name);
-  axios.post("http://localhost:3001/api/testUpload", formData).then(res => {
+  axios.post('/api/testUpload', formData).then(res => {
       console.log(res)
   }).catch(err => {
     console.log(err);
