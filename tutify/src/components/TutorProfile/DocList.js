@@ -405,9 +405,9 @@ getCourses = () => {
                           <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell>Course</TableCell>
-                            <TableCell>Specific Students</TableCell>
-                            <TableCell>Share</TableCell>
-                            <TableCell>Download File</TableCell>
+                            <TableCell>Share to Specific Course</TableCell>
+                            <TableCell>Share to Specific Student</TableCell>
+                            <TableCell>Dowload</TableCell>
                             <TableCell>Remove File</TableCell>
                           </TableRow>
                         </TableHead>
@@ -417,49 +417,16 @@ getCourses = () => {
                       var filename = file.name;
                       var url = file.url
                       var link = file.link
+                      var encrypted_file_name = file.encryptedname
                       return (
                         <TableRow key={index}>
                           <td><a href={url}>{filename}</a></td>
                           <td>COMP 472</td>
-                          <td>Kasthu</td>
-                          {/*<td><Button type="button" variant="contained" className="submit" size="small"><ShareIcon/></Button></td>*/}
-                          <td><Grid item sm={6}>
-                                    <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClickMenu} variant="outlined">
-                                    <ShareIcon/>
-                                        {this.state.placeholder}
-                                    </Button>
-                                    <Menu
-                                        id="lock-menu"
-                                        anchorEl={anchorEl}
-                                        keepMounted
-                                        className={classes.menu}
-                                        open={Boolean(anchorEl)}
-                                        onClose={this.handleCloseMenu}
-                                        getContentAnchorEl={null}
-                                        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-                                        transformOrigin={{ vertical: "top", horizontal: "center" }}
-                                    >
-                                        {options.map((option, index) => (
-                                            <MenuItem
-                                                key={option}
-                                                selected={index === selectedIndex}
-                                                onClick={event => this.handleMenuItemClick(event, index)}
-                                            >
-                                                {option}
-                                            </MenuItem>
-                                        ))}
-                                    </Menu>
-                                </Grid>
-                                <Grid item sm={6}>
-                                    {/*{this.state.isCoursesSelected ?
-                                        <CourseView courses={courses} handleSelection={this.handleSelection} onClick={this.openDialog.bind(this)} /> : <></>
-                                    }
-                                    {this.state.isStudentsSelected ?
-                                        <StudentSelection students={students} handleSelection={this.handleSelection} /> : <></>
-                                    } */}                                 
-                                </Grid></td>
+                          <td><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("http://localhost:3000/tutorCourses?"+encrypted_file_name)} id={file._id}><ShareIcon/></Button></td>
+                          <td><Button type="button" variant="contained" className="submit" size="small"  onClick={() => window.open("http://localhost:3000/students")} id={file._id}><ShareIcon/></Button></td>
                           <td><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon/></Button></td>
                           <td><Button type="button" variant="contained" className="submit" size="small" onClick={e => this.deleteListItem()} ><DeleteIcon/></Button></td>
+            
                         </TableRow>
                       )
                     })}
