@@ -35,12 +35,7 @@ class ResourceLevels extends React.Component {
                 if (res.isLoggedIn) {
                     this.setState({
                         Toggle: true,
-                        _id: res.userInfo._id,
-                        todos: res.userInfo.todos,
-                        tutors: res.userInfo.tutors,
-                        notifications: res.userInfo.notifications
                     });
-                    this.getDataFromDb()
                 }
                 else {
                     this.setState({ Toggle: false });
@@ -61,7 +56,7 @@ class ResourceLevels extends React.Component {
                     </Typography>
                     <Container className={classes.container}>
                         <Grid container spacing={4}>
-                        <Link className={classes.link} to={'/primary'}>
+                        <Link className={classes.link} to={{ pathname: '/primary', state: { primary: true }}} >
                             <Card className={classes.ResCard}>
                                 <CardActionArea>
                                     <CardMedia
@@ -77,7 +72,7 @@ class ResourceLevels extends React.Component {
                                 </CardActionArea>
                             </Card>
                             </Link>
-                            <Link className={classes.link} to={'/secondary'}>
+                            <Link className={classes.link} to={{ pathname: '/secondary', state: { secondary: true }}} >
                             <Card className={classes.ResCard}>
                                 <CardActionArea>
                                     <CardMedia
@@ -93,7 +88,7 @@ class ResourceLevels extends React.Component {
                                 </CardActionArea>
                             </Card>
                             </Link>
-                            <Link className={classes.link} to={'/postsecondary'}>
+                            <Link className={classes.link} to={{ pathname: '/postsecondary', state: { postsecondary: true }}} >
                             <Card className={classes.ResCard}>
                                 <CardActionArea>
                                     <CardMedia
