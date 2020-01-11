@@ -417,8 +417,8 @@ getCourses = () => {
                         <TableRow key={index}>
                           <td><a href={url}>{filename}</a></td>
                           <td>COMP 472</td>
-                          <td><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("http://localhost:3000/tutorCourses?"+encrypted_file_name)} id={file._id}><ShareIcon/></Button></td>
-                          <td><Button type="button" variant="contained" className="submit" size="small"  onClick={() => window.open("http://localhost:3000/students")} id={file._id}><ShareIcon/></Button></td>
+                          <td><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("http://localhost:3000/tutorCourses?"+encrypted_file_name)} id={file._id}>test</Button></td>
+                          <td><Button type="button" variant="contained" className="submit" size="small"  onClick={() => window.open("http://localhost:3000/students")} id={file._id}>test</Button></td>
                           <td><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon/></Button></td>
                           <td><Button type="button" variant="contained" className="submit" size="small" onClick={e => this.deleteListItem()} ><DeleteIcon/></Button></td>
             
