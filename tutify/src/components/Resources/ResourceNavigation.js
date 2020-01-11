@@ -41,6 +41,27 @@ function a11yProps(index) {
     };
 }
 
+// returns a new array of resources based on the tab category
+function filteredRes(index, res) {
+    if (index === 0)
+        return res
+
+    if (index === 1)
+        return res.filter(res => res.category === "Studying");
+
+    if (index === 2)
+        return res.filter(res => res.category === "Writing");
+
+    if (index === 3)
+        return res.filter(res => res.category === "Learning");
+
+    if (index === 4)
+        return res.filter(res => res.category === "Career");
+
+    if (index === 5)
+        return res.filter(res => res.category === "Financial");
+
+}
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -51,7 +72,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 // Renders the actual navigation bar and dynamic content based on selected tab
-export default function PostSecResourceNavigation() {
+export default function ResourceNavigation(props) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
@@ -80,33 +101,33 @@ export default function PostSecResourceNavigation() {
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-                Coming soon...
+                <Grid container spacing={4}>
+                    {filteredRes(0, props.res).map((ressource, i) => (
+                        <ResourceCard
+                            id={i}
+                            image={ressource.img}
+                            title={ressource.title}
+                            description={ressource.desc}
+                            link={ressource.link}
+                        />
+                    ))}
+                </Grid>
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <Typography variant="h2" component="h1" align="center" gutterBottom>
                     Studying Tools and Resources
                 </Typography>
                 <hr></hr>
-                <Grid container spacing={4}> 
-                    <ResourceCard
-                        image="http://www.tomatotimers.com/assets/images/logo.svg"
-                        title='Pomodoro for Studying Efficiently'
-                        description='The Pomodoro Technique is a time management method that can be used for any task. For many people, time is an enemy. The anxiety triggered by “the ticking clock”, especially when it involves a deadline, leads to ineffective work and study habits which in turn lead to procrastination.
-                        The aim of the Pomodoro Technique is to use time as a valuable ally in accomplishing what we want to do in the way we want to do it, and to enable us to improve continually the way we work or study.'
-                        link='http://www.tomatotimers.com/'
-                    />
-                    <ResourceCard
-                        image="https://youthincmag.com/wp-content/uploads/2018/01/education-tools.jpg"
-                        title='Study Smarter'
-                        description='Do you ever feel like your study habits simply aren’t cutting it? Do you wonder what you could be doing to perform better in class and on exams? Many students realize that their high school study habits aren’t very effective in college. This handout offers several tips on effective studying. Implementing these tips into your regular study routine will help you to efficiently and effectively learn course material. Experiment with them and find some that work for you.'
-                        link='https://learningcenter.unc.edu/tips-and-tools/studying-101-study-smarter-not-harder/'
-                    />
-                    <ResourceCard
-                        image="https://static.wixstatic.com/media/b470fe_19d8658f20074eddb3fc739477259f4b~mv2.jpg"
-                        title='Resource Title'
-                        description='Resource Description'
-                        link='www.google.com'
-                    />
+                <Grid container spacing={4}>
+                    {filteredRes(1, props.res).map((ressource, i) => (
+                        <ResourceCard
+                            id={i}
+                            image={ressource.img}
+                            title={ressource.title}
+                            description={ressource.desc}
+                            link={ressource.link}
+                        />
+                    ))}
                 </Grid>
             </TabPanel>
             <TabPanel value={value} index={2}>
@@ -114,25 +135,16 @@ export default function PostSecResourceNavigation() {
                     Writing Tools and Resources
                 </Typography>
                 <hr></hr>
-                <Grid container spacing={4}> 
-                    <ResourceCard
-                        image="https://static.wixstatic.com/media/b470fe_19d8658f20074eddb3fc739477259f4b~mv2.jpg"
-                        title='Resource Title'
-                        description='Resource Description'
-                        link='www.google.com'
-                    />
-                    <ResourceCard
-                        image="https://static.wixstatic.com/media/b470fe_19d8658f20074eddb3fc739477259f4b~mv2.jpg"
-                        title='Resource Title'
-                        description='Resource Description'
-                        link='www.google.com'
-                    />
-                    <ResourceCard
-                        image="https://static.wixstatic.com/media/b470fe_19d8658f20074eddb3fc739477259f4b~mv2.jpg"
-                        title='Resource Title'
-                        description='Resource Description'
-                        link='www.google.com'
-                    />
+                <Grid container spacing={4}>
+                    {filteredRes(2, props.res).map((ressource, i) => (
+                        <ResourceCard
+                            id={i}
+                            image={ressource.img}
+                            title={ressource.title}
+                            description={ressource.desc}
+                            link={ressource.link}
+                        />
+                    ))}
                 </Grid>
             </TabPanel>
             <TabPanel value={value} index={3}>
@@ -140,25 +152,16 @@ export default function PostSecResourceNavigation() {
                     Learning Tools and Resources
                 </Typography>
                 <hr></hr>
-                <Grid container spacing={4}> 
-                    <ResourceCard
-                        image="https://static.wixstatic.com/media/b470fe_19d8658f20074eddb3fc739477259f4b~mv2.jpg"
-                        title='Resource Title'
-                        description='Resource Description'
-                        link='www.google.com'
-                    />
-                    <ResourceCard
-                        image="https://static.wixstatic.com/media/b470fe_19d8658f20074eddb3fc739477259f4b~mv2.jpg"
-                        title='Resource Title'
-                        description='Resource Description'
-                        link='www.google.com'
-                    />
-                    <ResourceCard
-                        image="https://static.wixstatic.com/media/b470fe_19d8658f20074eddb3fc739477259f4b~mv2.jpg"
-                        title='Resource Title'
-                        description='Resource Description'
-                        link='www.google.com'
-                    />
+                <Grid container spacing={4}>
+                    {filteredRes(3, props.res).map((ressource, i) => (
+                        <ResourceCard
+                            id={i}
+                            image={ressource.img}
+                            title={ressource.title}
+                            description={ressource.desc}
+                            link={ressource.link}
+                        />
+                    ))}
                 </Grid>
             </TabPanel>
             <TabPanel value={value} index={4}>
@@ -166,25 +169,16 @@ export default function PostSecResourceNavigation() {
                     Career Tools and Resources
                 </Typography>
                 <hr></hr>
-                <Grid container spacing={4}> 
-                    <ResourceCard
-                        image="https://static.wixstatic.com/media/b470fe_19d8658f20074eddb3fc739477259f4b~mv2.jpg"
-                        title='Resource Title'
-                        description='Resource Description'
-                        link='www.google.com'
-                    />
-                    <ResourceCard
-                        image="https://static.wixstatic.com/media/b470fe_19d8658f20074eddb3fc739477259f4b~mv2.jpg"
-                        title='Resource Title'
-                        description='Resource Description'
-                        link='www.google.com'
-                    />
-                    <ResourceCard
-                        image="https://static.wixstatic.com/media/b470fe_19d8658f20074eddb3fc739477259f4b~mv2.jpg"
-                        title='Resource Title'
-                        description='Resource Description'
-                        link='www.google.com'
-                    />
+                <Grid container spacing={4}>
+                    {filteredRes(4, props.res).map((ressource, i) => (
+                        <ResourceCard
+                            id={i}
+                            image={ressource.img}
+                            title={ressource.title}
+                            description={ressource.desc}
+                            link={ressource.link}
+                        />
+                    ))}
                 </Grid>
             </TabPanel>
             <TabPanel value={value} index={5}>
@@ -192,25 +186,16 @@ export default function PostSecResourceNavigation() {
                     Financial Tools and Resources
                 </Typography>
                 <hr></hr>
-                <Grid container spacing={4}> 
-                    <ResourceCard
-                        image="https://static.wixstatic.com/media/b470fe_19d8658f20074eddb3fc739477259f4b~mv2.jpg"
-                        title='Resource Title'
-                        description='Resource Description'
-                        link='www.google.com'
-                    />
-                    <ResourceCard
-                        image="https://static.wixstatic.com/media/b470fe_19d8658f20074eddb3fc739477259f4b~mv2.jpg"
-                        title='Resource Title'
-                        description='Resource Description'
-                        link='www.google.com'
-                    />
-                    <ResourceCard
-                        image="https://static.wixstatic.com/media/b470fe_19d8658f20074eddb3fc739477259f4b~mv2.jpg"
-                        title='Resource Title'
-                        description='Resource Description'
-                        link='www.google.com'
-                    />
+                <Grid container spacing={4}>
+                    {filteredRes(5, props.res).map((ressource, i) => (
+                        <ResourceCard
+                            id={i}
+                            image={ressource.img}
+                            title={ressource.title}
+                            description={ressource.desc}
+                            link={ressource.link}
+                        />
+                    ))}
                 </Grid>
             </TabPanel>
         </div>
