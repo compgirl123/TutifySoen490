@@ -237,7 +237,8 @@ var UploadedFiles = mongoose.model('UploadedFiles', new mongoose.Schema({
     //{ type: Schema.Types.ObjectId, ref: 'Student' }
     // for testing purposes only temporary.
     // Kasthurie: implement option for tutor to share stuff.
-  ]
+  ],
+  uploadDate: Date
 }), "uploaded_files");
 
 

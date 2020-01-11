@@ -29,7 +29,8 @@ exports.addUploadedFiles = async function (req, res) {
                     "name": name_new,
                     "adminTutor": adminTutor,
                     "encryptedname": filename,
-                    "link": "http://localhost:3000/document/" + filename
+                    "link": "http://localhost:3000/document/" + filename,
+                    "uploadDate": new Date()
                 },
                 $push: {
                     // for now, just added tests, will add actual id's eventually
@@ -66,7 +67,7 @@ exports.populateUploadedFiles = async function (req, res) {
 
 // this method deletes uploaded files from db.
 exports.deleteUploadedFiles = async function (req, res) {
-    console.log("heyhey")
+    //console.log("heyhey")
     // TO DO
     /*UploadedFiles.find({ adminTutor: tutor_id }, function (err, uploaded_docs) {
         return res.json({ success: true, file: uploaded_docs });
