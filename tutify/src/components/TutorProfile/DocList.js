@@ -19,7 +19,6 @@ import axios from 'axios';
 import Button from "@material-ui/core/Button";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import DeleteIcon from '@material-ui/icons/Delete';
-import ShareIcon from '@material-ui/icons/Share';
 import swal from 'sweetalert';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
@@ -421,9 +420,11 @@ getCourses = () => {
                         <TableRow key={index}>
                           <td><a href={url}>{filename}</a></td>
                           <td>COMP 472</td>
+
                           <td>Jan 11th, 2020</td>
                           <td><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("http://localhost:3000/tutorCourses?"+encrypted_file_name)} id={file._id}><MenuBookIcon/></Button></td>
                           <td><Button type="button" variant="contained" className="submit" size="small"  onClick={() => window.open("http://localhost:3000/students")} id={file._id}><GroupAddIcon/></Button></td>
+
                           <td><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon/></Button></td>
                           <td><Button type="button" variant="contained" className="submit" size="small" onClick={e => this.deleteListItem()} ><DeleteIcon/></Button></td>
             
