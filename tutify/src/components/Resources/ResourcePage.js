@@ -3,7 +3,6 @@ import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
 import Footer from '../Footer';
 import * as ResourcesStyles from '../../styles/Resources-styles';
 import { withStyles } from "@material-ui/core/styles";
-import Typography from '@material-ui/core/Typography';
 import ResourceNavigation from './ResourceNavigation';
 
 
@@ -48,6 +47,27 @@ class ResourcePage extends React.Component {
                     link: 'https://learningcenter.unc.edu/tips-and-tools/studying-101-study-smarter-not-harder/',
                     category: "Learning",
                 },
+                {
+                    img: "https://miro.medium.com/max/1200/0*UEtwA2ask7vQYW06.png",
+                    title: 'Stack Overflow - Coding questions',
+                    desc: 'Stack Overflow is an open community for anyone that codes. We help you get answers to your toughest coding questions, share knowledge with your coworkers in private, and find your next dream job.',
+                    link: 'https://stackoverflow.com/',
+                    category: "Learning",
+                },
+                {
+                    img: "https://is5-ssl.mzstatic.com/image/thumb/Purple128/v4/d0/d3/5e/d0d35e99-cc11-9a0a-63e3-e023d36b955a/WolframAlpha-AppIcon-1x_U007emarketing-0-0-GLES2_U002c0-512MB-sRGB-0-0-0-85-220-0-0-0-4.png/1200x630wa.png",
+                    title: 'Wolfram Alpha',
+                    desc: "Compute expert-level answers using Wolfram’s breakthrough algorithms, knowledgebase and AI technology",
+                    link: 'https://www.wolframalpha.com/',
+                    category: "Learning",
+                },
+                {
+                    img: "https://www.headspace.com/static/images/logo.svg",
+                    title: 'HeadSpace',
+                    desc: "Manage your stress and anxiety for a healthier and happier self.",
+                    link: 'https://www.headspace.com/',
+                    category: "Health",
+                },
             ],
         };
     }
@@ -76,12 +96,27 @@ class ResourcePage extends React.Component {
     };
 
     imgForLevel = () => {
-        if (this.props.location.state.primary)
-            return 'https://www.clipartwiki.com/clipimg/full/257-2579818_teacher-clip-early-childhood-kids-learn-cartoon-png.png'
-        if (this.props.location.state.secondary)
-            return 'https://24t9d72kcs873my15o9hr1pu-wpengine.netdna-ssl.com/wp-content/uploads/2017/09/student-productivity-toggl-702x526.jpg'
         if (this.props.location.state.postsecondary)
-            return 'https://24t9d72kcs873my15o9hr1pu-wpengine.netdna-ssl.com/wp-content/uploads/2017/09/student-productivity-toggl-702x526.jpg'
+            return {
+                justifyContent:'center', 
+                alignItems:'center',
+                minHeight: '450px',
+                backgroundImage: 'url("https://24t9d72kcs873my15o9hr1pu-wpengine.netdna-ssl.com/wp-content/uploads/2018/08/student-productivity-toggl-460x275.jpg")'
+            }
+        if (this.props.location.state.secondary)
+            return {
+                minHeight: '450px',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+                backgroundImage: 'url("https://westminsterlincoln.org/wp-content/uploads/2018/07/Cornwal-Public-Library-Book-Stack-Header.jpg")'
+            }
+        if (this.props.location.state.primary)
+            return {
+                minHeight: '450px',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+                backgroundImage: 'url("https://images.squarespace-cdn.com/content/v1/57b93284e4fcb5fdb2aa62c0/1477843411111-R1TYUZHFJ00HAM46RF8Q/ke17ZwdGBToddI8pDm48kDxhhhwBddJ9fDxYAvV-2zp7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0lfYLKn_Tkl3ql2udpuE0YVV890f3o8Id5G8tJhHvhmC6z2Yvz7ttIxB3b9uYcWrOg/Education+Banner.png?format=2500w")'
+            } 
     }
 
 
@@ -93,13 +128,11 @@ class ResourcePage extends React.Component {
         return (
             <React.Fragment>
                 <DashBoardNavBar />
-                <div className={classes.divContainer}>
-                    <div className={classes.logo} >
-                    <Typography variant="h2" component="h1" style={{marginRight: '20px'}} gutterBottom>
-                        Tools and Resources
-                    </Typography>
-                        <img alt="logo" src={this.imgForLevel()}/>
+                <div className={classes.logo} style={this.imgForLevel()} >
+                    <div style={{minHeight:'450px'}}>
                     </div>
+                </div>
+                <div>
                     {primary ? <ResourceNavigation res={primaryResources} /> : <></>}
                     {secondary ? <ResourceNavigation res={secondaryResources} /> : <></>}
                     {postsecondary ? <ResourceNavigation res={postsecResources} /> : <></>}

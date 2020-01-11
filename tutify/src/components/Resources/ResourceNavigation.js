@@ -59,7 +59,7 @@ function filteredRes(index, res) {
         return res.filter(res => res.category === "Career");
 
     if (index === 5)
-        return res.filter(res => res.category === "Financial");
+        return res.filter(res => res.category === "Health");
 
 }
 
@@ -97,10 +97,14 @@ export default function ResourceNavigation(props) {
                     <Tab label="Writing" {...a11yProps(2)} />
                     <Tab label="Learning" {...a11yProps(3)} />
                     <Tab label="Career" {...a11yProps(4)} />
-                    <Tab label="Financial" {...a11yProps(5)} />
+                    <Tab label="Health" {...a11yProps(5)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
+                <Typography variant="h4" component="h1" align="center" gutterBottom>
+                    Tools and Resources
+                </Typography>
+                <hr></hr>
                 <Grid container spacing={4}>
                     {filteredRes(0, props.res).map((ressource, i) => (
                         <ResourceCard
@@ -114,7 +118,7 @@ export default function ResourceNavigation(props) {
                 </Grid>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <Typography variant="h2" component="h1" align="center" gutterBottom>
+                <Typography variant="h4" component="h1" align="center" gutterBottom>
                     Studying Tools and Resources
                 </Typography>
                 <hr></hr>
@@ -131,7 +135,7 @@ export default function ResourceNavigation(props) {
                 </Grid>
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <Typography variant="h2" component="h1" align="center" gutterBottom>
+                <Typography variant="h4" component="h1" align="center" gutterBottom>
                     Writing Tools and Resources
                 </Typography>
                 <hr></hr>
@@ -148,7 +152,7 @@ export default function ResourceNavigation(props) {
                 </Grid>
             </TabPanel>
             <TabPanel value={value} index={3}>
-                <Typography variant="h2" component="h1" align="center" gutterBottom>
+                <Typography variant="h4" component="h1" align="center" gutterBottom>
                     Learning Tools and Resources
                 </Typography>
                 <hr></hr>
@@ -165,7 +169,7 @@ export default function ResourceNavigation(props) {
                 </Grid>
             </TabPanel>
             <TabPanel value={value} index={4}>
-                <Typography variant="h2" component="h1" align="center" gutterBottom>
+                <Typography variant="h4" component="h1" align="center" gutterBottom>
                     Career Tools and Resources
                 </Typography>
                 <hr></hr>
@@ -182,8 +186,8 @@ export default function ResourceNavigation(props) {
                 </Grid>
             </TabPanel>
             <TabPanel value={value} index={5}>
-                <Typography variant="h2" component="h1" align="center" gutterBottom>
-                    Financial Tools and Resources
+                <Typography variant="h4" component="h1" align="center" gutterBottom>
+                    Health Tools and Resources
                 </Typography>
                 <hr></hr>
                 <Grid container spacing={4}>

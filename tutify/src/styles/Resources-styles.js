@@ -33,11 +33,4 @@ export const styles = theme => ({
       link: {
           textDecoration: 'none',
       },
-      logo: {
-        display: 'flex', 
-        justifyContent:'center', 
-        alignItems:'center',
-        paddingBottom: theme.spacing(2),
-      },
-      
   });
