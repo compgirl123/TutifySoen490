@@ -14,7 +14,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import swal from 'sweetalert';
-import axios from "axios";
+//import axios from "axios";
 
 export class TutorCourses extends React.Component {
   constructor(props) {
@@ -63,10 +63,10 @@ export class TutorCourses extends React.Component {
       .catch(err => console.log(err));
   }
 
-  uploadCourse = (courseName) => {
-    axios.post('http://localhost:3001/api/assignCourse', {
+  uploadCourse = (e,courseName) => {
+    /*axios.post('http://localhost:3001/api/assignCourse', {
         course_id : this.state.courses
-    })
+    })*/
     swal("Succesfully uploaded document!", "", "success")
       .then((value) => {
             console.log(courseName);
@@ -114,8 +114,9 @@ export class TutorCourses extends React.Component {
                             Upload Doc
                           </Button>
                           {/* onClick={event => assignTutor(event, props.userId, props.tutor._id, url)}console.log(event.currentTarget)
-                        onClick={event => this.uploadCourse(event,this.props.course_id)}*/}
-                          <Button type="button" onClick={event => this.uploadCourse(c.course.name)} size="small" fullWidth className={c.course.name}>
+                        onClick={event => this.uploadCourse(event,this.props.course_id)}
+                        onClick={this.uploadCourse(c.course.name)}*/}
+                          <Button type="button" onClick={event =>this.uploadCourse(event,c.course.name)} size="small" fullWidth className="submit">
                             Upload Document
                           </Button>
                         </CardActions>
