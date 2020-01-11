@@ -416,12 +416,13 @@ getCourses = () => {
                       var url = file.url
                       var link = file.link
                       var encrypted_file_name = file.encryptedname
+                      var uploadDate = file.uploadDate
                       return (
                         <TableRow key={index}>
                           <td><a href={url}>{filename}</a></td>
                           <td>COMP 472</td>
 
-                          <td>Jan 11th, 2020</td>
+                          <td>{uploadDate}</td>
                           <td><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("http://localhost:3000/tutorCourses?"+encrypted_file_name)} id={file._id}><MenuBookIcon/></Button></td>
                           <td><Button type="button" variant="contained" className="submit" size="small"  onClick={() => window.open("http://localhost:3000/students")} id={file._id}><GroupAddIcon/></Button></td>
 
