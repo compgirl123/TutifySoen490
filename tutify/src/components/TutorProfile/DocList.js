@@ -20,6 +20,7 @@ import Button from "@material-ui/core/Button";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ShareIcon from '@material-ui/icons/Share';
+import swal from 'sweetalert';
 
 class DocList extends React.Component {
   constructor(props) {
@@ -31,6 +32,7 @@ class DocList extends React.Component {
     };
     this.loadFiles = this.loadFiles.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.deleteListItem = this.deleteListItem.bind(this);
   }
 
   toggleDrawer = booleanValue => () => {
@@ -39,22 +41,16 @@ class DocList extends React.Component {
     });
   };
 
-
   async loadFiles() {
-    //fetch('http://localhost:3001/api/getFiles')
     fetch('http://localhost:3001/api/uploadFile')
       .then(res => res.json())
       .then(res => {
-        console.log(res);
         if (res.file !== undefined) {
-          console.log("HERE");
           this.setState({ files: res.file });
         }
         else{
-          console.log("no HERE");
           this.setState({ files: [] });
-        }
-        
+        } 
     })
     .catch(err => console.log(err));
   }
@@ -120,7 +116,6 @@ class DocList extends React.Component {
     });
   }
 
-
   deleteFile(event) {
     event.preventDefault();
     const id = event.target.id;
@@ -134,6 +129,47 @@ class DocList extends React.Component {
         else alert('Delete Failed');
       })
   }
+
+  deleteListItem = () => {
+    swal({
+      title: "Are you sure you want delete this document?",
+      icon: "warning",
+      buttons: [true, "Yes"],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        console.log("deleted");
+        if(willDelete){
+          fetch('http://localhost:3001/api/deleteUploadedFiles')
+          .then(res => res.json())
+            .then(res => {
+              console.log(res);
+              /*if (res.file !== undefined) {
+                this.setState({ files: res.file });
+              }
+              else{
+                this.setState({ files: [] });
+              } */
+          })
+        .catch(err => console.log(err));  
+        }
+        
+        /*if (willDelete) {
+          axios.post('http://localhost:3001/api/deleteEvent', {
+            event_id: id,
+            tutor_id: this.state.tutor_id
+          })
+            .then((res) => {
+              this.setState({ events: res.data.userInfo.events });
+              this.populateEvents();
+            }, (error) => {
+              console.log(error);
+            });
+          swal("Event successfully deleted!", "", "success")
+      }*/
+      });
+  };
+
   updateTutorOptions = () => {
     var updatedProfileValues = [
       this.state.updatedProgramOfStudy,
@@ -256,7 +292,7 @@ async handleSubmit(event) {
                           <td>Kasthu</td>
                           <td><Button type="button" variant="contained" className="submit" size="small"><ShareIcon/></Button></td>
                           <td><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon/></Button></td>
-                          <td><Button type="button" variant="contained" className="submit" size="small"><DeleteIcon/></Button></td>
+                          <td><Button type="button" variant="contained" className="submit" size="small" onClick={e => this.deleteListItem()} ><DeleteIcon/></Button></td>
                         </TableRow>
                       )
                     })}

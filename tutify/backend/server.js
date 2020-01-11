@@ -81,7 +81,7 @@ app.use('/public', express.static('public'));
 
 app.post('/uploadFile', upload.single('file'), uploadController.addUploadedFiles);
 app.get('/doclist', uploadController.populateUploadedFiles);
-
+app.get('/deletelistitem', uploadController.deleteUploadedFiles);
 
 // file upload requirements
 app.use(express.json());

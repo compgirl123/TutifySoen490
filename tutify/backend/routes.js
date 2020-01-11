@@ -94,5 +94,6 @@ router.get('/getFile/:filename', filesController.getFile)
 
 router.post("/files/del/:id", filesController.deleteFile);
 router.get('/uploadFile', uploadedFilesController.populateUploadedFiles);
+router.get('/deletelistitem', uploadedFilesController.deleteUploadedFiles);
 
 module.exports = router;

@@ -59,8 +59,16 @@ exports.populateUploadedFiles = async function (req, res) {
     });
 
     UploadedFiles.find({ adminTutor: tutor_id }, function (err, uploaded_docs) {
-        //console.log(uploaded_docs);
         return res.json({ success: true, file: uploaded_docs });
     });
 
+};
+
+// this method deletes uploaded files from db.
+exports.deleteUploadedFiles = async function (req, res) {
+    console.log("heyhey")
+    // TO DO
+    /*UploadedFiles.find({ adminTutor: tutor_id }, function (err, uploaded_docs) {
+        return res.json({ success: true, file: uploaded_docs });
+    });*/
 };
