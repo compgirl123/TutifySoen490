@@ -13,7 +13,8 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
-
+import swal from 'sweetalert';
+import axios from "axios";
 
 export class TutorCourses extends React.Component {
   constructor(props) {
@@ -48,6 +49,7 @@ export class TutorCourses extends React.Component {
       .catch(err => console.log(err));
   };
 
+
   // Uses our backend api to fetch the courses from our database
   getDataFromDb = () => {
     fetch('http://localhost:3001/api/getTutorCourses', {
@@ -60,10 +62,23 @@ export class TutorCourses extends React.Component {
       })
       .catch(err => console.log(err));
   }
+
+  uploadCourse = (courseName) => {
+    axios.post('http://localhost:3001/api/assignCourse', {
+        course_id : this.state.courses
+    })
+    swal("Succesfully uploaded document!", "", "success")
+      .then((value) => {
+            console.log(courseName);
+           //window.location = this.state.courses
+          //window.location = url;
+      });
+  }
+
   render() {
     const { classes } = this.props;
     const { courses } = this.state;
-
+ 
     return (
       <Paper className={classes.paper}>
         <React.Fragment>
@@ -98,8 +113,10 @@ export class TutorCourses extends React.Component {
                         <Button type="button" size="small" href = "" fullWidth className="submit">
                             Upload Doc
                           </Button>
-                          <Button type="button"  size="small" href = "/TutorCourseView" fullWidth className="submit">
-                            View Students
+                          {/* onClick={event => assignTutor(event, props.userId, props.tutor._id, url)}console.log(event.currentTarget)
+                        onClick={event => this.uploadCourse(event,this.props.course_id)}*/}
+                          <Button type="button" onClick={event => this.uploadCourse(c.course.name)} size="small" fullWidth className={c.course.name}>
+                            Upload Document
                           </Button>
                         </CardActions>
                       </Card>
