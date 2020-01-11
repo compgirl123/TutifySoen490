@@ -16,6 +16,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import axios from 'axios';
+import Checkbox from '@material-ui/core/Checkbox';
+import Button from "@material-ui/core/Button";
 
 export class StudentList extends React.Component {
   constructor(props) {
@@ -35,6 +37,7 @@ export class StudentList extends React.Component {
   componentDidMount() {
     this.checkSession();
   }
+  
 
   checkSession = () => {
     fetch('http://localhost:3001/api/checkSession', {
@@ -71,7 +74,9 @@ export class StudentList extends React.Component {
   render() {
     const { classes } = this.props;
     const { students } = this.state;
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    const fixedHeightPaper = clsx(classes.paper);
+
+    
 
     return (
       <React.Fragment>
@@ -99,6 +104,7 @@ export class StudentList extends React.Component {
                             <TableCell>Program</TableCell>
                             <TableCell>School</TableCell>
                             <TableCell>Level of Education</TableCell>
+                            <TableCell>Select student</TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
@@ -109,6 +115,7 @@ export class StudentList extends React.Component {
                               <TableCell>{student.program_of_study}</TableCell>
                               <TableCell>{student.school}</TableCell>
                               <TableCell>{student.education_level}</TableCell>
+                              <TableCell><Checkbox value="uncontrolled" inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
@@ -124,8 +131,11 @@ export class StudentList extends React.Component {
                   </Paper>
                 </Grid>
               </Grid>
+              <p></p>
+              <Button type="button" variant="contained" size="small" className="submit">
+                  Send Document
+                </Button>
             </Container>
-
             {/* Footer */}
             <Footer />
           </main>
