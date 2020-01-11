@@ -421,13 +421,6 @@ getCourses = () => {
                     })}
                         </TableBody>
                       </Table>
-                      <div className={classes.seeMore}>
-                        <p>
-                          <Link color="primary" href="/">
-                          See more
-                          </Link>
-                        </p>
-                      </div>
                     </React.Fragment>
                   </Paper>
                 </Grid>
