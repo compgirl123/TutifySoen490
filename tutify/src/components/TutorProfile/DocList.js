@@ -17,20 +17,16 @@ import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import axios from 'axios';
 import Button from "@material-ui/core/Button";
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import CourseView from "./CourseView";
-import StudentSelection from "./StudentSelection";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ShareIcon from '@material-ui/icons/Share';
 import swal from 'sweetalert';
 
-const options = [
+/*const options = [
     'All',
     'Course',
     'Student',
-];
+];*/
 
 
 class DocList extends React.Component {
@@ -376,8 +372,8 @@ getCourses = () => {
 }
 
   render() {
-    const { anchorEl } = this.state;
-    const { selectedIndex, courses, students} = this.state;
+   // const { anchorEl } = this.state;
+    //const { selectedIndex, courses, students} = this.state;
     const { classes } = this.props;
     const { files } = this.state;
     const fixedHeightPaper = clsx(classes.paper);

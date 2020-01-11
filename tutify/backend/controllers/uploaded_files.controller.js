@@ -31,12 +31,13 @@ exports.addUploadedFiles = async function (req, res) {
                     "encryptedname": filename,
                     "link": "http://localhost:3000/document/" + filename,
                     "uploadDate": new Date()
-                },
+                }
+                /*,
                 $push: {
                     // for now, just added tests, will add actual id's eventually
                     "sharedToStudents": "test",
                     "sharedToCourses": "test2"
-                }
+                }*/
             },
             { "new": true, "upsert": true },
             function (err, tutor) {
@@ -73,3 +74,34 @@ exports.deleteUploadedFiles = async function (req, res) {
         return res.json({ success: true, file: uploaded_docs });
     });*/
 };
+
+// this method assigns a course to share the document to for tutors.
+exports.assignCourse = async function (req, res) {
+    const {course_id} = req.body;
+    console.log(course_id);
+    //const { student_id, tutor_id } = req.body;
+
+    /*Tutor.findByIdAndUpdate(tutor_id,
+        { "$push": { "students": student_id } },
+        { "new": true, "upsert": true },
+        function (err, tutor) {
+            if (err) throw err;
+
+            Student.findByIdAndUpdate(student_id,
+                { "$push": { "tutors": tutor_id } },
+                { "new": true, "upsert": true },
+                function (err, user) {
+                    if (err) throw err;
+
+                    //update the session
+                    req.session.userInfo.tutors.push(tutor);
+                    req.session.save(function (err) {
+                        req.session.reload(function (err) {
+                            // session reloaded
+                        });
+                    });
+                }
+            );
+        }
+    );*/
+}
