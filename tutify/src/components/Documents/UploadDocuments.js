@@ -26,16 +26,19 @@ export class UploadDocuments extends Component {
       files: [],
       file: '',
       user_id: "",
-      course: ""
+      course: "",
+      recentFileName: "",
+      recentUploadDate : "",
+      recentTutorUploadName : ""
     }
-    this.loadFiles = this.loadFiles.bind(this);
+    //this.loadFiles = this.loadFiles.bind(this);
     this.fileChanged = this.fileChanged.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
     this.checkSession();
-    this.loadFiles();
+    this.getLatestFile();
   }
   checkSession = () => {
     fetch('http://localhost:3001/api/checkSession', {
@@ -54,7 +57,7 @@ export class UploadDocuments extends Component {
         .catch(err => console.log(err));
   };
 
-  async loadFiles() {
+  /*async loadFiles() {
     fetch('http://localhost:3001/api/getFiles')
       .then(res => res.json())
       .then(async (fetchedFiles) => {
@@ -66,7 +69,25 @@ export class UploadDocuments extends Component {
           await this.setState({ files: fetchedFiles.data });
         }
       });
+  }*/
+
+  getLatestFile =() => {
+    console.log(this.state.file);
+    fetch('http://localhost:3001/api/uploadingDocs', {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then(res => res.json())
+      .then(recent => {
+        console.log(recent.recent);
+        this.setState({ recentFileName: recent.recent.name});
+        console.log((recent.recent.uploadDate).split("T")[0]);
+        this.setState({ recentUploadDate: (recent.recent.uploadDate).split("T")[0]});
+        this.setState({ recentTutorUploadName: recent.recent.adminTutor});
+      })
+      .catch(err => console.log(err));
   }
+
 
   async fileChanged(event) {
     const f = event.target.files[0];
@@ -208,7 +229,7 @@ async handleSubmit(event) {
                     />
                   </label>
 
-                    <Button type="submit" variant="contained" size="small" className="submit">
+                  <Button type="submit" variant="contained" size="small" className="submit">
                   Upload
                 </Button>
                 </form>
@@ -224,16 +245,14 @@ async handleSubmit(event) {
           <TableRow>
             <TableCell>Date</TableCell>
             <TableCell>Name</TableCell>
-            <TableCell>Size</TableCell>
             <TableCell align="right">Uploaded By</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
             <TableRow>
-              <TableCell>Jan 9th 2020</TableCell>
-              <TableCell>Test</TableCell>
-              <TableCell>30Mb</TableCell>
-              <TableCell align="right">Mo Alawami</TableCell>
+              <TableCell>{this.state.recentUploadDate}</TableCell>
+              <TableCell>{this.state.recentFileName}</TableCell>
+              <TableCell align="right">{this.state.recentTutorUploadName}</TableCell>
             </TableRow>
         </TableBody>
       </Table>

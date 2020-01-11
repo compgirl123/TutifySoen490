@@ -3,6 +3,14 @@ const Files = require('../models/models').Files;
 const Tutor = require('../models/models').Tutor;
 var mongoose = require('mongoose');
 
+// This method fetches the latest uploaded document.
+exports.getLatestUpload = async function (req, res) {
+    //{ encryptedname: "2451d4f9d53678fba774c05738b234e4.png" }
+    UploadedFiles.findOne({ encryptedname: "2451d4f9d53678fba774c05738b234e4.png" }, function (err,mostRecent) {
+        //console.log("HI" + test);
+        return res.json({ success: true, recent: mostRecent});
+    });
+}
 // This method adds restriction information for uploaded documents.
 exports.addUploadedFiles = async function (req, res) {
     let uploaded_files = new UploadedFiles();
