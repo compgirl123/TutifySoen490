@@ -1,5 +1,6 @@
 const Tutor = require('../models/models').Tutor;
 const Event = require('../models/models').Event;
+const Student = require('../models/models').Student;
 
 // this method fetches all available tutors in our database
 exports.getTutors = async function (req, res) {
@@ -65,11 +66,12 @@ exports.updateTutorInfo = async function (req, res) {
 
 // this method adds an event to the database
 exports.addEvent = async function (req, res) {
-    const { events, tutor_id, description, location, date, startTime, endTime } = req.body;
+    const { events, tutor_id, description, location, date, startTime, endTime, students } = req.body;
 
     let event = new Event();
     var newEvents = [];
     var count = 0;
+    var studentNames = [];
 
     //create event
     event.description = description;
@@ -77,6 +79,8 @@ exports.addEvent = async function (req, res) {
     event.date = date;
     event.startTime = startTime;
     event.endTime = endTime;
+    event.students = students;
+    event.tutor = tutor_id
 
     event.save(function (err, eve) {
 
@@ -88,6 +92,15 @@ exports.addEvent = async function (req, res) {
             function (err, tutor) {
                 if (err) throw err;
 
+                students.forEach(function (student) {
+                    console.log(student);
+                    Student.findByIdAndUpdate(student,
+                        { "$push": { "events": eve.id } },
+                        { "new": true, "upsert": true },
+                        function (err, student) {
+                        if (err) throw err;
+                    });
+                });
                 //update the session
                 req.session.userInfo.events = tutor.events;
                 req.session.save(function (err) {
@@ -100,7 +113,18 @@ exports.addEvent = async function (req, res) {
                             if (err) {
 
                             };
+                            /** 
+                            event.students.forEach(function (student) {
+                                Student.findOne({ _id: student }, function (err, stu) {
+                                    var name = stu.first_name + " " + stu.last_name;
+                                    console.log("yo");
+                                   studentNames.push(name);
+                                });
+                            });
+                            event.students = studentNames;
+                            */
                             newEvents.push(event);
+
                             count++;
 
                             if (count == events.length) {
@@ -151,7 +175,7 @@ exports.populateEvents = async function (req, res) {
 exports.deleteEvent = async function (req, res) {
     const { event_id, tutor_id } = req.body;
 
-    Event.findByIdAndRemove(event_id, (err) => {
+    Event.findByIdAndRemove(event_id, (err,event) => {
         if (err) return res.send(err);
         Tutor.findByIdAndUpdate(tutor_id,
             { "$pull": { "events": event_id } },
@@ -160,6 +184,13 @@ exports.deleteEvent = async function (req, res) {
                 if (index > -1) {
                     tutor.events.splice(index, 1);
                 }
+                event.students.forEach(function (student) {
+                    Student.findByIdAndUpdate(student,
+                        { "$pull": { "events": event_id } },
+                        function (err, student) {
+                        if (err) throw err;
+                    });
+                });
                 req.session.userInfo.events = tutor.events;
                 req.session.save(function (err) {
                     req.session.reload(function (err) {

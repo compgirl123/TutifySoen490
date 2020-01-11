@@ -120,12 +120,12 @@ class NewCalendar extends React.Component {
           students: res.userInfo.students
         });
         this.populateEvents();
-        this.FindStudents();
+        this.FindStudentsForList();
       })
       .catch(err => console.log(err));
   };
 
-  FindStudents = () => {
+  FindStudentsForList = () => {
     axios.post('http://localhost:3001/api/findStudents', {
       students: this.state.students
     })
@@ -137,6 +137,27 @@ class NewCalendar extends React.Component {
         console.log(error);
       })
   };
+  /** 
+  FindStudentsSelected = (students) => {
+    var studentNames = [];
+    if (students !== null) {
+      axios.post('http://localhost:3001/api/findStudents', {
+        students: students
+      })
+        .then((res) => {
+          res.data.data.forEach(function (student) {
+            studentNames.push(student.first_name + " " + student.last_name);
+
+          });
+
+        }, (error) => {
+          console.log(error);
+        })
+    }
+    console.log(studentNames);
+    return studentNames;
+  };
+  */
 
   shareWithStudent = () => {
     if (this.state.placeholder === "Share with student") {
@@ -166,6 +187,7 @@ class NewCalendar extends React.Component {
           newStr = newStr.substring(6) + "/" + newStr.substring(4, 6) + "/" + newStr.substring(0, 4);
           newStr = newStr.toString();
           newEvents[z].date = newStr;
+          //newEvents[z].students = this.FindStudentsSelected(newEvents[z].students);
         }
 
         newDates = this.function1(newDates);
@@ -190,6 +212,7 @@ class NewCalendar extends React.Component {
       date: this.state.date,
       startTime: this.state.startTime,
       endTime: this.state.endTime,
+      students: this.state.studentsSelected,
     })
       .then((res) => {
         var newDates = [];
@@ -206,14 +229,16 @@ class NewCalendar extends React.Component {
           newStr = newStr.substring(6) + "/" + newStr.substring(4, 6) + "/" + newStr.substring(0, 4);
           newStr = newStr.toString();
           newEvents[z].date = newStr;
-          replaceEvents.push(newEvents[z]._id)
+          //newEvents[z].students = this.FindStudentsSelected(newEvents[z].students);
+          replaceEvents.push(newEvents[z]._id);
         }
+
 
         newDates = this.function1(newDates);
 
         this.setState({
           dates: newDates, eventsDecoded: newEvents, events: replaceEvents, location: "", description: "", startTime: "00:00",
-          endTime: "00:00"
+          endTime: "00:00", studentsSelected: []
         });
         swal("Event successfully added!", "", "success")
       }, (error) => {
