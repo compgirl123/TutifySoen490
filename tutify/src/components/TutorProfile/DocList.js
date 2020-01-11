@@ -335,7 +335,6 @@ getCourses = () => {
     const { anchorEl } = this.state;
     const { selectedIndex, courses, students} = this.state;
     const { classes } = this.props;
-    const { files } = this.state;
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
     return (

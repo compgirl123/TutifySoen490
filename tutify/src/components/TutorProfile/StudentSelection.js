@@ -3,13 +3,9 @@ import { ListItem, } from '@material-ui/core';
 import * as TutorAnnouncementsStyles from '../../styles/TutorAnnouncements-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Paper from '@material-ui/core/Paper';
-import List from '@material-ui/core/List';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
@@ -61,12 +57,12 @@ export class StudentSelection extends React.Component {
     render() {
         //const { courses } = this.props;
         //const { courses } = ['COMP 472','SOEN 490'];
-        const { courses } =  [
+        /*const { courses } =  [
             {students:["5dc8735ebb22af5ae4ca23e6"],
             course:{tutors:["5dacd1cf1c9d440000aa0b1b"],students:[],_id: "5dbaef561c9d440000c0ab0a",
             name: "MATH 203",
             description: "Linear Algebra I. Vector Spaces, Subspaces. Linear Combinations, Systems of Equations Linear Dependence and Independence "}
-          }];
+          }];*/
         
 
         return (
