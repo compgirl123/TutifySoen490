@@ -70,7 +70,7 @@ describe('The Tutors Courses Page', () => {
         const cardActions = wrapper.find(CardActions).at(0);
   
         // Making sure that the First Action Present on the Page Matches what is expected to be shown.
-        expect(cardActions.props().children[0].props.children).toBe("View Documents");
+        expect(cardActions.props().children[0].props.children).toBe("Upload Doc");
 
         // Making sure that the Second Action Present on the Page Matches what is expected to be shown.
         expect(cardActions.props().children[1].props.children).toBe("Upload Document");
