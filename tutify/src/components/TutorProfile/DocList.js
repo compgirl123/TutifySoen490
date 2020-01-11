@@ -362,8 +362,16 @@ getCourses = () => {
                             <TableCell>Name</TableCell>
                             <TableCell>Course</TableCell>
                             <TableCell>Specific Students</TableCell>
-                            <TableCell>
-                            <Grid item sm={6}>
+                            <TableCell>Share</TableCell>
+                            <TableCell>Download File</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                        <TableRow>
+                          <td>COMP 472</td>
+                          <td>Kasthu</td>
+                          <td>COMP 472</td>
+                          <td><Grid item sm={6}>
                                     <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClickMenu} variant="outlined">
                                         {this.state.placeholder}
                                     </Button>
@@ -396,26 +404,9 @@ getCourses = () => {
                                     {this.state.isStudentsSelected ?
                                         <StudentSelection students={students} handleSelection={this.handleSelection} /> : <></>
                                     }                                  
-                                </Grid>
-                            </TableCell>
-                            <TableCell>Download File</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                        {files.map((file, index) => {
-                      //var d = new Date(file.uploadDate);
-                      var filename = file.name;
-                      var url = file.url
-                      return (
-                        <TableRow key={index}>
-                          <td><a href={url}>{filename}</a></td>
-                          <td><a href={`http://127.0.0.1:3001/api/files/${file.filename}`}>{file.filename}</a></td>
-                         {/* <td>{`${d.toLocaleDateString()} ${d.toLocaleTimeString()}`}</td> */}
-                          <td>{(Math.round(file.length / 100) / 10) + 'KB'}</td>
-                          <p><td><Button type="button" variant="contained" className="submit" size="small" onClick={this.deleteFile.bind(this)} id={file._id}>Remove</Button></td></p>
+                                </Grid></td>
+                          <td>COMP 472</td>
                         </TableRow>
-                      )
-                    })}
                         </TableBody>
                       </Table>
                       <div className={classes.seeMore}>
