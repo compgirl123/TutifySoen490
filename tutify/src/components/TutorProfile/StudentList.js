@@ -16,6 +16,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import axios from 'axios';
+import Checkbox from '@material-ui/core/Checkbox';
 
 export class StudentList extends React.Component {
   constructor(props) {
@@ -35,6 +36,7 @@ export class StudentList extends React.Component {
   componentDidMount() {
     this.checkSession();
   }
+  
 
   checkSession = () => {
     fetch('http://localhost:3001/api/checkSession', {
@@ -73,6 +75,8 @@ export class StudentList extends React.Component {
     const { students } = this.state;
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+    
+
     return (
       <React.Fragment>
         <main>
@@ -109,6 +113,7 @@ export class StudentList extends React.Component {
                               <TableCell>{student.program_of_study}</TableCell>
                               <TableCell>{student.school}</TableCell>
                               <TableCell>{student.education_level}</TableCell>
+                              <TableCell><Checkbox value="uncontrolled" inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
