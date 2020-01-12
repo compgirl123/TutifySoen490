@@ -68,14 +68,7 @@ export class TutorCourses extends React.Component {
         course_id : courseName,
         file_name : this.props.match.params.file
     })
-    swal("Succesfully uploaded document!", "", "success")
-      .then((value) => {
-        //console.log(this.props.match.params.file);
-           // console.log(courseName);
-            //this.setState({ courses: coursesName });
-           //window.location = this.state.courses
-          //window.location = url;
-      });
+    swal("Succesfully uploaded document!", "", "success");
   }
 
   render() {
@@ -116,9 +109,6 @@ export class TutorCourses extends React.Component {
                         <Button type="button" size="small" href = "" fullWidth className="submit">
                             Upload Doc
                           </Button>
-                          {/* onClick={event => assignTutor(event, props.userId, props.tutor._id, url)}console.log(event.currentTarget)
-                        onClick={event => this.uploadCourse(event,this.props.course_id)}
-                        onClick={this.uploadCourse(c.course.name)}*/}
                           <Button type="button" onClick={event =>this.uploadCourse(event,c.course.name)} size="small" fullWidth className="submit">
                             Upload Document
                           </Button>

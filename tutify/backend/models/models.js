@@ -226,17 +226,11 @@ var UploadedFiles = mongoose.model('UploadedFiles', new mongoose.Schema({
     type: String,
     required: true
   }
-    //{ type: Schema.Types.ObjectId, ref: 'Student' }
-    // for testing purposes only temporary.
-    // Kasthurie: implement option for tutor to share stuff.
   ],
   sharedToCourses: [{
     type: String,
     required: true
   }
-    //{ type: Schema.Types.ObjectId, ref: 'Student' }
-    // for testing purposes only temporary.
-    // Kasthurie: implement option for tutor to share stuff.
   ],
   uploadDate: Date
 }), "uploaded_files");
@@ -269,7 +263,6 @@ var Mchunks = mongoose.model('Mchunks', new Schema({
      n : Number,    
      data : Schema.Types.Buffer
 }), "uploads.chunks");
-
 
 // export the Schemas
 module.exports = {

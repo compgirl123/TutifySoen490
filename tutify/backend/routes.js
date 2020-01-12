@@ -84,18 +84,16 @@ router.get('/getCourses', courseController.getCourses);
 
 // -------- Files ROUTES --------- // 
 
-//router.get('/getFiles', filesController.getFiles);
-
-router.get('/getFile/:filename', filesController.getFile)
-// router.post('/uploadFiles', filesController.uploadFiles);
-// router.post('/uploadFile', upload.single('file'),(req, res) => {
-//     res.redirect("/uploadingDocs");
-// });
+router.get('/getFile/:filename', filesController.getFile);
 
 router.post("/files/del/:id", filesController.deleteFile);
+
 router.get('/uploadFile', uploadedFilesController.populateUploadedFiles);
+
 router.get('/deletelistitem', uploadedFilesController.deleteUploadedFiles);
+
 router.get('/uploadingDocs', uploadedFilesController.getLatestUpload);
+
 router.post('/tutorCourses/:file', uploadedFilesController.assignCourse);
 
 module.exports = router;

@@ -31,7 +31,7 @@ class Studentdocs extends React.Component {
     this.state = {
       drawerOpened: false,
       students: [],
-      files:[],
+      files: [],
       data: [],
       filteredData: [],
       placeholder: '',
@@ -39,7 +39,7 @@ class Studentdocs extends React.Component {
       selectedIndex: 0,
       anchorEl: null,
       user_id: null,
-      open : false
+      open: false
     };
     this.loadFiles = this.loadFiles.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -62,90 +62,89 @@ class Studentdocs extends React.Component {
 
   handleCloseMenu = () => {
     this.setState({ anchorEl: null });
-};
+  };
 
-handleClickMenu = event => {
+  handleClickMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
-};
+  };
 
-handleMenuItemClick = (event, index) => {
-    console.log(index);
+  handleMenuItemClick = (event, index) => {
     this.setState({ selectedIndex: index });
     this.setState({ anchorEl: null });
 
     this.openDialog.bind(this);
     if (index === 0) {
-        this.setState({ placeholder: 'All' });
-        this.setState({ isCoursesSelected: false, isStudentsSelected: false })
+      this.setState({ placeholder: 'All' });
+      this.setState({ isCoursesSelected: false, isStudentsSelected: false })
     }
     else if (index === 1) {
-        this.setState({ placeholder: 'Course' });
-        this.setState({ isCoursesSelected: true, isStudentsSelected: false });
+      this.setState({ placeholder: 'Course' });
+      this.setState({ isCoursesSelected: true, isStudentsSelected: false });
     }
     else if (index === 2) {
-        this.setState({ placeholder: 'Student' });
-        this.setState({ isCoursesSelected: false, isStudentsSelected: true })
+      this.setState({ placeholder: 'Student' });
+      this.setState({ isCoursesSelected: false, isStudentsSelected: true })
     }
-  
-};
 
-handleChange(e) {
+  };
+
+  handleChange(e) {
     // Variable to hold the original version of the list
     let currentList = this.state.data;
     // Variable to hold the filtered list before putting into state
     let newList = [];
     // If the search bar isn't empty
     if (e.target.value !== "") {
-        // if search includes whitespace, split it into different search terms
-        const filters = e.target.value.toLowerCase().split(" ");
+      // if search includes whitespace, split it into different search terms
+      const filters = e.target.value.toLowerCase().split(" ");
 
-        // Determine which tutors should be displayed based on search term
-        newList = currentList.filter(tutor => {
-            let currentValue = ""
-            let returnValue = true
+      // Determine which tutors should be displayed based on search term
+      newList = currentList.filter(tutor => {
+        let currentValue = ""
+        let returnValue = true
 
-            switch (this.state.selectedIndex) {
-                default:
-                case 0: tutor.subjects.forEach(function (entry) {
-                    currentValue += (entry + " ").toLowerCase()
-                });
-                    currentValue += (tutor.first_name + " " + tutor.last_name
-                        + " " + tutor.school + " " + tutor.program_of_study).toLowerCase()
-                    break;
-                case 1: // name
-                    currentValue = (tutor.first_name + " " + tutor.last_name).toLowerCase()
-                    break;
-                case 2: // school
-                    currentValue = (tutor.school).toLowerCase()
-                    break;
-                case 3: // courses
-                case 4: // subjects
-                    tutor.subjects.forEach(function (entry) {
-                        currentValue += (entry + " ").toLowerCase()
-                    });
-                    break;
-                case 5: // program
-                    currentValue = (tutor.program_of_study).toLowerCase()
-                    break;
-            }
-
-            // If all search terms are found for the tutor, he/she is included 
-            filters.forEach(function (entry) {
-                if (!currentValue.includes(entry)) {
-                    return returnValue = false;
-                }
+        switch (this.state.selectedIndex) {
+          default:
+          case 0: tutor.subjects.forEach(function (entry) {
+            currentValue += (entry + " ").toLowerCase()
+          });
+            currentValue += (tutor.first_name + " " + tutor.last_name
+              + " " + tutor.school + " " + tutor.program_of_study).toLowerCase()
+            break;
+          case 1: // name
+            currentValue = (tutor.first_name + " " + tutor.last_name).toLowerCase()
+            break;
+          case 2: // school
+            currentValue = (tutor.school).toLowerCase()
+            break;
+          case 3: // courses
+          case 4: // subjects
+            tutor.subjects.forEach(function (entry) {
+              currentValue += (entry + " ").toLowerCase()
             });
-            return returnValue;
+            break;
+          case 5: // program
+            currentValue = (tutor.program_of_study).toLowerCase()
+            break;
+        }
 
+        // If all search terms are found for the tutor, he/she is included 
+        filters.forEach(function (entry) {
+          if (!currentValue.includes(entry)) {
+            return returnValue = false;
+          }
         });
+        return returnValue;
+
+      });
     } else {
-        newList = currentList;
+      newList = currentList;
     }
 
     this.setState({
-        filteredData: newList
+      filteredData: newList
     });
-}
+  }
 
 
   async loadFiles() {
@@ -155,11 +154,11 @@ handleChange(e) {
         if (res.file !== undefined) {
           this.setState({ files: res.file });
         }
-        else{
+        else {
           this.setState({ files: [] });
-        } 
-    })
-    .catch(err => console.log(err));
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   componentDidMount() {
@@ -168,20 +167,20 @@ handleChange(e) {
   }
   checkSession = () => {
     fetch('http://localhost:3001/api/checkSession', {
-        method: 'GET',
-        credentials: 'include'
+      method: 'GET',
+      credentials: 'include'
     })
-        .then(response => response.json())
-        .then(res => {
-            if (res.isLoggedIn) {
-                this.setState({ user_id: res.userInfo._id });
-                this.findCourses();
-            }
-            else {
-                this.setState({ user_id: "Not logged in" });
-            }
-        })
-        .catch(err => console.log(err));
+      .then(response => response.json())
+      .then(res => {
+        if (res.isLoggedIn) {
+          this.setState({ user_id: res.userInfo._id });
+          this.findCourses();
+        }
+        else {
+          this.setState({ user_id: "Not logged in" });
+        }
+      })
+      .catch(err => console.log(err));
   };
 
   checkSession = () => {
@@ -195,7 +194,7 @@ handleChange(e) {
           this.setState({
             students: res.userInfo.students
           })
-           
+
         }
         else {
           this.setState({ Toggle: false });
@@ -209,7 +208,6 @@ handleChange(e) {
       students: this.state.students
     })
       .then((res) => {
-        //console.log(res.data.data)
         this.setState({ students: res.data.data });
       }, (error) => {
         console.log(error);
@@ -232,7 +230,6 @@ handleChange(e) {
       method: 'DELETE'
     }).then(res => res.json())
       .then(response => {
-        //console.log(response);
         if (response.success) this.loadFiles()
         else alert('Delete Failed');
       })
@@ -246,35 +243,13 @@ handleChange(e) {
       dangerMode: true,
     })
       .then((willDelete) => {
-        console.log("deleted");
-        if(willDelete){
+        if (willDelete) {
           fetch('http://localhost:3001/api/deleteUploadedFiles')
-          .then(res => res.json())
+            .then(res => res.json())
             .then(res => {
-              console.log(res);
-              /*if (res.file !== undefined) {
-                this.setState({ files: res.file });
-              }
-              else{
-                this.setState({ files: [] });
-              } */
-          })
-        .catch(err => console.log(err));  
+            })
+            .catch(err => console.log(err));
         }
-        
-        /*if (willDelete) {
-          axios.post('http://localhost:3001/api/deleteEvent', {
-            event_id: id,
-            tutor_id: this.state.tutor_id
-          })
-            .then((res) => {
-              this.setState({ events: res.data.userInfo.events });
-              this.populateEvents();
-            }, (error) => {
-              console.log(error);
-            });
-          swal("Event successfully deleted!", "", "success")
-      }*/
       });
   };
 
@@ -314,62 +289,40 @@ handleChange(e) {
           first_name: res.data.userInfo.first_name, last_name: res.data.userInfo.last_name,
           school: res.data.userInfo.school, program_of_study: res.data.userInfo.program_of_study,
         });
-        //swal("File successfully uploaded!", "", "success")
       }, (error) => {
         console.log(error);
       });
   };
-//   uploadFile(event) {
-//     event.preventDefault();
-//     let data = new FormData();
-//     data.append('file', this.state.file);
 
-//     fetch('/api/files', {
-//       method: 'POST',
-//       body: data
-//     }).then(res => res.json())
-//       .then(data => {
-//         if (data.success) {
-//           this.loadFiles();
-//         } else {
-//           alert('Upload failed');
-//         }
-//       });
-//   }
+  async handleSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append('file', this.state.file);
+    formData.append('adminTutor', this.state.user_id);
+    formData.append('name', this.state.file.name);
+    axios.post("http://localhost:3001/api/testUpload", formData).then(res => {
+    }).catch(err => {
+      console.log(err);
 
-async handleSubmit(event) {
-  event.preventDefault();
-  const formData = new FormData();
-  //console.log(this.state.file);
-  formData.append('file', this.state.file);
-  formData.append('adminTutor', this.state.user_id);
-  formData.append('name', this.state.file.name);
-  axios.post("http://localhost:3001/api/testUpload", formData).then(res => {
-      console.log(res)
-  }).catch(err => {
-    console.log(err);
-    
-  });
+    });
 
-}
+  }
 
-getCourses = () => {
+  getCourses = () => {
     fetch('http://localhost:3001/api/getTutorCourses', {
-        method: 'GET',
-        credentials: 'include'
+      method: 'GET',
+      credentials: 'include'
     })
-        .then(response => response.json())
-        .then(res => {
-            this.setState({ courses: res.data });
-            this.getStudents();
-        })
-        .catch(err => console.log(err));
+      .then(response => response.json())
+      .then(res => {
+        this.setState({ courses: res.data });
+        this.getStudents();
+      })
+      .catch(err => console.log(err));
 
-}
+  }
 
   render() {
-   // const { anchorEl } = this.state;
-    //const { selectedIndex, courses, students} = this.state;
     const { classes } = this.props;
     const { files } = this.state;
     const fixedHeightPaper = clsx(classes.paper);
@@ -402,22 +355,22 @@ getCourses = () => {
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                        {files.map((file, index) => {
-                      //var d = new Date(file.uploadDate);
-                      var filename = file.name;
-                      var url = file.url
-                      var link = file.link
-                      var uploadDate = file.uploadDate
-                      return (
-                        <TableRow key={index}>
-                          <td><a href={url}>{filename}</a></td>
-                          <td>COMP 472</td>
-                          <td>{uploadDate}</td>
-                          <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
-            
-                        </TableRow>
-                      )
-                    })}
+                          {files.map((file, index) => {
+                            //var d = new Date(file.uploadDate);
+                            var filename = file.name;
+                            var url = file.url
+                            var link = file.link
+                            var uploadDate = file.uploadDate
+                            return (
+                              <TableRow key={index}>
+                                <td><a href={url}>{filename}</a></td>
+                                <td>COMP 472</td>
+                                <td>{uploadDate}</td>
+                                <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
+
+                              </TableRow>
+                            )
+                          })}
                         </TableBody>
                       </Table>
                     </React.Fragment>

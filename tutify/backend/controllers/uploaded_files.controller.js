@@ -40,12 +40,6 @@ exports.addUploadedFiles = async function (req, res) {
                     "link": "http://localhost:3000/document/" + filename,
                     "uploadDate": new Date()
                 }
-                ,
-                /*$push: {
-                    // for now, just added tests, will add actual id's eventually
-                    "sharedToStudents": [],
-                    "sharedToCourses": []
-                }*/
             },
             { "new": true, "upsert": true },
             function (err, tutor) {
@@ -74,29 +68,13 @@ exports.populateUploadedFiles = async function (req, res) {
 
 };
 
-// this method assigns a course to share the document to for tutors.
+// this method enables the tutor to share their uploaded documents to their students.
 exports.assignCourse = async function (req, res) {
     let uploaded_files = new UploadedFiles();
     const {course_id,file_name} = req.body;
-    console.log("BONJOOUUUURR   " + course_id);
-    console.log("PIEEERRRREE    " + file_name);
-
-    var up = 0;
-    /*UploadedFiles.find({ encryptedname: file_name }, function (err, encrypted_file_name) {
-        //console.log("FRANCE   " +encrypted_file_name._id);
-        /*UploadedFiles.find({ _id: encrypted_file_name._id }, function (err, test) {
-            console.log("England   " +test);
-            //return res.json({ success: true, file: uploaded_docs });
-        });
-        //return res.json({ success: true, file: uploaded_docs });
-    });*/
-
-    //console.log(up);
 
     Course.findOne({ name: course_id }, function (err, course_name) {
-        console.log("step 2"+course_name._id);
         UploadedFiles.findOne({ encryptedname: file_name }, function (err, encrypted_file_name) {
-            console.log("FRANCE   " +encrypted_file_name._id);
             // Testing
             uploaded_files.save(function (err) {
             UploadedFiles.findByIdAndUpdate(encrypted_file_name._id,
@@ -109,74 +87,10 @@ exports.assignCourse = async function (req, res) {
                     if (err) throw err;
                 });
             });
-            
             // Testing
-
-            /*UploadedFiles.findByIdAndUpdate(encrypted_file_name._id,
-                {
-                    $push: {
-                        // for now, just added tests, will add actual id's eventually
-                        "sharedToStudents": "test",
-                        "sharedToCourses": course_name._id
-                    }
-                },
-                { "new": true, "upsert": true },
-                function (err, tutor) {
-                    if (err) throw err;
-                });
-           });*/
-            /*UploadedFiles.find({ _id: encrypted_file_name._id }, function (err, test) {
-                console.log("England   " +test);
-                //return res.json({ success: true, file: uploaded_docs });
-            });*/
-            //return res.json({ success: true, file: uploaded_docs });
         });
-       /*UploadedFiles.findByIdAndUpdate(course_name._id,
-            {
-                /*$set: {
-                    "name": name_new,
-                    "adminTutor": adminTutor,
-                    "encryptedname": filename,
-                    "link": "http://localhost:3000/document/" + filename,
-                    "uploadDate": new Date()
-                }
-                $push: {
-                    // for now, just added tests, will add actual id's eventually
-                    "sharedToStudents": "test",
-                    "sharedToCourses": course_name._id
-                }
-            },
-            { "new": true, "upsert": true },
-            function (err, tutor) {
-                if (err) throw err;
-            });*/
-        //return res.json({ success: true, file: uploaded_docs });
         
     });
-    //const { student_id, tutor_id } = req.body;
-    /*Tutor.findByIdAndUpdate(tutor_id,
-        { "$push": { "students": student_id } },
-        { "new": true, "upsert": true },
-        function (err, tutor) {
-            if (err) throw err;
-
-            Student.findByIdAndUpdate(student_id,
-                { "$push": { "tutors": tutor_id } },
-                { "new": true, "upsert": true },
-                function (err, user) {
-                    if (err) throw err;
-
-                    //update the session
-                    req.session.userInfo.tutors.push(tutor);
-                    req.session.save(function (err) {
-                        req.session.reload(function (err) {
-                            // session reloaded
-                        });
-                    });
-                }
-            );
-        }
-    );*/
 }
 
 // this method deletes uploaded files from db.

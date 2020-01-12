@@ -28,10 +28,9 @@ export class UploadDocuments extends Component {
       user_id: "",
       course: "",
       recentFileName: "",
-      recentUploadDate : "",
-      recentTutorUploadName : ""
+      recentUploadDate: "",
+      recentTutorUploadName: ""
     }
-    //this.loadFiles = this.loadFiles.bind(this);
     this.fileChanged = this.fileChanged.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -42,48 +41,31 @@ export class UploadDocuments extends Component {
   }
   checkSession = () => {
     fetch('http://localhost:3001/api/checkSession', {
-        method: 'GET',
-        credentials: 'include'
+      method: 'GET',
+      credentials: 'include'
     })
-        .then(response => response.json())
-        .then(res => {
-            if (res.isLoggedIn) {
-                this.setState({ user_id: res.userInfo._id });
-            }
-            else {
-                this.setState({ user_id: "Not logged in" });
-            }
-        })
-        .catch(err => console.log(err));
+      .then(response => response.json())
+      .then(res => {
+        if (res.isLoggedIn) {
+          this.setState({ user_id: res.userInfo._id });
+        }
+        else {
+          this.setState({ user_id: "Not logged in" });
+        }
+      })
+      .catch(err => console.log(err));
   };
 
-  /*async loadFiles() {
-    fetch('http://localhost:3001/api/getFiles')
-      .then(res => res.json())
-      .then(async (fetchedFiles) => {
-        //console.log(fetchedFiles);
-        if (fetchedFiles.message) {
-          console.log('No Files');
-          await this.setState({ files: [] });
-        } else {
-          await this.setState({ files: fetchedFiles.data });
-        }
-      });
-  }*/
-
-  getLatestFile =() => {
-    console.log(this.state.file);
+  getLatestFile = () => {
     fetch('http://localhost:3001/api/uploadingDocs', {
       method: 'GET',
       credentials: 'include'
     })
       .then(res => res.json())
       .then(recent => {
-        console.log(recent.recent);
-        this.setState({ recentFileName: recent.recent.name});
-        console.log((recent.recent.uploadDate).split("T")[0]);
-        this.setState({ recentUploadDate: (recent.recent.uploadDate).split("T")[0]});
-        this.setState({ recentTutorUploadName: recent.recent.adminTutor});
+        this.setState({ recentFileName: recent.recent.name });
+        this.setState({ recentUploadDate: (recent.recent.uploadDate).split("T")[0] });
+        this.setState({ recentTutorUploadName: recent.recent.adminTutor });
       })
       .catch(err => console.log(err));
   }
@@ -105,7 +87,6 @@ export class UploadDocuments extends Component {
       method: 'DELETE'
     }).then(res => res.json())
       .then(response => {
-        //console.log(response);
         if (response.success) this.loadFiles()
         else alert('Delete Failed');
       })
@@ -151,48 +132,27 @@ export class UploadDocuments extends Component {
         console.log(error);
       });
   };
-//   uploadFile(event) {
-//     event.preventDefault();
-//     let data = new FormData();
-//     data.append('file', this.state.file);
 
-//     fetch('/api/files', {
-//       method: 'POST',
-//       body: data
-//     }).then(res => res.json())
-//       .then(data => {
-//         if (data.success) {
-//           this.loadFiles();
-//         } else {
-//           alert('Upload failed');
-//         }
-//       });
-//   }
+  async handleSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append('file', this.state.file);
+    formData.append('adminTutor', this.state.user_id);
+    formData.append('name', this.state.file.name);
+    await axios.post("http://localhost:3001/uploadFile", formData).then(res => {
+    }).catch(err => {
+      console.log(err);
+    });
+    window.location.reload();
 
-async handleSubmit(event) {
-  event.preventDefault();
-  const formData = new FormData();
-  console.log(this.state.file);
-  formData.append('file', this.state.file);
-  formData.append('adminTutor', this.state.user_id);
-  formData.append('name', this.state.file.name);
-  await axios.post("http://localhost:3001/uploadFile", formData).then(res => {
-      console.log(res);
-
-  }).catch(err => {
-    console.log(err);
-    
-  });
-  window.location.reload();
-  
-}
+  }
 
   render() {
     const { classes } = this.props;
     return (
       <React.Fragment>
         <main>
-        <DashBoardNavBar /> 
+          <DashBoardNavBar />
           <div className={classes.heroContent}>
             <Container className={classes.container}>
               <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
@@ -204,35 +164,21 @@ async handleSubmit(event) {
 
             </header>
             <div className="App-content">
-          
-              {/* <form action="/upload" method="POST" encType="multipart/form-data"> */}
-                {/* <input
-                  type="file"
-                  onChange={this.fileChanged}
-                  className={classes.inputUpload}
-                  style={{ size: 74 }}
-                />
-
-                <Button onClick={(event)=>{this.uploadFile(event)}} class="file" id="file" raised component="span" className={classes.button} color="primary"
-                  size="medium" variant="contained">
-                  Upload
-                </Button> */}
-
-                <form onSubmit={this.handleSubmit}>
-                  <label> Upload: 
+              <form onSubmit={this.handleSubmit}>
+                <label> Upload:
                     <input
-                      id="fileUpload"
-                      type="file"
-                      onChange={this.fileChanged}
-                      className={classes.inputUpload}
-                      style={{ size: 74 }}
-                    />
-                  </label>
+                    id="fileUpload"
+                    type="file"
+                    onChange={this.fileChanged}
+                    className={classes.inputUpload}
+                    style={{ size: 74 }}
+                  />
+                </label>
 
-                  <Button type="submit" variant="contained" size="small" className="submit">
+                <Button type="submit" variant="contained" size="small" className="submit">
                   Upload
                 </Button>
-                </form>
+              </form>
               {/* </form> */}
             </div>
           </div>
@@ -240,29 +186,29 @@ async handleSubmit(event) {
           <p></p>
 
           <Paper>
-                <Table stickyHeader aria-label="">
-        <TableHead>
-          <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell align="right">Uploaded By</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-            <TableRow>
-              <TableCell>{this.state.recentUploadDate}</TableCell>
-              <TableCell>{this.state.recentFileName}</TableCell>
-              <TableCell align="right">{this.state.recentTutorUploadName}</TableCell>
-            </TableRow>
-        </TableBody>
-      </Table>
-      </Paper>
+            <Table stickyHeader aria-label="">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Date</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell align="right">Uploaded By</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>{this.state.recentUploadDate}</TableCell>
+                  <TableCell>{this.state.recentFileName}</TableCell>
+                  <TableCell align="right">{this.state.recentTutorUploadName}</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </Paper>
 
-      <div className={classes.seeMore}>
-        <Link color="primary" href="/doclist">
-          See more
+          <div className={classes.seeMore}>
+            <Link color="primary" href="/doclist">
+              See more
         </Link>
-      </div>
+          </div>
 
         </main>
       </React.Fragment>
