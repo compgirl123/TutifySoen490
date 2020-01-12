@@ -5,12 +5,11 @@ var mongoose = require('mongoose');
 
 // This method fetches the latest uploaded document.
 exports.getLatestUpload = async function (req, res) {
-    //{ encryptedname: "2451d4f9d53678fba774c05738b234e4.png" }
     UploadedFiles.findOne({ encryptedname: "2451d4f9d53678fba774c05738b234e4.png" }, function (err,mostRecent) {
-        //console.log("HI" + test);
         return res.json({ success: true, recent: mostRecent});
     });
 }
+
 // This method adds restriction information for uploaded documents.
 exports.addUploadedFiles = async function (req, res) {
     let uploaded_files = new UploadedFiles();
@@ -74,21 +73,11 @@ exports.populateUploadedFiles = async function (req, res) {
 
 };
 
-// this method deletes uploaded files from db.
-exports.deleteUploadedFiles = async function (req, res) {
-    //console.log("heyhey")
-    // TO DO
-    /*UploadedFiles.find({ adminTutor: tutor_id }, function (err, uploaded_docs) {
-        return res.json({ success: true, file: uploaded_docs });
-    });*/
-};
-
 // this method assigns a course to share the document to for tutors.
 exports.assignCourse = async function (req, res) {
     const {course_id} = req.body;
-    console.log(course_id);
+    console.log("BONJOOUUUURR" + course_id);
     //const { student_id, tutor_id } = req.body;
-
     /*Tutor.findByIdAndUpdate(tutor_id,
         { "$push": { "students": student_id } },
         { "new": true, "upsert": true },
@@ -113,3 +102,8 @@ exports.assignCourse = async function (req, res) {
         }
     );*/
 }
+
+// this method deletes uploaded files from db.
+exports.deleteUploadedFiles = async function (req, res) {
+    // Will be doing in Iteration 8.
+ };

@@ -1,6 +1,5 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import Link from '@material-ui/core/Link';
 import * as tutifyStyle from '../../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
 import clsx from 'clsx';
@@ -22,13 +21,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import swal from 'sweetalert';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
-
-/*const options = [
-    'All',
-    'Course',
-    'Student',
-];*/
-
 
 class DocList extends React.Component {
   constructor(props) {

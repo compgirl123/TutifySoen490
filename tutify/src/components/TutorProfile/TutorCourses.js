@@ -14,7 +14,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import swal from 'sweetalert';
-//import axios from "axios";
+import axios from "axios";
 
 export class TutorCourses extends React.Component {
   constructor(props) {
@@ -64,12 +64,13 @@ export class TutorCourses extends React.Component {
   }
 
   uploadCourse = (e,courseName) => {
-    /*axios.post('http://localhost:3001/api/assignCourse', {
-        course_id : this.state.courses
-    })*/
+    axios.post('http://localhost:3001/api/tutorCourses', {
+        course_id : courseName
+    })
     swal("Succesfully uploaded document!", "", "success")
       .then((value) => {
             console.log(courseName);
+            //this.setState({ courses: coursesName });
            //window.location = this.state.courses
           //window.location = url;
       });
