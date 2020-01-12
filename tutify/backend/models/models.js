@@ -212,9 +212,8 @@ var Event = mongoose.model('Event', new Schema({
   students: [
     { type: Schema.Types.ObjectId, ref: 'Student' }
   ],
-  tutor:
-    { type: Schema.Types.ObjectId, ref: 'Tutor' }
-
+  tutor:{ type: Schema.Types.ObjectId, ref: 'Tutor' },
+  tutorName: { type: String },
 }), "events");
 
 

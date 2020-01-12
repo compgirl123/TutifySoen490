@@ -66,13 +66,12 @@ exports.updateTutorInfo = async function (req, res) {
 
 // this method adds an event to the database
 exports.addEvent = async function (req, res) {
-    const { events, tutor_id, description, location, date, startTime, endTime, students } = req.body;
+    const { events, tutor_id, description, location, date, startTime, endTime, students, tutorName, studentNames } = req.body;
 
     let event = new Event();
     var newEvents = [];
     var count = 0;
-    var studentNames = [];
-
+    
     //create event
     event.description = description;
     event.location = location;
@@ -80,7 +79,9 @@ exports.addEvent = async function (req, res) {
     event.startTime = startTime;
     event.endTime = endTime;
     event.students = students;
-    event.tutor = tutor_id
+    event.tutor = tutor_id;
+    event.tutorName = tutorName;
+    event.studentNames = studentNames;
 
     event.save(function (err, eve) {
 
@@ -91,9 +92,8 @@ exports.addEvent = async function (req, res) {
             { "new": true, "upsert": true },
             function (err, tutor) {
                 if (err) throw err;
-
+                
                 students.forEach(function (student) {
-                    console.log(student);
                     Student.findByIdAndUpdate(student,
                         { "$push": { "events": eve.id } },
                         { "new": true, "upsert": true },
@@ -113,16 +113,7 @@ exports.addEvent = async function (req, res) {
                             if (err) {
 
                             };
-                            /** 
-                            event.students.forEach(function (student) {
-                                Student.findOne({ _id: student }, function (err, stu) {
-                                    var name = stu.first_name + " " + stu.last_name;
-                                    console.log("yo");
-                                   studentNames.push(name);
-                                });
-                            });
-                            event.students = studentNames;
-                            */
+                            
                             newEvents.push(event);
 
                             count++;

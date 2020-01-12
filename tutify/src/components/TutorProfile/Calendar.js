@@ -26,17 +26,6 @@ import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
 import IconButton from '@material-ui/core/IconButton';
 import ShowStudents from "../TutorAnnouncements/ShowStudents";
 
-function arrayUnique(array) {
-  var a = array.concat();
-  for (var i = 0; i < a.length; ++i) {
-    for (var j = i + 1; j < a.length; ++j) {
-      if (a[i] === a[j])
-        a.splice(j--, 1);
-    }
-  }
-  return a;
-}
-
 class NewCalendar extends React.Component {
   constructor(props) {
     super(props);
@@ -58,7 +47,8 @@ class NewCalendar extends React.Component {
       students: [],
       studentsSelected: [],
       Toggle: false,
-      placeholder: "Share with student"
+      placeholder: "Share with student",
+      tutorName: "",
     };
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -85,12 +75,13 @@ class NewCalendar extends React.Component {
     this.setState({ open: false });
   };
 
-  function1 = (newDates) => {
+  displayedDates = (newDates) => {
     newDates.sort();
+    //remove duplicates
     newDates = newDates.filter(function (elem, pos) {
       return newDates.indexOf(elem) === pos;
     })
-
+    //change number to date format (ex:dd/mm/yyyy)
     for (var i = 0; i < newDates.length; i++) {
       var stri = newDates[i].substring(6) + "/" + newDates[i].substring(4, 6) + "/" + newDates[i].substring(0, 4);
       stri = stri.toString();
@@ -103,10 +94,13 @@ class NewCalendar extends React.Component {
     this.checkSession();
   }
 
+
   handleSelection = (students) => {
-    this.setState({ studentsSelected: arrayUnique(students) });
+    //assign students selected from dropdown list to an array
+    this.setState({ studentsSelected: students });
   }
 
+  //retrieves the session
   checkSession = () => {
     fetch('http://localhost:3001/api/checkSession', {
       method: 'GET',
@@ -117,7 +111,8 @@ class NewCalendar extends React.Component {
         this.setState({
           tutor_id: res.userInfo._id,
           events: res.userInfo.events,
-          students: res.userInfo.students
+          students: res.userInfo.students,
+          tutorName: res.userInfo.first_name + " " + res.userInfo.last_name
         });
         this.populateEvents();
         this.FindStudentsForList();
@@ -125,6 +120,7 @@ class NewCalendar extends React.Component {
       .catch(err => console.log(err));
   };
 
+  //converts student object ids to student information
   FindStudentsForList = () => {
     axios.post('http://localhost:3001/api/findStudents', {
       students: this.state.students
@@ -137,28 +133,8 @@ class NewCalendar extends React.Component {
         console.log(error);
       })
   };
-  /** 
-  FindStudentsSelected = (students) => {
-    var studentNames = [];
-    if (students !== null) {
-      axios.post('http://localhost:3001/api/findStudents', {
-        students: students
-      })
-        .then((res) => {
-          res.data.data.forEach(function (student) {
-            studentNames.push(student.first_name + " " + student.last_name);
 
-          });
-
-        }, (error) => {
-          console.log(error);
-        })
-    }
-    console.log(studentNames);
-    return studentNames;
-  };
-  */
-
+  //toggles with opening and closing of dropdown list of students
   shareWithStudent = () => {
     if (this.state.placeholder === "Share with student") {
       this.setState({ Toggle: true, placeholder: "Hide student list" });
@@ -168,6 +144,7 @@ class NewCalendar extends React.Component {
     }
   }
 
+  //retireves events from database and displays them
   populateEvents = () => {
     var newDates = [];
     var newEvents = [];
@@ -179,6 +156,7 @@ class NewCalendar extends React.Component {
 
         newEvents = res.data.data;
 
+        //changes the format of the date
         for (var z = 0; z < newEvents.length; z++) {
           var str = newEvents[z].date;
           str = str.substring(0, 11)
@@ -187,10 +165,8 @@ class NewCalendar extends React.Component {
           newStr = newStr.substring(6) + "/" + newStr.substring(4, 6) + "/" + newStr.substring(0, 4);
           newStr = newStr.toString();
           newEvents[z].date = newStr;
-          //newEvents[z].students = this.FindStudentsSelected(newEvents[z].students);
         }
-
-        newDates = this.function1(newDates);
+        newDates = this.displayedDates(newDates);
 
         this.setState({ dates: newDates, eventsDecoded: newEvents });
       }, (error) => {
@@ -198,6 +174,7 @@ class NewCalendar extends React.Component {
       });
   };
 
+  //adds an events to the database and retrieves modified events array to display in front end
   addEvent = () => {
     this.setState({ open: false });
     if (this.state.location !== "") {
@@ -213,6 +190,8 @@ class NewCalendar extends React.Component {
       startTime: this.state.startTime,
       endTime: this.state.endTime,
       students: this.state.studentsSelected,
+      tutorName: this.state.tutorName,
+      studentNames: this.state.studentNames
     })
       .then((res) => {
         var newDates = [];
@@ -221,6 +200,7 @@ class NewCalendar extends React.Component {
 
         newEvents = res.data.data;
 
+        //change the format of the date and add new event id to list of event ids
         for (var z = 0; z < newEvents.length; z++) {
           var str = newEvents[z].date;
           str = str.substring(0, 11)
@@ -229,13 +209,11 @@ class NewCalendar extends React.Component {
           newStr = newStr.substring(6) + "/" + newStr.substring(4, 6) + "/" + newStr.substring(0, 4);
           newStr = newStr.toString();
           newEvents[z].date = newStr;
-          //newEvents[z].students = this.FindStudentsSelected(newEvents[z].students);
           replaceEvents.push(newEvents[z]._id);
         }
+        newDates = this.displayedDates(newDates);
 
-
-        newDates = this.function1(newDates);
-
+        //reset all states
         this.setState({
           dates: newDates, eventsDecoded: newEvents, events: replaceEvents, location: "", description: "", startTime: "00:00",
           endTime: "00:00", studentsSelected: []
@@ -246,6 +224,7 @@ class NewCalendar extends React.Component {
       });
   };
 
+  //deletes an events from the database and retrieves modified array of events to display in front end
   deleteEvent = (id) => {
     swal({
       title: "Are you sure you want delete this event?",
