@@ -33,7 +33,7 @@ function MainPage() {
       <Route exact path="/tutor" component={TutorProfile} />
       <Route exact path="/students" component={StudentList} />
       <Route exact path= "/CourseList/:id" component= {CourseList}/>
-      <Route exact path= "/tutorCourses" component = {TutorCourses}/>
+      <Route exact path= "/tutorCourses/:file" component = {TutorCourses}/>
       <Route exact path="/dashboard" component={UserDashboard} />
       <Route exact path= "/uploadingDocs" component = {UploadDocuments}/>
       <Route exact path= "/Postblog" component={BlogPost} />

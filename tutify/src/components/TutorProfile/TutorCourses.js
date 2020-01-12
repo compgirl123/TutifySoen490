@@ -64,12 +64,14 @@ export class TutorCourses extends React.Component {
   }
 
   uploadCourse = (e,courseName) => {
-    axios.post('http://localhost:3001/api/tutorCourses', {
-        course_id : courseName
+    axios.post('http://localhost:3001/api/tutorCourses/:file', {
+        course_id : courseName,
+        file_name : this.props.match.params.file
     })
     swal("Succesfully uploaded document!", "", "success")
       .then((value) => {
-            console.log(courseName);
+        //console.log(this.props.match.params.file);
+           // console.log(courseName);
             //this.setState({ courses: coursesName });
            //window.location = this.state.courses
           //window.location = url;

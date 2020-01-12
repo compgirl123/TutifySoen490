@@ -58,7 +58,7 @@ export class TutorSidebar extends Component {
               <ListItemText primary="All Documents" />
             </ListItem>
 
-            <ListItem button component="a" href="/tutorCourses">
+            <ListItem button component="a" href="/tutorCourses/:file">
               <ListItemIcon>
                 <MenuBookIcon />
               </ListItemIcon>

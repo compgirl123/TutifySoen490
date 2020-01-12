@@ -415,7 +415,7 @@ getCourses = () => {
                           <td>COMP 472</td>
 
                           <td>{uploadDate}</td>
-                          <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("http://localhost:3000/tutorCourses?"+encrypted_file_name)} id={file._id}><MenuBookIcon/></Button></td>
+                          <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("http://localhost:3000/tutorCourses/"+encrypted_file_name)} id={file._id}><MenuBookIcon/></Button></td>
                           <td align="center"><Button type="button" variant="contained" className="submit" size="small"  onClick={() => window.open("http://localhost:3000/students")} id={file._id}><GroupAddIcon/></Button></td>
 
                           <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>

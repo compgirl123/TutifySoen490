@@ -96,6 +96,6 @@ router.post("/files/del/:id", filesController.deleteFile);
 router.get('/uploadFile', uploadedFilesController.populateUploadedFiles);
 router.get('/deletelistitem', uploadedFilesController.deleteUploadedFiles);
 router.get('/uploadingDocs', uploadedFilesController.getLatestUpload);
-router.post('/tutorCourses', uploadedFilesController.assignCourse);
+router.post('/tutorCourses/:file', uploadedFilesController.assignCourse);
 
 module.exports = router;
