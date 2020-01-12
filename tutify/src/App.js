@@ -17,7 +17,9 @@ import BlogPost from "./components/BlogPost";
 import ViewCourse from "./components/StudentCourseView/ViewCourse";
 import TutorCourseView from "./components/TutorCourseView/TutorCourseView";
 import Announcements from "./components/TutorAnnouncements/Announcements";
+import ResourceLevels from "./components/Resources/ResourceLevels";
 import Document from "./components/Documents/Document";
+import ResourcePage from './components/Resources/ResourcePage';
 
 // This is all the url routing.
 function MainPage() {
@@ -41,6 +43,10 @@ function MainPage() {
       <Route exact path= "/document/:filename" component={Document} />
       <Route exact path= "/TutorCourseView" component={TutorCourseView} />
       <Route exact path= "/Announcements" component={Announcements} />
+      <Route exact path= "/resources" component={ResourceLevels} />
+      <Route exact path= "/primary" component={ResourcePage} />
+      <Route exact path= "/secondary" component={ResourcePage} />
+      <Route exact path= "/postsecondary" component={ResourcePage} />
     </Router>
   );
 }
