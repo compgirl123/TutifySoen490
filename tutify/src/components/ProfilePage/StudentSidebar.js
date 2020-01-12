@@ -60,7 +60,7 @@ class Sidebar extends Component {
             <ListItemIcon>
               <MenuBookIcon />
             </ListItemIcon>
-            <ListItemText primary="My Documents" />
+            <ListItemText primary="Individually Shared" />
           </ListItem>
           <ListItem button component="a" href="/courses">
             <ListItemIcon>

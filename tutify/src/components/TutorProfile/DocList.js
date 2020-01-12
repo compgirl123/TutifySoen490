@@ -22,6 +22,7 @@ import swal from 'sweetalert';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 
+// displaying all of the documents uploaded by the tutor.
 class DocList extends React.Component {
   constructor(props) {
     super(props);
@@ -142,7 +143,6 @@ class DocList extends React.Component {
       filteredData: newList
     });
   }
-
 
   async loadFiles() {
     fetch('http://localhost:3001/api/uploadFile')
@@ -319,8 +319,6 @@ class DocList extends React.Component {
   }
 
   render() {
-    // const { anchorEl } = this.state;
-    //const { selectedIndex, courses, students} = this.state;
     const { classes } = this.props;
     const { files } = this.state;
     const fixedHeightPaper = clsx(classes.paper);
@@ -347,11 +345,10 @@ class DocList extends React.Component {
                         <TableHead>
                           <TableRow>
                             <TableCell>Name</TableCell>
-                            <TableCell>Course</TableCell>
                             <TableCell>Creation Date</TableCell>
                             <TableCell>Share to Specific Course</TableCell>
                             <TableCell>Share to Specific Student</TableCell>
-                            <TableCell>Dowload</TableCell>
+                            <TableCell>Download</TableCell>
                             <TableCell>Remove File</TableCell>
                           </TableRow>
                         </TableHead>
@@ -365,15 +362,11 @@ class DocList extends React.Component {
                             return (
                               <TableRow key={index}>
                                 <td><a href={url}>{filename}</a></td>
-                                <td>COMP 472</td>
-
                                 <td>{uploadDate}</td>
                                 <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("http://localhost:3000/tutorCourses/" + encrypted_file_name)} id={file._id}><MenuBookIcon /></Button></td>
                                 <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("http://localhost:3000/students/" + encrypted_file_name)}  id={file._id}><GroupAddIcon /></Button></td>
-
                                 <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
                                 <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={e => this.deleteListItem()} ><DeleteIcon /></Button></td>
-
                               </TableRow>
                             )
                           })}

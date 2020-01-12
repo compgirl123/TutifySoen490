@@ -19,12 +19,7 @@ import Button from "@material-ui/core/Button";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import swal from 'sweetalert';
 
-/*const options = [
-    'All',
-    'Course',
-    'Student',
-];*/
-
+// displaying the documents shared to students
 class Studentdocs extends React.Component {
   constructor(props) {
     super(props);
@@ -146,9 +141,8 @@ class Studentdocs extends React.Component {
     });
   }
 
-
   async loadFiles() {
-    fetch('http://localhost:3001/api/uploadFile')
+    fetch('http://localhost:3001/api/doc')
       .then(res => res.json())
       .then(res => {
         if (res.file !== undefined) {
@@ -332,42 +326,39 @@ class Studentdocs extends React.Component {
         <main>
           <DashBoardNavBar />
           <main className={classes.content}>
-
             <div className={classes.appBarSpacer} />
             <Container maxWidth="lg" className={classes.container}>
               <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                 List of Documents
               </Typography>
               <Grid container spacing={2}>
-
                 {/* Student Info */}
                 <Grid item xs={12} md={12} lg={24}>
                   <Paper className={fixedHeightPaper}>
                     <React.Fragment>
-                      <Title>Uploaded Documents </Title>
+                      <Title>Individually Uploaded Documents </Title>
                       <Table size="small">
                         <TableHead>
                           <TableRow>
                             <TableCell>Name</TableCell>
-                            <TableCell>Course</TableCell>
+                            <TableCell>Tutor</TableCell>
                             <TableCell>Creation Date</TableCell>
-                            <TableCell>Dowload</TableCell>
+                            <TableCell>Download</TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
                           {files.map((file, index) => {
-                            //var d = new Date(file.uploadDate);
                             var filename = file.name;
                             var url = file.url
                             var link = file.link
                             var uploadDate = file.uploadDate
+                            var tutor_id = file.adminTutor
                             return (
                               <TableRow key={index}>
                                 <td><a href={url}>{filename}</a></td>
-                                <td>COMP 472</td>
+                                <td>{tutor_id}</td>
                                 <td>{uploadDate}</td>
                                 <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
-
                               </TableRow>
                             )
                           })}

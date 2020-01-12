@@ -20,6 +20,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from "@material-ui/core/Button";
 import swal from 'sweetalert';
 
+// displaying the list of students the tutor can share their documents to.
 export class StudentList extends React.Component {
   constructor(props) {
     super(props);
@@ -85,8 +86,6 @@ export class StudentList extends React.Component {
     const { students } = this.state;
     const fixedHeightPaper = clsx(classes.paper);
 
-    
-
     return (
       <React.Fragment>
         <main>
@@ -147,10 +146,6 @@ export class StudentList extends React.Component {
                 </Grid>
               </Grid>
               <p></p>
-              {/**onClick={event =>this.uploadCourse(event,student.first_name,student.last_name)} 
-              <Button type="button" variant="contained" size="small" className="submit">
-                  Send Document
-              </Button>*/}
             </Container>
             {/* Footer */}
             <Footer />

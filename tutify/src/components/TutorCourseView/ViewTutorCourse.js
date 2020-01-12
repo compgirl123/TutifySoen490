@@ -3,8 +3,6 @@ import Footer from '../Footer';
 import Grid from '@material-ui/core/Grid';
 import * as CourseViewStyles from '../../styles/CourseView-styles';
 import { withStyles } from "@material-ui/core/styles";
-import ContactTutor from "./ContactTutor";
-import Documents from "./Documents";
 import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
 import Container from '@material-ui/core/Container';
 import Typography from "@material-ui/core/Typography";
@@ -18,7 +16,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import Button from "@material-ui/core/Button";
 
 // View the Specific Course Page with all of the Course Details as well as the Tutor Information
-export class ViewCourse extends React.Component {
+export class ViewTutorCourse extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -64,7 +62,7 @@ export class ViewCourse extends React.Component {
   
     // Uses our backend api to fetch the courses from our database
     getDataFromDb = () => {
-        fetch('http://localhost:3001/api/getUserCourses', {
+        fetch('http://localhost:3001/api/getTutorCourses', {
         method: 'GET',
         credentials: 'include'
         })
@@ -77,7 +75,7 @@ export class ViewCourse extends React.Component {
     }
 
     async loadFiles() {
-        fetch('http://localhost:3001/api/ViewCourse/:coursename')
+        fetch('http://localhost:3001/api/ViewTutorCourse/:coursename')
           .then(res => res.json())
           .then(res => {
             if (res.file !== undefined) {
@@ -117,7 +115,7 @@ render() {
                 <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
                   {this.state.course_selected}
                 </Typography> 
-               </Container>
+                </Container>
               </div>
 
                 <Grid container spacing={3}>
@@ -166,5 +164,5 @@ render() {
     }
 }
 
-export default withStyles(CourseViewStyles.styles, { withTheme: true })(ViewCourse);
+export default withStyles(CourseViewStyles.styles, { withTheme: true })(ViewTutorCourse);
 

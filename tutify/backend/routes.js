@@ -98,4 +98,10 @@ router.post('/tutorCourses/:file', uploadedFilesController.assignCourse);
 
 router.post('/students/:file', uploadedFilesController.assignCourseStudent);
 
+router.get('/doc', uploadedFilesController.viewDocs);
+
+router.get('/ViewCourse/:coursename', uploadedFilesController.viewCourseDocs);
+
+router.get('/ViewTutorCourse/:coursename', uploadedFilesController.viewCourseDocs);
+
 module.exports = router;

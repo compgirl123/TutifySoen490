@@ -72,6 +72,7 @@ exports.populateUploadedFiles = async function (req, res) {
 // this method enables the tutor to share their uploaded documents to their courses.
 exports.assignCourse = async function (req, res) {
     let uploaded_files = new UploadedFiles();
+    let course = new Course();
     const {course_id,file_name} = req.body;
 
     Course.findOne({ name: course_id }, function (err, course_name) {
@@ -86,6 +87,17 @@ exports.assignCourse = async function (req, res) {
                     if (err) throw err;
                 });
             });
+            // find a solution later on
+            course.save(function (err) {
+                Course.findByIdAndUpdate(course_name._id,
+                    { "$push": {
+                        "sharedToCourses": encrypted_file_name._id
+                    } },
+                    { "new": true, "upsert": true },
+                    function (err, tutor) {
+                        if (err) throw err;
+                    });
+            });
         });
     });
 }
@@ -93,6 +105,7 @@ exports.assignCourse = async function (req, res) {
 // this method enables the tutor to share their uploaded documents to their students.
 exports.assignCourseStudent = async function (req, res) {
     let uploaded_files = new UploadedFiles();
+    let profile = new Profile();
     const { first_name_student, last_name_student, file_name} = req.body;
     Profile.findOne({ first_name: first_name_student, last_name: last_name_student}, function (err, student_info) {
         UploadedFiles.findOne({ encryptedname: file_name }, function (err, encrypted_file_name) {
@@ -105,12 +118,49 @@ exports.assignCourseStudent = async function (req, res) {
                     function (err, tutor) {
                         if (err) throw err;
                     });
-                });
+              });
+              profile.save(function (err) {
+                Profile.findByIdAndUpdate(student_info._id,
+                    { "$push": {
+                        "sharedToStudents": encrypted_file_name._id
+                    } },
+                    { "new": true, "upsert": true },
+                    function (err, tutor) {
+                        if (err) throw err;
+                    });
+              });
         });
     });
 }
 
-// this method deletes uploaded files from db.
-exports.deleteUploadedFiles = async function (req, res) {
-    // Will be doing in Iteration 8.
- };
+// this method enables the students to view all of their shared documents.
+exports.viewDocs = async function (req, res) {
+    var student_account = 0;
+
+    Object.keys(req.sessionStore.sessions).forEach(function (key) {
+        var parsed_student_cookie = JSON.parse(req.sessionStore.sessions[key]);
+        var parsed_student_info = parsed_student_cookie.userInfo;
+        if (typeof parsed_student_info !== "undefined") {
+            student_account = parsed_student_info.account;
+        }
+    });
+
+    Profile.findOne({ account: student_account }, function (err, sharedDocs) {
+        UploadedFiles.find({ _id: { $in: sharedDocs.sharedToStudents } }, function (err, tst) {
+            return res.json({ success: true, file: tst });
+        });
+    });
+}
+
+// this method enables each class to view all of their shared documents.
+exports.viewCourseDocs = async function (req, res) {
+   let course = new Course();
+   var r = /\d+/;
+   var s = req.headers.referer.match(/.*\/(.*)$/)[1];
+
+   Course.findOne({ name: req.headers.referer.match(/.*\/(.*)$/)[1].substring(0,4)+" "+s.match(r)[0] }, function (err, course_info) {
+       UploadedFiles.find({ _id: { $in: course_info.sharedToCourses } }, function (err, courses) {
+        return res.json({ success: true, file: courses });
+    });
+   });
+}

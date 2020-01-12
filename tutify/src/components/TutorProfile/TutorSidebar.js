@@ -17,7 +17,6 @@ export class TutorSidebar extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-
   handleChange(event) {
     fetch('http://localhost:3001/api/logout', {
       method: 'GET',
@@ -58,7 +57,7 @@ export class TutorSidebar extends Component {
               <ListItemText primary="All Documents" />
             </ListItem>
 
-            <ListItem button component="a" href="/tutorCourses/:file">
+            <ListItem button component="a" href="/tutorCourses">
               <ListItemIcon>
                 <MenuBookIcon />
               </ListItemIcon>
