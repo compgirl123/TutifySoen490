@@ -69,7 +69,6 @@ export class ViewTutorCourse extends React.Component {
         .then(response => response.json())
         .then(res => {
             this.setState({ courses: res.data });
-  
         })
         .catch(err => console.log(err));
     }
@@ -99,7 +98,6 @@ export class ViewTutorCourse extends React.Component {
         
 render() {
     const { classes } = this.props;
-    const { courses } = this.state;
     const { files } = this.state;
 
     return (

@@ -3,8 +3,6 @@ import Footer from '../Footer';
 import Grid from '@material-ui/core/Grid';
 import * as CourseViewStyles from '../../styles/CourseView-styles';
 import { withStyles } from "@material-ui/core/styles";
-import ContactTutor from "./ContactTutor";
-import Documents from "./Documents";
 import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
 import Container from '@material-ui/core/Container';
 import Typography from "@material-ui/core/Typography";
@@ -101,7 +99,6 @@ export class ViewCourse extends React.Component {
         
 render() {
     const { classes } = this.props;
-    const { courses } = this.state;
     const { files } = this.state;
 
     return (
