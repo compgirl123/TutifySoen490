@@ -2,6 +2,7 @@ const UploadedFiles = require('../models/models').UploadedFiles;
 const Files = require('../models/models').Files;
 const Tutor = require('../models/models').Tutor;
 const Course = require('../models/models').Course;
+const Profile = require('../models/models').Profile;
 var mongoose = require('mongoose');
 
 // This method fetches the latest uploaded document.
@@ -68,18 +69,16 @@ exports.populateUploadedFiles = async function (req, res) {
 
 };
 
-// this method enables the tutor to share their uploaded documents to their students.
+// this method enables the tutor to share their uploaded documents to their courses.
 exports.assignCourse = async function (req, res) {
     let uploaded_files = new UploadedFiles();
     const {course_id,file_name} = req.body;
 
     Course.findOne({ name: course_id }, function (err, course_name) {
         UploadedFiles.findOne({ encryptedname: file_name }, function (err, encrypted_file_name) {
-            // Testing
             uploaded_files.save(function (err) {
             UploadedFiles.findByIdAndUpdate(encrypted_file_name._id,
                 { "$push": {
-                    "sharedToStudents": "test",
                     "sharedToCourses": course_name._id 
                 } },
                 { "new": true, "upsert": true },
@@ -87,9 +86,27 @@ exports.assignCourse = async function (req, res) {
                     if (err) throw err;
                 });
             });
-            // Testing
         });
-        
+    });
+}
+
+// this method enables the tutor to share their uploaded documents to their students.
+exports.assignCourseStudent = async function (req, res) {
+    let uploaded_files = new UploadedFiles();
+    const { first_name_student, last_name_student, file_name} = req.body;
+    Profile.findOne({ first_name: first_name_student, last_name: last_name_student}, function (err, student_info) {
+        UploadedFiles.findOne({ encryptedname: file_name }, function (err, encrypted_file_name) {
+             uploaded_files.save(function (err) {
+                UploadedFiles.findByIdAndUpdate(encrypted_file_name._id,
+                    { "$push": {
+                        "sharedToStudents": student_info._id
+                    } },
+                    { "new": true, "upsert": true },
+                    function (err, tutor) {
+                        if (err) throw err;
+                    });
+                });
+        });
     });
 }
 

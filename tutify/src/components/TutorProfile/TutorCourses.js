@@ -68,7 +68,7 @@ export class TutorCourses extends React.Component {
         course_id : courseName,
         file_name : this.props.match.params.file
     })
-    swal("Succesfully uploaded document!", "", "success");
+    swal("Succesfully uploaded document to Course(s)!", "", "success");
   }
 
   render() {

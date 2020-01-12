@@ -96,4 +96,6 @@ router.get('/uploadingDocs', uploadedFilesController.getLatestUpload);
 
 router.post('/tutorCourses/:file', uploadedFilesController.assignCourse);
 
+router.post('/students/:file', uploadedFilesController.assignCourseStudent);
+
 module.exports = router;

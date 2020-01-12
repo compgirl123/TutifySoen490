@@ -81,6 +81,7 @@ app.get('/doclist', uploadController.populateUploadedFiles);
 app.get('/deletelistitem', uploadController.deleteUploadedFiles);
 app.get('/uploadingDocs', uploadController.getLatestUpload);
 app.post('/tutorCourses/:file', uploadController.assignCourse);
+app.post('/students/:file', uploadController.assignCourseStudent);
 
 // file upload requirements
 app.use(express.json());

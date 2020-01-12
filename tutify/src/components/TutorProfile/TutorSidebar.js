@@ -71,7 +71,7 @@ export class TutorSidebar extends Component {
               </ListItemIcon>
               <ListItemText primary="Announcements" />
             </ListItem>
-            <ListItem button component="a" href="/students">
+            <ListItem button component="a" href="/students/:file">
               <ListItemIcon>
                 <SchoolIcon />
               </ListItemIcon>

@@ -357,7 +357,6 @@ class DocList extends React.Component {
                         </TableHead>
                         <TableBody>
                           {files.map((file, index) => {
-                            //var d = new Date(file.uploadDate);
                             var filename = file.name;
                             var url = file.url
                             var link = file.link
@@ -370,7 +369,7 @@ class DocList extends React.Component {
 
                                 <td>{uploadDate}</td>
                                 <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("http://localhost:3000/tutorCourses/" + encrypted_file_name)} id={file._id}><MenuBookIcon /></Button></td>
-                                <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("http://localhost:3000/students")} id={file._id}><GroupAddIcon /></Button></td>
+                                <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("http://localhost:3000/students/" + encrypted_file_name)}  id={file._id}><GroupAddIcon /></Button></td>
 
                                 <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
                                 <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={e => this.deleteListItem()} ><DeleteIcon /></Button></td>
