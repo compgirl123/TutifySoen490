@@ -121,11 +121,11 @@ class Sidebar extends Component {
               </ListItemIcon>
               <ListItemText primary="Extra Problems" />
             </ListItem>
-            <ListItem button>
+            <ListItem button component="a" href="/resources">
               <ListItemIcon>
                 <BookIcon />
               </ListItemIcon>
-              <ListItemText primary="Useful Readings" />
+              <ListItemText primary="Useful Resources" />
             </ListItem>
           </div>
         </List>
