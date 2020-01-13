@@ -55,41 +55,30 @@ export class CourseView extends React.Component {
     }
 
     render() {
-        //const { courses } = this.props;
-        //const { courses } = ['COMP 472','SOEN 490'];
-       /* const { courses } =  [
-            {students:["5dc8735ebb22af5ae4ca23e6"],
-            course:{tutors:["5dacd1cf1c9d440000aa0b1b"],students:[],_id: "5dbaef561c9d440000c0ab0a",
-            name: "MATH 203",
-            description: "Linear Algebra I. Vector Spaces, Subspaces. Linear Combinations, Systems of Equations Linear Dependence and Independence "}
-          }];*/
-        
-
         return (
             <Paper>
                 <Dialog open={this.state.open}>
-          <DialogTitle>Select A Course</DialogTitle>
-          <DialogContent>
-                    <ListItem>
-                                                        <ListItemIcon>
-                                                            <Checkbox
-                                                            />
-                                                        </ListItemIcon>
-                                                        <ListItemText>Soen 385</ListItemText>
-                                                    </ListItem>
-                                                    <ListItem>
-                                                        <ListItemIcon>
-                                                            <Checkbox
-                                                            />
-                                                        </ListItemIcon>
-                                                        <ListItemText>Comp 472</ListItemText>
-                                                    </ListItem>
-
-          </DialogContent>
-          <DialogActions>
-                    <Button onClick={this.handleClose}>Close</Button>
-                  </DialogActions>
-        </Dialog>
+                    <DialogTitle>Select A Course</DialogTitle>
+                    <DialogContent>
+                        <ListItem>
+                            <ListItemIcon>
+                                <Checkbox
+                                />
+                            </ListItemIcon>
+                            <ListItemText>Soen 385</ListItemText>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemIcon>
+                                <Checkbox
+                                />
+                            </ListItemIcon>
+                            <ListItemText>Comp 472</ListItemText>
+                        </ListItem>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleClose}>Close</Button>
+                    </DialogActions>
+                </Dialog>
             </Paper>
         );
     }

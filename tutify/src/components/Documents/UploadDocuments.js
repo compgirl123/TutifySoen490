@@ -40,7 +40,7 @@ export class UploadDocuments extends Component {
     this.getLatestFile();
   }
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession', {
+    fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
     })
@@ -57,7 +57,7 @@ export class UploadDocuments extends Component {
   };
 
   getLatestFile = () => {
-    fetch('http://localhost:3001/api/uploadingDocs', {
+    fetch('/api/uploadingDocs', {
       method: 'GET',
       credentials: 'include'
     })
@@ -115,7 +115,7 @@ export class UploadDocuments extends Component {
         }
       }
     }
-    axios.post('http://localhost:3001/api/updateTutorInfo', {
+    axios.post('/api/updateTutorInfo', {
       _id: this.state._id,
       program_of_study: updatedProfileValues[0],
       school: updatedProfileValues[1],
@@ -139,7 +139,7 @@ export class UploadDocuments extends Component {
     formData.append('file', this.state.file);
     formData.append('adminTutor', this.state.user_id);
     formData.append('name', this.state.file.name);
-    await axios.post("http://localhost:3001/uploadFile", formData).then(res => {
+    await axios.post("/uploadFile", formData).then(res => {
     }).catch(err => {
       console.log(err);
     });

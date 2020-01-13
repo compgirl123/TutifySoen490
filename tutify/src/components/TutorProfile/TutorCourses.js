@@ -36,7 +36,7 @@ export class TutorCourses extends React.Component {
   }
 
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession', {
+    fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
     })
@@ -53,7 +53,7 @@ export class TutorCourses extends React.Component {
 
   // Uses our backend api to fetch the courses from our database
   getDataFromDb = () => {
-    fetch('http://localhost:3001/api/getTutorCourses', {
+    fetch('/api/getTutorCourses', {
       method: 'GET',
       credentials: 'include'
     })
@@ -65,7 +65,7 @@ export class TutorCourses extends React.Component {
   }
 
   uploadCourse = (e,courseName) => {
-    axios.post('http://localhost:3001/api/tutorCourses/:file', {
+    axios.post('/api/tutorCourses/:file', {
         course_id : courseName,
         file_name : this.props.match.params.file
     })

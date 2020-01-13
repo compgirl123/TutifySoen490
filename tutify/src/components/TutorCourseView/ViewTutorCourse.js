@@ -41,7 +41,7 @@ export class ViewTutorCourse extends React.Component {
     }
     
     checkSession = () => {
-        fetch('http://localhost:3001/api/checkSession', {
+        fetch('/api/checkSession', {
           method: 'GET',
           credentials: 'include'
         })
@@ -62,7 +62,7 @@ export class ViewTutorCourse extends React.Component {
   
     // Uses our backend api to fetch the courses from our database
     getDataFromDb = () => {
-        fetch('http://localhost:3001/api/getTutorCourses', {
+        fetch('/api/getTutorCourses', {
         method: 'GET',
         credentials: 'include'
         })
@@ -74,7 +74,7 @@ export class ViewTutorCourse extends React.Component {
     }
 
     async loadFiles() {
-        fetch('http://localhost:3001/api/ViewTutorCourse/:coursename')
+        fetch('/api/ViewTutorCourse/:coursename')
           .then(res => res.json())
           .then(res => {
             if (res.file !== undefined) {

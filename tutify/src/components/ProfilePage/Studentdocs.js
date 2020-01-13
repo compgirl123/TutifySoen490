@@ -142,7 +142,7 @@ class Studentdocs extends React.Component {
   }
 
   async loadFiles() {
-    fetch('http://localhost:3001/api/doc')
+    fetch('/api/doc')
       .then(res => res.json())
       .then(res => {
         if (res.file !== undefined) {
@@ -160,7 +160,7 @@ class Studentdocs extends React.Component {
     this.loadFiles();
   }
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession', {
+    fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
     })
@@ -178,7 +178,7 @@ class Studentdocs extends React.Component {
   };
 
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession', {
+    fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
     })
@@ -198,7 +198,7 @@ class Studentdocs extends React.Component {
   };
 
   FindStudents = () => {
-    axios.post('http://localhost:3001/api/findStudents', {
+    axios.post('/api/findStudents', {
       students: this.state.students
     })
       .then((res) => {
@@ -238,7 +238,7 @@ class Studentdocs extends React.Component {
     })
       .then((willDelete) => {
         if (willDelete) {
-          fetch('http://localhost:3001/api/deleteUploadedFiles')
+          fetch('/api/deleteUploadedFiles')
             .then(res => res.json())
             .then(res => {
             })
@@ -271,7 +271,7 @@ class Studentdocs extends React.Component {
         }
       }
     }
-    axios.post('http://localhost:3001/api/updateTutorInfo', {
+    axios.post('/api/updateTutorInfo', {
       _id: this.state._id,
       program_of_study: updatedProfileValues[0],
       school: updatedProfileValues[1],
@@ -294,7 +294,7 @@ class Studentdocs extends React.Component {
     formData.append('file', this.state.file);
     formData.append('adminTutor', this.state.user_id);
     formData.append('name', this.state.file.name);
-    axios.post("http://localhost:3001/api/testUpload", formData).then(res => {
+    axios.post("/api/testUpload", formData).then(res => {
     }).catch(err => {
       console.log(err);
 
@@ -303,7 +303,7 @@ class Studentdocs extends React.Component {
   }
 
   getCourses = () => {
-    fetch('http://localhost:3001/api/getTutorCourses', {
+    fetch('/api/getTutorCourses', {
       method: 'GET',
       credentials: 'include'
     })

@@ -17,17 +17,17 @@ export class StudentSelection extends React.Component {
         super(props);
         this.state = {
             selectedStudents: [],
-            open : true
+            open: true
         };
         this.handleChange = this.handleChange.bind(this);
-        
+
     }
     openDialog() {
         this.setState({ open: true });
     }
     handleClose = () => {
         this.setState({ open: false });
-      };
+    };
     handleChange = (e, value) => {
         // if target is checked
         if (e.target != null && e.target.checked) {
@@ -55,44 +55,33 @@ export class StudentSelection extends React.Component {
     }
 
     render() {
-        //const { courses } = this.props;
-        //const { courses } = ['COMP 472','SOEN 490'];
-        /*const { courses } =  [
-            {students:["5dc8735ebb22af5ae4ca23e6"],
-            course:{tutors:["5dacd1cf1c9d440000aa0b1b"],students:[],_id: "5dbaef561c9d440000c0ab0a",
-            name: "MATH 203",
-            description: "Linear Algebra I. Vector Spaces, Subspaces. Linear Combinations, Systems of Equations Linear Dependence and Independence "}
-          }];*/
-        
-
         return (
             <Paper>
                 <Dialog open={this.state.open}>
-          <DialogTitle>Select A Course</DialogTitle>
-          <DialogContent>
-                    <ListItem>
-                                                        <ListItemIcon>
-                                                            <Checkbox
-                                                            />
-                                                        </ListItemIcon>
-                                                        <ListItemText>Claudia</ListItemText>
-                                                    </ListItem>
-                                                    <ListItem>
-                                                        <ListItemIcon>
-                                                            <Checkbox
-                                                            />
-                                                        </ListItemIcon>
-                                                        <ListItemText>Kasthurie</ListItemText>
-                                                    </ListItem>
-
-          </DialogContent>
-          <DialogActions>
-                    <Button onClick={this.handleClose}>Close</Button>
-                  </DialogActions>
-        </Dialog>
+                    <DialogTitle>Select A Course</DialogTitle>
+                    <DialogContent>
+                        <ListItem>
+                            <ListItemIcon>
+                                <Checkbox
+                                />
+                            </ListItemIcon>
+                            <ListItemText>Claudia</ListItemText>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemIcon>
+                                <Checkbox
+                                />
+                            </ListItemIcon>
+                            <ListItemText>Kasthurie</ListItemText>
+                        </ListItem>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleClose}>Close</Button>
+                    </DialogActions>
+                </Dialog>
             </Paper>
         );
     }
 }
 
-export default withStyles(TutorAnnouncementsStyles.styles, { withTheme: true })(StudentSelection );
+export default withStyles(TutorAnnouncementsStyles.styles, { withTheme: true })(StudentSelection);
