@@ -17,17 +17,17 @@ export class CourseView extends React.Component {
         super(props);
         this.state = {
             selectedStudents: [],
-            open : true
+            open: true
         };
         this.handleChange = this.handleChange.bind(this);
-        
+
     }
     openDialog() {
         this.setState({ open: true });
     }
     handleClose = () => {
         this.setState({ open: false });
-      };
+    };
     handleChange = (e, value) => {
         // if target is checked
         if (e.target != null && e.target.checked) {

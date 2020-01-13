@@ -51,7 +51,7 @@ exports.addUploadedFiles = async function (req, res) {
     res.redirect("/uploadingDocs" + req.body.name);
 }
 
-// this method gets events from the database
+// This Method Gets the Document Files from the Database
 exports.populateUploadedFiles = async function (req, res) {
     var tutor_id = 0;
 
@@ -87,7 +87,6 @@ exports.assignCourse = async function (req, res) {
                     if (err) throw err;
                 });
             });
-            // find a solution later on
             course.save(function (err) {
                 Course.findByIdAndUpdate(course_name._id,
                     { "$push": {

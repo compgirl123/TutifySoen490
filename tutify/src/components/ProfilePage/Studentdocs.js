@@ -38,9 +38,6 @@ class Studentdocs extends React.Component {
     };
     this.loadFiles = this.loadFiles.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleClickMenu = this.handleClickMenu.bind(this);
-    this.handleCloseMenu = this.handleCloseMenu.bind(this);
 
   }
 
@@ -55,91 +52,6 @@ class Studentdocs extends React.Component {
     });
   };
 
-  handleCloseMenu = () => {
-    this.setState({ anchorEl: null });
-  };
-
-  handleClickMenu = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
-  handleMenuItemClick = (event, index) => {
-    this.setState({ selectedIndex: index });
-    this.setState({ anchorEl: null });
-
-    this.openDialog.bind(this);
-    if (index === 0) {
-      this.setState({ placeholder: 'All' });
-      this.setState({ isCoursesSelected: false, isStudentsSelected: false })
-    }
-    else if (index === 1) {
-      this.setState({ placeholder: 'Course' });
-      this.setState({ isCoursesSelected: true, isStudentsSelected: false });
-    }
-    else if (index === 2) {
-      this.setState({ placeholder: 'Student' });
-      this.setState({ isCoursesSelected: false, isStudentsSelected: true })
-    }
-
-  };
-
-  handleChange(e) {
-    // Variable to hold the original version of the list
-    let currentList = this.state.data;
-    // Variable to hold the filtered list before putting into state
-    let newList = [];
-    // If the search bar isn't empty
-    if (e.target.value !== "") {
-      // if search includes whitespace, split it into different search terms
-      const filters = e.target.value.toLowerCase().split(" ");
-
-      // Determine which tutors should be displayed based on search term
-      newList = currentList.filter(tutor => {
-        let currentValue = ""
-        let returnValue = true
-
-        switch (this.state.selectedIndex) {
-          default:
-          case 0: tutor.subjects.forEach(function (entry) {
-            currentValue += (entry + " ").toLowerCase()
-          });
-            currentValue += (tutor.first_name + " " + tutor.last_name
-              + " " + tutor.school + " " + tutor.program_of_study).toLowerCase()
-            break;
-          case 1: // name
-            currentValue = (tutor.first_name + " " + tutor.last_name).toLowerCase()
-            break;
-          case 2: // school
-            currentValue = (tutor.school).toLowerCase()
-            break;
-          case 3: // courses
-          case 4: // subjects
-            tutor.subjects.forEach(function (entry) {
-              currentValue += (entry + " ").toLowerCase()
-            });
-            break;
-          case 5: // program
-            currentValue = (tutor.program_of_study).toLowerCase()
-            break;
-        }
-
-        // If all search terms are found for the tutor, he/she is included 
-        filters.forEach(function (entry) {
-          if (!currentValue.includes(entry)) {
-            return returnValue = false;
-          }
-        });
-        return returnValue;
-
-      });
-    } else {
-      newList = currentList;
-    }
-
-    this.setState({
-      filteredData: newList
-    });
-  }
 
   async loadFiles() {
     fetch('/api/doc')
@@ -172,26 +84,6 @@ class Studentdocs extends React.Component {
         }
         else {
           this.setState({ user_id: "Not logged in" });
-        }
-      })
-      .catch(err => console.log(err));
-  };
-
-  checkSession = () => {
-    fetch('/api/checkSession', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then((res) => {
-        if (res.isLoggedIn) {
-          this.setState({
-            students: res.userInfo.students
-          })
-
-        }
-        else {
-          this.setState({ Toggle: false });
         }
       })
       .catch(err => console.log(err));

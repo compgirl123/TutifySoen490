@@ -63,9 +63,10 @@ export class UploadDocuments extends Component {
     })
       .then(res => res.json())
       .then(recent => {
-        this.setState({ recentFileName: recent.recent.name });
-        this.setState({ recentUploadDate: (recent.recent.uploadDate).split("T")[0] });
-        this.setState({ recentTutorUploadName: recent.recent.adminTutor });
+        this.setState({ recentFileName: recent.recent.name,
+                        recentUploadDate: (recent.recent.uploadDate).split("T")[0],
+                        recentTutorUploadName: recent.recent.adminTutor
+        });
       })
       .catch(err => console.log(err));
   }

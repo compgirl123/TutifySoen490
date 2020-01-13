@@ -79,13 +79,10 @@ export class ViewTutorCourse extends React.Component {
           .then(res => {
             if (res.file !== undefined) {
               if(this.state.shouldView){
-                this.setState({ files: res.file });
-                this.setState({course_selected:this.props.match.params.coursename});
-                console.log("HAHAH");
+                this.setState({ files: res.file,course_selected:this.props.match.params.coursename });
               }
               else{
                 this.setState({ files: [] });
-                console.log("HOHO");
               }
             }
             else {
