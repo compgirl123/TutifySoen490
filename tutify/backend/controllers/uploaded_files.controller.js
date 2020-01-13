@@ -7,8 +7,8 @@ var mongoose = require('mongoose');
 
 // This method fetches the latest uploaded document.
 exports.getLatestUpload = async function (req, res) {
-    UploadedFiles.findOne({ encryptedname: "2451d4f9d53678fba774c05738b234e4.png" }, function (err,mostRecent) {
-        return res.json({ success: true, recent: mostRecent});
+    UploadedFiles.findOne({ encryptedname: "2451d4f9d53678fba774c05738b234e4.png" }, function (err, mostRecent) {
+        return res.json({ success: true, recent: mostRecent });
     });
 }
 
@@ -24,11 +24,11 @@ exports.addUploadedFiles = async function (req, res) {
     var name_shortened = "";
 
     // Eventually, this will be implemented
-    if(name.split(".")[0].length > 25){
-       name_new = name.substring(0,25)+"."+name.split(".")[1];
+    if (name.split(".")[0].length > 25) {
+        name_new = name.substring(0, 25) + "." + name.split(".")[1];
     }
-    else{
-       name_new = name;
+    else {
+        name_new = name;
     }
 
     uploaded_files.save(function (err) {
@@ -57,7 +57,7 @@ exports.populateUploadedFiles = async function (req, res) {
 
     Object.keys(req.sessionStore.sessions).forEach(function (key) {
         var parsed_tutor_cookie = JSON.parse(req.sessionStore.sessions[key]);
-        var parsed_tutor_info = parsed_tutor_cookie .userInfo;
+        var parsed_tutor_info = parsed_tutor_cookie.userInfo;
         if (typeof parsed_tutor_info !== "undefined") {
             tutor_id = parsed_tutor_info._id;
         }
@@ -73,25 +73,29 @@ exports.populateUploadedFiles = async function (req, res) {
 exports.assignCourse = async function (req, res) {
     let uploaded_files = new UploadedFiles();
     let course = new Course();
-    const {course_id,file_name} = req.body;
+    const { course_id, file_name } = req.body;
 
     Course.findOne({ name: course_id }, function (err, course_name) {
         UploadedFiles.findOne({ encryptedname: file_name }, function (err, encrypted_file_name) {
             uploaded_files.save(function (err) {
-            UploadedFiles.findByIdAndUpdate(encrypted_file_name._id,
-                { "$push": {
-                    "sharedToCourses": course_name._id 
-                } },
-                { "new": true, "upsert": true },
-                function (err, tutor) {
-                    if (err) throw err;
-                });
+                UploadedFiles.findByIdAndUpdate(encrypted_file_name._id,
+                    {
+                        "$push": {
+                            "sharedToCourses": course_name._id
+                        }
+                    },
+                    { "new": true, "upsert": true },
+                    function (err, tutor) {
+                        if (err) throw err;
+                    });
             });
             course.save(function (err) {
                 Course.findByIdAndUpdate(course_name._id,
-                    { "$push": {
-                        "sharedToCourses": encrypted_file_name._id
-                    } },
+                    {
+                        "$push": {
+                            "sharedToCourses": encrypted_file_name._id
+                        }
+                    },
                     { "new": true, "upsert": true },
                     function (err, tutor) {
                         if (err) throw err;
@@ -105,29 +109,33 @@ exports.assignCourse = async function (req, res) {
 exports.assignCourseStudent = async function (req, res) {
     let uploaded_files = new UploadedFiles();
     let profile = new Profile();
-    const { first_name_student, last_name_student, file_name} = req.body;
-    Profile.findOne({ first_name: first_name_student, last_name: last_name_student}, function (err, student_info) {
+    const { first_name_student, last_name_student, file_name } = req.body;
+    Profile.findOne({ first_name: first_name_student, last_name: last_name_student }, function (err, student_info) {
         UploadedFiles.findOne({ encryptedname: file_name }, function (err, encrypted_file_name) {
-             uploaded_files.save(function (err) {
+            uploaded_files.save(function (err) {
                 UploadedFiles.findByIdAndUpdate(encrypted_file_name._id,
-                    { "$push": {
-                        "sharedToStudents": student_info._id
-                    } },
+                    {
+                        "$push": {
+                            "sharedToStudents": student_info._id
+                        }
+                    },
                     { "new": true, "upsert": true },
                     function (err, tutor) {
                         if (err) throw err;
                     });
-              });
-              profile.save(function (err) {
+            });
+            profile.save(function (err) {
                 Profile.findByIdAndUpdate(student_info._id,
-                    { "$push": {
-                        "sharedToStudents": encrypted_file_name._id
-                    } },
+                    {
+                        "$push": {
+                            "sharedToStudents": encrypted_file_name._id
+                        }
+                    },
                     { "new": true, "upsert": true },
                     function (err, tutor) {
                         if (err) throw err;
                     });
-              });
+            });
         });
     });
 }
@@ -144,24 +152,33 @@ exports.viewDocs = async function (req, res) {
         }
     });
 
-    Profile.findOne({ account: student_account }, function (err, sharedDocs) {
-        UploadedFiles.find({ _id: { $in: sharedDocs.sharedToStudents } }, function (err, tst) {
-            return res.json({ success: true, file: tst });
+    Profile.findOne({ account: student_account }, async (err, sharedDocs) => {
+        await UploadedFiles.find({ _id: { $in: sharedDocs.sharedToStudents } }, async (err, tst) => {
+            var response = [];
+            for (var file of tst) {
+                await Profile.findOne({ _id: file.adminTutor }, async (err, tutor) => {
+                    var tutorName = tutor.first_name + " " + tutor.last_name
+                    file = Object.assign({ tutorName: tutorName }, file);
+                    response.push(file);
+                });
+            };
+            return res.json({ success: true, file: response });
+
         });
     });
 }
 
 // this method enables each class to view all of their shared documents.
 exports.viewCourseDocs = async function (req, res) {
-   let course = new Course();
-   var r = /\d+/;
-   var s = req.headers.referer.match(/.*\/(.*)$/)[1];
+    let course = new Course();
+    var r = /\d+/;
+    var s = req.headers.referer.match(/.*\/(.*)$/)[1];
 
-   Course.findOne({ name: req.headers.referer.match(/.*\/(.*)$/)[1].substring(0,4)+" "+s.match(r)[0] }, function (err, course_info) {
-       UploadedFiles.find({ _id: { $in: course_info.sharedToCourses } }, function (err, courses) {
-        return res.json({ success: true, file: courses });
+    Course.findOne({ name: req.headers.referer.match(/.*\/(.*)$/)[1].substring(0, 4) + " " + s.match(r)[0] }, function (err, course_info) {
+        UploadedFiles.find({ _id: { $in: course_info.sharedToCourses } }, function (err, courses) {
+            return res.json({ success: true, file: courses });
+        });
     });
-   });
 }
 
 // this method enables each class to view all of their shared documents.
