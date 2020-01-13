@@ -142,9 +142,9 @@ class Studentdocs extends React.Component {
   async handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('file', this.state.file);
+    formData.append('file', this.state.file._doc);
     formData.append('adminTutor', this.state.user_id);
-    formData.append('name', this.state.file.name);
+    formData.append('name', this.state.file._doc.name);
     axios.post("/api/testUpload", formData).then(res => {
     }).catch(err => {
       console.log(err);
@@ -199,15 +199,15 @@ class Studentdocs extends React.Component {
                         </TableHead>
                         <TableBody>
                           {files.map((file, index) => {
-                            var filename = file.name;
-                            var url = file.url
-                            var link = file.link
-                            var uploadDate = file.uploadDate
-                            var tutor_id = file.adminTutor
+                            var filename = file._doc.name;
+                            var url = file._doc.url
+                            var link = file._doc.link
+                            var uploadDate = file._doc.uploadDate
+                            var tutor_name = file.tutorName
                             return (
                               <TableRow key={index}>
                                 <td><a href={url}>{filename}</a></td>
-                                <td>{tutor_id}</td>
+                                <td>{tutor_name}</td>
                                 <td>{uploadDate}</td>
                                 <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
                               </TableRow>
