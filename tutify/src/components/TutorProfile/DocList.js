@@ -142,7 +142,7 @@ class DocList extends React.Component {
       })
   }
 
-  deleteListItem = () => {
+  /*deleteListItem = () => {
     swal({
       title: "Are you sure you want delete this document?",
       icon: "warning",
@@ -158,7 +158,7 @@ class DocList extends React.Component {
             .catch(err => console.log(err));
         }
       });
-  };
+  };*/
 
   updateTutorOptions = () => {
     var updatedProfileValues = [
@@ -225,7 +225,24 @@ class DocList extends React.Component {
         this.getStudents();
       })
       .catch(err => console.log(err));
+  }
 
+  // tutor deletes a documents from files list
+  getSelectedFiletoDelete (event,encrypted_file_name) {
+    swal({
+      title: "Are you sure you want delete this document?",
+      icon: "warning",
+      buttons: [true, "Yes"],
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      console.log(willDelete);
+      axios.post('/api/getFileToDelete', {
+        file_id: encrypted_file_name
+    }).then((res) => {
+    })
+      .catch(err => console.log(err));
+  });
   }
 
   render() {
@@ -276,7 +293,7 @@ class DocList extends React.Component {
                                 <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("http://localhost:3000/tutorCourses/" + encrypted_file_name)} id={file._id}><MenuBookIcon /></Button></td>
                                 <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("http://localhost:3000/students/" + encrypted_file_name)}  id={file._id}><GroupAddIcon /></Button></td>
                                 <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
-                                <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={e => this.deleteListItem()} ><DeleteIcon /></Button></td>
+                                <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={e => this.getSelectedFiletoDelete(e,encrypted_file_name)} ><DeleteIcon /></Button></td>
                               </TableRow>
                             )
                           })}

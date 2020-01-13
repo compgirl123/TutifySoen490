@@ -163,3 +163,36 @@ exports.viewCourseDocs = async function (req, res) {
     });
    });
 }
+
+// this method enables each class to view all of their shared documents.
+exports.deleteFiles = async function (req, res) {
+    const {file_id} = req.body;
+    console.log(file_id);
+   /**Event.findByIdAndRemove(event_id, (err,event) => {
+        if (err) return res.send(err);
+        Tutor.findByIdAndUpdate(tutor_id,
+            { "$pull": { "events": event_id } },
+            function (err, tutor) {
+                var index = tutor.events.indexOf(event_id);
+                if (index > -1) {
+                    tutor.events.splice(index, 1);
+                }
+                event.students.forEach(function (student) {
+                    Student.findByIdAndUpdate(student,
+                        { "$pull": { "events": event_id } },
+                        function (err, student) {
+                        if (err) throw err;
+                    });
+                });
+                req.session.userInfo.events = tutor.events;
+                req.session.save(function (err) {
+                    req.session.reload(function (err) {
+
+
+
+                        return res.json({ success: true, userInfo: tutor });
+                    });
+                });
+            });
+    }); */
+ }
