@@ -12,11 +12,14 @@ import TutorProfile from "./components/TutorProfile/TutorProfile";
 import CourseList from './components/CourseList';
 import TutorCourses from "./components/TutorProfile/TutorCourses";
 import UserDashboard from "./components/UserDashboardPage/UserDashboard";
-import UploadDocuments from "./components/UploadDocuments/UploadDocuments";
+import UploadDocuments from "./components/Documents/UploadDocuments";
 import BlogPost from "./components/BlogPost";
 import ViewCourse from "./components/StudentCourseView/ViewCourse";
 import TutorCourseView from "./components/TutorCourseView/TutorCourseView";
 import Announcements from "./components/TutorAnnouncements/Announcements";
+import ResourceLevels from "./components/Resources/ResourceLevels";
+import Document from "./components/Documents/Document";
+import ResourcePage from './components/Resources/ResourcePage';
 
 // This is all the url routing.
 function MainPage() {
@@ -37,8 +40,13 @@ function MainPage() {
       <Route exact path= "/Postblog" component={BlogPost} />
       <Route exact path= "/doclist" component={DocList} />
       <Route exact path= "/ViewCourse" component={ViewCourse} />
+      <Route exact path= "/document/:filename" component={Document} />
       <Route exact path= "/TutorCourseView" component={TutorCourseView} />
       <Route exact path= "/Announcements" component={Announcements} />
+      <Route exact path= "/resources" component={ResourceLevels} />
+      <Route exact path= "/primary" component={ResourcePage} />
+      <Route exact path= "/secondary" component={ResourcePage} />
+      <Route exact path= "/postsecondary" component={ResourcePage} />
     </Router>
   );
 }
