@@ -73,7 +73,7 @@ export class StudentList extends React.Component {
   };
 
   uploadCourse = (e,studentFirstName,studentLastName) => {
-    axios.post('/api/students/:file', {
+    axios.post('http://localhost:3001/api/students/:file', {
         first_name_student : studentFirstName,
         last_name_student : studentLastName,
         file_name : this.props.match.params.file
