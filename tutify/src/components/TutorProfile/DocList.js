@@ -22,38 +22,21 @@ import swal from 'sweetalert';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 
-// displaying all of the documents uploaded by the tutor.
+// displaying all of the documents uploaded by the tutor on Tutor "All Documents" Tab.
 class DocList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      drawerOpened: false,
-      students: [],
-      files: [],
-      data: [],
-      filteredData: [],
-      placeholder: '',
-      showDropDown: false,
-      selectedIndex: 0,
-      user_id: null,
-      open: false
+      files: []
     };
     this.loadFiles = this.loadFiles.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-
   }
 
-  openDialog() {
-    this.setState({ open: true });
-    this.deleteListItem = this.deleteListItem.bind(this);
+  componentDidMount() {
+    this.loadFiles();
   }
 
-  toggleDrawer = booleanValue => () => {
-    this.setState({
-      drawerOpened: booleanValue
-    });
-  };
-
+  // Loading all tutor files from database in order to display them neatly on the All Documents Page.
   async loadFiles() {
     fetch('/api/uploadFile')
       .then(res => res.json())
@@ -68,167 +51,8 @@ class DocList extends React.Component {
       .catch(err => console.log(err));
   }
 
-  componentDidMount() {
-    this.checkSession();
-    this.loadFiles();
-  }
-  checkSession = () => {
-    fetch('/api/checkSession', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then(res => {
-        if (res.isLoggedIn) {
-          this.setState({ user_id: res.userInfo._id });
-          this.findCourses();
-        }
-        else {
-          this.setState({ user_id: "Not logged in" });
-        }
-      })
-      .catch(err => console.log(err));
-  };
-
-  checkSession = () => {
-    fetch('/api/checkSession', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then((res) => {
-        if (res.isLoggedIn) {
-          this.setState({
-            students: res.userInfo.students
-          })
-
-        }
-        else {
-          this.setState({ Toggle: false });
-        }
-      })
-      .catch(err => console.log(err));
-  };
-
-  FindStudents = () => {
-    axios.post('/api/findStudents', {
-      students: this.state.students
-    })
-      .then((res) => {
-        this.setState({ students: res.data.data });
-      }, (error) => {
-        console.log(error);
-      })
-  };
-
-
-  async fileChanged(event) {
-    const f = event.target.files[0];
-    await this.setState({
-      file: f
-    });
-  }
-
-  deleteFile(event) {
-    event.preventDefault();
-    const id = event.target.id;
-
-    fetch('/api/files/' + id, {
-      method: 'DELETE'
-    }).then(res => res.json())
-      .then(response => {
-        if (response.success) this.loadFiles()
-        else alert('Delete Failed');
-      })
-  }
-
-  /*deleteListItem = () => {
-    swal({
-      title: "Are you sure you want delete this document?",
-      icon: "warning",
-      buttons: [true, "Yes"],
-      dangerMode: true,
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-          fetch('/api/deleteUploadedFiles')
-            .then(res => res.json())
-            .then(res => {
-            })
-            .catch(err => console.log(err));
-        }
-      });
-  };*/
-
-  updateTutorOptions = () => {
-    var updatedProfileValues = [
-      this.state.updatedProgramOfStudy,
-      this.state.updatedSchool,
-      this.state.updatedFirstName,
-      this.state.updatedLastName
-    ];
-
-    for (var y = 0; y < updatedProfileValues.length; y++) {
-      if (updatedProfileValues[y] === "") {
-        if (y === 0) {
-          updatedProfileValues[y] = this.state.program_of_study;
-        }
-        else if (y === 1) {
-          updatedProfileValues[y] = this.state.school;
-        }
-        else if (y === 2) {
-          updatedProfileValues[y] = this.state.first_name;
-        }
-        else if (y === 3) {
-          updatedProfileValues[y] = this.state.last_name;
-        }
-      }
-    }
-    axios.post('/api/updateTutorInfo', {
-      _id: this.state._id,
-      program_of_study: updatedProfileValues[0],
-      school: updatedProfileValues[1],
-      first_name: updatedProfileValues[2],
-      last_name: updatedProfileValues[3]
-    })
-      .then((res) => {
-        this.setState({
-          first_name: res.data.userInfo.first_name, last_name: res.data.userInfo.last_name,
-          school: res.data.userInfo.school, program_of_study: res.data.userInfo.program_of_study,
-        });
-      }, (error) => {
-        console.log(error);
-      });
-  };
-
-  async handleSubmit(event) {
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append('file', this.state.file);
-    formData.append('adminTutor', this.state.user_id);
-    formData.append('name', this.state.file.name);
-    axios.post("/api/testUpload", formData).then(res => {
-    }).catch(err => {
-      console.log(err);
-    });
-
-  }
-
-  getCourses = () => {
-    fetch('/api/getTutorCourses', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then(res => {
-        this.setState({ courses: res.data });
-        this.getStudents();
-      })
-      .catch(err => console.log(err));
-  }
-
   // tutor deletes a documents from files list
-  getSelectedFiletoDelete (event,encrypted_file_name) {
+  getSelectedFiletoDelete(event,encrypted_file_name) {
     swal({
       title: "Are you sure you want delete this document?",
       icon: "warning",
@@ -255,14 +79,12 @@ class DocList extends React.Component {
         <main>
           <TutorDashBoardNavBar />
           <main className={classes.content}>
-
             <div className={classes.appBarSpacer} />
             <Container maxWidth="lg" className={classes.container}>
               <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                 List of Documents
               </Typography>
               <Grid container spacing={2}>
-
                 {/* Student Info */}
                 <Grid item xs={12} md={12} lg={24}>
                   <Paper className={fixedHeightPaper}>
@@ -304,7 +126,6 @@ class DocList extends React.Component {
                 </Grid>
               </Grid>
             </Container>
-
             {/* Footer */}
             <Footer />
           </main>
