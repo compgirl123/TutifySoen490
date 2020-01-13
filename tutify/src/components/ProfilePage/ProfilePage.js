@@ -10,6 +10,13 @@ import Card from '@material-ui/core/Card';
 import UserCoursesInfo from './UserCoursesInfo';
 import UserTutorsInfo from './UserTutorsInfo';
 import Paper from '@material-ui/core/Paper';
+import ScheduledEvents from './ScheduledEvents';
+import IconButton from '@material-ui/core/IconButton';
+import Drawer from "@material-ui/core/Drawer";
+import Avatar from '@material-ui/core/Avatar';
+import calendarIcon from '../../assets/calendarIcon.png';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+
 
 class ProfilePage extends React.Component {
   constructor(props) {
@@ -42,9 +49,9 @@ class ProfilePage extends React.Component {
       .then(response => response.json())
       .then(res => {
         if (res.isLoggedIn) {
-          this.setState({ 
+          this.setState({
             Toggle: true,
-            tutorPicture: res.userInfo.picture, 
+            tutorPicture: res.userInfo.picture,
             __t: res.userInfo.__t,
             tutors: res.userInfo.tutors,
           });
@@ -59,15 +66,15 @@ class ProfilePage extends React.Component {
 
   getUserCourses = () => {
     fetch('http://localhost:3001/api/getUserCourses', {
-        method: 'GET',
-        credentials: 'include'
+      method: 'GET',
+      credentials: 'include'
     })
-        .then(response => response.json())
-        .then(res => {
-            this.setState({ courses: res.data });
+      .then(response => response.json())
+      .then(res => {
+        this.setState({ courses: res.data });
 
-        })
-        .catch(err => console.log(err));
+      })
+      .catch(err => console.log(err));
   }
 
   handleChange(event) {
@@ -88,6 +95,27 @@ class ProfilePage extends React.Component {
       <React.Fragment>
         <main>
           <DashBoardNavBar />
+          <Drawer variant="permanent" anchor="right" overflow="hidden">
+            <IconButton className={classes.iconButton} style={{ backgroundColor: 'transparent' }} >
+            </IconButton>
+            <IconButton onClick={this.toggleDrawer(true)}>
+              <Avatar src={calendarIcon} className={classes.avatar}></Avatar>
+            </IconButton>
+          </Drawer>
+          <Drawer
+            anchor="right"
+            open={this.state.drawerOpened}
+            onClose={this.toggleDrawer(false)}
+          >
+            <div>
+              <IconButton onClick={this.toggleDrawer(false)}>
+                <ChevronRightIcon />
+              </IconButton>
+            </div>
+            <Paper>
+              <ScheduledEvents />
+            </Paper>
+          </Drawer>
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             <Container maxWidth="lg" className={classes.container}>

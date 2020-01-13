@@ -12,6 +12,7 @@ const API_PORT = 3001;
 const app = express();
 const path = require("path");
 app.use(cors({credentials: true, origin: true}));
+var uploadController = require('./controllers/uploaded_files.controller')
 
 // this is our MongoDB database
 const dbRoute =
@@ -73,27 +74,24 @@ app.use(session({secret:"sdshkgjdhgkhgkjsd322k3j4nkjkjhb3", resave:false, saveUn
 // append /api for our http requests
 app.use('/api', router);
 app.use('/public', express.static('public'));
-app.post('/uploadFile', upload.single('file'),(req, res) => {
-  res.redirect("/uploadingDocs");
-});
 
+// uploading files routes
+app.post('/uploadFile', upload.single('file'), uploadController.addUploadedFiles);
+app.get('/doclist', uploadController.populateUploadedFiles);
+//app.get('/deletelistitem', uploadController.deleteUploadedFiles);
+app.get('/uploadingDocs', uploadController.getLatestUpload);
+app.post('/tutorCourses/:file', uploadController.assignCourse);
+app.post('/students/:file', uploadController.assignCourseStudent);
+app.get('/doc', uploadController.viewDocs);
+app.get('/ViewCourse/:coursename', uploadController.viewCourseDocs);
+app.get('/ViewTutorCourse/:coursename', uploadController.viewCourseDocs);
 
 
 // file upload requirements
 app.use(express.json());
 app.set("view engine", "ejs");
 
-app.get("/download/:filename", (req, res)=>{
- 
-  gfs.find({ filename: req.params.filename }).toArray((err, files) => {
-    if (!files || files.length === 0) {
-      return res.status(404).json({
-        err: "no files exist"
-      });
-    }
-    gfs.openDownloadStreamByName(req.params.filename).pipe(res);
-  });
-});
+
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));

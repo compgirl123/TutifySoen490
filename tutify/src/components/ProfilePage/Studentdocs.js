@@ -7,7 +7,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Footer from '../Footer';
-import TutorDashBoardNavBar from './TutorDashboardNavBar';
+import DashBoardNavBar from './DashBoardNavBar'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -17,13 +17,10 @@ import Title from './Title';
 import axios from 'axios';
 import Button from "@material-ui/core/Button";
 import GetAppIcon from '@material-ui/icons/GetApp';
-import DeleteIcon from '@material-ui/icons/Delete';
 import swal from 'sweetalert';
-import GroupAddIcon from '@material-ui/icons/GroupAdd';
-import MenuBookIcon from '@material-ui/icons/MenuBook';
 
-// displaying all of the documents uploaded by the tutor.
-class DocList extends React.Component {
+// displaying the documents shared to students
+class Studentdocs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,6 +32,7 @@ class DocList extends React.Component {
       placeholder: '',
       showDropDown: false,
       selectedIndex: 0,
+      anchorEl: null,
       user_id: null,
       open: false
     };
@@ -54,8 +52,9 @@ class DocList extends React.Component {
     });
   };
 
+
   async loadFiles() {
-    fetch('/api/uploadFile')
+    fetch('/api/doc')
       .then(res => res.json())
       .then(res => {
         if (res.file !== undefined) {
@@ -85,26 +84,6 @@ class DocList extends React.Component {
         }
         else {
           this.setState({ user_id: "Not logged in" });
-        }
-      })
-      .catch(err => console.log(err));
-  };
-
-  checkSession = () => {
-    fetch('/api/checkSession', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then((res) => {
-        if (res.isLoggedIn) {
-          this.setState({
-            students: res.userInfo.students
-          })
-
-        }
-        else {
-          this.setState({ Toggle: false });
         }
       })
       .catch(err => console.log(err));
@@ -160,47 +139,6 @@ class DocList extends React.Component {
       });
   };
 
-  updateTutorOptions = () => {
-    var updatedProfileValues = [
-      this.state.updatedProgramOfStudy,
-      this.state.updatedSchool,
-      this.state.updatedFirstName,
-      this.state.updatedLastName
-    ];
-
-    for (var y = 0; y < updatedProfileValues.length; y++) {
-      if (updatedProfileValues[y] === "") {
-        if (y === 0) {
-          updatedProfileValues[y] = this.state.program_of_study;
-        }
-        else if (y === 1) {
-          updatedProfileValues[y] = this.state.school;
-        }
-        else if (y === 2) {
-          updatedProfileValues[y] = this.state.first_name;
-        }
-        else if (y === 3) {
-          updatedProfileValues[y] = this.state.last_name;
-        }
-      }
-    }
-    axios.post('/api/updateTutorInfo', {
-      _id: this.state._id,
-      program_of_study: updatedProfileValues[0],
-      school: updatedProfileValues[1],
-      first_name: updatedProfileValues[2],
-      last_name: updatedProfileValues[3]
-    })
-      .then((res) => {
-        this.setState({
-          first_name: res.data.userInfo.first_name, last_name: res.data.userInfo.last_name,
-          school: res.data.userInfo.school, program_of_study: res.data.userInfo.program_of_study,
-        });
-      }, (error) => {
-        console.log(error);
-      });
-  };
-
   async handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData();
@@ -210,6 +148,7 @@ class DocList extends React.Component {
     axios.post("/api/testUpload", formData).then(res => {
     }).catch(err => {
       console.log(err);
+
     });
 
   }
@@ -236,30 +175,26 @@ class DocList extends React.Component {
     return (
       <React.Fragment>
         <main>
-          <TutorDashBoardNavBar />
+          <DashBoardNavBar />
           <main className={classes.content}>
-
             <div className={classes.appBarSpacer} />
             <Container maxWidth="lg" className={classes.container}>
               <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                 List of Documents
               </Typography>
               <Grid container spacing={2}>
-
                 {/* Student Info */}
                 <Grid item xs={12} md={12} lg={24}>
                   <Paper className={fixedHeightPaper}>
                     <React.Fragment>
-                      <Title>Uploaded Documents </Title>
+                      <Title>Individually Uploaded Documents </Title>
                       <Table size="small">
                         <TableHead>
                           <TableRow>
                             <TableCell>Name</TableCell>
+                            <TableCell>Tutor</TableCell>
                             <TableCell>Creation Date</TableCell>
-                            <TableCell>Share to Specific Course</TableCell>
-                            <TableCell>Share to Specific Student</TableCell>
                             <TableCell>Download</TableCell>
-                            <TableCell>Remove File</TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
@@ -267,16 +202,14 @@ class DocList extends React.Component {
                             var filename = file.name;
                             var url = file.url
                             var link = file.link
-                            var encrypted_file_name = file.encryptedname
                             var uploadDate = file.uploadDate
+                            var tutor_id = file.adminTutor
                             return (
                               <TableRow key={index}>
                                 <td><a href={url}>{filename}</a></td>
+                                <td>{tutor_id}</td>
                                 <td>{uploadDate}</td>
-                                <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("http://localhost:3000/tutorCourses/" + encrypted_file_name)} id={file._id}><MenuBookIcon /></Button></td>
-                                <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("http://localhost:3000/students/" + encrypted_file_name)}  id={file._id}><GroupAddIcon /></Button></td>
                                 <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
-                                <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={e => this.deleteListItem()} ><DeleteIcon /></Button></td>
                               </TableRow>
                             )
                           })}
@@ -297,4 +230,4 @@ class DocList extends React.Component {
     );
   }
 }
-export default withStyles(tutifyStyle.styles, { withTheme: true })(DocList);
+export default withStyles(tutifyStyle.styles, { withTheme: true })(Studentdocs);
