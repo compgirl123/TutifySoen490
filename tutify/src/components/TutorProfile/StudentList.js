@@ -39,7 +39,7 @@ export class StudentList extends React.Component {
   componentDidMount() {
     this.checkSession();
   }
-  
+
 
   checkSession = () => {
     fetch('/api/checkSession', {
@@ -72,11 +72,11 @@ export class StudentList extends React.Component {
       })
   };
 
-  uploadCourse = (e,studentFirstName,studentLastName) => {
+  uploadCourse = (e, studentFirstName, studentLastName) => {
     axios.post('http://localhost:3001/api/students/:file', {
-        first_name_student : studentFirstName,
-        last_name_student : studentLastName,
-        file_name : this.props.match.params.file
+      first_name_student: studentFirstName,
+      last_name_student: studentLastName,
+      file_name: this.props.match.params.file
     })
     swal("Succesfully shared document to Student(s)!", "", "success");
   }
@@ -112,8 +112,20 @@ export class StudentList extends React.Component {
                             <TableCell>Program</TableCell>
                             <TableCell>School</TableCell>
                             <TableCell>Level of Education</TableCell>
-                            <TableCell>Select student</TableCell>
-                            <TableCell>Upload Doc</TableCell>
+                            {this.props.match.params.file !== undefined
+                              ?
+                              <TableCell>Select student</TableCell>
+                              :
+                              <TableCell></TableCell>
+                            }
+
+                            {this.props.match.params.file !== undefined
+                              ?
+                              <TableCell>Share Doc</TableCell>
+                              :
+                              <TableCell>Share</TableCell>
+                            }
+
                           </TableRow>
                         </TableHead>
                         <TableBody>
@@ -124,11 +136,25 @@ export class StudentList extends React.Component {
                               <TableCell>{student.program_of_study}</TableCell>
                               <TableCell>{student.school}</TableCell>
                               <TableCell>{student.education_level}</TableCell>
-                              <TableCell><Checkbox value="uncontrolled" inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></TableCell>
                               <TableCell>
-                                <Button type="button" onClick={event =>this.uploadCourse(event,student.first_name,student.last_name)} variant="contained" size="small" className="submit">
-                                  Share Document
+                                {this.props.match.params.file !== undefined
+                                  ?
+                                  <Checkbox value="uncontrolled" inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} />
+                                  :
+                                  <br />
+                                }
+                              </TableCell>
+                              <TableCell>
+                                {this.props.match.params.file !== undefined
+                                  ?
+                                  <Button type="button" onClick={event => this.uploadCourse(event, student.first_name, student.last_name)} variant="contained" size="small" className="submit">
+                                    Share Document
+                                  </Button>
+                                  :
+                                  <Button type="button" onClick={() => window.open("/doclist")} variant="contained" size="small" className="submit">
+                                    Choose File to Share
                                 </Button>
+                                }
                               </TableCell>
                             </TableRow>
                           ))}
@@ -137,7 +163,7 @@ export class StudentList extends React.Component {
                       <div className={classes.seeMore}>
                         <p>
                           <Link color="primary" href="/">
-                          See more
+                            See more
                           </Link>
                         </p>
                       </div>
