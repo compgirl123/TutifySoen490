@@ -16,7 +16,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import Button from "@material-ui/core/Button";
 
 // View the Specific Course Page with all of the Course Details as well as the Tutor Information
-export class ViewCourse extends React.Component {
+export class ViewTutorCourse extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -53,8 +53,7 @@ export class ViewCourse extends React.Component {
               this.getDataFromDb()
             }
             else {
-              this.setState({ Toggle: false });
-              this.setState({shouldView:false});
+              this.setState({ Toggle: false, shouldView:false });
             }
           })
           .catch(err => console.log(err));
@@ -62,26 +61,24 @@ export class ViewCourse extends React.Component {
   
     // Uses our backend api to fetch the courses from our database
     getDataFromDb = () => {
-        fetch('/api/getUserCourses', {
+        fetch('/api/getTutorCourses', {
         method: 'GET',
         credentials: 'include'
         })
         .then(response => response.json())
         .then(res => {
             this.setState({ courses: res.data });
-  
         })
         .catch(err => console.log(err));
     }
 
     async loadFiles() {
-        fetch('/api/ViewCourse/:coursename')
+        fetch('/api/ViewTutorCourse/:coursename')
           .then(res => res.json())
           .then(res => {
             if (res.file !== undefined) {
               if(this.state.shouldView){
-                this.setState({ files: res.file });
-                this.setState({course_selected:this.props.match.params.coursename});
+                this.setState({ files: res.file,course_selected:this.props.match.params.coursename });
               }
               else{
                 this.setState({ files: [] });
@@ -114,7 +111,7 @@ render() {
                 <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
                   {this.state.course_selected}
                 </Typography> 
-               </Container>
+                </Container>
               </div>
 
                 <Grid container spacing={3}>
@@ -163,5 +160,5 @@ render() {
     }
 }
 
-export default withStyles(CourseViewStyles.styles, { withTheme: true })(ViewCourse);
+export default withStyles(CourseViewStyles.styles, { withTheme: true })(ViewTutorCourse);
 

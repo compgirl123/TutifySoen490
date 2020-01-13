@@ -58,6 +58,10 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
       completed: { type: Boolean }
     }
   ],
+  sharedToStudents:
+  [
+    { type: Schema.Types.ObjectId, ref: 'Student' }
+  ],
   events: [
     {
       type: Schema.Types.ObjectId,
@@ -163,7 +167,11 @@ var Course = mongoose.model('Course', new Schema({
   ,
   students: [
     { type: Schema.Types.ObjectId, ref: 'Student' }
-  ]
+  ],
+  sharedToCourses: [{
+    type: String,
+    required: true
+  }]
 }), "courses");
 
 
@@ -199,6 +207,41 @@ var Files = mongoose.model('uploaded_files', new Schema({
   ]
 }), "uploaded_files");
 
+// -------- UploadedFiles --------- // 
+
+var UploadedFiles = mongoose.model('UploadedFiles', new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  encryptedname: {
+    type: String,
+    required: true
+  },
+  link: {
+    type: String,
+    required: true
+  },
+  adminTutor: {
+    type: Schema.Types.ObjectId,
+    ref: 'Tutor',
+    required: true
+  },
+  uploadedDocs: [
+    { type: Schema.Types.ObjectId, ref: 'Mfiles' }
+  ],
+  sharedToStudents: [{
+    type: String,
+    required: true
+  }
+  ],
+  sharedToCourses: [{
+    type: String,
+    required: true
+  }
+  ],
+  uploadDate: Date
+}), "uploaded_files");
 
 
 // --------  Event --------- // 
@@ -218,20 +261,20 @@ var Event = mongoose.model('Event', new Schema({
 
 // --------  Multer files --------- // 
 var Mfiles = mongoose.model('Mfiles', new Schema({
-  length:  Number,
+  length: Number,
   chunkSize: Number,
   uploadDate: Date,
   md5: Schema.Types.Mixed,
   filename: String,
   contentType: String,
-  aliases: [{type: String}],
+  aliases: [{ type: String }],
   metadata: Schema.Types.Mixed
 }), "uploads.files");
 
-var Mchunks = mongoose.model('Mchunks', new Schema({   
-     files_id : {type:Schema.Types.ObjectId, ref: 'uploads.files'},    
-     n : Number,    
-     data : Schema.Types.Buffer
+var Mchunks = mongoose.model('Mchunks', new Schema({
+  files_id: { type: Schema.Types.ObjectId, ref: 'uploads.files' },
+  n: Number,
+  data: Schema.Types.Buffer
 }), "uploads.chunks");
 
 
@@ -243,6 +286,7 @@ module.exports = {
   Account: Account,
   Appointment: Appointment,
   Course: Course,
+  UploadedFiles: UploadedFiles,
   Files: Files,
   Event: Event,
   Mfiles: Mfiles,

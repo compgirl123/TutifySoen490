@@ -56,6 +56,12 @@ class Sidebar extends Component {
             </ListItemIcon>
             <ListItemText primary="My Profile" />
           </ListItem>
+          <ListItem button component="a" href="/doc">
+            <ListItemIcon>
+              <MenuBookIcon />
+            </ListItemIcon>
+            <ListItemText primary="Individually Shared" />
+          </ListItem>
           <ListItem button component="a" href="/courses">
             <ListItemIcon>
               <MenuBookIcon />

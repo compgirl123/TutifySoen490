@@ -10,6 +10,7 @@ var tutorController = require('./controllers/tutor.controller')
 var userController = require('./controllers/user.controller')
 var courseController = require('./controllers/course.controller')
 var filesController = require('./controllers/files.controller')
+var uploadedFilesController = require('./controllers/uploaded_files.controller')
 
 // -------- TUTOR ROUTES --------- // 
 
@@ -83,15 +84,22 @@ router.get('/getCourses', courseController.getCourses);
 
 // -------- Files ROUTES --------- // 
 
-router.get('/getFiles', filesController.getFiles);
-
-router.get('/getFile/:filename', filesController.getFile)
-// router.post('/uploadFiles', filesController.uploadFiles);
-// router.post('/uploadFile', upload.single('file'),(req, res) => {
-//     res.redirect("/uploadingDocs");
-// });
-
+router.get('/getFile/:filename', filesController.getFile);
 
 router.post("/files/del/:id", filesController.deleteFile);
+
+router.get('/uploadFile', uploadedFilesController.populateUploadedFiles);
+
+router.get('/uploadingDocs', uploadedFilesController.getLatestUpload);
+
+router.post('/tutorCourses/:file', uploadedFilesController.assignCourse);
+
+router.post('/students/:file', uploadedFilesController.assignCourseStudent);
+
+router.get('/doc', uploadedFilesController.viewDocs);
+
+router.get('/ViewTutorCourse/:coursename', uploadedFilesController.viewCourseDocs);
+
+router.get('/ViewCourse/:coursename', uploadedFilesController.viewCourseDocs);
 
 module.exports = router;

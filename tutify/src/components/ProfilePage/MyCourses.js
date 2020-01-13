@@ -34,7 +34,7 @@ export class MyCourses extends React.Component {
   }
 
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession', {
+    fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
     })
@@ -53,14 +53,13 @@ export class MyCourses extends React.Component {
 
   // Uses our backend api to fetch the courses from our database
   getDataFromDb = () => {
-    fetch('http://localhost:3001/api/getUserCourses', {
+    fetch('/api/getUserCourses', {
       method: 'GET',
       credentials: 'include'
     })
       .then(response => response.json())
       .then(res => {
         this.setState({ courses: res.data });
-
       })
       .catch(err => console.log(err));
   }
@@ -107,9 +106,9 @@ export class MyCourses extends React.Component {
                           </CardContent>
                         </CardActionArea>
                         <CardActions>
-                          <Button type="button" size="small" href= "/ViewCourse" fullWidth variant="contained" className="submit">
+                          <Button type="button" size="small" onClick={() => window.open("http://localhost:3000/ViewCourse/" + (c.course.name).replace(/ /g,""))} fullWidth variant="contained" className="submit">
                             View Course
-                        </Button>
+                         </Button>
                         </CardActions>
                       </Card>
                     </Grid>
