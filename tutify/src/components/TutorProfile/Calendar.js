@@ -26,7 +26,7 @@ import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
 import IconButton from '@material-ui/core/IconButton';
 import ShowStudents from "../TutorAnnouncements/ShowStudents";
 
-class NewCalendar extends React.Component {
+export class NewCalendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
