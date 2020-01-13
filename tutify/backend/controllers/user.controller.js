@@ -18,6 +18,7 @@ exports.getUser = async function (req, res) {
     });
 };
 
+// this method finds students in the database given the object id
 exports.findStudents = async function (req, res) {
     var count = 0;
     const { students } = req.body;
