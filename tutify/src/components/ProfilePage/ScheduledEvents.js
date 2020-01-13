@@ -25,10 +25,12 @@ class ScheduledEvents extends React.Component {
 
   displayedDates = (newDates) => {
     newDates.sort();
+    //remove duplicates
     newDates = newDates.filter(function (elem, pos) {
       return newDates.indexOf(elem) === pos;
     })
 
+    //change number to date format (ex:dd/mm/yyyy)
     for (var i = 0; i < newDates.length; i++) {
       var stri = newDates[i].substring(6) + "/" + newDates[i].substring(4, 6) + "/" + newDates[i].substring(0, 4);
       stri = stri.toString();
@@ -43,7 +45,7 @@ class ScheduledEvents extends React.Component {
 
   //retrieves the session
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession', {
+    fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
     })
@@ -63,7 +65,7 @@ class ScheduledEvents extends React.Component {
     var newDates = [];
     var newEvents = [];
 
-    axios.post('http://localhost:3001/api/populateEvents', {
+    axios.post('/api/populateEvents', {
       events: this.state.events
     })
       .then((res) => {
@@ -113,9 +115,9 @@ class ScheduledEvents extends React.Component {
                     {this.state.dates.map(date => (
                       <TableBody>
                         <TableRow >
-                          <TableCell style={{ background: 'lightgray' }}>{date}</TableCell>
-                          <TableCell style={{ background: 'lightgray' }}></TableCell>
-                          <TableCell style={{ background: 'lightgray' }}></TableCell>
+                          <TableCell className={classes.tableCell}>{date}</TableCell>
+                          <TableCell className={classes.tableCell}></TableCell>
+                          <TableCell className={classes.tableCell}></TableCell>
                         </TableRow>
                         {this.state.eventsDecoded.map(event => {
                           return date === event.date ?

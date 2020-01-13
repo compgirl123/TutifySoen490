@@ -102,7 +102,7 @@ class NewCalendar extends React.Component {
 
   //retrieves the session
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession', {
+    fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
     })
@@ -122,7 +122,7 @@ class NewCalendar extends React.Component {
 
   //converts student object ids to student information
   FindStudentsForList = () => {
-    axios.post('http://localhost:3001/api/findStudents', {
+    axios.post('/api/findStudents', {
       students: this.state.students
     })
       .then((res) => {
@@ -149,7 +149,7 @@ class NewCalendar extends React.Component {
     var newDates = [];
     var newEvents = [];
 
-    axios.post('http://localhost:3001/api/populateEvents', {
+    axios.post('/api/populateEvents', {
       events: this.state.events
     })
       .then((res) => {
@@ -181,7 +181,7 @@ class NewCalendar extends React.Component {
       var newLocation = "@ " + this.state.location;
     }
 
-    axios.post('http://localhost:3001/api/addEvent', {
+    axios.post('/api/addEvent', {
       events: this.state.events,
       tutor_id: this.state.tutor_id,
       description: this.state.description,
@@ -234,7 +234,7 @@ class NewCalendar extends React.Component {
     })
       .then((willDelete) => {
         if (willDelete) {
-          axios.post('http://localhost:3001/api/deleteEvent', {
+          axios.post('/api/deleteEvent', {
             event_id: id,
             tutor_id: this.state.tutor_id
           })
@@ -294,9 +294,9 @@ class NewCalendar extends React.Component {
                     {this.state.dates.map(date => (
                       <TableBody>
                         <TableRow >
-                          <TableCell style={{ background: 'lightgray' }}>{date}</TableCell>
-                          <TableCell style={{ background: 'lightgray' }}></TableCell>
-                          <TableCell style={{ background: 'lightgray' }}></TableCell>
+                          <TableCell className={classes.tableCell}>{date}</TableCell>
+                          <TableCell className={classes.tableCell}></TableCell>
+                          <TableCell className={classes.tableCell}></TableCell>
                         </TableRow>
                         {this.state.eventsDecoded.map(event => {
                           return date === event.date ?
