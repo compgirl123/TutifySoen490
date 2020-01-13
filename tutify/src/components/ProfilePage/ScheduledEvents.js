@@ -60,7 +60,7 @@ class ScheduledEvents extends React.Component {
       .catch(err => console.log(err));
   };
 
-  //retireves events from database and displays them
+  //retrieves events from database and displays them
   populateEvents = () => {
     var newDates = [];
     var newEvents = [];
