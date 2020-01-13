@@ -58,10 +58,17 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
       completed: { type: Boolean }
     }
   ],
-  sharedToStudents: [
+  sharedToStudents:
+  [
     { type: Schema.Types.ObjectId, ref: 'Student' }
-  ]
+  ],
+  events: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Event'
 
+    }
+  ]
 }), 'profiles'
 );
 
@@ -88,13 +95,6 @@ const TutorSchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'Course'
       },
-    }
-  ],
-  events: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Event'
-
     }
   ]
 });
@@ -162,9 +162,9 @@ var Course = mongoose.model('Course', new Schema({
     required: true
   },
   description: String,
-  tutors: [
+  tutors:
     { type: Schema.Types.ObjectId, ref: 'Tutor' }
-  ],
+  ,
   students: [
     { type: Schema.Types.ObjectId, ref: 'Student' }
   ],
@@ -196,7 +196,6 @@ var Files = mongoose.model('uploaded_files', new Schema({
     ref: 'Tutor',
     required: true
   },
-
   relatedCourse: [
     {
       type: Schema.Types.ObjectId,
@@ -252,7 +251,12 @@ var Event = mongoose.model('Event', new Schema({
   location: String,
   date: String,
   startTime: String,
-  endTime: String
+  endTime: String,
+  students: [
+    { type: Schema.Types.ObjectId, ref: 'Student' }
+  ],
+  tutor:{ type: Schema.Types.ObjectId, ref: 'Tutor' },
+  tutorName: { type: String },
 }), "events");
 
 // --------  Multer files --------- // 
