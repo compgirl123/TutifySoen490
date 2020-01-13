@@ -139,47 +139,6 @@ class Studentdocs extends React.Component {
       });
   };
 
-  updateTutorOptions = () => {
-    var updatedProfileValues = [
-      this.state.updatedProgramOfStudy,
-      this.state.updatedSchool,
-      this.state.updatedFirstName,
-      this.state.updatedLastName
-    ];
-
-    for (var y = 0; y < updatedProfileValues.length; y++) {
-      if (updatedProfileValues[y] === "") {
-        if (y === 0) {
-          updatedProfileValues[y] = this.state.program_of_study;
-        }
-        else if (y === 1) {
-          updatedProfileValues[y] = this.state.school;
-        }
-        else if (y === 2) {
-          updatedProfileValues[y] = this.state.first_name;
-        }
-        else if (y === 3) {
-          updatedProfileValues[y] = this.state.last_name;
-        }
-      }
-    }
-    axios.post('/api/updateTutorInfo', {
-      _id: this.state._id,
-      program_of_study: updatedProfileValues[0],
-      school: updatedProfileValues[1],
-      first_name: updatedProfileValues[2],
-      last_name: updatedProfileValues[3]
-    })
-      .then((res) => {
-        this.setState({
-          first_name: res.data.userInfo.first_name, last_name: res.data.userInfo.last_name,
-          school: res.data.userInfo.school, program_of_study: res.data.userInfo.program_of_study,
-        });
-      }, (error) => {
-        console.log(error);
-      });
-  };
-
   async handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData();

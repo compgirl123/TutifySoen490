@@ -53,8 +53,7 @@ export class ViewTutorCourse extends React.Component {
               this.getDataFromDb()
             }
             else {
-              this.setState({ Toggle: false });
-              this.setState({shouldView:false});
+              this.setState({ Toggle: false, shouldView:false });
             }
           })
           .catch(err => console.log(err));
