@@ -1,7 +1,7 @@
 import React from 'react';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import * as UserDashboardStyles from '../../styles/UserDashboard-styles';
+import * as UserDashboardStyles from '../../../styles/UserDashboard-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';

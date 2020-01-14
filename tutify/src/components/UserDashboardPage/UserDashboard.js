@@ -2,7 +2,7 @@ import React from 'react';
 import NavBar from '../NavBar';
 import Footer from '../Footer';
 import Grid from '@material-ui/core/Grid';
-import Notifications from './Notifications';
+import Notifications from './Notification/Notifications';
 import * as UserDashboardStyles from '../../styles/UserDashboard-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Sidebar from '../ProfilePage/StudentSidebar';
