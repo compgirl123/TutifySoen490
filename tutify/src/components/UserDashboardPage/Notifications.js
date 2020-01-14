@@ -22,7 +22,7 @@ export class Notifications extends React.Component {
     }
 
     render() {
-        const { classes, notifications } = this.props
+        const { classes, notifications, _id } = this.props
         
         return (
             <React.Fragment>
@@ -40,6 +40,7 @@ export class Notifications extends React.Component {
                                         <AddNotif
                                             key={i}
                                             notif={notifications[notifications.length - 1 - i]}
+                                            _id={_id} 
                                         />
                                     )) : <></>}
                                 </List>

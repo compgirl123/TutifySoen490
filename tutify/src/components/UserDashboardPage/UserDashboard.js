@@ -17,7 +17,8 @@ class UserDashboard extends React.Component {
         this.state = {
             courses: [],
             todos: [],
-            tutors: []
+            tutors: [],
+            notifications: []
         };
     }
 
@@ -79,7 +80,7 @@ class UserDashboard extends React.Component {
                 <main className={classes.root}>
                     <Grid container className={classes.container}>
                         <Grid item sm={6} className={classes.gridItem}>
-                            <Notifications notifications={notifications} />
+                            <Notifications notifications={notifications} _id={_id}  />
                         </Grid>
                         <Grid item xs={4} sm={6} className={classes.gridItem}>
                             <VisibleTodoList sessionTodos={todos} _id={_id}/>

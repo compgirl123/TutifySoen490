@@ -343,3 +343,26 @@ exports.sendAnnouncementStudents = async function (req, res) {
     });
     return res.json({ success: true });
 };
+
+// this method deletes one notification from the user's notifications list
+exports.deleteNotification = async function (req, res) {
+    const { student_id, notif_id } = req.body;
+
+    Student.findOne({ _id: student_id }).then(student => {
+
+        //remove specific notif from notification list
+        let newList = student.notifications.filter(notif => !notif._id.equals(notif_id));
+        student.notifications = newList;
+        student.save();
+
+        //update the session
+        req.session.userInfo.notifications = newList;
+        req.session.save(function (err) {
+            req.session.reload(function (err) {
+                // session reloaded
+            });
+        });
+    }).catch(err => {
+        console.log(err)
+    });
+};
