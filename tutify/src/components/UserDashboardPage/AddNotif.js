@@ -1,13 +1,12 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, IconButton } from "@material-ui/core";
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import ClearIcon from '@material-ui/icons/Clear';
-import Fab from '@material-ui/core/Fab';
+import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
 
 
 class AddNotif extends React.Component {
@@ -49,14 +48,9 @@ class AddNotif extends React.Component {
                             }
                         />
                         <Grid xs={6} md={1} item>
-                            <Fab
-                                size="small"
-                                color="secondary"
-                                aria-label="add"
-                                onClick={() => { this.handleClickDelete(notif._id, _id, updateNotificationList); }}
-                            >
-                                <ClearIcon />
-                            </Fab>
+                            <IconButton aria-label="Delete Todo" onClick={() => { this.handleClickDelete(notif._id, _id, updateNotificationList); }}>
+                                <DeleteOutlined />
+                            </IconButton>
                         </Grid>
                     </ListItem>
                     <Divider />
