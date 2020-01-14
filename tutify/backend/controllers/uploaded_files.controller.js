@@ -1,8 +1,8 @@
 const UploadedFiles = require('../models/models').UploadedFiles;
-const Files = require('../models/models').Files;
-const Tutor = require('../models/models').Tutor;
 const Course = require('../models/models').Course;
 const Profile = require('../models/models').Profile;
+const Mfiles = require('../models/models').Mfiles;
+const Mchunks = require('../models/models').Mchunks;
 var mongoose = require('mongoose');
 
 // This method fetches the latest uploaded document.
@@ -15,13 +15,9 @@ exports.getLatestUpload = async function (req, res) {
 // This method adds restriction information for uploaded documents.
 exports.addUploadedFiles = async function (req, res) {
     let uploaded_files = new UploadedFiles();
-    const { name, adminTutor, uploadedDocs } = req.body;
+    const { name, adminTutor } = req.body;
     const { filename } = req.file;
     const { _id } = new mongoose.Types.ObjectId();
-
-    var newEvents = [];
-    var count = 0;
-    var name_shortened = "";
 
     // Eventually, this will be implemented
     if (name.split(".")[0].length > 25) {
@@ -170,7 +166,6 @@ exports.viewDocs = async function (req, res) {
 
 // this method enables each class to view all of their shared documents.
 exports.viewCourseDocs = async function (req, res) {
-    let course = new Course();
     var r = /\d+/;
     var s = req.headers.referer.match(/.*\/(.*)$/)[1];
 
@@ -183,33 +178,47 @@ exports.viewCourseDocs = async function (req, res) {
 
 // this method enables each class to view all of their shared documents.
 exports.deleteFiles = async function (req, res) {
-    const {file_id} = req.body;
-    console.log(file_id);
-   /**Event.findByIdAndRemove(event_id, (err,event) => {
-        if (err) return res.send(err);
-        Tutor.findByIdAndUpdate(tutor_id,
-            { "$pull": { "events": event_id } },
-            function (err, tutor) {
-                var index = tutor.events.indexOf(event_id);
-                if (index > -1) {
-                    tutor.events.splice(index, 1);
-                }
-                event.students.forEach(function (student) {
-                    Student.findByIdAndUpdate(student,
-                        { "$pull": { "events": event_id } },
-                        function (err, student) {
-                        if (err) throw err;
-                    });
-                });
-                req.session.userInfo.events = tutor.events;
-                req.session.save(function (err) {
-                    req.session.reload(function (err) {
+    const { file_id } = req.body;
 
-
-
-                        return res.json({ success: true, userInfo: tutor });
-                    });
+    UploadedFiles.findOne({ encryptedname: file_id }, function (err, fileToDelete) {
+        fileToDelete.sharedToStudents.forEach(function (err, studentIndex) {
+            Profile.findOne({ _id: fileToDelete.sharedToStudents[studentIndex] }, function (err, userfiles) {
+                userfiles.sharedToStudents.forEach(function (err, studentIndex1) {
+                    if (userfiles.sharedToStudents[studentIndex1] == fileToDelete._id) {
+                        Profile.findByIdAndUpdate(fileToDelete.sharedToStudents[studentIndex],
+                            { "$pull": { "sharedToStudents": fileToDelete._id } },
+                            function (err, student) {
+                                if (err) throw err;
+                            });
+                    }
                 });
             });
-    }); */
- }
+        });
+        fileToDelete.sharedToCourses.forEach(function (err, courseIndex) {
+            Course.findOne({ _id: fileToDelete.sharedToCourses[courseIndex] }, function (err, userfiles1) {
+                userfiles1.sharedToCourses.forEach(function (err, studentIndex2) {
+                    if (userfiles1.sharedToCourses[studentIndex2] == fileToDelete._id) {
+                        Course.findByIdAndUpdate(fileToDelete.sharedToCourses[courseIndex],
+                            { "$pull": { "sharedToCourses": fileToDelete._id } },
+                            function (err, student) {
+                                if (err) throw err;
+                            });
+                    }
+                });
+            });
+        });
+        UploadedFiles.findByIdAndRemove(fileToDelete._id, (err, file) => {
+            if (err) return res.send(err);
+        });
+    });
+    Mfiles.findOne({ filename: file_id }, function (err, fileToDeleteMfiles) {
+        Mfiles.findByIdAndRemove(fileToDeleteMfiles._id, (err, file) => {
+            if (err) return res.send(err);
+        });
+        Mchunks.findOne({ files_id: fileToDeleteMfiles._id }, function (err, fileToDeleteMChunks) {
+            Mchunks.findByIdAndRemove(fileToDeleteMChunks._id, (err, filechunkdel) => {
+                if (err) return res.send(err);
+            });
+        });
+    });
+}

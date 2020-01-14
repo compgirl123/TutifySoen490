@@ -60,7 +60,7 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
   ],
   sharedToStudents:
   [
-    { type: Schema.Types.ObjectId, ref: 'Student' }
+    { type: String, ref: 'Student' }
   ],
   events: [
     {

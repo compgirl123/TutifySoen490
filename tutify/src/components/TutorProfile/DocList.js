@@ -60,12 +60,14 @@ class DocList extends React.Component {
       dangerMode: true,
     })
     .then((willDelete) => {
+      if(willDelete !== null){
+        swal("File Deleted", "", "success")
       console.log(willDelete);
       axios.post('/api/getFileToDelete', {
         file_id: encrypted_file_name
-    }).then((res) => {
-    })
-      .catch(err => console.log(err));
+    }
+    ).then((res) => {})
+      .catch(err => console.log(err));}
   });
   }
 
