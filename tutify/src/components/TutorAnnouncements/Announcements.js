@@ -72,20 +72,16 @@ export class Announcements extends React.Component {
 
     // Function that handles the dropdown menu to select who receives the announcement
     handleMenuItemClick = (event, index) => {
-        this.setState({ selectedIndex: index });
-        this.setState({ anchorEl: null });
+        this.setState({ selectedIndex: index, anchorEl: null });
 
         if (index === 0) {
-            this.setState({ placeholder: 'All' });
-            this.setState({ isCoursesSelected: false, isStudentsSelected: false })
+            this.setState({ placeholder: 'All', isCoursesSelected: false, isStudentsSelected: false });
         }
         else if (index === 1) {
-            this.setState({ placeholder: 'Course' });
-            this.setState({ isCoursesSelected: true, isStudentsSelected: false });
+            this.setState({ placeholder: 'Course', isCoursesSelected: true, isStudentsSelected: false });
         }
         else if (index === 2) {
-            this.setState({ placeholder: 'Student' });
-            this.setState({ isCoursesSelected: false, isStudentsSelected: true })
+            this.setState({ placeholder: 'Student', isCoursesSelected: false, isStudentsSelected: true  });
         }
     };
 

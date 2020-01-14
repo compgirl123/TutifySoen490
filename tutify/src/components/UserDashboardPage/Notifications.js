@@ -15,14 +15,12 @@ export class Notifications extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tutorName: "",
-            tutorAnnouncement: "",
-            announcementTitle: "",
+
         };
     }
 
     render() {
-        const { classes, notifications, _id } = this.props
+        const { classes, notifications, _id, updateNotificationList } = this.props
         
         return (
             <React.Fragment>
@@ -41,6 +39,7 @@ export class Notifications extends React.Component {
                                             key={i}
                                             notif={notifications[notifications.length - 1 - i]}
                                             _id={_id} 
+                                            updateNotificationList = {updateNotificationList}
                                         />
                                     )) : <></>}
                                 </List>

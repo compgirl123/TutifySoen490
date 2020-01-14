@@ -8,25 +8,22 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import ClearIcon from '@material-ui/icons/Clear';
 import Fab from '@material-ui/core/Fab';
-import axios from "axios";
+
 
 class AddNotif extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            
+
         };
     }
 
-    handleClickDelete = (notif_id, student_id) => {
-        axios.post('/api/deleteNotification', {
-            student_id: student_id,
-            notif_id: notif_id,
-        });  
+    handleClickDelete = (notif_id, student_id, updateNotificationList) => {
+        updateNotificationList(student_id, notif_id)
     };
 
     render() {
-        const { notif, _id } = this.props
+        const { notif, _id, updateNotificationList } = this.props
 
         return (
             <Grid container>
@@ -56,7 +53,7 @@ class AddNotif extends React.Component {
                                 size="small"
                                 color="secondary"
                                 aria-label="add"
-                                onClick={() => { this.handleClickDelete(notif._id, _id); }}
+                                onClick={() => { this.handleClickDelete(notif._id, _id, updateNotificationList); }}
                             >
                                 <ClearIcon />
                             </Fab>

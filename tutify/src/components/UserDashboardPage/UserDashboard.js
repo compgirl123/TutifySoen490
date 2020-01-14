@@ -9,6 +9,7 @@ import Sidebar from '../ProfilePage/StudentSidebar';
 import Drawer from "@material-ui/core/Drawer";
 import MyCourseList from "./MyCourseList";
 import VisibleTodoList from '../../redux/containers/VisibleTodoList'
+import axios from "axios";
 
 
 class UserDashboard extends React.Component {
@@ -41,7 +42,7 @@ class UserDashboard extends React.Component {
                         tutors: res.userInfo.tutors,
                         notifications: res.userInfo.notifications 
                     });
-                    this.getDataFromDb()
+                    this.getCourses()
                 }
                 else {
                     this.setState({ Toggle: false });
@@ -50,7 +51,8 @@ class UserDashboard extends React.Component {
             .catch(err => console.log(err));
     };
 
-    getDataFromDb = () => {
+    // This function fetches the user's courses from the db
+    getCourses = () => {
         fetch('http://localhost:3001/api/getUserCourses', {
             method: 'GET',
             credentials: 'include'
@@ -61,6 +63,21 @@ class UserDashboard extends React.Component {
 
             })
             .catch(err => console.log(err));
+    }
+
+    // This function deletes a notif from the list both in the db and in the current state
+    updateNotificationList = (student_id, notif_id) => {
+        axios.post('/api/deleteNotification', {
+            student_id: student_id,
+            notif_id: notif_id,
+        })
+        .then((res) => {
+            this.setState({
+                notifications: res.data.notifications
+            });
+          }, (error) => {
+            console.log(error);
+          });  
     }
 
     render() {
@@ -80,7 +97,7 @@ class UserDashboard extends React.Component {
                 <main className={classes.root}>
                     <Grid container className={classes.container}>
                         <Grid item sm={6} className={classes.gridItem}>
-                            <Notifications notifications={notifications} _id={_id}  />
+                            <Notifications notifications={notifications} _id={_id} updateNotificationList={this.updateNotificationList}  />
                         </Grid>
                         <Grid item xs={4} sm={6} className={classes.gridItem}>
                             <VisibleTodoList sessionTodos={todos} _id={_id}/>

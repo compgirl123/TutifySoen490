@@ -360,6 +360,7 @@ exports.deleteNotification = async function (req, res) {
         req.session.save(function (err) {
             req.session.reload(function (err) {
                 // session reloaded
+                return res.json({ success: true, notifications: newList });
             });
         });
     }).catch(err => {
