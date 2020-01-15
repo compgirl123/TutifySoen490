@@ -20,7 +20,7 @@ export class Notifications extends React.Component {
     }
 
     render() {
-        const { classes, notifications, _id, updateNotificationList } = this.props
+        const { classes, notifications, updateNotificationList } = this.props
         
         return (
             <React.Fragment>

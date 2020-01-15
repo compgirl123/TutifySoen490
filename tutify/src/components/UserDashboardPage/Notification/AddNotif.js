@@ -23,7 +23,7 @@ class AddNotif extends React.Component {
     };
 
     render() {
-        const { notif, _id, updateNotificationList } = this.props
+        const { notif, updateNotificationList } = this.props
 
         return (
             <Grid container>
