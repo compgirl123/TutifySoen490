@@ -116,14 +116,14 @@ export class StudentList extends React.Component {
                               ?
                               <TableCell>Select student</TableCell>
                               :
-                              <TableCell></TableCell>
+                              <TableCell>Share</TableCell>
                             }
 
                             {this.props.match.params.file !== undefined
                               ?
                               <TableCell>Share Doc</TableCell>
                               :
-                              <TableCell>Share</TableCell>
+                              <TableCell>View Doc</TableCell>
                             }
 
                           </TableRow>
@@ -141,7 +141,9 @@ export class StudentList extends React.Component {
                                   ?
                                   <Checkbox value="uncontrolled" inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} />
                                   :
-                                  <br />
+                                  <Button type="button" onClick={() => window.open("/doclist")} variant="contained" size="small" className="submit">
+                                    Choose File to Share
+                                  </Button>
                                 }
                               </TableCell>
                               <TableCell>
@@ -152,8 +154,8 @@ export class StudentList extends React.Component {
                                   </Button>
                                   :
                                   <Button type="button" onClick={() => window.open("/doclist")} variant="contained" size="small" className="submit">
-                                    Choose File to Share
-                                </Button>
+                                    View Documents Uploaded
+                                  </Button>
                                 }
                               </TableCell>
                             </TableRow>
