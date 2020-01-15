@@ -39,7 +39,8 @@ export class TutorInfo extends React.Component {
       courses: [],
       open: false,
       scroll: 'paper',
-      tutorPicture: ""
+      tutorPicture: "",
+      description: ""
     };
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -93,7 +94,8 @@ export class TutorInfo extends React.Component {
             Toggle: true, _id: res.userInfo._id, __t: res.userInfo.__t,
             first_name: res.userInfo.first_name, last_name: res.userInfo.last_name,
             email: res.email, education_level: res.userInfo.education_level, school: res.userInfo.school,
-            program_of_study: res.userInfo.program_of_study, students: res.userInfo.students, subjects: res.userInfo.subjects, tutorPicture: res.userInfo.picture
+            program_of_study: res.userInfo.program_of_study, students: res.userInfo.students, subjects: res.userInfo.subjects, tutorPicture: res.userInfo.picture,
+            description: res.userInfo.description
           });
         }
         else {
@@ -250,6 +252,16 @@ export class TutorInfo extends React.Component {
             <br />
             School: {this.state.school}
           </Typography>
+          
+          <Typography className={classes.InfoContext}>
+              <br />
+              Description:<br/>
+          </Typography>
+          <div style={{maxHeight: 120, overflow: 'auto'}}>
+            <Typography className={classes.InfoContext}>
+                {this.state.description}
+            </Typography>
+          </div>
           <br />
 
           <Button variant="outlined" aria-label="edit"
