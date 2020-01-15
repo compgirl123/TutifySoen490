@@ -48,7 +48,7 @@ class AddNotif extends React.Component {
                             }
                         />
                         <Grid xs={6} md={1} item>
-                            <IconButton className={classes.delete} aria-label="Delete Todo" onClick={() => { this.handleClickDelete(notif._id, _id, updateNotificationList); }}>
+                            <IconButton aria-label="Delete Todo" onClick={() => { this.handleClickDelete(notif._id, _id, updateNotificationList); }}>
                                 <DeleteOutlined />
                             </IconButton>
                         </Grid>

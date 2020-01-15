@@ -18,6 +18,7 @@ const options = [
     'Student',
 ];
 
+// Function to remove duplicates from an array. Used in case a student is in 2 selected courses
 function arrayUnique(array) {
     var a = array.concat();
     for (var i = 0; i < a.length; ++i) {
@@ -99,8 +100,16 @@ export class Announcements extends React.Component {
 
     // creates a new announcement to send to list of selected students
     handleSubmit(event) {
+
+        let studentsToSend = []
+        // If courses and students are not selected in the dropdown menu, we default to sending to all students
+        if (!this.state.isCoursesSelected && !this.state.isStudentsSelected) 
+            studentsToSend =  this.state.students;
+        else
+            studentsToSend = this.state.studentsSelected;
+
         axios.post('http://localhost:3001/api/sendAnnouncementStudents', {
-            students: this.state.studentsSelected,
+            students: studentsToSend,
             announcement: {
                 title: this.state.aTitle,
                 text: this.state.aText,
