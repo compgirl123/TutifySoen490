@@ -16,6 +16,7 @@ class UserDashboard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            _id: "",
             courses: [],
             todos: [],
             tutors: [],
@@ -66,9 +67,9 @@ class UserDashboard extends React.Component {
     }
 
     // This function deletes a notif from the list both in the db and in the current state
-    updateNotificationList = (student_id, notif_id) => {
+    updateNotificationList = (notif_id) => {
         axios.post('/api/deleteNotification', {
-            student_id: student_id,
+            student_id: this.state._id,
             notif_id: notif_id,
         })
         .then((res) => {
@@ -82,7 +83,7 @@ class UserDashboard extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const { courses, tutors, todos, _id, notifications } = this.state;
+        const { courses, tutors, todos, notifications, _id } = this.state;
 
         return (
             <React.Fragment>
@@ -97,7 +98,7 @@ class UserDashboard extends React.Component {
                 <main className={classes.root}>
                     <Grid container className={classes.container}>
                         <Grid item sm={6} className={classes.gridItem}>
-                            <Notifications notifications={notifications} _id={_id} updateNotificationList={this.updateNotificationList}  />
+                            <Notifications notifications={notifications} updateNotificationList={this.updateNotificationList}  />
                         </Grid>
                         <Grid item xs={4} sm={6} className={classes.gridItem}>
                             <VisibleTodoList sessionTodos={todos} _id={_id}/>

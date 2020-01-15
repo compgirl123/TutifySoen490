@@ -17,8 +17,9 @@ class AddNotif extends React.Component {
         };
     }
 
-    handleClickDelete = (notif_id, student_id, updateNotificationList) => {
-        updateNotificationList(student_id, notif_id)
+    // This function passes the id of the notif to delete to the function updateNotificationList from parent component UserDashboard
+    handleClickDelete = (notif_id, updateNotificationList) => {
+        updateNotificationList(notif_id)
     };
 
     render() {
@@ -48,7 +49,7 @@ class AddNotif extends React.Component {
                             }
                         />
                         <Grid xs={6} md={1} item>
-                            <IconButton aria-label="Delete Todo" onClick={() => { this.handleClickDelete(notif._id, _id, updateNotificationList); }}>
+                            <IconButton aria-label="Delete Todo" onClick={() => { this.handleClickDelete(notif._id, updateNotificationList); }}>
                                 <DeleteOutlined />
                             </IconButton>
                         </Grid>

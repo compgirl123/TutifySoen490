@@ -38,7 +38,6 @@ export class Notifications extends React.Component {
                                         <AddNotif
                                             key={i}
                                             notif={notifications[notifications.length - 1 - i]}
-                                            _id={_id} 
                                             updateNotificationList = {updateNotificationList}
                                         />
                                     )) : <></>}
