@@ -7,10 +7,11 @@ var mongoose = require('mongoose');
 
 // This method fetches the latest uploaded document.
 exports.getLatestUpload = async function (req, res) {
-    UploadedFiles.findOne({ encryptedname: "2451d4f9d53678fba774c05738b234e4.png" }, function (err, mostRecent) {
+    UploadedFiles.find({},function(err,mostRecent){
         return res.json({ success: true, recent: mostRecent });
-    });
+    }).sort({_id:-1}).limit(1);
 }
+
 
 // This method adds restriction information for uploaded documents.
 exports.addUploadedFiles = async function (req, res) {

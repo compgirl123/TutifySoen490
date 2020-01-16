@@ -15,7 +15,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import axios from 'axios';
-import Button from "@material-ui/core/Button";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import DeleteIcon from '@material-ui/icons/Delete';
 import swal from 'sweetalert';
@@ -64,14 +63,12 @@ class DocList extends React.Component {
       if(willDelete !== null){
         swal("File Deleted", "", "success")
       console.log(willDelete);
-      
       axios.post('/api/getFileToDelete', {
         file_id: encrypted_file_name
-    } 
+    }
     ).then((res) => {})
       .catch(err => console.log(err));}
   });
-  //location.reload();
   }
 
   render() {
