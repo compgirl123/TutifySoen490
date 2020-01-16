@@ -21,6 +21,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import swal from 'sweetalert';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
+import Fab from "@material-ui/core/Fab";
 
 // displaying all of the documents uploaded by the tutor on Tutor "All Documents" Tab.
 class DocList extends React.Component {
@@ -112,12 +113,13 @@ class DocList extends React.Component {
                             var uploadDate = file.uploadDate
                             return (
                               <TableRow key={index}>
-                                <td><a href={url}>{filename}</a></td>
-                                <td>{uploadDate}</td>
-                                <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("http://localhost:3000/tutorCourses/" + encrypted_file_name)} id={file._id}><MenuBookIcon /></Button></td>
-                                <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("http://localhost:3000/students/" + encrypted_file_name)}  id={file._id}><GroupAddIcon /></Button></td>
-                                <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
-                                <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={e => this.getSelectedFiletoDelete(e,encrypted_file_name)} ><DeleteIcon /></Button></td>
+                                <TableCell><a href={url}>{filename}</a></TableCell>
+                                <TableCell>{uploadDate}</TableCell>
+                                <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" className={classes.courseButton} onClick={() => window.open("http://localhost:3000/tutorCourses/" + encrypted_file_name)} id={file._id}><MenuBookIcon fontSize="small"style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
+                                <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small"  className={classes.courseButton} onClick={() => window.open("http://localhost:3000/students/" + encrypted_file_name)}  id={file._id}><GroupAddIcon fontSize="small"style={{ width: '22px', height: '22px' }} /></Fab></TableCell>
+                                <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small"  className={classes.courseButton} onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon fontSize="small"style={{ width: '22px', height: '22px' }} /></Fab ></TableCell>
+                                <TableCell align="center"><Fab variant="extended" aria-label="add" fontSize="small" className={classes.courseButton} onClick={e => this.deleteListItem()}>
+                                <DeleteIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
                               </TableRow>
                             )
                           })}
