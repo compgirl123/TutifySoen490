@@ -3,7 +3,7 @@ import TodoItem, { TodoItem as TodoItemClass } from "../src/components/UserDashb
 import TodoList, { TodoList as TodoListClass } from "../src/components/UserDashboardPage/Todo/TodoList";
 import Todos, { Todos as TodosClass } from "../src/components/UserDashboardPage/Todo/Todos";
 import AddTodo, { AddTodo as AddTodoClass } from "../src/components/UserDashboardPage/Todo/AddTodo";
-import Notifications, { Notifications as NotificationsClass } from "../src/components/UserDashboardPage/Notifications";
+import Notifications, { Notifications as NotificationsClass } from "../src/components/UserDashboardPage/Notification/Notifications";
 import { createMount } from '@material-ui/core/test-utils';
 import { configure } from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";

@@ -39,7 +39,9 @@ export class TutorInfo extends React.Component {
       courses: [],
       open: false,
       scroll: 'paper',
-      tutorPicture: ""
+      tutorPicture: "",
+      description: "",
+      updatedDescription: "",
     };
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -93,7 +95,8 @@ export class TutorInfo extends React.Component {
             Toggle: true, _id: res.userInfo._id, __t: res.userInfo.__t,
             first_name: res.userInfo.first_name, last_name: res.userInfo.last_name,
             email: res.email, education_level: res.userInfo.education_level, school: res.userInfo.school,
-            program_of_study: res.userInfo.program_of_study, students: res.userInfo.students, subjects: res.userInfo.subjects, tutorPicture: res.userInfo.picture
+            program_of_study: res.userInfo.program_of_study, students: res.userInfo.students, subjects: res.userInfo.subjects, tutorPicture: res.userInfo.picture,
+            description: res.userInfo.description
           });
         }
         else {
@@ -108,7 +111,8 @@ export class TutorInfo extends React.Component {
       this.state.updatedProgramOfStudy,
       this.state.updatedSchool,
       this.state.updatedFirstName,
-      this.state.updatedLastName
+      this.state.updatedLastName,
+      this.state.updatedDescription
     ];
 
     for (var y = 0; y < updatedProfileValues.length; y++) {
@@ -125,6 +129,9 @@ export class TutorInfo extends React.Component {
         else if (y === 3) {
           updatedProfileValues[y] = this.state.last_name;
         }
+        else if (y === 4) {
+          updatedProfileValues[y] = this.state.description;
+        }
       }
     }
 
@@ -133,12 +140,14 @@ export class TutorInfo extends React.Component {
       program_of_study: updatedProfileValues[0],
       school: updatedProfileValues[1],
       first_name: updatedProfileValues[2],
-      last_name: updatedProfileValues[3]
+      last_name: updatedProfileValues[3],
+      description: updatedProfileValues[4],
     })
       .then((res) => {
         this.setState({
           first_name: res.data.userInfo.first_name, last_name: res.data.userInfo.last_name,
           school: res.data.userInfo.school, program_of_study: res.data.userInfo.program_of_study,
+          description: res.data.userInfo.description,
         });
         swal("Information successfully updated!", "", "success")
       }, (error) => {
@@ -250,12 +259,22 @@ export class TutorInfo extends React.Component {
             <br />
             School: {this.state.school}
           </Typography>
+
+          <Typography className={classes.InfoContext}>
+            <br />
+            Description:<br />
+          </Typography>
+          <div style={{ maxHeight: 120, overflow: 'auto' }}>
+            <Typography className={classes.InfoContext}>
+              {this.state.description}
+            </Typography>
+          </div>
           <br />
 
           <Button variant="outlined" aria-label="edit"
             justify="center"
             onClick={() => { this.handleClickOpen(); }}
-           >
+          >
             <EditIcon /> &nbsp;
             Edit Info
           </Button>
@@ -314,6 +333,17 @@ export class TutorInfo extends React.Component {
                 fullWidth
               />
 
+              <TextField
+                id="description"
+                name="description"
+                label="Description"
+                onChange={e => this.setState({ updatedDescription: e.target.value })}
+                multiline
+                rows="4"
+                defaultValue={this.state.description}
+                variant="outlined"
+                style={{ width: '100%', marginTop:"35px"}}
+              />
 
             </DialogContent>
             <Grid

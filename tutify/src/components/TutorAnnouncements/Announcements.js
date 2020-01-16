@@ -18,6 +18,7 @@ const options = [
     'Student',
 ];
 
+// Function to remove duplicates from an array. Used in case a student is in 2 selected courses
 function arrayUnique(array) {
     var a = array.concat();
     for (var i = 0; i < a.length; ++i) {
@@ -72,20 +73,16 @@ export class Announcements extends React.Component {
 
     // Function that handles the dropdown menu to select who receives the announcement
     handleMenuItemClick = (event, index) => {
-        this.setState({ selectedIndex: index });
-        this.setState({ anchorEl: null });
+        this.setState({ selectedIndex: index, anchorEl: null });
 
         if (index === 0) {
-            this.setState({ placeholder: 'All' });
-            this.setState({ isCoursesSelected: false, isStudentsSelected: false })
+            this.setState({ placeholder: 'All', isCoursesSelected: false, isStudentsSelected: false });
         }
         else if (index === 1) {
-            this.setState({ placeholder: 'Course' });
-            this.setState({ isCoursesSelected: true, isStudentsSelected: false });
+            this.setState({ placeholder: 'Course', isCoursesSelected: true, isStudentsSelected: false });
         }
         else if (index === 2) {
-            this.setState({ placeholder: 'Student' });
-            this.setState({ isCoursesSelected: false, isStudentsSelected: true })
+            this.setState({ placeholder: 'Student', isCoursesSelected: false, isStudentsSelected: true  });
         }
     };
 
@@ -103,8 +100,16 @@ export class Announcements extends React.Component {
 
     // creates a new announcement to send to list of selected students
     handleSubmit(event) {
+
+        let studentsToSend = []
+        // If courses and students are not selected in the dropdown menu, we default to sending to all students
+        if (!this.state.isCoursesSelected && !this.state.isStudentsSelected) 
+            studentsToSend =  this.state.students;
+        else
+            studentsToSend = this.state.studentsSelected;
+
         axios.post('http://localhost:3001/api/sendAnnouncementStudents', {
-            students: this.state.studentsSelected,
+            students: studentsToSend,
             announcement: {
                 title: this.state.aTitle,
                 text: this.state.aText,
