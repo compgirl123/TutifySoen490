@@ -109,8 +109,8 @@ exports.assignCourse = async function (req, res) {
 exports.assignCourseStudent = async function (req, res) {
     let uploaded_files = new UploadedFiles();
     let profile = new Profile();
-    const { first_name_student, last_name_student, file_name } = req.body;
-    Profile.findOne({ first_name: first_name_student, last_name: last_name_student }, function (err, student_info) {
+    const { id_student, file_name } = req.body;
+    Profile.findOne({ _id: id_student}, function (err, student_info) {
         UploadedFiles.findOne({ encryptedname: file_name }, function (err, encrypted_file_name) {
             uploaded_files.save(function (err) {
                 UploadedFiles.findByIdAndUpdate(encrypted_file_name._id,

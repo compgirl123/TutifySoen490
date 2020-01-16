@@ -72,10 +72,9 @@ export class StudentList extends React.Component {
       })
   };
 
-  uploadCourse = (e, studentFirstName, studentLastName) => {
+  uploadCourse = (e, id) => {
     axios.post('http://localhost:3001/api/students/:file', {
-      first_name_student: studentFirstName,
-      last_name_student: studentLastName,
+      id_student: id,
       file_name: this.props.match.params.file
     })
     swal("Succesfully shared document to Student(s)!", "", "success");
@@ -147,7 +146,7 @@ export class StudentList extends React.Component {
                               <TableCell>
                                 {this.props.match.params.file !== undefined
                                   ?
-                                  <Button type="button" onClick={event => this.uploadCourse(event, student.first_name, student.last_name)} variant="contained" size="small" className="submit">
+                                  <Button type="button" onClick={event => this.uploadCourse(event, student._id)} variant="contained" size="small" className="submit">
                                     Share Document
                                   </Button>
                                   :
