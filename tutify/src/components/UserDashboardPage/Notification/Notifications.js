@@ -1,7 +1,7 @@
 import React from 'react';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import * as UserDashboardStyles from '../../styles/UserDashboard-styles';
+import * as UserDashboardStyles from '../../../styles/UserDashboard-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -15,14 +15,12 @@ export class Notifications extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tutorName: "",
-            tutorAnnouncement: "",
-            announcementTitle: "",
+
         };
     }
 
     render() {
-        const { classes, notifications } = this.props
+        const { classes, notifications, updateNotificationList } = this.props
         
         return (
             <React.Fragment>
@@ -40,6 +38,7 @@ export class Notifications extends React.Component {
                                         <AddNotif
                                             key={i}
                                             notif={notifications[notifications.length - 1 - i]}
+                                            updateNotificationList = {updateNotificationList}
                                         />
                                     )) : <></>}
                                 </List>

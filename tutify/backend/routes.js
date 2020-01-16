@@ -58,6 +58,8 @@ router.post('/updateUserTodos', userController.updateUserTodos);
 
 router.post('/sendAnnouncementStudents', userController.sendAnnouncementStudents);
 
+router.post('/deleteNotification', userController.deleteNotification);
+
 // -------- ACCOUNT ROUTES --------- // 
 
 router.get('/getAccount', accountController.getAccount);
