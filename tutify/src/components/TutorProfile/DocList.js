@@ -64,12 +64,14 @@ class DocList extends React.Component {
       if(willDelete !== null){
         swal("File Deleted", "", "success")
       console.log(willDelete);
+      
       axios.post('/api/getFileToDelete', {
         file_id: encrypted_file_name
-    }
+    } 
     ).then((res) => {})
       .catch(err => console.log(err));}
   });
+  //location.reload();
   }
 
   render() {
@@ -118,7 +120,7 @@ class DocList extends React.Component {
                                 <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" className={classes.courseButton} onClick={() => window.open("http://localhost:3000/tutorCourses/" + encrypted_file_name)} id={file._id}><MenuBookIcon fontSize="small"style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
                                 <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small"  className={classes.courseButton} onClick={() => window.open("http://localhost:3000/students/" + encrypted_file_name)}  id={file._id}><GroupAddIcon fontSize="small"style={{ width: '22px', height: '22px' }} /></Fab></TableCell>
                                 <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small"  className={classes.courseButton} onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon fontSize="small"style={{ width: '22px', height: '22px' }} /></Fab ></TableCell>
-                                <TableCell align="center"><Fab variant="extended" aria-label="add" fontSize="small" className={classes.courseButton} onClick={e => this.deleteListItem()}>
+                                <TableCell align="center"><Fab variant="extended" aria-label="add" fontSize="small" className={classes.courseButton} onClick={e => this.getSelectedFiletoDelete(e,encrypted_file_name)} >
                                 <DeleteIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
                               </TableRow>
                             )
