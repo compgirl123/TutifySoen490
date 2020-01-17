@@ -153,7 +153,7 @@ export class StudentList extends React.Component {
                                     Share Document
                                   </Button>
                                   :
-                                  <Button type="button" onClick={() => window.open("/doclist")} variant="contained" size="small" className="submit">
+                                  <Button type="button" onClick={() => window.open("/doc"+"?"+student._id)} variant="contained" size="small" className="submit">
                                     View Documents Uploaded
                                   </Button>
                                 }
