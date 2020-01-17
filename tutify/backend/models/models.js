@@ -57,6 +57,17 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
       title: { type: String },
       completed: { type: Boolean }
     }
+  ],
+  sharedToStudents:
+  [
+    { type: Schema.Types.ObjectId, ref: 'Student' }
+  ],
+  events: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Event'
+
+    }
   ]
 }), 'profiles'
 );
@@ -84,13 +95,6 @@ const TutorSchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'Course'
       },
-    }
-  ],
-  events: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Event'
-
     }
   ]
 });
@@ -158,18 +162,22 @@ var Course = mongoose.model('Course', new Schema({
     required: true
   },
   description: String,
-  tutors: [
+  tutors:
     { type: Schema.Types.ObjectId, ref: 'Tutor' }
-  ],
+  ,
   students: [
     { type: Schema.Types.ObjectId, ref: 'Student' }
-  ]
+  ],
+  sharedToCourses: [{
+    type: String,
+    required: true
+  }]
 }), "courses");
 
 
 // -------- FILES --------- // 
 
-var Files = mongoose.model('Files', new Schema({
+var Files = mongoose.model('uploaded_files', new Schema({
   name: {
     type: String,
     required: true
@@ -183,11 +191,11 @@ var Files = mongoose.model('Files', new Schema({
     type: String,
     required: true
   },
-  encryptedName: {
-    type: String,
+  fileObject: {
+    type: Schema.Types.ObjectId,
+    ref: 'Tutor',
     required: true
   },
-
   relatedCourse: [
     {
       type: Schema.Types.ObjectId,
@@ -197,8 +205,43 @@ var Files = mongoose.model('Files', new Schema({
   sharedToStudents: [
     { type: Schema.Types.ObjectId, ref: 'Student' }
   ]
-}), "files");
+}), "uploaded_files");
 
+// -------- UploadedFiles --------- // 
+
+var UploadedFiles = mongoose.model('UploadedFiles', new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  encryptedname: {
+    type: String,
+    required: true
+  },
+  link: {
+    type: String,
+    required: true
+  },
+  adminTutor: {
+    type: Schema.Types.ObjectId,
+    ref: 'Tutor',
+    required: true
+  },
+  uploadedDocs: [
+    { type: Schema.Types.ObjectId, ref: 'Mfiles' }
+  ],
+  sharedToStudents: [{
+    type: String,
+    required: true
+  }
+  ],
+  sharedToCourses: [{
+    type: String,
+    required: true
+  }
+  ],
+  uploadDate: Date
+}), "uploaded_files");
 
 
 // --------  Event --------- // 
@@ -208,8 +251,31 @@ var Event = mongoose.model('Event', new Schema({
   location: String,
   date: String,
   startTime: String,
-  endTime: String
+  endTime: String,
+  students: [
+    { type: Schema.Types.ObjectId, ref: 'Student' }
+  ],
+  tutor:{ type: Schema.Types.ObjectId, ref: 'Tutor' },
+  tutorName: { type: String },
 }), "events");
+
+// --------  Multer files --------- // 
+var Mfiles = mongoose.model('Mfiles', new Schema({
+  length: Number,
+  chunkSize: Number,
+  uploadDate: Date,
+  md5: Schema.Types.Mixed,
+  filename: String,
+  contentType: String,
+  aliases: [{ type: String }],
+  metadata: Schema.Types.Mixed
+}), "uploads.files");
+
+var Mchunks = mongoose.model('Mchunks', new Schema({
+  files_id: { type: Schema.Types.ObjectId, ref: 'uploads.files' },
+  n: Number,
+  data: Schema.Types.Buffer
+}), "uploads.chunks");
 
 
 // export the Schemas
@@ -220,6 +286,11 @@ module.exports = {
   Account: Account,
   Appointment: Appointment,
   Course: Course,
+  UploadedFiles: UploadedFiles,
   Files: Files,
-  Event: Event
+  Event: Event,
+  Mfiles: Mfiles,
+  Mchunks: Mchunks
 }
+
+

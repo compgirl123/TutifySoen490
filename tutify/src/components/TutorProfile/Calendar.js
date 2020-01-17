@@ -24,9 +24,9 @@ import axios from 'axios';
 import swal from 'sweetalert';
 import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
 import IconButton from '@material-ui/core/IconButton';
+import ShowStudents from "../TutorAnnouncements/ShowStudents";
 
-
-class NewCalendar extends React.Component {
+export class NewCalendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,9 +44,15 @@ class NewCalendar extends React.Component {
       eventsDecoded: [],
       dates: [],
       eventId: "",
+      students: [],
+      studentsSelected: [],
+      Toggle: false,
+      placeholder: "Share with student",
+      tutorName: "",
     };
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.shareWithStudent = this.shareWithStudent.bind(this);
     this.deleteEvent = this.deleteEvent.bind(this);
 
   }
@@ -69,12 +75,13 @@ class NewCalendar extends React.Component {
     this.setState({ open: false });
   };
 
-  function1 = (newDates) => {
+  displayedDates = (newDates) => {
     newDates.sort();
+    //remove duplicates
     newDates = newDates.filter(function (elem, pos) {
       return newDates.indexOf(elem) === pos;
     })
-
+    //change number to date format (ex:dd/mm/yyyy)
     for (var i = 0; i < newDates.length; i++) {
       var stri = newDates[i].substring(6) + "/" + newDates[i].substring(4, 6) + "/" + newDates[i].substring(0, 4);
       stri = stri.toString();
@@ -83,16 +90,17 @@ class NewCalendar extends React.Component {
     return newDates;
   };
 
-  function2 = () => {
-
-  };
-
   componentDidMount() {
     this.checkSession();
   }
 
 
+  handleSelection = (students) => {
+    //assign students selected from dropdown list to an array
+    this.setState({ studentsSelected: students });
+  }
 
+  //retrieves the session
   checkSession = () => {
     fetch('/api/checkSession', {
       method: 'GET',
@@ -102,14 +110,41 @@ class NewCalendar extends React.Component {
       .then((res) => {
         this.setState({
           tutor_id: res.userInfo._id,
-          events: res.userInfo.events
+          events: res.userInfo.events,
+          students: res.userInfo.students,
+          tutorName: res.userInfo.first_name + " " + res.userInfo.last_name
         });
         this.populateEvents();
+        this.FindStudentsForList();
       })
       .catch(err => console.log(err));
   };
 
+  //converts student object ids to student information
+  FindStudentsForList = () => {
+    axios.post('/api/findStudents', {
+      students: this.state.students
+    })
+      .then((res) => {
 
+        this.setState({ students: res.data.data });
+
+      }, (error) => {
+        console.log(error);
+      })
+  };
+
+  //toggles with opening and closing of dropdown list of students
+  shareWithStudent = () => {
+    if (this.state.placeholder === "Share with student") {
+      this.setState({ Toggle: true, placeholder: "Hide student list" });
+    }
+    else {
+      this.setState({ Toggle: false, placeholder: "Share with student" });
+    }
+  }
+
+  //retireves events from database and displays them
   populateEvents = () => {
     var newDates = [];
     var newEvents = [];
@@ -121,6 +156,7 @@ class NewCalendar extends React.Component {
 
         newEvents = res.data.data;
 
+        //changes the format of the date
         for (var z = 0; z < newEvents.length; z++) {
           var str = newEvents[z].date;
           str = str.substring(0, 11)
@@ -130,8 +166,7 @@ class NewCalendar extends React.Component {
           newStr = newStr.toString();
           newEvents[z].date = newStr;
         }
-
-        newDates = this.function1(newDates);
+        newDates = this.displayedDates(newDates);
 
         this.setState({ dates: newDates, eventsDecoded: newEvents });
       }, (error) => {
@@ -139,6 +174,7 @@ class NewCalendar extends React.Component {
       });
   };
 
+  //adds an events to the database and retrieves modified events array to display in front end
   addEvent = () => {
     this.setState({ open: false });
     if (this.state.location !== "") {
@@ -153,6 +189,9 @@ class NewCalendar extends React.Component {
       date: this.state.date,
       startTime: this.state.startTime,
       endTime: this.state.endTime,
+      students: this.state.studentsSelected,
+      tutorName: this.state.tutorName,
+      studentNames: this.state.studentNames
     })
       .then((res) => {
         var newDates = [];
@@ -161,6 +200,7 @@ class NewCalendar extends React.Component {
 
         newEvents = res.data.data;
 
+        //change the format of the date and add new event id to list of event ids
         for (var z = 0; z < newEvents.length; z++) {
           var str = newEvents[z].date;
           str = str.substring(0, 11)
@@ -169,14 +209,14 @@ class NewCalendar extends React.Component {
           newStr = newStr.substring(6) + "/" + newStr.substring(4, 6) + "/" + newStr.substring(0, 4);
           newStr = newStr.toString();
           newEvents[z].date = newStr;
-          replaceEvents.push(newEvents[z]._id)
+          replaceEvents.push(newEvents[z]._id);
         }
+        newDates = this.displayedDates(newDates);
 
-        newDates = this.function1(newDates);
-
+        //reset all states
         this.setState({
           dates: newDates, eventsDecoded: newEvents, events: replaceEvents, location: "", description: "", startTime: "00:00",
-          endTime: "00:00"
+          endTime: "00:00", studentsSelected: []
         });
         swal("Event successfully added!", "", "success")
       }, (error) => {
@@ -184,16 +224,29 @@ class NewCalendar extends React.Component {
       });
   };
 
+  //deletes an events from the database and retrieves modified array of events to display in front end
   deleteEvent = (id) => {
-    axios.post('/api/deleteEvent', {
-      event_id: id,
-      tutor_id: this.state.tutor_id
+    swal({
+      title: "Are you sure you want delete this event?",
+      icon: "warning",
+      buttons: [true, "Yes"],
+      dangerMode: true,
     })
-      .then((res) => {
-        this.setState({ events: res.data.userInfo.events });
-        this.populateEvents();
-      }, (error) => {
-        console.log(error);
+      .then((willDelete) => {
+        if (willDelete) {
+          axios.post('/api/deleteEvent', {
+            event_id: id,
+            tutor_id: this.state.tutor_id
+          })
+            .then((res) => {
+              this.setState({ events: res.data.userInfo.events });
+              this.populateEvents();
+            }, (error) => {
+              console.log(error);
+            });
+          swal("Event successfully deleted!", "", "success")
+
+        }
       });
   };
 
@@ -241,9 +294,9 @@ class NewCalendar extends React.Component {
                     {this.state.dates.map(date => (
                       <TableBody>
                         <TableRow >
-                          <TableCell style={{ background: 'lightgray' }}>{date}</TableCell>
-                          <TableCell style={{ background: 'lightgray' }}></TableCell>
-                          <TableCell style={{ background: 'lightgray' }}></TableCell>
+                          <TableCell className={classes.tableCell}>{date}</TableCell>
+                          <TableCell className={classes.tableCell}></TableCell>
+                          <TableCell className={classes.tableCell}></TableCell>
                         </TableRow>
                         {this.state.eventsDecoded.map(event => {
                           return date === event.date ?
@@ -341,6 +394,15 @@ class NewCalendar extends React.Component {
                   type="time"
                   fullWidth
                 />
+
+                <Button aria-controls="simple-menu" aria-haspopup="true" variant="outlined" style={{ marginTop: '30px', marginBottom: '30px' }} onClick={this.shareWithStudent}>
+                  {this.state.placeholder}
+                </Button>
+                {this.state.Toggle ?
+                  <ShowStudents students={this.state.students} handleSelection={this.handleSelection} />
+                  : <></>
+                }
+
 
               </DialogContent>
               <Grid

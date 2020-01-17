@@ -9,6 +9,8 @@ import { List } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import PublishIcon from '@material-ui/icons/Publish';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
+import CreateIcon from '@material-ui/icons/Create';
+import ClassIcon from '@material-ui/icons/Class';
 
 export class TutorSidebar extends Component {
   constructor(props) {
@@ -16,7 +18,6 @@ export class TutorSidebar extends Component {
 
     this.handleChange = this.handleChange.bind(this);
   }
-
 
   handleChange(event) {
     fetch('/api/logout', {
@@ -43,25 +44,35 @@ export class TutorSidebar extends Component {
               </ListItemIcon>
               <ListItemText primary="My Profile" />
             </ListItem>
+
             <ListItem button component="a" href="/uploadingDocs">
               <ListItemIcon>
                 <PublishIcon />
               </ListItemIcon>
               <ListItemText primary="Upload Documents" />
             </ListItem>
-            <ListItem button component="a" href="/tutorCourses">
+
+            <ListItem button component="a" href="/doclist">
               <ListItemIcon>
                 <MenuBookIcon />
+              </ListItemIcon>
+              <ListItemText primary="All Documents" />
+            </ListItem>
+
+            <ListItem button component="a" href="/tutorCourses">
+              <ListItemIcon>
+                <ClassIcon />
               </ListItemIcon>
               <ListItemText primary="My Courses" />
             </ListItem>
+
             <ListItem button component="a" href="/Announcements">
               <ListItemIcon>
-                <MenuBookIcon />
+                <CreateIcon />
               </ListItemIcon>
               <ListItemText primary="Announcements" />
             </ListItem>
-            <ListItem button component="a" href="/students">
+            <ListItem button component="a" href="/students/:file">
               <ListItemIcon>
                 <SchoolIcon />
               </ListItemIcon>

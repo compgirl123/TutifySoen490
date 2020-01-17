@@ -5,10 +5,14 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const router = require('./routes');
 var session = require('express-session');
-
+var multer = require('multer');
+const GridFsStorage = require("multer-gridfs-storage");
+const crypto = require('crypto');
 const API_PORT = 3001;
 const app = express();
+const path = require("path");
 app.use(cors({credentials: true, origin: true}));
+var uploadController = require('./controllers/uploaded_files.controller')
 
 // this is our MongoDB database
 const dbRoute =
@@ -16,10 +20,45 @@ const dbRoute =
 
 // connects our back end code with the database
 mongoose.connect(dbRoute, { useNewUrlParser: true, useUnifiedTopology: true });
+// connection
 
 let db = mongoose.connection;
 
-db.once('open', () => console.log('connected to the database'));
+// // connection with file databaseconst 
+// conn = mongoose.createConnection(filesRoute, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// });
+let gfs;
+const conn = db.once('open', () => {
+   // init stream
+   gfs = new mongoose.mongo.GridFSBucket(conn.db, {
+    bucketName: "uploads"
+  });
+  console.log('connected to the database');
+});
+ // Storage
+ const storage = new GridFsStorage({
+  url: dbRoute,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err);
+        }
+        const filename = buf.toString("hex") + path.extname(file.originalname);
+        const fileInfo = {
+          filename: filename,
+          bucketName: "uploads"
+        };
+        resolve(fileInfo);
+      });
+    });
+  }
+});
+const upload = multer({
+  storage
+});
 
 // checks if connection with the database is successful
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -35,6 +74,24 @@ app.use(session({secret:"sdshkgjdhgkhgkjsd322k3j4nkjkjhb3", resave:false, saveUn
 // append /api for our http requests
 app.use('/api', router);
 app.use('/public', express.static('public'));
+
+// uploading files routes
+app.post('/uploadFile', upload.single('file'), uploadController.addUploadedFiles);
+app.get('/doclist', uploadController.populateUploadedFiles);
+//app.get('/deletelistitem', uploadController.deleteUploadedFiles);
+app.get('/uploadingDocs', uploadController.getLatestUpload);
+app.post('/tutorCourses/:file', uploadController.assignCourse);
+app.post('/students/:file', uploadController.assignCourseStudent);
+app.get('/doc', uploadController.viewDocs);
+app.get('/ViewCourse/:coursename', uploadController.viewCourseDocs);
+app.get('/ViewTutorCourse/:coursename', uploadController.viewCourseDocs);
+
+
+// file upload requirements
+app.use(express.json());
+app.set("view engine", "ejs");
+
+
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));

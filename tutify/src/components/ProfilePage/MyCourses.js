@@ -60,7 +60,6 @@ export class MyCourses extends React.Component {
       .then(response => response.json())
       .then(res => {
         this.setState({ courses: res.data });
-
       })
       .catch(err => console.log(err));
   }
@@ -107,9 +106,9 @@ export class MyCourses extends React.Component {
                           </CardContent>
                         </CardActionArea>
                         <CardActions>
-                          <Button type="button" size="small" href= "/ViewCourse" fullWidth variant="contained" className="submit">
+                          <Button type="button" size="small" onClick={() => window.open("http://localhost:3000/ViewCourse/" + (c.course.name).replace(/ /g,""))} fullWidth variant="contained" className="submit">
                             View Course
-                        </Button>
+                         </Button>
                         </CardActions>
                       </Card>
                     </Grid>

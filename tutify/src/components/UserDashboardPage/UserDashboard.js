@@ -2,22 +2,25 @@ import React from 'react';
 import NavBar from '../NavBar';
 import Footer from '../Footer';
 import Grid from '@material-ui/core/Grid';
-import Notifications from './Notifications';
+import Notifications from './Notification/Notifications';
 import * as UserDashboardStyles from '../../styles/UserDashboard-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Sidebar from '../ProfilePage/StudentSidebar';
 import Drawer from "@material-ui/core/Drawer";
 import MyCourseList from "./MyCourseList";
 import VisibleTodoList from '../../redux/containers/VisibleTodoList'
+import axios from "axios";
 
 
 class UserDashboard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            _id: "",
             courses: [],
             todos: [],
-            tutors: []
+            tutors: [],
+            notifications: []
         };
     }
 
@@ -40,7 +43,7 @@ class UserDashboard extends React.Component {
                         tutors: res.userInfo.tutors,
                         notifications: res.userInfo.notifications 
                     });
-                    this.getDataFromDb()
+                    this.getCourses()
                 }
                 else {
                     this.setState({ Toggle: false });
@@ -62,9 +65,24 @@ class UserDashboard extends React.Component {
             .catch(err => console.log(err));
     }
 
+    // This function deletes a notif from the list both in the db and in the current state
+    updateNotificationList = (notif_id) => {
+        axios.post('/api/deleteNotification', {
+            student_id: this.state._id,
+            notif_id: notif_id,
+        })
+        .then((res) => {
+            this.setState({
+                notifications: res.data.notifications
+            });
+          }, (error) => {
+            console.log(error);
+          });  
+    }
+
     render() {
         const { classes } = this.props;
-        const { courses, tutors, todos, _id, notifications } = this.state;
+        const { courses, tutors, todos, notifications, _id } = this.state;
 
         return (
             <React.Fragment>
@@ -79,7 +97,7 @@ class UserDashboard extends React.Component {
                 <main className={classes.root}>
                     <Grid container className={classes.container}>
                         <Grid item sm={6} className={classes.gridItem}>
-                            <Notifications notifications={notifications} />
+                            <Notifications notifications={notifications} updateNotificationList={this.updateNotificationList}  />
                         </Grid>
                         <Grid item xs={4} sm={6} className={classes.gridItem}>
                             <VisibleTodoList sessionTodos={todos} _id={_id}/>

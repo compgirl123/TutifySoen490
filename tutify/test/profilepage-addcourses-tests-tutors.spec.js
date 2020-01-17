@@ -28,6 +28,9 @@ describe('The Profile Page adding Courses Feature for Tutors.', () => {
         // Passing in a mock of a specific Tutor's subjects for profile page.
         const tutor_subjects_mock = 
         {
+            "_id": {
+                "$oid": "5e059af3ad6a2d8862c23244"
+            },
             first_name: "Pooja",
             last_name: "Patel",
             school: "Elementary School",
@@ -43,6 +46,7 @@ describe('The Profile Page adding Courses Feature for Tutors.', () => {
         const tutor_class_wrapper = wrapper.find(TutorCoursesInfoClass);
         tutor_class_wrapper.setState({ data: json.data });
         tutor_class_wrapper.setState({ subjects: tutor_subjects_mock.subjects });
+        tutor_class_wrapper.setState({ _id: tutor_subjects_mock._id });
 
         // Finding the Box html component document on the page.
         const tutor_courses_taught = wrapper.find(Box).at(0);
@@ -81,18 +85,28 @@ describe('The Profile Page adding Courses Feature for Tutors.', () => {
         const subjects_array = course_selection_wrapper.state().subjects;
         // Adding selected component to the subjects array.
         subjects_array.push(course_selection_select_component.props().children[0].props.value);
+        
         // Setting the states of the subjects and courses. 
         course_selection_wrapper.setState({ subjects: subjects_array });
         course_selection_wrapper.setState({ courses: course_selection_wrapper.state.selected });
 
         // Finding the Button component document on the TutorCourses page.
         const edit_courses_save = wrapper.find(Button).at(0);
-        // Simulate a button click on the save course changes button
-        edit_courses_save.find('button').simulate('click');
+        // Adding the subject Italian to the subjects the Tutor Teaches
+        (tutor_class_wrapper.state().subjects).push('Italian');
+        // Setting state of subjects to have the new array values with the new subject included.
+        course_selection_wrapper.setState({ subjects: tutor_class_wrapper.state().subjects });
+        
+        // set a timeout since this is an async function.
+        setTimeout( function(){
+            // Simulate a button click on the save course changes button
+            edit_courses_save.props().onClick(course_selection_wrapper.setState({ subjects: tutor_class_wrapper.state().subjects})); 
+        }, 1);
+
         // Verfiying if new changes have been applied after Button Click is simulated
         setImmediate( () => { 
-            expect(course_selection_wrapper.state().subjects)
-            expect(course_selection_wrapper.state().subjects.length).toBe(3);
+            expect(course_selection_wrapper.state().subjects);
+            expect(course_selection_wrapper.state().subjects.length).toBe(4);
             done();
         })
     });

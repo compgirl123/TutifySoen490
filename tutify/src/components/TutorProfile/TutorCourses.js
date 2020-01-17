@@ -13,8 +13,10 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
+import swal from 'sweetalert';
+import axios from "axios";
 
-
+// displaying the courses the tutor teaches.
 export class TutorCourses extends React.Component {
   constructor(props) {
     super(props);
@@ -48,6 +50,7 @@ export class TutorCourses extends React.Component {
       .catch(err => console.log(err));
   };
 
+
   // Uses our backend api to fetch the courses from our database
   getDataFromDb = () => {
     fetch('/api/getTutorCourses', {
@@ -60,10 +63,19 @@ export class TutorCourses extends React.Component {
       })
       .catch(err => console.log(err));
   }
+
+  uploadCourse = (e,courseName) => {
+    axios.post('/api/tutorCourses/:file', {
+        course_id : courseName,
+        file_name : this.props.match.params.file
+    })
+    swal("Succesfully uploaded document to Course(s)!", "", "success");
+  }
+
   render() {
     const { classes } = this.props;
     const { courses } = this.state;
-
+ 
     return (
       <Paper className={classes.paper}>
         <React.Fragment>
@@ -73,7 +85,7 @@ export class TutorCourses extends React.Component {
               <div className={classes.appBarSpacer} />
 
               <Container maxWidth="lg" className={classes.container}>
-               <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
+                <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                   Courses Currently Taught
                </Typography>
                 <Grid container spacing={5}>
@@ -95,12 +107,15 @@ export class TutorCourses extends React.Component {
                           </CardContent>
                         </CardActionArea>
                         <CardActions>
-                          <Button type="button"  size="small" href = "/TutorCourseView" fullWidth className="submit">
-                            View Documents
+                          {this.props.match.params.file !== undefined
+                            ? <Button type="button" onClick={event => this.uploadCourse(event, c.course.name)} size="small" fullWidth className="submit">
+                              Upload Document
                           </Button>
-                          <Button type="button" size="small" href = "/uploadingDocs" fullWidth className="submit">
-                            Upload Document
+                            :
+                            <Button type="button" onClick={() => window.open("http://localhost:3000/ViewTutorCourse/" + (c.course.name).replace(/ /g, ""))} size="small" href="" fullWidth className="submit">
+                              View Documents
                           </Button>
+                          }
                         </CardActions>
                       </Card>
                     </Grid>
@@ -109,7 +124,6 @@ export class TutorCourses extends React.Component {
               </Container>
               <main>
                 {/* Hero unit */}
-
               </main>
               {/* Footer */}
               <Footer />
