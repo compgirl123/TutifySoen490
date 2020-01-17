@@ -51,6 +51,21 @@ class DocList extends React.Component {
       .catch(err => console.log(err));
   }
 
+
+
+  presentableName(name){
+    return  name.substring(0, name.lastIndexOf("."));
+  }
+
+  presentableExtension(name){
+    return name.substring(name.lastIndexOf(".") + 1);
+  }
+
+  presentableUploadTime(time){
+    var date = time.substring(0,9);
+    var hour = time.substring(11,16);
+    return date+" at "+hour;
+  }
   // tutor deletes a documents from files list
   getSelectedFiletoDelete(event,encrypted_file_name) {
     swal({
@@ -94,9 +109,10 @@ class DocList extends React.Component {
                         <TableHead>
                           <TableRow>
                             <TableCell>Name</TableCell>
-                            <TableCell>Creation Date</TableCell>
-                            <TableCell>Share to Specific Course</TableCell>
-                            <TableCell>Share to Specific Student</TableCell>
+                            <TableCell>Extension</TableCell>
+                            <TableCell>Uploaded on</TableCell>
+                            <TableCell>Share to <br/>Specific Course</TableCell>
+                            <TableCell>Share to <br/>Specific Student</TableCell>
                             <TableCell>Download</TableCell>
                             <TableCell>Remove File</TableCell>
                           </TableRow>
@@ -110,8 +126,9 @@ class DocList extends React.Component {
                             var uploadDate = file.uploadDate
                             return (
                               <TableRow key={index}>
-                                <td><a href={url}>{filename}</a></td>
-                                <td>{uploadDate}</td>
+                                <td><a href={url}>{this.presentableName(filename)}</a></td>
+                                <td>{this.presentableExtension(filename)}</td>
+                                <td>{this.presentableUploadTime(uploadDate)}</td>
                                 <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("http://localhost:3000/tutorCourses/" + encrypted_file_name)} id={file._id}><MenuBookIcon /></Button></td>
                                 <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("http://localhost:3000/students/" + encrypted_file_name)}  id={file._id}><GroupAddIcon /></Button></td>
                                 <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
