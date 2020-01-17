@@ -194,7 +194,7 @@ export class UploadDocuments extends Component {
                 <TableRow>
                   <TableCell>Date</TableCell>
                   <TableCell>Name</TableCell>
-                  <TableCell align="right">Uploaded By</TableCell>
+                  <TableCell align="right">Download File</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
