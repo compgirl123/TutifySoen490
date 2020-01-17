@@ -95,7 +95,7 @@ exports.assignCourseStudent = async function (req, res) {
     let uploaded_files = new UploadedFiles();
     let profile = new Profile();
     const { id_student, file_name } = req.body;
-    Profile.findOne({ _id: id_student}, function (err, student_info) {
+    Profile.findOne({ _id: id_student }, function (err, student_info) {
         UploadedFiles.findOne({ encryptedname: file_name }, function (err, encrypted_file_name) {
             uploaded_files.save(function (err) {
                 UploadedFiles.findByIdAndUpdate(encrypted_file_name._id,
@@ -127,19 +127,26 @@ exports.assignCourseStudent = async function (req, res) {
 
 // this method enables the students to view all of their shared documents.
 exports.viewDocs = async function (req, res) {
-    Profile.findOne({ account: req.session.userInfo.account }, async (err, sharedDocs) => {
-        await UploadedFiles.find({ _id: { $in: sharedDocs.sharedToStudents } }, async (err, tst) => {
-            var response = [];
-            for (var file of tst) {
-                await Profile.findOne({ _id: file.adminTutor }, async (err, tutor) => {
-                    var tutorName = tutor.first_name + " " + tutor.last_name
-                    file = Object.assign({ tutorName: tutorName }, file);
-                    response.push(file);
-                });
-            };
-            return res.json({ success: true, file: response });
+    var response = [];
+    await Profile.findOne({ account: req.session.userInfo.account }, async (err, sharedDocs) => { }).then(async (sharedDocs) => {
+        await UploadedFiles.find({ _id: { $in: sharedDocs.sharedToStudents } }, async (err, tst) => { }).then(async (tst) => {
+            await findProfile(tst, response, res).then(async (result) => {
+                return res.json({ success: true, file: result });
+            });
         });
     });
+}
+
+//helper method
+async function findProfile(tst, response, res) {
+    for (let index = 0; index < tst.length; index++) {
+        await Profile.findOne({ _id: tst[index].adminTutor }, async (err, tutor) => { }).then(async (tutor) => {
+            var tutorName = tutor.first_name + " " + tutor.last_name
+            tst[index] = await Object.assign({ tutorName: tutorName }, tst[index]);
+            await response.push(tst[index]);
+        });
+    };
+    return new Promise((resolve, reject) => { resolve(response) });
 }
 
 // this method enables each class to view all of their shared documents.

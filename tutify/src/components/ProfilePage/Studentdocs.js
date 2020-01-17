@@ -80,7 +80,6 @@ class Studentdocs extends React.Component {
       .then(res => {
         if (res.isLoggedIn) {
           this.setState({ user_id: res.userInfo._id });
-          this.findCourses();
         }
         else {
           this.setState({ user_id: "Not logged in" });
