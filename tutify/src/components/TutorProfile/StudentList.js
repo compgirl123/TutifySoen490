@@ -26,7 +26,9 @@ export class StudentList extends React.Component {
     super(props);
     this.state = {
       drawerOpened: false,
-      students: []
+      students: [],
+      shareTo:[],
+      fileid:""
     };
   }
 
@@ -38,6 +40,18 @@ export class StudentList extends React.Component {
 
   componentDidMount() {
     this.checkSession();
+    this.setState({fileid: this.props.match.params.file });
+  }
+
+  handleCheckbox = async (event) => {
+    if(event.target.checked){
+      let list = this.state.shareTo;
+      list.push(event.target.name);
+      await this.setState({shareTo: list});
+    }else{
+      let filteredArray = this.state.shareTo.filter(item => item !== event.target.name);
+      await this.setState({shareTo: filteredArray});
+    }
   }
 
 
@@ -61,6 +75,25 @@ export class StudentList extends React.Component {
       .catch(err => console.log(err));
   };
 
+  handleShareDocButton = (tableTitle=false, bottomButton=false) => {
+    if(tableTitle){
+      if (this.props.match.params.file=== undefined){
+        return <TableCell>Share</TableCell>
+      }
+    }
+    else{
+      if (this.props.match.params.file=== undefined){
+        return  <TableCell><Button type="button" onClick={() => window.open("/doclist")} variant="contained" size="small" className="submit">Choose File to Share</Button></TableCell>;
+
+      }
+      if  (bottomButton){
+        return <Button type="button" style={{"left": "80%","top":"10px"}} onClick={event => this.uploadCourse(event, this.state.shareTo)} variant="contained" size="small" className="submit">
+        Share Document
+      </Button>;
+      }
+    }
+  }
+
   FindStudents = () => {
     axios.post('/api/findStudents', {
       students: this.state.students
@@ -72,11 +105,14 @@ export class StudentList extends React.Component {
       })
   };
 
-  uploadCourse = (e, id) => {
-    axios.post('http://localhost:3001/api/students/:file', {
-      id_student: id,
-      file_name: this.props.match.params.file
-    })
+  uploadCourse = (e, ids) => {
+    for (const studentid in ids) {
+      axios.post("http://localhost:3001/api/students/"+this.state.fileid, {
+        id_student: ids[studentid],
+        file_name: this.props.match.params.file
+      });
+    }
+    
     swal("Succesfully shared document to Student(s)!", "", "success");
   }
 
@@ -118,18 +154,13 @@ export class StudentList extends React.Component {
                               <TableCell></TableCell>
                             }
 
-                            {this.props.match.params.file !== undefined
-                              ?
-                              <TableCell>Share Doc</TableCell>
-                              :
-                              <TableCell>Share</TableCell>
-                            }
+                            {this.handleShareDocButton(true)}
 
                           </TableRow>
                         </TableHead>
                         <TableBody>
                           {students.map(student => (
-                            <TableRow key={student.id}>
+                            <TableRow key={student._id}>
                               <TableCell>{student.first_name}</TableCell>
                               <TableCell>{student.last_name}</TableCell>
                               <TableCell>{student.program_of_study}</TableCell>
@@ -138,27 +169,20 @@ export class StudentList extends React.Component {
                               <TableCell>
                                 {this.props.match.params.file !== undefined
                                   ?
-                                  <Checkbox value="uncontrolled" inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} />
+                                  <Checkbox name={student._id} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} />
                                   :
                                   <br />
                                 }
                               </TableCell>
-                              <TableCell>
-                                {this.props.match.params.file !== undefined
-                                  ?
-                                  <Button type="button" onClick={event => this.uploadCourse(event, student._id)} variant="contained" size="small" className="submit">
-                                    Share Document
-                                  </Button>
-                                  :
-                                  <Button type="button" onClick={() => window.open("/doclist")} variant="contained" size="small" className="submit">
-                                    Choose File to Share
-                                </Button>
-                                }
-                              </TableCell>
+                              {this.handleShareDocButton()}
+                      
                             </TableRow>
                           ))}
                         </TableBody>
                       </Table>
+                      <div >
+                      {this.handleShareDocButton(false, true)}
+                      </div>
                       <div className={classes.seeMore}>
                         <p>
                           <Link color="primary" href="/">
