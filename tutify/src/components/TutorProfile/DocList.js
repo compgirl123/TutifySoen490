@@ -51,7 +51,7 @@ class DocList extends React.Component {
       .catch(err => console.log(err));
   }
 
-  //tutor deletes a documents from files list
+  // tutor deletes a documents from files list
   getSelectedFiletoDelete(event,encrypted_file_name) {
     swal({
       title: "Are you sure you want delete this document?",
@@ -60,15 +60,12 @@ class DocList extends React.Component {
       dangerMode: true,
     })
     .then((willDelete) => {
-      if(willDelete !== null){
-        swal("File Deleted", "", "success")
       console.log(willDelete);
       axios.post('/api/getFileToDelete', {
         file_id: encrypted_file_name
-    }
-    ).then((res) => {})
+    }).then((res) => {
+    })
       .catch(err => console.log(err));
-      window.location.reload();}
   });
   }
 
