@@ -7,9 +7,9 @@ var mongoose = require('mongoose');
 
 // This method fetches the latest uploaded document.
 exports.getLatestUpload = async function (req, res) {
-    UploadedFiles.find({adminTutor:req.session.userInfo._id},function(err,mostRecent){
+    UploadedFiles.find({ adminTutor: req.session.userInfo._id }, function (err, mostRecent) {
         return res.json({ success: true, recent: mostRecent });
-    }).sort({_id:-1}).limit(1);
+    }).sort({ _id: -1 }).limit(1);
 }
 
 // This method adds restriction information for uploaded documents.
@@ -49,20 +49,9 @@ exports.addUploadedFiles = async function (req, res) {
 
 // This Method Gets the Document Files from the Database
 exports.populateUploadedFiles = async function (req, res) {
-    var tutor_id = 0;
-
-    Object.keys(req.sessionStore.sessions).forEach(function (key) {
-        var parsed_tutor_cookie = JSON.parse(req.sessionStore.sessions[key]);
-        var parsed_tutor_info = parsed_tutor_cookie.userInfo;
-        if (typeof parsed_tutor_info !== "undefined") {
-            tutor_id = parsed_tutor_info._id;
-        }
-    });
-
-    UploadedFiles.find({ adminTutor: tutor_id }, function (err, uploaded_docs) {
+    UploadedFiles.find({ adminTutor: req.session.userInfo._id }, function (err, uploaded_docs) {
         return res.json({ success: true, file: uploaded_docs });
     });
-
 };
 
 // this method enables the tutor to share their uploaded documents to their courses.
@@ -138,17 +127,7 @@ exports.assignCourseStudent = async function (req, res) {
 
 // this method enables the students to view all of their shared documents.
 exports.viewDocs = async function (req, res) {
-    var student_account = 0;
-
-    Object.keys(req.sessionStore.sessions).forEach(function (key) {
-        var parsed_student_cookie = JSON.parse(req.sessionStore.sessions[key]);
-        var parsed_student_info = parsed_student_cookie.userInfo;
-        if (typeof parsed_student_info !== "undefined") {
-            student_account = parsed_student_info.account;
-        }
-    });
-
-    Profile.findOne({ account: student_account }, async (err, sharedDocs) => {
+    Profile.findOne({ account: req.session.userInfo.account }, async (err, sharedDocs) => {
         await UploadedFiles.find({ _id: { $in: sharedDocs.sharedToStudents } }, async (err, tst) => {
             var response = [];
             for (var file of tst) {
