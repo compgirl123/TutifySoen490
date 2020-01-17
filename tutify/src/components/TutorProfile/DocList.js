@@ -53,6 +53,21 @@ export class DocList extends React.Component {
       .catch(err => console.log(err));
   }
 
+
+
+  presentableName(name){
+    return  name.substring(0, name.lastIndexOf("."));
+  }
+
+  presentableExtension(name){
+    return name.substring(name.lastIndexOf(".") + 1);
+  }
+
+  presentableUploadTime(time){
+    var date = time.substring(0,9);
+    var hour = time.substring(11,16);
+    return date+" at "+hour;
+  }
   // tutor deletes a documents from files list
   getSelectedFiletoDelete(event, encrypted_file_name) {
     swal({
@@ -133,9 +148,10 @@ export class DocList extends React.Component {
                         <TableHead>
                           <TableRow>
                             <TableCell>Name</TableCell>
-                            <TableCell>Creation Date</TableCell>
-                            <TableCell>Share to Specific Course</TableCell>
-                            <TableCell>Share to Specific Student</TableCell>
+                            <TableCell>Extension</TableCell>
+                            <TableCell>Uploaded on</TableCell>
+                            <TableCell>Share to <br/>Specific Course</TableCell>
+                            <TableCell>Share to <br/>Specific Student</TableCell>
                             <TableCell>Download</TableCell>
                             <TableCell>Select File(s) to Delete</TableCell>
                           </TableRow>
