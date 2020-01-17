@@ -27,6 +27,7 @@ class Studentdocs extends React.Component {
       drawerOpened: false,
       students: [],
       files: [],
+      filesViewTutors : [],
       data: [],
       filteredData: [],
       placeholder: '',
@@ -36,6 +37,7 @@ class Studentdocs extends React.Component {
       user_id: null,
       open: false
     };
+    this.loadFilesForTutors = this.loadFilesForTutors.bind(this);
     this.loadFiles = this.loadFiles.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 
@@ -52,7 +54,6 @@ class Studentdocs extends React.Component {
     });
   };
 
-
   async loadFiles() {
     fetch('/api/doc')
       .then(res => res.json())
@@ -67,9 +68,24 @@ class Studentdocs extends React.Component {
       .catch(err => console.log(err));
   }
 
+  async loadFilesForTutors() {
+    fetch('/api/doc/:studentid')
+      .then(res => res.json())
+      .then(res => {
+        if (res.fileViewTutors !== undefined) {
+          this.setState({ filesViewTutors: res.fileViewTutors });
+        }
+        else {
+          this.setState({ filesViewTutors: [] });
+        }
+      })
+      .catch(err => console.log(err));
+  }
+
   componentDidMount() {
     this.checkSession();
     this.loadFiles();
+    this.loadFilesForTutors();
   }
   checkSession = () => {
     fetch('/api/checkSession', {
@@ -169,6 +185,7 @@ class Studentdocs extends React.Component {
   render() {
     const { classes } = this.props;
     const { files } = this.state;
+    const {filesViewTutors} = this.state;
     const fixedHeightPaper = clsx(classes.paper);
 
     return (
@@ -197,21 +214,39 @@ class Studentdocs extends React.Component {
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {files.map((file, index) => {
-                            var filename = file._doc.name;
-                            var url = file._doc.url
-                            var link = file._doc.link
-                            var uploadDate = file._doc.uploadDate
-                            var tutor_name = file.tutorName
-                            return (
-                              <TableRow key={index}>
-                                <td><a href={url}>{filename}</a></td>
-                                <td>{tutor_name}</td>
-                                <td>{uploadDate}</td>
-                                <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
-                              </TableRow>
-                            )
-                          })}
+                          {this.props.match.params.studentid !== undefined
+                              ?
+                              filesViewTutors.map((file, index) => {
+                                var filename = file.name;
+                                var url = file.url
+                                var link = file.link
+                                var uploadDate = file.uploadDate
+                                return (
+                                  <TableRow key={index}>
+                                    <td><a href={url}>{filename}</a></td>
+                                    <td>{uploadDate}</td>
+                                    <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
+                                  </TableRow>
+                                )
+                              })
+                              :
+                              files.map((file, index) => {
+                                var filename = file._doc.name;
+                                var url = file._doc.url
+                                var link = file._doc.link
+                                var uploadDate = file._doc.uploadDate
+                                var tutor_name = file.tutorName
+                                return (
+                                  <TableRow key={index}>
+                                    <td><a href={url}>{filename}</a></td>
+                                    <td>{tutor_name}</td>
+                                    <td>{uploadDate}</td>
+                                    <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
+                                  </TableRow>
+                                )
+                              })
+                          }
+                          
                         </TableBody>
                       </Table>
                     </React.Fragment>

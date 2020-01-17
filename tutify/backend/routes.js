@@ -104,6 +104,8 @@ router.get('/ViewTutorCourse/:coursename', uploadedFilesController.viewCourseDoc
 
 router.get('/ViewCourse/:coursename', uploadedFilesController.viewCourseDocs);
 
+router.get('/doc/:studentid',uploadedFilesController.viewSpecificStudentFiles);
+
 // -------- DELETE ROUTES --------- // 
 
 router.post('/getFileToDelete', uploadedFilesController.deleteFiles);

@@ -207,3 +207,16 @@ exports.deleteFiles = async function (req, res) {
         });
     });
 }
+
+// this method enables each class to view all of their shared documents.
+exports.viewSpecificStudentFiles = async function (req, res) {
+    var student_id_position = req.headers.referer.lastIndexOf("/");
+    var student_id = req.headers.referer.substring(student_id_position+1,req.headers.referer.length)
+    Profile.findOne({ _id: student_id }, function (err, student_info) {
+        if(student_info !== undefined){
+            UploadedFiles.find({ _id: { $in: student_info.sharedToStudents }, adminTutor: req.session.userInfo._id }, function (err, individualDocsShared) {
+                return res.json({ success: true, fileViewTutors: individualDocsShared });
+            });
+        }
+    });
+}

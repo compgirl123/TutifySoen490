@@ -50,6 +50,7 @@ function MainPage() {
       <Route exact path= "/TutorCourseView" component={TutorCourseView} />
       <Route exact path= "/Announcements" component={Announcements} />
       <Route exact path= "/doc" component={Studentdocs} />
+      <Route exact path= "/doc/:studentid" component={Studentdocs} />
       <Route exact path= "/resources" component={ResourceLevels} />
       <Route exact path= "/primary" component={ResourcePage} />
       <Route exact path= "/secondary" component={ResourcePage} />
