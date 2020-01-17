@@ -14,6 +14,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
+import Fab from "@material-ui/core/Fab";
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 
 // Display a Ui for Tutors in order to be able to upload their documents
@@ -29,7 +31,7 @@ export class UploadDocuments extends Component {
       course: "",
       recentFileName: "",
       recentUploadDate: "",
-      recentTutorUploadName: ""
+      recentFileLink: ""
     }
     this.fileChanged = this.fileChanged.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -65,7 +67,7 @@ export class UploadDocuments extends Component {
       .then(recent => {
         this.setState({ recentFileName: recent.recent[0].name,
           recentUploadDate: (recent.recent[0].uploadDate).split("T")[0],
-          recentTutorUploadName: recent.recent[0].adminTutor
+          recentFileLink: recent.recent[0].link
 });
       })
       .catch(err => console.log(err));
@@ -199,7 +201,11 @@ export class UploadDocuments extends Component {
                 <TableRow>
                   <TableCell>{this.state.recentUploadDate}</TableCell>
                   <TableCell>{this.state.recentFileName}</TableCell>
-                  <TableCell align="right">{this.state.recentTutorUploadName}</TableCell>
+                  <TableCell align="right">
+                    <Fab type="button" variant="extended" aria-label="add" size="small"  className={classes.courseButton} onClick={() => window.open(this.state.recentFileLink, "_blank")} >
+                    <GetAppIcon fontSize="small"style={{ width: '22px', height: '22px' }} />
+                    </Fab >
+                    </TableCell>
                 </TableRow>
               </TableBody>
             </Table>
