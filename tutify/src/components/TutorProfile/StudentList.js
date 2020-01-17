@@ -76,17 +76,24 @@ export class StudentList extends React.Component {
   };
 
   handleShareDocButton = (tableTitle=false, bottomButton=false) => {
-    if(tableTitle){
+    if(!tableTitle){
       if (this.props.match.params.file=== undefined){
-        return <TableCell>Share</TableCell>
+        return  <TableCell><Button type="button" onClick={() => window.open("/doc")} variant="contained" size="small" className="submit">Share Document</Button></TableCell>;
+      }
+      if (bottomButton){
+        return <Button type="button" style={{"left": "80%","top":"10px"}} onClick={event => this.uploadCourse(event, this.state.shareTo)} variant="contained" size="small" className="submit">
+        Share Document
+      </Button>;
       }
     }
-    else{
-      if (this.props.match.params.file=== undefined){
-        return  <TableCell><Button type="button" onClick={() => window.open("/doclist")} variant="contained" size="small" className="submit">Choose File to Share</Button></TableCell>;
+  }
 
+  handleViewDocButton = (tableTitle=false, bottomButton=false) => {
+    if(!tableTitle){
+      if (this.props.match.params.file=== undefined){
+        return  <TableCell><Button type="button" onClick={() => window.open("/doclist")} variant="contained" size="small" className="submit">View Document</Button></TableCell>;
       }
-      if  (bottomButton){
+      if (bottomButton){
         return <Button type="button" style={{"left": "80%","top":"10px"}} onClick={event => this.uploadCourse(event, this.state.shareTo)} variant="contained" size="small" className="submit">
         Share Document
       </Button>;
@@ -151,18 +158,17 @@ export class StudentList extends React.Component {
                               ?
                               <TableCell>Select student</TableCell>
                               :
-                              <TableCell>Share</TableCell>
+                              <TableCell></TableCell>
                             }
 
                             {this.props.match.params.file !== undefined
                               ?
-                              <TableCell>Share Doc</TableCell>
+                              <TableCell></TableCell>
                               :
                               <TableCell>View Doc</TableCell>
                             }
                               <TableCell></TableCell>
                             
-
                             {this.handleShareDocButton(true)}
 
                           </TableRow>
@@ -183,7 +189,7 @@ export class StudentList extends React.Component {
                                   <br />
                                 }
                               </TableCell>
-                              {this.handleShareDocButton()}
+                              {this.handleViewDocButton()}
                       
                             </TableRow>
                           ))}
