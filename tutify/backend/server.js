@@ -8,7 +8,7 @@ var session = require('express-session');
 var multer = require('multer');
 const GridFsStorage = require("multer-gridfs-storage");
 const crypto = require('crypto');
-const API_PORT = 3001;
+const API_PORT = 8080;
 const app = express();
 const path = require("path");
 app.use(cors({credentials: true, origin: true}));
@@ -88,10 +88,14 @@ app.get('/ViewTutorCourse/:coursename', uploadController.viewCourseDocs);
 
 
 // file upload requirements
-app.use(express.json());
+app.use(express.static(path.join(__dirname, "../build")));
 app.set("view engine", "ejs");
 
 
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
+
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../build/index.html"))
+});

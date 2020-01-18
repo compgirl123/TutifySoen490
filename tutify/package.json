@@ -62,7 +62,7 @@
     "validator": "^11.1.0"
   },
   "scripts": {
-    "start": "DANGEROUSLY_DISABLE_HOST_CHECK=true react-scripts start",
+    "start": "cd backend && node server.js",
     "build": "react-scripts build",
     "test": "jest test/*.spec.js",
     "eject": "react-scripts eject"
