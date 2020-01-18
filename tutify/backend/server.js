@@ -75,23 +75,11 @@ app.use(session({secret:"sdshkgjdhgkhgkjsd322k3j4nkjkjhb3", resave:false, saveUn
 app.use('/api', router);
 app.use('/public', express.static('public'));
 
-// uploading files routes
-app.post('/uploadFile', upload.single('file'), uploadController.addUploadedFiles);
-app.get('/doclist', uploadController.populateUploadedFiles);
-//app.get('/deletelistitem', uploadController.deleteUploadedFiles);
-app.get('/uploadingDocs', uploadController.getLatestUpload);
-app.post('/tutorCourses/:file', uploadController.assignCourse);
-app.post('/students/:file', uploadController.assignCourseStudent);
-app.get('/doc', uploadController.viewDocs);
-app.get('/ViewCourse/:coursename', uploadController.viewCourseDocs);
-app.get('/ViewTutorCourse/:coursename', uploadController.viewCourseDocs);
-
-
 // file upload requirements
+app.use(express.json());
+
 app.use(express.static(path.join(__dirname, "../build")));
 app.set("view engine", "ejs");
-
-
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));

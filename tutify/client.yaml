@@ -12,5 +12,4 @@ handlers:
       upload: build/index.html
       # catch all handler to index.html
     - url: /.*
-      static_dir: build
-      
+      static_dir: build   
