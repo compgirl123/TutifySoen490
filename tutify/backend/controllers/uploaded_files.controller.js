@@ -162,6 +162,19 @@ exports.viewCourseDocs = async function (req, res) {
 }
 
 // this method enables each class to view all of their shared documents.
+exports.viewSpecificStudentFiles = async function (req, res) {
+    var student_id_position = req.headers.referer.lastIndexOf("/");
+    var student_id = req.headers.referer.substring(student_id_position+1,req.headers.referer.length)
+    Profile.findOne({ _id: student_id }, function (err, student_info) {
+        if(student_info !== undefined){
+            UploadedFiles.find({ _id: { $in: student_info.sharedToStudents }, adminTutor: req.session.userInfo._id }, function (err, individualDocsShared) {
+                return res.json({ success: true, fileViewTutors: individualDocsShared });
+            });
+        }
+    });
+}
+
+// this method enables each class to view all of their shared documents.
 exports.deleteFiles = async function (req, res) {
     const { file_id } = req.body;
     UploadedFiles.findOne({ encryptedname: {$in:file_id }}, function (err, fileToDelete) {
@@ -228,15 +241,23 @@ exports.deleteSpecificStudentsFiles = async function (req, res) {
     });
 }
 
-// this method enables each class to view all of their shared documents.
-exports.viewSpecificStudentFiles = async function (req, res) {
-    var student_id_position = req.headers.referer.lastIndexOf("/");
-    var student_id = req.headers.referer.substring(student_id_position+1,req.headers.referer.length)
-    Profile.findOne({ _id: student_id }, function (err, student_info) {
-        if(student_info !== undefined){
-            UploadedFiles.find({ _id: { $in: student_info.sharedToStudents }, adminTutor: req.session.userInfo._id }, function (err, individualDocsShared) {
-                return res.json({ success: true, fileViewTutors: individualDocsShared });
+// this method enables the deletion of specific course files in each course
+exports.deleteSpecificCourseFiles = async function (req, res) {
+    const { file_id } = req.body;
+    var r = /\d+/;
+    var matchCourseId = req.headers.referer.match(/.*\/(.*)$/)[1];
+    UploadedFiles.find({ encryptedname: {$in:file_id }}, function (err, fileToDelete) {
+        fileToDelete.forEach(function (err, studentIndex) {
+            Course.findByIdAndUpdate(matchCourseId,
+                { "$pull": { "sharedToCourses": fileToDelete[studentIndex]._id } },
+                function (err, student) {
+                    if (err) throw err;
             });
-        }
+            UploadedFiles.findByIdAndUpdate(fileToDelete[studentIndex]._id,
+                { "$pull": { "sharedToCourses": matchCourseId } },
+            function (err, student) {
+                if (err) throw err;
+            });
+        });
     });
 }

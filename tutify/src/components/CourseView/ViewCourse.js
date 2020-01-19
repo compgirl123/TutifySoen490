@@ -14,6 +14,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import Button from "@material-ui/core/Button";
+import Checkbox from '@material-ui/core/Checkbox';
+import swal from 'sweetalert';
+import axios from 'axios';
 
 // View the Specific Course Page with all of the Course Details as well as the Tutor Information
 export class ViewTutorCourse extends React.Component {
@@ -24,7 +27,9 @@ export class ViewTutorCourse extends React.Component {
         courses: [],
         files: [],
         shouldView : false,
-        course_selected : ""
+        course_selected : "",
+        profileType : "",
+        shareTo:[]
         };
         this.loadFiles = this.loadFiles.bind(this);
     }
@@ -53,9 +58,11 @@ export class ViewTutorCourse extends React.Component {
               console.log(res.userInfo.__t);
               if(res.userInfo.__t === "student"){
                 this.getUserDataFromDb();
+                this.setState({profileType: res.userInfo.__t});
               }
               else if(res.userInfo.__t === "tutor"){
-                  this.getTutorDataFromDb();
+                this.getTutorDataFromDb();
+                this.setState({profileType: res.userInfo.__t});
               }
             }
             else {
@@ -125,7 +132,38 @@ export class ViewTutorCourse extends React.Component {
           .catch(err => console.log(err));
       }
 
-        
+      deleteFile = (e, ids) => {
+        swal({
+          title: "Are you sure you want delete this document?",
+          icon: "warning",
+          buttons: [true, "Yes"],
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if(willDelete !== null){
+            swal("File Deleted", "", "success")
+          axios.post('/api/getSpecificCourseFilestoDelete', {
+            file_id: ids
+        }
+        ).then((res) => {})
+          .catch(err => console.log(err));
+          window.location.reload();}
+      });
+      }
+    
+      handleCheckbox = async (event) => {
+        if(event.target.checked){
+          let list = this.state.shareTo;
+          list.push(event.target.name);
+          console.log(list);
+          await this.setState({shareTo: list});
+          
+        }else{
+          let filteredArray = this.state.shareTo.filter(item => item !== event.target.name);
+          await this.setState({shareTo: filteredArray});
+        }
+      }
+   
 render() {
     const { classes } = this.props;
     const { files } = this.state;
@@ -157,6 +195,13 @@ render() {
                             <TableCell>Title</TableCell>
                                 <TableCell>Date</TableCell>
                                 <TableCell>Download Documents</TableCell>
+                              
+                                {this.state.profileType === "tutor"
+                                ?
+                                <TableCell>Select Documents to Delete</TableCell>
+                                :
+                                <br/>
+                                }
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -169,8 +214,22 @@ render() {
                                         <GetAppIcon/>
                                     </Button>
                                 </TableCell>
+                                {this.state.profileType === "tutor"
+                                ?
+                                <TableCell>
+                                  <Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} />
+                                </TableCell>
+                                :
+                                <br/>
+                                }
                             </TableRow>
                         ))}
+                        {this.state.profileType === "tutor"
+                            ? 
+                            <TableCell><Button type="button" onClick={event => this.deleteFile(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Documents</Button></TableCell>
+                            :
+                            <br/>
+                        }
                         </TableBody>
                     </Table> 
                     </Paper>

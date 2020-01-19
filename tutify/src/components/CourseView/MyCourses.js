@@ -16,6 +16,7 @@ import Grid from '@material-ui/core/Grid';
 import swal from 'sweetalert';
 import axios from "axios";
 
+
 // displaying the courses the tutor teaches.
 export class TutorCourses extends React.Component {
   constructor(props) {
@@ -43,7 +44,6 @@ export class TutorCourses extends React.Component {
       .then(response => response.json())
       .then(res => {
         if (res.isLoggedIn) {
-          console.log(res.userInfo.__t);
           if(res.userInfo.__t === "student"){
             this.getUserDataFromDb();
           }

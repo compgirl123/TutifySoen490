@@ -39,8 +39,8 @@ class Studentdocs extends React.Component {
       open: false,
       shareTo:[]
     };
-    this.loadFilesForTutors = this.loadFilesForTutors.bind(this);
-    this.loadFiles = this.loadFiles.bind(this);
+    //this.loadFilesForTutors = this.loadFilesForTutors.bind(this);
+    //this.loadFiles = this.loadFiles.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -55,7 +55,7 @@ class Studentdocs extends React.Component {
     });
   };
 
-  async loadFiles() {
+  async loadFilesForStudents() {
     fetch('/api/doc')
       .then(res => res.json())
       .then(res => {
@@ -73,20 +73,13 @@ class Studentdocs extends React.Component {
     fetch('/api/doc/:studentid')
       .then(res => res.json())
       .then(res => {
-        if (res.fileViewTutors !== undefined) {
           this.setState({ filesViewTutors: res.fileViewTutors });
-        }
-        else {
-          this.setState({ filesViewTutors: [] });
-        }
       })
       .catch(err => console.log(err));
   }
 
   componentDidMount() {
     this.checkSession();
-    this.loadFiles();
-    this.loadFilesForTutors();
   }
   checkSession = () => {
     fetch('/api/checkSession', {
@@ -97,6 +90,12 @@ class Studentdocs extends React.Component {
       .then(res => {
         if (res.isLoggedIn) {
           this.setState({ user_id: res.userInfo._id });
+          if(res.userInfo.__t === "student"){
+            this.loadFilesForStudents();
+          }
+          else if(res.userInfo.__t === "tutor"){
+            this.loadFilesForTutors();
+          }
         }
         else {
           this.setState({ user_id: "Not logged in" });
@@ -116,25 +115,11 @@ class Studentdocs extends React.Component {
       })
   };
 
-
   async fileChanged(event) {
     const f = event.target.files[0];
     await this.setState({
       file: f
     });
-  }
-
-  deleteFile(event) {
-    event.preventDefault();
-    const id = event.target.id;
-
-    fetch('/api/files/' + id, {
-      method: 'DELETE'
-    }).then(res => res.json())
-      .then(response => {
-        if (response.success) this.loadFiles()
-        else alert('Delete Failed');
-      })
   }
 
   deleteListItem = () => {
@@ -183,19 +168,6 @@ class Studentdocs extends React.Component {
 
   }
 
-  handleShareDocButton = (tableTitle=false, bottomButton=false) => {
-    if(!tableTitle){
-      if (this.props.match.params.file=== undefined){
-        return  <TableCell><Button type="button" onClick={() => window.open("/doclist")} variant="contained" size="small" className="submit">pierre</Button></TableCell>;
-      }
-      if (bottomButton){
-        return <Button type="button" style={{"left": "80%","top":"10px"}} onClick={event => this.uploadCourse(event, this.state.shareTo)} variant="contained" size="small" className="submit">
-        Share Document
-      </Button>;
-      }
-    }
-  }
-
   handleCheckbox = async (event) => {
     if(event.target.checked){
       let list = this.state.shareTo;
@@ -219,7 +191,6 @@ class Studentdocs extends React.Component {
     .then((willDelete) => {
       if(willDelete !== null){
         swal("File Deleted", "", "success")
-      console.log(willDelete);
       axios.post('/api/getSpecificStudentsFilestoDelete', {
         file_id: ids
     }
@@ -228,19 +199,6 @@ class Studentdocs extends React.Component {
       window.location.reload();}
   });
   }
-    /*.then((willDelete) => {
-      if(willDelete !== null){
-        swal("File Deleted", "", "success")
-      console.log(ids);
-      }
-    })
-    axios.post('/api/getFileToDelete', {
-        file_id: ids
-    }
-    ).then((res) => {})
-      .catch(err => console.log(err));
-      window.location.reload();
-    }*/
  
   render() {
     const { classes } = this.props;
@@ -304,7 +262,6 @@ class Studentdocs extends React.Component {
                                     <td>{uploadDate}</td>
                                     <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
                                     <td align="center"><Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></td>
-                                    {/*<td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><DeleteIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Button></td>*/}
                                   </TableRow>
                                 )
                               })
@@ -321,9 +278,6 @@ class Studentdocs extends React.Component {
                                     <td>{tutor_name}</td>
                                     <td>{uploadDate}</td>
                                     <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
-                                    {/*<td><Button type="button" style={{"left": "80%","top":"10px"}} variant="contained" size="small" className="submit">
-                                    Share Document
-                                </Button></td>*/}
                                   </TableRow>
                                 )
                               })

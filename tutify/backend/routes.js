@@ -110,4 +110,6 @@ router.post('/getFileToDelete', uploadedFilesController.deleteFiles);
 
 router.post('/getSpecificStudentsFilestoDelete', uploadedFilesController.deleteSpecificStudentsFiles);
 
+router.post('/getSpecificCourseFilestoDelete', uploadedFilesController.deleteSpecificCourseFiles);
+
 module.exports = router;
