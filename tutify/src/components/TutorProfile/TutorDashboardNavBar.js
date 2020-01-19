@@ -13,9 +13,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { TutorNavDrawer } from "./TutorNavDrawer";
 import { Link } from '@material-ui/core';
 
-
 export class NavBar extends Component {
-
   constructor(props) {
     super(props);
     this.state = {

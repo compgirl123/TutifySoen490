@@ -29,30 +29,9 @@ export class TutorCoursesInfo extends React.Component {
       subjects: [],
       students: "",
       courses: [],
-      open: false,
       scroll: 'paper',
     };
-    this.handleClickOpen = this.handleClickOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
   }
-
-  toggleDrawer = booleanValue => () => {
-    this.setState({
-      drawerOpened: booleanValue
-    });
-  };
-
-  handleFeedback = () => {
-    this.setState({ open: true })
-  }
-
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
 
   componentDidMount() {
     this.checkSession();
@@ -125,8 +104,7 @@ export class TutorCoursesInfo extends React.Component {
               My Subjects
               </Box>
           </Typography>
-
-
+        
           <Table size="small">
             <TableBody>
               <TableCell>

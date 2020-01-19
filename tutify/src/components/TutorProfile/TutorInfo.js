@@ -43,27 +43,7 @@ export class TutorInfo extends React.Component {
       description: "",
       updatedDescription: "",
     };
-    this.handleClickOpen = this.handleClickOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
   }
-
-  toggleDrawer = booleanValue => () => {
-    this.setState({
-      drawerOpened: booleanValue
-    });
-  };
-
-  handleFeedback = () => {
-    this.setState({ open: true })
-  }
-
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
 
   componentDidMount() {
     this.checkSession();

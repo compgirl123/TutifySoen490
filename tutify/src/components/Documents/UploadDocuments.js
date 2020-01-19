@@ -66,8 +66,8 @@ export class UploadDocuments extends Component {
         this.setState({ recentFileName: recent.recent[0].name,
           recentUploadDate: (recent.recent[0].uploadDate).split("T")[0],
           recentFileLink: recent.recent[0].link
-});
-      })
+      });
+    })
       .catch(err => console.log(err));
   }
 
@@ -106,7 +106,6 @@ export class UploadDocuments extends Component {
           </div>
           <div className={classes.uploadDocApp}>
             <header className={classes.AppHeader}>
-
             </header>
             <div className="App-content">
               <form onSubmit={this.handleSubmit}>

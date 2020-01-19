@@ -6,7 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Container from '@material-ui/core/Container';
 import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
 import Paper from '@material-ui/core/Paper';
-import Footer from './../Footer';
+import Footer from '../Footer';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -43,16 +43,34 @@ export class TutorCourses extends React.Component {
       .then(response => response.json())
       .then(res => {
         if (res.isLoggedIn) {
-          this.getDataFromDb()
+          console.log(res.userInfo.__t);
+          if(res.userInfo.__t === "student"){
+            this.getUserDataFromDb();
+          }
+          else if(res.userInfo.__t === "tutor"){
+              this.getTutorDataFromDb();
+          }
         }
 
       })
       .catch(err => console.log(err));
   };
 
+  // Uses our backend api to fetch the courses from our database
+  getUserDataFromDb = () => {
+    fetch('/api/getUserCourses', {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.setState({ courses: res.data });
+      })
+      .catch(err => console.log(err));
+  }
 
   // Uses our backend api to fetch the courses from our database
-  getDataFromDb = () => {
+  getTutorDataFromDb = () => {
     fetch('/api/getTutorCourses', {
       method: 'GET',
       credentials: 'include'

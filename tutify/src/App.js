@@ -5,17 +5,15 @@ import SignUp from "./components/SignUp"
 import SearchTutors from "./components/SearchTutors"
 import Login from "./components/Login"
 import ProfilePage from "./components/ProfilePage/ProfilePage"
-import MyCourses from "./components/ProfilePage/MyCourses";
 import StudentList from "./components/TutorProfile/StudentList";
 import DocList from "./components/TutorProfile/DocList";
 import TutorProfile from "./components/TutorProfile/TutorProfile";
 import CourseList from './components/CourseList';
-import TutorCourses from "./components/TutorProfile/TutorCourses";
+import MyCourses from "./components/CourseView/MyCourses";
 import UserDashboard from "./components/UserDashboardPage/UserDashboard";
 import UploadDocuments from "./components/Documents/UploadDocuments";
 import BlogPost from "./components/BlogPost";
-import ViewCourse from "./components/TutorCourseView/ViewCourse";
-import TutorCourseView from "./components/TutorCourseView/TutorCourseView";
+import ViewCourse from "./components/CourseView/ViewCourse";
 import Announcements from "./components/TutorAnnouncements/Announcements";
 import ResourceLevels from "./components/Resources/ResourceLevels";
 import Document from "./components/Documents/Document";
@@ -31,13 +29,12 @@ function MainPage() {
       <Route exact path="/search" component={SearchTutors} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/profile" component={ProfilePage} />
-      <Route exact path="/courses" component={MyCourses} />
       <Route exact path="/tutor" component={TutorProfile} />
       <Route exact path="/students" component={StudentList} />
       <Route exact path="/students/:file" component={StudentList} />
       <Route exact path= "/CourseList/:id" component= {CourseList}/>
-      <Route exact path= "/tutorCourses/:file" component = {TutorCourses}/>
-      <Route exact path= "/tutorCourses" component = {TutorCourses}/>
+      <Route exact path= "/tutorCourses/:file" component = {MyCourses}/>
+      <Route exact path= "/courses" component = {MyCourses}/>
       <Route exact path="/dashboard" component={UserDashboard} />
       <Route exact path= "/uploadingDocs" component = {UploadDocuments}/>
       <Route exact path= "/Postblog" component={BlogPost} />
@@ -45,7 +42,6 @@ function MainPage() {
       <Route exact path= "/ViewCourse/:coursename" component={ViewCourse} />
       <Route exact path= "/doclist/:coursename" component={ViewCourse} />
       <Route exact path= "/document/:filename" component={Document} />
-      <Route exact path= "/TutorCourseView" component={TutorCourseView} />
       <Route exact path= "/Announcements" component={Announcements} />
       <Route exact path= "/doc" component={Studentdocs} />
       <Route exact path= "/doc/:studentid" component={Studentdocs} />

@@ -28,15 +28,9 @@ export class StudentList extends React.Component {
       drawerOpened: false,
       students: [],
       shareTo:[],
-      fileid:""
+      fileid: ""
     };
   }
-
-  toggleDrawer = booleanValue => () => {
-    this.setState({
-      drawerOpened: booleanValue
-    });
-  };
 
   componentDidMount() {
     this.checkSession();
@@ -53,7 +47,6 @@ export class StudentList extends React.Component {
       await this.setState({shareTo: filteredArray});
     }
   }
-
 
   checkSession = () => {
     fetch('/api/checkSession', {
