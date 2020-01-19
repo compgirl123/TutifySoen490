@@ -121,7 +121,7 @@ export class Announcements extends React.Component {
             .then((res) => {
                 swal("Announcement sent!", "", "success")
                     .then((value) => {
-                        window.location = "/Announcements";
+                        window.location = "/announcements";
                     });
             }, (error) => {
                 swal("Something went wrong...", "", "error")

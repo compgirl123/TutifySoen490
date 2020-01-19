@@ -38,7 +38,7 @@ exports.addUploadedFiles = async function (req, res) {
                     "name": name_new,
                     "adminTutor": adminTutor,
                     "encryptedname": filename,
-                    "link": "http://localhost:3000/document/" + filename,
+                    "link": "/document/" + filename,
                     "uploadDate": new Date()
                 }
             },

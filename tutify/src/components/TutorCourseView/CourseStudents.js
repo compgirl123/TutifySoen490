@@ -88,7 +88,7 @@ class CourseStudents extends React.Component {
                                 <TableCell><Button type="button" size="small" className="submit">
                                     View Profile
                                 </Button></TableCell>
-                                <TableCell><Link href="/Postblog"><MessageIcon /></Link></TableCell>
+                                <TableCell><Link href="/postblog"><MessageIcon /></Link></TableCell>
                             </TableRow>
                         ))}
                         </TableBody>

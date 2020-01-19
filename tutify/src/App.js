@@ -35,24 +35,24 @@ function MainPage() {
       <Route exact path="/courses" component={MyCourses} />
       <Route exact path="/tutor" component={TutorProfile} />
       <Route exact path="/students/:file" component={StudentList} />
-      <Route exact path= "/CourseList/:id" component= {CourseList}/>
-      <Route exact path= "/tutorCourses/:file" component = {TutorCourses}/>
-      <Route exact path= "/tutorCourses" component = {TutorCourses}/>
+      <Route exact path="/courseList/:id" component= {CourseList}/>
+      <Route exact path="/tutorCourses/:file" component = {TutorCourses}/>
+      <Route exact path="/tutorCourses" component = {TutorCourses}/>
       <Route exact path="/dashboard" component={UserDashboard} />
-      <Route exact path= "/uploadingDocs" component = {UploadDocuments}/>
-      <Route exact path= "/Postblog" component={BlogPost} />
-      <Route exact path= "/doclist" component={DocList} />
-      <Route exact path= "/ViewCourse/:coursename" component={ViewCourse} />
-      <Route exact path= "/ViewTutorCourse/:coursename" component={ViewTutorCourse} />
-      <Route exact path= "/doclist/:coursename" component={ViewCourse} />
-      <Route exact path= "/document/:filename" component={Document} />
-      <Route exact path= "/TutorCourseView" component={TutorCourseView} />
-      <Route exact path= "/Announcements" component={Announcements} />
-      <Route exact path= "/doc" component={Studentdocs} />
-      <Route exact path= "/resources" component={ResourceLevels} />
-      <Route exact path= "/primary" component={ResourcePage} />
-      <Route exact path= "/secondary" component={ResourcePage} />
-      <Route exact path= "/postsecondary" component={ResourcePage} />
+      <Route exact path="/uploadingDocs" component = {UploadDocuments}/>
+      <Route exact path="/postblog" component={BlogPost} />
+      <Route exact path="/doclist" component={DocList} />
+      <Route exact path="/viewCourse/:coursename" component={ViewCourse} />
+      <Route exact path="/viewTutorCourse/:coursename" component={ViewTutorCourse} />
+      <Route exact path="/doclist/:coursename" component={ViewCourse} />
+      <Route exact path="/document/:filename" component={Document} />
+      <Route exact path="/tutorCourseView" component={TutorCourseView} />
+      <Route exact path="/announcements" component={Announcements} />
+      <Route exact path="/doc" component={Studentdocs} />
+      <Route exact path="/resources" component={ResourceLevels} />
+      <Route exact path="/primary" component={ResourcePage} />
+      <Route exact path="/secondary" component={ResourcePage} />
+      <Route exact path="/postsecondary" component={ResourcePage} />
     </Router>
   );
 }
