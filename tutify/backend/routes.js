@@ -108,4 +108,6 @@ router.get('/doc/:studentid',uploadedFilesController.viewSpecificStudentFiles);
 
 router.post('/getFileToDelete', uploadedFilesController.deleteFiles);
 
+router.post('/getSpecificStudentsFilestoDelete', uploadedFilesController.deleteSpecificStudentsFiles);
+
 module.exports = router;

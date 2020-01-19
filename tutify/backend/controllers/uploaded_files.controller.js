@@ -164,7 +164,7 @@ exports.viewCourseDocs = async function (req, res) {
 // this method enables each class to view all of their shared documents.
 exports.deleteFiles = async function (req, res) {
     const { file_id } = req.body;
-    UploadedFiles.findOne({ encryptedname: file_id }, function (err, fileToDelete) {
+    UploadedFiles.findOne({ encryptedname: {$in:file_id }}, function (err, fileToDelete) {
         fileToDelete.sharedToStudents.forEach(function (err, studentIndex) {
             Profile.findOne({ _id: fileToDelete.sharedToStudents[studentIndex] }, function (err, userfiles) {
                 userfiles.sharedToStudents.forEach(function (err, studentIndex1) {
@@ -195,13 +195,34 @@ exports.deleteFiles = async function (req, res) {
             if (err) return res.send(err);
         });
     });
-    Mfiles.findOne({ filename: file_id }, function (err, fileToDeleteMfiles) {
+    Mfiles.findOne({ filename: {$in:file_id } }, function (err, fileToDeleteMfiles) {
         Mfiles.findByIdAndRemove(fileToDeleteMfiles._id, (err, file) => {
             if (err) return res.send(err);
         });
         Mchunks.findOne({ files_id: fileToDeleteMfiles._id }, function (err, fileToDeleteMChunks) {
             Mchunks.findByIdAndRemove(fileToDeleteMChunks._id, (err, filechunkdel) => {
                 if (err) return res.send(err);
+            });
+        });
+    });
+}
+
+// this method enables each class to view all of their shared documents.
+exports.deleteSpecificStudentsFiles = async function (req, res) {
+    const { file_id } = req.body;
+    var r = /\d+/;
+    var matchCourseId = req.headers.referer.match(/.*\/(.*)$/)[1];
+    UploadedFiles.find({ encryptedname: {$in:file_id }}, function (err, fileToDelete) {
+        fileToDelete.forEach(function (err, studentIndex) {
+            Profile.findByIdAndUpdate(matchCourseId,
+                { "$pull": { "sharedToStudents": fileToDelete[studentIndex]._id } },
+                function (err, student) {
+                    if (err) throw err;
+            });
+            UploadedFiles.findByIdAndUpdate(fileToDelete[studentIndex]._id,
+                { "$pull": { "sharedToStudents": matchCourseId } },
+            function (err, student) {
+                if (err) throw err;
             });
         });
     });

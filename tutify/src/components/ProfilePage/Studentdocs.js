@@ -18,7 +18,6 @@ import axios from 'axios';
 import Button from "@material-ui/core/Button";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import swal from 'sweetalert';
-import DeleteIcon from '@material-ui/icons/Delete';
 import Checkbox from '@material-ui/core/Checkbox';
 
 // displaying the documents shared to students
@@ -37,12 +36,12 @@ class Studentdocs extends React.Component {
       selectedIndex: 0,
       anchorEl: null,
       user_id: null,
-      open: false
+      open: false,
+      shareTo:[]
     };
     this.loadFilesForTutors = this.loadFilesForTutors.bind(this);
     this.loadFiles = this.loadFiles.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
   }
 
   openDialog() {
@@ -184,6 +183,65 @@ class Studentdocs extends React.Component {
 
   }
 
+  handleShareDocButton = (tableTitle=false, bottomButton=false) => {
+    if(!tableTitle){
+      if (this.props.match.params.file=== undefined){
+        return  <TableCell><Button type="button" onClick={() => window.open("/doclist")} variant="contained" size="small" className="submit">pierre</Button></TableCell>;
+      }
+      if (bottomButton){
+        return <Button type="button" style={{"left": "80%","top":"10px"}} onClick={event => this.uploadCourse(event, this.state.shareTo)} variant="contained" size="small" className="submit">
+        Share Document
+      </Button>;
+      }
+    }
+  }
+
+  handleCheckbox = async (event) => {
+    if(event.target.checked){
+      let list = this.state.shareTo;
+      list.push(event.target.name);
+      console.log(list);
+      await this.setState({shareTo: list});
+      
+    }else{
+      let filteredArray = this.state.shareTo.filter(item => item !== event.target.name);
+      await this.setState({shareTo: filteredArray});
+    }
+  }
+
+   deleteFile = (e, ids) => {
+    swal({
+      title: "Are you sure you want delete this document?",
+      icon: "warning",
+      buttons: [true, "Yes"],
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if(willDelete !== null){
+        swal("File Deleted", "", "success")
+      console.log(willDelete);
+      axios.post('/api/getSpecificStudentsFilestoDelete', {
+        file_id: ids
+    }
+    ).then((res) => {})
+      .catch(err => console.log(err));
+      window.location.reload();}
+  });
+  }
+    /*.then((willDelete) => {
+      if(willDelete !== null){
+        swal("File Deleted", "", "success")
+      console.log(ids);
+      }
+    })
+    axios.post('/api/getFileToDelete', {
+        file_id: ids
+    }
+    ).then((res) => {})
+      .catch(err => console.log(err));
+      window.location.reload();
+    }*/
+ 
   render() {
     const { classes } = this.props;
     const { files } = this.state;
@@ -228,16 +286,11 @@ class Studentdocs extends React.Component {
                               :
                               <TableCell>Download</TableCell>  
                             }
-                            {this.props.match.params.studentid !== undefined
-                              ?
-                              <TableCell>Delete File</TableCell>
-                              :
-                              <TableCell></TableCell>  
-                            }
-                           
+                             
                           </TableRow>
                         </TableHead>
-                        <TableBody>
+                        <TableBody> 
+                        
                           {this.props.match.params.studentid !== undefined
                               ?
                               filesViewTutors.map((file, index) => {
@@ -250,8 +303,8 @@ class Studentdocs extends React.Component {
                                     <td><a href={url}>{filename}</a></td>
                                     <td>{uploadDate}</td>
                                     <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
-                                    <td align="center"><Checkbox value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></td>
-                                    <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><DeleteIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Button></td>
+                                    <td align="center"><Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></td>
+                                    {/*<td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><DeleteIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Button></td>*/}
                                   </TableRow>
                                 )
                               })
@@ -268,14 +321,19 @@ class Studentdocs extends React.Component {
                                     <td>{tutor_name}</td>
                                     <td>{uploadDate}</td>
                                     <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
-                                    <td><Button type="button" style={{"left": "80%","top":"10px"}} variant="contained" size="small" className="submit">
+                                    {/*<td><Button type="button" style={{"left": "80%","top":"10px"}} variant="contained" size="small" className="submit">
                                     Share Document
-                                  </Button></td>
+                                </Button></td>*/}
                                   </TableRow>
                                 )
                               })
                           }
-                          
+                          {this.props.match.params.studentid !== undefined
+                              ? 
+                              <TableCell><Button type="button" onClick={event => this.deleteFile(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Document</Button></TableCell>
+                              :
+                              <br/>
+                          }
                         </TableBody>
                       </Table>
                     </React.Fragment>
