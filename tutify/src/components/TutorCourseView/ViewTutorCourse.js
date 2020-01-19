@@ -50,7 +50,13 @@ export class ViewTutorCourse extends React.Component {
             if (res.isLoggedIn) {
               this.setState({ Toggle: true });
               this.setState({shouldView:true});
-              this.getDataFromDb()
+              console.log(res.userInfo.__t);
+              if(res.userInfo.__t === "student"){
+                this.getUserDataFromDb();
+              }
+              else if(res.userInfo.__t === "tutor"){
+                  this.getTutorDataFromDb();
+              }
             }
             else {
               this.setState({ Toggle: false, shouldView:false });
@@ -60,7 +66,7 @@ export class ViewTutorCourse extends React.Component {
       };
   
     // Uses our backend api to fetch the courses from our database
-    getDataFromDb = () => {
+    getTutorDataFromDb = () => {
         fetch('/api/getTutorCourses', {
         method: 'GET',
         credentials: 'include'
@@ -68,6 +74,19 @@ export class ViewTutorCourse extends React.Component {
         .then(response => response.json())
         .then(res => {
             this.setState({ courses: res.data });
+        })
+        .catch(err => console.log(err));
+    }
+
+    // Uses our backend api to fetch the courses from our database
+    getUserDataFromDb = () => {
+      fetch('/api/getUserCourses', {
+        method: 'GET',
+        credentials: 'include'
+      })
+        .then(response => response.json())
+        .then(res => {
+          this.setState({ courses: res.data });
         })
         .catch(err => console.log(err));
     }
