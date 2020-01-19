@@ -92,7 +92,7 @@ export class ViewTutorCourse extends React.Component {
     }
 
     async loadFiles() {
-        fetch('/api/ViewTutorCourse/:coursename')
+        fetch('/api/ViewCourse/:coursename')
           .then(res => res.json())
           .then(res => {
             if (res.file !== undefined) {

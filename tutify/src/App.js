@@ -14,7 +14,7 @@ import TutorCourses from "./components/TutorProfile/TutorCourses";
 import UserDashboard from "./components/UserDashboardPage/UserDashboard";
 import UploadDocuments from "./components/Documents/UploadDocuments";
 import BlogPost from "./components/BlogPost";
-import ViewTutorCourse from "./components/TutorCourseView/ViewTutorCourse";
+import ViewCourse from "./components/TutorCourseView/ViewCourse";
 import TutorCourseView from "./components/TutorCourseView/TutorCourseView";
 import Announcements from "./components/TutorAnnouncements/Announcements";
 import ResourceLevels from "./components/Resources/ResourceLevels";
@@ -42,8 +42,8 @@ function MainPage() {
       <Route exact path= "/uploadingDocs" component = {UploadDocuments}/>
       <Route exact path= "/Postblog" component={BlogPost} />
       <Route exact path= "/doclist" component={DocList} />
-      <Route exact path= "/ViewTutorCourse/:coursename" component={ViewTutorCourse} />
-      <Route exact path= "/doclist/:coursename" component={ViewTutorCourse} />
+      <Route exact path= "/ViewCourse/:coursename" component={ViewCourse} />
+      <Route exact path= "/doclist/:coursename" component={ViewCourse} />
       <Route exact path= "/document/:filename" component={Document} />
       <Route exact path= "/TutorCourseView" component={TutorCourseView} />
       <Route exact path= "/Announcements" component={Announcements} />

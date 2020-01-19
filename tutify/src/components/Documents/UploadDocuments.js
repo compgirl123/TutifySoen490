@@ -6,7 +6,6 @@ import { withStyles } from "@material-ui/core/styles";
 import Button from '@material-ui/core/Button';
 import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
 import axios from "axios";
-import swal from 'sweetalert';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -16,7 +15,6 @@ import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Fab from "@material-ui/core/Fab";
 import GetAppIcon from '@material-ui/icons/GetApp';
-
 
 // Display a Ui for Tutors in order to be able to upload their documents
 export class UploadDocuments extends Component {
@@ -73,68 +71,12 @@ export class UploadDocuments extends Component {
       .catch(err => console.log(err));
   }
 
-
   async fileChanged(event) {
     const f = event.target.files[0];
     await this.setState({
       file: f
     });
   }
-
-
-  deleteFile(event) {
-    event.preventDefault();
-    const id = event.target.id;
-
-    fetch('/api/files/' + id, {
-      method: 'DELETE'
-    }).then(res => res.json())
-      .then(response => {
-        if (response.success) this.loadFiles()
-        else alert('Delete Failed');
-      })
-  }
-  updateTutorOptions = () => {
-    var updatedProfileValues = [
-      this.state.updatedProgramOfStudy,
-      this.state.updatedSchool,
-      this.state.updatedFirstName,
-      this.state.updatedLastName
-    ];
-
-    for (var y = 0; y < updatedProfileValues.length; y++) {
-      if (updatedProfileValues[y] === "") {
-        if (y === 0) {
-          updatedProfileValues[y] = this.state.program_of_study;
-        }
-        else if (y === 1) {
-          updatedProfileValues[y] = this.state.school;
-        }
-        else if (y === 2) {
-          updatedProfileValues[y] = this.state.first_name;
-        }
-        else if (y === 3) {
-          updatedProfileValues[y] = this.state.last_name;
-        }
-      }
-    }
-    axios.post('/api/updateTutorInfo', {
-      _id: this.state._id,
-      program_of_study: updatedProfileValues[0],
-      school: updatedProfileValues[1],
-      first_name: updatedProfileValues[2],
-      last_name: updatedProfileValues[3]
-    })
-      .then((res) => {
-        this.setState({
-          first_name: res.data.userInfo.first_name, last_name: res.data.userInfo.last_name,
-          school: res.data.userInfo.school, program_of_study: res.data.userInfo.program_of_study,
-        });
-        swal("File successfully uploaded!", "", "success")
-      }, (error) => {
-        console.log(error);
-      });
-  };
 
   async handleSubmit(event) {
     event.preventDefault();
@@ -214,7 +156,7 @@ export class UploadDocuments extends Component {
           <div className={classes.seeMore}>
             <Link color="primary" href="/doclist">
               See more
-        </Link>
+            </Link>
           </div>
 
         </main>
