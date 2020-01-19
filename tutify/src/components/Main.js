@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import NavBar from './NavBar';
 import * as MainStyles from '../styles/Main-styles';
-import {withStyles} from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import Footer from './Footer';
 
 const benefit = [
@@ -47,9 +47,35 @@ const benefit = [
     buttonVariant: 'outlined',
   },
 ];
+
+
 class Main extends React.Component {
+
+  componentWillMount() {
+    this.checkSession();
+  }
+  
+  checkSession = () => {
+    fetch('/api/checkSession', {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then(response => response.json())
+      .then((res) => {
+        if (res.isLoggedIn) {
+          if (res.userInfo.__t === 'student') {
+            window.location = "dashboard";
+          }
+          else if (res.userInfo.__t === 'tutor') {
+            window.location = "tutor";
+          }
+        }
+      })
+      .catch(err => console.log(err));
+  };
+
   render() {
-    const {classes} = this.props;
+    const { classes } = this.props;
     return (
       <React.Fragment>
         <CssBaseline />
@@ -85,7 +111,7 @@ class Main extends React.Component {
                     </ul>
                   </CardContent>
                   <CardActions>
-                  <Button href= {benefit.buttonLink} fullWidth variant={benefit.buttonVariant}>
+                    <Button href={benefit.buttonLink} fullWidth variant={benefit.buttonVariant}>
                       {benefit.buttonText}
                     </Button>
                   </CardActions>
@@ -95,7 +121,7 @@ class Main extends React.Component {
           </Grid>
         </Container>
         {/* Footer */}
-        <Footer/>
+        <Footer />
         {/* End footer */}
       </React.Fragment>
     );
