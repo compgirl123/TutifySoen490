@@ -212,10 +212,13 @@ exports.deleteFiles = async function (req, res) {
         Mfiles.findByIdAndRemove(fileToDeleteMfiles._id, (err, file) => {
             if (err) return res.send(err);
         });
-        Mchunks.findOne({ files_id: fileToDeleteMfiles._id }, function (err, fileToDeleteMChunks) {
-            Mchunks.findByIdAndRemove(fileToDeleteMChunks._id, (err, filechunkdel) => {
-                if (err) return res.send(err);
-            });
+        Mchunks.find({ files_id: fileToDeleteMfiles._id }, function (err, fileToDeleteMChunks) {
+            fileToDeleteMChunks.forEach(function(err,removechunkindex){
+                Mchunks.findByIdAndRemove(fileToDeleteMChunks[removechunkindex]._id, (err, filechunkdel) => {
+                    if (err) return res.send(err);
+                })
+            }
+        );
         });
     });
 }
