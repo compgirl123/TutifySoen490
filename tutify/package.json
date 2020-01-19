@@ -62,7 +62,8 @@
     "validator": "^11.1.0"
   },
   "scripts": {
-    "start": "cd backend && node server.js",
+    "start": "node server.js",
+    "dev": "concurrently \"cd backend && node server.js\" \"react-scripts start\"",
     "build": "react-scripts build",
     "test": "jest test/*.spec.js",
     "eject": "react-scripts eject"

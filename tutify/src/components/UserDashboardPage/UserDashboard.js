@@ -52,7 +52,9 @@ class UserDashboard extends React.Component {
             .catch(err => console.log(err));
     };
 
-    getDataFromDb = () => {
+
+    // This function fetches the user's courses from the db
+    getCourses = () => {
         fetch('/api/getUserCourses', {
             method: 'GET',
             credentials: 'include'
