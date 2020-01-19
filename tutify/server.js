@@ -20,7 +20,6 @@ const dbRoute =
 // connects our back end code with the database
 mongoose.connect(dbRoute, { useNewUrlParser: true, useUnifiedTopology: true });
 // connection
-
 let db = mongoose.connection;
 
 // // connection with file databaseconst 
