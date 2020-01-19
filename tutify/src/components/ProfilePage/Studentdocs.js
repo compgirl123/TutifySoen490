@@ -18,6 +18,8 @@ import axios from 'axios';
 import Button from "@material-ui/core/Button";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import swal from 'sweetalert';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Checkbox from '@material-ui/core/Checkbox';
 
 // displaying the documents shared to students
 class Studentdocs extends React.Component {
@@ -208,9 +210,31 @@ class Studentdocs extends React.Component {
                         <TableHead>
                           <TableRow>
                             <TableCell>Name</TableCell>
-                            <TableCell>Tutor</TableCell>
-                            <TableCell>Creation Date</TableCell>
-                            <TableCell>Download</TableCell>
+                            {this.props.match.params.studentid !== undefined
+                              ?
+                              <TableCell>Creation Date</TableCell>
+                              :
+                              <TableCell>Tutor</TableCell>  
+                            }
+                            {this.props.match.params.studentid !== undefined
+                              ?
+                              <TableCell>Download</TableCell> 
+                              :
+                              <TableCell>Creation Date</TableCell>  
+                            }
+                            {this.props.match.params.studentid !== undefined
+                              ?
+                              <TableCell>Choose Files to Delete</TableCell>
+                              :
+                              <TableCell>Download</TableCell>  
+                            }
+                            {this.props.match.params.studentid !== undefined
+                              ?
+                              <TableCell>Delete File</TableCell>
+                              :
+                              <TableCell></TableCell>  
+                            }
+                           
                           </TableRow>
                         </TableHead>
                         <TableBody>
@@ -226,6 +250,8 @@ class Studentdocs extends React.Component {
                                     <td><a href={url}>{filename}</a></td>
                                     <td>{uploadDate}</td>
                                     <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
+                                    <td align="center"><Checkbox value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></td>
+                                    <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><DeleteIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Button></td>
                                   </TableRow>
                                 )
                               })
@@ -242,6 +268,9 @@ class Studentdocs extends React.Component {
                                     <td>{tutor_name}</td>
                                     <td>{uploadDate}</td>
                                     <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
+                                    <td><Button type="button" style={{"left": "80%","top":"10px"}} variant="contained" size="small" className="submit">
+                                    Share Document
+                                  </Button></td>
                                   </TableRow>
                                 )
                               })

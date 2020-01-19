@@ -152,19 +152,18 @@ async function findProfile(tst, response, res) {
 // this method enables each class to view all of their shared documents.
 exports.viewCourseDocs = async function (req, res) {
     var r = /\d+/;
-    var s = req.headers.referer.match(/.*\/(.*)$/)[1];
-
-    Course.findOne({ name: req.headers.referer.match(/.*\/(.*)$/)[1].substring(0, 4) + " " + s.match(r)[0] }, function (err, course_info) {
-        UploadedFiles.find({ _id: { $in: course_info.sharedToCourses } }, function (err, courses) {
-            return res.json({ success: true, file: courses });
-        });
-    });
+    var matchCourseId = req.headers.referer.match(/.*\/(.*)$/)[1];
+    Course.findOne({ _id: matchCourseId }, function (err, course_info) {
+        UploadedFiles.find({ _id: { $in: course_info.sharedToCourses } }).populate('sharedToCourses').
+            exec(function (err, course_) {
+                return res.json({ success: true, file: course_ });
+            });
+    })
 }
 
 // this method enables each class to view all of their shared documents.
 exports.deleteFiles = async function (req, res) {
     const { file_id } = req.body;
-
     UploadedFiles.findOne({ encryptedname: file_id }, function (err, fileToDelete) {
         fileToDelete.sharedToStudents.forEach(function (err, studentIndex) {
             Profile.findOne({ _id: fileToDelete.sharedToStudents[studentIndex] }, function (err, userfiles) {

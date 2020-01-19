@@ -77,8 +77,21 @@ export class ViewTutorCourse extends React.Component {
           .then(res => res.json())
           .then(res => {
             if (res.file !== undefined) {
+              var courseId = this.props.match.params.coursename;
+              var courseName = "";
+              if(res.file[0] !== undefined){
+                res.file[0].sharedToCourses.forEach(function (err, studentIndex) {
+                  if(courseId === res.file[0].sharedToCourses[studentIndex]._id){
+                      courseName = res.file[0].sharedToCourses[studentIndex].name;
+                  }
+              });
+              }
+              else{
+                courseName = "No Documents Uploaded";
+              }
+              
               if(this.state.shouldView){
-                this.setState({ files: res.file,course_selected:this.props.match.params.coursename });
+                this.setState({ files: res.file,course_selected:courseName });
               }
               else{
                 this.setState({ files: [] });
