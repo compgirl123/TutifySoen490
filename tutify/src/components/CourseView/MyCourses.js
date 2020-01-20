@@ -16,7 +16,6 @@ import Grid from '@material-ui/core/Grid';
 import swal from 'sweetalert';
 import axios from "axios";
 
-
 // displaying the courses the tutor teaches.
 export class TutorCourses extends React.Component {
   constructor(props) {
@@ -88,6 +87,19 @@ export class TutorCourses extends React.Component {
         file_name : this.props.match.params.file
     })
     swal("Succesfully uploaded document to Course(s)!", "", "success");
+  }
+
+  handleCheckbox = async (event) => {
+    if(event.target.checked){
+      let list = this.state.shareTo;
+      list.push(event.target.name);
+      console.log(list);
+      await this.setState({shareTo: list});
+      
+    }else{
+      let filteredArray = this.state.shareTo.filter(item => item !== event.target.name);
+      await this.setState({shareTo: filteredArray});
+    }
   }
 
   render() {

@@ -40,7 +40,6 @@ function MainPage() {
       <Route exact path= "/Postblog" component={BlogPost} />
       <Route exact path= "/doclist" component={DocList} />
       <Route exact path= "/ViewCourse/:coursename" component={ViewCourse} />
-      <Route exact path= "/doclist/:coursename" component={ViewCourse} />
       <Route exact path= "/document/:filename" component={Document} />
       <Route exact path= "/Announcements" component={Announcements} />
       <Route exact path= "/doc" component={Studentdocs} />

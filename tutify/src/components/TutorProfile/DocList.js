@@ -21,13 +21,16 @@ import swal from 'sweetalert';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import Fab from "@material-ui/core/Fab";
+import Checkbox from '@material-ui/core/Checkbox';
+import Button from "@material-ui/core/Button";
 
 // displaying all of the documents uploaded by the tutor on Tutor "All Documents" Tab.
 class DocList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      files: []
+      files: [],
+      shareTo:[]
     };
     this.loadFiles = this.loadFiles.bind(this);
   }
@@ -71,6 +74,38 @@ class DocList extends React.Component {
       window.location.reload();}
   });
   }
+  
+  handleCheckbox = async (event) => {
+    if(event.target.checked){
+      let list = this.state.shareTo;
+      list.push(event.target.name);
+      console.log(list);
+      await this.setState({shareTo: list});
+      
+    }else{
+      let filteredArray = this.state.shareTo.filter(item => item !== event.target.name);
+      await this.setState({shareTo: filteredArray});
+    }
+  }
+  
+  deleteFiles = (e, ids) => {
+    swal({
+      title: "Are you sure you want delete this document?",
+      icon: "warning",
+      buttons: [true, "Yes"],
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if(willDelete !== null){
+        swal("File Deleted", "", "success")
+      axios.post('/api/getSpecificCourseFilestoDelete', {
+        file_id: ids
+    }
+    ).then((res) => {})
+      .catch(err => console.log(err));
+      window.location.reload();}
+  });
+  }
 
   render() {
     const { classes } = this.props;
@@ -101,6 +136,7 @@ class DocList extends React.Component {
                             <TableCell>Share to Specific Course</TableCell>
                             <TableCell>Share to Specific Student</TableCell>
                             <TableCell>Download</TableCell>
+                            <TableCell>Select File(s) to Delete</TableCell>
                             <TableCell>Remove File</TableCell>
                           </TableRow>
                         </TableHead>
@@ -118,11 +154,15 @@ class DocList extends React.Component {
                                 <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" className={classes.courseButton} onClick={() => window.open("http://localhost:3000/tutorCourses/" + encrypted_file_name)} id={file._id}><MenuBookIcon fontSize="small"style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
                                 <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small"  className={classes.courseButton} onClick={() => window.open("http://localhost:3000/students/" + encrypted_file_name)}  id={file._id}><GroupAddIcon fontSize="small"style={{ width: '22px', height: '22px' }} /></Fab></TableCell>
                                 <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small"  className={classes.courseButton} onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon fontSize="small"style={{ width: '22px', height: '22px' }} /></Fab ></TableCell>
+                                <TableCell>
+                                  <Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} />
+                                </TableCell>
                                 <TableCell align="center"><Fab variant="extended" aria-label="add" fontSize="small" className={classes.courseButton} onClick={e => this.getSelectedFiletoDelete(e,encrypted_file_name)} >
                                 <DeleteIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
                               </TableRow>
                             )
                           })}
+                          <TableCell><Button type="button" onClick={event => this.getSelectedFiletoDelete(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Documents</Button></TableCell>
                         </TableBody>
                       </Table>
                     </React.Fragment>

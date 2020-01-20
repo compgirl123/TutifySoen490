@@ -177,42 +177,51 @@ exports.viewSpecificStudentFiles = async function (req, res) {
 // this method enables each class to view all of their shared documents.
 exports.deleteFiles = async function (req, res) {
     const { file_id } = req.body;
-    UploadedFiles.findOne({ encryptedname: {$in:file_id }}, function (err, fileToDelete) {
-        fileToDelete.sharedToStudents.forEach(function (err, studentIndex) {
-            Profile.findOne({ _id: fileToDelete.sharedToStudents[studentIndex] }, function (err, userfiles) {
-                userfiles.sharedToStudents.forEach(function (err, studentIndex1) {
-                    if (userfiles.sharedToStudents[studentIndex1] == fileToDelete._id) {
-                        Profile.findByIdAndUpdate(fileToDelete.sharedToStudents[studentIndex],
-                            { "$pull": { "sharedToStudents": fileToDelete._id } },
-                            function (err, student) {
-                                if (err) throw err;
-                            });
-                    }
+    UploadedFiles.find({ encryptedname: {$in:file_id }}, function (err, fileToDelete) {
+        fileToDelete.forEach(function(err,studentShared){
+            if((fileToDelete[studentShared].sharedToStudents).length !== 0){
+                fileToDelete[studentShared].sharedToStudents.forEach(function (err, studentIndex) {
+                    Profile.find({ _id: {$in:fileToDelete[studentShared].sharedToStudents[studentIndex]} }, function (err, userfiles) {
+                        userfiles.forEach(function (err, studentIndex1) {
+                            if((userfiles[studentIndex1].sharedToStudents).indexOf(fileToDelete[studentShared]._id)>-1){
+                                Profile.findByIdAndUpdate(fileToDelete[studentShared].sharedToStudents[studentIndex],
+                                    { "$pull": { "sharedToStudents": fileToDelete[studentShared]._id } },
+                                    function (err, student) {
+                                        if (err) throw err;
+                                    });
+                            }
+                        });
+                    });
                 });
-            });
-        });
-        fileToDelete.sharedToCourses.forEach(function (err, courseIndex) {
-            Course.findOne({ _id: fileToDelete.sharedToCourses[courseIndex] }, function (err, userfiles1) {
-                userfiles1.sharedToCourses.forEach(function (err, studentIndex2) {
-                    if (userfiles1.sharedToCourses[studentIndex2] == fileToDelete._id) {
-                        Course.findByIdAndUpdate(fileToDelete.sharedToCourses[courseIndex],
-                            { "$pull": { "sharedToCourses": fileToDelete._id } },
-                            function (err, student) {
-                                if (err) throw err;
-                            });
-                    }
+            }
+            if((fileToDelete[studentShared].sharedToCourses).length !== 0){
+                fileToDelete[studentShared].sharedToCourses.forEach(function (err, courseIndex) {
+                    Course.find({ _id: {$in:fileToDelete[studentShared].sharedToCourses[courseIndex] } }, function (err, userfiles1) {
+                        userfiles1.forEach(function (err, studentIndex2) {
+                            if((userfiles1[studentIndex2].sharedToCourses).indexOf(fileToDelete[studentShared]._id)>-1){
+                                Course.findByIdAndUpdate(fileToDelete[studentShared].sharedToCourses[courseIndex],
+                                    { "$pull": { "sharedToCourses": fileToDelete[studentShared]._id } },
+                                    function (err, student) {
+                                        if (err) throw err;
+                                });
+                            }
+                        });
+                    });
                 });
-            });
-        });
-        UploadedFiles.findByIdAndRemove(fileToDelete._id, (err, file) => {
+            }
+            
+        UploadedFiles.findByIdAndRemove(fileToDelete[studentShared]._id, (err, file) => {
             if (err) return res.send(err);
         });
-    });
-    Mfiles.findOne({ filename: {$in:file_id } }, function (err, fileToDeleteMfiles) {
-        Mfiles.findByIdAndRemove(fileToDeleteMfiles._id, (err, file) => {
+    });   
+});
+
+Mfiles.find({ filename: {$in:file_id}  }, function (err, fileToDeleteMfiles) {
+    fileToDeleteMfiles.forEach(function (err, courseIndex) {
+        Mfiles.findByIdAndRemove(fileToDeleteMfiles[courseIndex]._id, (err, file) => {
             if (err) return res.send(err);
         });
-        Mchunks.find({ files_id: fileToDeleteMfiles._id }, function (err, fileToDeleteMChunks) {
+        Mchunks.find({ files_id: fileToDeleteMfiles[courseIndex]._id }, function (err, fileToDeleteMChunks) {
             fileToDeleteMChunks.forEach(function(err,removechunkindex){
                 Mchunks.findByIdAndRemove(fileToDeleteMChunks[removechunkindex]._id, (err, filechunkdel) => {
                     if (err) return res.send(err);
@@ -220,7 +229,8 @@ exports.deleteFiles = async function (req, res) {
             }
         );
         });
-    });
+    });   
+ });
 }
 
 // this method enables each class to view all of their shared documents.
