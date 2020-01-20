@@ -224,7 +224,7 @@ render() {
                                 }
                             </TableRow>
                         ))}
-                        {this.state.profileType === "tutor"
+                        {this.state.profileType === "tutor" && this.state.files.length !== 0
                             ? 
                             <TableCell><Button type="button" onClick={event => this.deleteFile(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Documents</Button></TableCell>
                             :
