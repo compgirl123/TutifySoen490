@@ -19,7 +19,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from "@material-ui/core/Button";
 import swal from 'sweetalert';
 
-// displaying the list of students the tutor can share their documents to.
+// Displaying the list of students the tutor can share their documents to.
 export class StudentList extends React.Component {
   constructor(props) {
     super(props);
@@ -36,6 +36,7 @@ export class StudentList extends React.Component {
     this.setState({fileid: this.props.match.params.file });
   }
 
+  // Handling the checkbox management in order to select one or many options.
   handleCheckbox = async (event) => {
     if(event.target.checked){
       let list = this.state.shareTo;
@@ -47,6 +48,7 @@ export class StudentList extends React.Component {
     }
   }
 
+  // Setting the login state of user.
   checkSession = () => {
     fetch('/api/checkSession', {
       method: 'GET',
@@ -67,6 +69,7 @@ export class StudentList extends React.Component {
       .catch(err => console.log(err));
   };
 
+  // Function that handles how the Share Document button is displayed on the page.
   handleShareDocButton = (tableTitle=false, bottomButton=false) => {
     if(!tableTitle){
       if (this.props.match.params.file=== undefined){
@@ -80,6 +83,7 @@ export class StudentList extends React.Component {
     }
   }
 
+   // Function that handles how the View Document button is displayed on the page.
   handleViewDocButton = (stuid,tableTitle=false, bottomButton=false) => {
     if(!tableTitle){
       if (this.props.match.params.file=== undefined){
@@ -93,6 +97,7 @@ export class StudentList extends React.Component {
     }
   }
 
+  // Getting the student information from database.
   FindStudents = () => {
     axios.post('/api/findStudents', {
       students: this.state.students
@@ -104,6 +109,7 @@ export class StudentList extends React.Component {
       })
   };
 
+  // Getting the student information from database
   uploadCourse = (e, ids) => {
     for (const studentid in ids) {
       axios.post("http://localhost:3001/api/students/"+this.state.fileid, {

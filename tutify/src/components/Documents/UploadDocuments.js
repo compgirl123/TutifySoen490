@@ -18,10 +18,8 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 
 // Display a Ui for Tutors in order to be able to upload their documents
 export class UploadDocuments extends Component {
-
   constructor(props) {
     super(props);
-
     this.state = {
       files: [],
       file: '',
@@ -39,6 +37,8 @@ export class UploadDocuments extends Component {
     this.checkSession();
     this.getLatestFile();
   }
+  
+  // Setting the login state of user.
   checkSession = () => {
     fetch('/api/checkSession', {
       method: 'GET',
@@ -56,6 +56,7 @@ export class UploadDocuments extends Component {
       .catch(err => console.log(err));
   };
 
+  // Getting the latest file uploaded and displaying it.
   getLatestFile = () => {
     fetch('/api/uploadingDocs', {
       method: 'GET',
@@ -71,6 +72,7 @@ export class UploadDocuments extends Component {
       .catch(err => console.log(err));
   }
 
+  // Displaying the current file being uploaded.
   async fileChanged(event) {
     const f = event.target.files[0];
     await this.setState({
@@ -78,6 +80,7 @@ export class UploadDocuments extends Component {
     });
   }
 
+  // Handling the submit of a document and uploading it into the database as a multer file
   async handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData();
@@ -118,7 +121,6 @@ export class UploadDocuments extends Component {
                     style={{ size: 74 }}
                   />
                 </label>
-
                 <Button type="submit" variant="contained" size="small" className="submit">
                   Upload
                 </Button>
@@ -126,9 +128,7 @@ export class UploadDocuments extends Component {
               {/* </form> */}
             </div>
           </div>
-
           <p></p>
-
           <Paper>
             <Table stickyHeader aria-label="">
               <TableHead>
@@ -143,21 +143,19 @@ export class UploadDocuments extends Component {
                   <TableCell>{this.state.recentUploadDate}</TableCell>
                   <TableCell>{this.state.recentFileName}</TableCell>
                   <TableCell align="right">
-                    <Fab type="button" variant="extended" aria-label="add" size="small"  className={classes.courseButton} onClick={() => window.open(this.state.recentFileLink, "_blank")} >
-                    <GetAppIcon fontSize="small"style={{ width: '22px', height: '22px' }} />
+                    <Fab type="button" variant="extended" aria-label="add" size="small" className={classes.courseButton} onClick={() => window.open(this.state.recentFileLink, "_blank")} >
+                      <GetAppIcon fontSize="small" style={{ width: '22px', height: '22px' }} />
                     </Fab >
-                    </TableCell>
+                  </TableCell>
                 </TableRow>
               </TableBody>
             </Table>
           </Paper>
-
           <div className={classes.seeMore}>
             <Link color="primary" href="/doclist">
               See more
             </Link>
           </div>
-
         </main>
       </React.Fragment>
     );

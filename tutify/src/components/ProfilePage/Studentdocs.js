@@ -26,36 +26,21 @@ class Studentdocs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      drawerOpened: false,
       students: [],
       files: [],
-      filesViewTutors : [],
+      filesViewTutors: [],
       data: [],
       filteredData: [],
-      placeholder: '',
-      showDropDown: false,
-      selectedIndex: 0,
-      anchorEl: null,
       user_id: null,
-      open: false,
-      shareTo:[]
+      shareTo: []
     };
-    //this.loadFilesForTutors = this.loadFilesForTutors.bind(this);
-    //this.loadFiles = this.loadFiles.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  openDialog() {
-    this.setState({ open: true });
-    this.deleteListItem = this.deleteListItem.bind(this);
+  componentDidMount() {
+    this.checkSession();
   }
 
-  toggleDrawer = booleanValue => () => {
-    this.setState({
-      drawerOpened: booleanValue
-    });
-  };
-
+  // Loading the Documents that the student teaches.
   async loadFilesForStudents() {
     fetch('/api/doc')
       .then(res => res.json())
@@ -70,18 +55,17 @@ class Studentdocs extends React.Component {
       .catch(err => console.log(err));
   }
 
+  // Loading the Documents that the tutor teaches
   async loadFilesForTutors() {
     fetch('/api/doc/:studentid')
       .then(res => res.json())
       .then(res => {
-          this.setState({ filesViewTutors: res.fileViewTutors });
+        this.setState({ filesViewTutors: res.fileViewTutors });
       })
       .catch(err => console.log(err));
   }
 
-  componentDidMount() {
-    this.checkSession();
-  }
+  // Running functions according to if the user is logged in as a tutor or as a student.
   checkSession = () => {
     fetch('/api/checkSession', {
       method: 'GET',
@@ -91,10 +75,10 @@ class Studentdocs extends React.Component {
       .then(res => {
         if (res.isLoggedIn) {
           this.setState({ user_id: res.userInfo._id });
-          if(res.userInfo.__t === "student"){
+          if (res.userInfo.__t === "student") {
             this.loadFilesForStudents();
           }
-          else if(res.userInfo.__t === "tutor"){
+          else if (res.userInfo.__t === "tutor") {
             this.loadFilesForTutors();
           }
         }
@@ -105,25 +89,22 @@ class Studentdocs extends React.Component {
       .catch(err => console.log(err));
   };
 
-  FindStudents = () => {
-    axios.post('/api/findStudents', {
-      students: this.state.students
-    })
-      .then((res) => {
-        this.setState({ students: res.data.data });
-      }, (error) => {
-        console.log(error);
-      })
-  };
+  // Handling the checkbox management in order to select one or many options.
+  handleCheckbox = async (event) => {
+    if (event.target.checked) {
+      let list = this.state.shareTo;
+      list.push(event.target.name);
+      console.log(list);
+      await this.setState({ shareTo: list });
 
-  async fileChanged(event) {
-    const f = event.target.files[0];
-    await this.setState({
-      file: f
-    });
+    } else {
+      let filteredArray = this.state.shareTo.filter(item => item !== event.target.name);
+      await this.setState({ shareTo: filteredArray });
+    }
   }
 
-  deleteListItem = () => {
+  // Allowing for the Deletion of Documents.
+  deleteFile = (e, ids) => {
     swal({
       title: "Are you sure you want delete this document?",
       icon: "warning",
@@ -131,80 +112,22 @@ class Studentdocs extends React.Component {
       dangerMode: true,
     })
       .then((willDelete) => {
-        if (willDelete) {
-          fetch('/api/deleteUploadedFiles')
-            .then(res => res.json())
-            .then(res => {
-            })
+        if (willDelete !== null) {
+          swal("File Deleted", "", "success")
+          axios.post('/api/getSpecificStudentsFilestoDelete', {
+            file_id: ids
+          }
+          ).then((res) => { })
             .catch(err => console.log(err));
+          window.location.reload();
         }
       });
-  };
-
-  async handleSubmit(event) {
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append('file', this.state.file._doc);
-    formData.append('adminTutor', this.state.user_id);
-    formData.append('name', this.state.file._doc.name);
-    axios.post("/api/testUpload", formData).then(res => {
-    }).catch(err => {
-      console.log(err);
-
-    });
-
   }
 
-  getCourses = () => {
-    fetch('/api/getTutorCourses', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then(res => {
-        this.setState({ courses: res.data });
-        this.getStudents();
-      })
-      .catch(err => console.log(err));
-
-  }
-
-  handleCheckbox = async (event) => {
-    if(event.target.checked){
-      let list = this.state.shareTo;
-      list.push(event.target.name);
-      console.log(list);
-      await this.setState({shareTo: list});
-      
-    }else{
-      let filteredArray = this.state.shareTo.filter(item => item !== event.target.name);
-      await this.setState({shareTo: filteredArray});
-    }
-  }
-
-   deleteFile = (e, ids) => {
-    swal({
-      title: "Are you sure you want delete this document?",
-      icon: "warning",
-      buttons: [true, "Yes"],
-      dangerMode: true,
-    })
-    .then((willDelete) => {
-      if(willDelete !== null){
-        swal("File Deleted", "", "success")
-      axios.post('/api/getSpecificStudentsFilestoDelete', {
-        file_id: ids
-    }
-    ).then((res) => {})
-      .catch(err => console.log(err));
-      window.location.reload();}
-  });
-  }
- 
   render() {
     const { classes } = this.props;
     const { files } = this.state;
-    const {filesViewTutors} = this.state;
+    const { filesViewTutors } = this.state;
     const fixedHeightPaper = clsx(classes.paper);
 
     return (
@@ -231,63 +154,63 @@ class Studentdocs extends React.Component {
                               ?
                               <TableCell>Creation Date</TableCell>
                               :
-                              <TableCell>Tutor</TableCell>  
+                              <TableCell>Tutor</TableCell>
                             }
                             {this.props.match.params.studentid !== undefined
                               ?
-                              <TableCell>Download</TableCell> 
+                              <TableCell>Download</TableCell>
                               :
-                              <TableCell>Creation Date</TableCell>  
+                              <TableCell>Creation Date</TableCell>
                             }
                             {this.props.match.params.studentid !== undefined
                               ?
                               <TableCell>Choose Files to Delete</TableCell>
                               :
-                              <TableCell>Download</TableCell>  
+                              <TableCell>Download</TableCell>
                             }
-                             
+
                           </TableRow>
                         </TableHead>
-                        <TableBody> 
-                        
+                        <TableBody>
+
                           {this.props.match.params.studentid !== undefined
-                              ?
-                              filesViewTutors.map((file, index) => {
-                                var filename = file.name;
-                                var url = file.url
-                                var link = file.link
-                                var uploadDate = file.uploadDate
-                                return (
-                                  <TableRow key={index}>
-                                    <td><a href={url}>{filename}</a></td>
-                                    <td>{uploadDate}</td>
-                                    <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
-                                    <td align="center"><Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></td>
-                                  </TableRow>
-                                )
-                              })
-                              :
-                              files.map((file, index) => {
-                                var filename = file._doc.name;
-                                var url = file._doc.url
-                                var link = file._doc.link
-                                var uploadDate = file._doc.uploadDate
-                                var tutor_name = file.tutorName
-                                return (
-                                  <TableRow key={index}>
-                                    <TableCell><a href={url}>{filename}</a></TableCell>
-                                    <TableCell>{tutor_name}</TableCell>
-                                    <TableCell>{uploadDate}</TableCell>
-                                    <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon fontSize="small"style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
-                                    </TableRow>
-                                )
-                              })
+                            ?
+                            filesViewTutors.map((file, index) => {
+                              var filename = file.name;
+                              var url = file.url
+                              var link = file.link
+                              var uploadDate = file.uploadDate
+                              return (
+                                <TableRow key={index}>
+                                  <td><a href={url}>{filename}</a></td>
+                                  <td>{uploadDate}</td>
+                                  <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
+                                  <td align="center"><Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></td>
+                                </TableRow>
+                              )
+                            })
+                            :
+                            files.map((file, index) => {
+                              var filename = file._doc.name;
+                              var url = file._doc.url
+                              var link = file._doc.link
+                              var uploadDate = file._doc.uploadDate
+                              var tutor_name = file.tutorName
+                              return (
+                                <TableRow key={index}>
+                                  <TableCell><a href={url}>{filename}</a></TableCell>
+                                  <TableCell>{tutor_name}</TableCell>
+                                  <TableCell>{uploadDate}</TableCell>
+                                  <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
+                                </TableRow>
+                              )
+                            })
                           }
-                          {this.props.match.params.studentid !== undefined && this.state.files.length !== 0
-                              ? 
-                              <TableCell><Button type="button" onClick={event => this.deleteFile(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Document</Button></TableCell>
-                              :
-                              <br/>
+                          {this.props.match.params.studentid !== undefined && this.state.filesViewTutors.length !== 0
+                            ?
+                            <TableCell><Button type="button" onClick={event => this.deleteFile(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Document</Button></TableCell>
+                            :
+                            <br />
                           }
                         </TableBody>
                       </Table>

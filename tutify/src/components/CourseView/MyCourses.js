@@ -16,25 +16,20 @@ import Grid from '@material-ui/core/Grid';
 import swal from 'sweetalert';
 import axios from "axios";
 
-// displaying the courses the tutor teaches.
+// View the General Course Page with all of the Courses the Tutor Teaches or Student is enrolled in.
 export class TutorCourses extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      drawerOpened: false,
       courses: []
     };
   }
 
-  toggleDrawer = booleanValue => () => {
-    this.setState({
-      drawerOpened: booleanValue
-    });
-  };
   componentDidMount() {
     this.checkSession();
   }
 
+  // Distinguishing the tutor login from student login.
   checkSession = () => {
     fetch('/api/checkSession', {
       method: 'GET',
@@ -47,7 +42,7 @@ export class TutorCourses extends React.Component {
             this.getUserDataFromDb();
           }
           else if(res.userInfo.__t === "tutor"){
-              this.getTutorDataFromDb();
+            this.getTutorDataFromDb();
           }
         }
 
@@ -81,6 +76,7 @@ export class TutorCourses extends React.Component {
       .catch(err => console.log(err));
   }
 
+  // Allowing for tutors to share their uploaded documents to specific courses.
   uploadCourse = (e,courseName) => {
     axios.post('/api/tutorCourses/:file', {
         course_id : courseName,
@@ -89,13 +85,13 @@ export class TutorCourses extends React.Component {
     swal("Succesfully uploaded document to Course(s)!", "", "success");
   }
 
+  // Handling the checkbox management in order to select one or many options.
   handleCheckbox = async (event) => {
     if(event.target.checked){
       let list = this.state.shareTo;
       list.push(event.target.name);
       console.log(list);
       await this.setState({shareTo: list});
-      
     }else{
       let filteredArray = this.state.shareTo.filter(item => item !== event.target.name);
       await this.setState({shareTo: filteredArray});
@@ -117,7 +113,7 @@ export class TutorCourses extends React.Component {
               <Container maxWidth="lg" className={classes.container}>
                 <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                   Courses Currently Taught
-               </Typography>
+                </Typography>
                 <Grid container spacing={5}>
                   {courses.map((c, i) => (
                     <Grid item xs={4} md={4} lg={4}>
@@ -157,9 +153,7 @@ export class TutorCourses extends React.Component {
               </main>
               {/* Footer */}
               <Footer />
-
             </main>
-
           </main>
         </React.Fragment>
       </Paper>

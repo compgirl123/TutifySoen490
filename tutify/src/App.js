@@ -16,7 +16,6 @@ import BlogPost from "./components/BlogPost";
 import ViewCourse from "./components/CourseView/ViewCourse";
 import Announcements from "./components/TutorAnnouncements/Announcements";
 import ResourceLevels from "./components/Resources/ResourceLevels";
-import Document from "./components/Documents/Document";
 import Studentdocs from './components/ProfilePage/Studentdocs';
 import ResourcePage from './components/Resources/ResourcePage';
 
@@ -40,7 +39,6 @@ function MainPage() {
       <Route exact path= "/Postblog" component={BlogPost} />
       <Route exact path= "/doclist" component={DocList} />
       <Route exact path= "/ViewCourse/:coursename" component={ViewCourse} />
-      <Route exact path= "/document/:filename" component={Document} />
       <Route exact path= "/Announcements" component={Announcements} />
       <Route exact path= "/doc" component={Studentdocs} />
       <Route exact path= "/doc/:studentid" component={Studentdocs} />

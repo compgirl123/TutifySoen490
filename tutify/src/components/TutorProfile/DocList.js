@@ -23,8 +23,8 @@ import Fab from "@material-ui/core/Fab";
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from "@material-ui/core/Button";
 
-// displaying all of the documents uploaded by the tutor on Tutor "All Documents" Tab.
-class DocList extends React.Component {
+// Displaying all of the documents uploaded by the tutor on Tutor "All Documents" Tab.
+export class DocList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -64,7 +64,6 @@ class DocList extends React.Component {
     .then((willDelete) => {
       if(willDelete !== null){
         swal("File Deleted", "", "success")
-      console.log(willDelete);
       axios.post('/api/getFileToDelete', {
         file_id: encrypted_file_name
     }
@@ -74,11 +73,11 @@ class DocList extends React.Component {
   });
   }
   
+  // Handling the checkbox management in order to select one or many options.
   handleCheckbox = async (event) => {
     if(event.target.checked){
       let list = this.state.shareTo;
       list.push(event.target.name);
-      console.log(list);
       await this.setState({shareTo: list});
       
     }else{
@@ -87,6 +86,7 @@ class DocList extends React.Component {
     }
   }
   
+  // handling the deletion of the document(s).
   deleteFiles = (e, ids) => {
     swal({
       title: "Are you sure you want delete this document?",
