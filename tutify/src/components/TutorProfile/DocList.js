@@ -16,7 +16,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import axios from 'axios';
 import GetAppIcon from '@material-ui/icons/GetApp';
-import DeleteIcon from '@material-ui/icons/Delete';
 import swal from 'sweetalert';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
@@ -137,9 +136,10 @@ class DocList extends React.Component {
                             <TableCell>Share to Specific Student</TableCell>
                             <TableCell>Download</TableCell>
                             <TableCell>Select File(s) to Delete</TableCell>
-                            <TableCell>Remove File</TableCell>
                           </TableRow>
                         </TableHead>
+
+
                         <TableBody>
                           {files.map((file, index) => {
                             var filename = file.name;
@@ -151,17 +151,17 @@ class DocList extends React.Component {
                               <TableRow key={index}>
                                 <TableCell><a href={url}>{filename}</a></TableCell>
                                 <TableCell>{uploadDate}</TableCell>
+
                                 <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" className={classes.courseButton} onClick={() => window.open("http://localhost:3000/tutorCourses/" + encrypted_file_name)} id={file._id}><MenuBookIcon fontSize="small"style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
                                 <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small"  className={classes.courseButton} onClick={() => window.open("http://localhost:3000/students/" + encrypted_file_name)}  id={file._id}><GroupAddIcon fontSize="small"style={{ width: '22px', height: '22px' }} /></Fab></TableCell>
                                 <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small"  className={classes.courseButton} onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon fontSize="small"style={{ width: '22px', height: '22px' }} /></Fab ></TableCell>
-                                <TableCell>
+                                <TableCell align="center">
                                   <Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} />
                                 </TableCell>
-                                <TableCell align="center"><Fab variant="extended" aria-label="add" fontSize="small" className={classes.courseButton} onClick={e => this.getSelectedFiletoDelete(e,encrypted_file_name)} >
-                                <DeleteIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
                               </TableRow>
                             )
                           })}
+
                           <TableCell><Button type="button" onClick={event => this.getSelectedFiletoDelete(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Documents</Button></TableCell>
                         </TableBody>
                       </Table>
