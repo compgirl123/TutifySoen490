@@ -19,6 +19,7 @@ import Button from "@material-ui/core/Button";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import swal from 'sweetalert';
 import Checkbox from '@material-ui/core/Checkbox';
+import Fab from "@material-ui/core/Fab";
 
 // displaying the documents shared to students
 class Studentdocs extends React.Component {
@@ -274,11 +275,11 @@ class Studentdocs extends React.Component {
                                 var tutor_name = file.tutorName
                                 return (
                                   <TableRow key={index}>
-                                    <td><a href={url}>{filename}</a></td>
-                                    <td>{tutor_name}</td>
-                                    <td>{uploadDate}</td>
-                                    <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
-                                  </TableRow>
+                                    <TableCell><a href={url}>{filename}</a></TableCell>
+                                    <TableCell>{tutor_name}</TableCell>
+                                    <TableCell>{uploadDate}</TableCell>
+                                    <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon fontSize="small"style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
+                                    </TableRow>
                                 )
                               })
                           }
