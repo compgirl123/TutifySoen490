@@ -67,7 +67,7 @@ class TutorStudentsInfo extends React.Component {
       <Card className={classes.card} >
         <CardContent>
 
-          <Typography component="p" variant="h5" >
+          <Typography component="p" variant="h6" >
             <Box fontWeight="fontWeightBold">
               My Students
             </Box>
@@ -95,18 +95,20 @@ class TutorStudentsInfo extends React.Component {
                   </TableCell> <TableCell>
                   </TableCell><TableCell>
                   </TableCell>
-                  <TableCell>
-                    <Fab
+                </TableRow>
+                 ))}
+
+                <br />
+                <Fab
                       variant="extended"
                       aria-label="add"
+                      href="/Announcements"
                       className={classes.margin} style={{ maxHeight: '25px' }} labelStyle={{ fontSize: '6px' }}
                     >
                       <MessageIcon fontSize="small" style={{ width: '15px', height: '15px' }} />   &nbsp;
                       Message
-                    </Fab>
-                  </TableCell>
-                </TableRow>
-              ))}
+                </Fab>
+            
             </TableBody>
           </Table>
         </CardContent>
