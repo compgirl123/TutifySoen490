@@ -66,7 +66,7 @@ export class UserInfo extends React.Component {
 
   componentDidMount() {
     this.checkSession();
-  }
+  };
 
   handleChangeValue = e => this.setState({ value: e.target.value });
 
@@ -100,6 +100,30 @@ export class UserInfo extends React.Component {
     });
   };
 
+  updateDB = () => {
+    var coursesToAdd = [];
+    var test = this.state.subjects;
+
+    for (var z = 0; z < this.state.courses.length; z++) {
+      var course_found = test.includes(this.state.courses[z]);
+      if (course_found === false) {
+        coursesToAdd.push(this.state.courses[z])
+      }
+    }
+    axios.post('/api/updateTutor', {
+      _id: this.state._id,
+      subjects: coursesToAdd
+    })
+      .then((res) => {
+        this.setState({
+          subjects: res.data.newSubjects
+        });
+        swal("Information successfully updated!", "", "success")
+      }, (error) => {
+        console.log(error);
+      });
+  };
+
   updateTutorOptions = () => {
     var updatedProfileValues = [
       this.state.updatedProgramOfStudy,
@@ -128,6 +152,7 @@ export class UserInfo extends React.Component {
         }
       }
     }
+
     axios.post('/api/updateTutorInfo', {
       _id: this.state._id,
       program_of_study: updatedProfileValues[0],
