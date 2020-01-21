@@ -42,9 +42,11 @@ describe('The Tutors List of Students Page', () => {
               }
 
           ]
+        // return to
+        const match = { params: { searchTerm: 'foo' } }
         // All the mounting and state setting
-        const wrapper = mount(<StudentList students = {mockedTutorStudentsList} ></StudentList>);
-        const wrapper_shallow = shallow(<StudentList students = {mockedTutorStudentsList}></StudentList>);
+        const wrapper = mount(<StudentList students = {mockedTutorStudentsList} match ={match} ></StudentList>);
+        const wrapper_shallow = shallow(<StudentList students = {mockedTutorStudentsList} match ={match}></StudentList>);
         const student_class_wrapper = wrapper.find(StudentListClass);
         student_class_wrapper.setState({ data: json.data });
         student_class_wrapper.setState({ students: mockedTutorStudentsList });
