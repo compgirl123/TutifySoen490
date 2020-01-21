@@ -69,14 +69,8 @@ export class TutorCoursesInfo extends React.Component {
       .then((res) => {
         if (res.isLoggedIn) {
           this.setState({
-            Toggle: true, _id: res.userInfo._id, __t: res.userInfo.__t,
-            first_name: res.userInfo.first_name, last_name: res.userInfo.last_name,
-            email: res.email, education_level: res.userInfo.education_level, school: res.userInfo.school,
-            program_of_study: res.userInfo.program_of_study, students: res.userInfo.students, subjects: res.userInfo.subjects, tutorPicture: res.userInfo.picture
+            _id: res.userInfo._id, subjects: res.userInfo.subjects
           });
-        }
-        else {
-          this.setState({ Toggle: false });
         }
       })
       .catch(err => console.log(err));
@@ -153,7 +147,7 @@ export class TutorCoursesInfo extends React.Component {
                       variant="extended"
                       aria-label="add"
                       fontSize="small"
-                      className={classes.margin} style={{ maxHeight: '25px',}}
+                      className={classes.margin} style={{ maxHeight: '25px', }}
                     >
                       <CloudUploadIcon fontSize="small" style={{ width: '15px', height: '15px' }} />
                       &nbsp; Upload Documents
@@ -161,7 +155,7 @@ export class TutorCoursesInfo extends React.Component {
                   </TableCell>
                 </TableRow>
               ))}
-              
+
             </TableBody>
           </Table>
 
@@ -175,8 +169,8 @@ export class TutorCoursesInfo extends React.Component {
               />
             </Grid>
             <Grid item xs={6} >
-              <Button style={{ marginTop: 20,}}
-                variant="outlined" 
+              <Button style={{ marginTop: 20, }}
+                variant="outlined"
                 aria-label="edit"
                 fontSize="small"
                 onClick={() => { this.updateDB(); }}
