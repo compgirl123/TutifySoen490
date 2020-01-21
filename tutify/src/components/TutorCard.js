@@ -20,7 +20,7 @@ import axios from "axios";
 import swal from 'sweetalert';
 
 const assignTutor = (e, userID, tutorID, url) => {
-    axios.post('http://localhost:3001/api/assignTutor', {
+    axios.post('/api/assignTutor', {
         student_id: userID,
         tutor_id: tutorID,
     })

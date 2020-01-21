@@ -65,7 +65,7 @@ export class UserInfo extends React.Component {
   }
 
   handleChange(event) {
-    fetch('http://localhost:3001/api/logout', {
+    fetch('/api/logout', {
       method: 'GET',
       credentials: 'include'
     })
@@ -79,7 +79,7 @@ export class UserInfo extends React.Component {
   handleChangeValue = e => this.setState({ value: e.target.value });
 
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession', {
+    fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
     })
@@ -116,7 +116,7 @@ export class UserInfo extends React.Component {
         coursesToAdd.push(this.state.courses[z])
       }
     }
-    axios.post('http://localhost:3001/api/updateTutor', {
+    axios.post('/api/updateTutor', {
       _id: this.state._id,
       subjects: coursesToAdd
     })
@@ -154,7 +154,7 @@ export class UserInfo extends React.Component {
         }
       }
     }
-    axios.post('http://localhost:3001/api/updateTutorInfo', {
+    axios.post('/api/updateTutorInfo', {
       _id: this.state._id,
       program_of_study: updatedProfileValues[0],
       school: updatedProfileValues[1],
@@ -202,7 +202,7 @@ export class UserInfo extends React.Component {
       else {
       }
     }
-    axios.post('http://localhost:3001/api/updateUserInfo', {
+    axios.post('/api/updateUserInfo', {
       _id: this.state._id,
       program_of_study: updatedProfileValues[0],
       school: updatedProfileValues[1],

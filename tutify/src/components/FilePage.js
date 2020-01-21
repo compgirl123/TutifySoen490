@@ -17,23 +17,6 @@ class FilePage extends React.Component {
         this.setState({img:buffer})
     }
   
-    // checkSession = () => {
-    //   fetch('http://localhost:3001/api/checkSession', {
-    //     method: 'GET',
-    //     credentials: 'include'
-    //   })
-    //     .then(response => response.json())
-    //     .then((res) => {
-    //       if (res.isLoggedIn) {
-    //         this.setState({
-    //           user_id: res.userInfo._id,
-    //         });
-    //         this.getTutorFromDB()
-    //       }
-    //     })
-    //     .catch(err => console.log(err));
-    // };
-  
     render() {
       const { classes } = this.props;
   

@@ -70,7 +70,7 @@ export class TutorInfo extends React.Component {
   }
 
   handleChange(event) {
-    fetch('http://localhost:3001/api/logout', {
+    fetch('/api/logout', {
       method: 'GET',
       credentials: 'include'
     })
@@ -84,7 +84,7 @@ export class TutorInfo extends React.Component {
   handleChangeValue = e => this.setState({ value: e.target.value });
 
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession', {
+    fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
     })
@@ -135,7 +135,7 @@ export class TutorInfo extends React.Component {
       }
     }
 
-    axios.post('http://localhost:3001/api/updateTutorInfo', {
+    axios.post('/api/updateTutorInfo', {
       _id: this.state._id,
       program_of_study: updatedProfileValues[0],
       school: updatedProfileValues[1],
@@ -186,7 +186,7 @@ export class TutorInfo extends React.Component {
       }
     }
 
-    axios.post('http://localhost:3001/api/updateUserInfo', {
+    axios.post('/api/updateUserInfo', {
       _id: this.state._id,
       program_of_study: updatedProfileValues[0],
       school: updatedProfileValues[1],

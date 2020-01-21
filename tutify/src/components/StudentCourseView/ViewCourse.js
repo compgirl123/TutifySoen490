@@ -75,7 +75,7 @@ export class ViewCourse extends React.Component {
     }
 
     async loadFiles() {
-        fetch('/api/ViewCourse/:coursename')
+        fetch('/api/viewCourse/:coursename')
           .then(res => res.json())
           .then(res => {
             if (res.file !== undefined) {

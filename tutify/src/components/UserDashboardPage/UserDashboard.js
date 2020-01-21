@@ -29,7 +29,7 @@ class UserDashboard extends React.Component {
     }
 
     checkSession = () => {
-        fetch('http://localhost:3001/api/checkSession', {
+        fetch('/api/checkSession', {
             method: 'GET',
             credentials: 'include'
         })
@@ -52,9 +52,10 @@ class UserDashboard extends React.Component {
             .catch(err => console.log(err));
     };
 
+
     // This function fetches the user's courses from the db
     getCourses = () => {
-        fetch('http://localhost:3001/api/getUserCourses', {
+        fetch('/api/getUserCourses', {
             method: 'GET',
             credentials: 'include'
         })

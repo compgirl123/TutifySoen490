@@ -18,7 +18,7 @@ import swal from 'sweetalert';
 import CheckIcon from '@material-ui/icons/Check';
 
 const assignCourse = (e, userID, tutorID, courseID) => {
-  axios.post('http://localhost:3001/api/assignCourse', {
+  axios.post('/api/assignCourse', {
     student_id: userID,
     tutor_id: tutorID,
     course_id: courseID,
@@ -68,7 +68,7 @@ class CourseList extends React.Component {
   }
 
   getTutorFromDB = () => {
-    axios.get('http://localhost:3001/api/getTutor', {
+    axios.get('/api/getTutor', {
       params: {
         ID: this.state.tutor_id
       }
@@ -83,7 +83,7 @@ class CourseList extends React.Component {
   }
 
   getUserCoursesFromDb = () => {
-    fetch('http://localhost:3001/api/getUserCourses', {
+    fetch('/api/getUserCourses', {
       method: 'GET',
       credentials: 'include'
     })
@@ -95,7 +95,7 @@ class CourseList extends React.Component {
   }
 
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession', {
+    fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
     })

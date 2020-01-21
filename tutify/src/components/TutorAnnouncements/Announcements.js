@@ -108,7 +108,7 @@ export class Announcements extends React.Component {
         else
             studentsToSend = this.state.studentsSelected;
 
-        axios.post('http://localhost:3001/api/sendAnnouncementStudents', {
+        axios.post('/api/sendAnnouncementStudents', {
             students: studentsToSend,
             announcement: {
                 title: this.state.aTitle,
@@ -121,7 +121,7 @@ export class Announcements extends React.Component {
             .then((res) => {
                 swal("Announcement sent!", "", "success")
                     .then((value) => {
-                        window.location = "/Announcements";
+                        window.location = "/announcements";
                     });
             }, (error) => {
                 swal("Something went wrong...", "", "error")
@@ -137,7 +137,7 @@ export class Announcements extends React.Component {
     }
 
     checkSession = () => {
-        fetch('http://localhost:3001/api/checkSession', {
+        fetch('/api/checkSession', {
             method: 'GET',
             credentials: 'include'
         })
@@ -159,7 +159,7 @@ export class Announcements extends React.Component {
 
     // fetch the tutor's students from our database
     getStudents = () => {
-        axios.post('http://localhost:3001/api/findStudents', {
+        axios.post('/api/findStudents', {
             students: this.state.students
         })
             .then((res) => {
@@ -171,7 +171,7 @@ export class Announcements extends React.Component {
 
     // fetch the tutor's courses from our database
     getCourses = () => {
-        fetch('http://localhost:3001/api/getTutorCourses', {
+        fetch('/api/getTutorCourses', {
             method: 'GET',
             credentials: 'include'
         })

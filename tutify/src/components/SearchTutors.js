@@ -87,14 +87,14 @@ export class SearchTutors extends Component {
 
   // Uses our backend api to fetch tutors from our database
   getDataFromDb = () => {
-    fetch('http://localhost:3001/api/getTutors')
+    fetch('/api/getTutors')
       .then((data) => data.json())
       .then((res) => {
         this.setState({ data: res.data, filteredData: res.data });});
   }
 
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession', {
+    fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
     })
