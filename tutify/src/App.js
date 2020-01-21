@@ -8,7 +8,6 @@ import ProfilePage from "./components/ProfilePage/ProfilePage"
 import MyCourses from "./components/ProfilePage/MyCourses";
 import StudentList from "./components/TutorProfile/StudentList";
 import DocList from "./components/TutorProfile/DocList";
-import TutorProfile from "./components/TutorProfile/TutorProfile";
 import CourseList from './components/CourseList';
 import TutorCourses from "./components/TutorProfile/TutorCourses";
 import UserDashboard from "./components/UserDashboardPage/UserDashboard";
@@ -33,7 +32,6 @@ function MainPage() {
       <Route exact path="/login" component={Login} />
       <Route exact path="/profile" component={ProfilePage} />
       <Route exact path="/courses" component={MyCourses} />
-      <Route exact path="/tutor" component={TutorProfile} />
       <Route exact path="/students/:file" component={StudentList} />
       <Route exact path= "/CourseList/:id" component= {CourseList}/>
       <Route exact path= "/tutorCourses/:file" component = {TutorCourses}/>

@@ -25,6 +25,7 @@ export class UserInfo extends React.Component {
       first_name: "",
       last_name: "",
       email: "",
+      school: "",
       program_of_study: "",
       updatedFirstName: "",
       updatedLastName: "",
@@ -36,7 +37,10 @@ export class UserInfo extends React.Component {
       students: "",
       courses: [],
       open: false,
-      scroll: 'paper'
+      scroll: 'paper',
+      tutorPicture: "",
+      description: "",
+      updatedDescription: ""
     };
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -64,18 +68,6 @@ export class UserInfo extends React.Component {
     this.checkSession();
   }
 
-  handleChange(event) {
-    fetch('http://localhost:3001/api/logout', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then(res => {
-        this.setState({ Toggle: false });
-      })
-      .catch(err => console.log(err));
-  };
-
   handleChangeValue = e => this.setState({ value: e.target.value });
 
   checkSession = () => {
@@ -90,7 +82,9 @@ export class UserInfo extends React.Component {
             Toggle: true, _id: res.userInfo._id, __t: res.userInfo.__t,
             first_name: res.userInfo.first_name, last_name: res.userInfo.last_name,
             email: res.email, education_level: res.userInfo.education_level, school: res.userInfo.school,
-            program_of_study: res.userInfo.program_of_study, students: res.userInfo.students, subjects: res.userInfo.subjects
+            program_of_study: res.userInfo.program_of_study, students: res.userInfo.students, subjects: res.userInfo.subjects,
+            tutorPicture: res.userInfo.picture,
+            description: res.userInfo.description
           });
         }
         else {
@@ -104,30 +98,6 @@ export class UserInfo extends React.Component {
     await this.setState({
       courses: value
     });
-  }
-
-  updateDB = () => {
-    var coursesToAdd = [];
-    var test = this.state.subjects;
-
-    for (var z = 0; z < this.state.courses.length; z++) {
-      var course_found = test.includes(this.state.courses[z]);
-      if (course_found === false) {
-        coursesToAdd.push(this.state.courses[z])
-      }
-    }
-    axios.post('http://localhost:3001/api/updateTutor', {
-      _id: this.state._id,
-      subjects: coursesToAdd
-    })
-      .then((res) => {
-        this.setState({
-          subjects: res.data.newSubjects
-        });
-        swal("Information successfully updated!", "", "success")
-      }, (error) => {
-        console.log(error);
-      });
   };
 
   updateTutorOptions = () => {
@@ -135,7 +105,8 @@ export class UserInfo extends React.Component {
       this.state.updatedProgramOfStudy,
       this.state.updatedSchool,
       this.state.updatedFirstName,
-      this.state.updatedLastName
+      this.state.updatedLastName,
+      this.state.updatedDescription
     ];
 
     for (var y = 0; y < updatedProfileValues.length; y++) {
@@ -152,19 +123,25 @@ export class UserInfo extends React.Component {
         else if (y === 3) {
           updatedProfileValues[y] = this.state.last_name;
         }
+        else if (y === 4) {
+          updatedProfileValues[y] = this.state.description;
+        }
       }
     }
+
     axios.post('http://localhost:3001/api/updateTutorInfo', {
       _id: this.state._id,
       program_of_study: updatedProfileValues[0],
       school: updatedProfileValues[1],
       first_name: updatedProfileValues[2],
-      last_name: updatedProfileValues[3]
+      last_name: updatedProfileValues[3],
+      description: updatedProfileValues[4],
     })
       .then((res) => {
         this.setState({
           first_name: res.data.userInfo.first_name, last_name: res.data.userInfo.last_name,
           school: res.data.userInfo.school, program_of_study: res.data.userInfo.program_of_study,
+          description: res.data.userInfo.description,
         });
         swal("Information successfully updated!", "", "success")
       }, (error) => {
@@ -238,9 +215,18 @@ export class UserInfo extends React.Component {
     return (
       <Card className={classes.card}>
         <React.Fragment>
-          <CardContent>
-            <img src={"https://i.imgur.com/L6lDhbz.jpg"} alt="Profile" width="100%" height="40%"></img>
-          </CardContent>
+          {this.state.__t === "tutor" ?
+
+            <CardContent>
+
+              <img src={this.state.tutorPicture} width="100%" height="40%" alt="Profile">
+              </img>
+            </CardContent>
+            :
+            <CardContent>
+              <img src={"https://i.imgur.com/L6lDhbz.jpg"} alt="Profile" width="100%" height="40%"></img>
+            </CardContent>
+          }
           <CardContent>
             <Typography component="p" variant="h5" >
               <Box fontWeight="fontWeightBold">
@@ -255,10 +241,16 @@ export class UserInfo extends React.Component {
               borderColor: '#FFFFFF'
             }} />
 
-            <Typography className={classes.InfoContext}>
+            {this.state.__t === "student" ?
 
-              Status: Student
+              <Typography className={classes.InfoContext}>
+                Status: Student
             </Typography>
+              :
+              <Typography className={classes.InfoContext}>
+                Status: Tutor
+          </Typography>
+            }
 
             <Typography className={classes.InfoContext}>
               <br />
@@ -275,12 +267,29 @@ export class UserInfo extends React.Component {
               School: {this.state.school}
             </Typography>
 
-            <Typography className={classes.InfoContext}>
-              <br />
-              Education Level: {this.state.education_level}
-            </Typography>
+            {this.state.__t === "student" ?
 
-            <br />
+              <Typography className={classes.InfoContext}>
+                <br />
+                Education Level: {this.state.education_level}
+              </Typography>
+              :
+              <div>
+              <Typography className={classes.InfoContext}>
+                <br />
+                Description:<br />
+              </Typography>
+              <div style={{ maxHeight: 120, overflow: 'auto' }}>
+                <Typography className={classes.InfoContext}>
+                  {this.state.description}
+                </Typography>
+              </div>
+              <br />
+              </div>
+              
+           }
+              <br />
+
             <Button variant="outlined" aria-label="edit"
               justify="center"
               onClick={() => { this.handleClickOpen(); }}
@@ -289,6 +298,8 @@ export class UserInfo extends React.Component {
               Edit Info
             </Button>
           </CardContent>
+
+
           <div>
 
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
@@ -352,7 +363,18 @@ export class UserInfo extends React.Component {
                     fullWidth
                   />
                   :
-                  <br />
+                  <TextField
+                    id="description"
+                    name="description"
+                    label="Description"
+                    onChange={e => this.setState({ updatedDescription: e.target.value })}
+                    multiline
+                    rows="4"
+                    defaultValue={this.state.description}
+                    variant="outlined"
+                    style={{ width: '100%', marginTop: "35px" }}
+                  />
+
                 }
 
               </DialogContent>

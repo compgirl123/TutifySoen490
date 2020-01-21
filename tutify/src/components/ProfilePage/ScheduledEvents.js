@@ -51,10 +51,7 @@ class ScheduledEvents extends React.Component {
     })
       .then(response => response.json())
       .then((res) => {
-        this.setState({
-          student_id: res.userInfo._id,
-          events: res.userInfo.events,
-        });
+        this.setState({ events: res.userInfo.events });
         this.populateEvents();
       })
       .catch(err => console.log(err));
