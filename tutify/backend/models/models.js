@@ -236,9 +236,6 @@ var UploadedFiles = mongoose.model('UploadedFiles', new mongoose.Schema({
   }
   ],
   sharedToCourses: [{
-    /*type: String,
-    required: true*/
-    //type: Schema.Types.ObjectId,
     type: String,
     ref: 'Course'
   }

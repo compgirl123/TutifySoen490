@@ -49,8 +49,7 @@ export class ViewTutorCourse extends React.Component {
       .then(response => response.json())
       .then(res => {
         if (res.isLoggedIn) {
-          this.setState({ Toggle: true });
-          this.setState({ shouldView: true });
+          this.setState({ Toggle: true, shouldView:true });
           if (res.userInfo.__t === "student") {
             this.getUserDataFromDb();
             this.setState({ profileType: res.userInfo.__t });
@@ -95,14 +94,17 @@ export class ViewTutorCourse extends React.Component {
 
   // Loading all files from the database from the specific course
   async loadFiles() {
-    fetch('/api/ViewCourse/:coursename')
+    fetch('/api/viewCourse/:coursename')
       .then(res => res.json())
       .then(res => {
+        // if the specific course exists, run this if statment.
         if (res.file !== undefined) {
           var courseId = this.props.match.params.coursename;
           var courseName = "";
+          // if files exist for the specific course, run this if statment.
           if (res.file[0] !== undefined) {
             res.file[0].sharedToCourses.forEach(function (err, studentIndex) {
+              // get course Name for the course currently being viewed.
               if (courseId === res.file[0].sharedToCourses[studentIndex]._id) {
                 courseName = res.file[0].sharedToCourses[studentIndex].name;
               }

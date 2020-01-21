@@ -109,7 +109,6 @@ export class TutorCourses extends React.Component {
             <DashBoardNavBar />
             <main className={classes.content}>
               <div className={classes.appBarSpacer} />
-
               <Container maxWidth="lg" className={classes.container}>
                 <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                   Courses Currently Taught
@@ -138,7 +137,7 @@ export class TutorCourses extends React.Component {
                               Upload Document
                           </Button>
                             :
-                            <Button type="button" onClick={() => window.open("/ViewCourse/" + (c.course._id).replace(/ /g, ""))} size="small" href="" fullWidth className="submit">
+                            <Button type="button" onClick={() => window.open("/viewCourse/" + (c.course._id).replace(/ /g, ""))} size="small" href="" fullWidth className="submit">
                               View Documents
                           </Button>
                           }

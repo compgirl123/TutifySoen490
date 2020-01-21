@@ -136,7 +136,7 @@ exports.viewDocs = async function (req, res) {
     });
 }
 
-//helper method
+// helper method
 async function findProfile(tst, response, res) {
     for (let index = 0; index < tst.length; index++) {
         await Profile.findOne({ _id: tst[index].adminTutor }, async (err, tutor) => { }).then(async (tutor) => {
@@ -148,7 +148,7 @@ async function findProfile(tst, response, res) {
     return new Promise((resolve, reject) => { resolve(response) });
 }
 
-// this method enables each class to view all of their shared documents.
+// this method enables for the viewing of all course docs.
 exports.viewCourseDocs = async function (req, res) {
     var r = /\d+/;
     var matchCourseId = req.headers.referer.match(/.*\/(.*)$/)[1];
@@ -160,7 +160,7 @@ exports.viewCourseDocs = async function (req, res) {
     })
 }
 
-// this method enables each class to view all of their shared documents.
+// this method enables each student to view all of their shared documents.
 exports.viewSpecificStudentFiles = async function (req, res) {
     var student_id_position = req.headers.referer.lastIndexOf("/");
     var student_id = req.headers.referer.substring(student_id_position + 1, req.headers.referer.length)
@@ -173,11 +173,13 @@ exports.viewSpecificStudentFiles = async function (req, res) {
     });
 }
 
-// this method enables each class to view all of their shared documents.
+// this method enables the tutor to delete some of their shared files in all places.
 exports.deleteFiles = async function (req, res) {
     const { file_id } = req.body;
+    // Finding Uploaded File Documents to Delete. 
     UploadedFiles.find({ encryptedname: { $in: file_id } }, function (err, fileToDelete) {
         fileToDelete.forEach(function (err, studentShared) {
+            // Removing Shared to certain Students of Document if the document(s) was shared to student(s)
             if ((fileToDelete[studentShared].sharedToStudents).length !== 0) {
                 fileToDelete[studentShared].sharedToStudents.forEach(function (err, studentIndex) {
                     Profile.find({ _id: { $in: fileToDelete[studentShared].sharedToStudents[studentIndex] } }, function (err, userfiles) {
@@ -193,6 +195,7 @@ exports.deleteFiles = async function (req, res) {
                     });
                 });
             }
+            // Removing Shared to certain Courses of Document if the document(s) was shared to student(s)
             if ((fileToDelete[studentShared].sharedToCourses).length !== 0) {
                 fileToDelete[studentShared].sharedToCourses.forEach(function (err, courseIndex) {
                     Course.find({ _id: { $in: fileToDelete[studentShared].sharedToCourses[courseIndex] } }, function (err, userfiles1) {
@@ -208,18 +211,19 @@ exports.deleteFiles = async function (req, res) {
                     });
                 });
             }
-
+            // Removing uploaded Document from the uploaded files collection.
             UploadedFiles.findByIdAndRemove(fileToDelete[studentShared]._id, (err, file) => {
                 if (err) return res.send(err);
             });
         });
     });
-
+    // Removing Multer file(s) from Multer collection
     Mfiles.find({ filename: { $in: file_id } }, function (err, fileToDeleteMfiles) {
         fileToDeleteMfiles.forEach(function (err, courseIndex) {
             Mfiles.findByIdAndRemove(fileToDeleteMfiles[courseIndex]._id, (err, file) => {
                 if (err) return res.send(err);
             });
+            // Removing all related chunks to deleted files from the Chunks collection
             Mchunks.find({ files_id: fileToDeleteMfiles[courseIndex]._id }, function (err, fileToDeleteMChunks) {
                 fileToDeleteMChunks.forEach(function (err, removechunkindex) {
                     Mchunks.findByIdAndRemove(fileToDeleteMChunks[removechunkindex]._id, (err, filechunkdel) => {
@@ -232,7 +236,7 @@ exports.deleteFiles = async function (req, res) {
     });
 }
 
-// this method enables each class to view all of their shared documents.
+// this method enables the deletion of specific student files for each specific student(s).
 exports.deleteSpecificStudentsFiles = async function (req, res) {
     const { file_id } = req.body;
     var r = /\d+/;

@@ -126,8 +126,7 @@ class Studentdocs extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { files } = this.state;
-    const { filesViewTutors } = this.state;
+    const { files,filesViewTutors } = this.state;
     const fixedHeightPaper = clsx(classes.paper);
 
     return (

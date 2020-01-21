@@ -66,13 +66,11 @@ class TutorStudentsInfo extends React.Component {
     return (
       <Card className={classes.card} >
         <CardContent>
-
           <Typography component="p" variant="h6" >
             <Box fontWeight="fontWeightBold">
               My Students
             </Box>
           </Typography>
-
           <Table size="small">
             <TableBody>
               <TableCell>
@@ -103,13 +101,13 @@ class TutorStudentsInfo extends React.Component {
             </TableBody>
           </Table>
           <Fab
-                      variant="extended"
-                      aria-label="add"
-                      href="/Announcements"
-                      className={classes.margin} style={{ maxHeight: '25px' }} labelStyle={{ fontSize: '6px' }}
-                    >
-                      <MessageIcon fontSize="small" style={{ width: '15px', height: '15px' }} />   &nbsp;
-                      Message
+              variant="extended"
+              aria-label="add"
+              href="/announcements"
+              className={classes.margin} style={{ maxHeight: '25px' }} labelStyle={{ fontSize: '6px' }}
+            >
+              <MessageIcon fontSize="small" style={{ width: '15px', height: '15px' }} />   &nbsp;
+              Message
                 </Fab>
         </CardContent>
 

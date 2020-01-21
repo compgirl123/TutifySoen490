@@ -32,16 +32,16 @@ function MainPage() {
       <Route exact path="/tutor" component={TutorProfile} />
       <Route exact path="/students" component={StudentList} />
       <Route exact path="/students/:file" component={StudentList} />
-      <Route exact path= "/CourseList/:id" component= {CourseList}/>
+      <Route exact path= "/courseList/:id" component= {CourseList}/>
       <Route exact path= "/tutorCourses/:file" component = {MyCourses}/>
       <Route exact path= "/courses" component = {MyCourses}/>
       <Route exact path="/dashboard" component={UserDashboard} />
       <Route exact path= "/uploadingDocs" component = {UploadDocuments}/>
       <Route exact path= "/Postblog" component={BlogPost} />
       <Route exact path= "/doclist" component={DocList} />
-      <Route exact path= "/ViewCourse/:coursename" component={ViewCourse} />
+      <Route exact path= "/viewCourse/:coursename" component={ViewCourse} />
       <Route exact path= "/document/:filename" component={Document} />
-      <Route exact path= "/Announcements" component={Announcements} />
+      <Route exact path= "/announcements" component={Announcements} />
       <Route exact path= "/doc" component={Studentdocs} />
       <Route exact path= "/doc/:studentid" component={Studentdocs} />
       <Route exact path= "/resources" component={ResourceLevels} />

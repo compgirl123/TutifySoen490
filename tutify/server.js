@@ -12,6 +12,7 @@ const API_PORT = 8080;
 const app = express();
 const path = require("path");
 app.use(cors({credentials: true, origin: true}));
+var uploadController = require('./backend/controllers/uploaded_files.controller')
 
 // this is our MongoDB database
 const dbRoute =
@@ -73,9 +74,11 @@ app.use(session({secret:"sdshkgjdhgkhgkjsd322k3j4nkjkjhb3", resave:false, saveUn
 app.use('/api', router);
 app.use('/public', express.static('public'));
 
+// uploading files routes
+app.post('/uploadFile', upload.single('file'), uploadController.addUploadedFiles);
+
 // file upload requirements
 app.use(express.json());
-
 app.use(express.static(path.join(__dirname, "./build")));
 app.set("view engine", "ejs");
 
@@ -85,4 +88,3 @@ app.get("/*", (req, res) => {
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
-
