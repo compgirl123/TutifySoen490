@@ -22,12 +22,6 @@ const dbRoute =
 mongoose.connect(dbRoute, { useNewUrlParser: true, useUnifiedTopology: true });
 // connection
 let db = mongoose.connection;
-
-// // connection with file databaseconst 
-// conn = mongoose.createConnection(filesRoute, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true
-// });
 let gfs;
 const conn = db.once('open', () => {
    // init stream
