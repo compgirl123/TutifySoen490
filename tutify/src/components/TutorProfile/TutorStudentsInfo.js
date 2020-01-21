@@ -28,7 +28,7 @@ class TutorStudentsInfo extends React.Component {
   }
 
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession', {
+    fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
     })
@@ -48,7 +48,7 @@ class TutorStudentsInfo extends React.Component {
   };
 
   FindStudents = () => {
-    axios.post('http://localhost:3001/api/findStudents', {
+    axios.post('/api/findStudents', {
       students: this.state.students
     })
       .then((res) => {

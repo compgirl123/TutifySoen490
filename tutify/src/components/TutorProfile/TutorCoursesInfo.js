@@ -40,7 +40,7 @@ export class TutorCoursesInfo extends React.Component {
   handleChangeValue = e => this.setState({ value: e.target.value });
 
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession', {
+    fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
     })
@@ -78,7 +78,7 @@ export class TutorCoursesInfo extends React.Component {
       }
     }
 
-    axios.post('http://localhost:3001/api/updateTutor', {
+    axios.post('/api/updateTutor', {
       _id: this.state._id,
       subjects: coursesToAdd
     })

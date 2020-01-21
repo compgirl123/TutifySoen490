@@ -188,7 +188,7 @@ export class SignUp extends React.Component {
   }
 
   getDataFromDb = () => {
-    fetch('http://localhost:3001/api/getUser')
+    fetch('/api/getUser')
       .then((data) => data.json())
       .then((res) => this.setState({ data: res.data }));
   };
@@ -211,7 +211,7 @@ export class SignUp extends React.Component {
       education_level: education_level
     });
 
-    axios.post('http://localhost:3001/api/putUser', {
+    axios.post('/api/putUser', {
       id: idToBeAdded,
       first_name: first_name,
       last_name: last_name,

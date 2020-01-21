@@ -55,7 +55,7 @@ export class NavBar extends Component {
   }
 
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession')
+    fetch('/api/checkSession')
       .then(response => response.json())
       .then(res => {
         if (res.isLoggedIn) {
@@ -69,7 +69,7 @@ export class NavBar extends Component {
   };
 
   handleChange(event) {
-    fetch('http://localhost:3001/api/logout')
+    fetch('/api/logout')
     this.setState({ Toggle: false });
   };
 

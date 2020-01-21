@@ -20,7 +20,7 @@ export class TutorSidebar extends Component {
   }
 
   handleChange(event) {
-    fetch('http://localhost:3001/api/logout', {
+    fetch('/api/logout', {
       method: 'GET',
       credentials: 'include'
     })
@@ -66,7 +66,7 @@ export class TutorSidebar extends Component {
               <ListItemText primary="My Courses" />
             </ListItem>
 
-            <ListItem button component="a" href="/Announcements">
+            <ListItem button component="a" href="/announcements">
               <ListItemIcon>
                 <CreateIcon />
               </ListItemIcon>

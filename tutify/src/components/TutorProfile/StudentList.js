@@ -26,25 +26,25 @@ export class StudentList extends React.Component {
     this.state = {
       drawerOpened: false,
       students: [],
-      shareTo:[],
+      shareTo: [],
       fileid: ""
     };
   }
 
   componentDidMount() {
     this.checkSession();
-    this.setState({fileid: this.props.match.params.file });
+    this.setState({ fileid: this.props.match.params.file });
   }
 
   // Handling the checkbox management in order to select one or many options.
   handleCheckbox = async (event) => {
-    if(event.target.checked){
+    if (event.target.checked) {
       let list = this.state.shareTo;
       list.push(event.target.name);
-      await this.setState({shareTo: list});
-    }else{
+      await this.setState({ shareTo: list });
+    } else {
       let filteredArray = this.state.shareTo.filter(item => item !== event.target.name);
-      await this.setState({shareTo: filteredArray});
+      await this.setState({ shareTo: filteredArray });
     }
   }
 
@@ -70,28 +70,28 @@ export class StudentList extends React.Component {
   };
 
   // Function that handles how the Share Document button is displayed on the page.
-  handleShareDocButton = (tableTitle=false, bottomButton=false) => {
-    if(!tableTitle){
-      if (this.props.match.params.file=== undefined){
-        return  <TableCell><Button type="button" onClick={() => window.open("/doclist")} variant="contained" size="small" className="submit">Share Document</Button></TableCell>;
+  handleShareDocButton = (tableTitle = false, bottomButton = false) => {
+    if (!tableTitle) {
+      if (this.props.match.params.file === undefined) {
+        return <TableCell><Button type="button" onClick={() => window.open("/doclist")} variant="contained" size="small" className="submit">Share Document</Button></TableCell>;
       }
-      if (bottomButton){
-        return <Button type="button" style={{"left": "80%","top":"10px"}} onClick={event => this.uploadCourse(event, this.state.shareTo)} variant="contained" size="small" className="submit">
-        Share Document
+      if (bottomButton) {
+        return <Button type="button" style={{ "left": "80%", "top": "10px" }} onClick={event => this.uploadCourse(event, this.state.shareTo)} variant="contained" size="small" className="submit">
+          Share Document
       </Button>;
       }
     }
   }
 
-   // Function that handles how the View Document button is displayed on the page.
-  handleViewDocButton = (stuid,tableTitle=false, bottomButton=false) => {
-    if(!tableTitle){
-      if (this.props.match.params.file=== undefined){
-        return  <TableCell><Button type="button" onClick={() => window.open("/doc/"+stuid)} variant="contained" size="small" className="submit">View Documents</Button></TableCell>;
+  // Function that handles how the View Document button is displayed on the page.
+  handleViewDocButton = (stuid, tableTitle = false, bottomButton = false) => {
+    if (!tableTitle) {
+      if (this.props.match.params.file === undefined) {
+        return <TableCell><Button type="button" onClick={() => window.open("/doc/" + stuid)} variant="contained" size="small" className="submit">View Documents</Button></TableCell>;
       }
-      if (bottomButton){
-        return <Button type="button" style={{"left": "80%","top":"10px"}} onClick={event => this.uploadCourse(event, this.state.shareTo)} variant="contained" size="small" className="submit">
-        Share Document
+      if (bottomButton) {
+        return <Button type="button" style={{ "left": "80%", "top": "10px" }} onClick={event => this.uploadCourse(event, this.state.shareTo)} variant="contained" size="small" className="submit">
+          Share Document
       </Button>;
       }
     }
@@ -112,12 +112,12 @@ export class StudentList extends React.Component {
   // Getting the student information from database
   uploadCourse = (e, ids) => {
     for (const studentid in ids) {
-      axios.post("http://localhost:3001/api/students/"+this.state.fileid, {
+      axios.post("/api/students/" + this.state.fileid, {
         id_student: ids[studentid],
         file_name: this.props.match.params.file
       });
     }
-    
+
     swal("Succesfully shared document to Student(s)!", "", "success");
   }
 
@@ -165,8 +165,8 @@ export class StudentList extends React.Component {
                               :
                               <TableCell>View Doc</TableCell>
                             }
-                              <TableCell></TableCell>
-                            
+                            <TableCell></TableCell>
+
                             {this.handleShareDocButton(true)}
 
                           </TableRow>
@@ -193,7 +193,7 @@ export class StudentList extends React.Component {
                         </TableBody>
                       </Table>
                       <div >
-                      {this.handleShareDocButton(false, true)}
+                        {this.handleShareDocButton(false, true)}
                       </div>
                     </React.Fragment>
                   </Paper>

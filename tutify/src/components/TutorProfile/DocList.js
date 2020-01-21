@@ -29,7 +29,7 @@ export class DocList extends React.Component {
     super(props);
     this.state = {
       files: [],
-      shareTo:[]
+      shareTo: []
     };
     this.loadFiles = this.loadFiles.bind(this);
   }
@@ -54,38 +54,39 @@ export class DocList extends React.Component {
   }
 
   // tutor deletes a documents from files list
-  getSelectedFiletoDelete(event,encrypted_file_name) {
+  getSelectedFiletoDelete(event, encrypted_file_name) {
     swal({
       title: "Are you sure you want delete this document?",
       icon: "warning",
       buttons: [true, "Yes"],
       dangerMode: true,
     })
-    .then((willDelete) => {
-      if(willDelete !== null){
-        swal("File Deleted", "", "success")
-      axios.post('/api/getFileToDelete', {
-        file_id: encrypted_file_name
-    }
-    ).then((res) => {})
-      .catch(err => console.log(err));
-      window.location.reload();}
-  });
+      .then((willDelete) => {
+        if (willDelete !== null) {
+          swal("File Deleted", "", "success")
+          axios.post('/api/getFileToDelete', {
+            file_id: encrypted_file_name
+          }
+          ).then((res) => { })
+            .catch(err => console.log(err));
+          window.location.reload();
+        }
+      });
   }
-  
+
   // Handling the checkbox management in order to select one or many options.
   handleCheckbox = async (event) => {
-    if(event.target.checked){
+    if (event.target.checked) {
       let list = this.state.shareTo;
       list.push(event.target.name);
-      await this.setState({shareTo: list});
-      
-    }else{
+      await this.setState({ shareTo: list });
+
+    } else {
       let filteredArray = this.state.shareTo.filter(item => item !== event.target.name);
-      await this.setState({shareTo: filteredArray});
+      await this.setState({ shareTo: filteredArray });
     }
   }
-  
+
   // handling the deletion of the document(s).
   deleteFiles = (e, ids) => {
     swal({
@@ -94,16 +95,17 @@ export class DocList extends React.Component {
       buttons: [true, "Yes"],
       dangerMode: true,
     })
-    .then((willDelete) => {
-      if(willDelete !== null){
-        swal("File Deleted", "", "success")
-      axios.post('/api/getSpecificCourseFilestoDelete', {
-        file_id: ids
-    }
-    ).then((res) => {})
-      .catch(err => console.log(err));
-      window.location.reload();}
-  });
+      .then((willDelete) => {
+        if (willDelete !== null) {
+          swal("File Deleted", "", "success")
+          axios.post('/api/getSpecificCourseFilestoDelete', {
+            file_id: ids
+          }
+          ).then((res) => { })
+            .catch(err => console.log(err));
+          window.location.reload();
+        }
+      });
   }
 
   render() {
@@ -152,9 +154,9 @@ export class DocList extends React.Component {
                                 <TableCell><a href={url}>{filename}</a></TableCell>
                                 <TableCell>{uploadDate}</TableCell>
 
-                                <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" className={classes.courseButton} onClick={() => window.open("http://localhost:3000/tutorCourses/" + encrypted_file_name)} id={file._id}><MenuBookIcon fontSize="small"style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
-                                <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small"  className={classes.courseButton} onClick={() => window.open("http://localhost:3000/students/" + encrypted_file_name)}  id={file._id}><GroupAddIcon fontSize="small"style={{ width: '22px', height: '22px' }} /></Fab></TableCell>
-                                <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small"  className={classes.courseButton} onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon fontSize="small"style={{ width: '22px', height: '22px' }} /></Fab ></TableCell>
+                                <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" className={classes.courseButton} onClick={() => window.open("http://localhost:3000/tutorCourses/" + encrypted_file_name)} id={file._id}><MenuBookIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
+                                <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={classes.courseButton} onClick={() => window.open("http://localhost:3000/students/" + encrypted_file_name)} id={file._id}><GroupAddIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab></TableCell>
+                                <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={classes.courseButton} onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab ></TableCell>
                                 <TableCell align="center">
                                   <Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} />
                                 </TableCell>
@@ -162,10 +164,10 @@ export class DocList extends React.Component {
                             )
                           })}
                           {this.state.files.length !== 0
-                          ? 
-                          <TableCell><Button type="button" onClick={event => this.getSelectedFiletoDelete(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Documents</Button></TableCell>
-                          :
-                          <br/>
+                            ?
+                            <TableCell><Button type="button" onClick={event => this.getSelectedFiletoDelete(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Documents</Button></TableCell>
+                            :
+                            <br />
                           }
                         </TableBody>
                       </Table>

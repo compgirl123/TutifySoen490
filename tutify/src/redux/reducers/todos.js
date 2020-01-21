@@ -25,7 +25,7 @@ const todos = (state = [], action) => {
     case 'SET_TODO':
       return action.todos
     case 'SAVE_TODO':
-      axios.post('http://localhost:3001/api/updateUserTodos', {
+      axios.post('/api/updateUserTodos', {
         _id: action.id,
         todos: state,
       }).catch(err => console.log(err));

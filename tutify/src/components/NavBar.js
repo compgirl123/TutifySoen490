@@ -44,7 +44,7 @@ export class NavBar extends Component {
   }
 
   checkSession = () => {
-    fetch('http://localhost:3001/api/checkSession', {
+    fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
     })
@@ -64,7 +64,7 @@ export class NavBar extends Component {
   };
 
   handleChange(event) {
-    fetch('http://localhost:3001/api/logout', {
+    fetch('/api/logout', {
       method: 'GET',
       credentials: 'include'
     })

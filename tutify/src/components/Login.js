@@ -29,7 +29,7 @@ export class Login extends React.Component {
   }
 
   getDataFromDb = () => {
-    fetch('http://localhost:3001/api/getUser')
+    fetch('/api/getUser')
       .then((data) => data.json())
       .then((res) => this.setState({ data: res.data }));
   };
@@ -37,7 +37,7 @@ export class Login extends React.Component {
   //Authenticates User when submit button is pressed
   handleSubmit(event) {
     event.preventDefault();
-    fetch('http://localhost:3001/api/authUser', {
+    fetch('/api/authUser', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
