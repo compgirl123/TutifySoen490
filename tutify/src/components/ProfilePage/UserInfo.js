@@ -68,21 +68,6 @@ export class UserInfo extends React.Component {
     this.checkSession();
   }
 
-<<<<<<< HEAD
-  handleChange(event) {
-    fetch('/api/logout', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then(res => {
-        this.setState({ Toggle: false });
-      })
-      .catch(err => console.log(err));
-  };
-
-=======
->>>>>>> #143 refactoring profile page and components
   handleChangeValue = e => this.setState({ value: e.target.value });
 
   checkSession = () => {
@@ -113,33 +98,6 @@ export class UserInfo extends React.Component {
     await this.setState({
       courses: value
     });
-<<<<<<< HEAD
-  }
-
-  updateDB = () => {
-    var coursesToAdd = [];
-    var test = this.state.subjects;
-
-    for (var z = 0; z < this.state.courses.length; z++) {
-      var course_found = test.includes(this.state.courses[z]);
-      if (course_found === false) {
-        coursesToAdd.push(this.state.courses[z])
-      }
-    }
-    axios.post('/api/updateTutor', {
-      _id: this.state._id,
-      subjects: coursesToAdd
-    })
-      .then((res) => {
-        this.setState({
-          subjects: res.data.newSubjects
-        });
-        swal("Information successfully updated!", "", "success")
-      }, (error) => {
-        console.log(error);
-      });
-=======
->>>>>>> #143 refactoring profile page and components
   };
 
   updateTutorOptions = () => {
@@ -170,12 +128,8 @@ export class UserInfo extends React.Component {
         }
       }
     }
-<<<<<<< HEAD
-    axios.post('/api/updateTutorInfo', {
-=======
 
-    axios.post('http://localhost:3001/api/updateTutorInfo', {
->>>>>>> #143 refactoring profile page and components
+    axios.post('/api/updateTutorInfo', {
       _id: this.state._id,
       program_of_study: updatedProfileValues[0],
       school: updatedProfileValues[1],
