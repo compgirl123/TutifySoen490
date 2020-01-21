@@ -54,7 +54,7 @@ export class Login extends React.Component {
             window.location = "dashboard";
           }
           else if (res.userInfo.__t === 'tutor') {
-            window.location = "tutor";
+            window.location = "profile";
           }
         }
         else {
@@ -114,7 +114,7 @@ export class Login extends React.Component {
 
                 <Grid item xs={6} >
                   <Button
-                    name= "submit"
+                    name="submit"
                     type="submit"
                     style={{ width: 350 }}
                     variant="contained"
