@@ -45,16 +45,6 @@ class UserTutorsInfo extends React.Component {
                   </TableCell>
                   <TableCell></TableCell> 
                   <TableCell></TableCell> 
-                  <TableCell>
-                    <Fab
-                      variant="extended"
-                      aria-label="add"
-                      className={classes.tutorButton}
-                    >
-                    <MessageIcon fontSize="small" style={{ width: '15px', height: '15px' }} />   &nbsp;
-                      Message
-                    </Fab>
-                  </TableCell>
                   </TableRow>
               ))}       
             </TableBody>

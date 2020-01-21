@@ -38,7 +38,7 @@ class UserCoursesInfo extends React.Component {
 
               {courses.map((c) => (
                 <TableRow >
-                  <TableCell padding="none" >
+                  <TableCell padding="none">
                     <Avatar className={classes.avatar} style={{ width: '15px', height: '15px' }}></Avatar>
                   </TableCell>
                   <TableCell style={{ fontSize: '12pt' }} scope="row">
@@ -46,14 +46,15 @@ class UserCoursesInfo extends React.Component {
                   </TableCell>
                   <TableCell></TableCell> 
                   <TableCell></TableCell>
-                  <TableCell>
+
+                </TableRow>
+              ))}
+
+                <br/>
                     <Fab variant="extended" aria-label="add" fontSize="small" className={classes.courseButton}>
                       <CloudUploadIcon fontSize="small" style={{ width: '15px', height: '15px' }} />
                       &nbsp; View Documents
                     </Fab>
-                  </TableCell>
-                </TableRow>
-              ))}
             </TableBody>
           </Table>
           <br />
