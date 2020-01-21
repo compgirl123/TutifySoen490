@@ -88,7 +88,7 @@ class TutorStudentsInfo extends React.Component {
                     <Avatar className={classes.avatar} style={{ width: '15px', height: '15px' }}></Avatar>
 
                   </TableCell>
-                  <TableCell style={{ fontSize: '12pt' }} >
+                  <TableCell style={{ fontSize: '12pt' }}>
                     {student.first_name} {" "}
                     {student.last_name}
 
@@ -99,7 +99,10 @@ class TutorStudentsInfo extends React.Component {
                  ))}
 
                 <br />
-                <Fab
+            
+            </TableBody>
+          </Table>
+          <Fab
                       variant="extended"
                       aria-label="add"
                       href="/Announcements"
@@ -108,9 +111,6 @@ class TutorStudentsInfo extends React.Component {
                       <MessageIcon fontSize="small" style={{ width: '15px', height: '15px' }} />   &nbsp;
                       Message
                 </Fab>
-            
-            </TableBody>
-          </Table>
         </CardContent>
 
       </Card>

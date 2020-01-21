@@ -26,6 +26,7 @@ class UserCoursesInfo extends React.Component {
               My Courses
              </Box>
           </Typography>
+
           <Table size="medium">
             <TableBody>
               <TableCell>
@@ -41,22 +42,21 @@ class UserCoursesInfo extends React.Component {
                   <TableCell padding="none">
                     <Avatar className={classes.avatar} style={{ width: '15px', height: '15px' }}></Avatar>
                   </TableCell>
-                  <TableCell style={{ fontSize: '12pt' }} scope="row">
+                  <TableCell style={{ fontSize: '12pt' }}>
                   {c.course.name}
                   </TableCell>
                   <TableCell></TableCell> 
                   <TableCell></TableCell>
-
                 </TableRow>
+                
               ))}
-
-                <br/>
-                    <Fab variant="extended" aria-label="add" fontSize="small" className={classes.courseButton}>
+            </TableBody>
+          </Table>
+          <br/>
+                    <Fab variant="extended" href="/courses" aria-label="add" fontSize="small" className={classes.courseButton}>
                       <CloudUploadIcon fontSize="small" style={{ width: '15px', height: '15px' }} />
                       &nbsp; View Documents
                     </Fab>
-            </TableBody>
-          </Table>
           <br />
         </CardContent>
       </Card>
