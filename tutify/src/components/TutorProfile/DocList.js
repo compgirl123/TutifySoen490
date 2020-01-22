@@ -53,6 +53,21 @@ export class DocList extends React.Component {
       .catch(err => console.log(err));
   }
 
+
+
+  presentableName(name){
+    return  name.substring(0, name.lastIndexOf("."));
+  }
+
+  presentableExtension(name){
+    return name.substring(name.lastIndexOf(".") + 1);
+  }
+
+  presentableUploadTime(time){
+    var date = time.substring(0,9);
+    var hour = time.substring(11,16);
+    return date+" at "+hour;
+  }
   // tutor deletes a documents from files list
   getSelectedFiletoDelete(event, encrypted_file_name) {
     swal({
@@ -133,9 +148,10 @@ export class DocList extends React.Component {
                         <TableHead>
                           <TableRow>
                             <TableCell>Name</TableCell>
-                            <TableCell>Creation Date</TableCell>
-                            <TableCell>Share to Specific Course</TableCell>
-                            <TableCell>Share to Specific Student</TableCell>
+                            <TableCell>Extension</TableCell>
+                            <TableCell>Uploaded on</TableCell>
+                            <TableCell>Share to <br/>Specific Course</TableCell>
+                            <TableCell>Share to <br/>Specific Student</TableCell>
                             <TableCell>Download</TableCell>
                             <TableCell>Select File(s) to Delete</TableCell>
                           </TableRow>
@@ -152,14 +168,12 @@ export class DocList extends React.Component {
                             return (
                               <TableRow key={index}>
                                 <TableCell><a href={url}>{filename}</a></TableCell>
-                                <TableCell>{uploadDate}</TableCell>
-
+                                <TableCell>{this.presentableExtension(filename)}</TableCell>
+                                <TableCell>{this.presentableUploadTime(uploadDate)}</TableCell>
                                 <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" className={classes.courseButton} onClick={() => window.open("/tutorCourses/" + encrypted_file_name)} id={file._id}><MenuBookIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
                                 <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={classes.courseButton} onClick={() => window.open("/students/" + encrypted_file_name)} id={file._id}><GroupAddIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab></TableCell>
                                 <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={classes.courseButton} onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab ></TableCell>
-                                <TableCell align="center">
-                                  <Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} />
-                                </TableCell>
+                                <TableCell align="center"><Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></TableCell>
                               </TableRow>
                             )
                           })}
