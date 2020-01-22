@@ -60,7 +60,8 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
   ],
   sharedToStudents:
     [
-      { type: String, required: true }
+      //{ type: String, required: true }
+      { type: Schema.Types.ObjectId, ref: 'UploadedFiles' }
     ],
   events: [
     {
@@ -168,10 +169,11 @@ var Course = mongoose.model('Course', new Schema({
   students: [
     { type: Schema.Types.ObjectId, ref: 'Student' }
   ],
-  sharedToCourses: [{
+  sharedToCourses: [/*{
     type: String,
     required: true
-  }]
+  }*/
+  { type: Schema.Types.ObjectId, ref: 'UploadedFiles' }]
 }), "courses");
 
 
@@ -230,15 +232,17 @@ var UploadedFiles = mongoose.model('UploadedFiles', new mongoose.Schema({
   uploadedDocs: [
     { type: Schema.Types.ObjectId, ref: 'Mfiles' }
   ],
-  sharedToStudents: [{
+  sharedToStudents: [/*{
     type: String,
     required: true
-  }
+  }*/
+  { type: Schema.Types.ObjectId, ref: 'Profile' }
   ],
-  sharedToCourses: [{
+  sharedToCourses: [/*{
     type: String,
     required: true
-  }
+  }*/
+  { type: Schema.Types.ObjectId, ref: 'Course' }
   ],
   uploadDate: Date
 }), "uploaded_files");

@@ -98,24 +98,18 @@ export class ViewCourse extends React.Component {
       .then(res => res.json())
       .then(res => {
         // if the specific course exists, run this if statment.
-        if (res.file !== undefined) {
-          var courseId = this.props.match.params.coursename;
-          var courseName = "";
+        var courseId = this.props.match.params.coursename;
+        var courseName = "";
+        if (res.file.length !== 0) {
           // if files exist for the specific course, run this if statment.
-          console.log(res.file[0]);
-          if (res.file[0] !== undefined) {
+          if (res.file[0].sharedToCourses !== undefined) {
             res.file[0].sharedToCourses.forEach(function (err, studentIndex) {
               // get course Name for the course currently being viewed.
-              console.log(res.file[0].sharedToCourses[studentIndex]);
-              /*if (courseId === res.file[0].sharedToCourses[studentIndex]) {
+              if (courseId === res.file[0].sharedToCourses[studentIndex]._id) {
                 courseName = res.file[0].sharedToCourses[studentIndex].name;
-              }*/
+              }
             });
           }
-          else {
-            courseName = "No Documents Uploaded";
-          }
-
           if (this.state.shouldView) {
             this.setState({ files: res.file, course_selected: courseName });
           }
@@ -124,7 +118,8 @@ export class ViewCourse extends React.Component {
           }
         }
         else {
-          this.setState({ files: [] });
+          courseName = "No Documents Uploaded";
+          this.setState({ files: [], course_selected: courseName });
         }
       }
 
