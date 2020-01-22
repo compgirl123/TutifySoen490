@@ -66,13 +66,11 @@ class TutorStudentsInfo extends React.Component {
     return (
       <Card className={classes.card} >
         <CardContent>
-
-          <Typography component="p" variant="h5" >
+          <Typography component="p" variant="h6" >
             <Box fontWeight="fontWeightBold">
               My Students
             </Box>
           </Typography>
-
           <Table size="small">
             <TableBody>
               <TableCell>
@@ -88,27 +86,29 @@ class TutorStudentsInfo extends React.Component {
                     <Avatar className={classes.avatar} style={{ width: '15px', height: '15px' }}></Avatar>
 
                   </TableCell>
-                  <TableCell style={{ fontSize: '12pt' }} >
+                  <TableCell style={{ fontSize: '12pt' }}>
                     {student.first_name} {" "}
                     {student.last_name}
 
                   </TableCell> <TableCell>
                   </TableCell><TableCell>
                   </TableCell>
-                  <TableCell>
-                    <Fab
-                      variant="extended"
-                      aria-label="add"
-                      className={classes.margin} style={{ maxHeight: '25px' }} labelStyle={{ fontSize: '6px' }}
-                    >
-                      <MessageIcon fontSize="small" style={{ width: '15px', height: '15px' }} />   &nbsp;
-                      Message
-                    </Fab>
-                  </TableCell>
                 </TableRow>
-              ))}
+                 ))}
+
+                <br />
+            
             </TableBody>
           </Table>
+          <Fab
+              variant="extended"
+              aria-label="add"
+              href="/announcements"
+              className={classes.margin} style={{ maxHeight: '25px' }} labelStyle={{ fontSize: '6px' }}
+            >
+              <MessageIcon fontSize="small" style={{ width: '15px', height: '15px' }} />   &nbsp;
+              Message
+                </Fab>
         </CardContent>
 
       </Card>

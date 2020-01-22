@@ -100,8 +100,16 @@ router.post('/students/:file', uploadedFilesController.assignCourseStudent);
 
 router.get('/doc', uploadedFilesController.viewDocs);
 
-router.get('/viewTutorCourse/:coursename', uploadedFilesController.viewCourseDocs);
-
 router.get('/viewCourse/:coursename', uploadedFilesController.viewCourseDocs);
+
+router.get('/doc/:studentid',uploadedFilesController.viewSpecificStudentFiles);
+
+// -------- DELETE ROUTES --------- // 
+
+router.post('/getFileToDelete', uploadedFilesController.deleteFiles);
+
+router.post('/getSpecificStudentsFilestoDelete', uploadedFilesController.deleteSpecificStudentsFiles);
+
+router.post('/getSpecificCourseFilestoDelete', uploadedFilesController.deleteSpecificCourseFiles);
 
 module.exports = router;

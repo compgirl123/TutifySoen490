@@ -33,7 +33,7 @@ class Documents extends React.Component {
                             <TableCell>Practice Problems</TableCell>
                             <TableCell>Nov 16, 2019</TableCell>
                             <TableCell><Button type="button"size="small" className="submit">
-                            View Document
+                            View Documents
                             </Button></TableCell>
                         <TableCell><GetAppIcon/></TableCell>
                         </TableRow>

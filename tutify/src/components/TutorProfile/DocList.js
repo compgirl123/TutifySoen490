@@ -15,45 +15,30 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import axios from 'axios';
-import Button from "@material-ui/core/Button";
 import GetAppIcon from '@material-ui/icons/GetApp';
-import DeleteIcon from '@material-ui/icons/Delete';
 import swal from 'sweetalert';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
+import Fab from "@material-ui/core/Fab";
+import Checkbox from '@material-ui/core/Checkbox';
+import Button from "@material-ui/core/Button";
 
-// displaying all of the documents uploaded by the tutor.
-class DocList extends React.Component {
+// Displaying all of the documents uploaded by the tutor on Tutor "All Documents" Tab.
+export class DocList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      drawerOpened: false,
-      students: [],
       files: [],
-      data: [],
-      filteredData: [],
-      placeholder: '',
-      showDropDown: false,
-      selectedIndex: 0,
-      user_id: null,
-      open: false
+      shareTo: []
     };
     this.loadFiles = this.loadFiles.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-
   }
 
-  openDialog() {
-    this.setState({ open: true });
-    this.deleteListItem = this.deleteListItem.bind(this);
+  componentDidMount() {
+    this.loadFiles();
   }
 
-  toggleDrawer = booleanValue => () => {
-    this.setState({
-      drawerOpened: booleanValue
-    });
-  };
-
+  // Loading all tutor files from database in order to display them neatly on the All Documents Page.
   async loadFiles() {
     fetch('/api/uploadFile')
       .then(res => res.json())
@@ -68,81 +53,8 @@ class DocList extends React.Component {
       .catch(err => console.log(err));
   }
 
-  componentDidMount() {
-    this.checkSession();
-    this.loadFiles();
-  }
-  checkSession = () => {
-    fetch('/api/checkSession', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then(res => {
-        if (res.isLoggedIn) {
-          this.setState({ user_id: res.userInfo._id });
-          this.findCourses();
-        }
-        else {
-          this.setState({ user_id: "Not logged in" });
-        }
-      })
-      .catch(err => console.log(err));
-  };
-
-  checkSession = () => {
-    fetch('/api/checkSession', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then((res) => {
-        if (res.isLoggedIn) {
-          this.setState({
-            students: res.userInfo.students
-          })
-
-        }
-        else {
-          this.setState({ Toggle: false });
-        }
-      })
-      .catch(err => console.log(err));
-  };
-
-  FindStudents = () => {
-    axios.post('/api/findStudents', {
-      students: this.state.students
-    })
-      .then((res) => {
-        this.setState({ students: res.data.data });
-      }, (error) => {
-        console.log(error);
-      })
-  };
-
-
-  async fileChanged(event) {
-    const f = event.target.files[0];
-    await this.setState({
-      file: f
-    });
-  }
-
-  deleteFile(event) {
-    event.preventDefault();
-    const id = event.target.id;
-
-    fetch('/api/files/' + id, {
-      method: 'DELETE'
-    }).then(res => res.json())
-      .then(response => {
-        if (response.success) this.loadFiles()
-        else alert('Delete Failed');
-      })
-  }
-
-  deleteListItem = () => {
+  // tutor deletes a documents from files list
+  getSelectedFiletoDelete(event, encrypted_file_name) {
     swal({
       title: "Are you sure you want delete this document?",
       icon: "warning",
@@ -150,82 +62,50 @@ class DocList extends React.Component {
       dangerMode: true,
     })
       .then((willDelete) => {
-        if (willDelete) {
-          fetch('/api/deleteUploadedFiles')
-            .then(res => res.json())
-            .then(res => {
-            })
+        if (willDelete !== null) {
+          swal("File Deleted", "", "success")
+          axios.post('/api/getFileToDelete', {
+            file_id: encrypted_file_name
+          }
+          ).then((res) => { })
             .catch(err => console.log(err));
+          window.location.reload();
         }
       });
-  };
-
-  updateTutorOptions = () => {
-    var updatedProfileValues = [
-      this.state.updatedProgramOfStudy,
-      this.state.updatedSchool,
-      this.state.updatedFirstName,
-      this.state.updatedLastName
-    ];
-
-    for (var y = 0; y < updatedProfileValues.length; y++) {
-      if (updatedProfileValues[y] === "") {
-        if (y === 0) {
-          updatedProfileValues[y] = this.state.program_of_study;
-        }
-        else if (y === 1) {
-          updatedProfileValues[y] = this.state.school;
-        }
-        else if (y === 2) {
-          updatedProfileValues[y] = this.state.first_name;
-        }
-        else if (y === 3) {
-          updatedProfileValues[y] = this.state.last_name;
-        }
-      }
-    }
-    axios.post('/api/updateTutorInfo', {
-      _id: this.state._id,
-      program_of_study: updatedProfileValues[0],
-      school: updatedProfileValues[1],
-      first_name: updatedProfileValues[2],
-      last_name: updatedProfileValues[3]
-    })
-      .then((res) => {
-        this.setState({
-          first_name: res.data.userInfo.first_name, last_name: res.data.userInfo.last_name,
-          school: res.data.userInfo.school, program_of_study: res.data.userInfo.program_of_study,
-        });
-      }, (error) => {
-        console.log(error);
-      });
-  };
-
-  async handleSubmit(event) {
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append('file', this.state.file);
-    formData.append('adminTutor', this.state.user_id);
-    formData.append('name', this.state.file.name);
-    axios.post("/api/testUpload", formData).then(res => {
-    }).catch(err => {
-      console.log(err);
-    });
-
   }
 
-  getCourses = () => {
-    fetch('/api/getTutorCourses', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then(res => {
-        this.setState({ courses: res.data });
-        this.getStudents();
-      })
-      .catch(err => console.log(err));
+  // Handling the checkbox management in order to select one or many options.
+  handleCheckbox = async (event) => {
+    if (event.target.checked) {
+      let list = this.state.shareTo;
+      list.push(event.target.name);
+      await this.setState({ shareTo: list });
 
+    } else {
+      let filteredArray = this.state.shareTo.filter(item => item !== event.target.name);
+      await this.setState({ shareTo: filteredArray });
+    }
+  }
+
+  // handling the deletion of the document(s).
+  deleteFiles = (e, ids) => {
+    swal({
+      title: "Are you sure you want delete this document?",
+      icon: "warning",
+      buttons: [true, "Yes"],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete !== null) {
+          swal("File Deleted", "", "success")
+          axios.post('/api/getSpecificCourseFilestoDelete', {
+            file_id: ids
+          }
+          ).then((res) => { })
+            .catch(err => console.log(err));
+          window.location.reload();
+        }
+      });
   }
 
   render() {
@@ -238,14 +118,12 @@ class DocList extends React.Component {
         <main>
           <TutorDashBoardNavBar />
           <main className={classes.content}>
-
             <div className={classes.appBarSpacer} />
             <Container maxWidth="lg" className={classes.container}>
               <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                 List of Documents
               </Typography>
               <Grid container spacing={2}>
-
                 {/* Student Info */}
                 <Grid item xs={12} md={12} lg={24}>
                   <Paper className={fixedHeightPaper}>
@@ -259,9 +137,11 @@ class DocList extends React.Component {
                             <TableCell>Share to Specific Course</TableCell>
                             <TableCell>Share to Specific Student</TableCell>
                             <TableCell>Download</TableCell>
-                            <TableCell>Remove File</TableCell>
+                            <TableCell>Select File(s) to Delete</TableCell>
                           </TableRow>
                         </TableHead>
+
+
                         <TableBody>
                           {files.map((file, index) => {
                             var filename = file.name;
@@ -271,15 +151,24 @@ class DocList extends React.Component {
                             var uploadDate = file.uploadDate
                             return (
                               <TableRow key={index}>
-                                <td><a href={url}>{filename}</a></td>
-                                <td>{uploadDate}</td>
-                                <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("/tutorCourses/" + encrypted_file_name)} id={file._id}><MenuBookIcon /></Button></td>
-                                <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open("/students/" + encrypted_file_name)}  id={file._id}><GroupAddIcon /></Button></td>
-                                <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
-                                <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={e => this.deleteListItem()} ><DeleteIcon /></Button></td>
+                                <TableCell><a href={url}>{filename}</a></TableCell>
+                                <TableCell>{uploadDate}</TableCell>
+
+                                <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" className={classes.courseButton} onClick={() => window.open("/tutorCourses/" + encrypted_file_name)} id={file._id}><MenuBookIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
+                                <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={classes.courseButton} onClick={() => window.open("/students/" + encrypted_file_name)} id={file._id}><GroupAddIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab></TableCell>
+                                <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={classes.courseButton} onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab ></TableCell>
+                                <TableCell align="center">
+                                  <Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} />
+                                </TableCell>
                               </TableRow>
                             )
                           })}
+                          {this.state.files.length !== 0
+                            ?
+                            <TableCell><Button type="button" onClick={event => this.getSelectedFiletoDelete(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Documents</Button></TableCell>
+                            :
+                            <br />
+                          }
                         </TableBody>
                       </Table>
                     </React.Fragment>
@@ -287,7 +176,6 @@ class DocList extends React.Component {
                 </Grid>
               </Grid>
             </Container>
-
             {/* Footer */}
             <Footer />
           </main>

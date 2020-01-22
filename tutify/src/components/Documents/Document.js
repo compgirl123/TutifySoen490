@@ -2,19 +2,6 @@ import React, { Component } from 'react';
 import * as tutifyStyle from '../../styles/UploadDocuments-styles';
 import { withStyles } from "@material-ui/core/styles";
 
-
-
-
-// function DisplayFile(props){
-//     if(props.type === "image/jpeg"){
-//         return <img src={props.data}/>
-//     }
-//     else{
-//         return <embed src={props.data}/>
-       
-//     }
-// }
-
 // Display a Ui for Tutors in order to be able to upload their documents
 export class Document extends Component {
 
@@ -131,7 +118,6 @@ export class Document extends Component {
   }
 
 
-
   render() {
     return (
       <React.Fragment>
@@ -148,4 +134,3 @@ export class Document extends Component {
 } // End of component
 
 export default withStyles(tutifyStyle.styles, { withTheme: true })(Document);
-

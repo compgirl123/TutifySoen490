@@ -12,6 +12,7 @@ const API_PORT = 3001;
 const app = express();
 const path = require("path");
 app.use(cors({credentials: true, origin: true}));
+var uploadController = require('./controllers/uploaded_files.controller')
 
 // this is our MongoDB database
 const dbRoute =
@@ -22,12 +23,6 @@ mongoose.connect(dbRoute, { useNewUrlParser: true, useUnifiedTopology: true });
 // connection
 
 let db = mongoose.connection;
-
-// // connection with file databaseconst 
-// conn = mongoose.createConnection(filesRoute, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true
-// });
 let gfs;
 const conn = db.once('open', () => {
    // init stream
@@ -74,9 +69,13 @@ app.use(session({secret:"sdshkgjdhgkhgkjsd322k3j4nkjkjhb3", resave:false, saveUn
 app.use('/api', router);
 app.use('/public', express.static('public'));
 
+// uploading files routes
+app.post('/uploadFile', upload.single('file'), uploadController.addUploadedFiles);
+
 // file upload requirements
 app.use(express.json());
 app.set("view engine", "ejs");
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
+
