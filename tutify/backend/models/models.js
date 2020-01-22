@@ -59,9 +59,9 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
     }
   ],
   sharedToStudents:
-  [
-    { type: String, required:true}
-  ],
+    [
+      { type: String, required: true }
+    ],
   events: [
     {
       type: Schema.Types.ObjectId,
@@ -237,7 +237,7 @@ var UploadedFiles = mongoose.model('UploadedFiles', new mongoose.Schema({
   ],
   sharedToCourses: [{
     type: String,
-    ref: 'Course'
+    required: true
   }
   ],
   uploadDate: Date
@@ -255,7 +255,7 @@ var Event = mongoose.model('Event', new Schema({
   students: [
     { type: Schema.Types.ObjectId, ref: 'Student' }
   ],
-  tutor:{ type: Schema.Types.ObjectId, ref: 'Tutor' },
+  tutor: { type: Schema.Types.ObjectId, ref: 'Tutor' },
   tutorName: { type: String },
 }), "events");
 

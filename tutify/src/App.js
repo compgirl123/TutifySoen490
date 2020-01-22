@@ -37,7 +37,7 @@ function MainPage() {
       <Route exact path= "/courses" component = {MyCourses}/>
       <Route exact path="/dashboard" component={UserDashboard} />
       <Route exact path= "/uploadingDocs" component = {UploadDocuments}/>
-      <Route exact path= "/Postblog" component={BlogPost} />
+      <Route exact path= "/postblog" component={BlogPost} />
       <Route exact path= "/doclist" component={DocList} />
       <Route exact path= "/viewCourse/:coursename" component={ViewCourse} />
       <Route exact path= "/document/:filename" component={Document} />
