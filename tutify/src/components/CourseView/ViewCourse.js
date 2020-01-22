@@ -21,7 +21,7 @@ import axios from 'axios';
 // View the Specific Course Page with all of the Course Details.
 // Students can view documents.
 // Tutors can view and delete documents.
-export class ViewTutorCourse extends React.Component {
+export class ViewCourse extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -102,12 +102,14 @@ export class ViewTutorCourse extends React.Component {
           var courseId = this.props.match.params.coursename;
           var courseName = "";
           // if files exist for the specific course, run this if statment.
+          console.log(res.file[0]);
           if (res.file[0] !== undefined) {
             res.file[0].sharedToCourses.forEach(function (err, studentIndex) {
               // get course Name for the course currently being viewed.
-              if (courseId === res.file[0].sharedToCourses[studentIndex]._id) {
+              console.log(res.file[0].sharedToCourses[studentIndex]);
+              /*if (courseId === res.file[0].sharedToCourses[studentIndex]) {
                 courseName = res.file[0].sharedToCourses[studentIndex].name;
-              }
+              }*/
             });
           }
           else {
@@ -252,5 +254,5 @@ export class ViewTutorCourse extends React.Component {
   }
 }
 
-export default withStyles(CourseViewStyles.styles, { withTheme: true })(ViewTutorCourse);
+export default withStyles(CourseViewStyles.styles, { withTheme: true })(ViewCourse);
 

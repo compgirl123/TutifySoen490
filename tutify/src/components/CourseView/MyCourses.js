@@ -17,7 +17,7 @@ import swal from 'sweetalert';
 import axios from "axios";
 
 // View the General Course Page with all of the Courses the Tutor Teaches or Student is enrolled in.
-export class TutorCourses extends React.Component {
+export class MyCourses extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -111,7 +111,7 @@ export class TutorCourses extends React.Component {
               <div className={classes.appBarSpacer} />
               <Container maxWidth="lg" className={classes.container}>
                 <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                  Courses Currently Taught
+                  My Courses
                 </Typography>
                 <Grid container spacing={5}>
                   {courses.map((c, i) => (
@@ -159,4 +159,4 @@ export class TutorCourses extends React.Component {
     );
   }
 }
-export default withStyles(tutifyStyle.styles, { withTheme: true })(TutorCourses);
+export default withStyles(tutifyStyle.styles, { withTheme: true })(MyCourses);
