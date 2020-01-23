@@ -100,30 +100,6 @@ export class UserInfo extends React.Component {
     });
   };
 
-  updateDB = () => {
-    var coursesToAdd = [];
-    var test = this.state.subjects;
-
-    for (var z = 0; z < this.state.courses.length; z++) {
-      var course_found = test.includes(this.state.courses[z]);
-      if (course_found === false) {
-        coursesToAdd.push(this.state.courses[z])
-      }
-    }
-    axios.post('/api/updateTutor', {
-      _id: this.state._id,
-      subjects: coursesToAdd
-    })
-      .then((res) => {
-        this.setState({
-          subjects: res.data.newSubjects
-        });
-        swal("Information successfully updated!", "", "success")
-      }, (error) => {
-        console.log(error);
-      });
-  };
-
   updateTutorOptions = () => {
     var updatedProfileValues = [
       this.state.updatedProgramOfStudy,
