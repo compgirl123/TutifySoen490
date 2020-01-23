@@ -1,6 +1,6 @@
 import React from "react";
 import InputBase from '@material-ui/core/InputBase';
-import TutorInfo, { TutorInfo as TutorInfoClass } from "../src/components/TutorProfile/TutorInfo";
+import UserInfo, { UserInfo as UserInfoClass } from "../src/components/ProfilePage/UserInfo";
 import { createMount } from '@material-ui/core/test-utils';
 import { configure } from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
@@ -28,9 +28,9 @@ describe('The Profile Page updating Profile Feature for Tutors.', () => {
     it('Testing the update courses for Tutors. Updating one of the values present in the Dialog Box (school of tutor)'
     , () => {
         // All the mounting and state setting
-        const wrapper = mount(<TutorInfo></TutorInfo>);
-        const wrapper_shallow = shallow(<TutorInfo></TutorInfo>);
-        const tutor_class_wrapper = wrapper.find(TutorInfoClass);
+        const wrapper = mount(<UserInfo></UserInfo>);
+        const wrapper_shallow = shallow(<UserInfo></UserInfo>);
+        const tutor_class_wrapper = wrapper.find(UserInfoClass);
         tutor_class_wrapper.setState({ data: json.data });
 
         /**
@@ -107,9 +107,9 @@ describe('The Profile Page updating Profile Feature for Tutors.', () => {
     it('Testing the update courses for Tutors. Updating two of the values present in the Dialog Box (first and last name)'
     , () => {
         // All the mounting and state setting
-        const wrapper = mount(<TutorInfo></TutorInfo>);
-        const wrapper_shallow = shallow(<TutorInfo></TutorInfo>);
-        const tutor_class_wrapper = wrapper.find(TutorInfoClass);
+        const wrapper = mount(<UserInfo></UserInfo>);
+        const wrapper_shallow = shallow(<UserInfo></UserInfo>);
+        const tutor_class_wrapper = wrapper.find(UserInfoClass);
         tutor_class_wrapper.setState({ data: json.data });
 
         /**
@@ -208,9 +208,9 @@ describe('The Profile Page updating Profile Feature for Tutors.', () => {
     it('Testing the update courses for Tutors. Updating three of the values present in the Dialog Box (first, last name , program of study).'
     , () => {
         // All the mounting and state setting
-        const wrapper = mount(<TutorInfo></TutorInfo>);
-        const wrapper_shallow = shallow(<TutorInfo></TutorInfo>);
-        const tutor_class_wrapper = wrapper.find(TutorInfoClass);
+        const wrapper = mount(<UserInfo></UserInfo>);
+        const wrapper_shallow = shallow(<UserInfo></UserInfo>);
+        const tutor_class_wrapper = wrapper.find(UserInfoClass);
         tutor_class_wrapper.setState({ data: json.data });
 
         /**
@@ -330,9 +330,9 @@ describe('The Profile Page updating Profile Feature for Tutors.', () => {
 
     it('Testing the update courses for Tutors. Updating all four of the values present in the Dialog Box (first, last name , program of study, school).', () => {
          // All the mounting and state setting
-         const wrapper = mount(<TutorInfo></TutorInfo>);
-         const wrapper_shallow = shallow(<TutorInfo></TutorInfo>);
-         const tutor_class_wrapper = wrapper.find(TutorInfoClass);
+         const wrapper = mount(<UserInfo></UserInfo>);
+         const wrapper_shallow = shallow(<UserInfo></UserInfo>);
+         const tutor_class_wrapper = wrapper.find(UserInfoClass);
          tutor_class_wrapper.setState({ data: json.data });
  
          /**
