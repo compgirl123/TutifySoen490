@@ -63,9 +63,6 @@ describe('The Profile Page updating Profile Feature', () => {
             student_class_wrapper.setState({ education_level: profile_array[student_selected].education_level });
         }
 
-        // Expecting a result that contains the appropriate education_level of the student.
-        //expect(student_class_wrapper.state().education_level).toBe(profile_array[student_selected].education_level);
-
         /**
          * Part 2: Setting values present on profile page and collecting that data and simulating an "update" 
         */
@@ -140,12 +137,6 @@ describe('The Profile Page updating Profile Feature', () => {
             student_class_wrapper.setState({ first_name: profile_array[student_selected].first_name,
                                              last_name: profile_array[student_selected].last_name});
        }
-
-        // Expecting a result that contains the appropriate first_name of the student.
-        //expect(student_class_wrapper.state().first_name).toBe(profile_array[student_selected].first_name);
-
-        // Expecting a result that contains the appropriate last_name of the student.
-        //expect(student_class_wrapper.state().last_name).toBe(profile_array[student_selected].last_name);
 
         /**
          * Part 2: Setting values present on profile page and collecting that data and simulating an "update" 
@@ -243,15 +234,6 @@ describe('The Profile Page updating Profile Feature', () => {
                                            last_name: profile_array[student_selected].last_name,
                                            program_of_study : profile_array[student_selected].program_of_study});
        }
-
-        // Expecting a result that contains the appropriate first name of the student.
-        //expect(student_class_wrapper.state().first_name).toBe(profile_array[student_selected].first_name);
-
-        // Expecting a result that contains the appropriate last name of the student.
-        //expect(student_class_wrapper.state().last_name).toBe(profile_array[student_selected].last_name);
-
-        // Expecting a result that contains the appropriate program of study name of the student.
-        //expect(student_class_wrapper.state().program_of_study).toBe(profile_array[student_selected].program_of_study);
 
         /**
          * Part 2: Setting values present on profile page and collecting that data and simulating an "update" 
@@ -366,18 +348,6 @@ describe('The Profile Page updating Profile Feature', () => {
                                             program_of_study : profile_array[student_selected].program_of_study,
                                             school : profile_array[student_selected].school});
         }
- 
-         // Expecting a result that contains the appropriate first name of the student.
-         //expect(student_class_wrapper.state().first_name).toBe(profile_array[student_selected].first_name);
- 
-         // Expecting a result that contains the appropriate last name of the student.
-         //expect(student_class_wrapper.state().last_name).toBe(profile_array[student_selected].last_name);
- 
-         // Expecting a result that contains the appropriate program of study name of the student.
-         //expect(student_class_wrapper.state().program_of_study).toBe(profile_array[student_selected].program_of_study);
-
-         // Expecting a result that contains the appropriate school name of the student.
-         //expect(student_class_wrapper.state().school).toBe(profile_array[student_selected].school);
  
          /**
           * Part 2: Setting values present on profile page and collecting that data and simulating an "update" 
@@ -511,20 +481,6 @@ describe('The Profile Page updating Profile Feature', () => {
                                            education_level: profile_array[student_selected].education_level});
        }
 
-        // Expecting a result that contains the appropriate first name of the student.
-        //expect(student_class_wrapper.state().first_name).toBe(profile_array[student_selected].first_name);
-
-        // Expecting a result that contains the appropriate last name of the student.
-        //expect(student_class_wrapper.state().last_name).toBe(profile_array[student_selected].last_name);
-
-        // Expecting a result that contains the appropriate program of study name of the student.
-        //expect(student_class_wrapper.state().program_of_study).toBe(profile_array[student_selected].program_of_study);
-
-        // Expecting a result that contains the appropriate school name of the student.
-        //expect(student_class_wrapper.state().school).toBe(profile_array[student_selected].school);
-
-        // Expecting a result that contains the appropriate education_level of the student.
-        //expect(student_class_wrapper.state().education_level).toBe(profile_array[student_selected].education_level);
 
         /**
          * Part 2: Setting values present on profile page and collecting that data and simulating an "update" 
