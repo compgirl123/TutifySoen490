@@ -43,7 +43,7 @@ describe('The Students Courses Page', () => {
             }
           ]
           // return to
-        const match = { params: { searchTerm: 'foo' } }
+        const match = { params: { searchTerm: undefined } }
         const wrapper_shallow = shallow(<MyCourses courses = {mockedStudent} match={match}></MyCourses>);
         const wrapper = mount(<MyCourses courses = {mockedStudent} match={match}></MyCourses>);
         const student_class_wrapper = wrapper.find(MyCoursesClass);
