@@ -83,7 +83,7 @@ export class NavBar extends Component {
               : <></>
             }
             {this.state.Toggle && this.state.userType === 'tutor' ?
-              < Link href="/tutor" className={classes.title} style={{ textDecoration: 'none', color: '#FFF' }}>
+              < Link href="/profile" className={classes.title} style={{ textDecoration: 'none', color: '#FFF' }}>
                 <Typography variant="h6" color="inherit" >
                   Tutify
                 </Typography>
