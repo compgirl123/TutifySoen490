@@ -73,7 +73,7 @@ export class NavBar extends Component {
             <SchoolIcon />
             <Box m={1} />
             {this.state.Toggle ?
-              <Link href="/tutor" style={{ textDecoration: 'none', color: '#FFF' }}>
+              <Link href="/profile" style={{ textDecoration: 'none', color: '#FFF' }}>
                 <Typography variant="h6" color="inherit" >
                   Tutify
                 </Typography>
