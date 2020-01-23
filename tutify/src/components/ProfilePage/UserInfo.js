@@ -275,20 +275,20 @@ export class UserInfo extends React.Component {
               </Typography>
               :
               <div>
-              <Typography className={classes.InfoContext}>
-                <br />
-                Description:<br />
-              </Typography>
-              <div style={{ maxHeight: 120, overflow: 'auto' }}>
                 <Typography className={classes.InfoContext}>
-                  {this.state.description}
+                  <br />
+                  Description:<br />
                 </Typography>
+                <div style={{ maxHeight: 120, overflow: 'auto' }}>
+                  <Typography className={classes.InfoContext}>
+                    {this.state.description}
+                  </Typography>
+                </div>
+                <br />
               </div>
-              <br />
-              </div>
-              
-           }
-              <br />
+
+            }
+            <br />
 
             <Button variant="outlined" aria-label="edit"
               justify="center"

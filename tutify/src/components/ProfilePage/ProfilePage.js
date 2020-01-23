@@ -56,7 +56,6 @@ class ProfilePage extends React.Component {
             this.FindStudents();
           }
           else if (res.userInfo.__t === "student") {
-            console.log("yooooo");
             this.setState({ tutors: res.userInfo.tutors, Toggle: true });
             this.getUserCourses()
           }
