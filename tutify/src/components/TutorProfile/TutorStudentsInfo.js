@@ -2,7 +2,6 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import * as tutifyStyle from '../../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
-import axios from 'axios';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Fab from '@material-ui/core/Fab';
@@ -16,52 +15,8 @@ import MessageIcon from '@material-ui/icons/Message';
 
 class TutorStudentsInfo extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      students: []
-    };
-  }
-
-  componentDidMount() {
-    this.checkSession();
-  }
-
-  checkSession = () => {
-    fetch('/api/checkSession', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then((res) => {
-        if (res.isLoggedIn) {
-          this.setState({
-            students: res.userInfo.students
-          })
-          this.FindStudents();
-        }
-        else {
-          this.setState({ Toggle: false });
-        }
-      })
-      .catch(err => console.log(err));
-  };
-
-  FindStudents = () => {
-    axios.post('/api/findStudents', {
-      students: this.state.students
-    })
-      .then((res) => {
-
-        this.setState({ students: res.data.data });
-
-      }, (error) => {
-        console.log(error);
-      })
-  };
-
   render() {
-    const { classes } = this.props;
+    const { classes,students } = this.props;
 
     return (
       <Card className={classes.card} >
@@ -80,7 +35,7 @@ class TutorStudentsInfo extends React.Component {
               </TableCell> <TableCell>
               </TableCell> <TableCell>
               </TableCell>
-              {this.state.students.map(student => (
+              {students.map(student => (
                 <TableRow key={student.id} >
                   <TableCell padding="none" >
                     <Avatar className={classes.avatar} style={{ width: '15px', height: '15px' }}></Avatar>

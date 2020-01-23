@@ -16,29 +16,31 @@ import Drawer from "@material-ui/core/Drawer";
 import Avatar from '@material-ui/core/Avatar';
 import calendarIcon from '../../assets/calendarIcon.png';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import TutorCoursesInfo from '../TutorProfile/TutorCoursesInfo';
+import NewCalendar from '../TutorProfile/Calendar';
+import TutorStudentsInfo from '../TutorProfile/TutorStudentsInfo';
+import axios from 'axios';
 
 
 class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      drawerOpened: false,
-      tutorPicture: "",
+      Toggle: false,
       __t: "",
       tutors: [],
       courses: [],
+      students:[]
     };
   }
-
   toggleDrawer = booleanValue => () => {
     this.setState({
       drawerOpened: booleanValue
     });
   };
 
-  componentDidMount() {
+  componentWillMount() {
     this.checkSession();
-
   }
 
   checkSession = () => {
@@ -49,21 +51,20 @@ class ProfilePage extends React.Component {
       .then(response => response.json())
       .then(res => {
         if (res.isLoggedIn) {
-          this.setState({
-            Toggle: true,
-            tutorPicture: res.userInfo.picture,
-            __t: res.userInfo.__t,
-            tutors: res.userInfo.tutors,
-          });
-          this.getUserCourses()
+          if (res.userInfo.__t === "tutor") {
+            this.setState({ students: res.userInfo.students });
+            this.FindStudents();
+          }
+          else if (res.userInfo.__t === "student") {
+            this.setState({ tutors: res.userInfo.tutors, Toggle: true });
+            this.getUserCourses()
+          }
         }
-        else {
-          this.setState({ Toggle: false });
-        }
+
       })
       .catch(err => console.log(err));
   };
-
+ 
   getUserCourses = () => {
     fetch('/api/getUserCourses', {
         method: 'GET',
@@ -73,21 +74,24 @@ class ProfilePage extends React.Component {
       .then(res => {
         this.setState({ courses: res.data });
 
-      })
-      .catch(err => console.log(err));
-  }
 
-  handleChange(event) {
-    fetch('/api/logout', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then(res => {
-        this.setState({ Toggle: false });
       })
       .catch(err => console.log(err));
   };
+
+  FindStudents = () => {
+    axios.post('/api/findStudents', {
+      students: this.state.students
+    })
+      .then((res) => {
+
+        this.setState({ students: res.data.data });
+
+      }, (error) => {
+        console.log(error);
+      })
+  };
+
 
   render() {
     const { classes } = this.props;
@@ -113,7 +117,7 @@ class ProfilePage extends React.Component {
               </IconButton>
             </div>
             <Paper>
-              <ScheduledEvents />
+            {this.state.Toggle ? <ScheduledEvents /> : <NewCalendar />}
             </Paper>
           </Drawer>
           <main className={classes.content}>
@@ -125,20 +129,21 @@ class ProfilePage extends React.Component {
                 {/* User Info */}
                 <Grid item xs={4}>
                   <Card>
-                    <UserInfo />
+                 <UserInfo />
                   </Card>
                 </Grid>
 
                 <Grid item xs={6}>
                   <Grid >
                     <Paper>
-                      <UserCoursesInfo courses={this.state.courses} />
+                    {this.state.Toggle ? <UserCoursesInfo courses={this.state.courses} />: <TutorCoursesInfo   />}   
                     </Paper>
                   </Grid>
                   <br />
                   <Grid >
                     <Paper>
-                      <UserTutorsInfo tutors={this.state.tutors} />
+                    {this.state.Toggle ? <UserTutorsInfo tutors={this.state.tutors} />: <TutorStudentsInfo students={this.state.students}/>}
+
                     </Paper>
                   </Grid>
                 </Grid>
