@@ -108,7 +108,7 @@ export class SearchTutors extends Component {
         }
         this.getDataFromDb();
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error(err));
   };
 
   // filters the list of tutors displayed
