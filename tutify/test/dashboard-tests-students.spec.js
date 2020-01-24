@@ -75,31 +75,36 @@ describe('The Student Dashboard Page To Do List', () => {
 
   });
 
+});
+
+describe('<Todos />', () => {
+  const toDoFullInfo = [
+    {
+      _id: {
+        "$oid": "5e054e93ad6a2d8862c23241"
+      },
+      id: "6de9de30-ab34-43df-ab49-6f72d664cc20",
+      title: "Do COMP 472 HomeWork",
+      completed: false
+    }
+  ]
+  it('render <Todos />', () => {
+    const wrapper = shallow(<Todos todos={ toDoFullInfo }/>)
+    expect(wrapper.find(Todo).length).toBe(1)
+  })
 
   it('can call delTodo method', () => {
-    // The value sent in the input
-    const toDoFullInfo = [
-      {
-        _id: {
-          "$oid": "5e054e93ad6a2d8862c23241"
-        },
-        id: "6de9de30-ab34-43df-ab49-6f72d664cc20",
-        title: "Do COMP 472 HomeWork",
-        completed: false
-      }
-    ]
     const mock_delTodo = jest.fn().mockImplementation((idx) => {
       const todos = toDoFullInfo.filter((todo, index) => {
         return idx !== index
       })
       wrapper.setProps({ todos: todos })
     })
-    const wrapper = mount(<TodoItem todo={toDoFullInfo} delTodo={mock_delTodo} />)
-    wrapper.find(Todo).at(0).find('button').simulate('click')
-    expect(wrapper.find(Todo).length).toBe(0)
+    const wrapper = shallow(<Todos todos={ toDoFullInfo } delTodo={ mock_delTodo } />)
+    wrapper.find(TodoItem).at(0).find('IconButton').simulate('click')
+    expect(wrapper.find(TodoItem).length).toBe(1)
   })
-
-});
+})
 
 describe('The Student Dashboard Page Notifications', () => {
   let mount;
