@@ -15,6 +15,7 @@ import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Fab from "@material-ui/core/Fab";
 import GetAppIcon from '@material-ui/icons/GetApp';
+import PublishIcon from '@material-ui/icons/Publish';
 
 // Display a Ui for Tutors in order to be able to upload their documents
 export class UploadDocuments extends Component {
@@ -37,7 +38,7 @@ export class UploadDocuments extends Component {
     this.checkSession();
     this.getLatestFile();
   }
-  
+
   // Setting the login state of user.
   checkSession = () => {
     fetch('/api/checkSession', {
@@ -64,11 +65,12 @@ export class UploadDocuments extends Component {
     })
       .then(res => res.json())
       .then(recent => {
-        this.setState({ recentFileName: recent.recent[0].name,
+        this.setState({
+          recentFileName: recent.recent[0].name,
           recentUploadDate: (recent.recent[0].uploadDate).split("T")[0],
           recentFileLink: recent.recent[0].link
-      });
-    })
+        });
+      })
       .catch(err => console.log(err));
   }
 
@@ -105,30 +107,25 @@ export class UploadDocuments extends Component {
             <Container className={classes.container}>
               <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
                 Upload Documents
-              </Typography> </Container>
-          </div>
-          <div className={classes.uploadDocApp}>
-            <header className={classes.AppHeader}>
-            </header>
-            <div className="App-content">
-              <form onSubmit={this.handleSubmit}>
-                <label> Upload:
+              </Typography>
+            </Container>
+            <div className={classes.uploadDocApp}>
+              <div className={classes.uploadContainer}>
+                <form onSubmit={this.handleSubmit}>
                     <input
-                    id="fileUpload"
-                    type="file"
-                    onChange={this.fileChanged}
-                    className={classes.inputUpload}
-                    style={{ size: 74 }}
-                  />
-                </label>
-                <Button type="submit" variant="contained" size="small" className="submit">
-                  Upload
+                      type="file"
+                      id="fileUpload"
+                      onChange={this.fileChanged}
+                      className={classes.inputUpload}
+                    />
+                  <Button type="submit" size="small" className={classes.submit}>
+                    <PublishIcon/>
                 </Button>
-              </form>
-              {/* </form> */}
+                </form>
+                {/* </form> */}
+              </div>
             </div>
           </div>
-          <p></p>
           <Paper>
             <Table stickyHeader aria-label="">
               <TableHead>
