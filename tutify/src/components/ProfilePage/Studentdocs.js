@@ -183,7 +183,7 @@ class Studentdocs extends React.Component {
                                 <TableRow key={index}>
                                   <td><a href={url}>{filename}</a></td>
                                   <td>{uploadDate}</td>
-                                  <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon /></Button></td>
+                                  <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link)} id={file._id}><GetAppIcon /></Button></td>
                                   <td align="center"><Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></td>
                                 </TableRow>
                               )
@@ -200,7 +200,7 @@ class Studentdocs extends React.Component {
                                   <TableCell><a href={url}>{filename}</a></TableCell>
                                   <TableCell>{tutor_name}</TableCell>
                                   <TableCell>{uploadDate}</TableCell>
-                                  <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
+                                  <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" onClick={() => window.open(link)} id={file._id}><GetAppIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
                                 </TableRow>
                               )
                             })

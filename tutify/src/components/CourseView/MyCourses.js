@@ -137,7 +137,7 @@ export class TutorCourses extends React.Component {
                               Upload Document
                           </Button>
                             :
-                            <Button type="button" onClick={() => window.open("/viewCourse/" + (c.course._id).replace(/ /g, ""))} size="small" href="" fullWidth className="submit">
+                            <Button type="button" onClick={() => window.location.replace("/viewCourse/" + (c.course._id).replace(/ /g, ""))} size="small" href="" fullWidth className="submit">
                               View Documents
                           </Button>
                           }
