@@ -59,7 +59,7 @@ describe('The Students View Docs', () => {
         const student_class_wrapper = wrapper_specific_course.find(ViewCourseClass);
         student_class_wrapper.setState({ files :mockedStudent[0].files,
                                          course_selected : mockedStudent[0].course.name,
-                                         profileType: "tutor"})
+                                         profileType: "student"})
 
         /**
          * Specific Course Page
@@ -72,29 +72,24 @@ describe('The Students View Docs', () => {
 
         // Finding the Typography component that contains the title for the Course Documents component.
         const course_title2 = wrapper_shallow_specific_course.dive().find(Typography).at(1);
-        // Make sure the specific student course page contains tutor Course Documents header on it.
+        // Make sure the specific student course page contains Course Documents header on it.
         expect(course_title2.props().children).toBe("Course Documents");
 
         // Getting the Card that contains information about the course.
         const course_title3 =  wrapper_specific_course.find(Typography).at(3);
-        // Make sure the specific student course page contains tutor Course Documents header on it.
+        // Make sure the specific student course page contains the Course header on it.
         expect(course_title3.props().children).toBe("COMP 472");
 
-        // Getting the Card that contains information about the course.
+        // Getting the table information about the course documents.
         const course_title4 =  wrapper_specific_course.find(TableRow).at(0);
         console.log(course_title4.props().children[0].props.children);
-        // Make sure the specific student course page contains tutor Course Documents header on it.
+        // Getting the title of the course documents.
         expect(course_title4.props().children[0].props.children).toBe("Title");
-        // Make sure the specific student course page contains tutor Course Documents header on it.
+        // Getting the date the the course documents.
         expect(course_title4.props().children[1].props.children).toBe("Date");
-        // Make sure the specific student course page contains tutor Course Documents header on it.
+        // Getting the "dowload" title the course documents.
         expect(course_title4.props().children[2].props.children).toBe("Download Documents");
 
-        const course_title5 =  wrapper_specific_course.find(TableRow).at(1);
-        console.log(course_title5.props().children[0].props.children);
-        console.log(course_title5.props().children[1].props.children);
-        console.log(course_title5.props().children[2].props.children.props.children.type.displayName);
-        console.log(course_title5.props().children[3].props.children.props);
     
     });
 }); 
