@@ -210,7 +210,7 @@ export class ViewTutorCourse extends React.Component {
                               <TableCell>{file.name}</TableCell>
                               <TableCell>{file.uploadDate}</TableCell>
                               <TableCell>
-                                <Button type="button" onClick={() => window.location.replace(file.link)} size="small" className="submit">
+                                <Button type="button" onClick={() => window.open(file.link)} size="small" className="submit">
                                   <GetAppIcon />
                                 </Button>
                               </TableCell>

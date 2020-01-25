@@ -156,7 +156,7 @@ export class DocList extends React.Component {
 
                                 <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" className={classes.courseButton} onClick={() => window.location.replace("/tutorCourses/" + encrypted_file_name)} id={file._id}><MenuBookIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
                                 <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={classes.courseButton} onClick={() => window.location.replace("/students/" + encrypted_file_name)} id={file._id}><GroupAddIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab></TableCell>
-                                <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={classes.courseButton} onClick={() => window.location.replace(link)} id={file._id}><GetAppIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab ></TableCell>
+                                <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={classes.courseButton} onClick={() => window.open(link)} id={file._id}><GetAppIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab ></TableCell>
                                 <TableCell align="center">
                                   <Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} />
                                 </TableCell>
