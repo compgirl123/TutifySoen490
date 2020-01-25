@@ -57,6 +57,11 @@ exports.updateUserInfo = async function (req, res) {
             //update the session
             req.session.userInfo = user;
             req.session.save(function (err) {
+                if (err) {
+                    console.error("The session was unable to be saved");
+                    return res.json({ success: false, error: err });
+                }
+                console.info("The session was able to be saved"); 
                 req.session.reload(function (err) {
                     //session reloaded
                     return res.json({ success: true, userInfo: user });
@@ -85,6 +90,11 @@ exports.assignTutor = async function (req, res) {
                     //update the session
                     req.session.userInfo.tutors.push(tutor);
                     req.session.save(function (err) {
+                        if (err) {
+                            console.error("The session was unable to be saved");
+                            return res.json({ success: false, error: err });
+                        }
+                        console.info("The session was able to be saved"); 
                         req.session.reload(function (err) {
                             // session reloaded
                         });
@@ -123,6 +133,11 @@ exports.assignCourse = async function (req, res) {
                 //update the session
                 req.session.userInfo.courses.push(newCourse);
                 req.session.save(function (err) {
+                    if (err) {
+                        console.error("The session was unable to be saved");
+                        return res.json({ success: false, error: err });
+                    }
+                    console.info("The session was able to be saved"); 
                     req.session.reload(function (err) {
                         // session reloaded
                     });
@@ -215,11 +230,11 @@ exports.authUser = async function (req, res) {
 
     Account.findOne({ email: email }, function (err, user) {
         if (err) {
-            console.log(err);
+            console.log("Error while trying to authentificate the user (database request failed)");
             return res.status(500).send();
         }
         else if (user == undefined) {
-            console.log('user not found');
+            console.warn('User not found');
             req.session.isLoggedIn = false;
 
             req.session.save();
@@ -230,12 +245,12 @@ exports.authUser = async function (req, res) {
         else {
             bcrypt.compare(password, user.password, (err, isMatch) => {
                 if (err) {
-                    console.log('server error');
+                    console.error('server error');
                 }
 
                 else if (isMatch === true) {
                     req.session.email = user.email;
-                    console.log(null, 'login successfully');
+                    console.info(null, 'login successfully');
                     if (user.user_profile) {
                         Student.findOne({ _id: user.user_profile }).populate('tutors').
                             exec(function (err, user1) {
@@ -258,7 +273,7 @@ exports.authUser = async function (req, res) {
 
                 }
                 else {
-                    console.log('login info incorrect');
+                    console.warn('login info incorrect');
                     req.session.isLoggedIn = false;
 
                     req.session.save();
@@ -288,7 +303,11 @@ exports.checkSession = async function (req, res) {
 exports.deleteUser = async function (req, res) {
     const { id } = req.body;
     Student.findByIdAndRemove(id, (err) => {
-        if (err) return res.send(err);
+        if (err) {
+            console.error("The user was not deleted properly");
+            return res.send(err);
+        }
+        console.info("The user was deleted successfully");
         return res.json({ success: true });
     });
 };
@@ -297,7 +316,11 @@ exports.deleteUser = async function (req, res) {
 exports.getUserCourses = async function (req, res) {
     Student.findOne({ _id: req.session.userInfo._id }).populate('courses.course').populate('courses.tutor').
         exec(function (err, student) {
-            if (err) return handleError(err);
+            if (err) {
+                console.error("Could not retrieve the user's courses");
+                return handleError(err);
+            }
+            console.info("The user's course list has been retrieved successfully");
             return res.json({ success: true, data: student.courses });
         });
 };
@@ -315,12 +338,28 @@ exports.updateUserTodos = async function (req, res) {
     Student.findByIdAndUpdate(_id, { $set: { "todos": todos } },
         { "new": true, "upsert": true },
         (err) => {
-            if (err) return res.json({ success: false, error: err });
+            if (err) {
+                console.error("The database did not saved the newest todo list version");
+                return res.json({ success: false, error: err });
+        }
+        console.info("The user's todo list has been updated successfully");
+
             //update the session
             req.session.userInfo.todos = todos;
             req.session.save(function (err) {
+                if (err) {
+                    console.error("The session was unable to be saved");
+                    return res.json({ success: false, error: err });
+                }
+                console.info("The session was able to be saved");  
                 req.session.reload(function (err) {
                     //session reloaded
+                    if (err) {
+                        console.warn("The session failed to reload");
+                    }
+                    else{
+                        console.info("The session reloaded successfully");
+                    }
                     return res.json({ success: true });
                 });
             });
@@ -337,10 +376,14 @@ exports.sendAnnouncementStudents = async function (req, res) {
         { "$push": { "notifications": announcement } },
         { "new": true, "upsert": true },
             (err) => {
-                if (err) return res.json({ success: false, error: err });
+                if (err) {
+                    console.error("Could not send the announcement to students");
+                    return res.json({ success: false, error: err });
+                }
             }
         );
     });
+    console.info("The announcement was sent successfully");
     return res.json({ success: true });
 };
 
@@ -358,12 +401,23 @@ exports.deleteNotification = async function (req, res) {
         //update the session
         req.session.userInfo.notifications = newList;
         req.session.save(function (err) {
+            if (err) {
+                console.error("The session was unable to be saved");
+                return res.json({ success: false, error: err });
+            }
+            console.info("The session was able to be saved");  
             req.session.reload(function (err) {
                 // session reloaded
+                if (err) {
+                    console.warn("The session failed to reload");
+                }
+                else{
+                    console.info("The session reloaded successfully");
+                }
                 return res.json({ success: true, notifications: newList });
             });
         });
     }).catch(err => {
-        console.log(err)
+        console.error("The notification has not been deleted properly: "+err);
     });
 };
