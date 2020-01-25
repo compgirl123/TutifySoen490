@@ -140,7 +140,7 @@ export class UploadDocuments extends Component {
                   <TableCell>{this.state.recentUploadDate}</TableCell>
                   <TableCell>{this.state.recentFileName}</TableCell>
                   <TableCell align="right">
-                    <Fab type="button" variant="extended" aria-label="add" size="small" className={classes.courseButton} onClick={() => window.open(this.state.recentFileLink, "_blank")} >
+                    <Fab type="button" variant="extended" aria-label="add" size="small" className={classes.courseButton} onClick={() => window.location.replace(this.state.recentFileLink)} >
                       <GetAppIcon fontSize="small" style={{ width: '22px', height: '22px' }} />
                     </Fab >
                   </TableCell>

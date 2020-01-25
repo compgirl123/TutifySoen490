@@ -106,7 +106,7 @@ export class MyCourses extends React.Component {
                           </CardContent>
                         </CardActionArea>
                         <CardActions>
-                          <Button type="button" size="small" onClick={() => window.open("/viewCourse/" + (c.course.name).replace(/ /g,""))} fullWidth variant="contained" className="submit">
+                          <Button type="button" size="small" onClick={() => window.location.replace("/viewCourse/" + (c.course.name).replace(/ /g,""))} fullWidth variant="contained" className="submit">
                             View Course
                          </Button>
                         </CardActions>

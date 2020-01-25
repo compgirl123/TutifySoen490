@@ -113,7 +113,6 @@ export class ViewTutorCourse extends React.Component {
           else {
             courseName = "No Documents Uploaded";
           }
-
           if (this.state.shouldView) {
             this.setState({ files: res.file, course_selected: courseName });
           }
@@ -211,7 +210,7 @@ export class ViewTutorCourse extends React.Component {
                               <TableCell>{file.name}</TableCell>
                               <TableCell>{file.uploadDate}</TableCell>
                               <TableCell>
-                                <Button type="button" onClick={() => window.open(file.link, "_blank")} size="small" className="submit">
+                                <Button type="button" onClick={() => window.location.replace(file.link)} size="small" className="submit">
                                   <GetAppIcon />
                                 </Button>
                               </TableCell>
