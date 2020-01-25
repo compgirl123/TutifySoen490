@@ -66,29 +66,29 @@ describe('The Students View Docs', () => {
         */
         
         // Finding the Grid component containing the Different classes student is registered for.
-        const test = wrapper_shallow_specific_course.dive().find(Grid).at(0);
+        const course_grid = wrapper_shallow_specific_course.dive().find(Grid).at(0);
         // Seeing if the Grid components Exists (import grid)
-        expect(test.exists()).toBeTruthy();
+        expect(course_grid.exists()).toBeTruthy();
 
         // Finding the Typography component that contains the title for the Course Documents component.
-        const course_title2 = wrapper_shallow_specific_course.dive().find(Typography).at(1);
+        const table_title = wrapper_shallow_specific_course.dive().find(Typography).at(1);
         // Make sure the specific student course page contains Course Documents header on it.
-        expect(course_title2.props().children).toBe("Course Documents");
+        expect(table_title.props().children).toBe("Course Documents");
 
         // Getting the Card that contains information about the course.
-        const course_title3 =  wrapper_specific_course.find(Typography).at(3);
+        const course_title =  wrapper_specific_course.find(Typography).at(3);
         // Make sure the specific student course page contains the Course header on it.
-        expect(course_title3.props().children).toBe("COMP 472");
+        expect(course_title.props().children).toBe("COMP 472");
 
         // Getting the table information about the course documents.
-        const course_title4 =  wrapper_specific_course.find(TableRow).at(0);
-        console.log(course_title4.props().children[0].props.children);
+        const table_content =  wrapper_specific_course.find(TableRow).at(0);
+        console.log(table_content.props().children[0].props.children);
         // Getting the title of the course documents.
-        expect(course_title4.props().children[0].props.children).toBe("Title");
+        expect(table_content.props().children[0].props.children).toBe("Title");
         // Getting the date the the course documents.
-        expect(course_title4.props().children[1].props.children).toBe("Date");
+        expect(table_content.props().children[1].props.children).toBe("Date");
         // Getting the "dowload" title the course documents.
-        expect(course_title4.props().children[2].props.children).toBe("Download Documents");
+        expect(table_content.props().children[2].props.children).toBe("Download Documents");
 
     
     });
