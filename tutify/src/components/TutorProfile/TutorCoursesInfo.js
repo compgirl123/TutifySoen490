@@ -52,7 +52,7 @@ export class TutorCoursesInfo extends React.Component {
           });
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error("Error while checking the session: "+err));
   };
 
   update = async (value) => {
@@ -80,9 +80,10 @@ export class TutorCoursesInfo extends React.Component {
         this.setState({
           subjects: res.data.newSubjects
         });
-        swal("Information successfully updated!", "", "success")
-      }, (error) => {
-        console.log(error);
+        swal("Information successfully updated!", "", "success");
+        console.info("Tutor's course informations successfully updated");
+      }, (err) => {
+        console.error("Could not update the tutor's course informations"+err);
       });
   };
 
