@@ -32,7 +32,7 @@ exports.putAccount = async function (req, res) {
     const { id, message } = req.body;
 
     if ((!id && id !== 0) || !message) {
-        console.error("Missing account id");
+        console.error("The account was not created as some inputs are wrong/missing");
         return res.json({
             success: false,
             error: 'INVALID INPUTS',
@@ -54,7 +54,7 @@ exports.putAccount = async function (req, res) {
 exports.deleteAccount = async function (req, res) {
     const { id } = req.body;
     Account.findByIdAndRemove(id, (err) => {
-        if (err){ 
+        if (err) {
             console.error("The delete order was given, but was not executed by the database. This may be due to a connection error.");
             return res.send(err);
         }
