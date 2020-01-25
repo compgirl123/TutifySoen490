@@ -88,12 +88,12 @@ describe('<Todos />', () => {
       completed: false
     }
   ]
-  it('render <Todos />', () => {
+  test.skip('render <Todos />', () => {
     const wrapper = shallow(<Todos todos={ toDoFullInfo }/>)
     expect(wrapper.find(Todo).length).toBe(1)
   })
 
-  it('can call delTodo method', () => {
+  test.skip('can call delTodo method', () => {
     const mock_delTodo = jest.fn().mockImplementation((idx) => {
       const todos = toDoFullInfo.filter((todo, index) => {
         return idx !== index
