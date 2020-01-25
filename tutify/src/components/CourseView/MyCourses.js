@@ -13,7 +13,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
-import swal from 'sweetalert';
+import swal from '@sweetalert/with-react'
 import axios from "axios";
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -35,14 +35,18 @@ export class TutorCourses extends React.Component {
       courses: [],
       open: false,
       educationLevel2: "",
-      courseName: "",
+      courseName2: "",
+      educationLevel1: "",
+      courseName1: "",
       description: "",
       filteredListCourses: [],
+      discriminator: ""
     };
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.addCourseToDb = this.addCourseToDb.bind(this);
+    this.addTutorToCourse = this.addTutorToCourse.bind(this);
   }
 
   componentDidMount() {
@@ -59,9 +63,8 @@ export class TutorCourses extends React.Component {
 
   handleChange = (e) => {
     var filteredListCourses = [];
-    console.log(this.state.allCourses);
     for (var i = 0; i < this.state.allCourses.length; i++) {
-      if (this.state.allCourses[i].educationLevel2 === e) {
+      if (this.state.allCourses[i].educationLevel === e) {
         filteredListCourses.push(this.state.allCourses[i]);
       }
     }
@@ -72,7 +75,7 @@ export class TutorCourses extends React.Component {
     var tutor = [];
     tutor.push(this.state.id);
     axios.post('/api/addCourseToDb', {
-      name: this.state.courseName,
+      name: this.state.courseName2,
       description: this.state.description,
       educationLevel: this.state.educationLevel2,
       tutor: tutor
@@ -86,6 +89,45 @@ export class TutorCourses extends React.Component {
       });
   }
 
+  addTutorToCourse = () => {
+    console.log(this.state.courseName1);
+    
+    swal({
+      title: "Would you like to add the following course?",
+      buttons: {
+        confirm: "Yes",
+        cancel: "Cancel",
+      },      
+      content: (
+        <div>
+          <p><b>
+      Name: {this.state.courseName1.name}</b>
+          </p>
+          <p>
+      Description: {this.state.courseName1.description}
+          </p>
+          <p>
+      Course Level: {this.state.courseName1.educationLevel}
+          </p>
+        </div>
+      )
+    })
+    .then((value) => {
+      if (value) {
+        axios.post('/api/addTutorToCourse', {
+        })
+          .then((res) => {
+            swal("Course successfully added!", "", "success")
+            this.handleClose();
+          }, (error) => {
+            console.log(error);
+          });
+      }   
+    });
+   
+
+  }
+
 
   // Distinguishing the tutor login from student login.
   checkSession = () => {
@@ -96,7 +138,7 @@ export class TutorCourses extends React.Component {
       .then(response => response.json())
       .then(res => {
         if (res.isLoggedIn) {
-          this.setState({ id: res.userInfo._id });
+          this.setState({ discriminator: res.userInfo.__t });
           if (res.userInfo.__t === "student") {
             this.getUserDataFromDb();
           }
@@ -185,11 +227,13 @@ export class TutorCourses extends React.Component {
             <main className={classes.content}>
               <div className={classes.appBarSpacer} />
               <Container maxWidth="lg" className={classes.container}>
-                <Grid >
+                {this.state.discriminator === "tutor" ?
                   <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} style={{ marginBottom: 20 }} >
                     Add Course
                </Button>
-                </Grid>
+                  :
+                  <></>
+                }
 
                 <Grid container spacing={5}>
                   {courses.map((c, i) => (
@@ -245,6 +289,8 @@ export class TutorCourses extends React.Component {
                       <Select
                         labelId="demo-simple-select-outlined-label"
                         id="demo-simple-select-outlined"
+                        onChange={e => this.handleChange(e.target.value)}
+
                       >
                         <MenuItem value='Elementary School'>Elementary School</MenuItem>
                         <MenuItem value='High School'>High School</MenuItem>
@@ -261,6 +307,7 @@ export class TutorCourses extends React.Component {
                         <Select
                           labelId="demo-simple-select-outlined-label"
                           id="demo-simple-select-outlined"
+                          onChange={e => this.setState({ courseName1: e.target.value })}
                         >
                           {this.state.filteredListCourses.map(course => {
                             return <MenuItem value={course} key={course}>{course.name}</MenuItem>
@@ -270,9 +317,15 @@ export class TutorCourses extends React.Component {
                     }
                     <div>
 
-                    <Button variant="contained" size="lg" active onClick={() => { this.addCourseToDb(); }} style={{ marginBottom: 15 }}>
-                        Save Course
+                      {this.state.courseName1 === "" ?
+                        <Button variant="contained" size="lg" active style={{ marginBottom: 15 }} disabled>
+                          Save Course
                     </Button>
+                        :
+                        <Button variant="contained" size="lg" active onClick={() => { this.addTutorToCourse(); }} style={{ marginBottom: 15 }}>
+                          Save Course
+                    </Button>
+                      }
                     </div>
 
 
@@ -287,9 +340,9 @@ export class TutorCourses extends React.Component {
                         shrink: true,
                       }}
                       margin="dense"
-                      id="courseName"
-                      name="courseName"
-                      onChange={e => this.setState({ courseName: e.target.value })}
+                      id="courseName2"
+                      name="courseName2"
+                      onChange={e => this.setState({ courseName2: e.target.value })}
                       autoComplete="courseName"
                       label="Course Name"
                       fullWidth
@@ -328,7 +381,7 @@ export class TutorCourses extends React.Component {
                       </FormControl>
 
                     </div>
-                    {this.state.educationLevel2 === "" || this.state.description === "" || this.state.courseName === "" ?
+                    {this.state.educationLevel2 === "" || this.state.description === "" || this.state.courseName2 === "" ?
                       <Button variant="contained" size="lg" style={{ marginTop: 15 }} disabled>
                         Save Course
                       </Button>
