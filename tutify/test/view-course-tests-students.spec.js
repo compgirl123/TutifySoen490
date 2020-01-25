@@ -1,30 +1,26 @@
 import React from "react";
 import ViewCourse, { ViewCourse as ViewCourseClass } from "../src/components/CourseView/ViewCourse";
-import ContactTutor from "../src/components/StudentCourseView/ContactTutor";
-import Documents from "../src/components/StudentCourseView/Documents";
 import { createMount } from '@material-ui/core/test-utils';
 import { configure } from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
 import { shallow } from 'enzyme';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import CardContent from '@material-ui/core/CardContent';
-import Button from "@material-ui/core/Button";
-import Container from '@material-ui/core/Container';
+import TableRow from '@material-ui/core/TableRow';
 
 // importing the json object with the profile information
 var json = require("./testDb/profiles.json");
 
 configure({ adapter: new Adapter() });
 
-describe('The Students View Courses Page', () => {
+describe('The Students View Docs', () => {
     let mount;
 
     beforeAll(() => {
         mount = createMount();
     });
 
-    it('Testing the View Courses Page for Students. Checking if all of the files are present in the View Students Page.', () => {
+    it('Testing the specific doc share Students. Checking if all of the required information exists on the page.', () => {
         // All the mounting and state setting
         
         const mockedStudent =  [
@@ -39,15 +35,31 @@ describe('The Students View Courses Page', () => {
               tutor: {
                 first_name: "Mohammed",
                 last_name : "Alawami"
-              }
+              },
+              files:
+              [ 
+                { uploadedDocs: [],
+                    sharedToStudents: [Array],
+                  sharedToCourses: [Array],
+                  _id: '5e28c316259be07f5a788b09',
+                  __v: 0,
+                  adminTutor: '5dacd1cf1c9d440000aa0b1b',
+                  encryptedname: 'b0c16d9323dbf1438f595fc94ef219d5.jpg',
+                  link: '/document/b0c16d9323dbf1438f595fc94ef219d5.jpg',
+                  name: 'galaxyBackground.jpg',
+                  uploadDate: '2020-01-22T21:48:06.561Z' 
+                } 
+              ]
             }
           ]
+         
         // Go to next page which contains information about a particular course the student is registered in.
-        const wrapper_shallow_specific_course = shallow(<ViewCourse courses = {mockedStudent}></ViewCourse>);
-        const wrapper_specific_course = mount(<ViewCourse courses = {mockedStudent}></ViewCourse>);
+        const wrapper_shallow_specific_course = shallow(<ViewCourse files={mockedStudent[0].files}></ViewCourse>);
+        const wrapper_specific_course = mount(<ViewCourse files={mockedStudent[0].files}></ViewCourse>);
         const student_class_wrapper = wrapper_specific_course.find(ViewCourseClass);
-        student_class_wrapper.setState({ data: json.data });
-        student_class_wrapper.setState({ courses: mockedStudent });
+        student_class_wrapper.setState({ files :mockedStudent[0].files,
+                                         course_selected : mockedStudent[0].course.name,
+                                         profileType: "tutor"})
 
         /**
          * Specific Course Page
@@ -64,7 +76,25 @@ describe('The Students View Courses Page', () => {
         expect(course_title2.props().children).toBe("Course Documents");
 
         // Getting the Card that contains information about the course.
-        const courseName = wrapper_specific_course.find(Container).at(0);
+        const course_title3 =  wrapper_specific_course.find(Typography).at(3);
+        // Make sure the specific student course page contains tutor Course Documents header on it.
+        expect(course_title3.props().children).toBe("COMP 472");
+
+        // Getting the Card that contains information about the course.
+        const course_title4 =  wrapper_specific_course.find(TableRow).at(0);
+        console.log(course_title4.props().children[0].props.children);
+        // Make sure the specific student course page contains tutor Course Documents header on it.
+        expect(course_title4.props().children[0].props.children).toBe("Title");
+        // Make sure the specific student course page contains tutor Course Documents header on it.
+        expect(course_title4.props().children[1].props.children).toBe("Date");
+        // Make sure the specific student course page contains tutor Course Documents header on it.
+        expect(course_title4.props().children[2].props.children).toBe("Download Documents");
+
+        const course_title5 =  wrapper_specific_course.find(TableRow).at(1);
+        console.log(course_title5.props().children[0].props.children);
+        console.log(course_title5.props().children[1].props.children);
+        console.log(course_title5.props().children[2].props.children.props.children.type.displayName);
+        console.log(course_title5.props().children[3].props.children.props);
     
     });
 }); 
