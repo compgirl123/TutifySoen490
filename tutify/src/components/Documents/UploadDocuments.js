@@ -53,8 +53,9 @@ export class UploadDocuments extends Component {
         else {
           this.setState({ user_id: "Not logged in" });
         }
+        console.info("Session checked");
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error("An error occured while checking the current session: " + err));
   };
 
   // Getting the latest file uploaded and displaying it.
@@ -70,8 +71,9 @@ export class UploadDocuments extends Component {
           recentUploadDate: (recent.recent[0].uploadDate).split("T")[0],
           recentFileLink: recent.recent[0].link
         });
+        console.info("Latest files have been loaded correctly");
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error("An error occured while getting the latest file: " + err));
   }
 
   // Displaying the current file being uploaded.
@@ -91,8 +93,9 @@ export class UploadDocuments extends Component {
     formData.append('name', this.state.file.name);
     await axios.post("/uploadFile", formData).then(res => {
     }).catch(err => {
-      console.log(err);
+      console.error("The uploaded file cannot be sent to the database: " + err);
     });
+    console.info("The file has been uploaded successfully");
     window.location.reload();
 
   }
@@ -112,15 +115,15 @@ export class UploadDocuments extends Component {
             <div className={classes.uploadDocApp}>
               <div className={classes.uploadContainer}>
                 <form onSubmit={this.handleSubmit}>
-                    <input
-                      type="file"
-                      id="fileUpload"
-                      onChange={this.fileChanged}
-                      className={classes.inputUpload}
-                    />
+                  <input
+                    type="file"
+                    id="fileUpload"
+                    onChange={this.fileChanged}
+                    className={classes.inputUpload}
+                  />
                   <Button type="submit" size="small" className={classes.submit}>
-                    <PublishIcon/>
-                </Button>
+                    <PublishIcon />
+                  </Button>
                 </form>
                 {/* </form> */}
               </div>
