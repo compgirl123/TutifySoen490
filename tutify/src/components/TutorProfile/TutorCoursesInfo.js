@@ -51,6 +51,7 @@ export class TutorCoursesInfo extends React.Component {
             _id: res.userInfo._id, subjects: res.userInfo.subjects
           });
         }
+        console.info("Session checked");
       })
       .catch(err => console.error("Error while checking the session: "+err));
   };
