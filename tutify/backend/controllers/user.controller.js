@@ -61,7 +61,7 @@ exports.updateUserInfo = async function (req, res) {
                     console.error("The session was unable to be saved");
                     return res.json({ success: false, error: err });
                 }
-                console.info("The session was able to be saved"); 
+                console.info("The session was able to be saved");
                 req.session.reload(function (err) {
                     //session reloaded
                     return res.json({ success: true, userInfo: user });
@@ -94,7 +94,7 @@ exports.assignTutor = async function (req, res) {
                             console.error("The session was unable to be saved");
                             return res.json({ success: false, error: err });
                         }
-                        console.info("The session was able to be saved"); 
+                        console.info("The session was able to be saved");
                         req.session.reload(function (err) {
                             // session reloaded
                         });
@@ -137,7 +137,7 @@ exports.assignCourse = async function (req, res) {
                         console.error("The session was unable to be saved");
                         return res.json({ success: false, error: err });
                     }
-                    console.info("The session was able to be saved"); 
+                    console.info("The session was able to be saved");
                     req.session.reload(function (err) {
                         // session reloaded
                     });
@@ -341,8 +341,8 @@ exports.updateUserTodos = async function (req, res) {
             if (err) {
                 console.error("The database did not saved the newest todo list version");
                 return res.json({ success: false, error: err });
-        }
-        console.info("The user's todo list has been updated successfully");
+            }
+            console.info("The user's todo list has been updated successfully");
 
             //update the session
             req.session.userInfo.todos = todos;
@@ -351,13 +351,13 @@ exports.updateUserTodos = async function (req, res) {
                     console.error("The session was unable to be saved");
                     return res.json({ success: false, error: err });
                 }
-                console.info("The session was able to be saved");  
+                console.info("The session was able to be saved");
                 req.session.reload(function (err) {
                     //session reloaded
                     if (err) {
                         console.warn("The session failed to reload");
                     }
-                    else{
+                    else {
                         console.info("The session reloaded successfully");
                     }
                     return res.json({ success: true });
@@ -372,9 +372,9 @@ exports.sendAnnouncementStudents = async function (req, res) {
     const { students, announcement } = req.body;
 
     students.forEach(function (student) {
-        Student.findByIdAndUpdate(student, 
-        { "$push": { "notifications": announcement } },
-        { "new": true, "upsert": true },
+        Student.findByIdAndUpdate(student,
+            { "$push": { "notifications": announcement } },
+            { "new": true, "upsert": true },
             (err) => {
                 if (err) {
                     console.error("Could not send the announcement to students");
@@ -405,19 +405,19 @@ exports.deleteNotification = async function (req, res) {
                 console.error("The session was unable to be saved");
                 return res.json({ success: false, error: err });
             }
-            console.info("The session was able to be saved");  
+            console.info("The session was able to be saved");
             req.session.reload(function (err) {
                 // session reloaded
                 if (err) {
                     console.warn("The session failed to reload");
                 }
-                else{
+                else {
                     console.info("The session reloaded successfully");
                 }
                 return res.json({ success: true, notifications: newList });
             });
         });
     }).catch(err => {
-        console.error("The notification has not been deleted properly: "+err);
+        console.error("The notification has not been deleted properly: " + err);
     });
 };
