@@ -4,78 +4,21 @@ const Mchunks = require('../models/models').Mchunks;
 
 var mongoose = require('mongoose');
 
-exports.createFile = async function (req, res) {
-  const { tutor_id, course_id, file_id, name , type} = req.body;
-
-  let newFile = {
-      course: course_id,
-      tutor: tutor_id,
-      name: name,
-      type: type
-  }
-  let createFile
-  Files.findOne({ _id: tutor_id }).then(tutor => {
-      // Add student to list for the specific course
-      tutor.courses.forEach((course) => {
-          if (course.course == course_id) {
-              course.students.push(student_id)
-          }
-      });
-      tutor.save();
-
-      // Student side
-      Student.findByIdAndUpdate(student_id,
-          { "$push": { "courses": newFile } },
-          { "new": true, "upsert": true },
-          function (err, user) {
-              if (err) throw err;
-
-              //update the session
-              req.session.userInfo.courses.push(newFile);
-              req.session.save(function (err) {
-                  req.session.reload(function (err) {
-                      // session reloaded
-                  });
-              });
-          }
-      );
-  }).catch(err => {
-      console.log(err)
-  });
-}
-exports.getFiles = (req, res) => {
-  // Mfiles.find({}, (err, files) => {
-  //   if (!files || files.length === 0) {
-  //     return res.status(404).json({
-  //       err: "no files exist"
-  //     });
-  //   }
-  //   res.render('Main', {
-  //     files: files,
-  //     success: true
-  //   });  
-  // });
-}
-
-
-
-
-
 exports.getFile = async (req, res, next) => {  
 
   // Retrieving the file information from the db (from uploads.files)
   await Mfiles.findOne({filename: req.params.filename}, async (err, file) => {        
     if(err){    
       response = "File Error";     
-         
-      return await res.status(500).send({
+      console.error("Could not find the specified name by its file name");
+      return await res.status(404).send({
         title: 'File error', 
         message: 'Error finding file', 
         error: err.errMsg});      
     }
     if(!file || file.length === 0){     
       response = "Download Error";   
-        
+      console.error("Could not download the file");
       return await res.status(500).send({
        title: 'Download Error', 
        message: 'No file found'});      
@@ -85,8 +28,8 @@ exports.getFile = async (req, res, next) => {
         var chunkArray = chunks;
         if(!chunkArray || chunkArray.length === 0){   
           response = "Download Error";          
-          //No data found            
-          return await res.status(500).send({
+          console.error("Could not find the chunks data for the file");         
+          return await res.status(404).send({
             title: 'Download Error', 
             message: 'No data found'});          
         }
@@ -106,25 +49,17 @@ exports.getFile = async (req, res, next) => {
         await Files.findOne({encryptedname : req.params.filename}, async (err, uploadedfile) => {
           if(err){    
             response = "File name Error";     
-                
+            console.error("Could not find the specified filename in the database");
             return await res.status(500).send({
               title: 'File error', 
               message: 'Error finding the file name', 
               error: err.errMsg});      
                
           }else{
+            console.info("The file has been retrieved successfully");
             res.status(200).send({data:finalFile, datatype:file.contentType, filename:uploadedfile.name});
           }
         }); 
-
-      
-      
-      
-      
-      
-      
-      
-      
       }); 
      }
   });  
@@ -133,15 +68,13 @@ exports.getFile = async (req, res, next) => {
 exports.deleteFile = async (req, res) => {
   gfs.delete(new mongoose.Types.ObjectId(req.params.id), (err, data) => {
     if (err) {
-      return res.status(404).json({ err: err.message });
+      console.error("Could not find the file that needed to be deleted on the database");
+      return res.status(500).json({ err: err.message });
     }
+    console.info("The file has been deleted successfully");
     res.redirect("/uploadingDocs");
   });
 }
-    
-exports.downloadFile = (req, res) => {
-  var filename = req.params.filename;
-  res.download(uploadFolder + filename);  
-}
+  
 
 
