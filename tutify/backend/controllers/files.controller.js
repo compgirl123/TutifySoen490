@@ -4,65 +4,69 @@ const Mchunks = require('../models/models').Mchunks;
 
 var mongoose = require('mongoose');
 
-exports.getFile = async (req, res, next) => {  
+exports.getFile = async (req, res, next) => {
 
   // Retrieving the file information from the db (from uploads.files)
-  await Mfiles.findOne({filename: req.params.filename}, async (err, file) => {        
-    if(err){    
-      response = "File Error";     
+  await Mfiles.findOne({ filename: req.params.filename }, async (err, file) => {
+    if (err) {
+      response = "File Error";
       console.error("Could not find the specified name by its file name");
       return await res.status(404).send({
-        title: 'File error', 
-        message: 'Error finding file', 
-        error: err.errMsg});      
+        title: 'File error',
+        message: 'Error finding file',
+        error: err.errMsg
+      });
     }
-    if(!file || file.length === 0){     
-      response = "Download Error";   
+    if (!file || file.length === 0) {
+      response = "Download Error";
       console.error("Could not download the file");
       return await res.status(500).send({
-       title: 'Download Error', 
-       message: 'No file found'});      
-     }else{
+        title: 'Download Error',
+        message: 'No file found'
+      });
+    } else {
       //Retrieving the chunks from the db (from uploads.chunks)       
-      await Mchunks.find({files_id : file._id}, async (err, chunks)=>{
+      await Mchunks.find({ files_id: file._id }, async (err, chunks) => {
         var chunkArray = chunks;
-        if(!chunkArray || chunkArray.length === 0){   
-          response = "Download Error";          
-          console.error("Could not find the chunks data for the file");         
+        if (!chunkArray || chunkArray.length === 0) {
+          response = "Download Error";
+          console.error("Could not find the chunks data for the file");
           return await res.status(404).send({
-            title: 'Download Error', 
-            message: 'No data found'});          
+            title: 'Download Error',
+            message: 'No data found'
+          });
         }
 
         //Concatinate the data in an array
-        let fileData = [];          
-        for(let i=0; i<chunkArray.length;i++){            
-         fileData.push(chunkArray[i].data.toString('base64'));          
+        let fileData = [];
+        for (let i = 0; i < chunkArray.length; i++) {
+          fileData.push(chunkArray[i].data.toString('base64'));
         }
         //Display the chunks using the data URI format          
-        let finalFile = 'data:' + file.contentType + ';base64,' 
-              + fileData.join(''); 
-        response = finalFile;   
-        
+        let finalFile = 'data:' + file.contentType + ';base64,'
+          + fileData.join('');
+        response = finalFile;
+
 
         // Find the initial name in uploaded_files
-        await Files.findOne({encryptedname : req.params.filename}, async (err, uploadedfile) => {
-          if(err){    
-            response = "File name Error";     
+        await Files.findOne({ encryptedname: req.params.filename }, async (err, uploadedfile) => {
+          if (err) {
+            response = "File name Error";
             console.error("Could not find the specified filename in the database");
             return await res.status(500).send({
-              title: 'File error', 
-              message: 'Error finding the file name', 
-              error: err.errMsg});      
-               
-          }else{
+              title: 'File error',
+              message: 'Error finding the file name',
+              error: err.errMsg
+            });
+
+          } else {
             console.info("The file has been retrieved successfully");
-            res.status(200).send({data:finalFile, datatype:file.contentType, filename:uploadedfile.name});
+            res.status(200).send({ data: finalFile, datatype: file.contentType, filename: uploadedfile.name });
           }
-        }); 
-      }); 
-     }
-  });  
+        });
+      });
+    }
+  });
 }
 
 exports.deleteFile = async (req, res) => {
@@ -75,6 +79,6 @@ exports.deleteFile = async (req, res) => {
     res.redirect("/uploadingDocs");
   });
 }
-  
+
 
 
