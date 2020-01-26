@@ -162,15 +162,18 @@ var Course = mongoose.model('Course', new Schema({
     required: true
   },
   description: String,
-  tutors:
+  tutors: [
     { type: Schema.Types.ObjectId, ref: 'Tutor' }
-  ,
+  ],
   students: [
     { type: Schema.Types.ObjectId, ref: 'Student' }
   ],
-  sharedToCourses: [
-  { type: Schema.Types.ObjectId, ref: 'UploadedFiles' }
-]
+  sharedToCourses: [{
+    type: String,
+    required: true
+  }],
+  educationLevel: String
+
 }), "courses");
 
 

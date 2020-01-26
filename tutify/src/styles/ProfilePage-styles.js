@@ -114,6 +114,14 @@ export const styles = theme => ({
     alignSelf: 'center', 
     width: '60px', 
     height: '60px', 
+  },
+  addCourseButton:{
+    marginBottom: 20 
+  },
+  saveCourseButton:{
+    marginBottom: 15
+  },
+  formControl:{
+    marginBottom: 15
   }
-
 });
