@@ -94,7 +94,6 @@ export class UploadDocuments extends Component {
       console.log(err);
     });
     window.location.reload();
-
   }
 
   render() {

@@ -179,7 +179,7 @@ export class DocList extends React.Component {
                           })}
                           {this.state.files.length !== 0
                             ?
-                            <TableCell><Button type="button" onClick={event => this.getSelectedFiletoDelete(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Documents</Button></TableCell>
+                            <TableRow> <TableCell><Button type="button" onClick={event => this.getSelectedFiletoDelete(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Documents</Button></TableCell></TableRow>
                             :
                             <br />
                           }

@@ -17,7 +17,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-
+// TESTS TO FIX
 // importing the json object with the profile information
 var json = require("./testDb/profiles.json");
 
@@ -42,10 +42,15 @@ describe('The Students Courses Page', () => {
                 name: "COMP 472",
                 description : "Automated reasoning. Search and heuristic search. Game‑playing.",
               },
-              tutor: {
-                first_name: "Mohammed",
-                last_name : "Alawami"
-              },
+              students: [
+                {
+                  first_name: "Pierre Arthur",
+                  last_name: "Watine",
+                  program_of_study: "Soen",
+                  school: "concordia",
+                  education_level : "university"
+                }
+              ],
               files:
               [ 
                 { uploadedDocs: [],
