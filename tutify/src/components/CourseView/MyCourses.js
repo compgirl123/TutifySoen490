@@ -59,7 +59,7 @@ export class TutorCourses extends React.Component {
   };
 
   handleClose = () => {
-    this.setState({ open: false, filteredListCourses: [] });
+    this.setState({ open: false, filteredListCourses: [], courseName2: "", description: "", educationLevel2: "", courseName1: ""});
   };
 
   // this method is invoked when a student chooses the education level from the dropdownmenu
@@ -92,7 +92,7 @@ export class TutorCourses extends React.Component {
             Description: {this.state.description}
           </p>
           <p>
-            Course Level: {this.state.educationLevel2}
+            Education Level: {this.state.educationLevel2}
           </p>
         </div>
       )
@@ -133,7 +133,7 @@ export class TutorCourses extends React.Component {
             Description: {this.state.courseName1.description}
           </p>
           <p>
-            Course Level: {this.state.courseName1.educationLevel}
+            Education Level: {this.state.courseName1.educationLevel}
           </p>
         </div>
       )
