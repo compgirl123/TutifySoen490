@@ -106,6 +106,7 @@ export class TutorCourses extends React.Component {
             tutor: tutor
           })
             .then((res) => {
+              this.getTutorDataFromDb();
               swal("Course successfully added!", "", "success");
               this.handleClose();
             }, (error) => {
@@ -144,7 +145,8 @@ export class TutorCourses extends React.Component {
             tutor: this.state.id
           })
             .then((res) => {
-              swal("Course successfully added!", "", "success")
+              this.getTutorDataFromDb();
+              swal("Course successfully added!", "", "success");
               this.handleClose();
             }, (error) => {
               console.log(error);
