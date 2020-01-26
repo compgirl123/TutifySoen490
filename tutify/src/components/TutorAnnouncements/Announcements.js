@@ -126,7 +126,7 @@ export class Announcements extends React.Component {
             }, (error) => {
                 swal("Something went wrong...", "", "error")
                     .then((value) => {
-                        console.error(error);
+                        console.error("Something went wrong when sending sending an announcement (API call error) " + error);
                     });
             })
         event.preventDefault();
@@ -154,7 +154,7 @@ export class Announcements extends React.Component {
                 }
 
             })
-            .catch(err => console.error(err));
+            .catch(err => console.error("Session could not be checked: " + err));
     };
 
     // fetch the tutor's students from our database
@@ -166,7 +166,7 @@ export class Announcements extends React.Component {
             .then((res) => {
                 this.setState({ students: res.data.data });
             }, (error) => {
-                console.error(error);
+                console.error("Could not get student list (API call error) " + error);
             })
     };
 

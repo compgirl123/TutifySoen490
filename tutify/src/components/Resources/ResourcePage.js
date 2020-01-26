@@ -106,7 +106,7 @@ class ResourcePage extends React.Component {
                     this.setState({ Toggle: false });
                 }
             })
-            .catch(err => console.error(err));
+            .catch(err => console.error("Session could not be checked: " + err));
     };
 
     imgForLevel = () => {

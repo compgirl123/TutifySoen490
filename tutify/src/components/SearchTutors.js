@@ -108,7 +108,7 @@ export class SearchTutors extends Component {
         }
         this.getDataFromDb();
       })
-      .catch(err => console.error(err));
+      .catch(err => console.error("Session could not be checked: " + err));
   };
 
   // filters the list of tutors displayed
