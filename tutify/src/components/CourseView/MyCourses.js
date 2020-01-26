@@ -13,7 +13,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
-import swal from '@sweetalert/with-react'
+import swal from '@sweetalert/with-react';
 import axios from "axios";
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -28,7 +28,7 @@ import Select from '@material-ui/core/Select';
 
 
 // View the General Course Page with all of the Courses the Tutor Teaches or Student is enrolled in.
-export class TutorCourses extends React.Component {
+export class MyCourses extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -446,4 +446,4 @@ export class TutorCourses extends React.Component {
     );
   }
 }
-export default withStyles(tutifyStyle.styles, { withTheme: true })(TutorCourses);
+export default withStyles(tutifyStyle.styles, { withTheme: true })(MyCourses);

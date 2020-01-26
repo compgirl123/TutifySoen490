@@ -73,7 +73,7 @@ export class StudentList extends React.Component {
   handleShareDocButton = (tableTitle = false, bottomButton = false) => {
     if (!tableTitle) {
       if (this.props.match.params.file === undefined) {
-        return <TableCell><Button type="button" onClick={() => window.location.replace("/doclist")} variant="contained" size="small" className="submit">Share Document</Button></TableCell>;
+        return <Button type="button" onClick={() => window.open("/doclist")} variant="contained" size="small" className="submit">Share Document</Button>;
       }
       if (bottomButton) {
         return <Button type="button" style={{ "left": "80%", "top": "10px" }} onClick={event => this.uploadCourse(event, this.state.shareTo)} variant="contained" size="small" className="submit">
@@ -87,7 +87,7 @@ export class StudentList extends React.Component {
   handleViewDocButton = (stuid, tableTitle = false, bottomButton = false) => {
     if (!tableTitle) {
       if (this.props.match.params.file === undefined) {
-        return <TableCell><Button type="button" onClick={() => window.location.replace("/doc/" + stuid)} variant="contained" size="small" className="submit">View Documents</Button></TableCell>;
+        return <Button type="button" onClick={() => window.open("/doc/" + stuid)} variant="contained" size="small" className="submit">View Documents</Button>;
       }
       if (bottomButton) {
         return <Button type="button" style={{ "left": "80%", "top": "10px" }} onClick={event => this.uploadCourse(event, this.state.shareTo)} variant="contained" size="small" className="submit">
@@ -156,13 +156,6 @@ export class StudentList extends React.Component {
                               ?
                               <TableCell>Select student</TableCell>
                               :
-                              <TableCell></TableCell>
-                            }
-
-                            {this.props.match.params.file !== undefined
-                              ?
-                              <TableCell></TableCell>
-                              :
                               <TableCell>View Doc</TableCell>
                             }
                             <TableCell></TableCell>
@@ -184,17 +177,21 @@ export class StudentList extends React.Component {
                                   ?
                                   <Checkbox name={student._id} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} />
                                   :
-                                  <br />
+                                  this.handleViewDocButton(student._id)
                                 }
                               </TableCell>
-                              {this.handleViewDocButton(student._id)}
+                              {/*{this.handleViewDocButton(student._id)}*/}
                             </TableRow>
                           ))}
+
+                        <TableRow> 
+                        <TableCell>
+                            {this.handleShareDocButton(false, true)}
+                        </TableCell>
+                        </TableRow>
+
                         </TableBody>
                       </Table>
-                      <div >
-                        {this.handleShareDocButton(false, true)}
-                      </div>
                     </React.Fragment>
                   </Paper>
                 </Grid>

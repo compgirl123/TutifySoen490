@@ -21,7 +21,7 @@ import axios from 'axios';
 // View the Specific Course Page with all of the Course Details.
 // Students can view documents.
 // Tutors can view and delete documents.
-export class ViewTutorCourse extends React.Component {
+export class ViewCourse extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -226,7 +226,9 @@ export class ViewTutorCourse extends React.Component {
                           ))}
                           {this.state.profileType === "tutor" && this.state.files.length !== 0
                             ?
+                            <TableRow>
                             <TableCell><Button type="button" onClick={event => this.deleteFile(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Documents</Button></TableCell>
+                            </TableRow>
                             :
                             <br />
                           }
@@ -251,5 +253,4 @@ export class ViewTutorCourse extends React.Component {
   }
 }
 
-export default withStyles(CourseViewStyles.styles, { withTheme: true })(ViewTutorCourse);
-
+export default withStyles(CourseViewStyles.styles, { withTheme: true })(ViewCourse);

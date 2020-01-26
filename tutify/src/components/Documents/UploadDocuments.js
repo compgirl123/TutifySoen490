@@ -97,7 +97,6 @@ export class UploadDocuments extends Component {
     });
     console.info("The file has been uploaded successfully");
     window.location.reload();
-
   }
 
   render() {

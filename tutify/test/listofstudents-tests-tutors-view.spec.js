@@ -6,25 +6,19 @@ import Adapter from "enzyme-adapter-react-16";
 import { shallow } from 'enzyme';
 import Typography from '@material-ui/core/Typography';
 import Title from "../src/components/TutorProfile/Title";
-import TableCell from '@material-ui/core/TableCell';
-import Link from '@material-ui/core/Link';
 import Table from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/TableRow';
-import TableBody from '@material-ui/core/TableBody';
-
-// importing the json object with the profile information
-var json = require("./testDb/profiles.json");
 
 configure({ adapter: new Adapter() });
 
-describe('The Tutors List of Students Page', () => {
+describe('The Students List for Tutors view docs Page', () => {
     let mount;
 
     beforeAll(() => {
         mount = createMount();
     });
 
-    it('Testing the Student List for Tutors. Checking if all the required elements are present on this page', () => {
+    it('Testing the Student List for Tutors view doc page. Checking if all the required elements are present on this page', () => {
         const mockedTutorStudentsList =  [
             {
                 first_name: "Claudia Francesca",
@@ -39,16 +33,16 @@ describe('The Tutors List of Students Page', () => {
                 program_of_study: "Soen",
                 school: "concordia",
                 education_level : "university"
-              }
-
+            }
           ]
-        // return to
-        const match = { params: { searchTerm: 'foo' } }
+        
+        // Setting parameter in url file to be undefined as this is only a simple view list of students.
+        // This variable is for tutors viewing the student list and documents for each student.
+        const match = { params: { file: undefined } }
         // All the mounting and state setting
         const wrapper = mount(<StudentList students = {mockedTutorStudentsList} match ={match} ></StudentList>);
         const wrapper_shallow = shallow(<StudentList students = {mockedTutorStudentsList} match ={match}></StudentList>);
         const student_class_wrapper = wrapper.find(StudentListClass);
-        student_class_wrapper.setState({ data: json.data });
         student_class_wrapper.setState({ students: mockedTutorStudentsList });
 
         /**
@@ -76,78 +70,86 @@ describe('The Tutors List of Students Page', () => {
         // Check if TableRow component exists
         expect(table_row_component.exists()).toBeTruthy();
 
+
         /**
          * First Row (Table headers shown here)
         */
 
-        // Finding the TableCell component  (column of the table). 1st column of table is taken here.
-        const firstname_column = wrapper_shallow.dive().find(TableCell).at(0);
+        // Finding the second TableRow Component present on page
+        const tableTitles = wrapper.find(TableRow).at(0);
+
         // Make sure the name of the first Table cell column exists and has the value "First Name"
-        expect(firstname_column.props().children).toBe("First Name");
+        expect(tableTitles.props().children[0].props.children).toBe("First Name");
 
-        // Finding the TableCell component  (column of the table). 2nd column of table is taken here.
-        const lastname_column = wrapper_shallow.dive().find(TableCell).at(1);
         // Make sure the name of the second Table cell column exists and has the value "Last Name"
-        expect(lastname_column.props().children).toBe("Last Name");
+        expect(tableTitles.props().children[1].props.children).toBe("Last Name");
 
-        // Finding the TableCell component  (column of the table). 3rd column of table is taken here.
-        const program_column = wrapper_shallow.dive().find(TableCell).at(2);
         // Make sure the name of the third Table cell column exists and has the value "Program"
-        expect(program_column.props().children).toBe("Program");
+        expect(tableTitles.props().children[2].props.children).toBe("Program");
 
-        // Finding the TableCell component  (column of the table). 4th column of table is taken here.
-        const school_column = wrapper_shallow.dive().find(TableCell).at(3);
         // Make sure the name of the third Table cell column exists and has the value "School"
-        expect(school_column.props().children).toBe("School");
+        expect(tableTitles.props().children[3].props.children).toBe("School");
 
-        // Finding the TableCell component  (column of the table). 5th column of table is taken here.
-        const leveleducation_column = wrapper_shallow.dive().find(TableCell).at(4);
         // Make sure the name of the fourth Table cell column exists and has the value "Level of Education"
-        expect(leveleducation_column.props().children).toBe("Level of Education");
+        expect(tableTitles.props().children[4].props.children).toBe("Level of Education");
+
+        // Make sure the name of the fourth Table cell column exists and has the value "View Doc"
+        expect(tableTitles.props().children[5].props.children).toBe("View Doc");
+
 
         /**
          * Second Row (actual 1st student of the tutor should be shown here)
         */
 
         // Finding the second TableRow Component present on page
-        const studentInformation = wrapper.find(TableRow).at(1);
+        const studentInformationrow1 = wrapper.find(TableRow).at(1);
 
         // Making sure that the First name of student matches the name on page
-        expect(studentInformation.props().children[0].props.children).toBe("Claudia Francesca");
+        expect(studentInformationrow1.props().children[0].props.children).toBe("Claudia Francesca");
 
         // Making sure that the Last name of student matches the name on page
-        expect(studentInformation.props().children[1].props.children).toBe("Feochari");
+        expect(studentInformationrow1.props().children[1].props.children).toBe("Feochari");
 
         // Making sure that the Program of study of student matches the name on page
-        expect(studentInformation.props().children[2].props.children).toBe("Soen");
+        expect(studentInformationrow1.props().children[2].props.children).toBe("Soen");
 
         // Making sure that the School of student matches the name on page
-        expect(studentInformation.props().children[3].props.children).toBe("concordia");
+        expect(studentInformationrow1.props().children[3].props.children).toBe("concordia");
 
         // Making sure that the Education Level of student matches the name on page
-        expect(studentInformation.props().children[4].props.children).toBe("university");
+        expect(studentInformationrow1.props().children[4].props.children).toBe("university");
+
+        // Making sure that the Education Level of student matches the name on page
+        expect(studentInformationrow1.props().children[5].props.children.props.children).toBe("View Documents");
+
 
         /**
          * Third Row (actual 2nd student of the tutor should be shown here)
         */
 
         // Finding the third TableRow Component present on page
-        const studentInformation2 = wrapper.find(TableRow).at(2);
+        const studentInformationrow2 = wrapper.find(TableRow).at(2);
 
         // Making sure that the First name of student matches the name on page
-        expect(studentInformation2.props().children[0].props.children).toBe("Pierre Arthur");
+        expect(studentInformationrow2.props().children[0].props.children).toBe("Pierre Arthur");
 
         // Making sure that the Last name of student matches the name on page
-        expect(studentInformation2.props().children[1].props.children).toBe("Watine");
+        expect(studentInformationrow2.props().children[1].props.children).toBe("Watine");
 
         // Making sure that the Program of study of student matches the name on page
-        expect(studentInformation2.props().children[2].props.children).toBe("Soen");
+        expect(studentInformationrow2.props().children[2].props.children).toBe("Soen");
 
         // Making sure that the School of student matches the name on page
-        expect(studentInformation.props().children[3].props.children).toBe("concordia");
+        expect(studentInformationrow2.props().children[3].props.children).toBe("concordia");
 
         // Making sure that the Education Level of student matches the name on page
-        expect(studentInformation2.props().children[4].props.children).toBe("university");
+        expect(studentInformationrow2.props().children[4].props.children).toBe("university");
 
+        // Making sure that the View Documents button matches the button on page.
+        expect(studentInformationrow1.props().children[5].props.children.props.children).toBe("View Documents");
+
+        // Checking if the Share Document is Present on the Page if more than 0 documents exist.
+        const shareButton = wrapper.find(TableRow).at(3);
+        expect(shareButton.props().children.props.children.props.children).toBe("Share Document");
     });
 }); 
