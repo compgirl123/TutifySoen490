@@ -28,7 +28,9 @@ export class Login extends React.Component {
     this.getDataFromDb();
   }
 
+  //get users from database
   getDataFromDb = () => {
+    console.info("Fetching users from db...");
     fetch('/api/getUser')
       .then((data) => data.json())
       .then((res) => this.setState({ data: res.data }));
@@ -37,6 +39,7 @@ export class Login extends React.Component {
   //Authenticates User when submit button is pressed
   handleSubmit(event) {
     event.preventDefault();
+    console.info("authenticating user and fetching session from db...");
     fetch('/api/authUser', {
       method: 'POST',
       credentials: 'include',
@@ -46,7 +49,6 @@ export class Login extends React.Component {
         "password": document.getElementById("password").value
       })
     })
-
       .then(response => response.json())
       .then(res => {
         if (res.isLoggedIn) {
@@ -62,6 +64,7 @@ export class Login extends React.Component {
         }
       })
   };
+
   render() {
     const { classes } = this.props;
 
