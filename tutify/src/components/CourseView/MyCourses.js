@@ -193,7 +193,8 @@ export class MyCourses extends React.Component {
       .then(res => {
         this.setState({ allCourses: res.data });
       })
-      console.error("Could not get courses from database (API call error) " + error);
+      .catch(err => 
+      console.error("Could not get courses from database (API call error) " + err));
     }
 
 
@@ -208,7 +209,8 @@ export class MyCourses extends React.Component {
       .then(res => {
         this.setState({ courses: res.data });
       })
-      console.error("Could not get courses from database (API call error) " + error);
+      .catch(err => 
+      console.error("Could not get courses from database (API call error) " + err));
   }
 
   // Uses our backend api to fetch tutor's courses from the database
@@ -222,12 +224,13 @@ export class MyCourses extends React.Component {
       .then(res => {
         this.setState({ courses: res.data });
       })
-      console.error("Could not get courses from database (API call error) " + error);
+      .catch(err => 
+      console.error("Could not get courses from database (API call error) " + err));
   }
 
   // Allowing for tutors to share their uploaded documents to specific courses.
   uploadCourse = (e, courseName) => {
-    console.info("Uploading document for course...");
+    console.info("Uploading document for course to db...");
     axios.post('/api/tutorCourses/:file', {
       course_id: courseName,
       file_name: this.props.match.params.file

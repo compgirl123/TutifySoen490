@@ -77,10 +77,9 @@ class ProfilePage extends React.Component {
       .then(response => response.json())
       .then(res => {
         this.setState({ courses: res.data });
-
-
       })
-      console.error("Could not get courses from database (API call error) " + error);
+      .catch(err => 
+      console.error("Could not get courses from database (API call error) " + err));
   };
 
   //this method uses the backend API to find a tutor's students
