@@ -50,11 +50,6 @@ describe('The Students Courses Page', () => {
         /**
          * General Student Course Page
         */
-        
-        // Finding the Typography component that contains the Main Title Header Present on the Page.
-        const course_title = wrapper_shallow.dive().find(Typography).at(0);
-        // Make sure the header name for the student page has the value My Courses
-        expect(course_title.props().children).toBe("My Courses");
 
         // Getting the Card that contains information about the course.
         const cardInfo = wrapper.find(CardContent).at(0);

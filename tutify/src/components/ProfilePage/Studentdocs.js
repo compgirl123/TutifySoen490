@@ -51,8 +51,9 @@ export class Studentdocs extends React.Component {
         else {
           this.setState({ files: [] });
         }
+        console.info("File has been loaded correctly");
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error("Files have not been loaded correctly: " + err));
   }
 
   // Loading the Documents that the tutor teaches
@@ -61,8 +62,9 @@ export class Studentdocs extends React.Component {
       .then(res => res.json())
       .then(res => {
         this.setState({ filesViewTutors: res.fileViewTutors });
+        console.info("File has been loaded correctly");
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error("Files have not been loaded correctly: " + err));
   }
 
   // Running functions according to if the user is logged in as a tutor or as a student.
@@ -85,8 +87,9 @@ export class Studentdocs extends React.Component {
         else {
           this.setState({ user_id: "Not logged in" });
         }
+        console.info("Session checked");
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error("An error occured while checking the current session: " + err));
   };
 
   // Handling the checkbox management in order to select one or many options.
@@ -94,12 +97,13 @@ export class Studentdocs extends React.Component {
     if (event.target.checked) {
       let list = this.state.shareTo;
       list.push(event.target.name);
-      console.log(list);
       await this.setState({ shareTo: list });
+      console.info("Checkbox checked");
 
     } else {
       let filteredArray = this.state.shareTo.filter(item => item !== event.target.name);
       await this.setState({ shareTo: filteredArray });
+      console.info("Checkbox unchecked");
     }
   }
 
@@ -117,8 +121,8 @@ export class Studentdocs extends React.Component {
           axios.post('/api/getSpecificStudentsFilestoDelete', {
             file_id: ids
           }
-          ).then((res) => { })
-            .catch(err => console.log(err));
+          ).then((res) => { console.info("The files to delete all have been deleted") })
+            .catch(err => console.error("Could not delete the specified files: " + err));
           window.location.reload();
         }
       });
@@ -126,7 +130,7 @@ export class Studentdocs extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { files,filesViewTutors } = this.state;
+    const { files, filesViewTutors } = this.state;
     const fixedHeightPaper = clsx(classes.paper);
 
     return (

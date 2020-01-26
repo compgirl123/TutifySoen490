@@ -45,24 +45,28 @@ export class TodoList extends React.Component {
     markComplete = (id) => {
         this.props.markComplete(id)
         this.setState({ todoChanged: true });
+        console.info("Item marked completed")
     }
 
     // Delete Todo from list
     delTodo = (id) => {
         this.props.delTodo(id)
         this.setState({ todoChanged: true });
+        console.info("Item deleted from list")
     }
 
     // Adds a todo to the list
     addTodo = (title) => {
         this.props.addTodo(title)
         this.setState({ todoChanged: true});
+        console.info("Item added to list")
     }
 
     // Save new todo list to the DB
     saveTodosDB = () => {
         this.props.saveTodos(this.state._id)
         this.setState({ todoChanged: false });
+        console.info("Item saved")
     }
 
 

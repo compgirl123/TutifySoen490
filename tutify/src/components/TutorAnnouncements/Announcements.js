@@ -107,7 +107,7 @@ export class Announcements extends React.Component {
             studentsToSend =  this.state.students;
         else
             studentsToSend = this.state.studentsSelected;
-
+        console.info("Creating new announcement...")
         axios.post('/api/sendAnnouncementStudents', {
             students: studentsToSend,
             announcement: {
@@ -126,7 +126,7 @@ export class Announcements extends React.Component {
             }, (error) => {
                 swal("Something went wrong...", "", "error")
                     .then((value) => {
-                        console.log(error);
+                        console.error("Something went wrong when sending sending an announcement (API call error) " + error);
                     });
             })
         event.preventDefault();
@@ -154,23 +154,25 @@ export class Announcements extends React.Component {
                 }
 
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error("Session could not be checked: " + err));
     };
 
     // fetch the tutor's students from our database
     getStudents = () => {
+        console.info("Fetching students from db...")
         axios.post('/api/findStudents', {
             students: this.state.students
         })
             .then((res) => {
                 this.setState({ students: res.data.data });
             }, (error) => {
-                console.log(error);
+                console.error("Could not get student list (API call error) " + error);
             })
     };
 
     // fetch the tutor's courses from our database
     getCourses = () => {
+        console.info("Fetching tutor courses from db...")
         fetch('/api/getTutorCourses', {
             method: 'GET',
             credentials: 'include'
@@ -180,7 +182,7 @@ export class Announcements extends React.Component {
                 this.setState({ courses: res.data });
                 this.getStudents()
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     }
 
     render() {

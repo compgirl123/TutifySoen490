@@ -49,8 +49,9 @@ export class DocList extends React.Component {
         else {
           this.setState({ files: [] });
         }
+        console.info("The files have been loaded");
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error("Could not load the files: " + err));
   }
 
 
@@ -82,8 +83,8 @@ export class DocList extends React.Component {
           axios.post('/api/getFileToDelete', {
             file_id: encrypted_file_name
           }
-          ).then((res) => { })
-            .catch(err => console.log(err));
+          ).then((res) => { console.info("The file has been deleted"); })
+            .catch(err => { console.error("Could not delete the file: " + err); });
           window.location.reload();
         }
       });
@@ -95,10 +96,12 @@ export class DocList extends React.Component {
       let list = this.state.shareTo;
       list.push(event.target.name);
       await this.setState({ shareTo: list });
-
-    } else {
+      console.info("Checkbox checked");
+    }
+    else {
       let filteredArray = this.state.shareTo.filter(item => item !== event.target.name);
       await this.setState({ shareTo: filteredArray });
+      console.info("Checkbox unchecked");
     }
   }
 
@@ -112,12 +115,13 @@ export class DocList extends React.Component {
     })
       .then((willDelete) => {
         if (willDelete !== null) {
+
           swal("File Deleted", "", "success")
           axios.post('/api/getSpecificCourseFilestoDelete', {
             file_id: ids
           }
-          ).then((res) => { })
-            .catch(err => console.log(err));
+          ).then((res) => { console.info("The files to delete all have been deleted") })
+            .catch(err => console.error("Could not delete the specified files: " + err));
           window.location.reload();
         }
       });
