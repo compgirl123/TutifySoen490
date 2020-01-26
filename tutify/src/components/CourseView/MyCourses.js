@@ -40,7 +40,8 @@ export class TutorCourses extends React.Component {
       courseName1: "",
       description: "",
       filteredListCourses: [],
-      discriminator: ""
+      discriminator: "",
+      id: ""
     };
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -61,6 +62,7 @@ export class TutorCourses extends React.Component {
     this.setState({ open: false, filteredListCourses: [] });
   };
 
+  // this method is invoked when a student chooses the education level from the dropdownmenu
   handleChange = (e) => {
     var filteredListCourses = [];
     for (var i = 0; i < this.state.allCourses.length; i++) {
@@ -71,60 +73,85 @@ export class TutorCourses extends React.Component {
     this.setState({ filteredListCourses: filteredListCourses });
   }
 
+  // this method adds a course to the database
   addCourseToDb = () => {
     var tutor = [];
     tutor.push(this.state.id);
-    axios.post('/api/addCourseToDb', {
-      name: this.state.courseName2,
-      description: this.state.description,
-      educationLevel: this.state.educationLevel2,
-      tutor: tutor
-    })
-      .then((res) => {
-        swal("Course successfully added!", "", "success");
-        this.handleClose();
-
-      }, (error) => {
-        console.log(error);
-      });
-  }
-
-  addTutorToCourse = () => {
-    console.log(this.state.courseName1);
-    
     swal({
       title: "Would you like to add the following course?",
       buttons: {
         confirm: "Yes",
         cancel: "Cancel",
-      },      
+      },
       content: (
         <div>
           <p><b>
-      Name: {this.state.courseName1.name}</b>
+            Name: {this.state.courseName2}</b>
           </p>
           <p>
-      Description: {this.state.courseName1.description}
+            Description: {this.state.description}
           </p>
           <p>
-      Course Level: {this.state.courseName1.educationLevel}
+            Course Level: {this.state.educationLevel2}
           </p>
         </div>
       )
     })
-    .then((value) => {
-      if (value) {
-        axios.post('/api/addTutorToCourse', {
-        })
-          .then((res) => {
-            swal("Course successfully added!", "", "success")
-            this.handleClose();
-          }, (error) => {
-            console.log(error);
-          });
-      }   
-    });
-   
+      .then((value) => {
+        if (value) {
+          axios.post('/api/addCourseToDb', {
+            name: this.state.courseName2,
+            description: this.state.description,
+            educationLevel: this.state.educationLevel2,
+            tutor: tutor
+          })
+            .then((res) => {
+              swal("Course successfully added!", "", "success");
+              this.handleClose();
+            }, (error) => {
+              console.log(error);
+            });
+        }
+      });
+  }
+
+  // this method assigns a tutor to an existing course
+  addTutorToCourse = () => {
+    swal({
+      title: "Would you like to add the following course?",
+      buttons: {
+        confirm: "Yes",
+        cancel: "Cancel",
+      },
+      content: (
+        <div>
+          <p><b>
+            Name: {this.state.courseName1.name}</b>
+          </p>
+          <p>
+            Description: {this.state.courseName1.description}
+          </p>
+          <p>
+            Course Level: {this.state.courseName1.educationLevel}
+          </p>
+        </div>
+      )
+    })
+      .then((value) => {
+        if (value) {
+          axios.post('/api/addTutorToCourse', {
+            course_id: this.state.courseName1._id,
+            tutor: this.state.id
+          })
+            .then((res) => {
+              swal("Course successfully added!", "", "success")
+              this.handleClose();
+            }, (error) => {
+              console.log(error);
+            });
+        }
+      });
+
 
   }
 
@@ -138,7 +165,7 @@ export class TutorCourses extends React.Component {
       .then(response => response.json())
       .then(res => {
         if (res.isLoggedIn) {
-          this.setState({ discriminator: res.userInfo.__t });
+          this.setState({ discriminator: res.userInfo.__t, id: res.userInfo._id });
           if (res.userInfo.__t === "student") {
             this.getUserDataFromDb();
           }
@@ -152,6 +179,7 @@ export class TutorCourses extends React.Component {
       .catch(err => console.log(err));
   };
 
+  // this method gets all the courses from the database
   getAllCoursesFromDB = () => {
     fetch('/api/getCourses', {
       method: 'GET',
@@ -205,7 +233,6 @@ export class TutorCourses extends React.Component {
     if (event.target.checked) {
       let list = this.state.shareTo;
       list.push(event.target.name);
-      console.log(list);
       await this.setState({ shareTo: list });
     } else {
       let filteredArray = this.state.shareTo.filter(item => item !== event.target.name);
@@ -216,8 +243,7 @@ export class TutorCourses extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { courses } = this.state;
-    const { open } = this.state;
+    const { courses, open } = this.state;
 
     return (
       <Paper className={classes.paper}>
@@ -228,7 +254,7 @@ export class TutorCourses extends React.Component {
               <div className={classes.appBarSpacer} />
               <Container maxWidth="lg" className={classes.container}>
                 {this.state.discriminator === "tutor" ?
-                  <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} style={{ marginBottom: 20 }} >
+                  <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addCourseButton} >
                     Add Course
                </Button>
                   :
@@ -281,7 +307,7 @@ export class TutorCourses extends React.Component {
                         Choose from an existing course:
                         </DialogContentText>
                     </div>
-                    <FormControl variant="outlined" className={classes.formControl} style={{ marginTop: 15, marginBottom: 20 }}
+                    <FormControl className={classes.formControl}
                     >
                       <InputLabel htmlFor="outlined-age-native-simple">
                         Education Level
@@ -299,7 +325,7 @@ export class TutorCourses extends React.Component {
                     </FormControl>
 
                     {this.state.filteredListCourses.length === 0 ? <></> :
-                      <FormControl variant="outlined" className={classes.formControl} style={{ marginTop: 10, marginBottom: 15 }}
+                      <FormControl className={classes.formControl}
                       >
                         <InputLabel htmlFor="outlined-age-native-simple">
                           Course Name
@@ -318,11 +344,11 @@ export class TutorCourses extends React.Component {
                     <div>
 
                       {this.state.courseName1 === "" ?
-                        <Button variant="contained" size="lg" active style={{ marginBottom: 15 }} disabled>
+                        <Button variant="contained" size="lg" active className={classes.saveCourseButton} disabled>
                           Save Course
                     </Button>
                         :
-                        <Button variant="contained" size="lg" active onClick={() => { this.addTutorToCourse(); }} style={{ marginBottom: 15 }}>
+                        <Button variant="contained" size="lg" active onClick={() => { this.addTutorToCourse(); }} className={classes.saveCourseButton}>
                           Save Course
                     </Button>
                       }
@@ -363,15 +389,12 @@ export class TutorCourses extends React.Component {
                     />
                     <div>
 
-
-                      <FormControl variant="outlined" className={classes.formControl} style={{ marginTop: 30 }}
+                      <FormControl className={classes.formControl}
                       >
-                        <InputLabel htmlFor="outlined-age-native-simple">
+                        <InputLabel>
                           Education Level
                         </InputLabel>
                         <Select
-                          labelId="demo-simple-select-outlined-label"
-                          id="demo-simple-select-outlined"
                           onChange={e => this.setState({ educationLevel2: e.target.value })}
                         >
                           <MenuItem value='Elementary School'>Elementary School</MenuItem>
@@ -382,11 +405,11 @@ export class TutorCourses extends React.Component {
 
                     </div>
                     {this.state.educationLevel2 === "" || this.state.description === "" || this.state.courseName2 === "" ?
-                      <Button variant="contained" size="lg" style={{ marginTop: 15 }} disabled>
+                      <Button variant="contained" size="lg" className={classes.formControl} disabled>
                         Save Course
                       </Button>
                       :
-                      <Button variant="contained" size="lg" active onClick={() => { this.addCourseToDb(); }} style={{ marginTop: 15 }}>
+                      <Button variant="contained" size="lg" active onClick={() => { this.addCourseToDb(); }} className={classes.formControl}>
                         Save Course
                       </Button>
                     }

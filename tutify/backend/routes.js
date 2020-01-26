@@ -84,6 +84,8 @@ router.delete('/deleteAppointment', appointmentController.deleteAppointment);
 
 router.get('/getCourses', courseController.getCourses);
 
+router.post('/addTutorToCourse', courseController.addTutorToCourse);
+
 router.post('/addCourseToDb', courseController.addCourseToDb);
 
 // -------- Files ROUTES --------- // 
