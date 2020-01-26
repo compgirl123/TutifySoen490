@@ -9,7 +9,6 @@ exports.getFile = async (req, res, next) => {
   // Retrieving the file information from the db (from uploads.files)
   await Mfiles.findOne({ filename: req.params.filename }, async (err, file) => {
     if (err) {
-      response = "File Error";
       console.error("Could not find the specified name by its file name");
       return await res.status(404).send({
         title: 'File error',
@@ -18,7 +17,6 @@ exports.getFile = async (req, res, next) => {
       });
     }
     if (!file || file.length === 0) {
-      response = "Download Error";
       console.error("Could not download the file");
       return await res.status(500).send({
         title: 'Download Error',
@@ -29,7 +27,6 @@ exports.getFile = async (req, res, next) => {
       await Mchunks.find({ files_id: file._id }, async (err, chunks) => {
         var chunkArray = chunks;
         if (!chunkArray || chunkArray.length === 0) {
-          response = "Download Error";
           console.error("Could not find the chunks data for the file");
           return await res.status(404).send({
             title: 'Download Error',
@@ -45,13 +42,11 @@ exports.getFile = async (req, res, next) => {
         //Display the chunks using the data URI format          
         let finalFile = 'data:' + file.contentType + ';base64,'
           + fileData.join('');
-        response = finalFile;
 
 
         // Find the initial name in uploaded_files
         await Files.findOne({ encryptedname: req.params.filename }, async (err, uploadedfile) => {
           if (err) {
-            response = "File name Error";
             console.error("Could not find the specified filename in the database");
             return await res.status(500).send({
               title: 'File error',
