@@ -1,0 +1,98 @@
+{
+    "data": [
+      {
+        "_id": {
+          "$oid": "5dba6e4e1c9d440000b48a81"
+        },
+        "name": "COMP 472",
+        "description": "Automated reasoning. Search and heuristic search. Game‑playing. Planning. Knowledge representation. Probabilistic reasoning. Introduction to machine learning. Introduction to natural language processing.",
+        "tutors": [
+          "5dacd1cf1c9d440000aa0b1b"
+        ],
+        "students": [],
+        "sharedToCourses": [],
+        "educationLevel": "University"
+      },
+      {
+        "_id": {
+          "$oid": "5dbaef561c9d440000c0ab0a"
+        },
+        "name": "MATH 203",
+        "description": "Linear Algebra I. Vector Spaces, Subspaces. Linear Combinations, Systems of Equations Linear Dependence and Independence ",
+        "tutors": [
+          "5dacd1cf1c9d440000aa0b1b"
+        ],
+        "students": [],
+        "sharedToCourses": [],
+        "educationLevel": "University"
+      },
+      {
+        "_id": {
+          "$oid": "5dbaf0751c9d440000c0ab0c"
+        },
+        "name": "FRENCH",
+        "description": "Elementary Language French as a Second Language",
+        "tutors": [
+          "5dae5f8b1c9d44000071cbc2"
+        ],
+        "students": [],
+        "educationLevel": "Elementary School",
+        "sharedToCourses": []
+      },
+      {
+        "_id": {
+          "$oid": "5dbb0bd51c9d440000ce6e66"
+        },
+        "name": "COMP 477",
+        "description": "Introduction to the algorithms, data structures, and techniques used in modelling and rendering dynamic scenes. Topics include principles of traditional animation, production pipeline, animation hardware and software, orientation representation and interpolation.",
+        "tutors": [
+          {
+            "$oid": "5dacd1cf1c9d440000aa0b1b"
+          }
+        ],
+        "students": [],
+        "educationLevel": "University"
+      },
+      {
+        "_id": {
+          "$oid": "5e1cb2391c9d440000e5172b"
+        },
+        "name": "Business Calculus 1",
+        "description": "Calculus for Business Students",
+        "tutors": [
+          "5dacd1cf1c9d440000aa0b1b"
+        ],
+        "students": [
+          ""
+        ],
+        "sharedToCourses": [
+          {
+            "$oid": "5e2a25b0576eee0eedff1381"
+          }
+        ],
+        "educationLevel": "University"
+      },
+      {
+        "_id": {
+          "$oid": "5e27a44b1c9d440000b5319c"
+        },
+        "name": "MicroBit 123",
+        "description": "Introduction to MicroBits",
+        "tutors": [
+          "5e26fe99cd90690012009eda"
+        ],
+        "students": [
+          ""
+        ],
+        "sharedToCourses": [
+          {
+            "$oid": "5e2b654d189d220012593ac6"
+          },
+          {
+            "$oid": "5e2b65e5b1b70b0a2dafe134"
+          }
+        ],
+        "educationLevel": "Elementary School"
+      }
+    ]
+  }

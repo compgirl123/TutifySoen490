@@ -59,7 +59,7 @@ export class MyCourses extends React.Component {
   };
 
   handleClose = () => {
-    this.setState({ open: false, filteredListCourses: [], courseName2: "", description: "", educationLevel2: "", courseName1: ""});
+    this.setState({ open: false, filteredListCourses: [], courseName2: "", description: "", educationLevel2: "", courseName1: "" });
   };
 
   // this method is invoked when a student chooses the education level from the dropdownmenu
@@ -99,6 +99,7 @@ export class MyCourses extends React.Component {
     })
       .then((value) => {
         if (value) {
+          console.info("Adding course to db...");
           axios.post('/api/addCourseToDb', {
             name: this.state.courseName2,
             description: this.state.description,
@@ -110,7 +111,7 @@ export class MyCourses extends React.Component {
               swal("Course successfully added!", "", "success");
               this.handleClose();
             }, (error) => {
-              console.log(error);
+              console.error("Could not add course to database (API call error) " + error);
             });
         }
       });
@@ -140,6 +141,7 @@ export class MyCourses extends React.Component {
     })
       .then((value) => {
         if (value) {
+          console.info("Assigning tutor to course...");
           axios.post('/api/addTutorToCourse', {
             course_id: this.state.courseName1._id,
             tutor: this.state.id
@@ -149,17 +151,16 @@ export class MyCourses extends React.Component {
               swal("Course successfully added!", "", "success");
               this.handleClose();
             }, (error) => {
-              console.log(error);
+              console.error("Could not assign tutor to existing course (API call error) " + error);
             });
         }
       });
-
-
   }
 
 
   // Distinguishing the tutor login from student login.
   checkSession = () => {
+    console.info("Fetching session from db...");
     fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
@@ -178,11 +179,12 @@ export class MyCourses extends React.Component {
         }
 
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error("Session could not be checked: " + err));
   };
 
   // this method gets all the courses from the database
   getAllCoursesFromDB = () => {
+    console.info("Fetching all courses from db...");
     fetch('/api/getCourses', {
       method: 'GET',
       credentials: 'include'
@@ -191,12 +193,13 @@ export class MyCourses extends React.Component {
       .then(res => {
         this.setState({ allCourses: res.data });
       })
-      .catch(err => console.log(err));
-  }
+      console.error("Could not get courses from database (API call error) " + error);
+    }
 
 
-  // Uses our backend api to fetch the courses from our database
+  // Uses our backend api to fetch student's courses from the database
   getUserDataFromDb = () => {
+    console.info("Fetching student's courses from db...");
     fetch('/api/getUserCourses', {
       method: 'GET',
       credentials: 'include'
@@ -205,11 +208,12 @@ export class MyCourses extends React.Component {
       .then(res => {
         this.setState({ courses: res.data });
       })
-      .catch(err => console.log(err));
+      console.error("Could not get courses from database (API call error) " + error);
   }
 
-  // Uses our backend api to fetch the courses from our database
+  // Uses our backend api to fetch tutor's courses from the database
   getTutorDataFromDb = () => {
+    console.info("Fetching tutor's courses from db...");
     fetch('/api/getTutorCourses', {
       method: 'GET',
       credentials: 'include'
@@ -218,11 +222,12 @@ export class MyCourses extends React.Component {
       .then(res => {
         this.setState({ courses: res.data });
       })
-      .catch(err => console.log(err));
+      console.error("Could not get courses from database (API call error) " + error);
   }
 
   // Allowing for tutors to share their uploaded documents to specific courses.
   uploadCourse = (e, courseName) => {
+    console.info("Uploading document for course...");
     axios.post('/api/tutorCourses/:file', {
       course_id: courseName,
       file_name: this.props.match.params.file

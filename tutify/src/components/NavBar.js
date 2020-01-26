@@ -44,6 +44,7 @@ export class NavBar extends Component {
   }
 
   checkSession = () => {
+    console.info("Fetching session from db...");
     fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
@@ -60,10 +61,12 @@ export class NavBar extends Component {
           this.setState({ Toggle: false });
         }
       })
-      .catch(err => console.log(err));
-  };
+      .catch(err => console.error("Session could not be checked: " + err));
+      };
 
+  // this method handles the "Logout" button
   handleChange(event) {
+    console.info("Deleting session...");
     fetch('/api/logout', {
       method: 'GET',
       credentials: 'include'
@@ -72,7 +75,7 @@ export class NavBar extends Component {
       .then(res => {
         this.setState({ Toggle: false });
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error("Logging out: " + err));
   };
 
 

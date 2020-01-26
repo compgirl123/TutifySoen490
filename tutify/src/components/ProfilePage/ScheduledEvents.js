@@ -45,6 +45,7 @@ class ScheduledEvents extends React.Component {
 
   //retrieves the session
   checkSession = () => {
+    console.info("Fetching session from db...");
     fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
@@ -54,14 +55,14 @@ class ScheduledEvents extends React.Component {
         this.setState({ events: res.userInfo.events });
         this.populateEvents();
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error("Session could not be checked: " + err));
   };
 
   //retireves events from database and displays them
   populateEvents = () => {
     var newDates = [];
     var newEvents = [];
-
+    console.info("Fetching events from db...");
     axios.post('/api/populateEvents', {
       events: this.state.events
     })
@@ -84,7 +85,7 @@ class ScheduledEvents extends React.Component {
         this.setState({ dates: newDates, eventsDecoded: newEvents });
 
       }, (error) => {
-        console.log(error);
+        console.error("Could not get events from database (API call error) " + error);
       });
   };
 
