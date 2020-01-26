@@ -47,7 +47,32 @@ const benefit = [
     buttonVariant: 'outlined',
   },
 ];
+
 class Main extends React.Component {
+
+  componentWillMount() {
+    this.checkSession();
+  }
+
+  checkSession = () => {
+    fetch('/api/checkSession', {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then(response => response.json())
+      .then((res) => {
+        if (res.isLoggedIn) {
+          if (res.userInfo.__t === 'student') {
+            window.location = "dashboard";
+          }
+          else if (res.userInfo.__t === 'tutor') {
+            window.location = "profile";
+          }
+        }
+      })
+      .catch(err => console.log(err));
+  };
+
   render() {
     const {classes} = this.props;
     return (
