@@ -57,8 +57,9 @@ export class Document extends Component {
             else {
                 this.setState({ user_id: "Not logged in" });
             }
+            console.info("Session checked");
         })
-        .catch(err => console.log(err));
+        .catch(err => console.error("An error occured while checking the current session: "+err));
     };
 
     loadFile =  async (callback) => {
@@ -69,6 +70,7 @@ export class Document extends Component {
         }).then( (res) => 
             res.json()).then( json => {
             this.setState({data: json.data, datatype: json.datatype, originalfilename:json.filename});
+            console.info("File has been loaded correctly");
         });
 
         await callback(api);
@@ -80,9 +82,7 @@ export class Document extends Component {
             .then((res) => {
             return res.blob();})
             .then((blob) => {
-                // var file = new File([blob], filename,{type:datatype});
                 this.setState({file: blob});
-                // var file = new Blob([data], {type: type});
                 if (window.navigator.msSaveOrOpenBlob) // IE10+
                     window.navigator.msSaveOrOpenBlob(blob, filename);
                 else { // Others
@@ -96,6 +96,7 @@ export class Document extends Component {
                         window.URL.revokeObjectURL(url);  
                     }, 0); 
                 }
+                console.info("Successfully downloaded file as blob");
                 return blob;
             })
         await callback(file);
@@ -112,8 +113,14 @@ export class Document extends Component {
     }).then(res => res.json())
       .then(response => {
         //console.log(response);
-        if (response.success) this.loadFile()
-        else alert('Delete Failed');
+        if (response.success) {
+          this.loadFile();
+          console.info("The file has successfully been deleted")
+        }
+        else {
+          console.error("The file was not deleted properly");
+          alert('Delete Failed');
+        }
       })
   }
 

@@ -5,7 +5,11 @@ const Student = require('../models/models').Student;
 // this method fetches all available tutors in our database
 exports.getTutors = async function (req, res) {
     Tutor.find((err, data) => {
-        if (err) return res.json({ success: false, error: err });
+        if (err) {
+            console.error("Could not get the list of all tutors");
+            return res.json({ success: false, error: err });
+        }
+        console.info("The list of tutors has been retrieved successfully");
         return res.json({ success: true, data: data });
     });
 };
@@ -14,7 +18,11 @@ exports.getTutors = async function (req, res) {
 exports.getTutor = async function (req, res) {
     Tutor.findOne({ _id: req.query.ID }).populate('courses.course').
         exec(function (err, tutor) {
-            if (err) return handleError(err);
+            if (err) {
+                console.error("The specific tutor was not found");
+                return handleError(err);
+            }
+            console.info("The specific tutor was found");
             return res.json({ success: true, tutor: tutor });
         });
 };
@@ -26,12 +34,27 @@ exports.updateTutor = async function (req, res) {
         { "$push": { "subjects": subjects } },
         { "new": true, "upsert": true },
         (err, user) => {
-            if (err) return res.json({ success: false, error: err });
+            if (err) {
+                console.error("The tutor to update was not retrieved");
+                return res.json({ success: false, error: err });
+            }
+            console.info("The tutor's list of subjects has been updated successfully");
+
             //update the session
             req.session.userInfo.subjects = user.subjects;
             req.session.save(function (err) {
+                if (err) {
+                    console.error("The session was unable to be saved");
+                    return res.json({ success: false, error: err });
+                }
+                console.info("The session was able to be saved");       
                 req.session.reload(function (err) {
-                    //session reloaded
+                    if (err) {
+                        console.warn("The session failed to reload");
+                    }
+                    else{
+                        console.info("The session reloaded successfully");
+                    }
                     return res.json({ success: true, newSubjects: user.subjects });
                 });
             });
@@ -52,12 +75,26 @@ exports.updateTutorInfo = async function (req, res) {
         },
         { "new": true, "upsert": true },
         (err, user) => {
-            if (err) return res.json({ success: false, error: err });
+            if (err) {
+                console.error("The tutor's informations were not found");
+                return res.json({ success: false, error: err });
+            }
+            console.info("The changes of the tutor's informations were saved successfully");
             //update the session
             req.session.userInfo = user;
             req.session.save(function (err) {
+                if (err) {
+                    console.error("The session was unable to be saved");
+                    return res.json({ success: false, error: err });
+                }
+                console.info("The session was able to be saved");
                 req.session.reload(function (err) {
-                    //session reloaded
+                    if (err) {
+                        console.warn("The session failed to reload");
+                    }
+                    else{
+                        console.info("The session reloaded successfully");
+                    }
                     return res.json({ success: true, userInfo: user });
                 });
             });
@@ -72,7 +109,7 @@ exports.addEvent = async function (req, res) {
     let event = new Event();
     var newEvents = [];
     var count = 0;
-    
+
     //create event
     event.description = description;
     event.location = location;
@@ -86,43 +123,65 @@ exports.addEvent = async function (req, res) {
 
     event.save(function (err, eve) {
 
-        if (err) return res.json({ success: false, error: err });
+        if (err) {
+            console.error("The tutor event was unable to be stored in the database");
+            return res.json({ success: false, error: err });
+        }
         events.push(eve.id);
         Tutor.findByIdAndUpdate(tutor_id,
             { "$push": { "events": eve.id } },
             { "new": true, "upsert": true },
             function (err, tutor) {
-                if (err) throw err;
-                
+                if (err) {
+                    console.error("The specific tutor was not found (to assign him/her to the event)");
+                    throw err;
+                }
+
                 students.forEach(function (student) {
                     Student.findByIdAndUpdate(student,
                         { "$push": { "events": eve.id } },
                         { "new": true, "upsert": true },
                         function (err, student) {
-                        if (err) throw err;
-                    });
+                            if (err) {
+                                console.error("Failed to assign student "+student+" to the event");
+                                throw err;
+                            }
+                        });
                 });
                 //update the session
                 req.session.userInfo.events = tutor.events;
                 req.session.save(function (err) {
+                    if (err) {
+                        console.error("The session was unable to be saved");
+                        return res.json({ success: false, error: err });
+                    }
+                    console.info("The session was able to be saved");
                     req.session.reload(function (err) {
                         // session reloaded
+                        if (err) {
+                            console.warn("The session failed to reload");
+                        }
+                        else{
+                            console.info("The session reloaded successfully");
+                        }
+                        return res.json({ success: true, userInfo: user });
                     });
 
                     events.forEach(function (event) {
                         Event.findOne({ _id: event }, function (err, event) {
                             if (err) {
-
+                                console.error("Could not find the event "+event)
                             };
-                            
+
                             newEvents.push(event);
 
                             count++;
 
                             if (count == events.length) {
-
+                                console.info("The event has successfully been added");
                                 return res.json({ success: true, data: newEvents });
                             }
+                            console.error("The count vs newEvents array size are not equal");
 
                         });
                     });
@@ -141,20 +200,21 @@ exports.populateEvents = async function (req, res) {
     var count = 0;
 
     if (count == events.length) {
-
+        console.info("The events have been loaded successfully");
         return res.json({ success: true, data: newEvents });
     }
     events.forEach(function (event) {
 
         Event.findOne({ _id: event }, function (err, event) {
             if (err) {
-
+                console.error("The event "+event+" has not been found");
+                return res.json({ success: true, error: err });
             };
             newEvents.push(event);
             count++;
 
             if (count == events.length) {
-
+                console.info("The events have been loaded successfully");
                 return res.json({ success: true, data: newEvents });
             }
 
@@ -167,8 +227,11 @@ exports.populateEvents = async function (req, res) {
 exports.deleteEvent = async function (req, res) {
     const { event_id, tutor_id } = req.body;
 
-    Event.findByIdAndRemove(event_id, (err,event) => {
-        if (err) return res.send(err);
+    Event.findByIdAndRemove(event_id, (err, event) => {
+        if (err) {
+            console.error("The event could not be removed (not found)");
+            return res.send(err);
+        }
         Tutor.findByIdAndUpdate(tutor_id,
             { "$pull": { "events": event_id } },
             function (err, tutor) {
@@ -180,15 +243,24 @@ exports.deleteEvent = async function (req, res) {
                     Student.findByIdAndUpdate(student,
                         { "$pull": { "events": event_id } },
                         function (err, student) {
-                        if (err) throw err;
-                    });
+                            if (err) throw err;
+                        });
                 });
+                console.info("The event was deleted successfully");
                 req.session.userInfo.events = tutor.events;
                 req.session.save(function (err) {
+                    if (err) {
+                        console.error("The session was unable to be saved");
+                        return res.json({ success: false, error: err });
+                    }
+                    console.info("The session was able to be saved");
                     req.session.reload(function (err) {
-
-
-
+                        if (err) {
+                            console.warn("The session failed to reload");
+                        }
+                        else{
+                            console.info("The session reloaded successfully");
+                        }
                         return res.json({ success: true, userInfo: tutor });
                     });
                 });

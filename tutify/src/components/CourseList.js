@@ -27,6 +27,7 @@ const assignCourse = (e, userID, tutorID, courseID) => {
     .then((value) => {
       window.location = "/search";
     });
+  console.info("Successfully enrolled user to course");
 }
 
 function EnrollButton(props) {
@@ -77,9 +78,10 @@ class CourseList extends React.Component {
         tutorName: res.data.tutor.first_name + " " + res.data.tutor.last_name,
         tutorCourses: res.data.tutor.courses,
       });
-      this.getUserCoursesFromDb()
+      this.getUserCoursesFromDb();
+      console.info("Successfully fetched the specific tutor's information");
     })
-      .catch(err => console.log(err));
+      .catch(err => console.error("Could not get the tutor's information from the database: "+err));
   }
 
   getUserCoursesFromDb = () => {
@@ -90,8 +92,9 @@ class CourseList extends React.Component {
       .then(response => response.json())
       .then(res => {
         this.setState({ userCourses: res.data });
+        console.info("Successfully fetched the user's enrolled courses");
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error("Could not get the user's courses: "+err));
   }
 
   checkSession = () => {
@@ -107,8 +110,9 @@ class CourseList extends React.Component {
           });
           this.getTutorFromDB()
         }
+        console.info("Session checked");
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error("An error occured while checking the current session: "+err));
   };
 
   checkIfConnected(courseID) {
