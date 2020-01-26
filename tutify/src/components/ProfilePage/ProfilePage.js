@@ -44,6 +44,7 @@ class ProfilePage extends React.Component {
   }
 
   checkSession = () => {
+    console.info("Fetching session from db...");
     fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
@@ -62,10 +63,13 @@ class ProfilePage extends React.Component {
         }
 
       })
-      .catch(err => console.log(err));
-  };
- 
+      .catch(err => console.error("Session could not be checked: " + err));
+      };
+
+
+  //this method uses the backend API to find a student's courses
   getUserCourses = () => {
+    console.info("Fetching student courses from db...");
     fetch('/api/getUserCourses', {
         method: 'GET',
         credentials: 'include'
@@ -73,13 +77,14 @@ class ProfilePage extends React.Component {
       .then(response => response.json())
       .then(res => {
         this.setState({ courses: res.data });
-
-
       })
-      .catch(err => console.log(err));
+      .catch(err => 
+      console.error("Could not get courses from database (API call error) " + err));
   };
 
+  //this method uses the backend API to find a tutor's students
   FindStudents = () => {
+    console.info("Fetching students from db...");
     axios.post('/api/findStudents', {
       students: this.state.students
     })
@@ -88,7 +93,7 @@ class ProfilePage extends React.Component {
         this.setState({ students: res.data.data });
 
       }, (error) => {
-        console.log(error);
+        console.error("Could not get students from database (API call error) " + error);
       })
   };
 

@@ -35,6 +35,7 @@ export class NavBar extends Component {
   }
 
   checkSession = () => {
+    console.info("Fetching session from db...");
     fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
@@ -48,8 +49,8 @@ export class NavBar extends Component {
           this.setState({ Toggle: false, email: true });
         }
       })
-      .catch(err => console.log(err));
-  };
+      .catch(err => console.error("Session could not be checked: " + err));
+      };
 
   render() {
     const { classes } = this.props;

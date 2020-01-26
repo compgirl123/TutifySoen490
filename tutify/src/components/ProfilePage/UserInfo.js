@@ -70,7 +70,9 @@ export class UserInfo extends React.Component {
 
   handleChangeValue = e => this.setState({ value: e.target.value });
 
+    //retrieves the session
   checkSession = () => {
+    console.info("Fetching session from db...");
     fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
@@ -91,8 +93,7 @@ export class UserInfo extends React.Component {
           this.setState({ Toggle: false });
         }
       })
-      .catch(err => console.log(err));
-  };
+      .catch(err => console.error("Session could not be checked: " + err));  };
 
   update = async (value) => {
     await this.setState({
@@ -129,6 +130,8 @@ export class UserInfo extends React.Component {
       }
     }
 
+    //this method updates tutor information
+    console.info("Fetching tutor information from db...");
     axios.post('/api/updateTutorInfo', {
       _id: this.state._id,
       program_of_study: updatedProfileValues[0],
@@ -145,10 +148,11 @@ export class UserInfo extends React.Component {
         });
         swal("Information successfully updated!", "", "success")
       }, (error) => {
-        console.log(error);
+        console.error("Could not get updated tutor info from database (API call error) " + error);
       });
   };
 
+  //this method updates student information
   updateStudentOptions = () => {
     var updatedProfileValues = [
       this.state.updatedProgramOfStudy,
@@ -179,6 +183,7 @@ export class UserInfo extends React.Component {
       else {
       }
     }
+    console.info("Fetching student info from db...");
     axios.post('/api/updateUserInfo', {
       _id: this.state._id,
       program_of_study: updatedProfileValues[0],
@@ -195,10 +200,11 @@ export class UserInfo extends React.Component {
         });
         swal("Information successfully updated!", "", "success")
       }, (error) => {
-        console.log(error);
+        console.error("Could not get updated student info from database (API call error) " + error);
       });
   };
 
+  //determines whether tutor or student info needs to be updated
   updateInfo = () => {
     if (this.state.__t === "tutor") {
       this.updateTutorOptions();

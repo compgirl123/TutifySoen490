@@ -102,6 +102,7 @@ export class NewCalendar extends React.Component {
 
   //retrieves the session
   checkSession = () => {
+    console.info("Fetching session from db...");
     fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
@@ -117,11 +118,11 @@ export class NewCalendar extends React.Component {
         this.populateEvents();
         this.FindStudentsForList();
       })
-      .catch(err => console.log(err));
-  };
+      .catch(err => console.error("Session could not be checked: " + err));  };
 
   //converts student object ids to student information
   FindStudentsForList = () => {
+    console.info("Fetching students from db...");
     axios.post('/api/findStudents', {
       students: this.state.students
     })
@@ -130,7 +131,7 @@ export class NewCalendar extends React.Component {
         this.setState({ students: res.data.data });
 
       }, (error) => {
-        console.log(error);
+        console.error("Could not get tutor's students from database (API call error) " + error);
       })
   };
 
@@ -148,7 +149,7 @@ export class NewCalendar extends React.Component {
   populateEvents = () => {
     var newDates = [];
     var newEvents = [];
-
+    console.info("Fetching events from db...");
     axios.post('/api/populateEvents', {
       events: this.state.events
     })
@@ -170,7 +171,7 @@ export class NewCalendar extends React.Component {
 
         this.setState({ dates: newDates, eventsDecoded: newEvents });
       }, (error) => {
-        console.log(error);
+        console.error("Could not get events from database (API call error) " + error);
       });
   };
 
@@ -180,7 +181,7 @@ export class NewCalendar extends React.Component {
     if (this.state.location !== "") {
       var newLocation = "@ " + this.state.location;
     }
-
+    console.info("adding an event and fetching events from db...");
     axios.post('/api/addEvent', {
       events: this.state.events,
       tutor_id: this.state.tutor_id,
@@ -220,7 +221,7 @@ export class NewCalendar extends React.Component {
         });
         swal("Event successfully added!", "", "success")
       }, (error) => {
-        console.log(error);
+        console.error("Could not get events data from database (API call error) " + error);
       });
   };
 
@@ -234,6 +235,7 @@ export class NewCalendar extends React.Component {
     })
       .then((willDelete) => {
         if (willDelete) {
+          console.info("deleting an event and fetching events from db...");
           axios.post('/api/deleteEvent', {
             event_id: id,
             tutor_id: this.state.tutor_id
@@ -242,7 +244,7 @@ export class NewCalendar extends React.Component {
               this.setState({ events: res.data.userInfo.events });
               this.populateEvents();
             }, (error) => {
-              console.log(error);
+              console.error("Could not get updated events from database (API call error) " + error);
             });
           swal("Event successfully deleted!", "", "success")
 
