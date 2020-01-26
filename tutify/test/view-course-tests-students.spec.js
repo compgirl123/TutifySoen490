@@ -8,9 +8,6 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import TableRow from '@material-ui/core/TableRow';
 
-// importing the json object with the profile information
-var json = require("./testDb/profiles.json");
-
 configure({ adapter: new Adapter() });
 
 describe('The Students View Docs', () => {
@@ -20,7 +17,7 @@ describe('The Students View Docs', () => {
         mount = createMount();
     });
 
-    it('Testing the specific doc share Students. Checking if all of the required information exists on the page.', () => {
+    it('Testing the specific view student courses. Checking if all of the required information exists on the page.', () => {
         // All the mounting and state setting
         
         const mockedStudent =  [
@@ -82,14 +79,22 @@ describe('The Students View Docs', () => {
 
         // Getting the table information about the course documents.
         const table_content =  wrapper_specific_course.find(TableRow).at(0);
-        console.log(table_content.props().children[0].props.children);
         // Getting the title of the course documents.
         expect(table_content.props().children[0].props.children).toBe("Title");
         // Getting the date the the course documents.
         expect(table_content.props().children[1].props.children).toBe("Date");
-        // Getting the "dowload" title the course documents.
+        // Getting the "download" title the course documents.
         expect(table_content.props().children[2].props.children).toBe("Download Documents");
 
-    
+        // Finding the Table Row element containing the information of one row of a document shared to the class
+        const course_document =  wrapper_specific_course.find(TableRow).at(1);
+
+        // Expecting the document name to be equal to name in the course object
+        expect(course_document.props().children[0].props.children).toBe(mockedStudent[0].files[0].name);
+        // Expecting the document upload Date to be equal to upload Date in the course object
+        expect(course_document.props().children[1].props.children).toBe(mockedStudent[0].files[0].uploadDate);
+        // Expecting the download icon name to be equal to the "GetAppIcon" representing the download document icon symbol
+        expect(course_document.props().children[2].props.children.props.children.type.displayName).toBe("GetAppIcon");
+
     });
 }); 

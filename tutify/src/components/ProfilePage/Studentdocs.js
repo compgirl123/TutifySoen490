@@ -22,7 +22,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Fab from "@material-ui/core/Fab";
 
 // displaying the documents shared to students
-class Studentdocs extends React.Component {
+export class Studentdocs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

@@ -6,21 +6,19 @@ import Adapter from "enzyme-adapter-react-16";
 import { shallow } from 'enzyme';
 import Typography from '@material-ui/core/Typography';
 import Title from "../src/components/TutorProfile/Title";
-import TableCell from '@material-ui/core/TableCell';
 import Table from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/TableRow';
 
-// TESTS TO FIX
 configure({ adapter: new Adapter() });
 
-describe('The Tutors List of Students Page', () => {
+describe('The Students List for Tutors view docs Page', () => {
     let mount;
 
     beforeAll(() => {
         mount = createMount();
     });
 
-    it('Testing the Student List for Tutors. Checking if all the required elements are present on this page', () => {
+    it('Testing the Student List for Tutors view doc page. Checking if all the required elements are present on this page', () => {
         const mockedTutorStudentsList =  [
             {
                 first_name: "Claudia Francesca",
@@ -37,7 +35,9 @@ describe('The Tutors List of Students Page', () => {
                 education_level : "university"
             }
           ]
-        // return to
+        
+        // Setting parameter in url file to be undefined as this is only a simple view list of students.
+        // This variable is for tutors viewing the student list and documents for each student.
         const match = { params: { file: undefined } }
         // All the mounting and state setting
         const wrapper = mount(<StudentList students = {mockedTutorStudentsList} match ={match} ></StudentList>);
@@ -70,6 +70,7 @@ describe('The Tutors List of Students Page', () => {
         // Check if TableRow component exists
         expect(table_row_component.exists()).toBeTruthy();
 
+
         /**
          * First Row (Table headers shown here)
         */
@@ -94,6 +95,7 @@ describe('The Tutors List of Students Page', () => {
 
         // Make sure the name of the fourth Table cell column exists and has the value "View Doc"
         expect(tableTitles.props().children[5].props.children).toBe("View Doc");
+
 
         /**
          * Second Row (actual 1st student of the tutor should be shown here)
@@ -120,6 +122,7 @@ describe('The Tutors List of Students Page', () => {
         // Making sure that the Education Level of student matches the name on page
         expect(studentInformationrow1.props().children[5].props.children.props.children).toBe("View Documents");
 
+
         /**
          * Third Row (actual 2nd student of the tutor should be shown here)
         */
@@ -142,10 +145,10 @@ describe('The Tutors List of Students Page', () => {
         // Making sure that the Education Level of student matches the name on page
         expect(studentInformationrow2.props().children[4].props.children).toBe("university");
 
-        // Making sure that the Education Level of student matches the name on page
+        // Making sure that the View Documents button matches the button on page.
         expect(studentInformationrow1.props().children[5].props.children.props.children).toBe("View Documents");
 
-        // Checking if the Delete Button is Present on the Page if more than 0 documents exist.
+        // Checking if the Share Document is Present on the Page if more than 0 documents exist.
         const shareButton = wrapper.find(TableRow).at(3);
         expect(shareButton.props().children.props.children.props.children).toBe("Share Document");
     });

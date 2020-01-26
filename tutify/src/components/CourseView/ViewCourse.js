@@ -226,7 +226,9 @@ export class ViewCourse extends React.Component {
                           ))}
                           {this.state.profileType === "tutor" && this.state.files.length !== 0
                             ?
+                            <TableRow>
                             <TableCell><Button type="button" onClick={event => this.deleteFile(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Documents</Button></TableCell>
+                            </TableRow>
                             :
                             <br />
                           }

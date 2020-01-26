@@ -11,14 +11,14 @@ import TableRow from '@material-ui/core/TableRow';
 
 configure({ adapter: new Adapter() });
 
-describe('The Tutors List of Students Page', () => {
+describe('The List of documents Tutors Page', () => {
     let mount;
 
     beforeAll(() => {
         mount = createMount();
     });
 
-    it('Testing the Student List for Tutors. Checking if all the required elements are present on this page', () => {
+    it('Testing the List of Documents for Tutors. Checking if all the required elements are present on this page', () => {
         const mockedTutorDocList =  [ 
             { 
               sharedToStudents: ['5e02ac05d7f39e289d21b7c6'],
@@ -54,9 +54,9 @@ describe('The Tutors List of Students Page', () => {
          * Checking the List of Students Page for Tutors and see if all elements are present  
         */
 
-        // Finding the Typography component  that contains the Main Title Header Present on the Page.
+        // Finding the Typography component that contains the Main Title Header Present on the Page.
         const list_of_students_page = wrapper_shallow.dive().find(Typography).at(0);
-        // Make sure the header name on the tutor page is List of Students
+        // Make sure the header name on the tutor page is List of Documents
         expect(list_of_students_page.props().children).toBe("List of Documents");
 
         // Finding the Title component  that contains the Table Title Students
@@ -74,6 +74,7 @@ describe('The Tutors List of Students Page', () => {
         const table_row_component = wrapper_shallow.dive().find(TableRow).at(0);
         // Check if TableRow component exists
         expect(table_row_component.exists()).toBeTruthy();
+
 
         /**
          * First Row (Table headers shown here)
@@ -109,6 +110,7 @@ describe('The Tutors List of Students Page', () => {
         // Make sure the name of the sixth Table cell column exists and has the value "Select File(s) to Delete"
         expect(titles.props().children[6].props.children).toBe("Select File(s) to Delete");
 
+
         /**
          * Second Row (actual 1st student of the tutor should be shown here)
         */
@@ -122,7 +124,7 @@ describe('The Tutors List of Students Page', () => {
         // Making sure that the extension type of files matches the type on page
         expect(studentInformationrow1.props().children[1].props.children).toBe("pdf");
 
-        // Making sure that the time of upload of the file matches the time on page
+        // Making sure that the date and time of upload of the file matches the date and time on page
         expect(studentInformationrow1.props().children[2].props.children).toBe("2020-01-2 at 23:09");
 
         // Making sure that the Share to Course Button of file is present and the id it contains matches the id of the file
@@ -137,7 +139,6 @@ describe('The Tutors List of Students Page', () => {
         expect(studentInformationrow1.props().children[5].props.children.props.id).toBe(mockedTutorDocList[0]._id);
         expect(studentInformationrow1.props().children[5].props.children.props.children.type.displayName).toBe("GetAppIcon");
 
-        // Making sure that the School of student matches the name on page
         // Making sure that the Checkbox for file selection is present and the encryptedname it contains matches the encryptedname of the file
         expect(studentInformationrow1.props().children[6].props.children.props.name).toBe(mockedTutorDocList[0].encryptedname);
         expect(studentInformationrow1.props().children[6].props.children.props.inputProps["aria-label"]).toBe("uncontrolled-checkbox");
@@ -170,7 +171,6 @@ describe('The Tutors List of Students Page', () => {
         expect(studentInformationrow2.props().children[5].props.children.props.id).toBe(mockedTutorDocList[1]._id);
         expect(studentInformationrow2.props().children[5].props.children.props.children.type.displayName).toBe("GetAppIcon");
 
-        // Making sure that the School of student matches the name on page
         // Making sure that the Checkbox for file selection is present and the encryptedname it contains matches the encryptedname of the file
         expect(studentInformationrow2.props().children[6].props.children.props.name).toBe(mockedTutorDocList[1].encryptedname);
         expect(studentInformationrow2.props().children[6].props.children.props.inputProps["aria-label"]).toBe("uncontrolled-checkbox");
