@@ -4,6 +4,7 @@ const Profile = require('../models/models').Profile;
 const Mfiles = require('../models/models').Mfiles;
 const Mchunks = require('../models/models').Mchunks;
 var mongoose = require('mongoose');
+var ObjectId = require('mongodb').ObjectID;
 
 // This method fetches the latest uploaded document.
 exports.getLatestUpload = async function (req, res) {
@@ -362,19 +363,15 @@ exports.deleteFiles = async function (req, res) {
 exports.deleteSpecificStudentsFiles = async function (req, res) {
     const { file_id } = req.body;
     var r = /\d+/;
-    var matchCourseId = req.headers.referer.match(/.*\/(.*)$/)[1];
+    var matchCourseId = ObjectId(req.headers.referer.match(/.*\/(.*)$/)[1]);
     UploadedFiles.find({ encryptedname: { $in: file_id } }, function (err, fileToDelete) {
         if (err) {
             console.error("Could not find the uploaded files to delete");
             throw err;
         }
         fileToDelete.forEach(function (err, studentIndex) {
-            if (err) {
-                console.error("Could not iterate through the files to delete");
-                throw err;
-            }
             Profile.findByIdAndUpdate(matchCourseId,
-                { "$pull": { "sharedToStudents": fileToDelete[studentIndex]._id } },
+                { "$pull": { "sharedToStudents": ObjectId(fileToDelete[studentIndex]._id)} },
                 function (err, student) {
                     if (err) {
                         console.error("Could not remove the file reference from the profile object");
@@ -400,17 +397,17 @@ exports.deleteSpecificStudentsFiles = async function (req, res) {
 exports.deleteSpecificCourseFiles = async function (req, res) {
     const { file_id } = req.body;
     var r = /\d+/;
-    var matchCourseId = req.headers.referer.match(/.*\/(.*)$/)[1];
+    var matchCourseId = ObjectId(req.headers.referer.match(/.*\/(.*)$/)[1]);
     UploadedFiles.find({ encryptedname: { $in: file_id } }, function (err, fileToDelete) {
         if (err) {
             console.error("Unable to find the uploaded file based of its encrypted name");
             throw err;
         }
         fileToDelete.forEach(function (err, studentIndex) {
-            if (err) {
+            /*if (err) {
                 console.error("Could not iterate through the files to delete");
                 throw err;
-            }
+            }*/
             Course.findByIdAndUpdate(matchCourseId,
                 { "$pull": { "sharedToCourses": fileToDelete[studentIndex]._id } },
                 function (err, student) {
