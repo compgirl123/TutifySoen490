@@ -164,7 +164,6 @@ exports.addEvent = async function (req, res) {
                         else{
                             console.info("The session reloaded successfully");
                         }
-                        return res.json({ success: true, userInfo: user });
                     });
 
                     events.forEach(function (event) {
