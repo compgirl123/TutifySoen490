@@ -404,10 +404,6 @@ exports.deleteSpecificCourseFiles = async function (req, res) {
             throw err;
         }
         fileToDelete.forEach(function (err, studentIndex) {
-            /*if (err) {
-                console.error("Could not iterate through the files to delete");
-                throw err;
-            }*/
             Course.findByIdAndUpdate(matchCourseId,
                 { "$pull": { "sharedToCourses": fileToDelete[studentIndex]._id } },
                 function (err, student) {
@@ -419,14 +415,12 @@ exports.deleteSpecificCourseFiles = async function (req, res) {
                 });
             UploadedFiles.findByIdAndUpdate(fileToDelete[studentIndex]._id,
                 { "$pull": { "sharedToCourses": matchCourseId } },
-                function (err, student) {
+                function (err, course_) {
                     if (err) {
                         console.error("Unable to find the file associated with the file");
-                        return res.json({ success: false, error: err });
                     }
                     else {
                         console.info("The course file has been deleted successfully");
-                        return res.json({ success: true, file: course_ });
                     }
                 });
         });
