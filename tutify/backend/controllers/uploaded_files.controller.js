@@ -248,24 +248,24 @@ exports.deleteFiles = async function (req, res) {
         }
 
         fileToDelete.forEach(function (err, studentShared) {
-            if (err) {
-                console.error("Could not iterate through the files to delete");
-                return res.status(500).json({ err: err.message });
-            }
+            // if (err) {
+            //     console.error("Could not iterate through the files to delete");
+            //     return res.status(500).json({ err: err.message });
+            // }
 
             // Removing Shared to certain Students of Document if the document(s) was shared to student(s)
             if ((fileToDelete[studentShared].sharedToStudents).length !== 0) {
                 fileToDelete[studentShared].sharedToStudents.forEach(function (err, studentIndex) {
-                    if (err) {
-                        console.error("Could not iterate through the given student list");
-                        throw err;
-                    }
+                    // if (err) {
+                    //     console.error("Could not iterate through the given student list");
+                    //     throw err;
+                    // }
                     Profile.find({ _id: { $in: fileToDelete[studentShared].sharedToStudents[studentIndex] } }, function (err, userfiles) {
                         userfiles.forEach(function (err, studentIndex1) {
-                            if (err) {
-                                console.error("Could not iterate through the found user files");
-                                throw err;
-                            }
+                            // if (err) {
+                            //     console.error("Could not iterate through the found user files");
+                            //     throw err;
+                            // }
                             if ((userfiles[studentIndex1].sharedToStudents).indexOf(fileToDelete[studentShared]._id) > -1) {
                                 Profile.findByIdAndUpdate(fileToDelete[studentShared].sharedToStudents[studentIndex],
                                     { "$pull": { "sharedToStudents": fileToDelete[studentShared]._id } },
@@ -283,16 +283,16 @@ exports.deleteFiles = async function (req, res) {
             // Removing Shared to certain Courses of Document if the document(s) was shared to student(s)
             if ((fileToDelete[studentShared].sharedToCourses).length !== 0) {
                 fileToDelete[studentShared].sharedToCourses.forEach(function (err, courseIndex) {
-                    if (err) {
-                        console.error("Could not iterate through the given class list");
-                        throw err;
-                    }
+                    // if (err) {
+                    //     console.error("Could not iterate through the given class list");
+                    //     throw err;
+                    // }
                     Course.find({ _id: { $in: fileToDelete[studentShared].sharedToCourses[courseIndex] } }, function (err, userfiles1) {
                         userfiles1.forEach(function (err, studentIndex2) {
-                            if (err) {
-                                console.error("Could not iterate through the found classes");
-                                throw err;
-                            }
+                            // if (err) {
+                            //     console.error("Could not iterate through the found classes");
+                            //     throw err;
+                            // }
                             if ((userfiles1[studentIndex2].sharedToCourses).indexOf(fileToDelete[studentShared]._id) > -1) {
                                 Course.findByIdAndUpdate(fileToDelete[studentShared].sharedToCourses[courseIndex],
                                     { "$pull": { "sharedToCourses": fileToDelete[studentShared]._id } },
@@ -324,10 +324,10 @@ exports.deleteFiles = async function (req, res) {
             return res.send(err);
         }
         fileToDeleteMfiles.forEach(function (err, courseIndex) {
-            if (err) {
-                console.error("Could not iterate through the found multer file objects");
-                return res.send(err);
-            }
+            // if (err) {
+            //     console.error("Could not iterate through the found multer file objects");
+            //     return res.send(err);
+            // }
             Mfiles.findByIdAndRemove(fileToDeleteMfiles[courseIndex]._id, (err, file) => {
                 if (err) {
                     console.error("Could not remove multer file object");
@@ -341,10 +341,10 @@ exports.deleteFiles = async function (req, res) {
                     throw err
                 }
                 fileToDeleteMChunks.forEach(function (err, removechunkindex) {
-                    if (err) {
-                        console.error("Could not iterate through chunks");
-                        throw err;
-                    }
+                    // if (err) {
+                    //     console.error("Could not iterate through chunks");
+                    //     throw err;
+                    // }
                     Mchunks.findByIdAndRemove(fileToDeleteMChunks[removechunkindex]._id, (err, filechunkdel) => {
                         if (err) {
                             console.error("Could not delete chunks");
@@ -382,7 +382,7 @@ exports.deleteSpecificStudentsFiles = async function (req, res) {
                 { "$pull": { "sharedToStudents": matchCourseId } },
                 function (err, student) {
                     if (err) {
-                        console.error("Could not iterate through the files to delete");
+                        console.error("Could not delete the link between the student and the shared file");
                         throw err;
                     }
                     else {
