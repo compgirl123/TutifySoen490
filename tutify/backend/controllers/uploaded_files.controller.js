@@ -77,7 +77,6 @@ exports.populateUploadedFiles = async function (req, res) {
 
 // this method enables the tutor to share their uploaded documents to their courses.
 exports.assignCourse = async function (req, res) {
-    let uploaded_files = new UploadedFiles();
     let course = new Course();
     const { course_id, file_name } = req.body;
 
@@ -87,47 +86,38 @@ exports.assignCourse = async function (req, res) {
                 console.error("The uploaded files were not found for course assignation");
                 throw err;
             }
-            uploaded_files.save(function (err) {
-                if (err) {
-                    console.error("The uploaded files could not be saved");
-                    throw err;
-                }
-                UploadedFiles.findByIdAndUpdate(encrypted_file_name._id,
-                    {
-                        "$push": {
-                            "sharedToCourses": course_name._id
-                        }
-                    },
-                    { "new": true, "upsert": true },
-                    function (err, tutor) {
-                        if (err) {
-                            console.error("The uploaded files sharing list was unable to be updated");
-                            throw err;
-                        }
-                        else {
-                            console.info("The uploaded files sharing list has been updated");
-                        }
-                    });
-            });
-            course.save(function (err) {
-                Course.findByIdAndUpdate(course_name._id,
-                    {
-                        "$push": {
-                            "sharedToCourses": encrypted_file_name._id
-                        }
-                    },
-                    { "new": true, "upsert": true },
-                    function (err, tutor) {
-                        if (err) {
-                            console.error("The uploaded files sharing list was unable to be updated");
-                            throw err;
-                        }
-                        else {
-                            console.info("The uploaded files sharing list has been updated");
-                        }
-                    });
-            });
-
+            UploadedFiles.findByIdAndUpdate(encrypted_file_name._id,
+                {
+                    "$push": {
+                        "sharedToCourses": course_name._id
+                    }
+                },
+                { "new": true, "upsert": true },
+                function (err, tutor) {
+                    if (err) {
+                        console.error("The uploaded files sharing list was unable to be updated");
+                        throw err;
+                    }
+                    else {
+                        console.info("The uploaded files sharing list has been updated");
+                    }
+                });
+            Course.findByIdAndUpdate(course_name._id,
+                {
+                    "$push": {
+                        "sharedToCourses": encrypted_file_name._id
+                    }
+                },
+                { "new": true, "upsert": true },
+                function (err, tutor) {
+                    if (err) {
+                        console.error("The uploaded files sharing list was unable to be updated");
+                        throw err;
+                    }
+                    else {
+                        console.info("The uploaded files sharing list has been updated");
+                    }
+                });
         });
     });
 }
