@@ -14,6 +14,8 @@ import Divider from '@material-ui/core/Divider';
 import * as StudentSidebarStyle from "../../styles/StudentSidebar-styles";
 import { withStyles } from "@material-ui/core/styles";
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+import DescriptionIcon from '@material-ui/icons/Description';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 class Sidebar extends Component {
 
@@ -58,9 +60,9 @@ class Sidebar extends Component {
           </ListItem>
           <ListItem button component="a" href="/doc">
             <ListItemIcon>
-              <MenuBookIcon />
+              <DescriptionIcon />
             </ListItemIcon>
-            <ListItemText primary="Individually Shared" />
+            <ListItemText primary="My Documents" />
           </ListItem>
           <ListItem button component="a" href="/courses">
             <ListItemIcon>
@@ -84,7 +86,7 @@ class Sidebar extends Component {
           <Divider />
           <ListItem>
             <ListItemIcon>
-              <MenuBookIcon />
+              <PeopleAltIcon />
             </ListItemIcon>
             <ListItemText primary="My Tutors" />
           </ListItem>
