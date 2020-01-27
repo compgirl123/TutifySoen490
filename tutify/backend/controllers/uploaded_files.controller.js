@@ -4,6 +4,7 @@ const Profile = require('../models/models').Profile;
 const Mfiles = require('../models/models').Mfiles;
 const Mchunks = require('../models/models').Mchunks;
 var mongoose = require('mongoose');
+var ObjectId = require('mongodb').ObjectID;
 
 // This method fetches the latest uploaded document.
 exports.getLatestUpload = async function (req, res) {
@@ -77,7 +78,6 @@ exports.populateUploadedFiles = async function (req, res) {
 
 // this method enables the tutor to share their uploaded documents to their courses.
 exports.assignCourse = async function (req, res) {
-    let uploaded_files = new UploadedFiles();
     let course = new Course();
     const { course_id, file_name } = req.body;
 
@@ -87,47 +87,38 @@ exports.assignCourse = async function (req, res) {
                 console.error("The uploaded files were not found for course assignation");
                 throw err;
             }
-            uploaded_files.save(function (err) {
-                if (err) {
-                    console.error("The uploaded files could not be saved");
-                    throw err;
-                }
-                UploadedFiles.findByIdAndUpdate(encrypted_file_name._id,
-                    {
-                        "$push": {
-                            "sharedToCourses": course_name._id
-                        }
-                    },
-                    { "new": true, "upsert": true },
-                    function (err, tutor) {
-                        if (err) {
-                            console.error("The uploaded files sharing list was unable to be updated");
-                            throw err;
-                        }
-                        else {
-                            console.info("The uploaded files sharing list has been updated");
-                        }
-                    });
-            });
-            course.save(function (err) {
-                Course.findByIdAndUpdate(course_name._id,
-                    {
-                        "$push": {
-                            "sharedToCourses": encrypted_file_name._id
-                        }
-                    },
-                    { "new": true, "upsert": true },
-                    function (err, tutor) {
-                        if (err) {
-                            console.error("The uploaded files sharing list was unable to be updated");
-                            throw err;
-                        }
-                        else {
-                            console.info("The uploaded files sharing list has been updated");
-                        }
-                    });
-            });
-
+            UploadedFiles.findByIdAndUpdate(encrypted_file_name._id,
+                {
+                    "$push": {
+                        "sharedToCourses": course_name._id
+                    }
+                },
+                { "new": true, "upsert": true },
+                function (err, tutor) {
+                    if (err) {
+                        console.error("The uploaded files sharing list was unable to be updated");
+                        throw err;
+                    }
+                    else {
+                        console.info("The uploaded files sharing list has been updated");
+                    }
+                });
+            Course.findByIdAndUpdate(course_name._id,
+                {
+                    "$push": {
+                        "sharedToCourses": encrypted_file_name._id
+                    }
+                },
+                { "new": true, "upsert": true },
+                function (err, tutor) {
+                    if (err) {
+                        console.error("The uploaded files sharing list was unable to be updated");
+                        throw err;
+                    }
+                    else {
+                        console.info("The uploaded files sharing list has been updated");
+                    }
+                });
         });
     });
 }
@@ -257,24 +248,11 @@ exports.deleteFiles = async function (req, res) {
         }
 
         fileToDelete.forEach(function (err, studentShared) {
-            if (err) {
-                console.error("Could not iterate through the files to delete");
-                return res.status(500).json({ err: err.message });
-            }
-
             // Removing Shared to certain Students of Document if the document(s) was shared to student(s)
             if ((fileToDelete[studentShared].sharedToStudents).length !== 0) {
                 fileToDelete[studentShared].sharedToStudents.forEach(function (err, studentIndex) {
-                    if (err) {
-                        console.error("Could not iterate through the given student list");
-                        throw err;
-                    }
                     Profile.find({ _id: { $in: fileToDelete[studentShared].sharedToStudents[studentIndex] } }, function (err, userfiles) {
                         userfiles.forEach(function (err, studentIndex1) {
-                            if (err) {
-                                console.error("Could not iterate through the found user files");
-                                throw err;
-                            }
                             if ((userfiles[studentIndex1].sharedToStudents).indexOf(fileToDelete[studentShared]._id) > -1) {
                                 Profile.findByIdAndUpdate(fileToDelete[studentShared].sharedToStudents[studentIndex],
                                     { "$pull": { "sharedToStudents": fileToDelete[studentShared]._id } },
@@ -292,16 +270,8 @@ exports.deleteFiles = async function (req, res) {
             // Removing Shared to certain Courses of Document if the document(s) was shared to student(s)
             if ((fileToDelete[studentShared].sharedToCourses).length !== 0) {
                 fileToDelete[studentShared].sharedToCourses.forEach(function (err, courseIndex) {
-                    if (err) {
-                        console.error("Could not iterate through the given class list");
-                        throw err;
-                    }
                     Course.find({ _id: { $in: fileToDelete[studentShared].sharedToCourses[courseIndex] } }, function (err, userfiles1) {
                         userfiles1.forEach(function (err, studentIndex2) {
-                            if (err) {
-                                console.error("Could not iterate through the found classes");
-                                throw err;
-                            }
                             if ((userfiles1[studentIndex2].sharedToCourses).indexOf(fileToDelete[studentShared]._id) > -1) {
                                 Course.findByIdAndUpdate(fileToDelete[studentShared].sharedToCourses[courseIndex],
                                     { "$pull": { "sharedToCourses": fileToDelete[studentShared]._id } },
@@ -333,10 +303,6 @@ exports.deleteFiles = async function (req, res) {
             return res.send(err);
         }
         fileToDeleteMfiles.forEach(function (err, courseIndex) {
-            if (err) {
-                console.error("Could not iterate through the found multer file objects");
-                return res.send(err);
-            }
             Mfiles.findByIdAndRemove(fileToDeleteMfiles[courseIndex]._id, (err, file) => {
                 if (err) {
                     console.error("Could not remove multer file object");
@@ -350,10 +316,6 @@ exports.deleteFiles = async function (req, res) {
                     throw err
                 }
                 fileToDeleteMChunks.forEach(function (err, removechunkindex) {
-                    if (err) {
-                        console.error("Could not iterate through chunks");
-                        throw err;
-                    }
                     Mchunks.findByIdAndRemove(fileToDeleteMChunks[removechunkindex]._id, (err, filechunkdel) => {
                         if (err) {
                             console.error("Could not delete chunks");
@@ -372,19 +334,15 @@ exports.deleteFiles = async function (req, res) {
 exports.deleteSpecificStudentsFiles = async function (req, res) {
     const { file_id } = req.body;
     var r = /\d+/;
-    var matchCourseId = req.headers.referer.match(/.*\/(.*)$/)[1];
+    var matchCourseId = ObjectId(req.headers.referer.match(/.*\/(.*)$/)[1]);
     UploadedFiles.find({ encryptedname: { $in: file_id } }, function (err, fileToDelete) {
         if (err) {
             console.error("Could not find the uploaded files to delete");
             throw err;
         }
         fileToDelete.forEach(function (err, studentIndex) {
-            if (err) {
-                console.error("Could not iterate through the files to delete");
-                throw err;
-            }
             Profile.findByIdAndUpdate(matchCourseId,
-                { "$pull": { "sharedToStudents": fileToDelete[studentIndex]._id } },
+                { "$pull": { "sharedToStudents": ObjectId(fileToDelete[studentIndex]._id)} },
                 function (err, student) {
                     if (err) {
                         console.error("Could not remove the file reference from the profile object");
@@ -395,7 +353,7 @@ exports.deleteSpecificStudentsFiles = async function (req, res) {
                 { "$pull": { "sharedToStudents": matchCourseId } },
                 function (err, student) {
                     if (err) {
-                        console.error("Could not iterate through the files to delete");
+                        console.error("Could not delete the link between the student and the shared file");
                         throw err;
                     }
                     else {
@@ -410,17 +368,13 @@ exports.deleteSpecificStudentsFiles = async function (req, res) {
 exports.deleteSpecificCourseFiles = async function (req, res) {
     const { file_id } = req.body;
     var r = /\d+/;
-    var matchCourseId = req.headers.referer.match(/.*\/(.*)$/)[1];
+    var matchCourseId = ObjectId(req.headers.referer.match(/.*\/(.*)$/)[1]);
     UploadedFiles.find({ encryptedname: { $in: file_id } }, function (err, fileToDelete) {
         if (err) {
             console.error("Unable to find the uploaded file based of its encrypted name");
             throw err;
         }
         fileToDelete.forEach(function (err, studentIndex) {
-            if (err) {
-                console.error("Could not iterate through the files to delete");
-                throw err;
-            }
             Course.findByIdAndUpdate(matchCourseId,
                 { "$pull": { "sharedToCourses": fileToDelete[studentIndex]._id } },
                 function (err, student) {
@@ -432,14 +386,12 @@ exports.deleteSpecificCourseFiles = async function (req, res) {
                 });
             UploadedFiles.findByIdAndUpdate(fileToDelete[studentIndex]._id,
                 { "$pull": { "sharedToCourses": matchCourseId } },
-                function (err, student) {
+                function (err, course_) {
                     if (err) {
                         console.error("Unable to find the file associated with the file");
-                        return res.json({ success: false, error: err });
                     }
                     else {
                         console.info("The course file has been deleted successfully");
-                        return res.json({ success: true, file: course_ });
                     }
                 });
         });
