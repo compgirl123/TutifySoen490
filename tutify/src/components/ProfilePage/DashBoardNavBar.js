@@ -42,7 +42,6 @@ export class NavBar extends Component {
     })
       .then(response => response.json())
       .then(res => {
-        alert(res);
         if (res.isLoggedIn) {
           this.setState({ Toggle: true, email: true, userType: res.userInfo.__t });
         }

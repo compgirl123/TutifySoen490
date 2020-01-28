@@ -206,15 +206,8 @@ exports.viewCourseDocs = async function (req, res) {
         }
         UploadedFiles.find({ _id: { $in: course_info.sharedToCourses } }).populate('sharedToCourses').
             exec(function (err, course_) {
-                if (err) {
-                    console.error("Unable to find the course to find the associated docs");
-                    res.json({ success: false, error: err });
-                }
-                else {
-                    console.info("The course's document list has been retrieved successfully");
-                    return res.json({ success: true, file: course_ });
-                }
-
+                console.info("The course's document list has been retrieved successfully");
+                return res.json({ success: true, file: course_ });
             });
     })
 }
