@@ -3,8 +3,8 @@
 # TutifySoen490
 An application system for helping tutors and their students. Created for the graduating Software Engineering Course SOEN 490 Concordia University.
 
-Website is Currently live at:
-https://tutifycapstone490.herokuapp.com/
+Website is Currently deployed at:
+http://tutify-259321.appspot.com/
 
 # Setup Instructions
 The instruction to setting up the environment and to locally run the app can be found in our Wiki page:
