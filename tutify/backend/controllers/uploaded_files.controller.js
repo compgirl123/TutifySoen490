@@ -208,7 +208,7 @@ exports.viewCourseDocs = async function (req, res) {
             exec(function (err, course_) {
                 if (err) {
                     console.error("Unable to find the course to find the associated docs");
-                    return res.json({ success: false, error: err });
+                    res.json({ success: false, error: err });
                 }
                 else {
                     console.info("The course's document list has been retrieved successfully");
