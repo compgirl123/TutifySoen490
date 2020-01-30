@@ -32,12 +32,12 @@ export class ViewCourse extends React.Component {
       profileType: "",
       shareTo: []
     };
-    this.loadFiles = this.loadFiles.bind(this);
+    //this.loadFiles = this.loadFiles.bind(this);
   }
 
   componentDidMount() {
     this.checkSession();
-    this.loadFiles();
+    //this.loadFiles();
   }
   
   // Distinguishing the tutor login from student login.
@@ -49,15 +49,13 @@ export class ViewCourse extends React.Component {
       .then(response => response.json())
       .then(res => {
         if (res.isLoggedIn) {
-          this.setState({ Toggle: true, shouldView:true });
+          this.loadFiles();
           if (res.userInfo.__t === "student") {
-            this.getUserDataFromDb();
             this.setState({ profileType: res.userInfo.__t });
           }
           else if (res.userInfo.__t === "tutor") {
-            this.getTutorDataFromDb();
             this.setState({ profileType: res.userInfo.__t });
-          }
+          } 
         }
         else {
           this.setState({ Toggle: false, shouldView: false });
@@ -92,16 +90,17 @@ export class ViewCourse extends React.Component {
       .catch(err => console.log(err));
   }
 
-  // Loading all files from the database from the specific course
-  async loadFiles() {
+  // Loading all files from the database for the specific course
+  loadFiles() {
     fetch('/api/viewCourse/:coursename')
       .then(res => res.json())
       .then(res => {
+        var courseId = this.props.match.params.coursename;
+        var courseName = "";
         // if the specific course exists, run this if statment.
         if (res.file !== undefined) {
-          var courseId = this.props.match.params.coursename;
-          var courseName = "";
-          // if files exist for the specific course, run this if statment.
+          console.info("Getting Information such as file names and course name for specific course selected")
+          this.setState({ files: res.file });
           if (res.file[0] !== undefined) {
             res.file[0].sharedToCourses.forEach(function (err, studentIndex) {
               // get course Name for the course currently being viewed.
@@ -113,19 +112,11 @@ export class ViewCourse extends React.Component {
           else {
             courseName = "No Documents Uploaded";
           }
-          if (this.state.shouldView) {
-            this.setState({ files: res.file, course_selected: courseName });
-          }
-          else {
-            this.setState({ files: [] });
-          }
-        }
-        else {
-          this.setState({ files: [] });
+          this.setState({ course_selected: courseName });
+          
         }
       }
-
-      )
+    )
       .catch(err => console.log(err));
   }
 
@@ -254,3 +245,4 @@ export class ViewCourse extends React.Component {
 }
 
 export default withStyles(CourseViewStyles.styles, { withTheme: true })(ViewCourse);
+

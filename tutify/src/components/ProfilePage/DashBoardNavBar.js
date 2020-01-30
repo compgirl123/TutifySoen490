@@ -48,6 +48,7 @@ export class NavBar extends Component {
         else {
           this.setState({ Toggle: false, email: true });
         }
+        console.log("Checking session");
       })
       .catch(err => console.error("Session could not be checked: " + err));
       };
