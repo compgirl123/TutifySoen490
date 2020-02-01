@@ -175,39 +175,6 @@ var Course = mongoose.model('Course', new Schema({
 
 }), "courses");
 
-
-// -------- Files --------- // 
-
-var Files = mongoose.model('uploaded_files', new Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  adminTutor: {
-    type: Schema.Types.ObjectId,
-    ref: 'Tutor',
-    required: true
-  },
-  url: {
-    type: String,
-    required: true
-  },
-  fileObject: {
-    type: Schema.Types.ObjectId,
-    ref: 'Tutor',
-    required: true
-  },
-  relatedCourse: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Course'
-    }
-  ],
-  sharedToStudents: [
-    { type: Schema.Types.ObjectId, ref: 'Student' }
-  ]
-}), "uploaded_files");
-
 // -------- UploadedFiles --------- // 
 
 var UploadedFiles = mongoose.model('UploadedFiles', new mongoose.Schema({
@@ -223,9 +190,9 @@ var UploadedFiles = mongoose.model('UploadedFiles', new mongoose.Schema({
     type: String,
     required: true
   },
-  adminTutor: {
+  admin: {
     type: Schema.Types.ObjectId,
-    ref: 'Tutor',
+    ref: 'Profile',
     required: true
   },
   uploadedDocs: [
@@ -313,7 +280,6 @@ module.exports = {
   Appointment: Appointment,
   Course: Course,
   UploadedFiles: UploadedFiles,
-  Files: Files,
   Event: Event,
   Mfiles: Mfiles,
   Mchunks: Mchunks,

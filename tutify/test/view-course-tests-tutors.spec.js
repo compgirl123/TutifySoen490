@@ -46,7 +46,7 @@ describe('The Tutors Courses Page', () => {
                   sharedToCourses: [Array],
                   _id: '5e28c316259be07f5a788b09',
                   __v: 0,
-                  adminTutor: '5dacd1cf1c9d440000aa0b1b',
+                  admin: '5dacd1cf1c9d440000aa0b1b',
                   encryptedname: 'b0c16d9323dbf1438f595fc94ef219d5.jpg',
                   link: '/document/b0c16d9323dbf1438f595fc94ef219d5.jpg',
                   name: 'galaxyBackground.jpg',

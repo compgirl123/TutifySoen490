@@ -8,7 +8,7 @@ var ObjectId = require('mongodb').ObjectID;
 
 // This method fetches the latest uploaded document.
 exports.getLatestUpload = async function (req, res) {
-    UploadedFiles.find({ adminTutor: req.session.userInfo._id }, function (err, mostRecent) {
+    UploadedFiles.find({ admin: req.session.userInfo._id }, function (err, mostRecent) {
         if (err) {
             console.error("Was not able to fetch the latest uploaded file");
             return res.json({ success: false, error: err });
@@ -21,7 +21,7 @@ exports.getLatestUpload = async function (req, res) {
 // This method adds restriction information for uploaded documents.
 exports.addUploadedFiles = async function (req, res) {
     let uploaded_files = new UploadedFiles();
-    const { name, adminTutor } = req.body;
+    const { name, admin} = req.body;
     const { filename } = req.file;
     const { _id } = new mongoose.Types.ObjectId();
 
@@ -40,14 +40,14 @@ exports.addUploadedFiles = async function (req, res) {
             {
                 $set: {
                     "name": name_new,
-                    "adminTutor": adminTutor,
+                    "admin": admin,
                     "encryptedname": filename,
                     "link": "/document/" + filename,
                     "uploadDate": new Date()
                 }
             },
             { "new": true, "upsert": true },
-            function (err, tutor) {
+            function (err, profile) {
                 if (err) {
                     console.error("The uploaded file was unable to be updated in the database");
                     throw err;
@@ -63,14 +63,14 @@ exports.addUploadedFiles = async function (req, res) {
 
 // This Method Gets the Document Files from the Database
 exports.populateUploadedFiles = async function (req, res) {
-    UploadedFiles.find({ adminTutor: req.session.userInfo._id }, function (err, uploaded_docs) {
+    UploadedFiles.find({ admin: req.session.userInfo._id }, function (err, uploaded_docs) {
 
         if (err) {
             console.error("The uploaded files were not found to be populated");
             throw err;
         }
         else {
-            console.info("THe files for population have been found");
+            console.info("The files for population have been found");
         }
         return res.json({ success: true, file: uploaded_docs });
     });
@@ -186,7 +186,7 @@ exports.viewDocs = async function (req, res) {
 // helper method
 async function findProfile(tst, response, res) {
     for (let index = 0; index < tst.length; index++) {
-        await Profile.findOne({ _id: tst[index].adminTutor }, async (err, tutor) => { if (err) { console.error("Unable to find the user "); } }).then(async (tutor) => {
+        await Profile.findOne({ _id: tst[index].admin }, async (err, tutor) => { if (err) { console.error("Unable to find the user "); } }).then(async (tutor) => {
             var tutorName = tutor.first_name + " " + tutor.last_name
             tst[index] = await Object.assign({ tutorName: tutorName }, tst[index]);
             await response.push(tst[index]);
@@ -222,7 +222,7 @@ exports.viewSpecificStudentFiles = async function (req, res) {
             res.json({ success: false, error: err });
         }
         if (student_info !== undefined) {
-            UploadedFiles.find({ _id: { $in: student_info.sharedToStudents }, adminTutor: req.session.userInfo._id }, function (err, individualDocsShared) {
+            UploadedFiles.find({ _id: { $in: student_info.sharedToStudents }, admin: req.session.userInfo._id }, function (err, individualDocsShared) {
                 console.info("Found the student's shared files successfully");
                 return res.json({ success: true, fileViewTutors: individualDocsShared });
             });

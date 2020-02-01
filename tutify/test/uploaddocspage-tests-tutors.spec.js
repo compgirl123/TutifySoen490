@@ -25,7 +25,7 @@ describe('The Tutors Courses Page', () => {
               sharedToCourses: ['5dbaef561c9d440000c0ab0a'],
               _id: '5e2a278df179bdc10d28385e',
               __v: 0,
-              adminTutor: '5dacd1cf1c9d440000aa0b1b',
+              admin: '5dacd1cf1c9d440000aa0b1b',
               encryptedname: 'ab400fe316f2ff085b9dcc1f1f445f0f.pdf',
               link: '/document/ab400fe316f2ff085b9dcc1f1f445f0f.pdf',
               name: 'Control-Systems-and-Appli.pdf', 
