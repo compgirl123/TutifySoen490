@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import CheckIcon from '@material-ui/icons/Check';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Chip from '@material-ui/core/Chip'
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Avatar from '@material-ui/core/Avatar';
+import TextField from '@material-ui/core/TextField';
 
 class AddResource extends Component {
     constructor(props) {
@@ -18,6 +16,12 @@ class AddResource extends Component {
             open: false,
             openFeedback: false,
             scroll: 'paper',
+            description: '',
+            title: '',
+            image: '',
+            link: '',
+            category: '',
+            educationLevel: '',
         };
     }
 
@@ -32,19 +36,19 @@ class AddResource extends Component {
                 handleClose={handleClose}
                 scroll={scroll}
                 aria-labelledby="scroll-dialog-title"
-                
+
             >
                 <DialogTitle id="scroll-dialog-title" >
                     <div >
                         <Grid container spacing={2}>
                             <Grid item>
-                                
+                                <Typography gutterBottom variant="h5">Add a Resource</Typography>
                             </Grid>
                             <Grid item xs={12} sm container>
                                 <Grid item xs container direction="column" spacing={2}>
                                     <Grid item xs>
                                         <Typography gutterBottom variant="h5"></Typography>
-                                        
+
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -53,21 +57,84 @@ class AddResource extends Component {
                 </DialogTitle>
                 <DialogContent dividers={scroll === 'paper'}>
                     <DialogContentText>
-                        <Typography variant="h5">
-                            
-                        </Typography>
-                        
-                    </DialogContentText>
-                    <DialogContentText>
-                        <Typography>
-                            Contact
-                        </Typography>
-                        
-                    </DialogContentText>
-                    <DialogContentText>
-                        <Typography>
-                            Availabilities
-                        </Typography>
+                        <TextField
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            margin="dense"
+                            id="title"
+                            name="title"
+                            onChange={e => this.setState({ title: e.target.value })}
+                            autoComplete="title"
+                            label="Title"
+                            fullWidth
+                        />
+                        <TextField
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            margin="dense"
+                            id="link"
+                            name="link"
+                            onChange={e => this.setState({ link: e.target.value })}
+                            autoComplete="link"
+                            label="Link"
+                            type="link"
+                            fullWidth
+                        />
+                        <TextField
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            margin="dense"
+                            id="image"
+                            name="image"
+                            onChange={e => this.setState({ image: e.target.value })}
+                            autoComplete="image"
+                            label="Image"
+                            type="link"
+                            fullWidth
+                        />
+                        <TextField
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            margin="dense"
+                            id="educationLevel"
+                            name="educationLevel"
+                            onChange={e => this.setState({ educationLevel: e.target.value })}
+                            autoComplete="educationLevel"
+                            label="Education Level"
+                            fullWidth
+                        />
+                        <TextField
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            margin="dense"
+                            id="category"
+                            name="category"
+                            onChange={e => this.setState({ category: e.target.value })}
+                            autoComplete="category"
+                            label="Category"
+                            fullWidth
+                        />
+                        <TextField
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            margin="dense"
+                            id="description"
+                            name="description"
+                            multiline
+                            rows="4"
+                            variant="outlined"
+                            defaultValue={this.state.description}
+                            onChange={e => this.setState({ description: e.target.value })}
+                            autoComplete="description"
+                            label="Description"
+                            fullWidth
+                        />
                     </DialogContentText>
                 </DialogContent>
                 <Grid
@@ -78,14 +145,15 @@ class AddResource extends Component {
                 >
                     <Grid item>
                         <DialogActions>
-                            <Button onClick={handleClose}>Close</Button>
+                            <Button>Add</Button>
                         </DialogActions>
                     </Grid>
                     <Grid item>
                         <DialogActions>
-                            
+                            <Button onClick={handleClose}>Close</Button>
                         </DialogActions>
                     </Grid>
+
                 </Grid>
             </Dialog>
         );
