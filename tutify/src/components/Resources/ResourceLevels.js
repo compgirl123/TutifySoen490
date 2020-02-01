@@ -12,12 +12,13 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from "@material-ui/core/styles";
 import { Link } from 'react-router-dom';
 import Button from "@material-ui/core/Button";
+import AddResource from "./AddResource";
 
 
-function AddResource(props) {
+function AddResourceButton(props) {
     if (props.isTutor) {
         return (
-            <Button>
+            <Button onClick={props.handleOpen}>
                 <Card>
                     <CardActionArea>
                         <CardContent>
@@ -37,7 +38,18 @@ class ResourceLevels extends React.Component {
         super(props);
         this.state = {
             isTutor: false,
+            open: false,
         };
+        this.handleOpen = this.handleOpen.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+    }
+
+    handleOpen() {
+        this.setState({open: true});
+    }
+
+    handleClose() {
+        this.setState({open: false});
     }
 
     componentWillMount() {
@@ -70,7 +82,7 @@ class ResourceLevels extends React.Component {
 
 
     render() {
-        const { classes } = this.props;
+        const { classes, handleOpen, handleClose } = this.props;
         return (
             <React.Fragment>
                 <DashBoardNavBar />
@@ -128,7 +140,8 @@ class ResourceLevels extends React.Component {
                                     </CardActionArea>
                                 </Card>
                             </Link>
-                            <AddResource isTutor={this.state.isTutor}/>
+                            <AddResourceButton handleOpen={this.handleOpen} isTutor={this.state.isTutor}/>
+                            <AddResource open={this.state.open} handleClose={handleClose}/>
                         </Grid>
                     </Container>
                 </div>
