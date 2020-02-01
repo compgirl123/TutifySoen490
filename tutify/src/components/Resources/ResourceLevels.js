@@ -11,17 +11,36 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from "@material-ui/core/styles";
 import { Link } from 'react-router-dom';
+import Button from "@material-ui/core/Button";
 
 
+function AddResource(props) {
+    if (props.isTutor) {
+        return (
+            <Button>
+                <Card>
+                    <CardActionArea>
+                        <CardContent>
+                            <Typography gutterBottom align="center" variant="h5" component="h2">
+                                Add a resource
+                            </Typography>
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
+            </Button>
+        );
+    }
+    return <></>;
+}
 class ResourceLevels extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            isTutor: false,
         };
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.checkSession();
     }
 
@@ -36,6 +55,11 @@ class ResourceLevels extends React.Component {
                     this.setState({
                         Toggle: true,
                     });
+                    if (res.userInfo.__t === 'tutor') {
+                        this.setState({
+                            isTutor: true,
+                        })
+                    }
                 }
                 else {
                     this.setState({ Toggle: false });
@@ -56,54 +80,55 @@ class ResourceLevels extends React.Component {
                     </Typography>
                     <Container className={classes.container}>
                         <Grid container spacing={4}>
-                        <Link className={classes.link} to={{ pathname: '/primary', state: { primary: true }}} >
-                            <Card className={classes.ResCard}>
-                                <CardActionArea>
-                                    <CardMedia
-                                        className={classes.media}
-                                        image="https://www.irishtimes.com/polopoly_fs/1.3625946.1536688503!/image/image.jpg_gen/derivatives/box_620_330/image.jpg"
-                                        title="Primary"
-                                    />
-                                    <CardContent>
-                                        <Typography gutterBottom align="center" variant="h5" component="h2">
-                                            Primary
+                            <Link className={classes.link} to={{ pathname: '/primary', state: { primary: true } }} >
+                                <Card className={classes.ResCard}>
+                                    <CardActionArea>
+                                        <CardMedia
+                                            className={classes.media}
+                                            image="https://www.irishtimes.com/polopoly_fs/1.3625946.1536688503!/image/image.jpg_gen/derivatives/box_620_330/image.jpg"
+                                            title="Primary"
+                                        />
+                                        <CardContent>
+                                            <Typography gutterBottom align="center" variant="h5" component="h2">
+                                                Primary
                                         </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Card>
                             </Link>
-                            <Link className={classes.link} to={{ pathname: '/secondary', state: { secondary: true }}} >
-                            <Card className={classes.ResCard}>
-                                <CardActionArea>
-                                    <CardMedia
-                                        className={classes.media}
-                                        image="https://study.com/cimages/multimages/16/electives.jpeg"
-                                        title="Secondary"
-                                    />
-                                    <CardContent>
-                                        <Typography gutterBottom align="center" variant="h5" component="h2">
-                                            Secondary
+                            <Link className={classes.link} to={{ pathname: '/secondary', state: { secondary: true } }} >
+                                <Card className={classes.ResCard}>
+                                    <CardActionArea>
+                                        <CardMedia
+                                            className={classes.media}
+                                            image="https://study.com/cimages/multimages/16/electives.jpeg"
+                                            title="Secondary"
+                                        />
+                                        <CardContent>
+                                            <Typography gutterBottom align="center" variant="h5" component="h2">
+                                                Secondary
                                         </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Card>
                             </Link>
-                            <Link className={classes.link} to={{ pathname: '/postsecondary', state: { postsecondary: true }}} >
-                            <Card className={classes.ResCard}>
-                                <CardActionArea>
-                                    <CardMedia
-                                        className={classes.media}
-                                        image="https://www.macleans.ca/wp-content/uploads/2019/04/University-of-Alberta-Insider-Report.jpg"
-                                        title="Post-Secondary"
-                                    />
-                                    <CardContent>
-                                        <Typography gutterBottom align="center" variant="h5" component="h2">
-                                            Post-Secondary
+                            <Link className={classes.link} to={{ pathname: '/postsecondary', state: { postsecondary: true } }} >
+                                <Card className={classes.ResCard}>
+                                    <CardActionArea>
+                                        <CardMedia
+                                            className={classes.media}
+                                            image="https://www.macleans.ca/wp-content/uploads/2019/04/University-of-Alberta-Insider-Report.jpg"
+                                            title="Post-Secondary"
+                                        />
+                                        <CardContent>
+                                            <Typography gutterBottom align="center" variant="h5" component="h2">
+                                                Post-Secondary
                                         </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Card>
                             </Link>
+                            <AddResource isTutor={this.state.isTutor}/>
                         </Grid>
                     </Container>
                 </div>
