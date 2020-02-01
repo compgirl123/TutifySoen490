@@ -1,4 +1,4 @@
-const Course = require('../models/models').Resource;
+const Resource = require('../models/models').Resource;
 
 // this method fetches all available resources in our database
 exports.getResources = async function (req, res) {

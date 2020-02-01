@@ -15,6 +15,7 @@ class ResourceCard extends React.Component {
             title: props.title,
             description: props.description,
             link: props.link,
+            category: props.category
         };
     }
 

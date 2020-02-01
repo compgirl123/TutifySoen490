@@ -13,7 +13,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Title from './Title';
+import Title from '../ProfilePage/Title';
 import axios from 'axios';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import swal from 'sweetalert';
