@@ -296,6 +296,10 @@ var Resource = mongoose.model('Resource', new Schema({
   category: {
     type: String,
     required: true
+  },
+  educationLevel: {
+    type: String,
+    required: true
   }
 }), "resources");
 

@@ -14,7 +14,7 @@ exports.getResources = async function (req, res) {
 
 // this method adds a new resource to the db
 exports.addResource = async function (req, res) {
-  const { title, description, image, link, category } = req.body;
+  const { title, description, image, link, category, educationLevel } = req.body;
 
   // new resource to add 
   let resource = new Resource();
@@ -23,6 +23,7 @@ exports.addResource = async function (req, res) {
   resource.image = image;
   resource.link = link;
   resource.category = category;
+  resource.educationLevel = educationLevel;
 
   resource.save(function (err, resource) {
     if (err) {
