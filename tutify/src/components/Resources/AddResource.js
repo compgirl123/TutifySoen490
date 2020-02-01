@@ -7,7 +7,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import TextField from '@material-ui/core/TextField';
+import Avatar from '@material-ui/core/Avatar';
+import axios from 'axios';
+import swal from 'sweetalert';
 
 class AddResource extends Component {
     constructor(props) {
@@ -23,6 +25,21 @@ class AddResource extends Component {
             category: '',
             educationLevel: '',
         };
+    }
+
+    addResourceToDB = () => {
+        axios.post('/api/addResource', {
+            title: this.state.title,
+            description: this.state.description,
+            image: this.state.image,
+            link: this.state.link,
+            category: this.state.category,
+            educationLevel: this.state.educationLevel
+          }).then((res) => {
+            console.info("Successfully added the resource");
+            swal("Resource successfully added!", "", "success")
+          })
+            .catch(err => console.error("Could not add the resource to the database: "+err));
     }
 
 
