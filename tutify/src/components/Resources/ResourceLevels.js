@@ -82,7 +82,7 @@ class ResourceLevels extends React.Component {
 
 
     render() {
-        const { classes, handleOpen, handleClose } = this.props;
+        const { classes } = this.props;
         return (
             <React.Fragment>
                 <DashBoardNavBar />
@@ -141,7 +141,7 @@ class ResourceLevels extends React.Component {
                                 </Card>
                             </Link>
                             <AddResourceButton handleOpen={this.handleOpen} isTutor={this.state.isTutor}/>
-                            <AddResource open={this.state.open} handleClose={handleClose}/>
+                            <AddResource open={this.state.open} handleClose={this.handleClose}/>
                         </Grid>
                     </Container>
                 </div>
