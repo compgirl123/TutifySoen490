@@ -1,8 +1,7 @@
-// /backend/data.js
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// -------- ACCOUNT --------- // 
+// -------- Account --------- // 
 
 const Account = mongoose.model('Account', new mongoose.Schema({
   email: {
@@ -18,7 +17,7 @@ const Account = mongoose.model('Account', new mongoose.Schema({
 }), 'accounts'
 );
 
-// -------- PROFILE --------- // 
+// -------- Profile --------- // 
 
 // these properties are shared with our schemas Tutor and User
 const Profile = mongoose.model('Profile', new mongoose.Schema({
@@ -73,7 +72,7 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
 );
 
 
-// -------- TUTOR --------- // 
+// -------- Tutor --------- // 
 
 const TutorSchema = mongoose.Schema({
   subjects: [String],
@@ -101,7 +100,7 @@ const TutorSchema = mongoose.Schema({
 
 var Tutor = Profile.discriminator('Tutor', TutorSchema, "tutor");
 
-// -------- STUDENT --------- // 
+// -------- Student --------- // 
 
 const StudentSchema = mongoose.Schema({
   education_level: {
@@ -127,7 +126,7 @@ const StudentSchema = mongoose.Schema({
 
 var Student = Profile.discriminator('Student', StudentSchema, "student");
 
-// -------- APPOINTMENT --------- // 
+// -------- Appointment --------- // 
 
 var Appointment = mongoose.model('Appointment', new Schema({
   id: {
@@ -154,7 +153,7 @@ var Appointment = mongoose.model('Appointment', new Schema({
 }), "appointments");
 
 
-// -------- COURSE --------- // 
+// -------- Course --------- // 
 
 var Course = mongoose.model('Course', new Schema({
   name: {
@@ -177,7 +176,7 @@ var Course = mongoose.model('Course', new Schema({
 }), "courses");
 
 
-// -------- FILES --------- // 
+// -------- Files --------- // 
 
 var Files = mongoose.model('uploaded_files', new Schema({
   name: {
@@ -275,6 +274,31 @@ var Mchunks = mongoose.model('Mchunks', new Schema({
   data: Schema.Types.Buffer
 }), "uploads.chunks");
 
+// -------- Resource --------- // 
+
+var Resource = mongoose.model('Resource', new Schema({
+  title: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  image: {
+    type: String,
+    required: true
+  },
+  link: {
+    type: String,
+    required: true
+  }, 
+  category: {
+    type: String,
+    required: true
+  }
+}), "resources");
+
 
 // export the Schemas
 module.exports = {
@@ -288,7 +312,8 @@ module.exports = {
   Files: Files,
   Event: Event,
   Mfiles: Mfiles,
-  Mchunks: Mchunks
+  Mchunks: Mchunks,
+  Resource: Resource
 }
 
 
