@@ -20,13 +20,15 @@ function EducationMenu(props) {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleClose = () => {
-        setAnchorEl(null);
+    const handleClose = (value) => {
+        props.setEducationLevel(value);
+        setAnchorEl(null);      
     };
+
     return (
         <div>
             <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                Education Level
+                {props.currentValue === "" ? "Education Level" : props.currentValue}
             </Button>
             <Menu
                 id="educationLevel"
@@ -38,9 +40,9 @@ function EducationMenu(props) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>Primary</MenuItem>
-                <MenuItem onClick={handleClose}>Secondary</MenuItem>
-                <MenuItem onClick={handleClose}>Post-Secondary</MenuItem>
+                <MenuItem onClick={() => handleClose("Primary")}>Primary</MenuItem>
+                <MenuItem onClick={() => handleClose("Secondary")}>Secondary</MenuItem>
+                <MenuItem onClick={() => handleClose("PostSecondary")}>Post-Secondary</MenuItem>
             </Menu>
         </div>
     );
@@ -54,13 +56,15 @@ function CategoryMenu(props) {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleClose = () => {
+    const handleClose = (value) => {
+        props.setCategory(value);
         setAnchorEl(null);
     };
+
     return (
         <div>
             <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                Category
+                {props.currentValue === "" ? "Category" : props.currentValue}
             </Button>
             <Menu
                 id="category"
@@ -72,11 +76,11 @@ function CategoryMenu(props) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>Studying</MenuItem>
-                <MenuItem onClick={handleClose}>Writing</MenuItem>
-                <MenuItem onClick={handleClose}>Learning</MenuItem>
-                <MenuItem onClick={handleClose}>Career</MenuItem>
-                <MenuItem onClick={handleClose}>Health</MenuItem>
+                <MenuItem onClick={() => handleClose("Studying")}>Studying</MenuItem>
+                <MenuItem onClick={() => handleClose("Writing")}>Writing</MenuItem>
+                <MenuItem onClick={() => handleClose("Learning")}>Learning</MenuItem>
+                <MenuItem onClick={() => handleClose("Career")}>Career</MenuItem>
+                <MenuItem onClick={() => handleClose("Health")}>Health</MenuItem>
             </Menu>
         </div>
     );
@@ -90,14 +94,16 @@ class AddResource extends Component {
             open: false,
             openFeedback: false,
             scroll: 'paper',
-            description: '',
-            title: '',
-            image: '',
-            link: '',
-            category: '',
-            educationLevel: '',
+            description: "",
+            title: "",
+            image: "",
+            link: "",
+            category: "",
+            educationLevel: "",
         };
         this.addResourceToDB = this.addResourceToDB.bind(this);
+        this.setCategory = this.setCategory.bind(this);
+        this.setEducationLevel = this.setEducationLevel.bind(this);
     }
 
     addResourceToDB = (event) => {
@@ -116,9 +122,17 @@ class AddResource extends Component {
             .catch(err => console.error("Could not add the resource to the database: " + err));
     }
 
+    setCategory(value) {
+        this.setState({ category: value })
+    }
+
+    setEducationLevel(value) {
+        this.setState({ educationLevel: value })
+    }
+
     render() {
-        const { open, handleClose, anchorEl } = this.props
-        const { scroll } = this.state
+        const { open, handleClose } = this.props
+        const { scroll, educationLevel, category } = this.state
 
         return (
             <Dialog
@@ -208,10 +222,10 @@ class AddResource extends Component {
                             alignItems="baseline"
                         >
                             <Grid item>
-                                <EducationMenu />
+                                <EducationMenu currentValue={educationLevel} setEducationLevel={this.setEducationLevel} />
                             </Grid>
                             <Grid item>
-                                <CategoryMenu />
+                                <CategoryMenu currentValue={category} setCategory={this.setCategory} />
                             </Grid>
                         </Grid>
 
