@@ -8,8 +8,80 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import axios from 'axios';
 import swal from 'sweetalert';
+
+function EducationMenu(props) {
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = event => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    return (
+        <div>
+            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                Education Level
+            </Button>
+            <Menu
+                id="educationLevel"
+                anchorEl={anchorEl}
+                keepMounted
+                getContentAnchorEl={null}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                transformOrigin={{ vertical: "top", horizontal: "center" }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+            >
+                <MenuItem onClick={handleClose}>Primary</MenuItem>
+                <MenuItem onClick={handleClose}>Secondary</MenuItem>
+                <MenuItem onClick={handleClose}>Post-Secondary</MenuItem>
+            </Menu>
+        </div>
+    );
+
+}
+
+function CategoryMenu(props) {
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = event => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    return (
+        <div>
+            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                Category
+            </Button>
+            <Menu
+                id="category"
+                anchorEl={anchorEl}
+                keepMounted
+                getContentAnchorEl={null}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                transformOrigin={{ vertical: "top", horizontal: "center" }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+            >
+                <MenuItem onClick={handleClose}>Studying</MenuItem>
+                <MenuItem onClick={handleClose}>Writing</MenuItem>
+                <MenuItem onClick={handleClose}>Learning</MenuItem>
+                <MenuItem onClick={handleClose}>Career</MenuItem>
+                <MenuItem onClick={handleClose}>Health</MenuItem>
+            </Menu>
+        </div>
+    );
+
+}
 
 class AddResource extends Component {
     constructor(props) {
@@ -37,15 +109,15 @@ class AddResource extends Component {
             link: this.state.link,
             category: this.state.category,
             educationLevel: this.state.educationLevel
-          }).then((res) => {
+        }).then((res) => {
             console.info("Successfully added the resource");
             swal("Resource successfully added!", "", "success")
-          })
-            .catch(err => console.error("Could not add the resource to the database: "+err));
+        })
+            .catch(err => console.error("Could not add the resource to the database: " + err));
     }
 
     render() {
-        const { open, handleClose } = this.props
+        const { open, handleClose, anchorEl } = this.props
         const { scroll } = this.state
 
         return (
@@ -113,30 +185,7 @@ class AddResource extends Component {
                             type="link"
                             fullWidth
                         />
-                        <TextField
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            margin="dense"
-                            id="educationLevel"
-                            name="educationLevel"
-                            onChange={e => this.setState({ educationLevel: e.target.value })}
-                            autoComplete="educationLevel"
-                            label="Education Level"
-                            fullWidth
-                        />
-                        <TextField
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            margin="dense"
-                            id="category"
-                            name="category"
-                            onChange={e => this.setState({ category: e.target.value })}
-                            autoComplete="category"
-                            label="Category"
-                            fullWidth
-                        />
+
                         <TextField
                             InputLabelProps={{
                                 shrink: true,
@@ -145,14 +194,28 @@ class AddResource extends Component {
                             id="description"
                             name="description"
                             multiline
-                            rows="4"
-                            variant="outlined"
+                            rows="3"
                             defaultValue={this.state.description}
                             onChange={e => this.setState({ description: e.target.value })}
                             autoComplete="description"
                             label="Description"
                             fullWidth
                         />
+                        <Grid
+                            container
+                            direction="row-reverse"
+                            justify="space-between"
+                            alignItems="baseline"
+                        >
+                            <Grid item>
+                                <EducationMenu />
+                            </Grid>
+                            <Grid item>
+                                <CategoryMenu />
+                            </Grid>
+                        </Grid>
+
+
                     </DialogContentText>
                 </DialogContent>
                 <Grid
