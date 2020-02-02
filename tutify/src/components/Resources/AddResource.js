@@ -25,9 +25,11 @@ class AddResource extends Component {
             category: '',
             educationLevel: '',
         };
+        this.addResourceToDB = this.addResourceToDB.bind(this);
     }
 
-    addResourceToDB = () => {
+    addResourceToDB = (event) => {
+        event.preventDefault();
         axios.post('/api/addResource', {
             title: this.state.title,
             description: this.state.description,
@@ -41,7 +43,6 @@ class AddResource extends Component {
           })
             .catch(err => console.error("Could not add the resource to the database: "+err));
     }
-
 
     render() {
         const { open, handleClose } = this.props
@@ -162,7 +163,7 @@ class AddResource extends Component {
                 >
                     <Grid item>
                         <DialogActions>
-                            <Button>Add</Button>
+                            <Button onClick={event => this.addResourceToDB(event)}>Add</Button>
                         </DialogActions>
                     </Grid>
                     <Grid item>
