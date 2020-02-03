@@ -15,12 +15,15 @@ import Button from "@material-ui/core/Button";
 import AddResource from "./AddResource";
 
 
+
 const useStyles = makeStyles(theme => ({
     addResource: {
         margin: '0 auto',
     },
 }));
 
+// This functional component is used for conditional rendering
+// If User is logged in as a tutor, the component will be rendered
 function AddResourceButton(props) {
     const classes = useStyles();
     if (props.isTutor) {

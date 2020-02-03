@@ -13,6 +13,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import axios from 'axios';
 import swal from 'sweetalert';
 
+// The following functional components are returned here so they can be rendered in the page below
 function EducationMenu(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -106,6 +107,7 @@ class AddResource extends Component {
         this.setEducationLevel = this.setEducationLevel.bind(this);
     }
 
+    // This function checks if the image url provided by the user is a URL
     isURL(url) {
         if(!url) return false;
         var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
@@ -118,6 +120,7 @@ class AddResource extends Component {
         return pattern.test(url);
     }
 
+    // This functions adds a new resource to the db if the fields are not empty. Else, it displays an error message
     addResourceToDB = (event) => {
         event.preventDefault();
         let imgUrl = this.state.image;
@@ -146,10 +149,12 @@ class AddResource extends Component {
         
     }
 
+    // Sets the state of the drop down menu for the category
     setCategory(value) {
         this.setState({ category: value })
     }
 
+    // Sets the state of the drop down menu for the education level
     setEducationLevel(value) {
         this.setState({ educationLevel: value })
     }
