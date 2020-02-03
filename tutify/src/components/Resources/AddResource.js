@@ -108,18 +108,26 @@ class AddResource extends Component {
 
     addResourceToDB = (event) => {
         event.preventDefault();
-        axios.post('/api/addResource', {
-            title: this.state.title,
-            description: this.state.description,
-            image: this.state.image,
-            link: this.state.link,
-            category: this.state.category,
-            educationLevel: this.state.educationLevel
-        }).then((res) => {
-            console.info("Successfully added the resource");
-            swal("Resource successfully added!", "", "success")
-        })
-            .catch(err => console.error("Could not add the resource to the database: " + err));
+        if(this.state.description !== '' && this.state.title !== '' && this.state.image !== '' && this.state.link !== '' && 
+        this.state.category !== '' && this.state.educationLevel !== '') {
+            axios.post('/api/addResource', {
+                title: this.state.title,
+                description: this.state.description,
+                image: this.state.image,
+                link: this.state.link,
+                category: this.state.category,
+                educationLevel: this.state.educationLevel
+            }).then((res) => {
+                console.info("Successfully added the resource");
+                swal("Resource successfully added!", "", "success")
+            })
+                .catch(err => console.error("Could not add the resource to the database: " + err));
+        }
+        else {
+            console.error("Empty fields");
+            swal("Could not add resource, empty fields.", "", "error")
+        }
+        
     }
 
     setCategory(value) {
@@ -129,6 +137,7 @@ class AddResource extends Component {
     setEducationLevel(value) {
         this.setState({ educationLevel: value })
     }
+
 
     render() {
         const { open, handleClose } = this.props
@@ -152,7 +161,6 @@ class AddResource extends Component {
                                 <Grid item xs container direction="column" spacing={2}>
                                     <Grid item xs>
                                         <Typography gutterBottom variant="h5"></Typography>
-
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -229,8 +237,6 @@ class AddResource extends Component {
                                 <CategoryMenu currentValue={category} setCategory={this.setCategory} />
                             </Grid>
                         </Grid>
-
-
                     </DialogContentText>
                 </DialogContent>
                 <Grid
