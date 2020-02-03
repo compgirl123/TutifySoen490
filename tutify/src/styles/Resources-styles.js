@@ -1,14 +1,5 @@
 
 export const styles = theme => ({
-    root: {
-        paddingTop: theme.spacing(10),
-        paddingBottom: theme.spacing(8),
-        paddingLeft: theme.spacing(34),
-        overflow: 'hidden'
-      },
-      drawer: {
-          anchor: 'left',
-      },
       toolbar: theme.mixins.toolbar,
       card: {
         width: 410,
@@ -26,9 +17,6 @@ export const styles = theme => ({
       },
       divContainer:{
         padding: theme.spacing(10, 0, 8),
-      },
-      container:{
-          marginLeft: theme.spacing(6),
       },
       link: {
           textDecoration: 'none',

@@ -9,26 +9,27 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
 import { Link } from 'react-router-dom';
 import Button from "@material-ui/core/Button";
 import AddResource from "./AddResource";
 
 
+const useStyles = makeStyles(theme => ({
+    addResource: {
+        margin: '0 auto',
+    },
+}));
+
 function AddResourceButton(props) {
+    const classes = useStyles();
     if (props.isTutor) {
         return (
-            <Button onClick={props.handleOpen}>
-                <Card>
-                    <CardActionArea>
-                        <CardContent>
-                            <Typography gutterBottom align="center" variant="h5" component="h2">
-                                Add a resource
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
-            </Button>
+            <div className={classes.addResource}>
+                <Button variant="contained" size="large" onClick={props.handleOpen}>
+                    Add a resource
+                </Button>
+            </div>
         );
     }
     return <></>;
@@ -45,11 +46,11 @@ class ResourceLevels extends React.Component {
     }
 
     handleOpen() {
-        this.setState({open: true});
+        this.setState({ open: true });
     }
 
     handleClose() {
-        this.setState({open: false});
+        this.setState({ open: false });
     }
 
     componentWillMount() {
@@ -140,8 +141,8 @@ class ResourceLevels extends React.Component {
                                     </CardActionArea>
                                 </Card>
                             </Link>
-                            <AddResourceButton handleOpen={this.handleOpen} isTutor={this.state.isTutor}/>
-                            <AddResource open={this.state.open} handleClose={this.handleClose}/>
+                            <AddResourceButton handleOpen={this.handleOpen} isTutor={this.state.isTutor} />
+                            <AddResource open={this.state.open} handleClose={this.handleClose} />
                         </Grid>
                     </Container>
                 </div>

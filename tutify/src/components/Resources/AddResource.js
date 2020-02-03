@@ -208,11 +208,12 @@ class AddResource extends Component {
                             id="description"
                             name="description"
                             multiline
+                            variant="outlined"
                             rows="3"
                             defaultValue={this.state.description}
                             onChange={e => this.setState({ description: e.target.value })}
                             autoComplete="description"
-                            label="Description"
+                            placeholder="Add a description"
                             fullWidth
                         />
                         <Grid
