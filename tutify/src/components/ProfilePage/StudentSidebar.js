@@ -33,10 +33,13 @@ class Sidebar extends Component {
       method: 'GET',
       credentials: 'include'
     })
-      .then(response => response.json())
       .then(res => {
+        localStorage.clear();
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err)
+        localStorage.clear();
+      });
   };
 
   handleClick = () => {

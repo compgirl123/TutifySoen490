@@ -71,11 +71,14 @@ export class NavBar extends Component {
       method: 'GET',
       credentials: 'include'
     })
-      .then(response => response.json())
       .then(res => {
-        this.setState({ Toggle: false });
+        localStorage.clear();
+        this.setState({ Toggle: false });        
       })
-      .catch(err => console.error("Logging out: " + err));
+      .catch(err => {
+        console.error("Logging out: " + err)
+        localStorage.clear();
+      });
   };
 
 

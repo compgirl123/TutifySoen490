@@ -18,34 +18,36 @@ import ResourceLevels from "./components/Resources/ResourceLevels";
 import Document from "./components/Documents/Document";
 import Studentdocs from './components/ProfilePage/Studentdocs';
 import ResourcePage from './components/Resources/ResourcePage';
+import PrivateRoute from './components/PrivateRoute';
+import MainRoute from './components/MainRoute';
 
 // This is all the url routing.
 function MainPage() {
   return (
     <Router>
-      <Route exact path="/" component={Main} />
-      <Route exact path="/signup" component={SignUp} />
-      <Route exact path="/search" component={SearchTutors} />
-      <Route exact path="/login" component={Login} />
-      <Route exact path="/profile" component={ProfilePage} />
-      <Route exact path="/students" component={StudentList} />
-      <Route exact path="/students/:file" component={StudentList} />
-      <Route exact path= "/courseList/:id" component= {CourseList}/>
-      <Route exact path= "/tutorCourses/:file" component = {MyCourses}/>
-      <Route exact path= "/courses" component = {MyCourses}/>
-      <Route exact path="/dashboard" component={UserDashboard} />
-      <Route exact path= "/uploadingDocs" component = {UploadDocuments}/>
-      <Route exact path= "/postblog" component={BlogPost} />
-      <Route exact path= "/doclist" component={DocList} />
-      <Route exact path= "/viewCourse/:coursename" component={ViewCourse} />
-      <Route exact path= "/document/:filename" component={Document} />
-      <Route exact path= "/announcements" component={Announcements} />
-      <Route exact path= "/doc" component={Studentdocs} />
-      <Route exact path= "/doc/:studentid" component={Studentdocs} />
-      <Route exact path= "/resources" component={ResourceLevels} />
-      <Route exact path= "/primary" component={ResourcePage} />
-      <Route exact path= "/secondary" component={ResourcePage} />
-      <Route exact path= "/postsecondary" component={ResourcePage} />
+      <MainRoute exact path= "/" component={Main} />
+      <Route exact path= "/signup" component={SignUp} />
+      <Route exact path= "/login" component={Login} />
+      <PrivateRoute  exact path= "/search" component={SearchTutors} />
+      <PrivateRoute  exact path= "/profile" component={ProfilePage} />
+      <PrivateRoute  exact path= "/students" component={StudentList} />
+      <PrivateRoute  exact path="/students/:file" component={StudentList} />
+      <PrivateRoute  exact path= "/courseList/:id" component= {CourseList}/>
+      <PrivateRoute  exact path= "/tutorCourses/:file" component = {MyCourses}/>
+      <PrivateRoute  exact path= "/courses" component = {MyCourses}/>
+      <PrivateRoute  exact path= "/dashboard" component={UserDashboard} />
+      <PrivateRoute  exact path= "/uploadingDocs" component = {UploadDocuments}/>
+      <PrivateRoute  exact path= "/postblog" component={BlogPost} />
+      <PrivateRoute  exact path= "/doclist" component={DocList} />
+      <PrivateRoute  exact path= "/viewCourse/:coursename" component={ViewCourse} />
+      <PrivateRoute  exact path= "/document/:filename" component={Document} />
+      <PrivateRoute  exact path= "/announcements" component={Announcements} />
+      <PrivateRoute  exact path= "/doc" component={Studentdocs} />
+      <PrivateRoute  exact path= "/doc/:studentid" component={Studentdocs} />
+      <PrivateRoute  exact path= "/resources" component={ResourceLevels} />
+      <PrivateRoute  exact path= "/primary" component={ResourcePage} />
+      <PrivateRoute  exact path= "/secondary" component={ResourcePage} />
+      <PrivateRoute  exact path= "/postsecondary" component={ResourcePage} />
     </Router>
   );
 }

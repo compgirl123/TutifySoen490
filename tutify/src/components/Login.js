@@ -1,4 +1,7 @@
 import React from 'react';
+import {
+  Redirect,
+} from 'react-router-dom'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -20,6 +23,7 @@ export class Login extends React.Component {
       data: [],
       email: null,
       password: null,
+      redirectToReferrer: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -52,6 +56,9 @@ export class Login extends React.Component {
       .then(response => response.json())
       .then(res => {
         if (res.isLoggedIn) {
+          this.setState({ redirectToReferrer: true })
+          localStorage.setItem("isLoggedIn", true)
+          localStorage.setItem("__t", res.userInfo.__t)
           if (res.userInfo.__t === 'student') {
             window.location = "dashboard";
           }
@@ -66,7 +73,13 @@ export class Login extends React.Component {
   };
 
   render() {
+    const { from } = this.props.location.state || { from: { pathname: '/' } }
+    const { redirectToReferrer } = this.state
     const { classes } = this.props;
+
+    if (redirectToReferrer === true) {
+      return <Redirect to={from} />
+    }
 
     return (
       <div>

@@ -70,7 +70,12 @@ export class NavBar extends Component {
 
   handleChange(event) {
     fetch('/api/logout')
+    .catch(err => {
+      console.log(err)
+      localStorage.clear();
+    });
     this.setState({ Toggle: false });
+    localStorage.clear();
   };
 
   render() {
