@@ -106,14 +106,30 @@ class AddResource extends Component {
         this.setEducationLevel = this.setEducationLevel.bind(this);
     }
 
+    isURL(url) {
+        if(!url) return false;
+        var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))|' + // OR ip (v4) address
+            'localhost' + // OR localhost
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+            '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+        return pattern.test(url);
+    }
+
     addResourceToDB = (event) => {
         event.preventDefault();
+        let imgUrl = this.state.image;
         if(this.state.description !== '' && this.state.title !== '' && this.state.image !== '' && this.state.link !== '' && 
         this.state.category !== '' && this.state.educationLevel !== '') {
+            if(!this.isURL(this.state.image)) {
+                imgUrl = require('../../assets/large_tutify.png')
+            }
             axios.post('/api/addResource', {
                 title: this.state.title,
                 description: this.state.description,
-                image: this.state.image,
+                image: imgUrl,
                 link: this.state.link,
                 category: this.state.category,
                 educationLevel: this.state.educationLevel
