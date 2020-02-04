@@ -16,6 +16,7 @@ import { withStyles } from "@material-ui/core/styles";
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import DescriptionIcon from '@material-ui/icons/Description';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import PublishIcon from '@material-ui/icons/Publish';
 
 class Sidebar extends Component {
 
@@ -57,6 +58,12 @@ class Sidebar extends Component {
               <AccountBoxIcon />
             </ListItemIcon>
             <ListItemText primary="My Profile" />
+          </ListItem>
+          <ListItem button component="a" href="/uploadingDocs">
+            <ListItemIcon>
+              <PublishIcon />
+            </ListItemIcon>
+            <ListItemText primary="Upload Documents" />
           </ListItem>
           <ListItem button component="a" href="/doc">
             <ListItemIcon>
