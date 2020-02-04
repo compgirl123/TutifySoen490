@@ -72,7 +72,7 @@ export class UserInfo extends React.Component {
 
     //retrieves the session
   checkSession = () => {
-    console.info("Fetching session from db...");
+    console.info("Fetching session...");
     fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'

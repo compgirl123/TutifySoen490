@@ -16,7 +16,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import TutorCard from './TutorCard';
 
-
 const options = [
   'All',
   'Tutor',
@@ -105,8 +104,8 @@ export class SearchTutors extends Component {
             user_id: res.userInfo._id,
             connectedTutors: res.userInfo.tutors
           });
+          this.getDataFromDb();
         }
-        this.getDataFromDb();
       })
       .catch(err => console.error("Session could not be checked: " + err));
   };

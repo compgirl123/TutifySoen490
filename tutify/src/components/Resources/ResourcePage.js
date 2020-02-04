@@ -149,29 +149,6 @@ class ResourcePage extends React.Component {
         };
     }
 
-    componentDidMount() {
-        this.checkSession();
-    }
-
-    checkSession = () => {
-        fetch('/api/checkSession', {
-            method: 'GET',
-            credentials: 'include'
-        })
-            .then(response => response.json())
-            .then(res => {
-                if (res.isLoggedIn) {
-                    this.setState({
-                        Toggle: true,
-                    });
-                }
-                else {
-                    this.setState({ Toggle: false });
-                }
-            })
-            .catch(err => console.error("Session could not be checked: " + err));
-    };
-
     imgForLevel = () => {
         if (this.props.location.state.postsecondary)
             return {

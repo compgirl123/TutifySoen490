@@ -1,6 +1,6 @@
 import React from 'react';
 import Footer from '../Footer';
-import TutorDashBoardNavBar from '../TutorProfile/TutorDashboardNavBar';
+import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
 import { Grid, TextField, Container } from '@material-ui/core';
 import * as TutorAnnouncementsStyles from '../../styles/TutorAnnouncements-styles';
 import { withStyles } from "@material-ui/core/styles";
@@ -192,7 +192,7 @@ export class Announcements extends React.Component {
         return (
             <React.Fragment>
                 <main>
-                    <TutorDashBoardNavBar />
+                    <DashBoardNavBar />
                     <Container className={classes.container}>
                         <form onSubmit={this.handleSubmit}>
                             <Grid container spacing={3}>

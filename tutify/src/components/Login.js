@@ -71,7 +71,7 @@ export class Login extends React.Component {
         else {
           swal("Invalid username or password!", "Please try again.", "error");
         }
-      })
+      });
   };
 
   render() {
@@ -131,7 +131,7 @@ export class Login extends React.Component {
                     style={{ width: 350 }}
                     variant="contained"
                     className="loginSubmit"
-                    onClick={this.handleSubmit}
+                    onClick={() => this.handleSubmit}
                   >
                     Login
                   </Button>

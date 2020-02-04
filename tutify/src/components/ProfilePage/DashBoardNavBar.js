@@ -11,6 +11,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { NavDrawer } from "./NavDrawer";
 import { Link } from '@material-ui/core';
+import {sessionLogout} from '../../helper/sessionHelper';
 
 
 export class NavBar extends Component {
@@ -35,7 +36,7 @@ export class NavBar extends Component {
   }
 
   checkSession = () => {
-    console.info("Fetching session from db...");
+    console.info("Fetching session...");
     fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
@@ -50,8 +51,10 @@ export class NavBar extends Component {
         }
         console.log("Checking session");
       })
-      .catch(err => console.error("Session could not be checked: " + err));
-      };
+      .catch(err => {
+        sessionLogout(err)
+      });
+  };
 
   render() {
     const { classes } = this.props;

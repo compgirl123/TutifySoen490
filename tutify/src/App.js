@@ -5,8 +5,8 @@ import SignUp from "./components/SignUp"
 import SearchTutors from "./components/SearchTutors"
 import Login from "./components/Login"
 import ProfilePage from "./components/ProfilePage/ProfilePage"
-import StudentList from "./components/TutorProfile/StudentList";
-import DocList from "./components/TutorProfile/DocList";
+import StudentList from "./components/ProfilePage/Tutor/StudentList";
+import DocList from "./components/ProfilePage/Tutor/DocList";
 import CourseList from './components/CourseList';
 import MyCourses from "./components/CourseView/MyCourses";
 import UserDashboard from "./components/UserDashboardPage/UserDashboard";

@@ -112,7 +112,9 @@ class CourseList extends React.Component {
         }
         console.info("Session checked");
       })
-      .catch(err => console.error("An error occured while checking the current session: "+err));
+      .catch(err => {
+        console.error("An error occured while checking the current session: "+err)
+      });
   };
 
   checkIfConnected(courseID) {

@@ -30,24 +30,7 @@ class BlogPost extends React.Component {
       drawerOpened: booleanValue
     });
   };
-  componentDidMount() {
-    this.checkSession();
-  }
 
-  checkSession = () => {
-    fetch('/api/checkSession', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then(res => {
-        if (res.isLoggedIn) {
-          this.getDataFromDb()
-        }
-
-      })
-      .catch(err => console.log(err));
-  };
   render() {
     const { classes } = this.props;
 

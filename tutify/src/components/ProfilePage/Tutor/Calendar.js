@@ -1,6 +1,6 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import * as UserDashboardStyles from '../../styles/UserDashboard-styles';
+import * as UserDashboardStyles from '../../../styles/UserDashboard-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -24,7 +24,7 @@ import axios from 'axios';
 import swal from 'sweetalert';
 import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
 import IconButton from '@material-ui/core/IconButton';
-import ShowStudents from "../TutorAnnouncements/ShowStudents";
+import ShowStudents from "../../TutorAnnouncements/ShowStudents";
 
 export class NewCalendar extends React.Component {
   constructor(props) {
@@ -102,7 +102,7 @@ export class NewCalendar extends React.Component {
 
   //retrieves the session
   checkSession = () => {
-    console.info("Fetching session from db...");
+    console.info("Fetching session from db... (calendar)");
     fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'

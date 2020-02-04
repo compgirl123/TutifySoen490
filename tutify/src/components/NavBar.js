@@ -8,6 +8,7 @@ import SchoolIcon from '@material-ui/icons/School';
 import { Link } from '@material-ui/core';
 import * as NavBarStyles from '../styles/NavBar-styles';
 import { withStyles } from "@material-ui/core/styles";
+import {sessionLogout} from '../helper/sessionHelper';
 
 class SignUp extends Component {
   render() {
@@ -44,7 +45,7 @@ export class NavBar extends Component {
   }
 
   checkSession = () => {
-    console.info("Fetching session from db...");
+    console.info("Fetching session...");
     fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
@@ -61,8 +62,10 @@ export class NavBar extends Component {
           this.setState({ Toggle: false });
         }
       })
-      .catch(err => console.error("Session could not be checked: " + err));
-      };
+      .catch(err => {
+        sessionLogout(err)
+      });
+  }
 
   // this method handles the "Logout" button
   handleChange(event) {

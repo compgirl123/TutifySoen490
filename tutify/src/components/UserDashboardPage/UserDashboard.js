@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Notifications from './Notification/Notifications';
 import * as UserDashboardStyles from '../../styles/UserDashboard-styles';
 import { withStyles } from "@material-ui/core/styles";
-import Sidebar from '../ProfilePage/StudentSidebar';
+import Sidebar from '../ProfilePage/Student/StudentSidebar';
 import Drawer from "@material-ui/core/Drawer";
 import MyCourseList from "./MyCourseList";
 import VisibleTodoList from '../../redux/containers/VisibleTodoList'

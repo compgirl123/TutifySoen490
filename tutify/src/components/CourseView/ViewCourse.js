@@ -32,12 +32,10 @@ export class ViewCourse extends React.Component {
       profileType: "",
       shareTo: []
     };
-    //this.loadFiles = this.loadFiles.bind(this);
   }
 
   componentDidMount() {
     this.checkSession();
-    //this.loadFiles();
   }
   
   // Distinguishing the tutor login from student login.
