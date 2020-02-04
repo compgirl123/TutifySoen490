@@ -172,9 +172,8 @@ export class SearchTutors extends Component {
 
   render() {
     const { classes } = this.props;
-    const { filteredData } = this.state;
-    const { anchorEl } = this.state;
-    const { selectedIndex } = this.state;
+    const { filteredData, anchorEl, selectedIndex } = this.state;
+
     return (
       <React.Fragment>
 
