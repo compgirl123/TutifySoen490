@@ -48,7 +48,7 @@ exports.findTutors = async function (req, res) {
     const { tutors } = req.body;
     var users = [];
 
-    for (var z = 0; z < students.length; z++) {
+    for (var z = 0; z < tutors.length; z++) {
         Tutor.findOne({ _id: tutors[z] }, function (err, user1) {
             if (err) {
 
@@ -56,8 +56,7 @@ exports.findTutors = async function (req, res) {
             users.push(user1)
             count++;
 
-            if (count == students.length) {
-
+            if (count == tutors.length) {
                 return res.json({ success: true, data: users });
             }
 

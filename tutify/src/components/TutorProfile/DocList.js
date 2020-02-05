@@ -27,7 +27,7 @@ import Button from "@material-ui/core/Button";
 function SharingOptions(props) {
   if (props.status === 'student') {
     if (props.buttons) {
-      return <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={props.courseButton} onClick={() => window.location.replace("/students/" + props.encrypted_file_name)} id={props.fileId}><GroupAddIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab></TableCell>
+      return <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={props.courseButton} onClick={() => window.location.replace("/tutors/" + props.encrypted_file_name)} id={props.fileId}><GroupAddIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab></TableCell>
     }
     return <TableCell>Share to <br />a Tutor</TableCell>
   } else {

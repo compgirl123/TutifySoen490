@@ -6,6 +6,7 @@ import SearchTutors from "./components/SearchTutors"
 import Login from "./components/Login"
 import ProfilePage from "./components/ProfilePage/ProfilePage"
 import StudentList from "./components/TutorProfile/StudentList";
+import TutorList from "./components/ProfilePage/TutorList";
 import DocList from "./components/TutorProfile/DocList";
 import CourseList from './components/CourseList';
 import MyCourses from "./components/CourseView/MyCourses";
@@ -30,6 +31,8 @@ function MainPage() {
       <Route exact path="/profile" component={ProfilePage} />
       <Route exact path="/students" component={StudentList} />
       <Route exact path="/students/:file" component={StudentList} />
+      <Route exact path="/tutors" component={TutorList} />
+      <Route exact path="/tutors/:file" component={TutorList} />
       <Route exact path= "/courseList/:id" component= {CourseList}/>
       <Route exact path= "/tutorCourses/:file" component = {MyCourses}/>
       <Route exact path= "/courses" component = {MyCourses}/>

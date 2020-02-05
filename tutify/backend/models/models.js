@@ -205,6 +205,10 @@ var UploadedFiles = mongoose.model('UploadedFiles', new mongoose.Schema({
   sharedToCourses: [
   { type: Schema.Types.ObjectId, ref: 'Course' }
   ],
+  sharedToTutors: [
+    { type: Schema.Types.ObjectId, ref: 'Tutor' }
+  ],
+  
   uploadDate: Date
 }), "uploaded_files");
 
