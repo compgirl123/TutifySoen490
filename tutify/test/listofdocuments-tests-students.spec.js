@@ -103,8 +103,8 @@ describe('The List of documents Students Page', () => {
         // Make sure the name of the second Table cell column exists and has the value "Name"
         expect(titles.props().children[1].props.children).toBe("Tutor");
 
-        // Make sure the name of the third Table cell column exists and has the value "Creation Date"
-        expect(titles.props().children[2].props.children).toBe("Creation Date");
+        // Make sure the name of the third Table cell column exists and has the value "Upload Date"
+        expect(titles.props().children[2].props.children).toBe("Upload Date");
 
         // Make sure the name of the third Table cell column exists and has the value "Download"
         expect(titles.props().children[3].props.children).toBe("Download");

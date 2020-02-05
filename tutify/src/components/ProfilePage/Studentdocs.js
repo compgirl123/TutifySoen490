@@ -93,6 +93,7 @@ export class Studentdocs extends React.Component {
           this.setState({ user_id: res.userInfo._id });
           if (res.userInfo.__t === "student") {
             this.loadFilesForStudents();
+            console.warn("SHIT FILES! : "+this.state.files);
           }
           else if (res.userInfo.__t === "tutor") {
             this.loadFilesForTutors();
@@ -170,7 +171,7 @@ export class Studentdocs extends React.Component {
                             <TableCell>Extension</TableCell>   
                             {this.props.match.params.studentid !== undefined
                               ?
-                              <TableCell>Creation Date</TableCell>
+                              <TableCell>Upload Date</TableCell>
                               :
                               <TableCell>Tutor</TableCell>
                             }
@@ -178,7 +179,7 @@ export class Studentdocs extends React.Component {
                               ?
                               <TableCell>Download</TableCell>
                               :
-                              <TableCell>Creation Date</TableCell>
+                              <TableCell>Upload Date</TableCell>
                             }
                             {this.props.match.params.studentid !== undefined
                               ?
@@ -213,7 +214,7 @@ export class Studentdocs extends React.Component {
                               var url = file._doc.url
                               var link = file._doc.link
                               var uploadDate = file._doc.uploadDate
-                              var tutor_name = file.tutorName
+                              var tutor_name = file.userName
                               return (
                                 <TableRow key={index}>
                                   <TableCell><a href={url}>{this.presentableName(filename)}</a></TableCell>
