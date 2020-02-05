@@ -1,5 +1,5 @@
 import React from 'react';
-import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
+import DashBoardNavBar from '../DashBoardNavBar';
 import Footer from '../Footer';
 import * as ResourcesStyles from '../../styles/Resources-styles';
 import { withStyles } from "@material-ui/core/styles";

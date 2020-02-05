@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Footer from "../Footer";
-import DashBoardNavBar from "./DashBoardNavBar";
+import DashBoardNavBar from "../DashBoardNavBar";
 import UserInfo from './UserInfo';
 import Card from '@material-ui/core/Card';
 import UserCoursesInfo from './Student/UserCoursesInfo';

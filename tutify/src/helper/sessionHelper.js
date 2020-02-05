@@ -1,6 +1,4 @@
-export function sessionLogout(err) {   
-    console.error("An error occured while checking the current session: "+err)
-    console.log("Inside sessionLogout")
+export function sessionLogout() {   
     localStorage.clear();
     window.location.reload(); 
 }

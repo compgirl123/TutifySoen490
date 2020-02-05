@@ -2,8 +2,8 @@ import React from "react";
 import Drawer from "@material-ui/core/Drawer";
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import Sidebar from './Student/StudentSidebar';
-import { TutorSidebar } from './Tutor/TutorSidebar';
+import Sidebar from './ProfilePage/Student/StudentSidebar';
+import { TutorSidebar } from './ProfilePage/Tutor/TutorSidebar';
 
 
 export class NavDrawer extends React.Component {

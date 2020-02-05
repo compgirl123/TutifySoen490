@@ -1,5 +1,5 @@
 import React from 'react';
-import NavBar from '../NavBar';
+import DashBoardNavBar from '../DashBoardNavBar';
 import Footer from '../Footer';
 import Grid from '@material-ui/core/Grid';
 import Notifications from './Notification/Notifications';
@@ -88,7 +88,7 @@ class UserDashboard extends React.Component {
 
         return (
             <React.Fragment>
-                <NavBar />
+                <DashBoardNavBar location="dashboard" />
                 <Drawer
                     className={classes.drawer}
                     variant="permanent"

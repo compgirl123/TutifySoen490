@@ -10,7 +10,7 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import Footer from './Footer';
-import DashBoardNavBar from './ProfilePage/DashBoardNavBar';
+import DashBoardNavBar from './DashBoardNavBar';
 import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';

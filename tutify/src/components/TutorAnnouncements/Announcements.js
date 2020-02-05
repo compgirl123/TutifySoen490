@@ -1,6 +1,6 @@
 import React from 'react';
 import Footer from '../Footer';
-import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
+import DashBoardNavBar from '../DashBoardNavBar';
 import { Grid, TextField, Container } from '@material-ui/core';
 import * as TutorAnnouncementsStyles from '../../styles/TutorAnnouncements-styles';
 import { withStyles } from "@material-ui/core/styles";

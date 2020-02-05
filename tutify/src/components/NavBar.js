@@ -63,7 +63,8 @@ export class NavBar extends Component {
         }
       })
       .catch(err => {
-        sessionLogout(err)
+        console.error("An error occured while checking the current session: "+err)
+        sessionLogout()
       });
   }
 

@@ -56,6 +56,8 @@ export class Login extends React.Component {
           localStorage.setItem("isLoggedIn", true)
           localStorage.setItem("__t", res.userInfo.__t)
 
+          console.log("Session created")
+
           // Check if user was redirected to login page from another page
           if(!this.props.location.state) {
             if (res.userInfo.__t === 'student') {

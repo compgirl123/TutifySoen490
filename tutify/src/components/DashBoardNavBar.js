@@ -4,14 +4,14 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import SchoolIcon from '@material-ui/icons/School';
-import * as NavBarStyles from '../../styles/DashBoardNavBar-styles';
+import * as NavBarStyles from '../styles/DashBoardNavBar-styles';
 import { withStyles } from "@material-ui/core/styles";
 import clsx from 'clsx';
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { NavDrawer } from "./NavDrawer";
 import { Link } from '@material-ui/core';
-import {sessionLogout} from '../../helper/sessionHelper';
+import {sessionLogout} from '../helper/sessionHelper';
 
 
 export class NavBar extends Component {
@@ -44,28 +44,34 @@ export class NavBar extends Component {
       .then(response => response.json())
       .then(res => {
         if (res.isLoggedIn) {
+          console.log("User is loggged in.");
           this.setState({ Toggle: true, email: true, userType: res.userInfo.__t });
         }
         else {
+          sessionLogout()
           this.setState({ Toggle: false, email: true });
-        }
-        console.log("Checking session");
+        }    
       })
       .catch(err => {
-        sessionLogout(err)
+        console.error("An error occured while checking the current session: "+err)
+        sessionLogout()
       });
   };
 
+  appBarPosition(location){
+    return location === "dashboard" ? "fixed" : "absolute"
+  }
+
   render() {
-    const { classes } = this.props;
+    const { classes, location } = this.props;
     const { open } = this.state;
 
     return (
       <div className={classes.root}>
-        <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)} style={{ background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)' }}>
+        <AppBar position={this.appBarPosition(location)} className={clsx(classes.appBar, open && classes.appBarShift)} style={{ background: 'linear-gradient(45deg, rgba(0,200,83,1) 0%, rgba(200,255,75,1) 100%)' }}>
 
           <Toolbar className={classes.toolbar}>
-            {this.state.Toggle ? <IconButton
+            {this.state.Toggle && location !== "dashboard" ? <IconButton
               edge="start"
               color="inherit"
               aria-label="open drawer"
@@ -107,10 +113,13 @@ export class NavBar extends Component {
 
           </Toolbar>
         </AppBar>
-        <NavDrawer
+        {
+          location !== "dashboard" ? 
+          <NavDrawer
           drawerOpened={this.state.drawerOpened}
           toggleDrawer={this.toggleDrawer}
-        />
+          /> : <></>
+        }
 
       </div>
 
