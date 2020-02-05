@@ -1,4 +1,4 @@
-const Files = require('../models/models').Files;
+const Files = require('../models/models').UploadedFiles;
 const Mfiles = require('../models/models').Mfiles;
 const Mchunks = require('../models/models').Mchunks;
 
