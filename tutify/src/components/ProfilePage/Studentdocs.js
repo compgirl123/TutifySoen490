@@ -76,7 +76,7 @@ export class Studentdocs extends React.Component {
   }
 
   presentableUploadTime(time) {
-    var date = time.substring(0, 9);
+    var date = time.substring(0, 10);
     var hour = time.substring(11, 16);
     return date + " at " + hour;
   }
