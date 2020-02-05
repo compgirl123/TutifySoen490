@@ -5,7 +5,7 @@ import { configure } from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
 import { shallow } from 'enzyme';
 import Typography from '@material-ui/core/Typography';
-import Title from "../src/components/ProfilePage/Tutor/Title";
+import Title from "../src/components/ProfilePage/Title";
 import Table from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/TableRow';
 
