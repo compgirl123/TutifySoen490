@@ -18,6 +18,7 @@ import Announcements from "./components/TutorAnnouncements/Announcements";
 import ResourceLevels from "./components/Resources/ResourceLevels";
 import Document from "./components/Documents/Document";
 import Studentdocs from './components/ProfilePage/Studentdocs';
+import Tutordocs from './components/ProfilePage/Tutordocs';
 import ResourcePage from './components/Resources/ResourcePage';
 import PrivateRoute from './components/PrivateRoute';
 import MainRoute from './components/MainRoute';

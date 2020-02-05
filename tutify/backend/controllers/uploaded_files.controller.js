@@ -219,7 +219,7 @@ exports.shareFileToTutor = async function (req, res) {
 }
 
 // this method enables the students to view all of their shared documents.
-exports.viewDocs = async function (req, res) {
+exports.viewDocsFromTutors = async function (req, res) {
     var response = [];
     await Profile.findOne({ account: req.session.userInfo.account }, async (err, sharedDocs) => { if (err) { console.error("Unable to find the user to view his/her files"); } }).then(async (sharedDocs) => {
         await UploadedFiles.find({ _id: { $in: sharedDocs.sharedToStudents } }, async (err, tst) => { if (err) { console.error("Unable to find the user's files"); } }).then(async (tst) => {
@@ -231,15 +231,31 @@ exports.viewDocs = async function (req, res) {
     });
 }
 
+exports.viewDocsFromStudents = async function (req, res) {
+    var response = [];
+    await Profile.findOne({ account: req.session.userInfo.account }, async (err, tutorInfo) => { if (err) { console.error("Unable to find the user to view his/her files"); } }).then(async (tutorInfo) => {
+        console.warn("sharedDocs: "+tutorInfo);
+        await UploadedFiles.find({ sharedToTutors: { $elemMatch: tutorInfo._id }}, async (err, tst) => { if (err) { console.error("Unable to find the user's files"); } }).then(async (tst) => {
+            console.warn("tst: "+tst);
+            await findProfile(tst, response, res).then(async (result) => {
+                console.info("The user's list of documents has been retrieved successfully");
+                return res.json({ success: true, file: result });
+            });
+        });
+    });
+}
+
 // helper method
 async function findProfile(tst, response, res) {
     for (let index = 0; index < tst.length; index++) {
-        await Profile.findOne({ _id: tst[index].admin }, async (err, tutor) => { if (err) { console.error("Unable to find the user "); } }).then(async (tutor) => {
-            var tutorName = tutor.first_name + " " + tutor.last_name
-            tst[index] = await Object.assign({ tutorName: tutorName }, tst[index]);
+        await Profile.findOne({ _id: tst[index].admin }, async (err, user) => { if (err) { console.error("Unable to find the user "); } }).then(async (user) => {
+            var userName = user.first_name + " " + user.last_name
+            console.warn("USERNAME: "+userName);
+            tst[index] = await Object.assign({ userName: userName }, tst[index]);
             await response.push(tst[index]);
         });
     };
+    console.warn("RESPONSE PINGAS! : "+response);
     return new Promise((resolve, reject) => { resolve(response) });
 }
 
@@ -327,6 +343,27 @@ exports.deleteFiles = async function (req, res) {
                     });
                 });
             }
+
+            // Removing Shared to certain Tutors of Document if the document(s) was shared to tutor(s)
+            if ((fileToDelete[studentShared].sharedToTutors).length !== 0) {
+                fileToDelete[studentShared].sharedToTutors.forEach(function (err, courseIndex) {
+                    Course.find({ _id: { $in: fileToDelete[studentShared].sharedToTutors[courseIndex] } }, function (err, userfiles1) {
+                        userfiles1.forEach(function (err, studentIndex2) {
+                            if ((userfiles1[studentIndex2].sharedToTutors).indexOf(fileToDelete[studentShared]._id) > -1) {
+                                Course.findByIdAndUpdate(fileToDelete[studentShared].sharedToTutors[courseIndex],
+                                    { "$pull": { "sharedToCourses": fileToDelete[studentShared]._id } },
+                                    function (err, student) {
+                                        if (err) {
+                                            console.error("Could not remove the file reference from the course object");
+                                            throw err;
+                                        }
+                                    });
+                            }
+                        });
+                    });
+                });
+            }
+
             // Removing uploaded Document from the uploaded files collection.
             UploadedFiles.findByIdAndRemove(fileToDelete[studentShared]._id, (err, file) => {
                 if (err) {
