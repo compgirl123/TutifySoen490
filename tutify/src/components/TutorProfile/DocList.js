@@ -23,6 +23,23 @@ import Fab from "@material-ui/core/Fab";
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from "@material-ui/core/Button";
 
+
+function SharingOptions(props) {
+  if (props.status === 'student') {
+    if (props.buttons) {
+      return <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={props.courseButton} onClick={() => window.location.replace("/students/" + props.encrypted_file_name)} id={props.fileId}><GroupAddIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab></TableCell>
+    }
+    return <TableCell>Share to <br />a Tutor</TableCell>
+  } else {
+    if (props.buttons) {
+      return [<TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" className={props.courseButton} onClick={() => window.location.replace("/tutorCourses/" + props.encrypted_file_name)} id={props.fileId}><MenuBookIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>,
+      <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={props.courseButton} onClick={() => window.location.replace("/students/" + props.encrypted_file_name)} id={props.fileId}><GroupAddIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab></TableCell>]
+    }
+    return [<TableCell>Share to <br />Specific Course</TableCell>,
+    <TableCell>Share to <br />Specific Student</TableCell>]
+  }
+}
+
 // Displaying all of the documents uploaded by the tutor on Tutor "All Documents" Tab.
 export class DocList extends React.Component {
   constructor(props) {
@@ -34,9 +51,26 @@ export class DocList extends React.Component {
     this.loadFiles = this.loadFiles.bind(this);
   }
 
+  componentWillMount() {
+    this.checkSession();
+  }
   componentDidMount() {
     this.loadFiles();
   }
+
+  checkSession = () => {
+    console.info("Fetching session from db...");
+    fetch('/api/checkSession', {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.setState({ __t: res.userInfo.__t});
+      })
+      .catch(err => console.error("Session could not be checked: " + err));
+  };
+
 
   // Loading all tutor files from database in order to display them neatly on the All Documents Page.
   async loadFiles() {
@@ -44,10 +78,11 @@ export class DocList extends React.Component {
       .then(res => res.json())
       .then(res => {
         if (res.file !== undefined) {
-          this.setState({ files: res.file });
+          console.warn("PUTTING: " + res.session);
+          this.setState({ files: res.file, session: res.session });
         }
         else {
-          this.setState({ files: [] });
+          this.setState({ files: [], session: res.session });
         }
         console.info("The files have been loaded");
       })
@@ -56,18 +91,20 @@ export class DocList extends React.Component {
 
 
 
-  presentableName(name){
-    return  name.substring(0, name.lastIndexOf("."));
+
+
+  presentableName(name) {
+    return name.substring(0, name.lastIndexOf("."));
   }
 
-  presentableExtension(name){
+  presentableExtension(name) {
     return name.substring(name.lastIndexOf(".") + 1);
   }
 
-  presentableUploadTime(time){
-    var date = time.substring(0,9);
-    var hour = time.substring(11,16);
-    return date+" at "+hour;
+  presentableUploadTime(time) {
+    var date = time.substring(0, 9);
+    var hour = time.substring(11, 16);
+    return date + " at " + hour;
   }
   // tutor deletes a documents from files list
   getSelectedFiletoDelete(event, encrypted_file_name) {
@@ -154,8 +191,10 @@ export class DocList extends React.Component {
                             <TableCell>Name</TableCell>
                             <TableCell>Extension</TableCell>
                             <TableCell>Uploaded on</TableCell>
-                            <TableCell>Share to <br/>Specific Course</TableCell>
-                            <TableCell>Share to <br/>Specific Student</TableCell>
+                            <SharingOptions
+                              status={this.state.__t}
+                              buttons={false}
+                            />
                             <TableCell>Download</TableCell>
                             <TableCell>Select File(s) to Delete</TableCell>
                           </TableRow>
@@ -174,16 +213,26 @@ export class DocList extends React.Component {
                                 <TableCell><a href={url}>{filename}</a></TableCell>
                                 <TableCell>{this.presentableExtension(filename)}</TableCell>
                                 <TableCell>{this.presentableUploadTime(uploadDate)}</TableCell>
-                                <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" className={classes.courseButton} onClick={() => window.location.replace("/tutorCourses/" + encrypted_file_name)} id={file._id}><MenuBookIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
-                                <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={classes.courseButton} onClick={() => window.location.replace("/students/" + encrypted_file_name)} id={file._id}><GroupAddIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab></TableCell>
+                                {/* <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" className={classes.courseButton} onClick={() => window.location.replace("/tutorCourses/" + encrypted_file_name)} id={file._id}><MenuBookIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
+                                <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={classes.courseButton} onClick={() => window.location.replace("/students/" + encrypted_file_name)} id={file._id}><GroupAddIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab></TableCell> */}
+
+                                <SharingOptions
+                                  status={this.state.__t}
+                                  buttons={true}
+                                  courseButton={classes.courseButton}
+                                  encrypted_file_name={encrypted_file_name}
+                                  fileId={file._id}
+                                />
                                 <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={classes.courseButton} onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab ></TableCell>
+
+
                                 <TableCell align="center"><Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></TableCell>
                               </TableRow>
                             )
                           })}
                           {this.state.files.length !== 0
                             ?
-                            <TableRow> <TableCell><Button type="button" onClick={event => this.getSelectedFiletoDelete(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Documents</Button></TableCell></TableRow>
+                            <TableRow><TableCell><Button type="button" onClick={event => this.getSelectedFiletoDelete(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Documents</Button></TableCell></TableRow>
                             :
                             <br />
                           }
