@@ -124,7 +124,7 @@ exports.assignCourse = async function (req, res) {
 }
 
 // this method enables the tutor to share their uploaded documents to their students.
-exports.assignCourseStudent = async function (req, res) {
+exports.shareFileToStudent = async function (req, res) {
     let uploaded_files = new UploadedFiles();
     let profile = new Profile();
     const { id_student, file_name } = req.body;
@@ -150,6 +150,54 @@ exports.assignCourseStudent = async function (req, res) {
             });
             profile.save(function (err) {
                 Profile.findByIdAndUpdate(student_info._id,
+                    {
+                        "$push": {
+                            "sharedToStudents": encrypted_file_name._id
+                        }
+                    },
+                    { "new": true, "upsert": true },
+                    function (err, tutor) {
+                        if (err) {
+                            console.error("The uploaded files sharing list was unable to be updated");
+                            throw err;
+                        }
+                        else {
+                            console.info("The uploaded files sharing list has been updated");
+                        }
+                    });
+            });
+        });
+    });
+}
+
+
+// this method enables the students to share their uploaded documents to their tutors.
+exports.shareFileToTutor = async function (req, res) {
+    let uploaded_files = new UploadedFiles();
+    let profile = new Profile();
+    const { id_tutor, file_name } = req.body;
+    Profile.findOne({ _id: id_tutor }, function (err, tutor_info) {
+        UploadedFiles.findOne({ encryptedname: file_name }, function (err, encrypted_file_name) {
+            uploaded_files.save(function (err) {
+                UploadedFiles.findByIdAndUpdate(encrypted_file_name._id,
+                    {
+                        "$push": {
+                            "sharedToTutors": tutor_info._id
+                        }
+                    },
+                    { "new": true, "upsert": true },
+                    function (err, tutor) {
+                        if (err) {
+                            console.error("The uploaded files sharing list was unable to be updated");
+                            throw err;
+                        }
+                        else {
+                            console.info("The uploaded files sharing list has been updated");
+                        }
+                    });
+            });
+            profile.save(function (err) {
+                Profile.findByIdAndUpdate(tutor_info._id,
                     {
                         "$push": {
                             "sharedToStudents": encrypted_file_name._id

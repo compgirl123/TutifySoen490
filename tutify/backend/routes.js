@@ -105,7 +105,9 @@ router.get('/uploadingDocs', uploadedFilesController.getLatestUpload);
 
 router.post('/tutorCourses/:file', uploadedFilesController.assignCourse);
 
-router.post('/students/:file', uploadedFilesController.assignCourseStudent);
+router.post('/students/:file', uploadedFilesController.shareFileToStudent);
+
+router.post('/tutors/:file', uploadedFilesController.shareFileToTutor);
 
 router.get('/doc', uploadedFilesController.viewDocs);
 
