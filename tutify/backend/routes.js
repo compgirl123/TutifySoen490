@@ -37,6 +37,8 @@ router.get('/getUser', userController.getUser);
 
 router.post('/findStudents', userController.findStudents);
 
+router.post('/findTutors', userController.findTutors);
+
 router.post('/updateUserInfo', userController.updateUserInfo);
 
 router.post('/putUser', userController.putUser);

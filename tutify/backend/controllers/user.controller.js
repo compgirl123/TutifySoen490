@@ -41,6 +41,30 @@ exports.findStudents = async function (req, res) {
     }
 };
 
+
+// this method finds tutors in the database given the object id
+exports.findTutors = async function (req, res) {
+    var count = 0;
+    const { tutors } = req.body;
+    var users = [];
+
+    for (var z = 0; z < students.length; z++) {
+        Tutor.findOne({ _id: tutors[z] }, function (err, user1) {
+            if (err) {
+
+            };
+            users.push(user1)
+            count++;
+
+            if (count == students.length) {
+
+                return res.json({ success: true, data: users });
+            }
+
+        });
+    }
+};
+
 // this method overwrites existing user info in our database
 exports.updateUserInfo = async function (req, res) {
     const { _id, school, program_of_study, education_level, first_name, last_name } = req.body;
