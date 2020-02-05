@@ -1,11 +1,11 @@
 import React from "react";
-import StudentList, { StudentList as StudentListClass } from "../src/components/TutorProfile/StudentList";
+import StudentList, { StudentList as StudentListClass } from "../src/components/ProfilePage/Tutor/StudentList";
 import { createMount } from '@material-ui/core/test-utils';
 import { configure } from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
 import { shallow } from 'enzyme';
 import Typography from '@material-ui/core/Typography';
-import Title from "../src/components/TutorProfile/Title";
+import Title from "../src/components/ProfilePage/Tutor/Title";
 import Table from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/TableRow';
 

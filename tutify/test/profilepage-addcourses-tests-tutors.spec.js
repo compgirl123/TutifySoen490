@@ -1,5 +1,5 @@
 import React from "react";
-import TutorCoursesInfo, { TutorCoursesInfo as TutorCoursesInfoClass } from "../src/components/TutorProfile/TutorCoursesInfo";
+import TutorCoursesInfo, { TutorCoursesInfo as TutorCoursesInfoClass } from "../src/components/ProfilePage/Tutor/TutorCoursesInfo";
 import { createMount } from '@material-ui/core/test-utils';
 import { configure } from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
