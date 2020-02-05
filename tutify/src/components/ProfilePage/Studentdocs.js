@@ -67,6 +67,20 @@ export class Studentdocs extends React.Component {
       .catch(err => console.error("Files have not been loaded correctly: " + err));
   }
 
+  presentableName(name) {
+    return name.substring(0, name.lastIndexOf("."));
+  }
+
+  presentableExtension(name) {
+    return name.substring(name.lastIndexOf(".") + 1);
+  }
+
+  presentableUploadTime(time) {
+    var date = time.substring(0, 9);
+    var hour = time.substring(11, 16);
+    return date + " at " + hour;
+  }
+
   // Running functions according to if the user is logged in as a tutor or as a student.
   checkSession = () => {
     fetch('/api/checkSession', {
@@ -153,6 +167,7 @@ export class Studentdocs extends React.Component {
                         <TableHead>
                           <TableRow>
                             <TableCell>Name</TableCell>
+                            <TableCell>Extension</TableCell>   
                             {this.props.match.params.studentid !== undefined
                               ?
                               <TableCell>Creation Date</TableCell>
@@ -201,9 +216,10 @@ export class Studentdocs extends React.Component {
                               var tutor_name = file.tutorName
                               return (
                                 <TableRow key={index}>
-                                  <TableCell><a href={url}>{filename}</a></TableCell>
+                                  <TableCell><a href={url}>{this.presentableName(filename)}</a></TableCell>
+                                  <TableCell>{this.presentableExtension(filename)}</TableCell>
                                   <TableCell>{tutor_name}</TableCell>
-                                  <TableCell>{uploadDate}</TableCell>
+                                  <TableCell>{this.presentableUploadTime(uploadDate)}</TableCell>
                                   <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" onClick={() => window.open(link)} id={file._id}><GetAppIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
                                 </TableRow>
                               )

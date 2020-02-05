@@ -7,7 +7,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Footer from '../Footer';
-import TutorDashBoardNavBar from './TutorDashboardNavBar';
+import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -46,15 +46,14 @@ export class DocList extends React.Component {
     super(props);
     this.state = {
       files: [],
+      sharedFiles: [],
       shareTo: []
     };
     this.loadFiles = this.loadFiles.bind(this);
   }
 
-  componentWillMount() {
-    this.checkSession();
-  }
   componentDidMount() {
+    this.checkSession();
     this.loadFiles();
   }
 
@@ -66,11 +65,22 @@ export class DocList extends React.Component {
     })
       .then(response => response.json())
       .then(res => {
-        this.setState({ __t: res.userInfo.__t});
+        if (res.isLoggedIn) {
+          this.setState({ user_id: res.userInfo._id });
+          if (res.userInfo.__t === "student") {
+            this.setState({ profileType: res.userInfo.__t });
+          }
+          else if (res.userInfo.__t === "tutor") {
+            this.setState({ profileType: res.userInfo.__t });
+          } 
+        }
+        else {
+          this.setState({ Toggle: false, shouldView: false, user_id: "Not logged in" });
+        }
+        console.info("Session checked"); 
       })
       .catch(err => console.error("Session could not be checked: " + err));
   };
-
 
   // Loading all tutor files from database in order to display them neatly on the All Documents Page.
   async loadFiles() {
@@ -78,7 +88,6 @@ export class DocList extends React.Component {
       .then(res => res.json())
       .then(res => {
         if (res.file !== undefined) {
-          console.warn("PUTTING: " + res.session);
           this.setState({ files: res.file, session: res.session });
         }
         else {
@@ -172,9 +181,12 @@ export class DocList extends React.Component {
     return (
       <React.Fragment>
         <main>
-          <TutorDashBoardNavBar />
+        <DashBoardNavBar />
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
+
+            
+
             <Container maxWidth="lg" className={classes.container}>
               <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                 List of Documents
@@ -182,7 +194,9 @@ export class DocList extends React.Component {
               <Grid container spacing={2}>
                 {/* Student Info */}
                 <Grid item xs={12} md={12} lg={24}>
-                  <Paper className={fixedHeightPaper}>
+                    <Paper className={fixedHeightPaper}>
+
+
                     <React.Fragment>
                       <Title>Uploaded Documents </Title>
                       <Table size="small">
@@ -192,15 +206,13 @@ export class DocList extends React.Component {
                             <TableCell>Extension</TableCell>
                             <TableCell>Uploaded on</TableCell>
                             <SharingOptions
-                              status={this.state.__t}
+                              status={this.state.profileType}
                               buttons={false}
                             />
                             <TableCell>Download</TableCell>
                             <TableCell>Select File(s) to Delete</TableCell>
                           </TableRow>
                         </TableHead>
-
-
                         <TableBody>
                           {files.map((file, index) => {
                             var filename = file.name;
@@ -210,14 +222,14 @@ export class DocList extends React.Component {
                             var uploadDate = file.uploadDate
                             return (
                               <TableRow key={index}>
-                                <TableCell><a href={url}>{filename}</a></TableCell>
+                                <TableCell><a href={url}>{this.presentableName(filename)}</a></TableCell>
                                 <TableCell>{this.presentableExtension(filename)}</TableCell>
                                 <TableCell>{this.presentableUploadTime(uploadDate)}</TableCell>
                                 {/* <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" className={classes.courseButton} onClick={() => window.location.replace("/tutorCourses/" + encrypted_file_name)} id={file._id}><MenuBookIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
                                 <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={classes.courseButton} onClick={() => window.location.replace("/students/" + encrypted_file_name)} id={file._id}><GroupAddIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab></TableCell> */}
 
                                 <SharingOptions
-                                  status={this.state.__t}
+                                  status={this.state.profileType}
                                   buttons={true}
                                   courseButton={classes.courseButton}
                                   encrypted_file_name={encrypted_file_name}
