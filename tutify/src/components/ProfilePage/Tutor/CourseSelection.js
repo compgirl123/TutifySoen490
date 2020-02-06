@@ -7,7 +7,7 @@ import { MenuItem } from '@material-ui/core';
 import { FormControl } from '@material-ui/core';
 import Select from "@material-ui/core/Select";
 import Chip from "@material-ui/core/Chip";
-import * as tutifyStyle from '../../styles/CourseSelection-styles';
+import * as tutifyStyle from '../../../styles/CourseSelection-styles';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

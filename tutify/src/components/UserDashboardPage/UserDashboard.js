@@ -1,11 +1,11 @@
 import React from 'react';
-import NavBar from '../NavBar';
+import DashBoardNavBar from '../DashBoardNavBar';
 import Footer from '../Footer';
 import Grid from '@material-ui/core/Grid';
 import Notifications from './Notification/Notifications';
 import * as UserDashboardStyles from '../../styles/UserDashboard-styles';
 import { withStyles } from "@material-ui/core/styles";
-import Sidebar from '../ProfilePage/StudentSidebar';
+import Sidebar from '../ProfilePage/Student/StudentSidebar';
 import Drawer from "@material-ui/core/Drawer";
 import MyCourseList from "./MyCourseList";
 import VisibleTodoList from '../../redux/containers/VisibleTodoList'
@@ -88,7 +88,7 @@ class UserDashboard extends React.Component {
 
         return (
             <React.Fragment>
-                <NavBar />
+                <DashBoardNavBar location="dashboard" />
                 <Drawer
                     className={classes.drawer}
                     variant="permanent"

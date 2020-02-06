@@ -1,5 +1,5 @@
 import React from 'react';
-import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
+import DashBoardNavBar from '../DashBoardNavBar';
 import Footer from '../Footer';
 import * as ResourcesStyles from '../../styles/Resources-styles';
 import { withStyles } from "@material-ui/core/styles";
@@ -21,29 +21,9 @@ class ResourcePage extends React.Component {
         };
     }
 
-    componentWillMount() {
-        this.checkSession();
+    componentDidMount() {
+        this.getAllResources();
     }
-
-    checkSession = () => {
-        fetch('/api/checkSession', {
-            method: 'GET',
-            credentials: 'include'
-        })
-            .then(response => response.json())
-            .then(res => {
-                if (res.isLoggedIn) {
-                    this.setState({
-                        Toggle: true,
-                    });
-                    this.getAllResources();
-                }
-                else {
-                    this.setState({ Toggle: false });
-                }
-            })
-            .catch(err => console.error("Session could not be checked: " + err));
-    };
 
     getAllResources = () => {
         axios.get('/api/getResources').then((res) => {
