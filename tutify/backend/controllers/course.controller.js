@@ -1,5 +1,6 @@
 const Course = require('../models/models').Course;
 const Tutor = require('../models/models').Tutor;
+const Student = require('../models/models').Student;
 
 // this method fetches all available courses in our database
 exports.getCourses = async function (req, res) {
@@ -83,7 +84,7 @@ exports.addCourseToDb = async function (req, res) {
 
 //delete a course from the database
 exports.deleteCourse = async function (req, res) {
-  const { course, tutor_id } = req.body;
+  const { students, course_id , tutor_id } = req.body;
 
 //delete courses from tutor 
 
@@ -100,14 +101,13 @@ exports.deleteCourse = async function (req, res) {
           function (err, tutor) {
               
     */          
-              course.students.forEach(function (student) {
+              students.forEach(function (student) {
                   Student.findByIdAndUpdate(student,
-                    { "$pull": { "courses": {course: course.course, tutor : tutor_id }}}, 
-                    
-                     
+                    { "$pull": { "courses": {course: course_id, tutor : tutor_id }}}, 
                       function (err, student) {
                           if (err) throw err;
                       });
+                      console.log(student);
               });
               /** 
               console.info("The event was deleted successfully");

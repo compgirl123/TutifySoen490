@@ -41,7 +41,8 @@ export class MyCourses extends React.Component {
       description: "",
       filteredListCourses: [],
       discriminator: "",
-      id: ""
+      id: "",
+      students: []
     };
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -118,13 +119,29 @@ export class MyCourses extends React.Component {
   }
 
   // delete course 
+
   deleteCourse = (course_id) => {
 
-  alert(course_id);
+    swal({
+      title: "Are you sure you want delete this course?",
+      icon: "warning",
+      buttons: [true, "Yes"],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          axios.post('/api/deleteCourse', {
+            students: this.state.students,
+            course_id: course_id,
+            tutor_id: this.state.id
+          })
+            .then((res) => {
 
-
-
-
+            }, (error) => {
+              console.error("Could not delete course to database (API call error) " + error);
+            });
+        }
+      });
   }
 
   // this method assigns a tutor to an existing course
@@ -185,7 +202,7 @@ export class MyCourses extends React.Component {
           else if (res.userInfo.__t === "tutor") {
             this.getTutorDataFromDb();
             this.getAllCoursesFromDB();
-            console.info(res);
+            this.setState({ students: res.userInfo.students });
           }
         }
       })
@@ -277,7 +294,7 @@ export class MyCourses extends React.Component {
                   <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addCourseButton} >
                     Add Course
                </Button>
-               
+
                   :
                   <></>
                 }
@@ -294,8 +311,8 @@ export class MyCourses extends React.Component {
                           <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">
                               {c.course.name}
-                              <Button variant="contained" size="lg" active onClick={event =>  this.deleteCourse(c.course._id) }  className={classes.addCourseButton} >
-                    delete Course
+                              <Button variant="contained" size="lg" active onClick={event => this.deleteCourse(c.course._id)} className={classes.addCourseButton} >
+                                delete Course
                </Button>
                             </Typography>
                             <Typography variant="body2" color="textSecondary" component="p">
