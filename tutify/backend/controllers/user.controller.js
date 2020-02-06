@@ -296,6 +296,8 @@ exports.logout = async function (req, res) {
 exports.checkSession = async function (req, res) {
     if (req.session.isLoggedIn) {
         res.send(req.session);
+    } else {
+        res.status(400).send(new Error('User not logged in.'));
     }
 };
 

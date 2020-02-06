@@ -52,17 +52,28 @@ export class Login extends React.Component {
       .then(response => response.json())
       .then(res => {
         if (res.isLoggedIn) {
-          if (res.userInfo.__t === 'student') {
-            window.location = "dashboard";
-          }
-          else if (res.userInfo.__t === 'tutor') {
-            window.location = "profile";
+          // set session info in localStorage
+          localStorage.setItem("isLoggedIn", true)
+          localStorage.setItem("__t", res.userInfo.__t)
+
+          console.log("Session created")
+
+          // Check if user was redirected to login page from another page
+          if(!this.props.location.state) {
+            if (res.userInfo.__t === 'student') {
+              window.location = "dashboard";
+            }
+            else if (res.userInfo.__t === 'tutor') {
+              window.location = "profile";
+            }
+          } else {
+            window.location = this.props.location.state.from.pathname;
           }
         }
         else {
           swal("Invalid username or password!", "Please try again.", "error");
         }
-      })
+      });
   };
 
   render() {
@@ -122,7 +133,7 @@ export class Login extends React.Component {
                     style={{ width: 350 }}
                     variant="contained"
                     className="loginSubmit"
-                    onClick={this.handleSubmit}
+                    onClick={() => this.handleSubmit}
                   >
                     Login
                   </Button>

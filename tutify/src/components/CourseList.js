@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button";
 import * as tutifyStyle from '../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Container from '@material-ui/core/Container';
-import DashBoardNavBar from './ProfilePage/DashBoardNavBar';
+import DashBoardNavBar from './DashBoardNavBar';
 import Paper from '@material-ui/core/Paper';
 import Footer from './Footer';
 import Card from '@material-ui/core/Card';
@@ -112,7 +112,9 @@ class CourseList extends React.Component {
         }
         console.info("Session checked");
       })
-      .catch(err => console.error("An error occured while checking the current session: "+err));
+      .catch(err => {
+        console.error("An error occured while checking the current session: "+err)
+      });
   };
 
   checkIfConnected(courseID) {

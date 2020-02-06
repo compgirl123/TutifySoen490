@@ -1,10 +1,10 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import * as tutifyStyle from '../../styles/ProfilePage-styles';
+import * as tutifyStyle from '../../../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
-import CourseSelection from '../ProfilePage/CourseSelection';
+import CourseSelection from './CourseSelection';
 import swal from 'sweetalert';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';

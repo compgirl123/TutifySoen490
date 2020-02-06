@@ -1,11 +1,11 @@
 import React from "react";
-import DocList, { DocList as DocListClass } from "../src/components/TutorProfile/DocList";
+import DocList, { DocList as DocListClass } from "../src/components/ProfilePage/Tutor/DocList";
 import { createMount } from '@material-ui/core/test-utils';
 import { configure } from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
 import { shallow } from 'enzyme';
 import Typography from '@material-ui/core/Typography';
-import Title from "../src/components/TutorProfile/Title";
+import Title from "../src/components/ProfilePage/Title";
 import Table from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/TableRow';
 

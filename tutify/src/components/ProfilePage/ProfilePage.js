@@ -4,21 +4,21 @@ import { withStyles } from "@material-ui/core/styles";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Footer from "../Footer";
-import DashBoardNavBar from "./DashBoardNavBar";
+import DashBoardNavBar from "../DashBoardNavBar";
 import UserInfo from './UserInfo';
 import Card from '@material-ui/core/Card';
-import UserCoursesInfo from './UserCoursesInfo';
-import UserTutorsInfo from './UserTutorsInfo';
+import UserCoursesInfo from './Student/UserCoursesInfo';
+import UserTutorsInfo from './Tutor/UserTutorsInfo';
 import Paper from '@material-ui/core/Paper';
-import ScheduledEvents from './ScheduledEvents';
+import ScheduledEvents from './Student/ScheduledEvents';
 import IconButton from '@material-ui/core/IconButton';
 import Drawer from "@material-ui/core/Drawer";
 import Avatar from '@material-ui/core/Avatar';
 import calendarIcon from '../../assets/calendarIcon.png';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import TutorCoursesInfo from '../TutorProfile/TutorCoursesInfo';
-import NewCalendar from '../TutorProfile/Calendar';
-import TutorStudentsInfo from '../TutorProfile/TutorStudentsInfo';
+import TutorCoursesInfo from './Tutor/TutorCoursesInfo';
+import NewCalendar from './Tutor/Calendar';
+import TutorStudentsInfo from './Tutor/TutorStudentsInfo';
 import axios from 'axios';
 
 
@@ -44,7 +44,7 @@ class ProfilePage extends React.Component {
   }
 
   checkSession = () => {
-    console.info("Fetching session from db...");
+    console.info("Fetching session...");
     fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
