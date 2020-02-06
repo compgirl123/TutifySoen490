@@ -133,7 +133,7 @@ export class Tutordocs extends React.Component {
         return (
             <React.Fragment>
                 <main>
-                <DashBoardNavBar />
+                    <DashBoardNavBar />
                     <main className={classes.content}>
                         <div className={classes.appBarSpacer} />
                         <Container maxWidth="lg" className={classes.container}>
@@ -178,7 +178,7 @@ export class Tutordocs extends React.Component {
                                                             )
                                                         })
                                                     }
-                                                    { this.state.files.length !== 0
+                                                    {this.state.files.length !== 0
                                                         ?
                                                         <TableCell><Button type="button" onClick={event => this.deleteFile(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Document</Button></TableCell>
                                                         :
