@@ -7,7 +7,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Footer from '../Footer';
-//import DashBoardNavBar from './DashBoardNavBar'
+import DashBoardNavBar from './../DashBoardNavBar'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -97,7 +97,6 @@ export class Tutordocs extends React.Component {
             list.push(event.target.name);
             await this.setState({ shareTo: list });
             console.info("Checkbox checked");
-
         } else {
             let filteredArray = this.state.shareTo.filter(item => item !== event.target.name);
             await this.setState({ shareTo: filteredArray });
@@ -116,7 +115,7 @@ export class Tutordocs extends React.Component {
             .then((willDelete) => {
                 if (willDelete !== null) {
                     swal("File(s) Deleted", "", "success")
-                    axios.post('/api/getFileToDelete', {
+                    axios.post('/api/DeleteFileFromSharedToTutor', {
                         file_id: ids
                     }
                     ).then((res) => { console.info("The files to delete all have been deleted") })
@@ -134,7 +133,7 @@ export class Tutordocs extends React.Component {
         return (
             <React.Fragment>
                 <main>
-                   
+                <DashBoardNavBar />
                     <main className={classes.content}>
                         <div className={classes.appBarSpacer} />
                         <Container maxWidth="lg" className={classes.container}>
@@ -174,7 +173,7 @@ export class Tutordocs extends React.Component {
                                                                     <TableCell>{student_name}</TableCell>
                                                                     <TableCell>{this.presentableUploadTime(uploadDate)}</TableCell>
                                                                     <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" onClick={() => window.open(link)} id={file._id}><GetAppIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
-                                                                    <TableCell><Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></TableCell>
+                                                                    <TableCell><Checkbox name={file._doc.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></TableCell>
                                                                 </TableRow>
                                                             )
                                                         })

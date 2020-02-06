@@ -118,6 +118,8 @@ router.get('/doc/:studentid',uploadedFilesController.viewSpecificStudentFiles);
 
 router.post('/getFileToDelete', uploadedFilesController.deleteFiles);
 
+router.post('/DeleteFileFromSharedToTutor', uploadedFilesController.deleteFilesFromStudent);
+
 router.post('/getSpecificStudentsFilestoDelete', uploadedFilesController.deleteSpecificStudentsFiles);
 
 router.post('/getSpecificCourseFilestoDelete', uploadedFilesController.deleteSpecificCourseFiles);
