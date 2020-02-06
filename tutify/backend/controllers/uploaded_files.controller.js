@@ -235,8 +235,8 @@ exports.viewDocsFromStudents = async function (req, res) {
     var response = [];
     await Profile.findOne({ account: req.session.userInfo.account }, async (err, tutorInfo) => { if (err) { console.error("Unable to find the user to view his/her files"); } }).then(async (tutorInfo) => {
         console.warn("sharedDocs: "+tutorInfo);
-        await UploadedFiles.find({ sharedToTutors: { $elemMatch: tutorInfo._id }}, async (err, tst) => { if (err) { console.error("Unable to find the user's files"); } }).then(async (tst) => {
-            console.warn("tst: "+tst);
+        await UploadedFiles.find({ sharedToTutors: { $in: tutorInfo._id }}, async (err, tst) => { if (err) { console.error("Unable to find the user's files"); } }).then(async (tst) => {
+           // console.warn("tst: "+tst);
             await findProfile(tst, response, res).then(async (result) => {
                 console.info("The user's list of documents has been retrieved successfully");
                 return res.json({ success: true, file: result });
@@ -255,7 +255,7 @@ async function findProfile(tst, response, res) {
             await response.push(tst[index]);
         });
     };
-    console.warn("RESPONSE PINGAS! : "+response);
+    console.warn("RESPONSE : "+response);
     return new Promise((resolve, reject) => { resolve(response) });
 }
 
@@ -276,7 +276,7 @@ exports.viewCourseDocs = async function (req, res) {
     })
 }
 
-// this method enables each student to view all of their shared documents.
+// this method enables each student to view all of their shared documents from their tutors.
 exports.viewSpecificStudentFiles = async function (req, res) {
     var student_id_position = req.headers.referer.lastIndexOf("/");
     var student_id = req.headers.referer.substring(student_id_position + 1, req.headers.referer.length)

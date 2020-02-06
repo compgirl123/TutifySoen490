@@ -41,8 +41,6 @@ export class Tutordocs extends React.Component {
 
     // Loading the Documents that the student teaches.
     async loadFilesFromStudents() {
-
-       
         fetch('/api/tutdoc')
             .then(res => res.json())
             .then(res => {
@@ -56,17 +54,6 @@ export class Tutordocs extends React.Component {
             })
             .catch(err => console.error("Files have not been loaded correctly: " + err));
     }
-
-    //   // Loading the Documents that the tutor teaches
-    //   async loadFilesForTutors() {
-    //     fetch('/api/doc/:studentid')
-    //       .then(res => res.json())
-    //       .then(res => {
-    //         this.setState({ filesViewTutors: res.fileViewTutors });
-    //         console.info("File has been loaded correctly");
-    //       })
-    //       .catch(err => console.error("Files have not been loaded correctly: " + err));
-    //   }
 
     presentableName(name) {
         return name.substring(0, name.lastIndexOf("."));
@@ -91,6 +78,7 @@ export class Tutordocs extends React.Component {
             .then(response => response.json())
             .then(res => {
                 if (res.isLoggedIn) {
+                    console.log(res.userInfo._id);
                     this.setState({ user_id: res.userInfo._id });
                     this.loadFilesFromStudents();
                 }
