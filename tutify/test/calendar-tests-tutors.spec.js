@@ -4,7 +4,7 @@ import { configure } from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
 import { shallow } from 'enzyme';
 import TextField from '@material-ui/core/TextField';
-import NewCalendar,{ NewCalendar as NewCalendarClass } from "../src/components/TutorProfile/Calendar";
+import NewCalendar,{ NewCalendar as NewCalendarClass } from "../src/components/ProfilePage/Tutor/Calendar";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import List from '@material-ui/core/List';

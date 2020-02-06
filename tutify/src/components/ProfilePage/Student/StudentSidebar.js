@@ -11,7 +11,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SearchIcon from '@material-ui/icons/Search';
 import { List } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
-import * as StudentSidebarStyle from "../../styles/StudentSidebar-styles";
+import * as StudentSidebarStyle from "../../../styles/StudentSidebar-styles";
 import { withStyles } from "@material-ui/core/styles";
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import DescriptionIcon from '@material-ui/icons/Description';
@@ -34,10 +34,13 @@ class Sidebar extends Component {
       method: 'GET',
       credentials: 'include'
     })
-      .then(response => response.json())
       .then(res => {
+        localStorage.clear();
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err)
+        localStorage.clear();
+      });
   };
 
   handleClick = () => {

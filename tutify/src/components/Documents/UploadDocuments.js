@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import * as tutifyStyle from '../../styles/UploadDocuments-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Button from '@material-ui/core/Button';
-import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
+import DashBoardNavBar from '../DashBoardNavBar';
 import axios from "axios";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';

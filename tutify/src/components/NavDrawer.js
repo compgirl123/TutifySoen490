@@ -2,15 +2,15 @@ import React from "react";
 import Drawer from "@material-ui/core/Drawer";
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import Sidebar from './StudentSidebar';
-import { TutorSidebar } from '../TutorProfile/TutorSidebar';
+import Sidebar from './ProfilePage/Student/StudentSidebar';
+import { TutorSidebar } from './ProfilePage/Tutor/TutorSidebar';
 
 
 export class NavDrawer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      Toggle: false,
+      isStudent: false,
       tutorList: []
     };
   }
@@ -28,7 +28,7 @@ export class NavDrawer extends React.Component {
       .then(res => {
         if (res.userInfo.__t === 'student') {
           this.setState({
-            Toggle: true,
+            isStudent: true,
             tutorList: res.userInfo.tutors
           });
         }
@@ -56,7 +56,7 @@ export class NavDrawer extends React.Component {
               <ChevronLeftIcon />
             </IconButton>
           </div>
-          {this.state.Toggle ?
+          {this.state.isStudent ?
             <Sidebar tutors={this.state.tutorList} /> : <TutorSidebar />
           }
         </div>

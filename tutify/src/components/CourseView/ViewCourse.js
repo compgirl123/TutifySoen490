@@ -3,7 +3,7 @@ import Footer from '../Footer';
 import Grid from '@material-ui/core/Grid';
 import * as CourseViewStyles from '../../styles/CourseView-styles';
 import { withStyles } from "@material-ui/core/styles";
-import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
+import DashBoardNavBar from '../DashBoardNavBar';
 import Container from '@material-ui/core/Container';
 import Typography from "@material-ui/core/Typography";
 import Paper from '@material-ui/core/Paper';
@@ -32,12 +32,10 @@ export class ViewCourse extends React.Component {
       profileType: "",
       shareTo: []
     };
-    //this.loadFiles = this.loadFiles.bind(this);
   }
 
   componentDidMount() {
     this.checkSession();
-    //this.loadFiles();
   }
   
   // Distinguishing the tutor login from student login.
