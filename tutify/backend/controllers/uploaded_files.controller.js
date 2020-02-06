@@ -404,6 +404,30 @@ exports.deleteFiles = async function (req, res) {
     });
 }
 
+exports.deleteFilesFromStudent= async function (req, res) {
+    const { file_id } = req.body;
+    var matchTutorId = ObjectId(req.session.userInfo._id);
+    UploadedFiles.find({ encryptedname: { $in: file_id } }, function (err, fileToDelete) {
+        if (err) {
+            console.error("Could not find the uploaded files to delete");
+            throw err;
+        }
+        fileToDelete.forEach(function (err, studentIndex) {
+            UploadedFiles.findByIdAndUpdate(fileToDelete[studentIndex]._id,
+                { "$pull": { "sharedToTutors": matchTutorId } },
+                function (err, student) {
+                    if (err) {
+                        console.error("Could not delete the link between the student and the shared file");
+                        throw err;
+                    }
+                    else {
+                        console.info("Deleted the specific student file successfully")
+                    }
+                });
+        });
+    });
+}
+
 // this method enables the deletion of specific student files for each specific student(s).
 exports.deleteSpecificStudentsFiles = async function (req, res) {
     const { file_id } = req.body;
