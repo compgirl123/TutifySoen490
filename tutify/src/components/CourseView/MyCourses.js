@@ -136,7 +136,8 @@ export class MyCourses extends React.Component {
             tutor_id: this.state.id
           })
             .then((res) => {
-
+              this.getTutorDataFromDb();
+              swal("Course successfully deleted!", "", "success");
             }, (error) => {
               console.error("Could not delete course to database (API call error) " + error);
             });

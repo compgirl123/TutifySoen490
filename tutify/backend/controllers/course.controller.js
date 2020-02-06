@@ -95,20 +95,44 @@ exports.deleteCourse = async function (req, res) {
       if (err) {
           console.error("The course could not be removed (not found)");
           return res.send(err);
-      }
+      } */
       Tutor.findByIdAndUpdate(tutor_id,
-          { "$pull": { "courses": course } },
+          { "$pull": { "courses": {course : course_id } } },
           function (err, tutor) {
-              
-    */          
+            if (err) throw err;
+
               students.forEach(function (student) {
                   Student.findByIdAndUpdate(student,
                     { "$pull": { "courses": {course: course_id, tutor : tutor_id }}}, 
                       function (err, student) {
                           if (err) throw err;
                       });
-                      console.log(student);
-              });
+                    });
+
+                      Course.findOne({ _id : course_id }, function (err, course) {
+                        if (err) throw err;
+
+                        if(course.tutors.length > 1 ){
+                          //delete tutor from course 
+                         Course.findByIdAndUpdate(course_id,
+                            { "$pull": { "tutors": tutor_id } },
+                            function (err, course) {
+                              if (err) throw err;
+                              return res.json({ success: true });
+                            });
+m                        }
+                        else{
+                          //delete the whole course from data base 
+                          Course.findByIdAndRemove(course_id, (err, course) => {
+                            if (err) throw err;
+
+                            console.info("The course has been deleted");
+                            return res.json({ success: true});
+                        });
+                        }
+
+                      });
+              
               /** 
               console.info("The event was deleted successfully");
               req.session.userInfo.events = tutor.events;
@@ -131,4 +155,5 @@ exports.deleteCourse = async function (req, res) {
           });
   });
 */
+});
 };
