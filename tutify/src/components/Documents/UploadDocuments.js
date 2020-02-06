@@ -89,9 +89,8 @@ export class UploadDocuments extends Component {
     event.preventDefault();
     const formData = new FormData();
     formData.append('file', this.state.file);
-    formData.append('admin', this.state.user_id);
+    formData.append('adminTutor', this.state.user_id);
     formData.append('name', this.state.file.name);
-    // formData.append('tutor', this.state.file.name);
     await axios.post("/uploadFile", formData).then(res => {
     }).catch(err => {
       console.error("The uploaded file cannot be sent to the database: " + err);
@@ -163,4 +162,3 @@ export class UploadDocuments extends Component {
 } // End of component
 
 export default withStyles(tutifyStyle.styles, { withTheme: true })(UploadDocuments);
-
