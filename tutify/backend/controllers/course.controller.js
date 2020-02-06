@@ -80,3 +80,55 @@ exports.addCourseToDb = async function (req, res) {
 
   });
 };
+
+//delete a course from the database
+exports.deleteCourse = async function (req, res) {
+  const { course, tutor_id } = req.body;
+
+//delete courses from tutor 
+
+//
+
+/** 
+  Course.findByIdAndRemove(course_id, (err, event) => {
+      if (err) {
+          console.error("The course could not be removed (not found)");
+          return res.send(err);
+      }
+      Tutor.findByIdAndUpdate(tutor_id,
+          { "$pull": { "courses": course } },
+          function (err, tutor) {
+              
+    */          
+              course.students.forEach(function (student) {
+                  Student.findByIdAndUpdate(student,
+                    { "$pull": { "courses": {course: course.course, tutor : tutor_id }}}, 
+                    
+                     
+                      function (err, student) {
+                          if (err) throw err;
+                      });
+              });
+              /** 
+              console.info("The event was deleted successfully");
+              req.session.userInfo.events = tutor.events;
+              req.session.save(function (err) {
+                  if (err) {
+                      console.error("The session was unable to be saved");
+                      return res.json({ success: false, error: err });
+                  }
+                  console.info("The session was able to be saved");
+                  req.session.reload(function (err) {
+                      if (err) {
+                          console.warn("The session failed to reload");
+                      }
+                      else{
+                          console.info("The session reloaded successfully");
+                      }
+                      return res.json({ success: true, userInfo: tutor });
+                  });
+              });
+          });
+  });
+*/
+};

@@ -117,6 +117,16 @@ export class MyCourses extends React.Component {
       });
   }
 
+  // delete course 
+  deleteCourse = (course_id) => {
+
+  alert(course_id);
+
+
+
+
+  }
+
   // this method assigns a tutor to an existing course
   addTutorToCourse = () => {
     swal({
@@ -175,9 +185,9 @@ export class MyCourses extends React.Component {
           else if (res.userInfo.__t === "tutor") {
             this.getTutorDataFromDb();
             this.getAllCoursesFromDB();
+            console.info(res);
           }
         }
-
       })
       .catch(err => console.error("Session could not be checked: " + err));
   };
@@ -193,9 +203,9 @@ export class MyCourses extends React.Component {
       .then(res => {
         this.setState({ allCourses: res.data });
       })
-      .catch(err => 
-      console.error("Could not get courses from database (API call error) " + err));
-    }
+      .catch(err =>
+        console.error("Could not get courses from database (API call error) " + err));
+  }
 
 
   // Uses our backend api to fetch student's courses from the database
@@ -209,8 +219,8 @@ export class MyCourses extends React.Component {
       .then(res => {
         this.setState({ courses: res.data });
       })
-      .catch(err => 
-      console.error("Could not get courses from database (API call error) " + err));
+      .catch(err =>
+        console.error("Could not get courses from database (API call error) " + err));
   }
 
   // Uses our backend api to fetch tutor's courses from the database
@@ -224,8 +234,8 @@ export class MyCourses extends React.Component {
       .then(res => {
         this.setState({ courses: res.data });
       })
-      .catch(err => 
-      console.error("Could not get courses from database (API call error) " + err));
+      .catch(err =>
+        console.error("Could not get courses from database (API call error) " + err));
   }
 
   // Allowing for tutors to share their uploaded documents to specific courses.
@@ -267,6 +277,7 @@ export class MyCourses extends React.Component {
                   <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addCourseButton} >
                     Add Course
                </Button>
+               
                   :
                   <></>
                 }
@@ -283,6 +294,9 @@ export class MyCourses extends React.Component {
                           <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">
                               {c.course.name}
+                              <Button variant="contained" size="lg" active onClick={event =>  this.deleteCourse(c.course._id) }  className={classes.addCourseButton} >
+                    delete Course
+               </Button>
                             </Typography>
                             <Typography variant="body2" color="textSecondary" component="p">
                               {c.course.description ? c.course.description : ""}
