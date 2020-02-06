@@ -35,11 +35,7 @@ function MainPage() {
         <PrivateRoute  exact path= "/search" component={SearchTutors} />
         <PrivateRoute  exact path= "/profile" component={ProfilePage} />
         <PrivateRoute  exact path= "/students" component={StudentList} />
-        <PrivateRoute  exact path= "/tutors" component={TutorList} />
-        <PrivateRoute  exact path= "/tutors/:file" component={TutorList} />
-        <PrivateRoute  exact path= "/tutdoc" component={Tutordocs} />
-        <PrivateRoute  exact path= "/tutorCourses/:file" component = {MyCourses}/>
-        <PrivateRoute  exact path= "/students/:file" component={StudentList} />
+        <PrivateRoute  exact path="/students/:file" component={StudentList} />
         <PrivateRoute  exact path= "/courseList/:id" component= {CourseList}/>
         <PrivateRoute  exact path= "/tutorCourses/:file" component = {MyCourses}/>
         <PrivateRoute  exact path= "/courses" component = {MyCourses}/>
@@ -56,6 +52,10 @@ function MainPage() {
         <PrivateRoute  exact path= "/primary" component={ResourcePage} />
         <PrivateRoute  exact path= "/secondary" component={ResourcePage} />
         <PrivateRoute  exact path= "/postsecondary" component={ResourcePage} />
+        <PrivateRoute  exact path="/tutors" component={TutorList} />
+        <Route exact path="/tutors/:file" component={TutorList} />
+        <Route exact path= "/courseList/:id" component= {CourseList}/>
+        <Route exact path= "/tutorCourses/:file" component = {MyCourses}/>
         <Route path="*" component={NotFoundPage} />
       </Switch>
     </Router>
