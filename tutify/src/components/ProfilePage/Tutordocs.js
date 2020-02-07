@@ -187,8 +187,8 @@ export class Tutordocs extends React.Component {
                                                                 <TableRow key={index}>
                                                                     <TableCell><a href={url}>{this.presentableName(filename)}</a></TableCell>
                                                                     <TableCell>{this.presentableExtension(filename)}</TableCell>
-                                                                    <TableCell>{student_name}</TableCell>
                                                                     <TableCell>{this.presentableUploadTime(uploadDate)}</TableCell>
+                                                                    <TableCell>{student_name}</TableCell>
                                                                     <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" onClick={() => window.open(link)} id={file._id}><GetAppIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
                                                                     <TableCell><Checkbox name={file._doc.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></TableCell>
                                                                 </TableRow>
