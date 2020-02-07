@@ -25,6 +25,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import IconButton from '@material-ui/core/IconButton';
 
 
 // View the General Course Page with all of the Courses the Tutor Teaches or Student is enrolled in.
@@ -312,9 +314,14 @@ export class MyCourses extends React.Component {
                           <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">
                               {c.course.name}
-                              <Button variant="contained" size="lg" active onClick={event => this.deleteCourse(c.course._id)} className={classes.addCourseButton} >
-                                delete Course
-               </Button>
+                              {this.state.discriminator === "tutor" ?
+                              <IconButton variant="contained" size="lg" active onClick={event => this.deleteCourse(c.course._id)} className={classes.deleteCourseButton} >
+                              
+                              < DeleteForeverIcon className={classes.deleteIconButton} />
+               </IconButton>
+               :
+               <></>
+             }
                             </Typography>
                             <Typography variant="body2" color="textSecondary" component="p">
                               {c.course.description ? c.course.description : ""}
