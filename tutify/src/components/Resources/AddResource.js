@@ -137,6 +137,14 @@ class AddResource extends Component {
                 category: this.state.category,
                 educationLevel: this.state.educationLevel
             }).then((res) => {
+                this.setState({
+                    title: "",
+                    description: "",
+                    image: "",
+                    link: "",
+                    category: "",
+                    educationLevel: "",
+                })
                 console.info("Successfully added the resource");
                 swal("Resource successfully added!", "", "success")
             })
