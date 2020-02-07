@@ -21,7 +21,11 @@ import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import Fab from "@material-ui/core/Fab";
 import Checkbox from '@material-ui/core/Checkbox';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
 import Button from "@material-ui/core/Button";
+import InboxIcon from '@material-ui/icons/Inbox';
+import SendIcon from '@material-ui/icons/Send';
 
 // Displaying all of the documents uploaded by the tutor on Tutor "All Documents" Tab.
 export class DocList extends React.Component {
@@ -138,6 +142,19 @@ export class DocList extends React.Component {
           <TutorDashBoardNavBar />
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
+            <Paper className={classes.root}>
+                <Tabs
+                indicatorColor="primary"
+                textColor="primary"
+                aria-label="disabled tabs example"
+                value=''
+                onChange=''
+                centered
+            >
+              <Tab label="Received" icon={<InboxIcon />} />
+              <Tab label="Sent" icon={<SendIcon />}/>
+            </Tabs>
+            </Paper>
             <Container maxWidth="lg" className={classes.container}>
               <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                 List of Documents
