@@ -5,7 +5,6 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import Menu from '@material-ui/core/Menu';
@@ -124,7 +123,7 @@ class AddResource extends Component {
     addResourceToDB = (event, handleClose) => {
         event.preventDefault();
         let imgUrl = this.state.image;
-        if(this.state.description !== '' && this.state.title !== '' && this.state.image !== '' && this.state.link !== '' && 
+        if(this.state.description !== '' && this.state.title !== '' && this.state.link !== '' && 
         this.state.category !== '' && this.state.educationLevel !== '') {
             if(!this.isURL(this.state.image)) {
                 imgUrl = require('../../assets/large_tutify.png')
@@ -198,11 +197,11 @@ class AddResource extends Component {
                     </div>
                 </DialogTitle>
                 <DialogContent dividers={scroll === 'paper'}>
-                    <DialogContentText>
                         <TextField
                             InputLabelProps={{
                                 shrink: true,
                             }}
+                            required
                             margin="dense"
                             id="title"
                             name="title"
@@ -215,6 +214,7 @@ class AddResource extends Component {
                             InputLabelProps={{
                                 shrink: true,
                             }}
+                            required
                             margin="dense"
                             id="link"
                             name="link"
@@ -234,6 +234,7 @@ class AddResource extends Component {
                             onChange={e => this.setState({ image: e.target.value })}
                             autoComplete="image"
                             label="Image"
+                            placeholder="Default image provided if empty or invalid"
                             type="link"
                             fullWidth
                         />
@@ -242,6 +243,7 @@ class AddResource extends Component {
                             InputLabelProps={{
                                 shrink: true,
                             }}
+                            required
                             margin="dense"
                             id="description"
                             name="description"
@@ -267,7 +269,6 @@ class AddResource extends Component {
                                 <CategoryMenu currentValue={category} setCategory={this.setCategory} />
                             </Grid>
                         </Grid>
-                    </DialogContentText>
                 </DialogContent>
                 <Grid
                     container
