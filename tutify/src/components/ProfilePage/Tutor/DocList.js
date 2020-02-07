@@ -188,7 +188,9 @@ export class DocList extends React.Component {
           <DashBoardNavBar />
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
-            <Paper className={classes.root}>
+            {(this.state.profileType == "tutor")
+              ?
+              <Paper className={classes.root}>
                 <Tabs
                 indicatorColor="primary"
                 textColor="primary"
@@ -201,6 +203,37 @@ export class DocList extends React.Component {
               <Tab label="Sent" icon={<SendIcon />} href="/doclist"/>
             </Tabs>
             </Paper>
+            :(this.state.profileType == "student")
+              ?
+              <Paper className={classes.root}>
+                <Tabs
+                indicatorColor="primary"
+                textColor="primary"
+                aria-label="disabled tabs example"
+                value=''
+                onChange=''
+                centered
+            >
+              <Tab label="Received" icon={<InboxIcon />} href="/doc"/>
+              <Tab label="Sent" icon={<SendIcon />} href="/doclist"/>
+            </Tabs>
+            </Paper>
+            :
+            <Paper className={classes.root}>
+                <Tabs
+                indicatorColor="primary"
+                textColor="primary"
+                aria-label="disabled tabs example"
+                value=''
+                onChange=''
+                centered
+            >
+              <Tab label="Received" icon={<InboxIcon />} href="/doc"/>
+              <Tab label="Sent" icon={<SendIcon />} href="/doclist"/>
+            </Tabs>
+            </Paper>
+            }
+            
             <Container maxWidth="lg" className={classes.container}>
               <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                 List of Documents
