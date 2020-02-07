@@ -120,7 +120,7 @@ export class MyCourses extends React.Component {
       });
   }
 
-  // delete course 
+  // this method deletes a course from the database 
 
   deleteCourse = (course_id) => {
 
@@ -315,13 +315,13 @@ export class MyCourses extends React.Component {
                             <Typography gutterBottom variant="h5" component="h2">
                               {c.course.name}
                               {this.state.discriminator === "tutor" ?
-                              <IconButton variant="contained" size="lg" active onClick={event => this.deleteCourse(c.course._id)} className={classes.deleteCourseButton} >
-                              
-                              < DeleteForeverIcon className={classes.deleteIconButton} />
-               </IconButton>
-               :
-               <></>
-             }
+                                <IconButton variant="contained" size="lg" active onClick={event => this.deleteCourse(c.course._id)} className={classes.deleteCourseButton} >
+
+                                  < DeleteForeverIcon className={classes.deleteIconButton} />
+                                </IconButton>
+                                :
+                                <></>
+                              }
                             </Typography>
                             <Typography variant="body2" color="textSecondary" component="p">
                               {c.course.description ? c.course.description : ""}
