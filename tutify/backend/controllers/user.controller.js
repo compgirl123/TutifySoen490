@@ -41,6 +41,29 @@ exports.findStudents = async function (req, res) {
     }
 };
 
+
+// this method finds tutors in the database given the object id
+exports.findTutors = async function (req, res) {
+    var count = 0;
+    const { tutors } = req.body;
+    var users = [];
+
+    for (var z = 0; z < tutors.length; z++) {
+        Tutor.findOne({ _id: tutors[z] }, function (err, user1) {
+            if (err) {
+
+            };
+            users.push(user1)
+            count++;
+
+            if (count == tutors.length) {
+                return res.json({ success: true, data: users });
+            }
+
+        });
+    }
+};
+
 // this method overwrites existing user info in our database
 exports.updateUserInfo = async function (req, res) {
     const { _id, school, program_of_study, education_level, first_name, last_name } = req.body;
@@ -296,6 +319,8 @@ exports.logout = async function (req, res) {
 exports.checkSession = async function (req, res) {
     if (req.session.isLoggedIn) {
         res.send(req.session);
+    } else {
+        res.status(400).send(new Error('User not logged in.'));
     }
 };
 

@@ -1,11 +1,11 @@
 import React from "react";
-import DocList, { DocList as DocListClass } from "../src/components/TutorProfile/DocList";
+import DocList, { DocList as DocListClass } from "../src/components/ProfilePage/Tutor/DocList";
 import { createMount } from '@material-ui/core/test-utils';
 import { configure } from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
 import { shallow } from 'enzyme';
 import Typography from '@material-ui/core/Typography';
-import Title from "../src/components/TutorProfile/Title";
+import Title from "../src/components/ProfilePage/Title";
 import Table from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/TableRow';
 
@@ -25,7 +25,7 @@ describe('The List of documents Tutors Page', () => {
               sharedToCourses: ['5dbaef561c9d440000c0ab0a'],
               _id: '5e2a278df179bdc10d28385e',
               __v: 0,
-              adminTutor: '5dacd1cf1c9d440000aa0b1b',
+              admin: '5dacd1cf1c9d440000aa0b1b',
               encryptedname: 'ab400fe316f2ff085b9dcc1f1f445f0f.pdf',
               link: '/document/ab400fe316f2ff085b9dcc1f1f445f0f.pdf',
               name: 'Control-Systems-and-Appli.pdf',
@@ -36,7 +36,7 @@ describe('The List of documents Tutors Page', () => {
               sharedToCourses: [],
               _id: '5e2a25b0576eee0eedff1381',
               __v: 0,
-              adminTutor: '5dacd1cf1c9d440000aa0b1b',
+              admin: '5dacd1cf1c9d440000aa0b1b',
               encryptedname: '0b4a82b9f708c18b5ee692e4d4e54817.jpg',
               link: '/document/0b4a82b9f708c18b5ee692e4d4e54817.jpg',
               name: '398694_2999044569230_5339.jpg',

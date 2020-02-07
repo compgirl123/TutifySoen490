@@ -3,7 +3,7 @@ import Footer from '../Footer';
 import Grid from '@material-ui/core/Grid';
 import * as CourseViewStyles from '../../styles/CourseView-styles';
 import { withStyles } from "@material-ui/core/styles";
-import DashBoardNavBar from '../ProfilePage/DashBoardNavBar';
+import DashBoardNavBar from '../DashBoardNavBar';
 import Container from '@material-ui/core/Container';
 import Typography from "@material-ui/core/Typography";
 import Paper from '@material-ui/core/Paper';
@@ -32,12 +32,10 @@ export class ViewCourse extends React.Component {
       profileType: "",
       shareTo: []
     };
-    //this.loadFiles = this.loadFiles.bind(this);
   }
 
   componentDidMount() {
     this.checkSession();
-    //this.loadFiles();
   }
   
   // Distinguishing the tutor login from student login.
@@ -155,6 +153,20 @@ export class ViewCourse extends React.Component {
     }
   }
 
+  presentableName(name) {
+    return name.substring(0, name.lastIndexOf("."));
+  }
+
+  presentableExtension(name) {
+    return name.substring(name.lastIndexOf(".") + 1);
+  }
+
+  presentableUploadTime(time) {
+    var date = time.substring(0, 10);
+    var hour = time.substring(11, 16);
+    return date + " at " + hour;
+  }
+
   render() {
     const { classes } = this.props;
     const { files } = this.state;
@@ -184,6 +196,7 @@ export class ViewCourse extends React.Component {
                         <TableHead>
                           <TableRow>
                             <TableCell>Title</TableCell>
+                            <TableCell>Extension</TableCell>
                             <TableCell>Date</TableCell>
                             <TableCell>Download Documents</TableCell>
 
@@ -198,8 +211,9 @@ export class ViewCourse extends React.Component {
                         <TableBody>
                           {files.map((file, index) => (
                             <TableRow>
-                              <TableCell>{file.name}</TableCell>
-                              <TableCell>{file.uploadDate}</TableCell>
+                              <TableCell>{this.presentableName(file.name)}</TableCell>
+                              <TableCell>{this.presentableExtension(file.name)}</TableCell>
+                              <TableCell>{this.presentableUploadTime(file.uploadDate)}</TableCell>
                               <TableCell>
                                 <Button type="button" onClick={() => window.open(file.link)} size="small" className="submit">
                                   <GetAppIcon />

@@ -33,7 +33,7 @@ describe('The List of documents Students Page', () => {
                         sharedToCourses: ['5dbaef561c9d440000c0ab0a'],
                         _id: '5e2a278df179bdc10d28385e',
                         __v: 0,
-                        adminTutor: '5dacd1cf1c9d440000aa0b1b',
+                        admin: '5dacd1cf1c9d440000aa0b1b',
                         encryptedname: 'ab400fe316f2ff085b9dcc1f1f445f0f.pdf',
                         link: '/document/ab400fe316f2ff085b9dcc1f1f445f0f.pdf',
                         name: 'Control-Systems-and-Appli.pdf',
@@ -48,7 +48,7 @@ describe('The List of documents Students Page', () => {
                         sharedToCourses: [],
                         _id: '5e2a25b0576eee0eedff1381',
                         __v: 0,
-                        adminTutor: '5dacd1cf1c9d440000aa0b1b',
+                        admin: '5dacd1cf1c9d440000aa0b1b',
                         encryptedname: '0b4a82b9f708c18b5ee692e4d4e54817.jpg',
                         link: '/document/0b4a82b9f708c18b5ee692e4d4e54817.jpg',
                         name: '398694_2999044569230_5339.jpg',
@@ -103,8 +103,8 @@ describe('The List of documents Students Page', () => {
         // Make sure the name of the second Table cell column exists and has the value "Name"
         expect(titles.props().children[1].props.children).toBe("Tutor");
 
-        // Make sure the name of the third Table cell column exists and has the value "Creation Date"
-        expect(titles.props().children[2].props.children).toBe("Creation Date");
+        // Make sure the name of the third Table cell column exists and has the value "Upload Date"
+        expect(titles.props().children[2].props.children).toBe("Upload Date");
 
         // Make sure the name of the third Table cell column exists and has the value "Download"
         expect(titles.props().children[3].props.children).toBe("Download");

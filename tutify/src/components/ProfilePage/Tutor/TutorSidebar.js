@@ -24,11 +24,13 @@ export class TutorSidebar extends Component {
       method: 'GET',
       credentials: 'include'
     })
-      .then(response => response.json())
       .then(res => {
-
+        localStorage.clear();
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err)
+        localStorage.clear();
+      });
   };
 
 
@@ -57,6 +59,12 @@ export class TutorSidebar extends Component {
                 <MenuBookIcon />
               </ListItemIcon>
               <ListItemText primary="All Documents" />
+            </ListItem>
+            <ListItem button component="a" href="/tutdoc">
+              <ListItemIcon>
+                <MenuBookIcon />
+              </ListItemIcon>
+              <ListItemText primary="Shared By Students" />
             </ListItem>
 
             <ListItem button component="a" href="/courses">

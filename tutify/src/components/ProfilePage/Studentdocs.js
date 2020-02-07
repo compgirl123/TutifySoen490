@@ -7,7 +7,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Footer from '../Footer';
-import DashBoardNavBar from './DashBoardNavBar'
+import DashBoardNavBar from '../DashBoardNavBar'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -67,6 +67,20 @@ export class Studentdocs extends React.Component {
       .catch(err => console.error("Files have not been loaded correctly: " + err));
   }
 
+  presentableName(name) {
+    return name.substring(0, name.lastIndexOf("."));
+  }
+
+  presentableExtension(name) {
+    return name.substring(name.lastIndexOf(".") + 1);
+  }
+
+  presentableUploadTime(time) {
+    var date = time.substring(0, 10);
+    var hour = time.substring(11, 16);
+    return date + " at " + hour;
+  }
+
   // Running functions according to if the user is logged in as a tutor or as a student.
   checkSession = () => {
     fetch('/api/checkSession', {
@@ -79,6 +93,7 @@ export class Studentdocs extends React.Component {
           this.setState({ user_id: res.userInfo._id });
           if (res.userInfo.__t === "student") {
             this.loadFilesForStudents();
+            console.warn("SHIT FILES! : "+this.state.files);
           }
           else if (res.userInfo.__t === "tutor") {
             this.loadFilesForTutors();
@@ -153,9 +168,10 @@ export class Studentdocs extends React.Component {
                         <TableHead>
                           <TableRow>
                             <TableCell>Name</TableCell>
+                            <TableCell>Extension</TableCell>   
                             {this.props.match.params.studentid !== undefined
                               ?
-                              <TableCell>Creation Date</TableCell>
+                              <TableCell>Upload Date</TableCell>
                               :
                               <TableCell>Tutor</TableCell>
                             }
@@ -163,7 +179,7 @@ export class Studentdocs extends React.Component {
                               ?
                               <TableCell>Download</TableCell>
                               :
-                              <TableCell>Creation Date</TableCell>
+                              <TableCell>Upload Date</TableCell>
                             }
                             {this.props.match.params.studentid !== undefined
                               ?
@@ -198,12 +214,13 @@ export class Studentdocs extends React.Component {
                               var url = file._doc.url
                               var link = file._doc.link
                               var uploadDate = file._doc.uploadDate
-                              var tutor_name = file.tutorName
+                              var tutor_name = file.userName
                               return (
                                 <TableRow key={index}>
-                                  <TableCell><a href={url}>{filename}</a></TableCell>
+                                  <TableCell><a href={url}>{this.presentableName(filename)}</a></TableCell>
+                                  <TableCell>{this.presentableExtension(filename)}</TableCell>
                                   <TableCell>{tutor_name}</TableCell>
-                                  <TableCell>{uploadDate}</TableCell>
+                                  <TableCell>{this.presentableUploadTime(uploadDate)}</TableCell>
                                   <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" onClick={() => window.open(link)} id={file._id}><GetAppIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
                                 </TableRow>
                               )

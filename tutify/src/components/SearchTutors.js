@@ -10,12 +10,11 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import Footer from './Footer';
-import DashBoardNavBar from './ProfilePage/DashBoardNavBar';
+import DashBoardNavBar from './DashBoardNavBar';
 import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import TutorCard from './TutorCard';
-
 
 const options = [
   'All',
@@ -105,8 +104,8 @@ export class SearchTutors extends Component {
             user_id: res.userInfo._id,
             connectedTutors: res.userInfo.tutors
           });
+          this.getDataFromDb();
         }
-        this.getDataFromDb();
       })
       .catch(err => console.error("Session could not be checked: " + err));
   };
@@ -172,9 +171,8 @@ export class SearchTutors extends Component {
 
   render() {
     const { classes } = this.props;
-    const { filteredData } = this.state;
-    const { anchorEl } = this.state;
-    const { selectedIndex } = this.state;
+    const { filteredData, anchorEl, selectedIndex } = this.state;
+
     return (
       <React.Fragment>
 

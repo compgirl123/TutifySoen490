@@ -11,7 +11,7 @@ import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
 import * as tutifyStyle from '../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
-import DashBoardNavBar from './ProfilePage/DashBoardNavBar';
+import DashBoardNavBar from './DashBoardNavBar';
 import Footer from './Footer';
 
 // Created a Blog Post Page for Interaction Between Tutors and Students
@@ -30,24 +30,7 @@ class BlogPost extends React.Component {
       drawerOpened: booleanValue
     });
   };
-  componentDidMount() {
-    this.checkSession();
-  }
 
-  checkSession = () => {
-    fetch('/api/checkSession', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then(res => {
-        if (res.isLoggedIn) {
-          this.getDataFromDb()
-        }
-
-      })
-      .catch(err => console.log(err));
-  };
   render() {
     const { classes } = this.props;
 
