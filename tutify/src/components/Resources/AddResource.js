@@ -144,9 +144,10 @@ class AddResource extends Component {
                     link: "",
                     category: "",
                     educationLevel: "",
+                    open: false,
                 })
                 console.info("Successfully added the resource");
-                swal("Resource successfully added!", "", "success")
+                swal("Resource successfully added!", "", "success");
             })
                 .catch(err => console.error("Could not add the resource to the database: " + err));
         }
@@ -276,7 +277,7 @@ class AddResource extends Component {
                 >
                     <Grid item>
                         <DialogActions>
-                            <Button onClick={event => this.addResourceToDB(event)}>Add</Button>
+                            <Button onClick={event => {this.addResourceToDB(event); handleClose}}>Add</Button>
                         </DialogActions>
                     </Grid>
                     <Grid item>
