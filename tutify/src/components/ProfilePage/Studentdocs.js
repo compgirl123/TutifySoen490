@@ -20,6 +20,10 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import swal from 'sweetalert';
 import Checkbox from '@material-ui/core/Checkbox';
 import Fab from "@material-ui/core/Fab";
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import InboxIcon from '@material-ui/icons/Inbox';
+import SendIcon from '@material-ui/icons/Send';
 
 // displaying the documents shared to students
 export class Studentdocs extends React.Component {
@@ -154,6 +158,51 @@ export class Studentdocs extends React.Component {
           <DashBoardNavBar />
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
+            {(this.state.profileType === "tutor")
+              ?
+              <Paper className={classes.root}>
+                <Tabs
+                indicatorColor="primary"
+                textColor="primary"
+                aria-label="disabled tabs example"
+                value=''
+                onChange=''
+                centered
+            >
+              <Tab label="Received" icon={<InboxIcon />} href="/tutdoc"/>
+              <Tab label="Sent" icon={<SendIcon />} href="/doclist"/>
+            </Tabs>
+            </Paper>
+        :(this.state.profileType === "student")
+          ?
+          <Paper className={classes.root}>
+            <Tabs
+            indicatorColor="primary"
+            textColor="primary"
+            aria-label="disabled tabs example"
+            value=''
+            onChange=''
+            centered
+        >
+          <Tab label="Received" icon={<InboxIcon />} href="/doc"/>
+          <Tab label="Sent" icon={<SendIcon />} href="/doclist"/>
+        </Tabs>
+        </Paper>
+        :
+        <Paper className={classes.root}>
+            <Tabs
+            indicatorColor="primary"
+            textColor="primary"
+            aria-label="disabled tabs example"
+            value=''
+            onChange=''
+            centered
+        >
+          <Tab label="Received" icon={<InboxIcon />} href="/doc"/>
+          <Tab label="Sent" icon={<SendIcon />} href="/doclist"/>
+        </Tabs>
+        </Paper>
+            }
             <Container maxWidth="lg" className={classes.container}>
               <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                 List of Documents

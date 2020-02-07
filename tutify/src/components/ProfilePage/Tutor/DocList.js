@@ -188,7 +188,7 @@ export class DocList extends React.Component {
           <DashBoardNavBar />
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
-            {(this.state.profileType == "tutor")
+            {(this.state.profileType === "tutor")
               ?
               <Paper className={classes.root}>
                 <Tabs
@@ -203,7 +203,7 @@ export class DocList extends React.Component {
               <Tab label="Sent" icon={<SendIcon />} href="/doclist"/>
             </Tabs>
             </Paper>
-            :(this.state.profileType == "student")
+            :(this.state.profileType === "student")
               ?
               <Paper className={classes.root}>
                 <Tabs
