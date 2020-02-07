@@ -121,7 +121,7 @@ class AddResource extends Component {
     }
 
     // This functions adds a new resource to the db if the fields are not empty. Else, it displays an error message
-    addResourceToDB = (event) => {
+    addResourceToDB = (event, handleClose) => {
         event.preventDefault();
         let imgUrl = this.state.image;
         if(this.state.description !== '' && this.state.title !== '' && this.state.image !== '' && this.state.link !== '' && 
@@ -148,6 +148,7 @@ class AddResource extends Component {
                 })
                 console.info("Successfully added the resource");
                 swal("Resource successfully added!", "", "success");
+                handleClose()
             })
                 .catch(err => console.error("Could not add the resource to the database: " + err));
         }
@@ -155,7 +156,6 @@ class AddResource extends Component {
             console.error("Empty fields");
             swal("Could not add resource, empty fields.", "", "error")
         }
-        
     }
 
     // Sets the state of the drop down menu for the category
@@ -277,7 +277,7 @@ class AddResource extends Component {
                 >
                     <Grid item>
                         <DialogActions>
-                            <Button onClick={event => {this.addResourceToDB(event); handleClose}}>Add</Button>
+                            <Button onClick={event => this.addResourceToDB(event, handleClose)}>Add</Button>
                         </DialogActions>
                     </Grid>
                     <Grid item>
