@@ -197,8 +197,8 @@ export class DocList extends React.Component {
                 onChange=''
                 centered
             >
-              <Tab label="Received" icon={<InboxIcon />} />
-              <Tab label="Sent" icon={<SendIcon />}/>
+              <Tab label="Received" icon={<InboxIcon />} href="/tutdoc"/>
+              <Tab label="Sent" icon={<SendIcon />} href="/doclist"/>
             </Tabs>
             </Paper>
             <Container maxWidth="lg" className={classes.container}>
