@@ -211,12 +211,12 @@ export class Studentdocs extends React.Component {
                       height: "5px",
                       marginTop: "-5px"
                     }}
-                    value={0}
+                    value={1}
                     aria-label="disabled tabs example"
                     centered
                   >
-                    <Tab label="Received" style={styles.tab[0]} icon={<InboxIcon />} href="/doc" />
                     <Tab label="To Share" style={styles.tab[0]} icon={<SendIcon />} href="/doclist" />
+                    <Tab label="Received" style={styles.tab[0]} icon={<InboxIcon />} href="/doc" />
                   </Tabs>
                 </Paper>
               :<br/>
