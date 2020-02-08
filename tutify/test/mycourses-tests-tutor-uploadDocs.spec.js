@@ -56,7 +56,7 @@ describe('The Tutors Courses Page', () => {
         // Getting the Card that contains information about the course.
         const cardInfo = wrapper.find(CardContent).at(0);
         // Making sure that the Course name matches the mock student’s.
-        expect(cardInfo.props().children[0].props.children).toBe("COMP 472");
+        expect(cardInfo.props().children[0].props.children[0]).toBe("COMP 472");
         // Making sure that the Course Description matches the mock student’s.
         expect(cardInfo.props().children[1].props.children).toBe("Automated reasoning. Search and heuristic search. Game‑playing.");
         // Getting the Card that contains information about the course.
