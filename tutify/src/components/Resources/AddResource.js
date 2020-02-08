@@ -116,6 +116,7 @@ class AddResource extends Component {
             '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
             '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
             '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+
         return pattern.test(url);
     }
 
@@ -123,8 +124,22 @@ class AddResource extends Component {
     addResourceToDB = (event, handleClose) => {
         event.preventDefault();
         let imgUrl = this.state.image;
+        let linkUrl = this.state.link
+
+        // Check if the url is valid or not
+        if(!this.isURL(this.state.link)) {
+            console.error("Not a valid link");
+            swal("Could not add resource, the link is not in a valid format.", "", "error")
+            return
+        } else {
+            // If link is valid but doesn't have the prefix http:// or https://, we prepend it
+            if (!linkUrl.match(/^[a-zA-Z]+:\/\//)){
+                linkUrl = 'https://' + linkUrl;
+            }
+        }
+
         if(this.state.description !== '' && this.state.title !== '' && this.state.link !== '' && 
-        this.state.category !== '' && this.state.educationLevel !== '') {
+        this.state.category !== '' && this.state.educationLevel !== '' && this.isURL(linkUrl)) {
             if(!this.isURL(this.state.image)) {
                 imgUrl = require('../../assets/large_tutify.png')
             }
@@ -132,7 +147,7 @@ class AddResource extends Component {
                 title: this.state.title,
                 description: this.state.description,
                 image: imgUrl,
-                link: this.state.link,
+                link: linkUrl,
                 category: this.state.category,
                 educationLevel: this.state.educationLevel
             }).then((res) => {
