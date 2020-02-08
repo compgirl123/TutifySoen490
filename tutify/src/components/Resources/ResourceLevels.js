@@ -95,7 +95,7 @@ class ResourceLevels extends React.Component {
                         Select your Education Level
                     </Typography>
                     <Container className={classes.container}>
-                        <Grid container spacing={4}>
+                        <Grid container spacing={10}>
                             <Link className={classes.link} to={{ pathname: '/primary', state: { primary: true } }} >
                                 <Card className={classes.ResCard}>
                                     <CardActionArea>
