@@ -1,5 +1,6 @@
 const Course = require('../models/models').Course;
 const Tutor = require('../models/models').Tutor;
+const Student = require('../models/models').Student;
 
 // this method fetches all available courses in our database
 exports.getCourses = async function (req, res) {
@@ -79,4 +80,49 @@ exports.addCourseToDb = async function (req, res) {
       });
 
   });
+};
+
+//delete a course from the database
+exports.deleteCourse = async function (req, res) {
+  const { students, course_id, tutor_id } = req.body;
+
+  Tutor.findByIdAndUpdate(tutor_id,
+    { "$pull": { "courses": { course: course_id } } },
+    function (err, tutor) {
+      if (err) throw err;
+
+      students.forEach(function (student) {
+        Student.findByIdAndUpdate(student,
+          { "$pull": { "courses": { course: course_id, tutor: tutor_id } } },
+          function (err, student) {
+            if (err) throw err;
+          });
+      });
+
+      Course.findOne({ _id: course_id }, function (err, course) {
+        if (err) throw err;
+
+        if (course.tutors.length > 1) {
+          //delete tutor from course 
+          Course.findByIdAndUpdate(course_id,
+            { "$pull": { "tutors": tutor_id } },
+            function (err, course) {
+              if (err) throw err;
+              return res.json({ success: true });
+            });
+        }
+        else {
+          //delete the whole course from data base 
+          Course.findByIdAndRemove(course_id, (err, course) => {
+            if (err) throw err;
+
+            console.info("The course has been deleted");
+            return res.json({ success: true });
+          });
+        }
+
+      });
+
+
+    });
 };

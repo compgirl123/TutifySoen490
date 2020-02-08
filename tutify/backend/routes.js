@@ -90,6 +90,8 @@ router.post('/addTutorToCourse', courseController.addTutorToCourse);
 
 router.post('/addCourseToDb', courseController.addCourseToDb);
 
+router.post('/deleteCourse', courseController.deleteCourse);
+
 // -------- Files ROUTES --------- // 
 
 router.get('/getFile/:filename', filesController.getFile);

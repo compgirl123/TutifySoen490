@@ -25,6 +25,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import IconButton from '@material-ui/core/IconButton';
 
 
 // View the General Course Page with all of the Courses the Tutor Teaches or Student is enrolled in.
@@ -41,7 +43,8 @@ export class MyCourses extends React.Component {
       description: "",
       filteredListCourses: [],
       discriminator: "",
-      id: ""
+      id: "",
+      students: []
     };
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -117,6 +120,33 @@ export class MyCourses extends React.Component {
       });
   }
 
+  // this method deletes a course from the database 
+
+  deleteCourse = (course_id) => {
+
+    swal({
+      title: "Are you sure you want delete this course?",
+      icon: "warning",
+      buttons: [true, "Yes"],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          axios.post('/api/deleteCourse', {
+            students: this.state.students,
+            course_id: course_id,
+            tutor_id: this.state.id
+          })
+            .then((res) => {
+              this.getTutorDataFromDb();
+              swal("Course successfully deleted!", "", "success");
+            }, (error) => {
+              console.error("Could not delete course to database (API call error) " + error);
+            });
+        }
+      });
+  }
+
   // this method assigns a tutor to an existing course
   addTutorToCourse = () => {
     swal({
@@ -175,9 +205,9 @@ export class MyCourses extends React.Component {
           else if (res.userInfo.__t === "tutor") {
             this.getTutorDataFromDb();
             this.getAllCoursesFromDB();
+            this.setState({ students: res.userInfo.students });
           }
         }
-
       })
       .catch(err => console.error("Session could not be checked: " + err));
   };
@@ -193,9 +223,9 @@ export class MyCourses extends React.Component {
       .then(res => {
         this.setState({ allCourses: res.data });
       })
-      .catch(err => 
-      console.error("Could not get courses from database (API call error) " + err));
-    }
+      .catch(err =>
+        console.error("Could not get courses from database (API call error) " + err));
+  }
 
 
   // Uses our backend api to fetch student's courses from the database
@@ -209,8 +239,8 @@ export class MyCourses extends React.Component {
       .then(res => {
         this.setState({ courses: res.data });
       })
-      .catch(err => 
-      console.error("Could not get courses from database (API call error) " + err));
+      .catch(err =>
+        console.error("Could not get courses from database (API call error) " + err));
   }
 
   // Uses our backend api to fetch tutor's courses from the database
@@ -224,8 +254,8 @@ export class MyCourses extends React.Component {
       .then(res => {
         this.setState({ courses: res.data });
       })
-      .catch(err => 
-      console.error("Could not get courses from database (API call error) " + err));
+      .catch(err =>
+        console.error("Could not get courses from database (API call error) " + err));
   }
 
   // Allowing for tutors to share their uploaded documents to specific courses.
@@ -267,6 +297,7 @@ export class MyCourses extends React.Component {
                   <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addCourseButton} >
                     Add Course
                </Button>
+
                   :
                   <></>
                 }
@@ -283,6 +314,14 @@ export class MyCourses extends React.Component {
                           <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">
                               {c.course.name}
+                              {this.state.discriminator === "tutor" ?
+                                <IconButton variant="contained" size="lg" active onClick={event => this.deleteCourse(c.course._id)} className={classes.deleteCourseButton} >
+
+                                  < DeleteForeverIcon className={classes.deleteIconButton} />
+                                </IconButton>
+                                :
+                                <></>
+                              }
                             </Typography>
                             <Typography variant="body2" color="textSecondary" component="p">
                               {c.course.description ? c.course.description : ""}
