@@ -123,5 +123,18 @@ export const styles = theme => ({
   },
   formControl:{
     marginBottom: 15
+  },
+  deleteCourseButton:{
+
+    float:'right',
+    backgroundColor: 'transparent',
+    border: "none"
+  },
+  deleteIconButton:{
+   
+    fontSize: "large"
+
   }
+
+  
 });
