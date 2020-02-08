@@ -197,7 +197,7 @@ export class Studentdocs extends React.Component {
                   centered
                 >
                   <Tab label="Received" style={styles.tab[0]} icon={<InboxIcon />} href="/tutdoc" />
-                  <Tab label="Sent" style={styles.tab[0]} icon={<SendIcon />} href="/doclist" />
+                  <Tab label="To Share" style={styles.tab[0]} icon={<SendIcon />} href="/doclist" />
                 </Tabs>
               </Paper>
               : (this.state.profileType === "student" && this.state.tutorViewStudents === false)
@@ -216,7 +216,7 @@ export class Studentdocs extends React.Component {
                     centered
                   >
                     <Tab label="Received" style={styles.tab[0]} icon={<InboxIcon />} href="/doc" />
-                    <Tab label="Sent" style={styles.tab[0]} icon={<SendIcon />} href="/doclist" />
+                    <Tab label="To Share" style={styles.tab[0]} icon={<SendIcon />} href="/doclist" />
                   </Tabs>
                 </Paper>
               :<br/>

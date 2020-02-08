@@ -241,7 +241,7 @@ export class DocList extends React.Component {
                     centered
                   >
                     <Tab label="Received" style={styles.tab[0]} icon={<InboxIcon />} href="/doc" />
-                    <Tab label="Sent" style={styles.tab[0]} icon={<SendIcon />} href="/doclist" />
+                    <Tab label="To Share" style={styles.tab[0]} icon={<SendIcon />} href="/doclist" />
                   </Tabs>
                 </Paper>
                 :
@@ -260,7 +260,7 @@ export class DocList extends React.Component {
                     centered
                   >
                     <Tab label="Received" icon={<InboxIcon />} href="/doc" />
-                    <Tab label="Sent" icon={<SendIcon />} href="/doclist" />
+                    <Tab label="To Share" icon={<SendIcon />} href="/doclist" />
                   </Tabs>
                 </Paper>
             }
