@@ -235,13 +235,13 @@ export class DocList extends React.Component {
                       height: "5px",
                       marginTop: "-5px"
                     }}
-                    value={1}
+                    value={0}
                     aria-label="disabled tabs example"
                     onChange={this.handleChange}
                     centered
                   >
-                    <Tab label="Received" style={styles.tab[0]} icon={<InboxIcon />} href="/doc" />
                     <Tab label="To Share" style={styles.tab[0]} icon={<SendIcon />} href="/doclist" />
+                    <Tab label="Received" style={styles.tab[0]} icon={<InboxIcon />} href="/doc" />
                   </Tabs>
                 </Paper>
                 :
