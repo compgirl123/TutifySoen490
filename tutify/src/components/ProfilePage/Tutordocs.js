@@ -24,6 +24,7 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import InboxIcon from '@material-ui/icons/Inbox';
 import SendIcon from '@material-ui/icons/Send';
+import green from '@material-ui/core/colors/green';
 
 // displaying the documents shared to students
 export class Tutordocs extends React.Component {
@@ -37,6 +38,7 @@ export class Tutordocs extends React.Component {
             user_id: null,
             shareTo: []
         };
+
     }
 
     componentDidMount() {
@@ -133,6 +135,19 @@ export class Tutordocs extends React.Component {
         const { classes } = this.props;
         const { files } = this.state;
         const fixedHeightPaper = clsx(classes.paper);
+        var styles = {
+            default_tab: {
+                color: green[800],
+                indicatorColor: green[900],
+                fontWeight: 400,
+            }
+        }
+
+        styles.tab = []
+        styles.tab[0] = styles.default_tab;
+        styles.tab[1] = styles.default_tab;
+        styles.tab[2] = styles.default_tab;
+        styles.tab[this.state.slideIndex] = Object.assign({}, styles.tab[this.state.slideIndex], styles.active_tab);
 
         return (
             <React.Fragment>
@@ -141,18 +156,22 @@ export class Tutordocs extends React.Component {
                     <main className={classes.content}>
                         <div className={classes.appBarSpacer} />
                         <Paper className={classes.root}>
-                <Tabs
-                indicatorColor="primary"
-                textColor="primary"
-                aria-label="disabled tabs example"
-                value=''
-                onChange=''
-                centered
-            >
-              <Tab label="Received" icon={<InboxIcon />} href="/tutdoc"/>
-              <Tab label="Sent" icon={<SendIcon />} href="/doclist"/>
-            </Tabs>
-            </Paper>
+                            <Tabs
+                                indicatorColor="primary"
+                                inkBarStyle={{
+                                    textColor: "black",
+                                    background: "#FF5733",
+                                    height: "5px",
+                                    marginTop: "-5px"
+                                }}
+                                value={1}
+                                onChange=''
+                                centered
+                            >
+                                <Tab label="To Share" style={styles.tab[0]} icon={<SendIcon />} href="/doclist" />
+                                <Tab label="Received" style={styles.tab[0]} icon={<InboxIcon />} href="/tutdoc" />
+                            </Tabs>
+                        </Paper>
                         <Container maxWidth="lg" className={classes.container}>
                             <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                                 List of Documents

@@ -24,6 +24,7 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import InboxIcon from '@material-ui/icons/Inbox';
 import SendIcon from '@material-ui/icons/Send';
+import green from '@material-ui/core/colors/green';
 
 // displaying the documents shared to students
 export class Studentdocs extends React.Component {
@@ -36,7 +37,8 @@ export class Studentdocs extends React.Component {
       data: [],
       filteredData: [],
       user_id: null,
-      shareTo: []
+      shareTo: [],
+      tutorViewStudents: false
     };
   }
 
@@ -66,6 +68,7 @@ export class Studentdocs extends React.Component {
       .then(res => res.json())
       .then(res => {
         this.setState({ filesViewTutors: res.fileViewTutors });
+        this.setState({tutorViewStudents: true});
         console.info("File has been loaded correctly");
       })
       .catch(err => console.error("Files have not been loaded correctly: " + err));
@@ -97,9 +100,11 @@ export class Studentdocs extends React.Component {
           this.setState({ user_id: res.userInfo._id });
           if (res.userInfo.__t === "student") {
             this.loadFilesForStudents();
-            console.warn("SHIT FILES! : "+this.state.files);
+            this.setState({ profileType: res.userInfo.__t });
+            console.warn("FILES! : " + this.state.files);
           }
           else if (res.userInfo.__t === "tutor") {
+            this.setState({ profileType: res.userInfo.__t });
             this.loadFilesForTutors();
           }
         }
@@ -124,6 +129,10 @@ export class Studentdocs extends React.Component {
       await this.setState({ shareTo: filteredArray });
       console.info("Checkbox unchecked");
     }
+  }
+
+  handleChange(event, newValue) {
+    this.setState({ thestate: newValue })
   }
 
   // Allowing for the Deletion of Documents.
@@ -152,56 +161,66 @@ export class Studentdocs extends React.Component {
     const { files, filesViewTutors } = this.state;
     const fixedHeightPaper = clsx(classes.paper);
 
+    var styles = {
+      default_tab: {
+        color: green[700],
+        indicatorColor: green[900],
+        fontWeight: 400,
+      }
+    }
+
+    styles.tab = []
+    styles.tab[0] = styles.default_tab;
+    styles.tab[1] = styles.default_tab;
+    styles.tab[2] = styles.default_tab;
+    styles.tab[this.state.slideIndex] = Object.assign({}, styles.tab[this.state.slideIndex], styles.active_tab);
+
     return (
       <React.Fragment>
         <main>
           <DashBoardNavBar />
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
-            {(this.state.profileType === "tutor")
+            {(this.state.profileType === "tutor" && this.state.tutorViewStudents === false)
               ?
               <Paper className={classes.root}>
                 <Tabs
-                indicatorColor="primary"
-                textColor="primary"
-                aria-label="disabled tabs example"
-                value=''
-                onChange=''
-                centered
-            >
-              <Tab label="Received" icon={<InboxIcon />} href="/tutdoc"/>
-              <Tab label="Sent" icon={<SendIcon />} href="/doclist"/>
-            </Tabs>
-            </Paper>
-        :(this.state.profileType === "student")
-          ?
-          <Paper className={classes.root}>
-            <Tabs
-            indicatorColor="primary"
-            textColor="primary"
-            aria-label="disabled tabs example"
-            value=''
-            onChange=''
-            centered
-        >
-          <Tab label="Received" icon={<InboxIcon />} href="/doc"/>
-          <Tab label="Sent" icon={<SendIcon />} href="/doclist"/>
-        </Tabs>
-        </Paper>
-        :
-        <Paper className={classes.root}>
-            <Tabs
-            indicatorColor="primary"
-            textColor="primary"
-            aria-label="disabled tabs example"
-            value=''
-            onChange=''
-            centered
-        >
-          <Tab label="Received" icon={<InboxIcon />} href="/doc"/>
-          <Tab label="Sent" icon={<SendIcon />} href="/doclist"/>
-        </Tabs>
-        </Paper>
+                  indicatorColor="primary"
+                  inkBarStyle={{
+                    textColor: "black",
+                    background: "#FF5733",
+                    height: "5px",
+                    marginTop: "-5px"
+                  }}
+                  value={0}
+                  aria-label="disabled tabs example"
+                  centered
+                >
+                  <Tab label="Received" style={styles.tab[0]} icon={<InboxIcon />} href="/tutdoc" />
+                  <Tab label="Sent" style={styles.tab[0]} icon={<SendIcon />} href="/doclist" />
+                </Tabs>
+              </Paper>
+              : (this.state.profileType === "student" && this.state.tutorViewStudents === false)
+                ?
+                <Paper className={classes.root}>
+                  <Tabs
+                    indicatorColor="primary"
+                    inkBarStyle={{
+                      textColor: "black",
+                      background: "#FF5733",
+                      height: "5px",
+                      marginTop: "-5px"
+                    }}
+                    value={0}
+                    aria-label="disabled tabs example"
+                    centered
+                  >
+                    <Tab label="Received" style={styles.tab[0]} icon={<InboxIcon />} href="/doc" />
+                    <Tab label="Sent" style={styles.tab[0]} icon={<SendIcon />} href="/doclist" />
+                  </Tabs>
+                </Paper>
+              :<br/>
+                
             }
             <Container maxWidth="lg" className={classes.container}>
               <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
@@ -217,7 +236,7 @@ export class Studentdocs extends React.Component {
                         <TableHead>
                           <TableRow>
                             <TableCell>Name</TableCell>
-                            <TableCell>Extension</TableCell>   
+                            <TableCell>Extension</TableCell>
                             {this.props.match.params.studentid !== undefined
                               ?
                               <TableCell>Upload Date</TableCell>
