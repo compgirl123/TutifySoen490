@@ -7,7 +7,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Footer from '../Footer';
-//import DashBoardNavBar from './../ProfilePage/DashBoardNavBar';
+import DashBoardNavBar from '../DashBoardNavBar';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -129,14 +129,14 @@ export class TutorList extends React.Component {
         return (
             <React.Fragment>
                 <main>
-                   
+                <DashBoardNavBar />
                     <main className={classes.content}>
 
                         <div className={classes.appBarSpacer} />
                         <Container maxWidth="lg" className={classes.container}>
                             <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                                 List of Tutors
-              </Typography>
+                           </Typography>
                             <Grid container spacing={2}>
 
                                 {/* Tutor Info */}

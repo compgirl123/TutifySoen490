@@ -100,10 +100,10 @@ describe('The List of documents Students Page', () => {
         // Make sure the name of the first Table cell column exists and has the value "Name"
         expect(titles.props().children[0].props.children).toBe("Name");
 
-        // Make sure the name of the second Table cell column exists and has the value "Name"
+        // Make sure the name of the second Table cell column exists and has the value "Extension"
         expect(titles.props().children[1].props.children).toBe("Extension");
 
-        // Make sure the name of the second Table cell column exists and has the value "Name"
+        // Make sure the name of the second Table cell column exists and has the value "Tutor"
         expect(titles.props().children[2].props.children).toBe("Tutor");
 
         // Make sure the name of the third Table cell column exists and has the value "Upload Date"
@@ -126,48 +126,42 @@ describe('The List of documents Students Page', () => {
         // Making sure that the extension name matches the extension name on page
         expect(firstfileListed.props().children[1].props.children).toBe((mockedStudentDocList[0].files[0]._doc.name).split(".")[1]);
 
-        // Making sure that the extension name matches the extension name on page
+        // Making sure that the tutor name matches the tutor name on page
         expect(firstfileListed.props().children[2].props.children).toBe(mockedStudentDocList[0].files[0].userName);
 
-        // Making sure that the extension name matches the extension name on page
+        // Making sure that the upload date matches the upload date on page
         expect((firstfileListed.props().children[3].props.children).substring(0,10)).toBe((mockedStudentDocList[0].files[0]._doc.uploadDate).substring(0,10));
         
-        // Making sure that the extension name matches the extension name on page
+        // Making sure that the share buttons are present on the page and are of type button
         expect(firstfileListed.props().children[4].props.children.props.type).toBe('button');
 
-        // Making sure that the extension name matches the extension name on page
+        // Making sure that the share buttons are present on the page and are of type GetAppIcon
         expect(firstfileListed.props().children[4].props.children.props.children.type.displayName).toBe('GetAppIcon');
 
         /**
          * Third Row (actual 2nd student of the tutor should be shown here)
         */
 
-        // Finding the second TableRow Component present on page
+        // Finding the third TableRow Component present on page
         const secondfileListed = wrapper.find(TableRow).at(2);
 
         // Making sure that the document name matches the name on page
         expect(secondfileListed.props().children[0].props.children.props.children).toBe((mockedStudentDocList[0].files[1]._doc.name).split(".")[0]);
 
         // Making sure that the extension name matches the extension name on page
+        expect(secondfileListed.props().children[1].props.children).toBe((mockedStudentDocList[0].files[1]._doc.name).split(".")[1]);
+
+        // Making sure that the tutor name matches the tutor name on page
         expect(secondfileListed.props().children[2].props.children).toBe(mockedStudentDocList[0].files[1].userName);
 
-        // Making sure that the extension name matches the extension name on page
+        // Making sure that the upload date matches the upload date on page
         expect((secondfileListed.props().children[3].props.children).substring(0,10)).toBe((mockedStudentDocList[0].files[1]._doc.uploadDate).substring(0,10));
         
-        // Making sure that the extension name matches the extension name on page
+        // Making sure that the share buttons are present on the page and are of type button
         expect(secondfileListed.props().children[4].props.children.props.type).toBe('button');
 
-        // Making sure that the extension name matches the extension name on page
+        // Making sure that the share buttons are present on the page and are of type GetAppIcon
         expect(secondfileListed.props().children[4].props.children.props.children.type.displayName).toBe('GetAppIcon');
-
-        // Making sure that the tutor name matches the name on page
-        /*expect(secondfileListed.props().children[1].props.children).toBe((mockedStudentDocList[0].files[1].tutorName).split(".")[1]);
-
-         // Making sure that the upload date matches the name on page
-        expect(secondfileListed.props().children[2].props.children).toBe(mockedStudentDocList[0].files[1]._doc.uploadDate);
-
-        // Making sure that the download button matches the type on page
-        expect(secondfileListed.props().children[3].props.children.props.children.type.displayName).toBe("GetAppIcon");*/
         
     });
 }); 
