@@ -8,7 +8,7 @@ var ObjectId = require('mongodb').ObjectID;
 
 // This method fetches the latest uploaded document.
 exports.getLatestUpload = async function (req, res) {
-    UploadedFiles.find({ adminTutor: req.session.userInfo._id }, function (err, mostRecent) {
+    UploadedFiles.find({ admin: req.session.userInfo._id }, function (err, mostRecent) {
         if (err) {
             console.error("Was not able to fetch the latest uploaded file");
             return res.json({ success: false, error: err });
@@ -21,7 +21,7 @@ exports.getLatestUpload = async function (req, res) {
 // This method adds restriction information for uploaded documents.
 exports.addUploadedFiles = async function (req, res) {
     let uploaded_files = new UploadedFiles();
-    const { name, adminTutor } = req.body;
+    const { name, admin} = req.body;
     const { filename } = req.file;
     const { _id } = new mongoose.Types.ObjectId();
 
@@ -40,14 +40,14 @@ exports.addUploadedFiles = async function (req, res) {
             {
                 $set: {
                     "name": name_new,
-                    "adminTutor": adminTutor,
+                    "admin": admin,
                     "encryptedname": filename,
                     "link": "/document/" + filename,
                     "uploadDate": new Date()
                 }
             },
             { "new": true, "upsert": true },
-            function (err, tutor) {
+            function (err, profile) {
                 if (err) {
                     console.error("The uploaded file was unable to be updated in the database");
                     throw err;
@@ -63,14 +63,14 @@ exports.addUploadedFiles = async function (req, res) {
 
 // This Method Gets the Document Files from the Database
 exports.populateUploadedFiles = async function (req, res) {
-    UploadedFiles.find({ adminTutor: req.session.userInfo._id }, function (err, uploaded_docs) {
+    UploadedFiles.find({ admin: req.session.userInfo._id }, function (err, uploaded_docs) {
 
         if (err) {
             console.error("The uploaded files were not found to be populated");
             throw err;
         }
         else {
-            console.info("THe files for population have been found");
+            console.info("The files for population have been found");
         }
         return res.json({ success: true, file: uploaded_docs });
     });
@@ -124,7 +124,7 @@ exports.assignCourse = async function (req, res) {
 }
 
 // this method enables the tutor to share their uploaded documents to their students.
-exports.assignCourseStudent = async function (req, res) {
+exports.shareFileToStudent = async function (req, res) {
     let uploaded_files = new UploadedFiles();
     let profile = new Profile();
     const { id_student, file_name } = req.body;
@@ -170,8 +170,56 @@ exports.assignCourseStudent = async function (req, res) {
     });
 }
 
+
+// this method enables the students to share their uploaded documents to their tutors.
+exports.shareFileToTutor = async function (req, res) {
+    let uploaded_files = new UploadedFiles();
+    let profile = new Profile();
+    const { id_tutor, file_name } = req.body;
+    Profile.findOne({ _id: id_tutor }, function (err, tutor_info) {
+        UploadedFiles.findOne({ encryptedname: file_name }, function (err, encrypted_file_name) {
+            uploaded_files.save(function (err) {
+                UploadedFiles.findByIdAndUpdate(encrypted_file_name._id,
+                    {
+                        "$push": {
+                            "sharedToTutors": tutor_info._id
+                        }
+                    },
+                    { "new": true, "upsert": true },
+                    function (err, tutor) {
+                        if (err) {
+                            console.error("The uploaded files sharing list was unable to be updated");
+                            throw err;
+                        }
+                        else {
+                            console.info("The uploaded files sharing list has been updated");
+                        }
+                    });
+            });
+            profile.save(function (err) {
+                Profile.findByIdAndUpdate(tutor_info._id,
+                    {
+                        "$push": {
+                            "sharedToStudents": encrypted_file_name._id
+                        }
+                    },
+                    { "new": true, "upsert": true },
+                    function (err, tutor) {
+                        if (err) {
+                            console.error("The uploaded files sharing list was unable to be updated");
+                            throw err;
+                        }
+                        else {
+                            console.info("The uploaded files sharing list has been updated");
+                        }
+                    });
+            });
+        });
+    });
+}
+
 // this method enables the students to view all of their shared documents.
-exports.viewDocs = async function (req, res) {
+exports.viewDocsFromTutors = async function (req, res) {
     var response = [];
     await Profile.findOne({ account: req.session.userInfo.account }, async (err, sharedDocs) => { if (err) { console.error("Unable to find the user to view his/her files"); } }).then(async (sharedDocs) => {
         await UploadedFiles.find({ _id: { $in: sharedDocs.sharedToStudents } }, async (err, tst) => { if (err) { console.error("Unable to find the user's files"); } }).then(async (tst) => {
@@ -183,12 +231,24 @@ exports.viewDocs = async function (req, res) {
     });
 }
 
+exports.viewDocsFromStudents = async function (req, res) {
+    var response = [];
+    await Profile.findOne({ account: req.session.userInfo.account }, async (err, tutorInfo) => { if (err) { console.error("Unable to find the user to view his/her files"); } }).then(async (tutorInfo) => {
+        await UploadedFiles.find({ sharedToTutors: { $in: tutorInfo._id }}, async (err, tst) => { if (err) { console.error("Unable to find the user's files"); } }).then(async (tst) => {
+            await findProfile(tst, response, res).then(async (result) => {
+                console.info("The user's list of documents has been retrieved successfully");
+                return res.json({ success: true, file: result });
+            });
+        });
+    });
+}
+
 // helper method
 async function findProfile(tst, response, res) {
     for (let index = 0; index < tst.length; index++) {
-        await Profile.findOne({ _id: tst[index].adminTutor }, async (err, tutor) => { if (err) { console.error("Unable to find the user "); } }).then(async (tutor) => {
-            var tutorName = tutor.first_name + " " + tutor.last_name
-            tst[index] = await Object.assign({ tutorName: tutorName }, tst[index]);
+        await Profile.findOne({ _id: tst[index].admin }, async (err, user) => { if (err) { console.error("Unable to find the user "); } }).then(async (user) => {
+            var userName = user.first_name + " " + user.last_name
+            tst[index] = await Object.assign({ userName: userName }, tst[index]);
             await response.push(tst[index]);
         });
     };
@@ -212,7 +272,7 @@ exports.viewCourseDocs = async function (req, res) {
     })
 }
 
-// this method enables each student to view all of their shared documents.
+// this method enables each student to view all of their shared documents from their tutors.
 exports.viewSpecificStudentFiles = async function (req, res) {
     var student_id_position = req.headers.referer.lastIndexOf("/");
     var student_id = req.headers.referer.substring(student_id_position + 1, req.headers.referer.length)
@@ -222,7 +282,7 @@ exports.viewSpecificStudentFiles = async function (req, res) {
             res.json({ success: false, error: err });
         }
         if (student_info !== undefined) {
-            UploadedFiles.find({ _id: { $in: student_info.sharedToStudents }, adminTutor: req.session.userInfo._id }, function (err, individualDocsShared) {
+            UploadedFiles.find({ _id: { $in: student_info.sharedToStudents }, admin: req.session.userInfo._id }, function (err, individualDocsShared) {
                 console.info("Found the student's shared files successfully");
                 return res.json({ success: true, fileViewTutors: individualDocsShared });
             });
@@ -279,6 +339,27 @@ exports.deleteFiles = async function (req, res) {
                     });
                 });
             }
+
+            // Removing Shared to certain Tutors of Document if the document(s) was shared to tutor(s)
+            if ((fileToDelete[studentShared].sharedToTutors).length !== 0) {
+                fileToDelete[studentShared].sharedToTutors.forEach(function (err, courseIndex) {
+                    Course.find({ _id: { $in: fileToDelete[studentShared].sharedToTutors[courseIndex] } }, function (err, userfiles1) {
+                        userfiles1.forEach(function (err, studentIndex2) {
+                            if ((userfiles1[studentIndex2].sharedToTutors).indexOf(fileToDelete[studentShared]._id) > -1) {
+                                Course.findByIdAndUpdate(fileToDelete[studentShared].sharedToTutors[courseIndex],
+                                    { "$pull": { "sharedToCourses": fileToDelete[studentShared]._id } },
+                                    function (err, student) {
+                                        if (err) {
+                                            console.error("Could not remove the file reference from the course object");
+                                            throw err;
+                                        }
+                                    });
+                            }
+                        });
+                    });
+                });
+            }
+
             // Removing uploaded Document from the uploaded files collection.
             UploadedFiles.findByIdAndRemove(fileToDelete[studentShared]._id, (err, file) => {
                 if (err) {
@@ -319,6 +400,30 @@ exports.deleteFiles = async function (req, res) {
                 }
                 );
             });
+        });
+    });
+}
+
+exports.deleteFilesFromStudent= async function (req, res) {
+    const { file_id } = req.body;
+    var matchTutorId = ObjectId(req.session.userInfo._id);
+    UploadedFiles.find({ encryptedname: { $in: file_id } }, function (err, fileToDelete) {
+        if (err) {
+            console.error("Could not find the uploaded files to delete");
+            throw err;
+        }
+        fileToDelete.forEach(function (err, studentIndex) {
+            UploadedFiles.findByIdAndUpdate(fileToDelete[studentIndex]._id,
+                { "$pull": { "sharedToTutors": matchTutorId } },
+                function (err, student) {
+                    if (err) {
+                        console.error("Could not delete the link between the student and the shared file");
+                        throw err;
+                    }
+                    else {
+                        console.info("Deleted the specific student file successfully")
+                    }
+                });
         });
     });
 }

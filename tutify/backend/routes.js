@@ -37,6 +37,8 @@ router.get('/getUser', userController.getUser);
 
 router.post('/findStudents', userController.findStudents);
 
+router.post('/findTutors', userController.findTutors);
+
 router.post('/updateUserInfo', userController.updateUserInfo);
 
 router.post('/putUser', userController.putUser);
@@ -103,9 +105,13 @@ router.get('/uploadingDocs', uploadedFilesController.getLatestUpload);
 
 router.post('/tutorCourses/:file', uploadedFilesController.assignCourse);
 
-router.post('/students/:file', uploadedFilesController.assignCourseStudent);
+router.post('/students/:file', uploadedFilesController.shareFileToStudent);
 
-router.get('/doc', uploadedFilesController.viewDocs);
+router.post('/tutors/:file', uploadedFilesController.shareFileToTutor);
+
+router.get('/doc', uploadedFilesController.viewDocsFromTutors);
+
+router.get('/tutdoc', uploadedFilesController.viewDocsFromStudents);
 
 router.get('/viewCourse/:coursename', uploadedFilesController.viewCourseDocs);
 
@@ -114,6 +120,8 @@ router.get('/doc/:studentid',uploadedFilesController.viewSpecificStudentFiles);
 // -------- DELETE FILES ROUTES --------- // 
 
 router.post('/getFileToDelete', uploadedFilesController.deleteFiles);
+
+router.post('/DeleteFileFromSharedToTutor', uploadedFilesController.deleteFilesFromStudent);
 
 router.post('/getSpecificStudentsFilestoDelete', uploadedFilesController.deleteSpecificStudentsFiles);
 

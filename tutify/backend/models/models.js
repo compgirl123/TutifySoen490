@@ -223,9 +223,9 @@ var UploadedFiles = mongoose.model('UploadedFiles', new mongoose.Schema({
     type: String,
     required: true
   },
-  adminTutor: {
+  admin: {
     type: Schema.Types.ObjectId,
-    ref: 'Tutor',
+    ref: 'Profile',
     required: true
   },
   uploadedDocs: [
@@ -237,6 +237,10 @@ var UploadedFiles = mongoose.model('UploadedFiles', new mongoose.Schema({
   sharedToCourses: [
   { type: Schema.Types.ObjectId, ref: 'Course' }
   ],
+  sharedToTutors: [
+    { type: Schema.Types.ObjectId, ref: 'Tutor' }
+  ],
+  
   uploadDate: Date
 }), "uploaded_files");
 
@@ -313,7 +317,6 @@ module.exports = {
   Appointment: Appointment,
   Course: Course,
   UploadedFiles: UploadedFiles,
-  Files: Files,
   Event: Event,
   Mfiles: Mfiles,
   Mchunks: Mchunks,

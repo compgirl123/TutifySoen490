@@ -6,6 +6,7 @@ import SearchTutors from "./components/SearchTutors"
 import Login from "./components/Login"
 import ProfilePage from "./components/ProfilePage/ProfilePage"
 import StudentList from "./components/ProfilePage/Tutor/StudentList";
+import TutorList from "./components/ProfilePage/TutorList";
 import DocList from "./components/ProfilePage/Tutor/DocList";
 import CourseList from './components/CourseList';
 import MyCourses from "./components/CourseView/MyCourses";
@@ -17,6 +18,7 @@ import Announcements from "./components/TutorAnnouncements/Announcements";
 import ResourceLevels from "./components/Resources/ResourceLevels";
 import Document from "./components/Documents/Document";
 import Studentdocs from './components/ProfilePage/Studentdocs';
+import Tutordocs from './components/ProfilePage/Tutordocs';
 import ResourcePage from './components/Resources/ResourcePage';
 import PrivateRoute from './components/PrivateRoute';
 import MainRoute from './components/MainRoute';
@@ -50,6 +52,11 @@ function MainPage() {
         <PrivateRoute  exact path= "/primary" component={ResourcePage} />
         <PrivateRoute  exact path= "/secondary" component={ResourcePage} />
         <PrivateRoute  exact path= "/postsecondary" component={ResourcePage} />
+        <PrivateRoute  exact path="/tutors" component={TutorList} />
+        <PrivateRoute exact path="/tutors/:file" component={TutorList} />
+        <PrivateRoute exact path= "/courseList/:id" component= {CourseList}/>
+        <PrivateRoute exact path= "/tutorCourses/:file" component = {MyCourses}/>
+        <PrivateRoute exact path= "/tutdoc" component={Tutordocs} />
         <Route path="*" component={NotFoundPage} />
       </Switch>
     </Router>

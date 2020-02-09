@@ -17,6 +17,7 @@ import Button from "@material-ui/core/Button";
 import Checkbox from '@material-ui/core/Checkbox';
 import swal from 'sweetalert';
 import axios from 'axios';
+import {presentableExtension, presentableName, presentableUploadTime} from '../../helper/presentableHelper';
 
 // View the Specific Course Page with all of the Course Details.
 // Students can view documents.
@@ -182,6 +183,7 @@ export class ViewCourse extends React.Component {
                         <TableHead>
                           <TableRow>
                             <TableCell>Title</TableCell>
+                            <TableCell>Extension</TableCell>
                             <TableCell>Date</TableCell>
                             <TableCell>Download Documents</TableCell>
 
@@ -196,8 +198,9 @@ export class ViewCourse extends React.Component {
                         <TableBody>
                           {files.map((file, index) => (
                             <TableRow>
-                              <TableCell>{file.name}</TableCell>
-                              <TableCell>{file.uploadDate}</TableCell>
+                              <TableCell>{presentableName(file.name)}</TableCell>
+                              <TableCell>{presentableExtension(file.name)}</TableCell>
+                              <TableCell>{presentableUploadTime(file.uploadDate)}</TableCell>
                               <TableCell>
                                 <Button type="button" onClick={() => window.open(file.link)} size="small" className="submit">
                                   <GetAppIcon />

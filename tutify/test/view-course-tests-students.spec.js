@@ -40,7 +40,7 @@ describe('The Students View Docs', () => {
                   sharedToCourses: [Array],
                   _id: '5e28c316259be07f5a788b09',
                   __v: 0,
-                  adminTutor: '5dacd1cf1c9d440000aa0b1b',
+                  admin: '5dacd1cf1c9d440000aa0b1b',
                   encryptedname: 'b0c16d9323dbf1438f595fc94ef219d5.jpg',
                   link: '/document/b0c16d9323dbf1438f595fc94ef219d5.jpg',
                   name: 'galaxyBackground.jpg',
@@ -81,20 +81,24 @@ describe('The Students View Docs', () => {
         const table_content =  wrapper_specific_course.find(TableRow).at(0);
         // Getting the title of the course documents.
         expect(table_content.props().children[0].props.children).toBe("Title");
-        // Getting the date the the course documents.
-        expect(table_content.props().children[1].props.children).toBe("Date");
+        // Getting the extension name of the course documents.
+        expect(table_content.props().children[1].props.children).toBe("Extension");
+        // Getting the date of the course documents.
+        expect(table_content.props().children[2].props.children).toBe("Date");
         // Getting the "download" title the course documents.
-        expect(table_content.props().children[2].props.children).toBe("Download Documents");
+        expect(table_content.props().children[3].props.children).toBe("Download Documents");
 
         // Finding the Table Row element containing the information of one row of a document shared to the class
         const course_document =  wrapper_specific_course.find(TableRow).at(1);
 
         // Expecting the document name to be equal to name in the course object
-        expect(course_document.props().children[0].props.children).toBe(mockedStudent[0].files[0].name);
+        expect(course_document.props().children[0].props.children).toBe((mockedStudent[0].files[0].name).split(".")[0]);
+        // Expecting the extension name to be equal to extension name in the course object
+        expect(course_document.props().children[1].props.children).toBe((mockedStudent[0].files[0].name).split(".")[1]);
         // Expecting the document upload Date to be equal to upload Date in the course object
-        expect(course_document.props().children[1].props.children).toBe(mockedStudent[0].files[0].uploadDate);
+        expect((course_document.props().children[2].props.children).split(" ")[0]).toBe((mockedStudent[0].files[0].uploadDate).split("T")[0]);
         // Expecting the download icon name to be equal to the "GetAppIcon" representing the download document icon symbol
-        expect(course_document.props().children[2].props.children.props.children.type.displayName).toBe("GetAppIcon");
+        expect(course_document.props().children[3].props.children.props.children.type.displayName).toBe("GetAppIcon");
 
     });
 }); 

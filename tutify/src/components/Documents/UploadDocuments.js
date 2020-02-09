@@ -49,6 +49,7 @@ export class UploadDocuments extends Component {
       .then(res => {
         if (res.isLoggedIn) {
           this.setState({ user_id: res.userInfo._id });
+          console.log(res.userInfo._id);
         }
         else {
           this.setState({ user_id: "Not logged in" });
@@ -71,6 +72,7 @@ export class UploadDocuments extends Component {
           recentUploadDate: (recent.recent[0].uploadDate).split("T")[0],
           recentFileLink: recent.recent[0].link
         });
+        console.log(recent.recent[0].name);
         console.info("Latest files have been loaded correctly");
       })
       .catch(err => console.error("An error occured while getting the latest file: " + err));
@@ -89,7 +91,7 @@ export class UploadDocuments extends Component {
     event.preventDefault();
     const formData = new FormData();
     formData.append('file', this.state.file);
-    formData.append('adminTutor', this.state.user_id);
+    formData.append('admin', this.state.user_id);
     formData.append('name', this.state.file.name);
     await axios.post("/uploadFile", formData).then(res => {
     }).catch(err => {
@@ -162,4 +164,3 @@ export class UploadDocuments extends Component {
 } // End of component
 
 export default withStyles(tutifyStyle.styles, { withTheme: true })(UploadDocuments);
-
