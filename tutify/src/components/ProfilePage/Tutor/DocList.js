@@ -22,6 +22,7 @@ import MenuBookIcon from '@material-ui/icons/MenuBook';
 import Fab from "@material-ui/core/Fab";
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from "@material-ui/core/Button";
+import {presentableName, presentableExtension, presentableUploadTime} from './../../../helper/presentationHelper';
 
 
 function SharingOptions(props) {
@@ -98,23 +99,6 @@ export class DocList extends React.Component {
       .catch(err => console.error("Could not load the files: " + err));
   }
 
-
-
-
-
-  presentableName(name) {
-    return name.substring(0, name.lastIndexOf("."));
-  }
-
-  presentableExtension(name) {
-    return name.substring(name.lastIndexOf(".") + 1);
-  }
-
-  presentableUploadTime(time) {
-    var date = time.substring(0, 10);
-    var hour = time.substring(11, 16);
-    return date + " at " + hour;
-  }
   // tutor deletes a documents from files list
   getSelectedFiletoDelete(event, encrypted_file_name) {
     swal({
@@ -222,9 +206,9 @@ export class DocList extends React.Component {
                             var uploadDate = file.uploadDate
                             return (
                               <TableRow key={index}>
-                                <TableCell><a href={url}>{this.presentableName(filename)}</a></TableCell>
-                                <TableCell>{this.presentableExtension(filename)}</TableCell>
-                                <TableCell>{this.presentableUploadTime(uploadDate)}</TableCell>
+                                <TableCell><a href={url}>{presentableName(filename)}</a></TableCell>
+                                <TableCell>{presentableExtension(filename)}</TableCell>
+                                <TableCell>{presentableUploadTime(uploadDate)}</TableCell>
                                 {/* <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" className={classes.courseButton} onClick={() => window.location.replace("/tutorCourses/" + encrypted_file_name)} id={file._id}><MenuBookIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
                                 <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={classes.courseButton} onClick={() => window.location.replace("/students/" + encrypted_file_name)} id={file._id}><GroupAddIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab></TableCell> */}
 

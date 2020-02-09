@@ -20,6 +20,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import swal from 'sweetalert';
 import Checkbox from '@material-ui/core/Checkbox';
 import Fab from "@material-ui/core/Fab";
+import {presentableName, presentableExtension, presentableUploadTime} from './../../helper/presentationHelper';
 
 // displaying the documents shared to students
 export class Tutordocs extends React.Component {
@@ -55,19 +56,6 @@ export class Tutordocs extends React.Component {
             .catch(err => console.error("Files have not been loaded correctly: " + err));
     }
 
-    presentableName(name) {
-        return name.substring(0, name.lastIndexOf("."));
-    }
-
-    presentableExtension(name) {
-        return name.substring(name.lastIndexOf(".") + 1);
-    }
-
-    presentableUploadTime(time) {
-        var date = time.substring(0, 10);
-        var hour = time.substring(11, 16);
-        return date + " at " + hour;
-    }
 
     // Running functions according to if the user is logged in as a tutor or as a student.
     checkSession = () => {
@@ -168,10 +156,10 @@ export class Tutordocs extends React.Component {
                                                             var student_name = file.userName
                                                             return (
                                                                 <TableRow key={index}>
-                                                                    <TableCell><a href={url}>{this.presentableName(filename)}</a></TableCell>
-                                                                    <TableCell>{this.presentableExtension(filename)}</TableCell>
+                                                                    <TableCell><a href={url}>{presentableName(filename)}</a></TableCell>
+                                                                    <TableCell>{presentableExtension(filename)}</TableCell>
                                                                     <TableCell>{student_name}</TableCell>
-                                                                    <TableCell>{this.presentableUploadTime(uploadDate)}</TableCell>
+                                                                    <TableCell>{presentableUploadTime(uploadDate)}</TableCell>
                                                                     <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" onClick={() => window.open(link)} id={file._id}><GetAppIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
                                                                     <TableCell><Checkbox name={file._doc.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></TableCell>
                                                                 </TableRow>

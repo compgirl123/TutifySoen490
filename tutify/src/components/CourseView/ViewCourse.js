@@ -15,6 +15,7 @@ import TableRow from '@material-ui/core/TableRow';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import Button from "@material-ui/core/Button";
 import Checkbox from '@material-ui/core/Checkbox';
+import {presentableName, presentableExtension, presentableUploadTime} from './../../helper/presentationHelper';
 import swal from 'sweetalert';
 import axios from 'axios';
 
@@ -153,20 +154,6 @@ export class ViewCourse extends React.Component {
     }
   }
 
-  presentableName(name) {
-    return name.substring(0, name.lastIndexOf("."));
-  }
-
-  presentableExtension(name) {
-    return name.substring(name.lastIndexOf(".") + 1);
-  }
-
-  presentableUploadTime(time) {
-    var date = time.substring(0, 10);
-    var hour = time.substring(11, 16);
-    return date + " at " + hour;
-  }
-
   render() {
     const { classes } = this.props;
     const { files } = this.state;
@@ -211,9 +198,9 @@ export class ViewCourse extends React.Component {
                         <TableBody>
                           {files.map((file, index) => (
                             <TableRow>
-                              <TableCell>{this.presentableName(file.name)}</TableCell>
-                              <TableCell>{this.presentableExtension(file.name)}</TableCell>
-                              <TableCell>{this.presentableUploadTime(file.uploadDate)}</TableCell>
+                              <TableCell>{presentableName(file.name)}</TableCell>
+                              <TableCell>{presentableExtension(file.name)}</TableCell>
+                              <TableCell>{presentableUploadTime(file.uploadDate)}</TableCell>
                               <TableCell>
                                 <Button type="button" onClick={() => window.open(file.link)} size="small" className="submit">
                                   <GetAppIcon />
