@@ -91,7 +91,7 @@ export class UploadDocuments extends Component {
     event.preventDefault();
     const formData = new FormData();
     formData.append('file', this.state.file);
-    formData.append('adminTutor', this.state.user_id);
+    formData.append('admin', this.state.user_id);
     formData.append('name', this.state.file.name);
     await axios.post("/uploadFile", formData).then(res => {
     }).catch(err => {
