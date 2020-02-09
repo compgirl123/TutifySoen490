@@ -109,9 +109,9 @@ export default function ResourceNavigation(props) {
                     {filteredRes(0, props.res).map((ressource, i) => (
                         <ResourceCard
                             id={i}
-                            image={ressource.img}
+                            image={ressource.image}
                             title={ressource.title}
-                            description={ressource.desc}
+                            description={ressource.description}
                             link={ressource.link}
                         />
                     ))}
@@ -126,9 +126,9 @@ export default function ResourceNavigation(props) {
                     {filteredRes(1, props.res).map((ressource, i) => (
                         <ResourceCard
                             id={i}
-                            image={ressource.img}
+                            image={ressource.image}
                             title={ressource.title}
-                            description={ressource.desc}
+                            description={ressource.description}
                             link={ressource.link}
                         />
                     ))}
@@ -143,9 +143,9 @@ export default function ResourceNavigation(props) {
                     {filteredRes(2, props.res).map((ressource, i) => (
                         <ResourceCard
                             id={i}
-                            image={ressource.img}
+                            image={ressource.image}
                             title={ressource.title}
-                            description={ressource.desc}
+                            description={ressource.description}
                             link={ressource.link}
                         />
                     ))}
@@ -160,9 +160,9 @@ export default function ResourceNavigation(props) {
                     {filteredRes(3, props.res).map((ressource, i) => (
                         <ResourceCard
                             id={i}
-                            image={ressource.img}
+                            image={ressource.image}
                             title={ressource.title}
-                            description={ressource.desc}
+                            description={ressource.description}
                             link={ressource.link}
                         />
                     ))}
@@ -177,9 +177,9 @@ export default function ResourceNavigation(props) {
                     {filteredRes(4, props.res).map((ressource, i) => (
                         <ResourceCard
                             id={i}
-                            image={ressource.img}
+                            image={ressource.image}
                             title={ressource.title}
-                            description={ressource.desc}
+                            description={ressource.description}
                             link={ressource.link}
                         />
                     ))}
@@ -194,9 +194,9 @@ export default function ResourceNavigation(props) {
                     {filteredRes(5, props.res).map((ressource, i) => (
                         <ResourceCard
                             id={i}
-                            image={ressource.img}
+                            image={ressource.image}
                             title={ressource.title}
-                            description={ressource.desc}
+                            description={ressource.description}
                             link={ressource.link}
                         />
                     ))}

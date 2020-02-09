@@ -11,6 +11,7 @@ var userController = require('./controllers/user.controller')
 var courseController = require('./controllers/course.controller')
 var filesController = require('./controllers/files.controller')
 var uploadedFilesController = require('./controllers/uploaded_files.controller')
+var resourceController = require('./controllers/resource.controller')
 
 // -------- TUTOR ROUTES --------- // 
 
@@ -116,7 +117,7 @@ router.get('/viewCourse/:coursename', uploadedFilesController.viewCourseDocs);
 
 router.get('/doc/:studentid',uploadedFilesController.viewSpecificStudentFiles);
 
-// -------- DELETE ROUTES --------- // 
+// -------- DELETE FILES ROUTES --------- // 
 
 router.post('/getFileToDelete', uploadedFilesController.deleteFiles);
 
@@ -125,5 +126,11 @@ router.post('/DeleteFileFromSharedToTutor', uploadedFilesController.deleteFilesF
 router.post('/getSpecificStudentsFilestoDelete', uploadedFilesController.deleteSpecificStudentsFiles);
 
 router.post('/getSpecificCourseFilestoDelete', uploadedFilesController.deleteSpecificCourseFiles);
+
+// -------- RESOURCES --------- // 
+
+router.get('/getResources', resourceController.getResources);
+
+router.post('/addResource', resourceController.addResource);
 
 module.exports = router;
