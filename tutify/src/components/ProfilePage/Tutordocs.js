@@ -84,7 +84,6 @@ export class Tutordocs extends React.Component {
             .then(response => response.json())
             .then(res => {
                 if (res.isLoggedIn) {
-                    console.log(res.userInfo._id);
                     this.setState({ user_id: res.userInfo._id });
                     this.loadFilesFromStudents();
                 }

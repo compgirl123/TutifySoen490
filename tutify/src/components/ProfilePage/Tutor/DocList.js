@@ -52,8 +52,7 @@ export class DocList extends React.Component {
     this.state = {
       files: [],
       sharedFiles: [],
-      shareTo: [],
-      //thestate : 1
+      shareTo: []
     };
     this.loadFiles = this.loadFiles.bind(this);
   }
@@ -72,13 +71,7 @@ export class DocList extends React.Component {
       .then(response => response.json())
       .then(res => {
         if (res.isLoggedIn) {
-          this.setState({ user_id: res.userInfo._id });
-          if (res.userInfo.__t === "student") {
-            this.setState({ profileType: res.userInfo.__t });
-          }
-          else if (res.userInfo.__t === "tutor") {
-            this.setState({ profileType: res.userInfo.__t });
-          }
+          this.setState({ user_id: res.userInfo._id,profileType: res.userInfo.__t });
         }
         else {
           this.setState({ Toggle: false, shouldView: false, user_id: "Not logged in" });

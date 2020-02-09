@@ -129,9 +129,8 @@ export class TutorList extends React.Component {
         return (
             <React.Fragment>
                 <main>
-                <DashBoardNavBar />
+                    <DashBoardNavBar />
                     <main className={classes.content}>
-
                         <div className={classes.appBarSpacer} />
                         <Container maxWidth="lg" className={classes.container}>
                             <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>

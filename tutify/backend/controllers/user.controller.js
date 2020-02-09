@@ -50,9 +50,6 @@ exports.findTutors = async function (req, res) {
 
     for (var z = 0; z < tutors.length; z++) {
         Tutor.findOne({ _id: tutors[z] }, function (err, user1) {
-            if (err) {
-
-            };
             users.push(user1)
             count++;
 

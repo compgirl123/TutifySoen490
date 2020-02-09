@@ -67,8 +67,7 @@ export class Studentdocs extends React.Component {
     fetch('/api/doc/:studentid')
       .then(res => res.json())
       .then(res => {
-        this.setState({ filesViewTutors: res.fileViewTutors });
-        this.setState({tutorViewStudents: true});
+        this.setState({ filesViewTutors: res.fileViewTutors,tutorViewStudents: true});
         console.info("File has been loaded correctly");
       })
       .catch(err => console.error("Files have not been loaded correctly: " + err));
@@ -76,10 +75,6 @@ export class Studentdocs extends React.Component {
 
   presentableName(name) {
     return name.substring(0, name.lastIndexOf("."));
-  }
-
-  presentableTutorName(name) {
-    return name;
   }
 
   presentableExtension(name) {
@@ -105,7 +100,7 @@ export class Studentdocs extends React.Component {
           if (res.userInfo.__t === "student") {
             this.loadFilesForStudents();
             this.setState({ profileType: res.userInfo.__t });
-            console.warn("FILES! : " + this.state.files);
+            console.warn("Student Files View : " + this.state.files);
           }
           else if (res.userInfo.__t === "tutor") {
             this.setState({ profileType: res.userInfo.__t });
@@ -291,7 +286,7 @@ export class Studentdocs extends React.Component {
                                 <TableRow key={index}>
                                   <TableCell><a href={url}>{this.presentableName(filename)}</a></TableCell>
                                   <TableCell>{this.presentableExtension(filename)}</TableCell>
-                                  <TableCell>{this.presentableTutorName(tutor_name)}</TableCell>
+                                  <TableCell>{tutor_name}</TableCell>
                                   <TableCell>{this.presentableUploadTime(uploadDate)}</TableCell>
                                   <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" onClick={() => window.open(link)} id={file._id}><GetAppIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
                                 </TableRow>
