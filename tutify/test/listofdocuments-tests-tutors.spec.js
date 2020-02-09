@@ -48,7 +48,7 @@ describe('The List of documents Tutors Page', () => {
         const wrapper = mount(<DocList students = {mockedTutorDocList}></DocList>);
         const wrapper_shallow = shallow(<DocList students = {mockedTutorDocList}></DocList>);
         const student_class_wrapper = wrapper.find(DocListClass);
-        student_class_wrapper.setState({ files: mockedTutorDocList });
+        student_class_wrapper.setState({ files: mockedTutorDocList , profileType: "tutor"});
 
         /**
          * Checking the List of Students Page for Tutors and see if all elements are present  
@@ -92,24 +92,28 @@ describe('The List of documents Tutors Page', () => {
         // Make sure the name of the third Table cell column exists and has the value "Uploaded on"
         expect(titles.props().children[2].props.children).toBe("Uploaded on");
 
+        // Make sure the name of the fourth Table cell column exists and has the status of tutor passed to function SharingOptions
+        expect(titles.props().children[3].props.status).toBe("tutor");
+
+        // FIX COMMENT NAMES
+        // Make sure the name of the fourth Table cell column exists and has the status of tutor passed to function SharingOptions
+        expect(((titles.props().children[3].type).toString()).substring(0,23)).toBe("function SharingOptions");
+
+        // Make sure the name of the fourth Table cell column exists and has the status of tutor passed to function SharingOptions
+        expect(titles.props().children[3].props.status).toBe("tutor");
+
+        // Make sure the name of the fourth Table cell column exists and has the status of tutor passed to function SharingOptions
+        expect(titles.props().children[3].props.buttons).toBe(false);
+        
+        // Make sure the name of the fourth Table cell column exists and has the status of tutor passed to function SharingOptions
+        expect(titles.props().children[4].props.children).toBe("Download");
+
+        // Make sure the name of the fourth Table cell column exists and has the status of tutor passed to function SharingOptions
+        expect(titles.props().children[5].props.children).toBe("Select File(s) to Delete");
+
         // Make sure the name of the third Table cell column exists and has the value "Share to Specific Course"
         // The reason why they are seperated as the names are saved in an array and the middle element ([1])
         // contains information seperating the first words "Share to " from "Specific Course" with a new line
-        expect(titles.props().children[3].props.children[0]).toBe("Share to ");
-        expect(titles.props().children[3].props.children[2]).toBe("Specific Course");
-
-        // Make sure the name of the fourth Table cell column exists and has the value "Share to Specific Student"
-        // The reason why they are seperated as the names are saved in an array and the middle element ([1])
-        // contains information seperating the first words "Share to " from "Specific Course" with a new line
-        expect(titles.props().children[4].props.children[0]).toBe("Share to ");
-        expect(titles.props().children[4].props.children[2]).toBe("Specific Student");
-
-        // Make sure the name of the fifth Table cell column exists and has the value "Download"
-        expect(titles.props().children[5].props.children).toBe("Download");
-
-        // Make sure the name of the sixth Table cell column exists and has the value "Select File(s) to Delete"
-        expect(titles.props().children[6].props.children).toBe("Select File(s) to Delete");
-
 
         /**
          * Second Row (actual 1st student of the tutor should be shown here)
@@ -119,29 +123,42 @@ describe('The List of documents Tutors Page', () => {
         const studentInformationrow1 = wrapper.find(TableRow).at(1);
 
         // Making sure that the name of file matches the name on page
-        expect(studentInformationrow1.props().children[0].props.children.props.children).toBe(mockedTutorDocList[0].name);
+        expect(studentInformationrow1.props().children[0].props.children.props.children).toBe((mockedTutorDocList[0].name).split(".")[0]);
 
         // Making sure that the extension type of files matches the type on page
         expect(studentInformationrow1.props().children[1].props.children).toBe("pdf");
 
         // Making sure that the date and time of upload of the file matches the date and time on page
-        expect(studentInformationrow1.props().children[2].props.children).toBe("2020-01-2 at 23:09");
+        expect(studentInformationrow1.props().children[2].props.children).toBe("2020-01-23 at 23:09");
 
-        // Making sure that the Share to Course Button of file is present and the id it contains matches the id of the file
-        expect(studentInformationrow1.props().children[3].props.children.props.id).toBe(mockedTutorDocList[0]._id);
-        expect(studentInformationrow1.props().children[3].props.children.props.children.type.displayName).toBe("MenuBookIcon");
+        // Making sure that the date and time of upload of the file matches the date and time on page
+        expect(studentInformationrow1.props().children[3].props.status).toBe("tutor");
 
-        // Making sure that the Share to Students Button of file is present and the id it contains matches the id of the file
+        // Making sure that the date and time of upload of the file matches the date and time on page
+        expect(studentInformationrow1.props().children[3].props.buttons).toBe(true);
+
+        // Making sure that the date and time of upload of the file matches the date and time on page
+        expect(studentInformationrow1.props().children[3].props.encryptedname).toBe(mockedTutorDocList[0].encrypted_file_name);
+
+        // Making sure that the date and time of upload of the file matches the date and time on page
+        expect(studentInformationrow1.props().children[3].props.fileId).toBe(mockedTutorDocList[0]._id);
+
+        // DOWNLOAD ICON
+        //console.log(studentInformationrow1.props().children[4].props.children.props);
+        // Making sure that the date and time of upload of the file matches the date and time on page
+        expect(studentInformationrow1.props().children[4].props.children.props.type).toBe("button");
+
+        // Making sure that the date and time of upload of the file matches the date and time on page
         expect(studentInformationrow1.props().children[4].props.children.props.id).toBe(mockedTutorDocList[0]._id);
-        expect(studentInformationrow1.props().children[4].props.children.props.children.type.displayName).toBe("GroupAddIcon");
 
-        // Making sure that the Download Button of file is present and the id it contains matches the id of the file
-        expect(studentInformationrow1.props().children[5].props.children.props.id).toBe(mockedTutorDocList[0]._id);
-        expect(studentInformationrow1.props().children[5].props.children.props.children.type.displayName).toBe("GetAppIcon");
+        // Making sure that the date and time of upload of the file matches the date and time on page
+        expect(studentInformationrow1.props().children[4].props.children.props.children.type.displayName).toBe('GetAppIcon');
 
-        // Making sure that the Checkbox for file selection is present and the encryptedname it contains matches the encryptedname of the file
-        expect(studentInformationrow1.props().children[6].props.children.props.name).toBe(mockedTutorDocList[0].encryptedname);
-        expect(studentInformationrow1.props().children[6].props.children.props.inputProps["aria-label"]).toBe("uncontrolled-checkbox");
+        // Checkbox
+        expect(studentInformationrow1.props().children[5].props.children.props.name).toBe(mockedTutorDocList[0].encryptedname);
+
+        // Checkbox name
+        expect(studentInformationrow1.props().children[5].props.children.props.inputProps['aria-label']).toBe('uncontrolled-checkbox');
 
         /**
          * Third Row (actual 2nd student of the tutor should be shown here)
@@ -151,33 +168,37 @@ describe('The List of documents Tutors Page', () => {
         const studentInformationrow2 = wrapper.find(TableRow).at(2);
 
         // Making sure that the name of file matches the name on page
-        expect(studentInformationrow2.props().children[0].props.children.props.children).toBe(mockedTutorDocList[1].name);
+        expect(studentInformationrow2.props().children[0].props.children.props.children).toBe((mockedTutorDocList[1].name).split(".")[0]);
 
         // Making sure that the extension type of files matches the type on page
         expect(studentInformationrow2.props().children[1].props.children).toBe("jpg");
 
         // Making sure that the time of upload of the file matches the time on page
-        expect(studentInformationrow2.props().children[2].props.children).toBe("2020-01-2 at 23:01");
+        expect(studentInformationrow2.props().children[2].props.children).toBe("2020-01-23 at 23:01");
 
-        // Making sure that the Share to Course Button of file is present and the id it contains matches the id of the file
-        expect(studentInformationrow2.props().children[3].props.children.props.id).toBe(mockedTutorDocList[1]._id);
-        expect(studentInformationrow2.props().children[3].props.children.props.children.type.displayName).toBe("MenuBookIcon");
+        // Making sure that the date and time of upload of the file matches the date and time on page
+        expect(studentInformationrow2.props().children[3].props.status).toBe("tutor");
 
-        // Making sure that the Share to Students Button of file is present and the id it contains matches the id of the file
-        expect(studentInformationrow2.props().children[4].props.children.props.id).toBe(mockedTutorDocList[1]._id);
-        expect(studentInformationrow2.props().children[4].props.children.props.children.type.displayName).toBe("GroupAddIcon");
+        // Making sure that the date and time of upload of the file matches the date and time on page
+        expect(studentInformationrow2.props().children[3].props.buttons).toBe(true);
 
-        // Making sure that the Download Button of file is present and the id it contains matches the id of the file
-        expect(studentInformationrow2.props().children[5].props.children.props.id).toBe(mockedTutorDocList[1]._id);
-        expect(studentInformationrow2.props().children[5].props.children.props.children.type.displayName).toBe("GetAppIcon");
+        // Making sure that the date and time of upload of the file matches the date and time on page
+        expect(studentInformationrow2.props().children[3].props.encryptedname).toBe(mockedTutorDocList[1].encrypted_file_name);
 
-        // Making sure that the Checkbox for file selection is present and the encryptedname it contains matches the encryptedname of the file
-        expect(studentInformationrow2.props().children[6].props.children.props.name).toBe(mockedTutorDocList[1].encryptedname);
-        expect(studentInformationrow2.props().children[6].props.children.props.inputProps["aria-label"]).toBe("uncontrolled-checkbox");
+        // Making sure that the date and time of upload of the file matches the date and time on page
+        expect(studentInformationrow2.props().children[3].props.fileId).toBe(mockedTutorDocList[1]._id);
+
+        // Making sure that the date and time of upload of the file matches the date and time on page
+        expect(studentInformationrow2.props().children[4].props.children.props.children.type.displayName).toBe('GetAppIcon');
+
+        // Checkbox
+        expect(studentInformationrow2.props().children[5].props.children.props.name).toBe(mockedTutorDocList[1].encryptedname);
+
+        // Checkbox name
+        expect(studentInformationrow2.props().children[5].props.children.props.inputProps['aria-label']).toBe('uncontrolled-checkbox');
 
         // Checking if the Delete Button is Present on the Page if more than 0 documents exist.
         const deleteButton = wrapper.find(TableRow).at(3);
-        expect(deleteButton.props().children[1].props.children.props.children).toBe("Delete Documents");
-        
+        expect(deleteButton.props().children.props.children.props.children).toBe("Delete Documents"); 
     });
 }); 

@@ -78,6 +78,10 @@ export class Studentdocs extends React.Component {
     return name.substring(0, name.lastIndexOf("."));
   }
 
+  presentableTutorName(name) {
+    return name;
+  }
+
   presentableExtension(name) {
     return name.substring(name.lastIndexOf(".") + 1);
   }
@@ -287,7 +291,7 @@ export class Studentdocs extends React.Component {
                                 <TableRow key={index}>
                                   <TableCell><a href={url}>{this.presentableName(filename)}</a></TableCell>
                                   <TableCell>{this.presentableExtension(filename)}</TableCell>
-                                  <TableCell>{tutor_name}</TableCell>
+                                  <TableCell>{this.presentableTutorName(tutor_name)}</TableCell>
                                   <TableCell>{this.presentableUploadTime(uploadDate)}</TableCell>
                                   <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" onClick={() => window.open(link)} id={file._id}><GetAppIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
                                 </TableRow>
