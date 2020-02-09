@@ -27,6 +27,7 @@ import Button from "@material-ui/core/Button";
 import InboxIcon from '@material-ui/icons/Inbox';
 import SendIcon from '@material-ui/icons/Send';
 import green from '@material-ui/core/colors/green';
+import {presentableExtension, presentableName, presentableUploadTime} from '../../../helper/presentableHelper'
 
 
 function SharingOptions(props) {
@@ -102,19 +103,6 @@ export class DocList extends React.Component {
     this.setState({ thestate: newValue })
   }
 
-  presentableName(name) {
-    return name.substring(0, name.lastIndexOf("."));
-  }
-
-  presentableExtension(name) {
-    return name.substring(name.lastIndexOf(".") + 1);
-  }
-
-  presentableUploadTime(time) {
-    var date = time.substring(0, 10);
-    var hour = time.substring(11, 16);
-    return date + " at " + hour;
-  }
   // tutor deletes a documents from files list
   getSelectedFiletoDelete(event, encrypted_file_name) {
     swal({
@@ -291,9 +279,9 @@ export class DocList extends React.Component {
                             var uploadDate = file.uploadDate
                             return (
                               <TableRow key={index}>
-                                <TableCell><a href={url}>{this.presentableName(filename)}</a></TableCell>
-                                <TableCell>{this.presentableExtension(filename)}</TableCell>
-                                <TableCell>{this.presentableUploadTime(uploadDate)}</TableCell>
+                                <TableCell><a href={url}>{presentableName(filename)}</a></TableCell>
+                                <TableCell>{presentableExtension(filename)}</TableCell>
+                                <TableCell>{presentableUploadTime(uploadDate)}</TableCell>
 
                                 <SharingOptions
                                   status={this.state.profileType}
