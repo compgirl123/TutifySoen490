@@ -11,6 +11,7 @@ import PublishIcon from '@material-ui/icons/Publish';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import CreateIcon from '@material-ui/icons/Create';
 import ClassIcon from '@material-ui/icons/Class';
+import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 
 export class TutorSidebar extends Component {
   constructor(props) {
@@ -68,24 +69,35 @@ export class TutorSidebar extends Component {
               <ListItemText primary="My Courses" />
             </ListItem>
 
+            <ListItem button component="a" href="/videos">
+              <ListItemIcon>
+                <VideoLibraryIcon />
+              </ListItemIcon>
+              <ListItemText primary="Videos" />
+            </ListItem>
+
+
             <ListItem button component="a" href="/announcements">
               <ListItemIcon>
                 <CreateIcon />
               </ListItemIcon>
               <ListItemText primary="Announcements" />
             </ListItem>
+
             <ListItem button component="a" href="/resources">
               <ListItemIcon>
                 <MenuBookIcon />
               </ListItemIcon>
               <ListItemText primary="Useful Resources" />
             </ListItem>
+
             <ListItem button component="a" href="/students">
               <ListItemIcon>
                 <SchoolIcon />
               </ListItemIcon>
               <ListItemText primary="My Students" />
             </ListItem>
+
             <ListItem button component="a" href="/" onClick={this.handleChange} >
               <ListItemIcon>
                 <ExitToAppIcon />
