@@ -46,9 +46,12 @@ handleClickOpen = () => {
   this.setState({ open: true });
 };
 
+//Adding a new video to the db
     addVideoToDb = () => {
         var tutor = [];
         tutor.push(this.state.id);
+
+        //swal to confirm the addition of new video
         swal({
           title: "Would you like to add the following video?",
           buttons: {
@@ -69,6 +72,7 @@ handleClickOpen = () => {
             </div>
           )
         })
+            //adds the link, title, and course to the db 
           .then((value) => {
             if (value) {
               console.info("Adding video to db...");
@@ -99,15 +103,18 @@ handleClickOpen = () => {
                     <main className={classes.content}>
                         <div className={classes.appBarSpacer} />
                         <Container maxWidth="lg" className={classes.container}>
+
                         <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addVideoButton} >
-                    Add Video
-               </Button>
+                                Add Video
+                        </Button>
+
                             <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                                 List of Videos
                            </Typography>
+
                            <Title>Uploaded </Title>
                             <Grid container spacing={3}>
-                                {/* Student Info */}
+                                {/* Videos */}
                                 {videos.map((file, index) => (
                                 <Grid item item xs={6} sm={6} lg={6}>
                                             <Card className={classes.card}>
@@ -125,7 +132,6 @@ handleClickOpen = () => {
                                                             width='100%'
                                                             height='100%'
                                                         />
-                                                        
                                                     </div>
                                                 </CardContent>
                                         </CardActionArea>
@@ -135,12 +141,12 @@ handleClickOpen = () => {
                             </Grid>
                         </Container>
 
-                        <div>
-
+                {/* Dialog box when clicked on the "add new video" button */}
+                <div>
                 <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
                   <DialogTitle id="simple-dialog-title">Add a new Video</DialogTitle>
                   <DialogContent>
-
+                                
                   <TextField
                       InputLabelProps={{
                         shrink: true,
@@ -154,6 +160,7 @@ handleClickOpen = () => {
                       type="title"
                       fullWidth
                     />
+
                     <TextField
                       InputLabelProps={{
                         shrink: true,
@@ -168,18 +175,18 @@ handleClickOpen = () => {
                     />
 
                     <div>
+                      <FormControl className={classes.formControl}>
 
-                      <FormControl className={classes.formControl}
-                      >
                         <InputLabel>
                           Course
                         </InputLabel>
-                        <Select
-                          onChange={e => this.setState({ course: e.target.value })}
-                        >
-                          <MenuItem value='Course'>Course</MenuItem>
 
+                        <Select
+                          onChange={e => this.setState({ course: e.target.value })}>
+                        
+                          <MenuItem value='Course'>Course</MenuItem>
                         </Select>
+
                       </FormControl>
 
                     </div>
@@ -207,11 +214,11 @@ handleClickOpen = () => {
               </div>
 
 
-                        {/* Footer */}
-                        <Footer />
-                    </main>
-                </main>
-            </React.Fragment>
+            {/* Footer */}
+            <Footer />
+            </main>
+            </main>
+        </React.Fragment>
 
         );
     }
