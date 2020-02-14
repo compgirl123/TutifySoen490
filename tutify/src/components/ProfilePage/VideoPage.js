@@ -93,10 +93,7 @@ export class Studentdocs extends React.Component {
     render() {
         const { classes } = this.props;
         const { videos, open } = this.state;
-        var cardStyle = {
-            display: 'block',
-            height: '30vw'
-        }
+        
         return (
             <React.Fragment>
                 <main>
@@ -124,7 +121,7 @@ export class Studentdocs extends React.Component {
                                                     height='100%'
                                                 />
                                                 <CardContent >
-                                                    <div style={cardStyle}>
+                                                    <div className={classes.cardStyle}>
                                                         <ReactPlayer
                                                             url={file}
                                                             className='react-player'
