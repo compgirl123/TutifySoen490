@@ -11,6 +11,12 @@ import DashBoardNavBar from '../DashBoardNavBar'
 import Table from '@material-ui/core/Table';
 import Title from './Title';
 import ReactPlayer from 'react-player';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Button from '@material-ui/core/Button';
+import CardMedia from '@material-ui/core/CardMedia';
 
 // displaying the documents shared to students
 export class Studentdocs extends React.Component {
@@ -32,32 +38,39 @@ export class Studentdocs extends React.Component {
                     <main className={classes.content}>
                         <div className={classes.appBarSpacer} />
                         <Container maxWidth="lg" className={classes.container}>
+                        <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addCourseButton} >
+                    Add Video
+               </Button>
                             <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                                 List of Videos
                            </Typography>
-                            <Grid container spacing={2}>
+                           <Title>Uploaded </Title>
+                            <Grid container spacing={3}>
                                 {/* Student Info */}
-                                <Grid item xs={12} md={12} lg={24}>
-                                    <Paper className={fixedHeightPaper}>
-                                        <React.Fragment>
-                                            <Title>Uploaded </Title>
-                                            <Table size="small">
-                                                {videos.map((file, index) => (
-                                                    <div className='player-wrapper' position="relative" padding-top="56.25%" >
+                                {videos.map((file, index) => (
+                                <Grid item item xs={6} sm={6} lg={6}>
+                                            <Card className={classes.card}>
+                                            <CardActionArea>
+                                                <CardMedia
+                                                     className={classes.media}
+                                                    title="French"
+                                                />
+                                                <CardContent>
+                                                    <div >
                                                         <ReactPlayer
                                                             url={file}
                                                             className='react-player'
                                                             position='absolute'
-                                                            top="0"
-                                                            left="0"
                                                             width='100%'
                                                             height='100%'
                                                         />
-                                                    </div>))}
-                                            </Table>
-                                        </React.Fragment>
-                                    </Paper>
+                                                        
+                                                    </div>
+                                                </CardContent>
+                                        </CardActionArea>
+                                        </Card>
                                 </Grid>
+                                 ))}
                             </Grid>
                         </Container>
                         {/* Footer */}
@@ -65,6 +78,7 @@ export class Studentdocs extends React.Component {
                     </main>
                 </main>
             </React.Fragment>
+
         );
     }
 }
