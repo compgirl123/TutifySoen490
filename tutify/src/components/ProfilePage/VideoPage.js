@@ -25,7 +25,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import axios from "axios";
 
-
 // displaying the documents shared to students
 export class Studentdocs extends React.Component {
     constructor(props) {
@@ -36,66 +35,68 @@ export class Studentdocs extends React.Component {
         };
     }
 
+    handleClose = () => {
+        this.setState({ open: false, link: "", title: "", course: "" });
+    };
 
-handleClose = () => {
-  this.setState({ open: false, link: "", title: "", course: ""});
-};
+    handleClickOpen = () => {
+        this.setState({ open: true });
+    };
 
-
-handleClickOpen = () => {
-  this.setState({ open: true });
-};
-
-//Adding a new video to the db
+    //Adding a new video to the db
     addVideoToDb = () => {
         var tutor = [];
         tutor.push(this.state.id);
 
         //swal to confirm the addition of new video
         swal({
-          title: "Would you like to add the following video?",
-          buttons: {
-            confirm: "Yes",
-            cancel: "Cancel",
-          },
-          content: (
-            <div>
-            <p><b>
-                title: {this.state.title} </b>
-              </p>
-              <p>
-              <p>
-                link: {this.state.link}
-              </p>
-                course: {this.state.course}
-              </p>
-            </div>
-          )
+            title: "Would you like to add the following video?",
+            buttons: {
+                confirm: "Yes",
+                cancel: "Cancel",
+            },
+            content: (
+                <div>
+                    <p><b>
+                        title: {this.state.title} </b>
+                    </p>
+                    <p>
+                        <p>
+                            link: {this.state.link}
+                        </p>
+                        course: {this.state.course}
+                    </p>
+                </div>
+            )
         })
             //adds the link, title, and course to the db 
-          .then((value) => {
-            if (value) {
-              console.info("Adding video to db...");
-              axios.post('/api/addVideoToDb', {
-                link: this.state.link,
-                title: this.state.title,
-                course: this.state.course,
-                tutor: tutor
-              })
-                .then((res) => {
-                  this.getTutorDataFromDb();
-                  swal("Video successfully added!", "", "success");
-                  this.handleClose();
-                }, (error) => {
-                  console.error("Could not add video to database (API call error) " + error);
-                });
-            }
-          });
-      }
+            .then((value) => {
+                if (value) {
+                    console.info("Adding video to db...");
+                    axios.post('/api/addVideoToDb', {
+                        link: this.state.link,
+                        title: this.state.title,
+                        course: this.state.course,
+                        tutor: tutor
+                    })
+                        .then((res) => {
+                            this.getTutorDataFromDb();
+                            swal("Video successfully added!", "", "success");
+                            this.handleClose();
+                        }, (error) => {
+                            console.error("Could not add video to database (API call error) " + error);
+                        });
+                }
+            });
+    }
 
     render() {
         const { classes } = this.props;
         const { videos, open } = this.state;
+        var cardStyle = {
+            display: 'block',
+            height: '30vw'
+        }
         return (
             <React.Fragment>
                 <main>
@@ -103,28 +104,27 @@ handleClickOpen = () => {
                     <main className={classes.content}>
                         <div className={classes.appBarSpacer} />
                         <Container maxWidth="lg" className={classes.container}>
-
-                        <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addVideoButton} >
+                            <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addVideoButton} >
                                 Add Video
-                        </Button>
-
+                            </Button>
                             <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                                 List of Videos
-                           </Typography>
-
-                           <Title>Uploaded </Title>
-                            <Grid container spacing={3}>
+                            </Typography>
+                            <Title>Uploaded </Title>
+                            <Grid container spacing={4}>
                                 {/* Videos */}
                                 {videos.map((file, index) => (
-                                <Grid item item xs={6} sm={6} lg={6}>
-                                            <Card className={classes.card}>
+                                    <Grid item xs={6} sm={6} lg={6}>
+                                        <Card className={classes.card} >
                                             <CardActionArea>
                                                 <CardMedia
-                                                     className={classes.media}
+                                                    className={classes.media}
                                                     title="French"
+                                                    width='100%'
+                                                    height='100%'
                                                 />
-                                                <CardContent>
-                                                    <div >
+                                                <CardContent >
+                                                    <div style={cardStyle}>
                                                         <ReactPlayer
                                                             url={file}
                                                             className='react-player'
@@ -134,89 +134,76 @@ handleClickOpen = () => {
                                                         />
                                                     </div>
                                                 </CardContent>
-                                        </CardActionArea>
+                                            </CardActionArea>
                                         </Card>
-                                </Grid>
-                                 ))}
+                                    </Grid>
+                                ))}
                             </Grid>
                         </Container>
 
-                {/* Dialog box when clicked on the "add new video" button */}
-                <div>
-                <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
-                  <DialogTitle id="simple-dialog-title">Add a new Video</DialogTitle>
-                  <DialogContent>
-                                
-                  <TextField
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      margin="dense"
-                      id="title"
-                      name="title"
-                      onChange={e => this.setState({ title: e.target.value })}
-                      autoComplete="title"
-                      label="Title"
-                      type="title"
-                      fullWidth
-                    />
+                        {/* Dialog box when clicked on the "add new video" button */}
+                        <div>
+                            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
+                                <DialogTitle id="simple-dialog-title">Add a new Video</DialogTitle>
+                                <DialogContent>
+                                    <TextField
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        margin="dense"
+                                        id="title"
+                                        name="title"
+                                        onChange={e => this.setState({ title: e.target.value })}
+                                        autoComplete="title"
+                                        label="Title"
+                                        type="title"
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        margin="dense"
+                                        id="link"
+                                        name="link"
+                                        onChange={e => this.setState({ link: e.target.value })}
+                                        autoComplete="link"
+                                        label="Link"
+                                        fullWidth
+                                    />
+                                    <div>
+                                        <FormControl className={classes.formControl}>
+                                            <InputLabel>
+                                                Course
+                                            </InputLabel>
+                                            <Select
+                                                onChange={e => this.setState({ course: e.target.value })}>
 
-                    <TextField
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      margin="dense"
-                      id="link"
-                      name="link"
-                      onChange={e => this.setState({ link: e.target.value })}
-                      autoComplete="link"
-                      label="Link"
-                      fullWidth
-                    />
-
-                    <div>
-                      <FormControl className={classes.formControl}>
-
-                        <InputLabel>
-                          Course
-                        </InputLabel>
-
-                        <Select
-                          onChange={e => this.setState({ course: e.target.value })}>
-                        
-                          <MenuItem value='Course'>Course</MenuItem>
-                        </Select>
-
-                      </FormControl>
-
+                                                <MenuItem value='Course'>Course</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+                                    <Button variant="contained" size="lg" active onClick={() => { this.addVideoToDb(); }} className={classes.formControl}>
+                                        Save
+                                    </Button>
+                                </DialogContent>
+                                <Grid
+                                    container
+                                    direction="row-reverse"
+                                    justify="space-between"
+                                    alignItems="baseline"
+                                >
+                                <Grid item>
+                                    <DialogActions>
+                                        <Button onClick={this.handleClose}>Close</Button>
+                                    </DialogActions>
+                                </Grid>
+                            </Grid>
+                        </Dialog>
                     </div>
-                      <Button variant="contained" size="lg" active onClick={() => { this.addVideoToDb(); }} className={classes.formControl}>
-                        Save
-                      </Button>
-                    
-
-                  </DialogContent>
-                  <Grid
-                    container
-                    direction="row-reverse"
-                    justify="space-between"
-                    alignItems="baseline"
-                  >
-                    <Grid item>
-                      <DialogActions>
-                        <Button onClick={this.handleClose}>Close</Button>
-                      </DialogActions>
-                    </Grid>
-
-                  </Grid>
-
-                </Dialog>
-              </div>
-
-
-            {/* Footer */}
-            <Footer />
-            </main>
+                    {/* Footer */}
+                    <Footer />
+                </main>
             </main>
         </React.Fragment>
 
