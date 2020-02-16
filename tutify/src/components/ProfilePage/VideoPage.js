@@ -7,7 +7,6 @@ import Grid from '@material-ui/core/Grid';
 import Footer from '../Footer';
 import DashBoardNavBar from '../DashBoardNavBar'
 import Title from './Title';
-import ReactPlayer from 'react-player';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -30,7 +29,7 @@ export class Studentdocs extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            videos: ['https://www.youtube.com/watch?v=J4VYMNUg3QM', 'https://www.youtube.com/watch?v=3jAX0sX-nc0', 'https://www.youtube.com/watch?v=VfyYXW_0hA4&list=RDMMVfyYXW_0hA4&start_radio=1'],
+            videos: ['https://www.youtube.com/embed/qAVPALkrcvw', 'https://drive.google.com/file/d/15ZfgMEPhoZ9H99wJ3WSXKN_fr39Qkyy6/preview', 'https://drive.google.com/file/d/1I02gmlC0Wor3HHbT7dmpjUgCas_7Typm/preview'],
             open: false
         };
     }
@@ -93,7 +92,7 @@ export class Studentdocs extends React.Component {
     render() {
         const { classes } = this.props;
         const { videos, open } = this.state;
-        
+
         return (
             <React.Fragment>
                 <main>
@@ -105,7 +104,7 @@ export class Studentdocs extends React.Component {
                                 Add Video
                             </Button>
                             <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                                List of Videos
+                                Tutoring Videos
                             </Typography>
                             <Title>Uploaded </Title>
                             <Grid container spacing={4}>
@@ -122,13 +121,7 @@ export class Studentdocs extends React.Component {
                                                 />
                                                 <CardContent >
                                                     <div className={classes.cardStyle}>
-                                                        <ReactPlayer
-                                                            url={file}
-                                                            className='react-player'
-                                                            position='absolute'
-                                                            width='100%'
-                                                            height='100%'
-                                                        />
+                                                        <iframe width="100%" height="100%" src={file} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                                     </div>
                                                 </CardContent>
                                             </CardActionArea>
@@ -190,19 +183,19 @@ export class Studentdocs extends React.Component {
                                     justify="space-between"
                                     alignItems="baseline"
                                 >
-                                <Grid item>
-                                    <DialogActions>
-                                        <Button onClick={this.handleClose}>Close</Button>
-                                    </DialogActions>
+                                    <Grid item>
+                                        <DialogActions>
+                                            <Button onClick={this.handleClose}>Close</Button>
+                                        </DialogActions>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </Dialog>
-                    </div>
-                    {/* Footer */}
-                    <Footer />
+                            </Dialog>
+                        </div>
+                        {/* Footer */}
+                        <Footer />
+                    </main>
                 </main>
-            </main>
-        </React.Fragment>
+            </React.Fragment>
 
         );
     }
