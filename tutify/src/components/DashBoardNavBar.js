@@ -54,10 +54,10 @@ export class NavBar extends Component {
       .then(res => {
         if (res.isLoggedIn) {
           console.log("User is loggged in.");
-          this.setState({ 
-            Toggle: true, email: true, 
+          this.setState({
+            Toggle: true, email: true,
             userType: res.userInfo.__t,
-            notifications: res.userInfo.notifications  
+            notifications: res.userInfo.notifications
           });
         }
         else {
@@ -81,7 +81,7 @@ export class NavBar extends Component {
   };
 
   handleClick = event => {
-    this.setState({ 
+    this.setState({
       anchorEl: event.currentTarget,
       notifCount: 0,
     });
@@ -136,24 +136,29 @@ export class NavBar extends Component {
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             </Typography>
 
-            <IconButton aria-label="bell" color="inherit" onClick={this.handleClick}>
-              <Badge color="secondary" badgeContent={notifCount} showZero>
-                <NotificationsIcon fontSize="medium" />
-              </Badge>
-            </IconButton>
-            <Menu
-              className={classes.notif}
-              id="notif-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={this.handleClose}
-              getContentAnchorEl={null}
-              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-              transformOrigin={{ vertical: "top", horizontal: "center" }}
-            >
-              <NavbarNotification notifications={notifications}/>
-            </Menu>
+            {this.state.userType === 'student' ?
+              <div>
+                <IconButton aria-label="bell" color="inherit" onClick={this.handleClick}>
+                  <Badge color="secondary" badgeContent={notifCount} showZero>
+                    <NotificationsIcon fontSize="medium" />
+                  </Badge>
+                </IconButton>
+                <Menu
+                  className={classes.notif}
+                  id="notif-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={this.handleClose}
+                  getContentAnchorEl={null}
+                  anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                  transformOrigin={{ vertical: "top", horizontal: "center" }}
+                >
+                  <NavbarNotification notifications={notifications} />
+                </Menu>
+              </div> : <></>
+            }
+
 
           </Toolbar>
         </AppBar>
