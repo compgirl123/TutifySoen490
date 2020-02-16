@@ -375,7 +375,9 @@ exports.sendAnnouncementStudents = async function (req, res) {
 
     students.forEach(function (student) {
         Student.findByIdAndUpdate(student,
-            { "$push": { "notifications": announcement } },
+            {   "$push": { "notifications": announcement }, 
+                "$inc": { "nbNewNotifications" : 1 }
+            },
             { "new": true, "upsert": true },
             (err) => {
                 if (err) {

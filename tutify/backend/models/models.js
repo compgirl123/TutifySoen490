@@ -41,6 +41,10 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
   program_of_study: {
     type: String
   },
+  nbNewNotifications: {
+    type: Number,
+    required: true,
+  },
   notifications: [
     {
       title: { type: String },
