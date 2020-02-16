@@ -28,6 +28,7 @@ export class NavBar extends Component {
       userType: "",
       anchorEl: null,
       notifications: [],
+      notifCount: 0,
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -85,7 +86,7 @@ export class NavBar extends Component {
 
   render() {
     const { classes, location } = this.props;
-    const { open, anchorEl, notifications } = this.state;
+    const { open, anchorEl, notifications, notifCount } = this.state;
 
     return (
       <div className={classes.root}>
@@ -133,7 +134,7 @@ export class NavBar extends Component {
             </Typography>
 
             <IconButton aria-label="bell" color="inherit" onClick={this.handleClick}>
-              <Badge color="secondary" badgeContent={0} showZero>
+              <Badge color="secondary" badgeContent={notifCount} showZero>
                 <NotificationsIcon fontSize="medium" />
               </Badge>
             </IconButton>
