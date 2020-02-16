@@ -16,6 +16,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import Badge from '@material-ui/core/Badge';
 import Menu from '@material-ui/core/Menu';
 import NavbarNotification from './UserDashboardPage/Notification/NavbarNotification'
+import axios from 'axios';
 
 
 export class NavBar extends Component {
@@ -29,6 +30,7 @@ export class NavBar extends Component {
       anchorEl: null,
       notifications: [],
       notifCount: 0,
+      id: null,
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -56,8 +58,10 @@ export class NavBar extends Component {
           console.log("User is loggged in.");
           this.setState({ 
             Toggle: true, email: true, 
+            id: res.userInfo._id,
             userType: res.userInfo.__t,
-            notifications: res.userInfo.notifications  
+            notifications: res.userInfo.notifications,
+            notifCount: res.userInfo.nbNewNotifications, 
           });
         }
         else {
@@ -81,6 +85,11 @@ export class NavBar extends Component {
   };
 
   handleClick = event => {
+    if(this.state.notifCount > 0) {
+      axios.post('/api/clearNewNotificationCount', {
+        student: this.state.id,
+      })
+    }
     this.setState({ 
       anchorEl: event.currentTarget,
       notifCount: 0,
