@@ -25,6 +25,7 @@ import swal from 'sweetalert';
 import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
 import IconButton from '@material-ui/core/IconButton';
 import ShowStudents from "../../TutorAnnouncements/ShowStudents";
+import {sendNotification} from '../../../helper/notificationsHelper';
 
 export class NewCalendar extends React.Component {
   constructor(props) {
@@ -129,9 +130,7 @@ export class NewCalendar extends React.Component {
       students: this.state.students
     })
       .then((res) => {
-
         this.setState({ students: res.data.data });
-
       }, (error) => {
         console.error("Could not get tutor's students from database (API call error) " + error);
       })
@@ -204,7 +203,9 @@ export class NewCalendar extends React.Component {
         newEvents = res.data.data;
 
         // Send announcement for this new event
-        this.sendNotification(this.state.studentsSelected);
+        sendNotification(this.state.studentsSelected, 
+          {tutorImg: this.state.tutorImg, tutorName: this.state.tutorName, tutorid: this.state.tutor_id}, 
+          {title: "New event scheduled", text: "A new event was added to your schedule."});
 
         //change the format of the date and add new event id to list of event ids
         for (var z = 0; z < newEvents.length; z++) {
@@ -256,24 +257,6 @@ export class NewCalendar extends React.Component {
         }
       });
   };
-
-  sendNotification = (studentsList) => {
-    axios.post('/api/sendAnnouncementStudents', {
-      students: studentsList,
-      announcement: {
-        title: "New event scheduled",
-        text: "A new event was added to your schedule.",
-        tutorImg: this.state.tutorImg,
-        tutorName: this.state.tutorName,
-        tutorid: this.state.tutor_id,
-      }
-    })
-      .then((res) => {
-        console.info("Notification sent for new event.");
-      }, (error) => {
-         console.error("Something went wrong when sending sending an announcement (API call error) " + error);
-      })
-  }
 
   render() {
     const { classes } = this.props;

@@ -27,6 +27,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import IconButton from '@material-ui/core/IconButton';
+import { sendNotification } from '../../helper/notificationsHelper';
 
 
 // View the General Course Page with all of the Courses the Tutor Teaches or Student is enrolled in.
@@ -76,6 +77,34 @@ export class MyCourses extends React.Component {
     this.setState({ filteredListCourses: filteredListCourses });
   }
 
+  // Distinguishing the tutor login from student login.
+  checkSession = () => {
+    console.info("Fetching session from db...");
+    fetch('/api/checkSession', {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then(response => response.json())
+      .then(res => {
+        if (res.isLoggedIn) {
+          this.setState({ discriminator: res.userInfo.__t, id: res.userInfo._id });
+          if (res.userInfo.__t === "student") {
+            this.getUserDataFromDb();
+          }
+          else if (res.userInfo.__t === "tutor") {
+            this.getTutorDataFromDb();
+            this.getAllCoursesFromDB();
+            this.setState({ 
+              students: res.userInfo.students,
+              tutorName: res.userInfo.first_name + " " + res.userInfo.last_name,
+              tutorImg: res.userInfo.picture,
+            });
+          }
+        }
+      })
+      .catch(err => console.error("Session could not be checked: " + err));
+  };
+
   // this method adds a course to the database
   addCourseToDb = () => {
     var tutor = [];
@@ -121,7 +150,6 @@ export class MyCourses extends React.Component {
   }
 
   // this method deletes a course from the database 
-
   deleteCourse = (course_id) => {
 
     swal({
@@ -187,31 +215,6 @@ export class MyCourses extends React.Component {
       });
   }
 
-
-  // Distinguishing the tutor login from student login.
-  checkSession = () => {
-    console.info("Fetching session from db...");
-    fetch('/api/checkSession', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then(res => {
-        if (res.isLoggedIn) {
-          this.setState({ discriminator: res.userInfo.__t, id: res.userInfo._id });
-          if (res.userInfo.__t === "student") {
-            this.getUserDataFromDb();
-          }
-          else if (res.userInfo.__t === "tutor") {
-            this.getTutorDataFromDb();
-            this.getAllCoursesFromDB();
-            this.setState({ students: res.userInfo.students });
-          }
-        }
-      })
-      .catch(err => console.error("Session could not be checked: " + err));
-  };
-
   // this method gets all the courses from the database
   getAllCoursesFromDB = () => {
     console.info("Fetching all courses from db...");
@@ -259,13 +262,19 @@ export class MyCourses extends React.Component {
   }
 
   // Allowing for tutors to share their uploaded documents to specific courses.
-  uploadCourse = (e, courseName) => {
+  sharedDocument = (e, course, students) => {
     console.info("Uploading document for course to db...");
     axios.post('/api/tutorCourses/:file', {
-      course_id: courseName,
+      course_id: course.name,
       file_name: this.props.match.params.file
     })
+    // Send announcement for new document
+    sendNotification(students,
+      { tutorImg: this.state.tutorImg, tutorName: this.state.tutorName, tutorid: this.state._id },
+      { title: "New document shared for " + course.name, text: "A new document was shared for one of your courses." });
+
     swal("Succesfully uploaded document to Course(s)!", "", "success");
+
   }
 
   // Handling the checkbox management in order to select one or many options.
@@ -297,7 +306,6 @@ export class MyCourses extends React.Component {
                   <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addCourseButton} >
                     Add Course
                </Button>
-
                   :
                   <></>
                 }
@@ -330,8 +338,8 @@ export class MyCourses extends React.Component {
                         </CardActionArea>
                         <CardActions>
                           {this.props.match.params.file !== undefined
-                            ? <Button type="button" onClick={event => this.uploadCourse(event, c.course.name)} size="small" fullWidth className="submit">
-                              Upload Document
+                            ? <Button type="button" onClick={event => this.sharedDocument(event, c.course, c.students)} size="small" fullWidth className="submit">
+                              Share Document
                           </Button>
                             :
                             <Button type="button" onClick={() => window.location.replace("/viewCourse/" + (c.course._id).replace(/ /g, ""))} size="small" href="" fullWidth className="submit">
