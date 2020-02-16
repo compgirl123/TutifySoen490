@@ -11,7 +11,11 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { NavDrawer } from "./NavDrawer";
 import { Link } from '@material-ui/core';
-import {sessionLogout} from '../helper/sessionHelper';
+import { sessionLogout } from '../helper/sessionHelper';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import Badge from '@material-ui/core/Badge';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 
 export class NavBar extends Component {
@@ -22,7 +26,10 @@ export class NavBar extends Component {
       drawerOpened: false,
       Toggle: false,
       userType: "",
+      anchorEl: null,
     };
+    this.handleClick = this.handleClick.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   toggleDrawer = booleanValue => () => {
@@ -50,21 +57,30 @@ export class NavBar extends Component {
         else {
           sessionLogout()
           this.setState({ Toggle: false, email: true });
-        }    
+        }
       })
       .catch(err => {
-        console.error("An error occured while checking the current session: "+err)
+        console.error("An error occured while checking the current session: " + err)
         sessionLogout()
       });
   };
 
-  appBarPosition(location){
+  appBarPosition(location) {
     return location === "dashboard" ? "fixed" : "absolute"
   }
 
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
+  handleClick = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
   render() {
     const { classes, location } = this.props;
-    const { open } = this.state;
+    const { open, anchorEl } = this.state;
 
     return (
       <div className={classes.root}>
@@ -100,7 +116,7 @@ export class NavBar extends Component {
                 </Typography>
               </Link> : <></>
             }
-            {this.state.Toggle ? <></>:
+            {this.state.Toggle ? <></> :
               <Link href="/" className={classes.title} style={{ textDecoration: 'none', color: '#FFF' }}>
                 <Typography variant="h6" color="inherit" >
                   Tutify
@@ -111,14 +127,34 @@ export class NavBar extends Component {
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             </Typography>
 
+            <IconButton aria-label="bell" color="inherit" onClick={this.handleClick}>
+              <Badge color="secondary" badgeContent={0} showZero>
+                <NotificationsIcon fontSize="medium" />
+              </Badge>
+            </IconButton>
+            <Menu
+              id="notif-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={this.handleClose}
+              getContentAnchorEl={null}
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              transformOrigin={{ vertical: "top", horizontal: "center" }}
+            >
+              <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+              <MenuItem onClick={this.handleClose}>My account</MenuItem>
+              <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+            </Menu>
+
           </Toolbar>
         </AppBar>
         {
-          location !== "dashboard" ? 
-          <NavDrawer
-          drawerOpened={this.state.drawerOpened}
-          toggleDrawer={this.toggleDrawer}
-          /> : <></>
+          location !== "dashboard" ?
+            <NavDrawer
+              drawerOpened={this.state.drawerOpened}
+              toggleDrawer={this.toggleDrawer}
+            /> : <></>
         }
 
       </div>
