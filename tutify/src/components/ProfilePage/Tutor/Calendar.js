@@ -113,12 +113,14 @@ export class NewCalendar extends React.Component {
           tutor_id: res.userInfo._id,
           events: res.userInfo.events,
           students: res.userInfo.students,
-          tutorName: res.userInfo.first_name + " " + res.userInfo.last_name
+          tutorName: res.userInfo.first_name + " " + res.userInfo.last_name,
+          tutorImg: res.userInfo.picture,
         });
         this.populateEvents();
         this.FindStudentsForList();
       })
-      .catch(err => console.error("Session could not be checked: " + err));  };
+      .catch(err => console.error("Session could not be checked: " + err));
+  };
 
   //converts student object ids to student information
   FindStudentsForList = () => {
@@ -201,6 +203,9 @@ export class NewCalendar extends React.Component {
 
         newEvents = res.data.data;
 
+        // Send announcement for this new event
+        this.sendNotification(this.state.studentsSelected);
+
         //change the format of the date and add new event id to list of event ids
         for (var z = 0; z < newEvents.length; z++) {
           var str = newEvents[z].date;
@@ -251,6 +256,24 @@ export class NewCalendar extends React.Component {
         }
       });
   };
+
+  sendNotification = (studentsList) => {
+    axios.post('/api/sendAnnouncementStudents', {
+      students: studentsList,
+      announcement: {
+        title: "New event scheduled",
+        text: "A new event was added to your schedule.",
+        tutorImg: this.state.tutorImg,
+        tutorName: this.state.tutorName,
+        tutorid: this.state.tutor_id,
+      }
+    })
+      .then((res) => {
+        console.info("Notification sent for new event.");
+      }, (error) => {
+         console.error("Something went wrong when sending sending an announcement (API call error) " + error);
+      })
+  }
 
   render() {
     const { classes } = this.props;
