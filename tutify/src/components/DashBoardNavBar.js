@@ -11,7 +11,9 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { NavDrawer } from "./NavDrawer";
 import { Link } from '@material-ui/core';
-import {sessionLogout} from '../helper/sessionHelper';
+import { sessionLogout } from '../helper/sessionHelper';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import Badge from '@material-ui/core/Badge';
 
 
 export class NavBar extends Component {
@@ -50,15 +52,15 @@ export class NavBar extends Component {
         else {
           sessionLogout()
           this.setState({ Toggle: false, email: true });
-        }    
+        }
       })
       .catch(err => {
-        console.error("An error occured while checking the current session: "+err)
+        console.error("An error occured while checking the current session: " + err)
         sessionLogout()
       });
   };
 
-  appBarPosition(location){
+  appBarPosition(location) {
     return location === "dashboard" ? "fixed" : "absolute"
   }
 
@@ -100,7 +102,7 @@ export class NavBar extends Component {
                 </Typography>
               </Link> : <></>
             }
-            {this.state.Toggle ? <></>:
+            {this.state.Toggle ? <></> :
               <Link href="/" className={classes.title} style={{ textDecoration: 'none', color: '#FFF' }}>
                 <Typography variant="h6" color="inherit" >
                   Tutify
@@ -111,14 +113,20 @@ export class NavBar extends Component {
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             </Typography>
 
+            <IconButton aria-label="bell" color="inherit">
+              <Badge color="secondary" badgeContent={0} showZero>
+                <NotificationsIcon fontSize="medium" />
+              </Badge>
+            </IconButton>
+
           </Toolbar>
         </AppBar>
         {
-          location !== "dashboard" ? 
-          <NavDrawer
-          drawerOpened={this.state.drawerOpened}
-          toggleDrawer={this.toggleDrawer}
-          /> : <></>
+          location !== "dashboard" ?
+            <NavDrawer
+              drawerOpened={this.state.drawerOpened}
+              toggleDrawer={this.toggleDrawer}
+            /> : <></>
         }
 
       </div>
