@@ -18,6 +18,7 @@ import axios from 'axios';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from "@material-ui/core/Button";
 import swal from 'sweetalert';
+import {sendNotification} from '../../../helper/notificationsHelper';
 
 // Displaying the list of students the tutor can share their documents to.
 export class StudentList extends React.Component {
@@ -58,7 +59,10 @@ export class StudentList extends React.Component {
       .then((res) => {
         if (res.isLoggedIn) {
           this.setState({
-            students: res.userInfo.students
+            students: res.userInfo.students,
+            tutor_id: res.userInfo._id,
+            tutorName: res.userInfo.first_name + " " + res.userInfo.last_name,
+            tutorImg: res.userInfo.picture,
           })
           this.FindStudents();
         }
@@ -76,7 +80,7 @@ export class StudentList extends React.Component {
         return <Button type="button" onClick={() => window.location.replace("/doclist")} variant="contained" size="small" className="submit">Share Document</Button>;
       }
       if (bottomButton) {
-        return <Button type="button" style={{ "left": "80%", "top": "10px" }} onClick={event => this.uploadCourse(event, this.state.shareTo)} variant="contained" size="small" className="submit">
+        return <Button type="button" style={{ "left": "80%", "top": "10px" }} onClick={event => this.shareDocument(event, this.state.shareTo)} variant="contained" size="small" className="submit">
           Share Document
       </Button>;
       }
@@ -90,7 +94,7 @@ export class StudentList extends React.Component {
         return <Button type="button" onClick={() => window.location.replace("/doc/" + stuid)} variant="contained" size="small" className="submit">View Documents</Button>;
       }
       if (bottomButton) {
-        return <Button type="button" style={{ "left": "80%", "top": "10px" }} onClick={event => this.uploadCourse(event, this.state.shareTo)} variant="contained" size="small" className="submit">
+        return <Button type="button" style={{ "left": "80%", "top": "10px" }} onClick={event => this.shareDocument(event, this.state.shareTo)} variant="contained" size="small" className="submit">
           Share Document
       </Button>;
       }
@@ -109,14 +113,17 @@ export class StudentList extends React.Component {
       })
   };
 
-  // Getting the student information from database
-  uploadCourse = (e, ids) => {
+  // Share document to selected students
+  shareDocument = (e, ids) => {
     for (const studentid in ids) {
       axios.post("/api/students/" + this.state.fileid, {
         id_student: ids[studentid],
         file_name: this.props.match.params.file
       });
     }
+    sendNotification(ids, 
+      {tutorImg: this.state.tutorImg, tutorName: this.state.tutorName, tutorid: this.state.tutor_id}, 
+      {title: "New document shared.", text: "A new document was shared to you."});
 
     swal("Succesfully shared document to Student(s)!", "", "success");
   }
@@ -180,7 +187,6 @@ export class StudentList extends React.Component {
                                   this.handleViewDocButton(student._id)
                                 }
                               </TableCell>
-                              {/*{this.handleViewDocButton(student._id)}*/}
                             </TableRow>
                           ))}
 
