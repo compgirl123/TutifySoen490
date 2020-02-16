@@ -15,13 +15,8 @@ class NavbarAddNotif extends React.Component {
         };
     }
 
-    // This function passes the id of the notif to delete to the function updateNotificationList from parent component UserDashboard
-    handleClickDelete = (notif_id, updateNotificationList) => {
-        updateNotificationList(notif_id)
-    };
-
     render() {
-        const { notif, updateNotificationList } = this.props
+        const { notif } = this.props
 
         return (
             <Grid container>
@@ -42,7 +37,6 @@ class NavbarAddNotif extends React.Component {
                                     >
                                         {notif.tutorName}
                                     </Typography>
-                                    {" — "}{notif.text}
                                 </React.Fragment>
                             }
                         />
