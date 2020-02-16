@@ -146,7 +146,7 @@ export class NavBar extends Component {
             </Typography>
 
             <IconButton aria-label="bell" color="inherit" onClick={this.handleClick}>
-              <Badge color="secondary" badgeContent={notifCount} showZero>
+              <Badge color="secondary" badgeContent={notifCount}>
                 <NotificationsIcon fontSize="medium" />
               </Badge>
             </IconButton>

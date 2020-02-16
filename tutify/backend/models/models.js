@@ -51,7 +51,8 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
       text: { type: String },
       tutorImg: { type: String },
       tutorName: { type: String },
-      tutorid: { type: Schema.Types.ObjectId, ref: 'Tutor' }
+      tutorid: { type: Schema.Types.ObjectId, ref: 'Tutor' },
+      new: { type: Boolean },
     }
   ],
   todos: [

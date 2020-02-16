@@ -9,6 +9,7 @@ export function sendNotification(studentsList, tutorInfo, notifInfo){
         tutorImg: tutorInfo.tutorImg,
         tutorName: tutorInfo.tutorName,
         tutorid: tutorInfo.tutor_id,
+        new: true,
       }
     })
       .then((res) => {
