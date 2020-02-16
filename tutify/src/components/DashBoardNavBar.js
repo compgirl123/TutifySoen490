@@ -15,7 +15,7 @@ import { sessionLogout } from '../helper/sessionHelper';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Badge from '@material-ui/core/Badge';
 import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import NavbarNotification from './UserDashboardPage/Notification/NavbarNotification'
 
 
 export class NavBar extends Component {
@@ -27,6 +27,7 @@ export class NavBar extends Component {
       Toggle: false,
       userType: "",
       anchorEl: null,
+      notifications: [],
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -52,7 +53,11 @@ export class NavBar extends Component {
       .then(res => {
         if (res.isLoggedIn) {
           console.log("User is loggged in.");
-          this.setState({ Toggle: true, email: true, userType: res.userInfo.__t });
+          this.setState({ 
+            Toggle: true, email: true, 
+            userType: res.userInfo.__t,
+            notifications: res.userInfo.notifications  
+          });
         }
         else {
           sessionLogout()
@@ -80,7 +85,7 @@ export class NavBar extends Component {
 
   render() {
     const { classes, location } = this.props;
-    const { open, anchorEl } = this.state;
+    const { open, anchorEl, notifications } = this.state;
 
     return (
       <div className={classes.root}>
@@ -133,6 +138,7 @@ export class NavBar extends Component {
               </Badge>
             </IconButton>
             <Menu
+              className={classes.notif}
               id="notif-menu"
               anchorEl={anchorEl}
               keepMounted
@@ -142,9 +148,7 @@ export class NavBar extends Component {
               anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
               transformOrigin={{ vertical: "top", horizontal: "center" }}
             >
-              <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-              <MenuItem onClick={this.handleClose}>My account</MenuItem>
-              <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+              <NavbarNotification notifications={notifications}/>
             </Menu>
 
           </Toolbar>

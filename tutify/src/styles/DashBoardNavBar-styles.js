@@ -10,5 +10,8 @@ export const styles = theme => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
+  },
+  notif: {
+    maxHeight: 400,
   }
 });
