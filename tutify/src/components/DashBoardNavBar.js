@@ -81,7 +81,10 @@ export class NavBar extends Component {
   };
 
   handleClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
+    this.setState({ 
+      anchorEl: event.currentTarget,
+      notifCount: 0,
+    });
   };
 
   render() {
