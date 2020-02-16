@@ -148,7 +148,7 @@ export class NavBar extends Component {
             {this.state.userType === 'student' ?
               <div>
                 <IconButton aria-label="bell" color="inherit" onClick={this.handleClick}>
-                  <Badge color="secondary" badgeContent={notifCount} showZero>
+                  <Badge color="secondary" badgeContent={notifCount}>
                     <NotificationsIcon fontSize="medium" />
                   </Badge>
                 </IconButton>
