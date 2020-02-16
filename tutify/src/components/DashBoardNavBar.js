@@ -145,24 +145,29 @@ export class NavBar extends Component {
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             </Typography>
 
-            <IconButton aria-label="bell" color="inherit" onClick={this.handleClick}>
-              <Badge color="secondary" badgeContent={notifCount}>
-                <NotificationsIcon fontSize="medium" />
-              </Badge>
-            </IconButton>
-            <Menu
-              className={classes.notif}
-              id="notif-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={this.handleClose}
-              getContentAnchorEl={null}
-              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-              transformOrigin={{ vertical: "top", horizontal: "center" }}
-            >
-              <NavbarNotification notifications={notifications}/>
-            </Menu>
+            {this.state.userType === 'student' ?
+              <div>
+                <IconButton aria-label="bell" color="inherit" onClick={this.handleClick}>
+                  <Badge color="secondary" badgeContent={notifCount}>
+                    <NotificationsIcon fontSize="medium" />
+                  </Badge>
+                </IconButton>
+                <Menu
+                  className={classes.notif}
+                  id="notif-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={this.handleClose}
+                  getContentAnchorEl={null}
+                  anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                  transformOrigin={{ vertical: "top", horizontal: "center" }}
+                >
+                  <NavbarNotification notifications={notifications} />
+                </Menu>
+              </div> : <></>
+            }
+
 
           </Toolbar>
         </AppBar>
