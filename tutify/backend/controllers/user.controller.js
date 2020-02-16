@@ -391,6 +391,30 @@ exports.sendAnnouncementStudents = async function (req, res) {
     return res.json({ success: true });
 };
 
+// Clear notifications count
+exports.clearNewNotificationCount = async function (req, res) {
+    const { student } = req.body;
+
+    Student.findByIdAndUpdate(student,
+        {  "nbNewNotifications" : 0, },
+        { "new": true, "upsert": true },
+        (err) => {
+            if (err) {
+                console.error("Could not clear new announcements");
+                return res.json({ success: false, error: err });
+            }
+        }
+    );
+
+    req.session.userInfo.nbNewNotifications = 0;
+    req.session.save(function (err) {
+        req.session.reload(function (err) {
+            console.info("Annnoucements count cleared");
+            return res.json({ success: true });
+        });
+    });
+};
+
 // this method deletes one notification from the user's notifications list
 exports.deleteNotification = async function (req, res) {
     const { student_id, notif_id } = req.body;
