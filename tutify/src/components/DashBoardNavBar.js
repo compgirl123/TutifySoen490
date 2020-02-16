@@ -85,16 +85,12 @@ export class NavBar extends Component {
   };
 
   handleClick = event => {
-<<<<<<< HEAD
-    this.setState({
-=======
     if(this.state.notifCount > 0) {
       axios.post('/api/clearNewNotificationCount', {
         student: this.state.id,
       })
     }
     this.setState({ 
->>>>>>> 67e70f6959d91ea43291b43ae907a10a9a319751
       anchorEl: event.currentTarget,
       notifCount: 0,
     });
