@@ -42,7 +42,6 @@ class NavbarAddNotif extends React.Component {
                                     >
                                         {notif.tutorName}
                                     </Typography>
-                                    {" — "}{notif.text}
                                 </React.Fragment>
                             }
                         />
