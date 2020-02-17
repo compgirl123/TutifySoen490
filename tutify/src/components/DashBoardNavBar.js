@@ -29,6 +29,7 @@ export class NavBar extends Component {
       userType: "",
       anchorEl: null,
       notifications: [],
+      previousNotifCount:0,
       notifCount: 0,
       id: null,
     };
@@ -62,6 +63,7 @@ export class NavBar extends Component {
             userType: res.userInfo.__t,
             notifications: res.userInfo.notifications,
             notifCount: res.userInfo.nbNewNotifications, 
+            previousNotifCount: res.userInfo.nbNewNotifications, 
           });
         }
         else {
@@ -81,15 +83,18 @@ export class NavBar extends Component {
 
 
   handleClose = () => {
-    this.setState({ anchorEl: null });
-  };
-
-  handleClick = event => {
-    if(this.state.notifCount > 0) {
+    if(this.state.previousNotifCount > 0) {
       axios.post('/api/clearNewNotificationCount', {
         student: this.state.id,
       })
     }
+    this.setState({ 
+      anchorEl: null,
+      previousNotifCount: 0,
+     });
+  };
+
+  handleClick = event => {
     this.setState({ 
       anchorEl: event.currentTarget,
       notifCount: 0,

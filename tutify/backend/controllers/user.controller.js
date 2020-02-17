@@ -406,6 +406,7 @@ exports.clearNewNotificationCount = async function (req, res) {
 
         // Update and reload session
         req.session.userInfo.nbNewNotifications = 0;
+        req.session.userInfo.notifications = student.notifications;
         req.session.save(function (err) {
             req.session.reload(function (err) {
                 console.info("Annnoucements count cleared");
