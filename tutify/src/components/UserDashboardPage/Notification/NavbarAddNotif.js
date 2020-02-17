@@ -15,12 +15,13 @@ class NavbarAddNotif extends React.Component {
         };
     }
 
+
     render() {
         const { notif } = this.props
         return (
             <Grid container>
-                <Grid xs={10} md={12} item >
-                    <ListItem alignItems="flex-start">
+                <Grid xs={10} md={12} item>
+                    <ListItem alignItems="flex-start" >
                         <ListItemAvatar>
                             <Avatar src={notif.tutorImg} />
                         </ListItemAvatar>
