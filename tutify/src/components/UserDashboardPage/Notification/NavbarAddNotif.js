@@ -16,12 +16,20 @@ class NavbarAddNotif extends React.Component {
     }
 
 
+    setItemColor(isNew) {
+        if (isNew) {
+            return '#F5F5F5'
+        }
+        return '';
+    }
+
+
     render() {
         const { notif } = this.props
         return (
             <Grid container>
                 <Grid xs={10} md={12} item>
-                    <ListItem alignItems="flex-start" >
+                    <ListItem alignItems="flex-start" style={{ background: this.setItemColor(notif.new) }}>
                         <ListItemAvatar>
                             <Avatar src={notif.tutorImg} />
                         </ListItemAvatar>

@@ -12,21 +12,13 @@ export class NavbarNotification extends React.Component {
         };
     }
 
-    setRowColor(isNew) {
-        if (isNew) {
-            return '#F5F5F5'
-        }
-        return '';
-    }
-
-
     render() {
         const { notifications, updateNotificationList } = this.props
 
         return (
             <React.Fragment>
                 {notifications ? notifications.map((notif, i) => (
-                    <List style={{ background: this.setRowColor(notif.new) }}>
+                    <List >
                         <NavbarAddNotif
                             key={i}
                             notif={notifications[notifications.length - 1 - i]}
