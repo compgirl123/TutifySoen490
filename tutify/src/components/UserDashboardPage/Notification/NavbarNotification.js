@@ -12,12 +12,18 @@ export class NavbarNotification extends React.Component {
         };
     }
 
+    filterNotification(notification) {
+        return notification.filter((notif, i) => {
+            return (i < 10)
+        })
+    }
     render() {
         const { notifications, updateNotificationList } = this.props
 
         return (
             <React.Fragment>
-                {notifications ? notifications.map((notif, i) => (
+                {notifications ? this.filterNotification(notifications).map((notif, i) => (
+                    
                     <List >
                         <NavbarAddNotif
                             key={i}
