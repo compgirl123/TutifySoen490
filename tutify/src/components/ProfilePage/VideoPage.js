@@ -29,9 +29,19 @@ export class Studentdocs extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            videos: ['https://www.youtube.com/embed/qAVPALkrcvw', 'https://drive.google.com/file/d/15ZfgMEPhoZ9H99wJ3WSXKN_fr39Qkyy6/preview', 'https://drive.google.com/file/d/1I02gmlC0Wor3HHbT7dmpjUgCas_7Typm/preview'],
-            open: false
+            title: "",
+            description: "",
+            videoLink: "",
+            tutorId: "",
+            videos: [],
+            open: false,
+            Toggle: false
         };
+    }
+
+    componentDidMount() {
+        this.checkSession();
+        this.getAllResources();
     }
 
     handleClose = () => {
@@ -42,11 +52,44 @@ export class Studentdocs extends React.Component {
         this.setState({ open: true });
     };
 
+    // Setting the login state of user.
+    checkSession = () => {
+        fetch('/api/checkSession', {
+            method: 'GET',
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .then((res) => {
+                if (res.isLoggedIn) {
+                    console.log(res.userInfo._id);
+                    this.setState({
+                        tutorId: res.userInfo._id
+                    })
+                }
+                else {
+                    this.setState({ Toggle: false });
+                }
+            })
+            .catch(err => console.log(err));
+    };
+
+    getAllResources = () => {
+        axios.get('/api/getVideos').then((res) => {
+            // fetch the videos
+            console.info("Successfully fetched the videos");
+            console.log(res.data.data);
+            // setting state of the video array in order to get information from each video
+            this.setState({
+                videos: res.data.data
+            });
+        })
+            .catch(err => console.error("Could not get the videos from the database: " + err));
+    }
+
     //Adding a new video to the db
     addVideoToDb = () => {
         var tutor = [];
         tutor.push(this.state.id);
-
         //swal to confirm the addition of new video
         swal({
             title: "Would you like to add the following video?",
@@ -56,14 +99,21 @@ export class Studentdocs extends React.Component {
             },
             content: (
                 <div>
-                    <p><b>
-                        title: {this.state.title} </b>
+                    <p>
+                        <b>
+                            Title: {this.state.title}
+                        </b>
                     </p>
                     <p>
                         <p>
-                            link: {this.state.link}
+                            <b>
+                                description: {this.state.description}
+                            </b>
                         </p>
-                        course: {this.state.course}
+                        <p>
+                            Video Link: {this.state.videoLink}
+                        </p>
+                        Tutor: {this.state.tutorId}
                     </p>
                 </div>
             )
@@ -72,14 +122,14 @@ export class Studentdocs extends React.Component {
             .then((value) => {
                 if (value) {
                     console.info("Adding video to db...");
-                    axios.post('/api/addVideoToDb', {
-                        link: this.state.link,
+                    console.log(this.state.title);
+                    axios.post('/api/addVideo', {
                         title: this.state.title,
-                        course: this.state.course,
-                        tutor: tutor
+                        description: this.state.description,
+                        videoLink: this.state.videoLink,
+                        tutorId: this.state.tutorId
                     })
                         .then((res) => {
-                            this.getTutorDataFromDb();
                             swal("Video successfully added!", "", "success");
                             this.handleClose();
                         }, (error) => {
@@ -119,9 +169,11 @@ export class Studentdocs extends React.Component {
                                                     width='100%'
                                                     height='100%'
                                                 />
-                                                <CardContent >
+                                                <CardContent>
+                                                    <h1>{file.title}</h1>
+                                                    <h3>Description : {file.description}</h3>
                                                     <div className={classes.cardStyle}>
-                                                        <iframe width="100%" height="100%" src={file} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                        <iframe width="100%" height="100%" src={file.videoLink} title={file.title} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                                     </div>
                                                 </CardContent>
                                             </CardActionArea>
@@ -154,10 +206,22 @@ export class Studentdocs extends React.Component {
                                             shrink: true,
                                         }}
                                         margin="dense"
-                                        id="link"
-                                        name="link"
-                                        onChange={e => this.setState({ link: e.target.value })}
-                                        autoComplete="link"
+                                        id="description"
+                                        name="description"
+                                        onChange={e => this.setState({ description: e.target.value })}
+                                        autoComplete="description"
+                                        label="Description"
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        margin="dense"
+                                        id="videoLink"
+                                        name="videoLink"
+                                        onChange={e => this.setState({ videoLink: e.target.value })}
+                                        autoComplete="videoLink"
                                         label="Link"
                                         fullWidth
                                     />
@@ -165,10 +229,9 @@ export class Studentdocs extends React.Component {
                                         <FormControl className={classes.formControl}>
                                             <InputLabel>
                                                 Course
-                                            </InputLabel>
+                                        </InputLabel>
                                             <Select
                                                 onChange={e => this.setState({ course: e.target.value })}>
-
                                                 <MenuItem value='Course'>Course</MenuItem>
                                             </Select>
                                         </FormControl>

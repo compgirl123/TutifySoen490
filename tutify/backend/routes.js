@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var session = require('express-session');
 
-
 // Controllers
 var accountController = require('./controllers/account.controller')
 var appointmentController = require('./controllers/appointment.controller')
@@ -12,6 +11,7 @@ var courseController = require('./controllers/course.controller')
 var filesController = require('./controllers/files.controller')
 var uploadedFilesController = require('./controllers/uploaded_files.controller')
 var resourceController = require('./controllers/resource.controller')
+var videoController = require('./controllers/videos.controller')
 
 // -------- TUTOR ROUTES --------- // 
 
@@ -132,5 +132,11 @@ router.post('/getSpecificCourseFilestoDelete', uploadedFilesController.deleteSpe
 router.get('/getResources', resourceController.getResources);
 
 router.post('/addResource', resourceController.addResource);
+
+// -------- VIDEOS --------- // 
+
+router.get('/getVideos', videoController.getVideos);
+
+router.post('/addVideo', videoController.addVideo);
 
 module.exports = router;

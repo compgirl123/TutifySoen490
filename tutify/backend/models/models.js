@@ -307,6 +307,26 @@ var Resource = mongoose.model('Resource', new Schema({
   }
 }), "resources");
 
+// -------- Videos --------- // 
+var Videos = mongoose.model('Videos', new Schema({
+  title: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  videoLink: {
+    type: String,
+    required: true
+  },
+  tutorId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Tutor',
+    required: true
+  }
+}), "videos");
 
 // export the Schemas
 module.exports = {
@@ -320,7 +340,8 @@ module.exports = {
   Event: Event,
   Mfiles: Mfiles,
   Mchunks: Mchunks,
-  Resource: Resource
+  Resource: Resource,
+  Videos: Videos
 }
 
 
