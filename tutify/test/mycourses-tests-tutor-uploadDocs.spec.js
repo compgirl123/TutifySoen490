@@ -62,6 +62,6 @@ describe('The Tutors Courses Page', () => {
         // Getting the Card that contains information about the course.
         const buttonInfo = wrapper.find(Button).at(0);
         // Making sure that the Button name displays Upload Document for the course.
-        expect(buttonInfo.props().children).toBe("Upload Document");
+        expect(buttonInfo.props().children).toBe("Share Document");
     });
 });

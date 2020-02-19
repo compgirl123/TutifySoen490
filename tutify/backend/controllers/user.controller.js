@@ -395,7 +395,9 @@ exports.sendAnnouncementStudents = async function (req, res) {
 
     students.forEach(function (student) {
         Student.findByIdAndUpdate(student,
-            { "$push": { "notifications": announcement } },
+            {   "$push": { "notifications": announcement }, 
+                "$inc": { "nbNewNotifications" : 1 }
+            },
             { "new": true, "upsert": true },
             (err) => {
                 if (err) {
@@ -407,6 +409,36 @@ exports.sendAnnouncementStudents = async function (req, res) {
     });
     console.info("The announcement was sent successfully");
     return res.json({ success: true });
+};
+
+// Clear notifications count
+exports.clearNewNotificationCount = async function (req, res) {
+    const { student } = req.body;
+
+    Student.findOne({ _id: student }).then(student => {
+        // Clear our the "new" value on the newest notifications
+        for (i = 0; i < student.nbNewNotifications; i++) {
+            student.notifications[student.notifications.length - 1 - i].new = false
+        }
+        // Clear new notification count
+        student.nbNewNotifications = 0
+        student.save()
+
+        // Update and reload session
+        req.session.userInfo.nbNewNotifications = 0;
+        req.session.userInfo.notifications = student.notifications;
+        req.session.save(function (err) {
+            req.session.reload(function (err) {
+                console.info("Annnoucements count cleared");
+                return res.json({ success: true });
+            });
+        });
+    }).catch(err => {
+        console.error("Could not clear new announcements" + err);
+        return res.json({ success: false, error: err });
+    });
+
+    
 };
 
 // this method deletes one notification from the user's notifications list

@@ -115,7 +115,8 @@ export class Announcements extends React.Component {
                 text: this.state.aText,
                 tutorImg: this.state.tutorImg,
                 tutorName: this.state.tutorName,
-                tutorid: this.state.tutor_id
+                tutorid: this.state.tutor_id,
+                new: true
             }
         })
             .then((res) => {
