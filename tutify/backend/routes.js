@@ -61,6 +61,8 @@ router.post('/updateUserTodos', userController.updateUserTodos);
 
 router.post('/sendAnnouncementStudents', userController.sendAnnouncementStudents);
 
+router.post('/clearNewNotificationCount', userController.clearNewNotificationCount);
+
 router.post('/deleteNotification', userController.deleteNotification);
 
 // -------- ACCOUNT ROUTES --------- // 
