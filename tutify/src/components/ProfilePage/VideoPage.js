@@ -18,10 +18,6 @@ import Dialog from '@material-ui/core/Dialog';
 import TextField from '@material-ui/core/TextField';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
-import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import axios from "axios";
 
 // displaying the documents shared to students
@@ -33,6 +29,8 @@ export class Studentdocs extends React.Component {
             description: "",
             videoLink: "",
             tutorId: "",
+            tutorFirstName: "",
+            tutorLastName: "",
             videos: [],
             open: false,
             Toggle: false
@@ -63,7 +61,9 @@ export class Studentdocs extends React.Component {
                 if (res.isLoggedIn) {
                     console.log(res.userInfo._id);
                     this.setState({
-                        tutorId: res.userInfo._id
+                        tutorId: res.userInfo._id,
+                        tutorFirstName: res.userInfo.first_name,
+                        tutorLastName: res.userInfo.last_name
                     })
                 }
                 else {
@@ -113,7 +113,7 @@ export class Studentdocs extends React.Component {
                         <p>
                             Video Link: {this.state.videoLink}
                         </p>
-                        Tutor: {this.state.tutorId}
+                        Tutor: {this.state.tutorFirstName} {this.state.tutorLastName}
                     </p>
                 </div>
             )
@@ -123,18 +123,25 @@ export class Studentdocs extends React.Component {
                 if (value) {
                     console.info("Adding video to db...");
                     console.log(this.state.title);
-                    axios.post('/api/addVideo', {
-                        title: this.state.title,
-                        description: this.state.description,
-                        videoLink: this.state.videoLink,
-                        tutorId: this.state.tutorId
-                    })
-                        .then((res) => {
-                            swal("Video successfully added!", "", "success");
-                            this.handleClose();
-                        }, (error) => {
-                            console.error("Could not add video to database (API call error) " + error);
-                        });
+                    if (this.state.title !== '' && this.state.description !== '' &&
+                        this.state.videoLink !== '' && this.state.tutorId !== '') {
+                        axios.post('/api/addVideo', {
+                            title: this.state.title,
+                            description: this.state.description,
+                            videoLink: this.state.videoLink,
+                            tutorId: this.state.tutorId
+                        })
+                            .then((res) => {
+                                swal("Video successfully added!", "", "success");
+                                window.location.reload();
+                            }, (error) => {
+                                console.error("Could not add video to database (API call error) " + error);
+                            });
+                    }
+                    else {
+                        console.error("Empty fields");
+                        swal("Could not add resource, empty fields.", "", "error")
+                    }
                 }
             });
     }
@@ -154,7 +161,7 @@ export class Studentdocs extends React.Component {
                                 Add Video
                             </Button>
                             <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                                Tutoring Videos
+                                {this.state.tutorFirstName} {this.state.tutorLastName}'s Tutoring Videos
                             </Typography>
                             <Title>Uploaded </Title>
                             <Grid container spacing={4}>
@@ -186,7 +193,7 @@ export class Studentdocs extends React.Component {
                         {/* Dialog box when clicked on the "add new video" button */}
                         <div>
                             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
-                                <DialogTitle id="simple-dialog-title">Add a new Video</DialogTitle>
+                                <DialogTitle id="simple-dialog-title">{this.state.tutorFirstName}, Add a new Video</DialogTitle>
                                 <DialogContent>
                                     <TextField
                                         InputLabelProps={{
@@ -206,18 +213,6 @@ export class Studentdocs extends React.Component {
                                             shrink: true,
                                         }}
                                         margin="dense"
-                                        id="description"
-                                        name="description"
-                                        onChange={e => this.setState({ description: e.target.value })}
-                                        autoComplete="description"
-                                        label="Description"
-                                        fullWidth
-                                    />
-                                    <TextField
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        margin="dense"
                                         id="videoLink"
                                         name="videoLink"
                                         onChange={e => this.setState({ videoLink: e.target.value })}
@@ -225,17 +220,18 @@ export class Studentdocs extends React.Component {
                                         label="Link"
                                         fullWidth
                                     />
-                                    <div>
-                                        <FormControl className={classes.formControl}>
-                                            <InputLabel>
-                                                Course
-                                        </InputLabel>
-                                            <Select
-                                                onChange={e => this.setState({ course: e.target.value })}>
-                                                <MenuItem value='Course'>Course</MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                    </div>
+                                    <TextField
+                                        id="description"
+                                        name="description"
+                                        label="Description"
+                                        onChange={e => this.setState({ description: e.target.value })}
+                                        multiline
+                                        rows="4"
+                                        defaultValue={this.state.description}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <br /><br />
                                     <Button variant="contained" size="lg" active onClick={() => { this.addVideoToDb(); }} className={classes.formControl}>
                                         Save
                                     </Button>
@@ -259,7 +255,6 @@ export class Studentdocs extends React.Component {
                     </main>
                 </main>
             </React.Fragment>
-
         );
     }
 }
