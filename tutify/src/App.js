@@ -19,7 +19,8 @@ import ResourceLevels from "./components/Resources/ResourceLevels";
 import Document from "./components/Documents/Document";
 import Studentdocs from './components/ProfilePage/Studentdocs';
 import Tutordocs from './components/ProfilePage/Tutordocs';
-import TutorVideos from './components/ProfilePage/VideoPage';
+import TutorVideos from './components/VideoPage/VideoPage';
+import ChooseTutorVideos from './components/VideoPage/ChooseTutorVideoPage';
 import ResourcePage from './components/Resources/ResourcePage';
 import PrivateRoute from './components/PrivateRoute';
 import MainRoute from './components/MainRoute';
@@ -59,6 +60,8 @@ function MainPage() {
         <PrivateRoute exact path= "/tutorCourses/:file" component = {MyCourses}/>
         <PrivateRoute exact path= "/tutdoc" component={Tutordocs} />
         <PrivateRoute exact path= "/videos" component={TutorVideos} />
+        <PrivateRoute exact path= "/videos/:id" component={TutorVideos} />
+        <PrivateRoute exact path= "/choosetutorVideo" component={ChooseTutorVideos} />
         <Route path="*" component={NotFoundPage} />
       </Switch>
     </Router>

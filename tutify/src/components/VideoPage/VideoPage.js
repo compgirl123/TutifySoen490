@@ -6,7 +6,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Footer from '../Footer';
 import DashBoardNavBar from '../DashBoardNavBar'
-import Title from './Title';
+import Title from '../ProfilePage/Title';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -19,6 +19,8 @@ import TextField from '@material-ui/core/TextField';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import axios from "axios";
+import IconButton from '@material-ui/core/IconButton';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 // displaying the documents shared to students
 export class Studentdocs extends React.Component {
@@ -32,6 +34,7 @@ export class Studentdocs extends React.Component {
             tutorFirstName: "",
             tutorLastName: "",
             videos: [],
+            accountType : "",
             open: false,
             Toggle: false
         };
@@ -39,7 +42,6 @@ export class Studentdocs extends React.Component {
 
     componentDidMount() {
         this.checkSession();
-        this.getAllResources();
     }
 
     handleClose = () => {
@@ -59,12 +61,28 @@ export class Studentdocs extends React.Component {
             .then(response => response.json())
             .then((res) => {
                 if (res.isLoggedIn) {
-                    console.log(res.userInfo._id);
-                    this.setState({
-                        tutorId: res.userInfo._id,
-                        tutorFirstName: res.userInfo.first_name,
-                        tutorLastName: res.userInfo.last_name
-                    })
+                    if(res.userInfo.__t === "tutor")
+                    {
+                        console.log(res.userInfo);
+                        this.setState({
+                            tutorId: res.userInfo._id,
+                            tutorFirstName: res.userInfo.first_name,
+                            tutorLastName: res.userInfo.last_name,
+                            accountType: res.userInfo.__t
+                        })
+                        this.getAllVideos();
+                    }
+                    else if (res.userInfo.__t === "student")
+                    {
+                        console.log(res.userInfo);
+                        this.setState({
+                            tutorId: res.userInfo._id,
+                            accountType: res.userInfo.__t
+                        })
+                        this.getAllVideos2();
+                        this.getAllVideos();
+                    }
+                    
                 }
                 else {
                     this.setState({ Toggle: false });
@@ -73,14 +91,41 @@ export class Studentdocs extends React.Component {
             .catch(err => console.log(err));
     };
 
-    getAllResources = () => {
-        axios.get('/api/getVideos').then((res) => {
+    getAllVideos = () => {
+        axios.get('/api/getVideos',{
+            params: {
+                tutor: this.props.match.params.id
+            }
+        }).then((res) => {
             // fetch the videos
             console.info("Successfully fetched the videos");
+            console.log(res);
             console.log(res.data.data);
+            console.log(this.props.match.params.id);
             // setting state of the video array in order to get information from each video
             this.setState({
                 videos: res.data.data
+            });
+        })
+            .catch(err => console.error("Could not get the videos from the database: " + err));
+    }
+
+    getAllVideos2 = () => {
+        axios.get('/api/getTutor',{
+            params: {
+                ID: this.props.match.params.id
+            }
+        }).then((res) => {
+            // fetch the videos
+            console.info("Successfully fetched the videos");
+            console.log(res.data.tutor.first_name);
+            console.log(res.data.tutor.last_name);
+           // console.log(res.data.data);
+            console.log(this.props.match.params.id);
+            // setting state of the video array in order to get information from each video
+            this.setState({
+                tutorFirstName: res.data.tutor.first_name,
+                tutorLastName: res.data.tutor.last_name,
             });
         })
             .catch(err => console.error("Could not get the videos from the database: " + err));
@@ -157,13 +202,17 @@ export class Studentdocs extends React.Component {
                     <main className={classes.content}>
                         <div className={classes.appBarSpacer} />
                         <Container maxWidth="lg" className={classes.container}>
+                            {this.state.accountType === "tutor" ?
                             <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addVideoButton} >
                                 Add Video
                             </Button>
+                            :
+                            <br/>
+                            }
                             <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                                 {this.state.tutorFirstName} {this.state.tutorLastName}'s Tutoring Videos
                             </Typography>
-                            <Title>Uploaded </Title>
+                            <Title> Videos </Title>
                             <Grid container spacing={4}>
                                 {/* Videos */}
                                 {videos.map((file, index) => (
@@ -177,8 +226,19 @@ export class Studentdocs extends React.Component {
                                                     height='100%'
                                                 />
                                                 <CardContent>
-                                                    <h1>{file.title}</h1>
-                                                    <h3>Description : {file.description}</h3>
+                                                <Typography gutterBottom variant="h5" component="h2">
+                                                {file.title}
+                                                {this.state.accountType === "tutor"?
+                                                <IconButton variant="contained" size="lg" active /*onClick={event => this.deleteCourse()}*/ className={classes.deleteCourseButton} >
+                                                < DeleteForeverIcon className={classes.deleteIconButton} />
+                                                </IconButton>
+                                                    :
+                                                    <></>
+                                                }
+                                                </Typography>
+                                                <Typography gutterBottom variant="h6" component="h6">
+                                                Description : {file.description}
+                                                </Typography>
                                                     <div className={classes.cardStyle}>
                                                         <iframe width="100%" height="100%" src={file.videoLink} title={file.title} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                                     </div>

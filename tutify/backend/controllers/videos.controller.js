@@ -2,7 +2,15 @@ const Videos = require('../models/models').Videos;
 
 // this method fetches all available videos in our database
 exports.getVideos = async function (req, res) {
-    Videos.find({ tutorId: req.session.userInfo._id }, function (err, video) {
+    var id = [];
+    if(req.session.userInfo.__t == "tutor"){
+       id.push(req.session.userInfo._id); 
+    }
+    else if(req.session.userInfo.__t == "student"){
+        id.push(req.query.tutor);
+    }
+
+    Videos.find({ tutorId: {$in:id} }, function (err, video) {
         if (err) {
             console.error("The videos were not found");
             return res.json({ success: false, error: err })

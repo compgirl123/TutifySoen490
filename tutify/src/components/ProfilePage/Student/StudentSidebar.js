@@ -16,6 +16,7 @@ import { withStyles } from "@material-ui/core/styles";
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import PublishIcon from '@material-ui/icons/Publish';
+import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 
 class Sidebar extends Component {
 
@@ -86,6 +87,12 @@ class Sidebar extends Component {
             </ListItemIcon>
             <ListItemText primary="Search" />
           </ListItem>
+          <ListItem button component="a" href="/choosetutorVideo">
+              <ListItemIcon>
+                <VideoLibraryIcon />
+              </ListItemIcon>
+              <ListItemText primary="Videos" />
+            </ListItem>
           <ListItem button component="a" href="/" onClick={this.handleChange} >
             <ListItemIcon>
               <ExitToAppIcon />

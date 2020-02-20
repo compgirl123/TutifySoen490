@@ -16,6 +16,7 @@ exports.getTutors = async function (req, res) {
 
 // this method fetches one tutor in our database
 exports.getTutor = async function (req, res) {
+    console.log(req.query.ID);
     Tutor.findOne({ _id: req.query.ID }).populate('courses.course').
         exec(function (err, tutor) {
             if (err) {

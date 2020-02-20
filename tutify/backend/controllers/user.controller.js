@@ -18,6 +18,19 @@ exports.getUser = async function (req, res) {
     });
 };
 
+// this method fetches all the tutors the user is registered with
+exports.getUsersTutors = async function (req, res) {
+    var id = [];
+    for(var x=0;x<req.session.userInfo.tutors.length;x++){
+        id.push(req.session.userInfo.tutors[x]._id); 
+    }
+
+    Tutor.find({ _id: {$in:id} }, function (err, data) {
+        if (err) return res.json({ success: false, error: err });
+        return res.json({ success: true, data: data });
+    });
+};
+
 // this method finds students in the database given the object id
 exports.findStudents = async function (req, res) {
     var count = 0;

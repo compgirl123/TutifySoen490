@@ -35,6 +35,8 @@ router.post('/deleteEvent', tutorController.deleteEvent);
 
 router.get('/getUser', userController.getUser);
 
+router.get('/getUsersTutors', userController.getUsersTutors);
+
 router.post('/findStudents', userController.findStudents);
 
 router.post('/findTutors', userController.findTutors);
