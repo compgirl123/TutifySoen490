@@ -143,4 +143,6 @@ router.get('/getVideos', videoController.getVideos);
 
 router.post('/addVideo', videoController.addVideo);
 
+router.post('/deleteVideo', videoController.deleteVideo);
+
 module.exports = router;

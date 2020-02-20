@@ -151,7 +151,6 @@ export class MyCourses extends React.Component {
 
   // this method deletes a course from the database 
   deleteCourse = (course_id) => {
-
     swal({
       title: "Are you sure you want delete this course?",
       icon: "warning",

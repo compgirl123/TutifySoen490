@@ -40,3 +40,19 @@ exports.addVideo = async function (req, res) {
         return res.json({ success: true, data: videos });
     });
 };
+
+// this method deletes a new video to the db
+exports.deleteVideo = async function (req, res) {
+    const { _id } = req.body;
+    Videos.findByIdAndRemove(_id, (err) => {
+        if (err) {
+            console.error("The delete order was given, but was not executed by the database. This may be due to a connection error.");
+            return res.send(err);
+        }
+        console.info("The video has been deleted");
+        return res.json({ success: true });
+    });
+};
+
+
+

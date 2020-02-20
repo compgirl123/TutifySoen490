@@ -191,6 +191,29 @@ export class Studentdocs extends React.Component {
             });
     }
 
+    // this method deletes a video from the database 
+    deleteVideo = (video_id) => {
+        swal({
+        title: "Are you sure you want delete this video?",
+        icon: "warning",
+        buttons: [true, "Yes"],
+        dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+            axios.post('/api/deleteVideo', {
+                _id: video_id
+            })
+                .then((res) => {
+                swal("Video successfully deleted!", "", "success");
+                window.location.reload();
+                }, (error) => {
+                console.error("Could not delete course to database (API call error) " + error);
+                });
+            }
+        });
+  }
+
     render() {
         const { classes } = this.props;
         const { videos, open } = this.state;
@@ -229,8 +252,8 @@ export class Studentdocs extends React.Component {
                                                 <Typography gutterBottom variant="h5" component="h2">
                                                 {file.title}
                                                 {this.state.accountType === "tutor"?
-                                                <IconButton variant="contained" size="lg" active /*onClick={event => this.deleteCourse()}*/ className={classes.deleteCourseButton} >
-                                                < DeleteForeverIcon className={classes.deleteIconButton} />
+                                                <IconButton variant="contained" size="lg" active onClick={event => this.deleteVideo(file._id)} className={classes.deleteCourseButton} >
+                                                <DeleteForeverIcon className={classes.deleteIconButton} />
                                                 </IconButton>
                                                     :
                                                     <></>
