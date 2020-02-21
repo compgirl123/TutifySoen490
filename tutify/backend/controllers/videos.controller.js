@@ -25,23 +25,27 @@ exports.getSelectVideos = async (req, res) => {
     //const { id,course } = req.body;
     console.log("Hi");
     var id = [];
-    const sleep = m => new Promise(r => setTimeout(r, m))
+    //console.log(req.session.userInfo);
+
     if(req.session.userInfo.__t == "tutor"){
        id.push(req.session.userInfo._id); 
     }
     else if(req.session.userInfo.__t == "student"){
-        //id.push(req.query.tutor);
+       id.push(req.query.tutor);
     }
-    console.log(req.query.course);
+    console.log(req.query.tutor);
+    /*console.log(req.query.course);
     console.log(req.query.aa[req.query.course]);
-    console.log(req.query.course);
+    console.log(req.query.course);*/
+    console.log(id);
+    console.log(req.query.aa[req.query.course]);
         await Videos.find({ tutorId: {$in:id}, course:req.query.aa[req.query.course]}, async (err, video) => {
             if (err) {
                 console.error("The videos were not found");
                 return await res.json({ success: false, error: err })
             }
             console.info("The videos were found");
-            //console.log(video);
+            console.log(video);
             return await res.json({ success: true, data: video });
         });
    
