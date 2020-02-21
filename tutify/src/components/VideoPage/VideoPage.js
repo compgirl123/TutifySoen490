@@ -72,7 +72,7 @@ export class Studentdocs extends React.Component {
     handleClickOpen = () => {
         this.setState({ open: true });
     };
-
+    
     // This function gets the videos corresponding to each of the tutor's classes.
     getTutorClassVideos = (e) => {
         axios.get('/api/getSelectVideos', {
@@ -91,7 +91,8 @@ export class Studentdocs extends React.Component {
         })
             .catch(err => console.error("Could not get the videos from the database: " + err));
     }
-    
+
+     
     // Setting the login state for the user.
     checkSession = () => {
         fetch('/api/checkSession', {
@@ -118,7 +119,7 @@ export class Studentdocs extends React.Component {
                         // Setting the states for the student
                         this.setState({
                             tutorId: res.userInfo._id,
-                            accountType: res.userInfo.__t
+                            accountType: res.userInfo.__t,
                         })
                         // getting all tutors and their videos for a specific student
                         this.getAllVideosStudent();
@@ -170,6 +171,7 @@ export class Studentdocs extends React.Component {
         })
             .catch(err => console.error("Could not get the videos from the database: " + err));
     }
+
 
     // Getting all of the courses the user is taking for each tutor
     getUserCourses = () => {
@@ -302,6 +304,7 @@ export class Studentdocs extends React.Component {
             })
                 .catch(err => console.error("Could not get the videos from the database: " + err));
         };
+        
 
         return (
             <React.Fragment>
@@ -322,9 +325,11 @@ export class Studentdocs extends React.Component {
                                 aria-label="scrollable auto tabs example"
                                 onclick={(e) => { this.setState({ newValue: e.target.value }); this.getTutorClassVideos(e); }}
                             >
+                            
                                 {categoryOptions.map((category, index) => (
                                     <Tab label={category} {...a11yProps(index)} />
                                 ))}
+                               
                             </Tabs>
                         </AppBar>
                         <Container maxWidth="lg" className={classes.container}>
