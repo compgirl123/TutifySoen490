@@ -330,6 +330,10 @@ var Videos = mongoose.model('Videos', new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Tutor',
     required: true
+  },
+  course: {
+    type: String,
+    required: true
   }
 }), "videos");
 

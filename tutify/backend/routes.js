@@ -141,6 +141,8 @@ router.post('/addResource', resourceController.addResource);
 
 router.get('/getVideos', videoController.getVideos);
 
+router.get('/getSelectVideos', videoController.getSelectVideos);
+
 router.post('/addVideo', videoController.addVideo);
 
 router.post('/deleteVideo', videoController.deleteVideo);
