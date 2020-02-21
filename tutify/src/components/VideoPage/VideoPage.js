@@ -180,7 +180,12 @@ export class Studentdocs extends React.Component {
             console.info("Successfully fetched the videos");
             for (var x = 0; x < res.data.data.length; x++) {
                 console.log(res.data.data[x].course.name);
-                courses.push(res.data.data[x].course.name)
+                console.log(res.data.data[x].tutor._id);
+                console.log(this.props.match.params.id);
+                if(res.data.data[x].tutor._id == this.props.match.params.id){
+                    courses.push(res.data.data[x].course.name)
+                }
+                //courses.push(res.data.data[x].course.name)
             }
             console.log(courses);
             this.setState({
