@@ -21,7 +21,19 @@ import DialogActions from '@material-ui/core/DialogActions';
 import axios from "axios";
 import IconButton from '@material-ui/core/IconButton';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
+// Defines what content is shown based on index of selected tab
+function a11yProps(index) {
+    return {
+        id: `scrollable-auto-tab-${index}`,
+        'aria-controls': `scrollable-auto-tabpanel-${index}`,
+    };
+}
 // displaying the documents shared to students
 export class Studentdocs extends React.Component {
     constructor(props) {
@@ -36,12 +48,15 @@ export class Studentdocs extends React.Component {
             videos: [],
             accountType : "",
             open: false,
-            Toggle: false
+            Toggle: false,
+            categoryOptions: [],
+            newValue : 0
         };
     }
 
     componentDidMount() {
         this.checkSession();
+        //this.getTutorCourses1();
     }
 
     handleClose = () => {
@@ -63,7 +78,8 @@ export class Studentdocs extends React.Component {
                 if (res.isLoggedIn) {
                     if(res.userInfo.__t === "tutor")
                     {
-                        console.log(res.userInfo);
+                        console.log(res.userInfo.courses.length);
+                        //.course after for loop above
                         this.setState({
                             tutorId: res.userInfo._id,
                             tutorFirstName: res.userInfo.first_name,
@@ -71,6 +87,7 @@ export class Studentdocs extends React.Component {
                             accountType: res.userInfo.__t
                         })
                         this.getAllVideos();
+                        this.getTutorCourses1();
                     }
                     else if (res.userInfo.__t === "student")
                     {
@@ -81,6 +98,7 @@ export class Studentdocs extends React.Component {
                         })
                         this.getAllVideos2();
                         this.getAllVideos();
+                        this.getUserCourses1();
                     }
                     
                 }
@@ -127,6 +145,45 @@ export class Studentdocs extends React.Component {
                 tutorFirstName: res.data.tutor.first_name,
                 tutorLastName: res.data.tutor.last_name,
             });
+        })
+            .catch(err => console.error("Could not get the videos from the database: " + err));
+    }
+
+    //getTutorCourses
+    getTutorCourses1 = () => {
+        axios.get('/api/getTutorCourses',{
+        }).then((res) => {
+            // fetch the videos
+            var courses = [];
+            console.info("Successfully fetched the videos");
+            for(var x=0;x<res.data.data.length;x++){
+                console.log(res.data.data[x].course.name);
+                courses.push(res.data.data[x].course.name)
+            }
+            this.setState({
+                categoryOptions: courses
+            });
+            // setting state of the video array in order to get information from each video
+            
+        })
+            .catch(err => console.error("Could not get the videos from the database: " + err));
+    }
+
+    getUserCourses1 = () => {
+        axios.get('/api/getUserCourses',{
+        }).then((res) => {
+            // fetch the videos
+            var courses = [];
+            console.info("Successfully fetched the videos");
+            for(var x=0;x<res.data.data.length;x++){
+                console.log(res.data.data[x].course.name);
+                courses.push(res.data.data[x].course.name)
+            }
+            this.setState({
+                categoryOptions: courses
+            });
+            // setting state of the video array in order to get information from each video
+            
         })
             .catch(err => console.error("Could not get the videos from the database: " + err));
     }
@@ -213,18 +270,44 @@ export class Studentdocs extends React.Component {
             }
         });
   }
+ 
 
     render() {
         const { classes } = this.props;
-        const { videos, open } = this.state;
+        const { videos, open, newValue,categoryOptions} = this.state;
+        console.log(categoryOptions);
+
+        const handleChange = (event, newValue) => {
+            this.setState({newValue : newValue});
+            console.log(this.state.newValue);
+        };
 
         return (
             <React.Fragment>
                 <main>
                     <DashBoardNavBar />
+                    
                     <main className={classes.content}>
+                    
                         <div className={classes.appBarSpacer} />
+                        <AppBar position="static" color="default" textAlign="center">
+                        <Tabs
+                            value={newValue}
+                            onChange={handleChange}
+                            indicatorColor="primary"
+                            textColor="primary"
+                            variant="scrollable"
+                            scrollButtons="auto"
+                            aria-label="scrollable auto tabs example"
+                        >
+                        <Tab label="All" {...a11yProps(0)} /> 
+                            {categoryOptions.map((category,index) => (
+                                 <Tab label={category} {...a11yProps(index)} />
+                            ))} 
+                        </Tabs>
+                    </AppBar>
                         <Container maxWidth="lg" className={classes.container}>
+                        
                             {this.state.accountType === "tutor" ?
                             <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addVideoButton} >
                                 Add Video
