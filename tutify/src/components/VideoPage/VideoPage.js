@@ -28,35 +28,9 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from "@material-ui/core/MenuItem";
-import Box from '@material-ui/core/Box';
-import PropTypes from 'prop-types';
 
-// Defines the content of the tab panel
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <Typography
-            component="div"
-            role="tabpanel"
-            hidden={value !== index}
-            id={`scrollable-auto-tabpanel-${index}`}
-            aria-labelledby={`scrollable-auto-tab-${index}`}
-            {...other}
-        >
-            {value === index && <Box p={3}>{children}</Box>}
-        </Typography>
-    );
-}
-
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
-};
 // Defines what content is shown based on index of selected tab
 function a11yProps(index) {
-   //alert(category);
     return {
         id: `scrollable-auto-tab-${index}`,
         'aria-controls': `scrollable-auto-tabpanel-${index}`,
@@ -82,45 +56,43 @@ export class Studentdocs extends React.Component {
             categoryOptions: [],
             newValue: 0,
             activeTab : 0,
-            //tada : ""
         };
     }
 
     componentDidMount() {
         this.checkSession();
-        //this.tada();
     }
 
+    // Handling the Closing of the Dialog Box
     handleClose = () => {
         this.setState({ open: false, link: "", title: "", course: "" });
     };
 
+    // Handling the Opening of the Dialog Box
     handleClickOpen = () => {
         this.setState({ open: true });
     };
 
-    tada = (e) => {
-    axios.get('/api/getSelectVideos', {
-        params: {
-            course: this.state.newValue,
-            aa: this.state.categoryOptions,
-            tutor: this.props.match.params.id
-        }
-    }).then((res) => {
-        // fetch the videos
-        console.info("Successfully fetched the videos");
-        //console.log(this.state.newValue);
-        console.log(res);
-        //console.log(this.props.match.params.id);
-        this.setState({
-            videos: res.data.data
-        });
-    })
-        .catch(err => console.error("Could not get the videos from the database: " + err));
-}
+    // This function gets the videos corresponding to each of the tutor's classes.
+    getTutorClassVideos = (e) => {
+        axios.get('/api/getSelectVideos', {
+            params: {
+                courseSelected: this.state.newValue,
+                tutorClasses: this.state.categoryOptions,
+                tutor: this.props.match.params.id
+            }
+        }).then((res) => {
+            // fetch the videos
+            console.info("Successfully fetched the videos from the class");
+            console.info(res);
+            this.setState({
+                videos: res.data.data
+            });
+        })
+            .catch(err => console.error("Could not get the videos from the database: " + err));
+    }
     
-
-    // Setting the login state of user.
+    // Setting the login state for the user.
     checkSession = () => {
         fetch('/api/checkSession', {
             method: 'GET',
@@ -129,27 +101,29 @@ export class Studentdocs extends React.Component {
             .then(response => response.json())
             .then((res) => {
                 if (res.isLoggedIn) {
+                    // if user is a tutor, then execute the following
                     if (res.userInfo.__t === "tutor") {
-                        console.log(res.userInfo.courses.length);
-                        //.course after for loop above
+                        // Setting the states for the tutor
                         this.setState({
                             tutorId: res.userInfo._id,
                             tutorFirstName: res.userInfo.first_name,
                             tutorLastName: res.userInfo.last_name,
                             accountType: res.userInfo.__t
                         })
-                        this.getTutorCourses1();
-                        this.getAllVideos();
+                        // getting tutor courses for filtering bar on top
+                        this.getTutorCourses();
                     }
+                    // if user is a student, then execute the following
                     else if (res.userInfo.__t === "student") {
-                        console.log(res.userInfo);
+                        // Setting the states for the student
                         this.setState({
                             tutorId: res.userInfo._id,
                             accountType: res.userInfo.__t
                         })
+                        // getting all tutors and their videos for a specific student
                         this.getAllVideosStudent();
-                        this.getAllVideos();
-                        this.getUserCourses1();
+                        // getting user courses
+                        this.getUserCourses();
                     }
 
                 }
@@ -160,25 +134,7 @@ export class Studentdocs extends React.Component {
             .catch(err => console.log(err));
     };
 
-    getAllVideos = () => {
-        axios.get('/api/getVideos', {
-            params: {
-                tutor: this.props.match.params.id
-            }
-        }).then((res) => {
-            // fetch the videos
-            console.info("Successfully fetched the videos");
-            console.log(res);
-            console.log(res.data.data);
-            console.log(this.props.match.params.id);
-            // setting state of the video array in order to get information from each video
-            /*this.setState({
-                videos: res.data.data
-            });*/
-        })
-            .catch(err => console.error("Could not get the videos from the database: " + err));
-    }
-
+    // Getting all of the tutors the student is registered with as well as their videos
     getAllVideosStudent = () => {
         axios.get('/api/getTutor', {
             params: {
@@ -186,11 +142,7 @@ export class Studentdocs extends React.Component {
             }
         }).then((res) => {
             // fetch the videos
-            console.info("Successfully fetched the videos");
-            console.log(res.data.tutor.first_name);
-            console.log(res.data.tutor.last_name);
-            // console.log(res.data.data);
-            console.log(this.props.match.params.id);
+            console.info("Successfully fetched the videos for the Student");
             // setting state of the video array in order to get information from each video
             this.setState({
                 tutorFirstName: res.data.tutor.first_name,
@@ -200,27 +152,27 @@ export class Studentdocs extends React.Component {
             .catch(err => console.error("Could not get the videos from the database: " + err));
     }
 
-    //getTutorCourses
-    getTutorCourses1 = () => {
+    // Getting all of the courses the tutor teaches
+    getTutorCourses = () => {
         axios.get('/api/getTutorCourses', {
         }).then((res) => {
             // fetch the videos
             var courses = [];
             console.info("Successfully fetched the videos");
+            //console.log(res.data.data);
             for (var x = 0; x < res.data.data.length; x++) {
-                console.log(res.data.data[x].course.name);
-                courses.push(res.data.data[x].course.name)
+                courses.push(res.data.data[x].course.name);
             }
             this.setState({
                 categoryOptions: courses
             });
-            // setting state of the video array in order to get information from each video
-
+            console.log(res.data);
         })
             .catch(err => console.error("Could not get the videos from the database: " + err));
     }
 
-    getUserCourses1 = () => {
+    // Getting all of the courses the user is taking for each tutor
+    getUserCourses = () => {
         axios.get('/api/getUserCourses', {
         }).then((res) => {
             // fetch the videos
@@ -230,16 +182,16 @@ export class Studentdocs extends React.Component {
                 console.log(res.data.data[x].course.name);
                 courses.push(res.data.data[x].course.name)
             }
+            console.log(courses);
             this.setState({
                 categoryOptions: courses
             });
-            // setting state of the video array in order to get information from each video
 
         })
             .catch(err => console.error("Could not get the videos from the database: " + err));
     }
 
-    //Adding a new video to the db
+    // Adding a new video according to what the user inputs into the Dialog box to the db
     addVideoToDb = () => {
         var tutor = [];
         tutor.push(this.state.id);
@@ -323,33 +275,25 @@ export class Studentdocs extends React.Component {
             });
     }
 
-
     render() {
         const { classes } = this.props;
         const { videos, open, newValue, categoryOptions } = this.state;
 
+        // Handling the change in option in the top filtering by course bar
         const handleChange = (event, newValue) => {
-            console.log(newValue);
             this.setState({ newValue: newValue });
             axios.get('/api/getSelectVideos', {
                 params: {
-                    course: newValue,
-                    aa: this.state.categoryOptions,
+                    courseSelected: newValue,
+                    tutorClasses: this.state.categoryOptions,
                     tutor: this.props.match.params.id
                 }
             }).then((res) => {
                 // fetch the videos
                 console.info("Successfully fetched the videos");
-                //console.log(this.state.newValue);
-                console.log(res);
-                //console.log(this.props.match.params.id);
                 this.setState({
                     videos: res.data.data
                 });
-                // setting state of the video array in order to get information from each video
-                /*this.setState({
-                    videos: res.data.data
-                });*/
             })
                 .catch(err => console.error("Could not get the videos from the database: " + err));
         };
@@ -371,7 +315,7 @@ export class Studentdocs extends React.Component {
                                 variant="scrollable"
                                 scrollButtons="auto"
                                 aria-label="scrollable auto tabs example"
-                                onclick={(e)=>{ this.setState({ newValue: e.target.value }); this.tada(e); }}
+                                onclick={(e) => { this.setState({ newValue: e.target.value }); this.getTutorClassVideos(e); }}
                             >
                                 {categoryOptions.map((category, index) => (
                                     <Tab label={category} {...a11yProps(index)} />
