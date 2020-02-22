@@ -42,7 +42,7 @@ exports.getSelectVideos = async (req, res) => {
 // this method adds a new video to the database
 exports.addVideo = async function (req, res) {
     const { title, description, videoLink, tutorId, course } = req.body;
-    // new video to add by tutor
+    // new video to be added by tutor
     let videos = new Videos();
     videos.title = title;
     videos.description = description;

@@ -262,7 +262,7 @@ exports.authUser = async function (req, res) {
 
     Account.findOne({ email: email }, function (err, user) {
         if (err) {
-            console.log("Error while trying to authentificate the user (database request failed)");
+            console.info("Error while trying to authentificate the user (database request failed)");
             return res.status(500).send();
         }
         else if (user == undefined) {

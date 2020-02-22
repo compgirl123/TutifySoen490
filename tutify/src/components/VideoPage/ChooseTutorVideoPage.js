@@ -50,6 +50,7 @@ export class ChooseTutorVideoPage extends React.Component {
       .catch(err => console.error("Session could not be checked: " + err));
   };
 
+  // Getting all of the videos from the selected Tutor
   getAllVideos = () => {
     axios.get('/api/getUsersTutors').then((res) => {
         // fetch the videos
@@ -93,31 +94,31 @@ export class ChooseTutorVideoPage extends React.Component {
                 <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addCourseButton} >
                   Add Course
                   </Button>
-                  <Grid container spacing={5}>
-                    {videos.map((c, i) => (
-                      <Grid item xs={4} md={4} lg={4}>
-                        <Card className={classes.card}>
-                          <CardActionArea>
-                            <CardMedia
-                              className={classes.media}
-                              title="French"
-                            />
-                            <CardContent>
-                              <Typography gutterBottom variant="h5" component="h2">
-                                {c.first_name} {c.last_name}
-                              </Typography>
-                              <Typography variant="body2" color="textSecondary" component="p">
-                              </Typography>
-                            </CardContent>
-                          </CardActionArea>
-                          <CardActions>
-                            <Button type="button" onClick={() => window.location.replace("/videos/" + (c._id).replace(/ /g, ""))} size="small" href="" fullWidth className="submit">
-                              View Tutor Videos
+                <Grid container spacing={5}>
+                  {videos.map((c, i) => (
+                    <Grid item xs={4} md={4} lg={4}>
+                      <Card className={classes.card}>
+                        <CardActionArea>
+                          <CardMedia
+                            className={classes.media}
+                            title="French"
+                          />
+                          <CardContent>
+                            <Typography gutterBottom variant="h5" component="h2">
+                              {c.first_name} {c.last_name}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" component="p">
+                            </Typography>
+                          </CardContent>
+                        </CardActionArea>
+                        <CardActions>
+                          <Button type="button" onClick={() => window.location.replace("/videos/" + (c._id).replace(/ /g, ""))} size="small" href="" fullWidth className="submit">
+                            View Tutor Videos
                             </Button>
-                          </CardActions>
-                        </Card>
-                      </Grid>
-                    ))}
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  ))}
                 </Grid>
               </Container>
               {/* Footer */}

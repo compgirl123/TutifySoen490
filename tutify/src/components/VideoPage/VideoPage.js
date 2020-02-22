@@ -162,7 +162,6 @@ export class Studentdocs extends React.Component {
         }).then((res) => {
             var courses = [];
             console.info("Successfully fetched the videos");
-            console.log(res.data.data);
             for (var x = 0; x < res.data.data.length; x++) {
                 courses.push(res.data.data[x].course.name);
             }
