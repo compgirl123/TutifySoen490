@@ -16,7 +16,6 @@ exports.getTutors = async function (req, res) {
 
 // this method fetches one tutor in our database
 exports.getTutor = async function (req, res) {
-    console.log(req.query.ID);
     Tutor.findOne({ _id: req.query.ID }).populate('courses.course').
         exec(function (err, tutor) {
             if (err) {
@@ -48,12 +47,12 @@ exports.updateTutor = async function (req, res) {
                     console.error("The session was unable to be saved");
                     return res.json({ success: false, error: err });
                 }
-                console.info("The session was able to be saved");       
+                console.info("The session was able to be saved");
                 req.session.reload(function (err) {
                     if (err) {
                         console.warn("The session failed to reload");
                     }
-                    else{
+                    else {
                         console.info("The session reloaded successfully");
                     }
                     return res.json({ success: true, newSubjects: user.subjects });
@@ -93,7 +92,7 @@ exports.updateTutorInfo = async function (req, res) {
                     if (err) {
                         console.warn("The session failed to reload");
                     }
-                    else{
+                    else {
                         console.info("The session reloaded successfully");
                     }
                     return res.json({ success: true, userInfo: user });
@@ -144,7 +143,7 @@ exports.addEvent = async function (req, res) {
                         { "new": true, "upsert": true },
                         function (err, student) {
                             if (err) {
-                                console.error("Failed to assign student "+student+" to the event");
+                                console.error("Failed to assign student " + student + " to the event");
                                 throw err;
                             }
                         });
@@ -162,7 +161,7 @@ exports.addEvent = async function (req, res) {
                         if (err) {
                             console.warn("The session failed to reload");
                         }
-                        else{
+                        else {
                             console.info("The session reloaded successfully");
                         }
                     });
@@ -170,7 +169,7 @@ exports.addEvent = async function (req, res) {
                     events.forEach(function (event) {
                         Event.findOne({ _id: event }, function (err, event) {
                             if (err) {
-                                console.error("Could not find the event "+event)
+                                console.error("Could not find the event " + event)
                             };
 
                             newEvents.push(event);
@@ -207,7 +206,7 @@ exports.populateEvents = async function (req, res) {
 
         Event.findOne({ _id: event }, function (err, event) {
             if (err) {
-                console.error("The event "+event+" has not been found");
+                console.error("The event " + event + " has not been found");
                 return res.json({ success: true, error: err });
             };
             newEvents.push(event);
@@ -258,7 +257,7 @@ exports.deleteEvent = async function (req, res) {
                         if (err) {
                             console.warn("The session failed to reload");
                         }
-                        else{
+                        else {
                             console.info("The session reloaded successfully");
                         }
                         return res.json({ success: true, userInfo: tutor });

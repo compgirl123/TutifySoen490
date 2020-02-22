@@ -16,7 +16,6 @@ import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 export class TutorSidebar extends Component {
   constructor(props) {
     super(props);
-
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -75,7 +74,6 @@ export class TutorSidebar extends Component {
               </ListItemIcon>
               <ListItemText primary="Videos" />
             </ListItem>
-
 
             <ListItem button component="a" href="/announcements">
               <ListItemIcon>

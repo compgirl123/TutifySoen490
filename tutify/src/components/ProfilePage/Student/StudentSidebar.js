@@ -19,7 +19,6 @@ import PublishIcon from '@material-ui/icons/Publish';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 
 class Sidebar extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -51,7 +50,6 @@ class Sidebar extends Component {
 
   render() {
     const { classes, tutors } = this.props;
-
     return (
       <div>
         <Divider />
@@ -62,7 +60,7 @@ class Sidebar extends Component {
             </ListItemIcon>
             <ListItemText primary="My Profile" />
           </ListItem>
-          
+
           <ListItem button component="a" href="/courses">
             <ListItemIcon>
               <MenuBookIcon />
@@ -88,11 +86,11 @@ class Sidebar extends Component {
             <ListItemText primary="Search" />
           </ListItem>
           <ListItem button component="a" href="/choosetutorVideo">
-              <ListItemIcon>
-                <VideoLibraryIcon />
-              </ListItemIcon>
-              <ListItemText primary="Videos" />
-            </ListItem>
+            <ListItemIcon>
+              <VideoLibraryIcon />
+            </ListItemIcon>
+            <ListItemText primary="Videos" />
+          </ListItem>
           <ListItem button component="a" href="/" onClick={this.handleChange} >
             <ListItemIcon>
               <ExitToAppIcon />
