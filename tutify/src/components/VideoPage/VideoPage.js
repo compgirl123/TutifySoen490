@@ -222,6 +222,20 @@ export class Studentdocs extends React.Component {
             .catch(err => console.error("Could not get the videos from the database: " + err));
     }
 
+    // This function checks if the image url provided by the user is a URL
+    isURL(url) {
+        if(!url) return false;
+        var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))|' + // OR ip (v4) address
+            'localhost' + // OR localhost
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+            '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+
+        return pattern.test(url);
+    }
+
     // Adding a new video according to what the user inputs into the Dialog box to the db
     addVideoToDb = () => {
         var tutor = [];
@@ -259,7 +273,8 @@ export class Studentdocs extends React.Component {
                 if (value) {
                     console.info("Adding video to db...");
                     if (this.state.title !== '' && this.state.description !== '' &&
-                        this.state.videoLink !== '' && this.state.tutorId !== '') {
+                        this.state.videoLink !== '' && this.isURL(this.state.videoLink)&& 
+                        this.state.tutorId !== '' && this.state.course !== '') {
                         axios.post('/api/addVideo', {
                             title: this.state.title,
                             description: this.state.description,
@@ -276,7 +291,7 @@ export class Studentdocs extends React.Component {
                     }
                     else {
                         console.error("Empty fields");
-                        swal("Could not add resource, empty fields.", "", "error")
+                        swal("Could not add resource, empty or invalid fields.", "", "error")
                     }
                 }
             });
@@ -327,6 +342,15 @@ export class Studentdocs extends React.Component {
             })
                 .catch(err => console.error("Could not get the videos from the database: " + err));
         };
+
+        // Handling the embedding of the video Links.
+        const handleVideoEmbedding = (e) => {
+            if ((e.target.value).split("/")[2] === "www.youtube.com") {
+                this.setState({ videoLink: "https://www.youtube.com/embed/" + (e.target.value).split("=")[1] });
+            } else if ((e.target.value).split("/")[2] === "drive.google.com") {
+                this.setState({ videoLink: (e.target.value).split("/view")[0] + "/preview" });
+            }
+        }
 
         return (
             <React.Fragment>
@@ -428,9 +452,10 @@ export class Studentdocs extends React.Component {
                                         margin="dense"
                                         id="videoLink"
                                         name="videoLink"
-                                        onChange={e => this.setState({ videoLink: e.target.value })}
+                                        onChange={e => { handleVideoEmbedding(e) }}
                                         autoComplete="videoLink"
                                         label="Link"
+                                        defaultValue={this.state.video}
                                         fullWidth
                                     />
                                     <TextField
