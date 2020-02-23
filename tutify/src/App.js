@@ -31,7 +31,13 @@ import ResetPassword from './components/ResetPassword';
 
 =======
 import ForgotPassword from './components/ForgetPassword';
+<<<<<<< HEAD
 >>>>>>> fixed mistake of naming component name inside route #180
+=======
+import ResetPassword from './components/ResetPassword';
+
+
+>>>>>>> app.js adding routes for reset password #180
 // This is all the url routing.
 function MainPage() {
   return (
