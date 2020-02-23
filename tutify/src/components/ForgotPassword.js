@@ -25,19 +25,28 @@ export class ForgotPassword extends React.Component {
 
     //this method verifies if the email exists in the database, if yes, sends a reset link to the email otherwise sends an error back
     forgotPassword = () => {
+        console.info("Sending email to reset password and saving token and expiry date of token in db");
         axios.post('/api/forgotPassword', {
             email: this.state.email,
         })
             .then((res) => {
                 if (res.data.success) {
-                    swal("Email successfully sent!", "", "success");
+                    swal("Email successfully sent!", "", "success").then((res) => {
+                        window.location = "/";
+                    }, (error) => {
+                        console.error("Could not display swal alert. " + error);
+                    });;
                 }
                 else {
-                    swal("Invalid email!", "This email does not belong to a registered user.", "error");
+                    swal("Invalid email!", "This email does not belong to a registered user.", "error").then((res) => {
+                        window.location = window.location.href;
+                    }, (error) => {
+                        console.error("Could not display swal alert. " + error);
+                    });;
                 }
 
             }, (error) => {
-                console.error(error);
+                console.error("Could not reset password (API call error) " + error);
             });
     }
 

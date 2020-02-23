@@ -1,6 +1,7 @@
 const Account = require('../models/models').Account;
 const Student = require('../models/models').Student;
 const Tutor = require('../models/models').Tutor;
+
 var session = require('express-session');
 // Nodejs encryption with CTR
 const crypto = require('crypto');
@@ -23,65 +24,84 @@ exports.getUser = async function (req, res) {
 exports.resetPassword = async function (req, res) {
     const { password, resetPasswordToken } = req.body;
     var success = true;
-    console.log("hello");
-    Student.findOne({ resetPasswordToken: resetPasswordToken }, function (err, tutor) {
+
+    Tutor.findOne({ resetPasswordToken: resetPasswordToken }, function (err, tutor) {
         if (err) {
             console.log("Error while trying to authentificate the user (database request failed)");
             return res.status(500).send();
         }
-        console.log(tutor);
-        console.log("yo");
-        if(tutor){
-            console.log("yo1");
 
-            if(tutor.resetPasswordExpires > Date.now()){
-                bcrypt.hash(password, salt, (err, hash) => {
+        if (tutor) {
+            if (tutor.resetPasswordExpires > Date.now()) {
+                bcrypt.genSalt(10, (err, salt) => {
                     if (err) {
                         console.log(err);
-                    } 
-                    console.log(password);
-                    console.log(user.password);
-                    tutor.password = hash;
-                    return res.json({ success: true, data: success });
-            });
-            }
-            else{
-                console.log("yo2");
+                    } else {
+                        bcrypt.hash(password, salt, (err, hash) => {
+                            if (err) {
+                                console.log(err);
+                            }
 
-            success = false;
-            return res.json({ success: false, data: success });
+                            Account.findByIdAndUpdate({ _id: tutor.account },
+                                { $set: { "password": hash } },
+                                { "new": true, "upsert": true },
+                                function (err) {
+                                    if (err) throw err;
+                                });
+                                console.info("Password was updated in the database.");
+                            return res.json({ success: true, data: success });
+                        });
+                    };
+                });
+            }
+            else {
+                console.info("Unable to save password in the database because token has expired.");
+                success = false;
+                return res.json({ success: false, data: success });
             }
         }
-        else{
-            console.log("uh hello");
-            Tutor.findOne({ resetPasswordToken: resetPasswordToken }, function (err, student) {
+        else {
+            Student.findOne({ resetPasswordToken: resetPasswordToken }, function (err, student) {
                 if (err) {
                     console.log("Error while trying to authentificate the user (database request failed)");
                     return res.status(500).send();
                 }
-                if(student){
-                    if(student.resetPasswordExpires > Date.now()){
-                        bcrypt.hash(password, salt, (err, hash) => {
+                if (student) {
+
+                    if (student.resetPasswordExpires > Date.now()) {
+                        bcrypt.genSalt(10, (err, salt) => {
                             if (err) {
                                 console.log(err);
-                            } 
-                            console.log(password);
-                            console.log(user.password);
-                            student.password = hash;
-                            return res.json({ success: true, data: success });
-                    });
+                            } else {
+                                bcrypt.hash(password, salt, (err, hash) => {
+                                    if (err) {
+                                        console.log(err);
+                                    }
+                                    Account.findByIdAndUpdate({ _id: student.account },
+                                        { $set: { "password": hash } },
+                                        { "new": true, "upsert": true },
+                                        function (err) {
+                                            if (err) throw err;
+                                        });
+                                    console.info("Password was updated in the database.");
+                                    return res.json({ success: true, data: success });
+                                });
+                            };
+                        });
                     }
-                    else{
-                    success = false;
-                    return res.json({ success: false, data: success });
+                    else {
+                        console.info("Unable to save password in the database because token expired.");
+                        success = false;
+                        return res.json({ success: false, data: success });
                     }
                 }
-                else{
-                success = false;
-                return res.json({ success: false, data: success });
-               }
+                else {
+                    console.info("Unable to locate user.");
+                    success = false;
+                    return res.json({ success: false, data: success });
+                }
             });
-       }
+        }
 
     });
 };
@@ -92,67 +112,67 @@ exports.forgotPassword = async function (req, res) {
 
     var success = true;
     var token = "";
-    var date = Date.now() + 6*3600000;
+    var date = Date.now() + 6 * 3600000;
     crypto.randomBytes(16, (err, buf) => {
         if (err) {
-          return reject(err);
+            return reject(err);
         }
-    token = buf.toString('hex');
-    });    
+        token = buf.toString('hex');
+    });
     Account.findOne({ email: email }, function (err, user) {
         if (err) {
 
             console.log("Error while trying to authentificate the user (database request failed)");
             return res.status(500).send();
         }
-        console.log(email);
         //if user exists in database, send email using nodemailer
         if (user) {
-            console.log("yo");
-            var _id = user._id;
-            Tutor.findOne({ _id: _id }, function (err, tutor) {
+
+            Tutor.findOne({ email: user.email }, function (err, tutor) {
                 if (err) {
-        
+
                     console.log("Error while trying to authentificate the user (database request failed)");
                     return res.status(500).send();
                 }
-                if(tutor){
-                    console.log("yo1");
+                if (tutor) {
+                    var _id = user.tutor_profile;
 
                     Tutor.findByIdAndUpdate(_id,
-                        { $set: { "resetPasswordToken": token, "resetPasswordExpires": date} },
+                        { $set: { "resetPasswordToken": token, "resetPasswordExpires": date } },
                         { "new": true, "upsert": true },
-                        function (err, tutor) {
+                        function (err) {
                             if (err) throw err;
-                        }); 
+                        });
+                    console.info("The resetPasswordToken and resetPasswordExpires was saved in the database");
                 }
-                else{
-                    console.log("yo2");
+                else {
 
-                    console.log(_id);
-                    Student.findByIdAndUpdate(_id,
-                        { $set: { "resetPasswordToken" : token, "resetPasswordExpires": date} },
-                        { "new": true, "upsert": true},
-                        function (err, student) {
-                            if (err) throw err;
-    
-                        });        
+                    Student.findOne({ email: user.email }, function (err, student) {
+                        if (err) {
+
+                            console.log("Error while trying to authentificate the user (database request failed)");
+                            return res.status(500).send();
+                        }
+                        var _id = user.user_profile;
+
+                        Student.findByIdAndUpdate(_id,
+                            { $set: { "resetPasswordToken": token, "resetPasswordExpires": date } },
+                            { "new": true, "upsert": true },
+                            function (err) {
+                                if (err) throw err;
+
+                            });
+                        console.info("The resetPasswordToken and resetPasswordExpires was saved in the database");
+                    });
                 };
             });
-        
-                 
-            //user.resetPasswordToken = token;
-            //user.resetPasswordExpires = Date.now() + 6*3600000;
-            console.log(Date.now());
-            console.log(Date.now() + 6*3600000);
-
 
             var smtpTransport = nodemailer.createTransport({
-                   service: 'Gmail', 
-                      auth: {
-                        user: 'tutifytutoring@gmail.com',
-                        pass: 'moalawami'
-                      }
+                service: 'Gmail',
+                auth: {
+                    user: 'tutifytutoring@gmail.com',
+                    pass: 'moalawami'
+                }
             });
 
             var mailOptions = {
@@ -161,14 +181,17 @@ exports.forgotPassword = async function (req, res) {
                 subject: 'Tutify Password Reset',
                 text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
                     'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-                    'http://' + req.headers.host + '/resetpassword/' + token + '\n\n' +
-                    'If you did not request this, please ignore this email and your password will remain unchanged.\n' 
+                    'http://' + 'localhost:3000' + '/resetpassword/' + token + '\n\n' +
+                    'If you did not request this, please ignore this email and your password will remain unchanged.\n'
             };
             smtpTransport.sendMail(mailOptions, function (err) {
+                console.info("Email was sent using Nodemailer");
                 return res.json({ success: true, data: success });
             });
+
         }
         else {
+            console.info("Email could not be sent using Nodemailer");
             success = false;
             return res.json({ success: false, data: success });
         }
@@ -552,8 +575,9 @@ exports.sendAnnouncementStudents = async function (req, res) {
 
     students.forEach(function (student) {
         Student.findByIdAndUpdate(student,
-            {   "$push": { "notifications": announcement }, 
-                "$inc": { "nbNewNotifications" : 1 }
+            {
+                "$push": { "notifications": announcement },
+                "$inc": { "nbNewNotifications": 1 }
             },
             { "new": true, "upsert": true },
             (err) => {
@@ -595,7 +619,7 @@ exports.clearNewNotificationCount = async function (req, res) {
         return res.json({ success: false, error: err });
     });
 
-    
+
 };
 
 // this method deletes one notification from the user's notifications list
