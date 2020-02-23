@@ -8,7 +8,7 @@ import * as tutifyStyle from '../../styles/SignUp-styles';
 import { withStyles } from "@material-ui/core/styles";
 import NavBar from '../NavBar';
 import Footer from '../Footer';
-import './style.css';
+import '../style.css';
 import swal from 'sweetalert';
 import axios from 'axios';
 import Typography from '@material-ui/core/Typography';
@@ -26,8 +26,12 @@ export class ForgotPassword extends React.Component {
     //this method verifies if the email exists in the database, if yes, sends a reset link to the email otherwise sends an error back
     forgotPassword = () => {
         console.info("Sending email to reset password and saving token and expiry date of token in db");
+        var url = window.location.href.split("/");
+        var host = url[2];
+        
         axios.post('/api/forgotPassword', {
             email: this.state.email,
+            host: host
         })
             .then((res) => {
                 if (res.data.success) {

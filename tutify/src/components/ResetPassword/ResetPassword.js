@@ -8,7 +8,7 @@ import * as tutifyStyle from '../../styles/SignUp-styles';
 import { withStyles } from "@material-ui/core/styles";
 import NavBar from '../NavBar';
 import Footer from '../Footer';
-import './style.css';
+import '../style.css';
 import swal from 'sweetalert';
 import axios from 'axios';
 import Typography from '@material-ui/core/Typography';
@@ -26,10 +26,9 @@ export class ForgotPassword extends React.Component {
 
   //this method updates the user's password
   resetPassword = () => {
-
     var url = window.location.href.split("/");
     var token = url[url.length - 1];
-
+  
     if (this.state.newPassword === this.state.confirmPassword) {
       console.info("Updating password in db");
       axios.post('/api/resetPassword', {

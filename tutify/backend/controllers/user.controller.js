@@ -120,7 +120,7 @@ exports.resetPassword = async function (req, res) {
 
 // this method sends an email to the user concerning reset password
 exports.forgotPassword = async function (req, res) {
-    const { email } = req.body;
+    const { email, host } = req.body;
 
     var success = true;
     var token = "";
@@ -193,7 +193,7 @@ exports.forgotPassword = async function (req, res) {
                 subject: 'Tutify Password Reset',
                 text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
                     'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-                    'http://' + 'localhost:3000' + '/resetpassword/' + token + '\n\n' +
+                    'http://' + host + '/resetpassword/' + token + '\n\n' +
                     'If you did not request this, please ignore this email and your password will remain unchanged.\n'
             };
             smtpTransport.sendMail(mailOptions, function (err) {
