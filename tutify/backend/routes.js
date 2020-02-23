@@ -67,6 +67,10 @@ router.post('/clearNewNotificationCount', userController.clearNewNotificationCou
 
 router.post('/deleteNotification', userController.deleteNotification);
 
+router.post('/forgotPassword', userController.forgotPassword);
+
+router.post('/resetPassword', userController.resetPassword);
+
 // -------- ACCOUNT ROUTES --------- // 
 
 router.get('/getAccount', accountController.getAccount);

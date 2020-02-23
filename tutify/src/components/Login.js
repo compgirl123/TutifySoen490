@@ -138,7 +138,7 @@ export class Login extends React.Component {
                     Login
                   </Button>
                   <Grid item style={{ paddingTop: '20px' }}>
-                    <Link href="#" variant="body2" justify="flex-end">
+                    <Link href="/forgotpassword" variant="body2" justify="flex-end">
                       Forgot password?
                     </Link>
                   </Grid>

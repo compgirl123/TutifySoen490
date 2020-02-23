@@ -72,7 +72,9 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
       ref: 'Event'
 
     }
-  ]
+  ],
+  resetPasswordToken: { type: String },
+  resetPasswordExpires: { type: Number },
 }), 'profiles'
 );
 
