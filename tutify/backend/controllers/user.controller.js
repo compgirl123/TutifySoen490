@@ -18,6 +18,18 @@ exports.getUser = async function (req, res) {
     });
 };
 
+// this method fetches all the tutors the user is registered with
+exports.getUsersTutors = async function (req, res) {
+    var id = [];
+    for (var x = 0; x < req.session.userInfo.tutors.length; x++) {
+        id.push(req.session.userInfo.tutors[x]._id);
+    }
+    Tutor.find({ _id: { $in: id } }, function (err, data) {
+        if (err) return res.json({ success: false, error: err });
+        return res.json({ success: true, data: data });
+    });
+};
+
 // this method finds students in the database given the object id
 exports.findStudents = async function (req, res) {
     var count = 0;
@@ -250,7 +262,7 @@ exports.authUser = async function (req, res) {
 
     Account.findOne({ email: email }, function (err, user) {
         if (err) {
-            console.log("Error while trying to authentificate the user (database request failed)");
+            console.info("Error while trying to authentificate the user (database request failed)");
             return res.status(500).send();
         }
         else if (user == undefined) {
@@ -395,8 +407,9 @@ exports.sendAnnouncementStudents = async function (req, res) {
 
     students.forEach(function (student) {
         Student.findByIdAndUpdate(student,
-            {   "$push": { "notifications": announcement }, 
-                "$inc": { "nbNewNotifications" : 1 }
+            {
+                "$push": { "notifications": announcement },
+                "$inc": { "nbNewNotifications": 1 }
             },
             { "new": true, "upsert": true },
             (err) => {
@@ -438,7 +451,7 @@ exports.clearNewNotificationCount = async function (req, res) {
         return res.json({ success: false, error: err });
     });
 
-    
+
 };
 
 // this method deletes one notification from the user's notifications list

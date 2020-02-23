@@ -237,15 +237,15 @@ var UploadedFiles = mongoose.model('UploadedFiles', new mongoose.Schema({
     { type: Schema.Types.ObjectId, ref: 'Mfiles' }
   ],
   sharedToStudents: [
-  { type: Schema.Types.ObjectId, ref: 'Student' }
+    { type: Schema.Types.ObjectId, ref: 'Student' }
   ],
   sharedToCourses: [
-  { type: Schema.Types.ObjectId, ref: 'Course' }
+    { type: Schema.Types.ObjectId, ref: 'Course' }
   ],
   sharedToTutors: [
     { type: Schema.Types.ObjectId, ref: 'Tutor' }
   ],
-  
+
   uploadDate: Date
 }), "uploaded_files");
 
@@ -301,7 +301,7 @@ var Resource = mongoose.model('Resource', new Schema({
   link: {
     type: String,
     required: true
-  }, 
+  },
   category: {
     type: String,
     required: true
@@ -312,6 +312,30 @@ var Resource = mongoose.model('Resource', new Schema({
   }
 }), "resources");
 
+// -------- Videos --------- // 
+var Videos = mongoose.model('Videos', new Schema({
+  title: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  videoLink: {
+    type: String,
+    required: true
+  },
+  tutorId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Tutor',
+    required: true
+  },
+  course: {
+    type: String,
+    required: true
+  }
+}), "videos");
 
 // export the Schemas
 module.exports = {
@@ -325,7 +349,8 @@ module.exports = {
   Event: Event,
   Mfiles: Mfiles,
   Mchunks: Mchunks,
-  Resource: Resource
+  Resource: Resource,
+  Videos: Videos
 }
 
 

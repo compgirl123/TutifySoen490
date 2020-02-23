@@ -115,6 +115,11 @@ export const styles = theme => ({
     width: '60px', 
     height: '60px', 
   },
+  cardStyle: {
+    display: 'block',
+    height: '30vw',
+  },
+
   addCourseButton:{
     marginBottom: 20 
   },

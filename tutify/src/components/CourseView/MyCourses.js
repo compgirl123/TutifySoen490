@@ -94,7 +94,7 @@ export class MyCourses extends React.Component {
           else if (res.userInfo.__t === "tutor") {
             this.getTutorDataFromDb();
             this.getAllCoursesFromDB();
-            this.setState({ 
+            this.setState({
               students: res.userInfo.students,
               tutorName: res.userInfo.first_name + " " + res.userInfo.last_name,
               tutorImg: res.userInfo.picture,
@@ -151,7 +151,6 @@ export class MyCourses extends React.Component {
 
   // this method deletes a course from the database 
   deleteCourse = (course_id) => {
-
     swal({
       title: "Are you sure you want delete this course?",
       icon: "warning",
@@ -309,7 +308,6 @@ export class MyCourses extends React.Component {
                   :
                   <></>
                 }
-
                 <Grid container spacing={5}>
                   {courses.map((c, i) => (
                     <Grid item xs={4} md={4} lg={4}>
@@ -353,9 +351,7 @@ export class MyCourses extends React.Component {
                 </Grid>
               </Container>
 
-
               <div>
-
                 <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
                   <DialogTitle id="simple-dialog-title">Add a course</DialogTitle>
                   <DialogContent>
@@ -398,19 +394,18 @@ export class MyCourses extends React.Component {
                         </Select>
                       </FormControl>
                     }
-                    <div>
 
+                    <div>
                       {this.state.courseName1 === "" ?
                         <Button variant="contained" size="lg" active className={classes.saveCourseButton} disabled>
                           Save Course
-                    </Button>
+                      </Button>
                         :
                         <Button variant="contained" size="lg" active onClick={() => { this.addTutorToCourse(); }} className={classes.saveCourseButton}>
                           Save Course
-                    </Button>
+                      </Button>
                       }
                     </div>
-
 
                     <div>
                       <DialogContentText >
