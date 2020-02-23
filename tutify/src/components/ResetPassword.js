@@ -30,8 +30,8 @@ export class ForgotPassword extends React.Component {
   resetPassword = () => {
 
     var url = window.location.href.split("/");
-    this.state.token = url[url.length-1];
-    
+    this.setState({token :url[url.length-1] });
+
     if(this.state.newPassword === this.state.confirmPassword){
         axios.post('/api/resetPassword', {
             password: this.state.newPassword,

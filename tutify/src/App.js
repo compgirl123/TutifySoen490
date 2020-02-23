@@ -23,7 +23,7 @@ import ResourcePage from './components/Resources/ResourcePage';
 import PrivateRoute from './components/PrivateRoute';
 import MainRoute from './components/MainRoute';
 import NotFoundPage from './components/NotFoundPage';
-import ForgotPassword from './components/ForgetPassword';
+import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 
 
