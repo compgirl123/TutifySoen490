@@ -26,6 +26,7 @@ export class ForgotPassword extends React.Component {
     this.resetPassword = this.resetPassword.bind(this);
   }
 
+  //this method updates the user's password
   resetPassword = () => {
 
     var url = window.location.href.split("/");
@@ -38,7 +39,12 @@ export class ForgotPassword extends React.Component {
         })
         .then((res) => {
         
-        swal("Password successfully reset!", "", "success");
+          if(res.data.success){
+            swal("Password successfully reset!", "", "success");
+          }
+          else{
+            swal("Unable to reset password!", "The reset password token has expired or is invalid.", "error");
+          }
            
         }, (error) => {
             console.error(error);
