@@ -23,9 +23,8 @@ export class ForgotPassword extends React.Component {
         this.forgotPassword = this.forgotPassword.bind(this);
     }
 
+    //this method verifies if the email exists in the database, if yes, sends a reset link to the email otherwise sends an error back
     forgotPassword = () => {
-
-        //verify email exists in the database, if yes, send reset link to email otherwise send error
         axios.post('/api/forgotPassword', {
             email: this.state.email,
         })

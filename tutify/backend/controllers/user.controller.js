@@ -19,6 +19,7 @@ exports.getUser = async function (req, res) {
     });
 };
 
+// this method resets a user's password
 exports.resetPassword = async function (req, res) {
     const { password, resetPasswordToken } = req.body;
     var success = true;
@@ -43,7 +44,7 @@ exports.resetPassword = async function (req, res) {
             return res.json({ success: false, data: success });
             }
         }
-       else{
+        else{
         success = false;
         return res.json({ success: false, data: success });
        }
@@ -51,6 +52,7 @@ exports.resetPassword = async function (req, res) {
     });
 };
 
+// this method sends an email to the user concerning reset password
 exports.forgotPassword = async function (req, res) {
     const { email } = req.body;
 
@@ -69,32 +71,19 @@ exports.forgotPassword = async function (req, res) {
             return res.status(500).send();
         }
         console.log(email);
-        //if user exists in database,
+        //if user exists in database, send email using nodemailer
         if (user) {
-
             user.resetPasswordToken = token;
             user.resetPasswordExpires = Date.now() + 6*3600000;
-            console.log("yo1");
-            let testAccount = nodemailer.createTestAccount();
 
             var smtpTransport = nodemailer.createTransport({
-                /** 
-                host: "smtp.ethereal.email",
-                port: 587,
-                secure: false, // true for 465, false for other ports
-                auth: {
-                    user: testAccount.user, // generated ethereal user
-                    pass: testAccount.pass // generated ethereal password
-                }
-                */
-                    
                    service: 'Gmail', 
                       auth: {
                         user: 'tutifytutoring@gmail.com',
                         pass: 'moalawami'
                       }
             });
-
+            
             var mailOptions = {
                 to: user.email,
                 from: '"Tutify" <tutifytutoring@gmail.com>',
@@ -105,15 +94,10 @@ exports.forgotPassword = async function (req, res) {
                     'If you did not request this, please ignore this email and your password will remain unchanged.\n' 
             };
             smtpTransport.sendMail(mailOptions, function (err) {
-                console.log('mail sent');
-                //req.flash('success', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
-                //done(err, 'done');
                 return res.json({ success: true, data: success });
             });
-
         }
         else {
-            console.log("yo");
             success = false;
             return res.json({ success: false, data: success });
         }
