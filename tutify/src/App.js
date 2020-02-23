@@ -23,7 +23,7 @@ import ResourcePage from './components/Resources/ResourcePage';
 import PrivateRoute from './components/PrivateRoute';
 import MainRoute from './components/MainRoute';
 import NotFoundPage from './components/NotFoundPage';
-import ForgotPassword from './components/ForgotPassword';
+import ForgotPassword from './components/ForgetPassword';
 // This is all the url routing.
 function MainPage() {
   return (
