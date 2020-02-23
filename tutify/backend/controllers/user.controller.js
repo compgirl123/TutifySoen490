@@ -19,7 +19,74 @@ exports.getUser = async function (req, res) {
     });
 };
 
+exports.forgotPassword = async function (req, res) {
+    const { email } = req.body;
 
+    var success = true;
+    var token = "";
+    crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err);
+        }
+    token = buf.toString('hex');
+    });    
+    Account.findOne({ email: email }, function (err, user) {
+        if (err) {
+
+            console.log("Error while trying to authentificate the user (database request failed)");
+            return res.status(500).send();
+        }
+        console.log(email);
+        //if user exists in database,
+        if (user) {
+
+            user.resetPasswordToken = token;
+            user.resetPasswordExpires = Date.now() + 6*3600000;
+            console.log("yo1");
+            let testAccount = nodemailer.createTestAccount();
+
+            var smtpTransport = nodemailer.createTransport({
+                /** 
+                host: "smtp.ethereal.email",
+                port: 587,
+                secure: false, // true for 465, false for other ports
+                auth: {
+                    user: testAccount.user, // generated ethereal user
+                    pass: testAccount.pass // generated ethereal password
+                }
+                */
+                    
+                   service: 'Gmail', 
+                      auth: {
+                        user: 'tutifytutoring@gmail.com',
+                        pass: process.env.GMAILPW
+                      }
+            });
+
+            var mailOptions = {
+                to: user.email,
+                from: '"Tutify" <tutifytutoring@gmail.com>',
+                subject: 'Tutify Password Reset',
+                text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                    'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                    'http://' + req.headers.host + '/resetpassword/' + token + '\n\n' +
+                    'If you did not request this, please ignore this email and your password will remain unchanged.\n' 
+            };
+            smtpTransport.sendMail(mailOptions, function (err) {
+                console.log('mail sent');
+                //req.flash('success', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
+                //done(err, 'done');
+                return res.json({ success: true, data: success });
+            });
+
+        }
+        else {
+            console.log("yo");
+            success = false;
+            return res.json({ success: false, data: success });
+        }
+    });
+};
 
 // this method finds students in the database given the object id
 exports.findStudents = async function (req, res) {

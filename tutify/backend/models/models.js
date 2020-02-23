@@ -72,7 +72,13 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
       ref: 'Event'
 
     }
-  ]
+  ],
+  resetPasswordToken: {
+    type: String,
+  },
+  resetPasswordExpires: {
+    type: Date,
+  },
 }), 'profiles'
 );
 
@@ -237,15 +243,15 @@ var UploadedFiles = mongoose.model('UploadedFiles', new mongoose.Schema({
     { type: Schema.Types.ObjectId, ref: 'Mfiles' }
   ],
   sharedToStudents: [
-  { type: Schema.Types.ObjectId, ref: 'Student' }
+    { type: Schema.Types.ObjectId, ref: 'Student' }
   ],
   sharedToCourses: [
-  { type: Schema.Types.ObjectId, ref: 'Course' }
+    { type: Schema.Types.ObjectId, ref: 'Course' }
   ],
   sharedToTutors: [
     { type: Schema.Types.ObjectId, ref: 'Tutor' }
   ],
-  
+
   uploadDate: Date
 }), "uploaded_files");
 
@@ -301,7 +307,7 @@ var Resource = mongoose.model('Resource', new Schema({
   link: {
     type: String,
     required: true
-  }, 
+  },
   category: {
     type: String,
     required: true
