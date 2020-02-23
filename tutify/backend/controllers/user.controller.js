@@ -31,6 +31,38 @@ exports.getUsersTutors = async function (req, res) {
     });
 };
 
+exports.resetPassword = async function (req, res) {
+    const { password, resetPasswordToken } = req.body;
+    var success = true;
+
+    Account.findOne({ resetPasswordToken: resetPasswordToken }, function (err, user) {
+        if (err) {
+            console.log("Error while trying to authentificate the user (database request failed)");
+            return res.status(500).send();
+        }
+        if(user){
+            if(user.resetPasswordExpires > Date.now()){
+                bcrypt.hash(password, salt, (err, hash) => {
+                    if (err) {
+                        console.log(err);
+                    } 
+                    user.password = hash;
+                    return res.json({ success: true, data: success });
+            });
+            }
+            else{
+            success = false;
+            return res.json({ success: false, data: success });
+            }
+        }
+       else{
+        success = false;
+        return res.json({ success: false, data: success });
+       }
+
+    });
+};
+
 exports.forgotPassword = async function (req, res) {
     const { email } = req.body;
 
@@ -71,7 +103,7 @@ exports.forgotPassword = async function (req, res) {
                    service: 'Gmail', 
                       auth: {
                         user: 'tutifytutoring@gmail.com',
-                        pass: process.env.GMAILPW
+                        pass: 'moalawami'
                       }
             });
 
