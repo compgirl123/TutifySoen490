@@ -9,6 +9,7 @@ const algorithm = 'aes-256-cbc';
 const key = crypto.randomBytes(32);
 const iv = crypto.randomBytes(16);
 var mongoose = require('mongoose');
+const nodemailer = require("nodemailer");
 
 // this method fetches all available users in our database
 exports.getUser = async function (req, res) {
@@ -29,6 +30,8 @@ exports.getUsersTutors = async function (req, res) {
         return res.json({ success: true, data: data });
     });
 };
+
+
 
 // this method finds students in the database given the object id
 exports.findStudents = async function (req, res) {
