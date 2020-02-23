@@ -15,7 +15,10 @@ import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import axios from "axios";
 
-// View the General Course Page with all of the Courses the Tutor Teaches or Student is enrolled in.
+/** View the General Video Page with all of the Tutors the Student is registered with.
+ *  The Student clicks on the tutor they want to view videos for and they could see all of the 
+ *  videos this tutor has upoloaded for the courses they are enrolled in with the specific tutor.
+ **/
 export class ChooseTutorVideoPage extends React.Component {
   constructor(props) {
     super(props);
@@ -43,40 +46,24 @@ export class ChooseTutorVideoPage extends React.Component {
         if (res.isLoggedIn) {
           this.setState({ discriminator: res.userInfo.__t, id: res.userInfo._id });
           if (res.userInfo.__t === "student") {
-            this.getAllVideos();
+            this.getAllTutors();
           }
         }
       })
       .catch(err => console.error("Session could not be checked: " + err));
   };
 
-  // Getting all of the videos from the selected Tutor
-  getAllVideos = () => {
+  // Getting all of the tutors the logged in student is registered with.
+  getAllTutors = () => {
     axios.get('/api/getUsersTutors').then((res) => {
-        // fetch the videos
-        console.info("Successfully fetched the videos");
-        console.log(res.data.data);
-        // setting state of the video array in order to get information from each video
-        this.setState({
-            videos: res.data.data
-        });
+      // fetch the tutors the student is registered with.
+      console.info("Successfully fetched the videos");
+      // setting state of the video array in order to get information from each video
+      this.setState({
+        videos: res.data.data
+      });
     })
-        .catch(err => console.error("Could not get the videos from the database: " + err));
-  } 
-
-  // Uses our backend api to fetch student's courses from the database
-  getUserDataFromDb = () => {
-    console.info("Fetching student's courses from db...");
-    fetch('/api/getUserCourses', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then(res => {
-        this.setState({ courses: res.data });
-      })
-      .catch(err =>
-        console.error("Could not get courses from database (API call error) " + err));
+      .catch(err => console.error("Could not get the videos from the database: " + err));
   }
 
   render() {
@@ -91,9 +78,9 @@ export class ChooseTutorVideoPage extends React.Component {
             <main className={classes.content}>
               <div className={classes.appBarSpacer} />
               <Container maxWidth="lg" className={classes.container}>
-                <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addCourseButton} >
-                  Add Course
-                  </Button>
+                <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
+                  Choose Tutor to View Tutoring Videos
+                </Typography>
                 <Grid container spacing={5}>
                   {videos.map((c, i) => (
                     <Grid item xs={4} md={4} lg={4}>
