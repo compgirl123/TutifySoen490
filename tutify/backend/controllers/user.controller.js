@@ -35,30 +35,64 @@ exports.getUsersTutors = async function (req, res) {
 exports.resetPassword = async function (req, res) {
     const { password, resetPasswordToken } = req.body;
     var success = true;
-
-    Account.findOne({ resetPasswordToken: resetPasswordToken }, function (err, user) {
+    console.log("hello");
+    Student.findOne({ resetPasswordToken: resetPasswordToken }, function (err, tutor) {
         if (err) {
             console.log("Error while trying to authentificate the user (database request failed)");
             return res.status(500).send();
         }
-        if(user){
-            if(user.resetPasswordExpires > Date.now()){
+        console.log(tutor);
+        console.log("yo");
+        if(tutor){
+            console.log("yo1");
+
+            if(tutor.resetPasswordExpires > Date.now()){
                 bcrypt.hash(password, salt, (err, hash) => {
                     if (err) {
                         console.log(err);
                     } 
-                    user.password = hash;
+                    console.log(password);
+                    console.log(user.password);
+                    tutor.password = hash;
                     return res.json({ success: true, data: success });
             });
             }
             else{
+                console.log("yo2");
+
             success = false;
             return res.json({ success: false, data: success });
             }
         }
         else{
-        success = false;
-        return res.json({ success: false, data: success });
+            console.log("uh hello");
+            Tutor.findOne({ resetPasswordToken: resetPasswordToken }, function (err, student) {
+                if (err) {
+                    console.log("Error while trying to authentificate the user (database request failed)");
+                    return res.status(500).send();
+                }
+                if(student){
+                    if(student.resetPasswordExpires > Date.now()){
+                        bcrypt.hash(password, salt, (err, hash) => {
+                            if (err) {
+                                console.log(err);
+                            } 
+                            console.log(password);
+                            console.log(user.password);
+                            student.password = hash;
+                            return res.json({ success: true, data: success });
+                    });
+                    }
+                    else{
+                    success = false;
+                    return res.json({ success: false, data: success });
+                    }
+                }
+                else{
+                success = false;
+                return res.json({ success: false, data: success });
+               }
+            });
        }
 
     });
@@ -70,6 +104,7 @@ exports.forgotPassword = async function (req, res) {
 
     var success = true;
     var token = "";
+    var date = Date.now() + 6*3600000;
     crypto.randomBytes(16, (err, buf) => {
         if (err) {
           return reject(err);
@@ -85,8 +120,44 @@ exports.forgotPassword = async function (req, res) {
         console.log(email);
         //if user exists in database, send email using nodemailer
         if (user) {
-            user.resetPasswordToken = token;
-            user.resetPasswordExpires = Date.now() + 6*3600000;
+            console.log("yo");
+            var _id = user._id;
+            Tutor.findOne({ _id: _id }, function (err, tutor) {
+                if (err) {
+        
+                    console.log("Error while trying to authentificate the user (database request failed)");
+                    return res.status(500).send();
+                }
+                if(tutor){
+                    console.log("yo1");
+
+                    Tutor.findByIdAndUpdate(_id,
+                        { $set: { "resetPasswordToken": token, "resetPasswordExpires": date} },
+                        { "new": true, "upsert": true },
+                        function (err, tutor) {
+                            if (err) throw err;
+                        }); 
+                }
+                else{
+                    console.log("yo2");
+
+                    console.log(_id);
+                    Student.findByIdAndUpdate(_id,
+                        { $set: { "resetPasswordToken" : token, "resetPasswordExpires": date} },
+                        { "new": true, "upsert": true},
+                        function (err, student) {
+                            if (err) throw err;
+    
+                        });        
+                };
+            });
+        
+                 
+            //user.resetPasswordToken = token;
+            //user.resetPasswordExpires = Date.now() + 6*3600000;
+            console.log(Date.now());
+            console.log(Date.now() + 6*3600000);
+
 
             var smtpTransport = nodemailer.createTransport({
                    service: 'Gmail', 
@@ -95,7 +166,7 @@ exports.forgotPassword = async function (req, res) {
                         pass: 'moalawami'
                       }
             });
-            
+
             var mailOptions = {
                 to: user.email,
                 from: '"Tutify" <tutifytutoring@gmail.com>',

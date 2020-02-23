@@ -73,12 +73,8 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
 
     }
   ],
-  resetPasswordToken: {
-    type: String,
-  },
-  resetPasswordExpires: {
-    type: Date,
-  },
+  resetPasswordToken: { type: String },
+  resetPasswordExpires: { type: Number },
 }), 'profiles'
 );
 
