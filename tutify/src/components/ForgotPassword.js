@@ -25,7 +25,7 @@ export class ForgotPassword extends React.Component {
 
     forgotPassword = () => {
 
-        //verify email exists in the database, if yes, send link to email otherwise send error
+        //verify email exists in the database, if yes, send reset link to email otherwise send error
         axios.post('/api/forgotPassword', {
             email: this.state.email,
         })
@@ -63,11 +63,11 @@ export class ForgotPassword extends React.Component {
 
                                 <Typography variant="h6" color="inherit" style={{ fontWeight: "bold" }}>
                                     Forgot your password?
-                </Typography>
+                                </Typography>
 
                                 <Typography variant="h8" color="gray" >
                                     Enter your e-mail address to receive instructions to reset your password
-                </Typography>
+                                </Typography>
 
                             </Grid>
 
@@ -95,7 +95,7 @@ export class ForgotPassword extends React.Component {
                                     onClick={() => this.forgotPassword()}
                                 >
                                     Submit
-                  </Button>
+                                </Button>
 
                             </Grid>
                         </Grid>
