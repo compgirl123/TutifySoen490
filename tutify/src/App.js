@@ -23,7 +23,7 @@ import ResourcePage from './components/Resources/ResourcePage';
 import PrivateRoute from './components/PrivateRoute';
 import MainRoute from './components/MainRoute';
 import NotFoundPage from './components/NotFoundPage';
-
+import ForgotPassword from './components/ForgotPassword';
 // This is all the url routing.
 function MainPage() {
   return (
@@ -32,6 +32,7 @@ function MainPage() {
         <MainRoute exact path= "/" component={Main} />
         <Route exact path= "/signup" component={SignUp} />
         <Route exact path= "/login" component={Login} />
+        <Route  exact path= "/forgotpassword" component={ForgotPassword} />
         <PrivateRoute  exact path= "/search" component={SearchTutors} />
         <PrivateRoute  exact path= "/profile" component={ProfilePage} />
         <PrivateRoute  exact path= "/students" component={StudentList} />
