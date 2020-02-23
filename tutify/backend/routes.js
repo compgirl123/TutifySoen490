@@ -77,6 +77,8 @@ router.post('/putAccount', accountController.putAccount);
 
 router.delete('/deleteAccount', accountController.deleteAccount);
 
+router.get('/verifyEmail', accountController.verifyEmail);
+
 // -------- APPOINTMENT ROUTES --------- // 
 
 router.get('/getAppointment', appointmentController.getAppointment);

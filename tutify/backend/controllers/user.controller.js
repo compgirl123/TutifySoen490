@@ -200,10 +200,10 @@ exports.decrypt = function (text) {
 
 // this method adds new user in our database
 exports.putUser = async function (req, res) {
+    const { first_name, last_name, program_of_study, email, password, school, education_level } = req.body;
     let account = new Account();
-    let data = new Student();
+    let studentProfile = new Student();
     var encrypted_password = "";
-    const { id, first_name, last_name, program_of_study, email, password, school, school_name_other, education_level } = req.body;
 
     // this method encrypts the password in order to maximize security for our application
     bcrypt.genSalt(10, (err, salt) => {
@@ -215,7 +215,7 @@ exports.putUser = async function (req, res) {
                     console.log(err);
                 } else {
                     encrypted_password = hash;
-                    if ((!id && id !== 0) || !first_name || !last_name || !email || !password || !program_of_study || !education_level || !school) {
+                    if (!first_name || !last_name || !email || !password || !program_of_study || !education_level || !school) {
                         return res.json({
                             success: false,
                             error: 'INVALID INPUTS',
@@ -228,21 +228,23 @@ exports.putUser = async function (req, res) {
                     account.save(function (err, acc) {
                         if (err) return res.json({ success: false, error: err });
 
-                        // Create user profile 
-                        data.account = acc.id;
-                        data.first_name = first_name;
-                        data.last_name = last_name;
-                        data.program_of_study = program_of_study;
-                        data.education_level = education_level;
-                        data.school = school;
-                        data.id = id;
-                        data.todos = []
-                        data.save(function (err, user) {
-                            if (err) return res.json({ success: false, error: err });
-
+                        // Create student profile 
+                        studentProfile.account = acc._id;
+                        studentProfile.first_name = first_name;
+                        studentProfile.last_name = last_name;
+                        studentProfile.program_of_study = program_of_study;
+                        studentProfile.education_level = education_level;
+                        studentProfile.school = school;
+                        studentProfile.todos = []
+                        studentProfile.nbNewNotifications = 0
+                        studentProfile.save(function (err, student) {
+                            if (err) {
+                                console.log(err)
+                                return res.json({ success: false, error: err });
+                            }
                             // Update account with user id
                             Account.updateOne({ _id: acc._id },
-                                { user_profile: user._id },
+                                { user_profile: student._id },
                                 function (err) { if (err) console.log(err) });
 
                         });
