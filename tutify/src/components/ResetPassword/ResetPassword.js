@@ -4,10 +4,10 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import * as tutifyStyle from '../styles/SignUp-styles';
+import * as tutifyStyle from '../../styles/SignUp-styles';
 import { withStyles } from "@material-ui/core/styles";
-import NavBar from './NavBar';
-import Footer from './Footer';
+import NavBar from '../NavBar';
+import Footer from '../Footer';
 import './style.css';
 import swal from 'sweetalert';
 import axios from 'axios';
@@ -54,7 +54,6 @@ export class ForgotPassword extends React.Component {
               console.error("Could not display swal alert. " + error);
             });
           }
-
         }, (error) => {
           console.error("Could not reset password (API call error) " + error);
         });
@@ -79,21 +78,16 @@ export class ForgotPassword extends React.Component {
         <Container component="main">
           <CssBaseline />
           <div className="paper">
-
-
             <Grid container spacing={3}
               direction="column"
               style={{ minHeight: '55vh' }}
               justify="center"
               alignItems="center">
-
               <Grid item xs={12}>
-
                 <Typography variant="h6" color="inherit" style={{ fontWeight: "bold" }} >
                   Reset Password
                 </Typography>
               </Grid>
-
               <Grid item xs={12}>
                 <TextField
                   variant="outlined"
@@ -104,10 +98,8 @@ export class ForgotPassword extends React.Component {
                   type="password"
                   id="newPassword"
                   onChange={e => this.setState({ newPassword: e.target.value })}
-
                 />
               </Grid>
-
               <Grid item xs={12}>
                 <TextField
                   variant="outlined"
@@ -118,11 +110,8 @@ export class ForgotPassword extends React.Component {
                   id="confirmPassword"
                   type="password"
                   onChange={e => this.setState({ confirmPassword: e.target.value })}
-
                 />
               </Grid>
-
-
               <Grid item xs={12} >
                 <Button
                   name="submit"
@@ -134,12 +123,10 @@ export class ForgotPassword extends React.Component {
                   InputProps={{
                     classes: {
                       notchedOutline: classes.notchedOutline
-                    }
-                  }}
-                >
+                    }}}
+                  >
                   Update Password
                   </Button>
-
               </Grid>
             </Grid>
           </div>
