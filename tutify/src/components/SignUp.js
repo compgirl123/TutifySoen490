@@ -43,24 +43,30 @@ export class SignUp extends React.Component {
   make_other_school_visible = "none";
   FormValid = { fname: false, lname: false, PoS: false, email: false, password: false, cPassword: false, educationLevel: false, school: false, dataKeep: false }
 
-  componentDidMount() {
-    this.getDataFromDb();
-    if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getDataFromDb, 1000);
-      this.setState({ intervalIsSet: interval });
-    }
-  }
-
-  // This is where all validation takes place
+  // This is where all the form validation takes place
   validateForm() {
+    // Validates if all the fields are valid
     for (var indicator in this.FormValid) {
       if (!this.FormValid[indicator]) {
-        return false
+        swal("Please fill all required fields", "", "error");
+        return 
       }
     }
-    return true;
+
+    // Verifies if the email is already taken
+    axios.get('/api/verifyEmail?email=' + this.state.email).then((res) => {
+      if (res.data.isTaken) {
+        this.FormValid["email"] = false;
+        swal("This email is already taken", "", "error");
+      }
+      else {
+        this.FormValid["email"] = true;
+        this.submitForm()
+      }
+    });
   }
 
+  // This method verifies if the first name is valid (only contains letters)
   vfName(name) {
     if (name === "█") {
       this.FormValid["fname"] = false;
@@ -77,6 +83,7 @@ export class SignUp extends React.Component {
 
   }
 
+  // This method verifies if the last name is valid (only contains letters)
   vlName(name) {
     if (name === "█") {
       this.FormValid["lname"] = false;
@@ -92,6 +99,7 @@ export class SignUp extends React.Component {
     }
   }
 
+  // This method verifies if the program of study is valid (not empty)
   vPOS(POS) {
     if (POS === "█") {
       this.FormValid["PoS"] = false;
@@ -107,24 +115,14 @@ export class SignUp extends React.Component {
     }
   }
 
-  vEmail(email, callback = () => { }) {
+  // This method verifies if the email is valid form
+  vEmail(email) {
     if (email === "") {
       this.FormValid["email"] = false;
       return false;
     }
     else if (validator.isEmail(email)) {
-      axios.get('https://webhooks.mongodb-stitch.com/api/client/v2.0/app/tutify-skqbg/service/verifyAccount/incoming_webhook/verifyEmail?email=' + email).then((result) => {
-        if (result.data.length > 0) {
-          this.FormValid["email"] = false;
-        }
-        else {
-          this.FormValid["email"] = true;
-        }
-        callback();
-      });
-      if (!this.FormValid["email"]) {
-        return false;
-      }
+      this.FormValid["email"] = true;
       return true;
     }
     else if (email === "█") {
@@ -137,6 +135,7 @@ export class SignUp extends React.Component {
     }
   }
 
+  // This method verifies if the password is valid (has letters and numbers)
   vPassword(password) {
     if (password === "█") {
       this.FormValid["password"] = false;
@@ -152,6 +151,7 @@ export class SignUp extends React.Component {
     }
   }
 
+  // This method verifies if the second password is the same as the first password
   vConfirmPassword(cPassword) {
     if (cPassword === "█") {
       this.FormValid["cPassword"] = false;
@@ -167,6 +167,7 @@ export class SignUp extends React.Component {
     }
   }
 
+  // This method verifies if the other school is valid (not empty)
   vOtherSchool(school) {
     if (school === "") {
       this.FormValid["school"] = false;
@@ -176,6 +177,7 @@ export class SignUp extends React.Component {
     return true;
   }
 
+  // This method verifies if the school is valid (not empty)
   setSchool(value) {
     if (value === "other") {
       this.make_other_school_visible = "inline";
@@ -186,42 +188,6 @@ export class SignUp extends React.Component {
       this.FormValid["school"] = true;
     }
   }
-
-  getDataFromDb = () => {
-    fetch('/api/getUser')
-      .then((data) => data.json())
-      .then((res) => this.setState({ data: res.data }));
-  };
-
-  putDataToDB = (first_name, last_name, email, program_of_study, password, education_level, school) => {
-    let currentIds = this.state.data.map((data) => data.id);
-    let idToBeAdded = 0;
-    while (currentIds.includes(idToBeAdded)) {
-      ++idToBeAdded;
-    }
-
-    axios.post('https://api.mlab.com/api/1/databases/heroku_vx7c6wp6/collections/users?apiKey=Kc7qXK7C4HTE4TUAzxwj0S9Rki-I25Rx', {
-      id: idToBeAdded,
-      first_name: first_name,
-      last_name: last_name,
-      program_of_study: program_of_study,
-      email: email,
-      password: password,
-      school: school,
-      education_level: education_level
-    });
-
-    axios.post('/api/putUser', {
-      id: idToBeAdded,
-      first_name: first_name,
-      last_name: last_name,
-      program_of_study: program_of_study,
-      email: email,
-      password: password,
-      school: school,
-      education_level: education_level
-    });
-  };
 
   handleChange(value) {
     this.setState({ education_level: value });
@@ -234,17 +200,27 @@ export class SignUp extends React.Component {
     }
   }
 
-  submitForm() {
-    this.putDataToDB(this.state.first_name, this.state.last_name, this.state.email, this.state.program_of_study, this.state.password, this.state.education_level, this.state.school);
-    swal("You have signed up successfully!", "", "success")
+  // This method sends the information to our backend to create a new user
+  submitForm() {    
+    axios.post('/api/putUser', {
+      first_name: this.state.first_name,
+      last_name: this.state.last_name,
+      program_of_study: this.state.program_of_study,
+      email: this.state.email,
+      password: this.state.password,
+      school: this.state.school,
+      education_level: this.state.education_level
+    })
+    .then(res => { 
+      swal("You have signed up successfully!", "", "success")
       .then((value) => {
         this.props.history.push("/login");
       });
-  }
-
-  reloadForm() {
-    swal("Please fill all required fields", "", "error");
-    this.props.history.push("/signup");
+    })
+    .catch(error => {
+      console.error("An error occured while saving the user: "+error.response)
+    })
+    
   }
 
   render() {
@@ -394,7 +370,6 @@ export class SignUp extends React.Component {
                       name="education_level"
                       value={education_level}
                       onChange={event => { this.setState({ education_level: event.target.value }); this.FormValid["educationLevel"] = true; }}
-                      // onChange={(e) => this.setState({ first_name: e.target.value })}
                       input={<Input id="education_level" />}
                     >
                       <MenuItem value="elementary">Elementary School</MenuItem>
@@ -473,7 +448,7 @@ export class SignUp extends React.Component {
                 fullWidth
                 variant="contained"
                 className="submit"
-                onClick={() => { this.validateForm() ? this.submitForm() : this.reloadForm(); }}
+                onClick={() => { this.validateForm() }}
               >
                 Sign Up
               </Button>

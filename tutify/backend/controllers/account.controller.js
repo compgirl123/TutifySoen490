@@ -62,3 +62,16 @@ exports.deleteAccount = async function (req, res) {
         return res.json({ success: true });
     });
 };
+
+// this method checks if the email is already taken
+exports.verifyEmail = async function (req, res) { 
+    var email = req.query.email;
+
+    Account.find({email : email}, function (err, account) {
+        if (account.length){
+            res.json({ isTaken: true });
+        }else{
+            res.json({ isTaken: false });
+        }
+    });
+}

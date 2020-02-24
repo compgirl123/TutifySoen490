@@ -21,10 +21,6 @@ const Account = mongoose.model('Account', new mongoose.Schema({
 
 // these properties are shared with our schemas Tutor and User
 const Profile = mongoose.model('Profile', new mongoose.Schema({
-  id: {
-    type: Number,
-    required: true
-  },
   account: { type: Schema.Types.ObjectId, ref: 'Account' },
   first_name: {
     type: String,
