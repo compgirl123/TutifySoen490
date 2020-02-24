@@ -58,16 +58,12 @@ export class Login extends React.Component {
 
           console.log("Session created")
 
-          // Check if user was redirected to login page from another page
-          if(!this.props.location.state) {
-            if (res.userInfo.__t === 'student') {
-              window.location = "dashboard";
-            }
-            else if (res.userInfo.__t === 'tutor') {
-              window.location = "profile";
-            }
-          } else {
-            window.location = this.props.location.state.from.pathname;
+          // Redirect to welcome page
+          if (res.userInfo.__t === 'student') {
+            window.location = "dashboard";
+          }
+          else if (res.userInfo.__t === 'tutor') {
+            window.location = "profile";
           }
         }
         else {
