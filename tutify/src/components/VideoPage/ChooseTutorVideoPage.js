@@ -62,6 +62,7 @@ export class ChooseTutorVideoPage extends React.Component {
       this.setState({
         videos: res.data.data
       });
+      console.log(this.state.videos);
     })
       .catch(err => console.error("Could not get the videos from the database: " + err));
   }
