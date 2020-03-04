@@ -83,6 +83,11 @@ const TutorSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  uploadedPicture: 
+  { 
+    imgName: { type: String, required: true, default: "none" },
+    imgData:{ type: String, required: true }
+  },
   students: [
     { type: Schema.Types.ObjectId, ref: 'Student' }
   ],

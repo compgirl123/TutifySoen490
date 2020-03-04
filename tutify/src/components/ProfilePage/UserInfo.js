@@ -16,6 +16,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import EditIcon from '@material-ui/icons/Edit';
 import Box from '@material-ui/core/Box';
+import PublishIcon from '@material-ui/icons/Publish';
 
 export class UserInfo extends React.Component {
   constructor(props) {
@@ -40,10 +41,14 @@ export class UserInfo extends React.Component {
       scroll: 'paper',
       tutorPicture: "",
       description: "",
-      updatedDescription: ""
+      updatedDescription: "",
+      profilePicture: ""
     };
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.imageFileChanged = this.imageFileChanged.bind(this);
+    this.handleUploadImg = this.handleUploadImg.bind(this);
+    this.getImg = this.getImg.bind(this);
   }
 
   toggleDrawer = booleanValue => () => {
@@ -70,7 +75,7 @@ export class UserInfo extends React.Component {
 
   handleChangeValue = e => this.setState({ value: e.target.value });
 
-    //retrieves the session
+  //retrieves the session
   checkSession = () => {
     console.info("Fetching session...");
     fetch('/api/checkSession', {
@@ -85,15 +90,17 @@ export class UserInfo extends React.Component {
             first_name: res.userInfo.first_name, last_name: res.userInfo.last_name,
             email: res.email, education_level: res.userInfo.education_level, school: res.userInfo.school,
             program_of_study: res.userInfo.program_of_study, students: res.userInfo.students, subjects: res.userInfo.subjects,
-            tutorPicture: res.userInfo.picture,
+            tutorPicture: res.userInfo.picture, profilePictureID: res.userInfo.uploadedPicture,
             description: res.userInfo.description
           });
+          this.getImg();
         }
         else {
           this.setState({ Toggle: false });
         }
       })
-      .catch(err => console.error("Session could not be checked: " + err));  };
+      .catch(err => console.error("Session could not be checked: " + err));
+  };
 
   update = async (value) => {
     await this.setState({
@@ -204,7 +211,7 @@ export class UserInfo extends React.Component {
       });
   };
 
-  //determines whether tutor or student info needs to be updated
+  // Determines whether tutor or student info needs to be updated
   updateInfo = () => {
     if (this.state.__t === "tutor") {
       this.updateTutorOptions();
@@ -212,6 +219,48 @@ export class UserInfo extends React.Component {
     else if (this.state.__t === "student") {
       this.updateStudentOptions();
     }
+  }
+
+  // Displaying the current image file being uploaded.
+  async imageFileChanged(event) {
+    const f = event.target.files[0];
+    await this.setState({
+      newPicture: event.target.files[0],
+      profilePicture: URL.createObjectURL(f)
+    });
+  }
+
+  // Handling the submit of a new profile image and uploading it into the database as a multer file
+  async handleUploadImg(event) {
+    event.preventDefault();
+
+    const formData = new FormData();
+    formData.append('file', this.state.newPicture);
+    formData.append('_id', this.state._id);
+    formData.append('name', this.state.newPicture.name);
+
+    axios.post('/uploadTutorImg', formData)
+      .then((res) => {
+        this.setState({
+          profilePictureID: res.data.userInfo.uploadedPicture,
+        });
+        swal("Profile image successfully updated!", "", "success")
+        this.getImg();
+      }, (error) => {
+        console.error("Could not update the tutor image in the database (API call error) " + error);
+      });
+  }
+
+  // Fetches the profile image file from our database
+  getImg() {
+    axios.get('/api/getPicture/'+this.state.profilePictureID.imgData)
+    .then((res) => {
+      this.setState({
+        profilePicture: res.data.data
+      });
+    }, (error) => {
+      console.error("Could not get uploaded profile image from database (API call error) " + error);
+    });
   }
 
   render() {
@@ -224,13 +273,24 @@ export class UserInfo extends React.Component {
           {this.state.__t === "tutor" ?
 
             <CardContent>
-
-              <img src={this.state.tutorPicture} width="100%" height="40%" alt="Profile">
+              <img src={this.state.profilePicture} width="100%" height="40%" alt="Profile">
               </img>
+              <form onSubmit={this.handleUploadImg}>
+                <input
+                  type="file"
+                  id="fileUpload"
+                  onChange={this.imageFileChanged}
+                  className={classes.inputUpload}
+                  accept=".png,.jpg"
+                ></input>
+                <Button type="submit" size="small" className={classes.submit}>
+                  <PublishIcon />
+                </Button>
+              </form>                                 
             </CardContent>
             :
             <CardContent>
-              <img src={"https://i.imgur.com/L6lDhbz.jpg"} alt="Profile" width="100%" height="40%"></img>
+                <img src={"https://i.imgur.com/L6lDhbz.jpg"} alt="Profile" width="100%" height="40%"></img>
             </CardContent>
           }
           <CardContent>
@@ -248,14 +308,13 @@ export class UserInfo extends React.Component {
             }} />
 
             {this.state.__t === "student" ?
-
               <Typography className={classes.InfoContext}>
                 Status: Student
-            </Typography>
+              </Typography>
               :
               <Typography className={classes.InfoContext}>
                 Status: Tutor
-          </Typography>
+              </Typography>
             }
 
             <Typography className={classes.InfoContext}>
@@ -274,7 +333,6 @@ export class UserInfo extends React.Component {
             </Typography>
 
             {this.state.__t === "student" ?
-
               <Typography className={classes.InfoContext}>
                 <br />
                 Education Level: {this.state.education_level}
@@ -292,7 +350,6 @@ export class UserInfo extends React.Component {
                 </div>
                 <br />
               </div>
-
             }
             <br />
 
@@ -303,110 +360,110 @@ export class UserInfo extends React.Component {
               <EditIcon /> &nbsp;
               Edit Info
             </Button>
-          </CardContent>
 
+        </CardContent>
 
-          <div>
+        <div>
 
-            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
-              <DialogTitle id="simple-dialog-title">Edit Information</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  To edit your information, please change the desired value fields and click save.
+          <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
+            <DialogTitle id="simple-dialog-title">Edit Information</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                To edit your information, please change the desired value fields and click save.
                 </DialogContentText>
 
-                <TextField
+              <TextField
+                margin="dense"
+                id="firstName"
+                name="firstName"
+                onChange={e => this.setState({ updatedFirstName: e.target.value })}
+                autoComplete="firstName"
+                label="First Name"
+                type="firstName"
+                fullWidth
+              />
+
+              <TextField
+                margin="dense"
+                id="lastName"
+                name="lastName"
+                onChange={e => this.setState({ updatedLastName: e.target.value })}
+                autoComplete="lastName"
+                label="Last Name"
+                type="lastName"
+                fullWidth
+              />
+
+              <TextField
+                margin="dense"
+                id="programOfStudy"
+                name="programOfStudy"
+                onChange={e => this.setState({ updatedProgramOfStudy: e.target.value })}
+                autoComplete="programOfStudy"
+                label="New Program of Study"
+                type="programOfStudy"
+                fullWidth
+              />
+
+              <TextField
+                margin="dense"
+                id="school"
+                name="school"
+                onChange={e => this.setState({ updatedSchool: e.target.value })}
+                label="School"
+                type="school"
+                fullWidth
+              />
+
+              {this.state.__t === "student"
+                ? <TextField
                   margin="dense"
-                  id="firstName"
-                  name="firstName"
-                  onChange={e => this.setState({ updatedFirstName: e.target.value })}
-                  autoComplete="firstName"
-                  label="First Name"
-                  type="firstName"
+                  id="educationlevel"
+                  name="education_level"
+                  onChange={e => this.setState({ updatedEducationLevel: e.target.value })}
+                  label="Education Level"
+                  type="education_level"
                   fullWidth
                 />
-
+                :
                 <TextField
-                  margin="dense"
-                  id="lastName"
-                  name="lastName"
-                  onChange={e => this.setState({ updatedLastName: e.target.value })}
-                  autoComplete="lastName"
-                  label="Last Name"
-                  type="lastName"
-                  fullWidth
+                  id="description"
+                  name="description"
+                  label="Description"
+                  onChange={e => this.setState({ updatedDescription: e.target.value })}
+                  multiline
+                  rows="4"
+                  defaultValue={this.state.description}
+                  variant="outlined"
+                  style={{ width: '100%', marginTop: "35px" }}
                 />
 
-                <TextField
-                  margin="dense"
-                  id="programOfStudy"
-                  name="programOfStudy"
-                  onChange={e => this.setState({ updatedProgramOfStudy: e.target.value })}
-                  autoComplete="programOfStudy"
-                  label="New Program of Study"
-                  type="programOfStudy"
-                  fullWidth
-                />
+              }
 
-                <TextField
-                  margin="dense"
-                  id="school"
-                  name="school"
-                  onChange={e => this.setState({ updatedSchool: e.target.value })}
-                  label="School"
-                  type="school"
-                  fullWidth
-                />
-
-                {this.state.__t === "student"
-                  ? <TextField
-                    margin="dense"
-                    id="educationlevel"
-                    name="education_level"
-                    onChange={e => this.setState({ updatedEducationLevel: e.target.value })}
-                    label="Education Level"
-                    type="education_level"
-                    fullWidth
-                  />
-                  :
-                  <TextField
-                    id="description"
-                    name="description"
-                    label="Description"
-                    onChange={e => this.setState({ updatedDescription: e.target.value })}
-                    multiline
-                    rows="4"
-                    defaultValue={this.state.description}
-                    variant="outlined"
-                    style={{ width: '100%', marginTop: "35px" }}
-                  />
-
-                }
-
-              </DialogContent>
-              <Grid
-                container
-                direction="row-reverse"
-                justify="space-between"
-                alignItems="baseline"
-              >
-                <Grid item>
-                  <DialogActions>
-                    <Button onClick={this.handleClose}>Close</Button>
-                  </DialogActions>
-                </Grid>
-                <Grid item>
-                  <DialogActions>
-                    <Button onClick={this.updateInfo}>Update Values</Button>
-                  </DialogActions>
-                </Grid>
+            </DialogContent>
+            <Grid
+              container
+              direction="row-reverse"
+              justify="space-between"
+              alignItems="baseline"
+            >
+              <Grid item>
+                <DialogActions>
+                  <Button onClick={this.handleClose}>Close</Button>
+                </DialogActions>
               </Grid>
+              <Grid item>
+                <DialogActions>
+                  <Button onClick={this.updateInfo}>Update Values</Button>
+                </DialogActions>
+              </Grid>
+            </Grid>
 
-            </Dialog>
-          </div>
+          </Dialog>
+        </div>
 
         </React.Fragment>
-      </Card>
+      </Card >
     );
   }
 }
