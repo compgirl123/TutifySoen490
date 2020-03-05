@@ -42,7 +42,8 @@ export class UserInfo extends React.Component {
       tutorPicture: "",
       description: "",
       updatedDescription: "",
-      profilePicture: ""
+      profilePicture: "",
+      isPictureChanged: false,
     };
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -222,22 +223,30 @@ export class UserInfo extends React.Component {
   }
 
   // Displaying the current image file being uploaded.
-  async imageFileChanged(event) {
+  imageFileChanged = async (event) => {
     const f = event.target.files[0];
     await this.setState({
       newPicture: event.target.files[0],
-      profilePicture: URL.createObjectURL(f)
+      profilePicture: URL.createObjectURL(f),
+      isPictureChanged: true,
     });
   }
 
   // Handling the submit of a new profile image and uploading it into the database as a multer file
-  async handleUploadImg(event) {
+  handleUploadImg = async (event) => {
     event.preventDefault();
 
     const formData = new FormData();
-    formData.append('file', this.state.newPicture);
-    formData.append('_id', this.state._id);
-    formData.append('name', this.state.newPicture.name);
+
+    if(this.state.isPictureChanged) {
+      formData.append('file', this.state.newPicture);
+      formData.append('_id', this.state._id);
+      formData.append('name', this.state.newPicture.name);
+    }
+
+    else {
+      swal("No picture selected. Could not update profile image.", "", "error")
+    }
 
     axios.post('/uploadTutorImg', formData)
       .then((res) => {
@@ -253,19 +262,21 @@ export class UserInfo extends React.Component {
 
   // Fetches the profile image file from our database
   getImg() {
-    axios.get('/api/getPicture/'+this.state.profilePictureID.imgData)
-    .then((res) => {
-      this.setState({
-        profilePicture: res.data.data
+    axios.get('/api/getPicture/' + this.state.profilePictureID.imgData)
+      .then((res) => {
+        this.setState({
+          profilePicture: res.data.data
+        });
+      }, (error) => {
+        console.error("Could not get uploaded profile image from database (API call error) " + error);
       });
-    }, (error) => {
-      console.error("Could not get uploaded profile image from database (API call error) " + error);
-    });
   }
 
   render() {
     const { classes } = this.props;
     const { open } = this.state;
+
+
 
     return (
       <Card className={classes.card}>
@@ -286,11 +297,11 @@ export class UserInfo extends React.Component {
                 <Button type="submit" size="small" className={classes.submit}>
                   <PublishIcon />
                 </Button>
-              </form>                                 
+              </form>
             </CardContent>
             :
             <CardContent>
-                <img src={"https://i.imgur.com/L6lDhbz.jpg"} alt="Profile" width="100%" height="40%"></img>
+              <img src={"https://i.imgur.com/L6lDhbz.jpg"} alt="Profile" width="100%" height="40%"></img>
             </CardContent>
           }
           <CardContent>
@@ -361,106 +372,106 @@ export class UserInfo extends React.Component {
               Edit Info
             </Button>
 
-        </CardContent>
+          </CardContent>
 
-        <div>
+          <div>
 
-          <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
-            <DialogTitle id="simple-dialog-title">Edit Information</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                To edit your information, please change the desired value fields and click save.
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
+              <DialogTitle id="simple-dialog-title">Edit Information</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  To edit your information, please change the desired value fields and click save.
                 </DialogContentText>
 
-              <TextField
-                margin="dense"
-                id="firstName"
-                name="firstName"
-                onChange={e => this.setState({ updatedFirstName: e.target.value })}
-                autoComplete="firstName"
-                label="First Name"
-                type="firstName"
-                fullWidth
-              />
-
-              <TextField
-                margin="dense"
-                id="lastName"
-                name="lastName"
-                onChange={e => this.setState({ updatedLastName: e.target.value })}
-                autoComplete="lastName"
-                label="Last Name"
-                type="lastName"
-                fullWidth
-              />
-
-              <TextField
-                margin="dense"
-                id="programOfStudy"
-                name="programOfStudy"
-                onChange={e => this.setState({ updatedProgramOfStudy: e.target.value })}
-                autoComplete="programOfStudy"
-                label="New Program of Study"
-                type="programOfStudy"
-                fullWidth
-              />
-
-              <TextField
-                margin="dense"
-                id="school"
-                name="school"
-                onChange={e => this.setState({ updatedSchool: e.target.value })}
-                label="School"
-                type="school"
-                fullWidth
-              />
-
-              {this.state.__t === "student"
-                ? <TextField
+                <TextField
                   margin="dense"
-                  id="educationlevel"
-                  name="education_level"
-                  onChange={e => this.setState({ updatedEducationLevel: e.target.value })}
-                  label="Education Level"
-                  type="education_level"
+                  id="firstName"
+                  name="firstName"
+                  onChange={e => this.setState({ updatedFirstName: e.target.value })}
+                  autoComplete="firstName"
+                  label="First Name"
+                  type="firstName"
                   fullWidth
                 />
-                :
+
                 <TextField
-                  id="description"
-                  name="description"
-                  label="Description"
-                  onChange={e => this.setState({ updatedDescription: e.target.value })}
-                  multiline
-                  rows="4"
-                  defaultValue={this.state.description}
-                  variant="outlined"
-                  style={{ width: '100%', marginTop: "35px" }}
+                  margin="dense"
+                  id="lastName"
+                  name="lastName"
+                  onChange={e => this.setState({ updatedLastName: e.target.value })}
+                  autoComplete="lastName"
+                  label="Last Name"
+                  type="lastName"
+                  fullWidth
                 />
 
-              }
+                <TextField
+                  margin="dense"
+                  id="programOfStudy"
+                  name="programOfStudy"
+                  onChange={e => this.setState({ updatedProgramOfStudy: e.target.value })}
+                  autoComplete="programOfStudy"
+                  label="New Program of Study"
+                  type="programOfStudy"
+                  fullWidth
+                />
 
-            </DialogContent>
-            <Grid
-              container
-              direction="row-reverse"
-              justify="space-between"
-              alignItems="baseline"
-            >
-              <Grid item>
-                <DialogActions>
-                  <Button onClick={this.handleClose}>Close</Button>
-                </DialogActions>
-              </Grid>
-              <Grid item>
-                <DialogActions>
-                  <Button onClick={this.updateInfo}>Update Values</Button>
-                </DialogActions>
-              </Grid>
-            </Grid>
+                <TextField
+                  margin="dense"
+                  id="school"
+                  name="school"
+                  onChange={e => this.setState({ updatedSchool: e.target.value })}
+                  label="School"
+                  type="school"
+                  fullWidth
+                />
 
-          </Dialog>
-        </div>
+                {this.state.__t === "student"
+                  ? <TextField
+                    margin="dense"
+                    id="educationlevel"
+                    name="education_level"
+                    onChange={e => this.setState({ updatedEducationLevel: e.target.value })}
+                    label="Education Level"
+                    type="education_level"
+                    fullWidth
+                  />
+                  :
+                  <TextField
+                    id="description"
+                    name="description"
+                    label="Description"
+                    onChange={e => this.setState({ updatedDescription: e.target.value })}
+                    multiline
+                    rows="4"
+                    defaultValue={this.state.description}
+                    variant="outlined"
+                    style={{ width: '100%', marginTop: "35px" }}
+                  />
+
+                }
+
+              </DialogContent>
+              <Grid
+                container
+                direction="row-reverse"
+                justify="space-between"
+                alignItems="baseline"
+              >
+                <Grid item>
+                  <DialogActions>
+                    <Button onClick={this.handleClose}>Close</Button>
+                  </DialogActions>
+                </Grid>
+                <Grid item>
+                  <DialogActions>
+                    <Button onClick={this.updateInfo}>Update Values</Button>
+                  </DialogActions>
+                </Grid>
+              </Grid>
+
+            </Dialog>
+          </div>
 
         </React.Fragment>
       </Card >
