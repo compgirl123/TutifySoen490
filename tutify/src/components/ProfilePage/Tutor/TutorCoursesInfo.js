@@ -129,17 +129,17 @@ export class TutorCoursesInfo extends React.Component {
           </Table>
 
           <br />
-          <Fab
-            variant="extended"
+          <Button
+            variant="outlined"
             aria-label="add"
             fontSize="small"
-            className={classes.margin} style={{ maxHeight: '25px', }}
+            className={classes.margin}
             href="/uploadingDocs"
           >
             <CloudUploadIcon fontSize="small" style={{ width: '15px', height: '15px' }} />
             &nbsp; Upload Documents
 
-          </Fab>
+          </Button>
 
           <br />
 
