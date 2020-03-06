@@ -4,6 +4,8 @@ import * as tutifyStyle from '../../styles/Quiz-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Paper from '@material-ui/core/Paper';
 import DashBoardNavBar from '../DashBoardNavBar';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
 
 const dataa = [
     {
@@ -184,6 +186,9 @@ class Main extends React.Component {
                     <main>
                         <DashBoardNavBar />
                         <div className={classes.main}>
+                            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+                                Quiz Answers
+                            </Typography>
                             {datas.map((c, i) => (
                                 <div className="col-lg-10 col-lg-offset-1">
                                     <div className={classes.question}>
@@ -200,7 +205,7 @@ class Main extends React.Component {
                                     </div>
                                     <div className={classes.submit}>
                                         <br />
-                                        {this.state.haha[i] !== undefined ? "Answer Chosen: " + this.state.haha[i] : <br />}
+                                        {this.state.haha[i] !== undefined ? "Answer Chosen: " + this.state.haha[i] : "Answer Chosen: " + "Please Choose an Answer"}
                                         <br />
                                         <br />
                                     </div>
@@ -235,7 +240,8 @@ class Main extends React.Component {
                                 </div>
                             </div>
 
-                        </div>*/}</main>
+                        </div>*/}
+                    </main>
                 </React.Fragment>
             </Paper>
 
