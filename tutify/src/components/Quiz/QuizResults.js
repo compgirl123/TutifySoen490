@@ -205,7 +205,7 @@ class Main extends React.Component {
                                     </div>
                                     <div className={classes.submit}>
                                         <br />
-                                        {this.state.haha[i] !== undefined ? "Answer Chosen: " + this.state.haha[i] : "Answer Chosen: " + "Please Choose an Answer"}
+                                        {"Correct Answer : " + data[i].answers[data[i].correct-1]}
                                         <br />
                                         <br />
                                     </div>
