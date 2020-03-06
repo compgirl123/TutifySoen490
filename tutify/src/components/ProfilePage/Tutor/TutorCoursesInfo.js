@@ -8,7 +8,6 @@ import CourseSelection from './CourseSelection';
 import swal from 'sweetalert';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
 import Box from '@material-ui/core/Box';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';

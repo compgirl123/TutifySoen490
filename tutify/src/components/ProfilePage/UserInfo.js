@@ -242,6 +242,7 @@ export class UserInfo extends React.Component {
       formData.append('file', this.state.newPicture);
       formData.append('_id', this.state._id);
       formData.append('name', this.state.newPicture.name);
+      formData.append('prevImg', this.state.profilePictureID.imgData);
     }
 
     else {
