@@ -34,7 +34,8 @@ class Questions extends React.Component {
             test: 0,
             datas: dataa,
             haha: [],
-            nome: []
+            nome: [],
+            percent: ""
         }
         this.nextQuestion = this.nextQuestion.bind(this);
         this.last = this.last.bind(this);
@@ -105,6 +106,9 @@ class Questions extends React.Component {
         this.setState({
             score: this.state.score + 1
         });
+        /*this.setState({
+            percent: ((this.state.score)/(this.state.total)) *100
+        });*/
     }
 
     checkAnswer(e) {
@@ -147,8 +151,21 @@ class Questions extends React.Component {
 
         return true;
     }
+
     last() {
-        alert(this.state.nome);
+        let { correct, increaseScore } = this.props;
+        for(var x=0;x<this.state.total;x++){
+            //alert(this.state.nome[x])
+            if(this.state.datas[x].correct == this.state.nome[x]){
+                this.handleIncreaseScore();
+            }
+            //alert(this.state.datas[x].correct);
+        }
+        
+    }
+
+    handleCalculateResult(){
+        alert(typeof this.state.nome);
     }
 
     render() {
@@ -187,9 +204,16 @@ class Questions extends React.Component {
                                 </div>
                             ))}
                             <div class={classes.wrapper}>
-                                <button className={classes.fancyBtn} onClick={() => window.location.replace("/quizResults/" + this.state.nome)} >{'Finish quiz'}</button>
+                                <button className={classes.fancyBtn} onClick={this.last} >{'Finish quiz'}</button>
+                            </div>
+                            <div class={classes.wrapper}>
+                                <p>Score: You got {this.state.score}/ {this.state.total} or {this.state.percent} %</p>
+                            </div>
+                            <div class={classes.wrapper}>
+                                <button className={classes.fancyBtn} onClick={() => window.location.replace("/quizResults/")} >{'View Answers'}</button>
                             </div>
                         </div>
+                        
                         {/*<div className={classes.main}>
                             <div className="row">
                                 <div className="col-lg-10 col-lg-offset-1">
