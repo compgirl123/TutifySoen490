@@ -205,7 +205,7 @@ class Main extends React.Component {
                                     </div>
                                     <div className={classes.submit}>
                                         <br />
-                                        {"Correct Answer : " + data[i].answers[data[i].correct-1]}
+                                        {"Correct Answer : " + dataa[i].answers[dataa[i].correct-1]}
                                         <br />
                                         <br />
                                     </div>
