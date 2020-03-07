@@ -35,7 +35,8 @@ class Questions extends React.Component {
             datas: dataa,
             haha: [],
             nome: [],
-            percent: ""
+            percent: "",
+            increase : 0
         }
         this.nextQuestion = this.nextQuestion.bind(this);
         this.last = this.last.bind(this);
@@ -50,7 +51,7 @@ class Questions extends React.Component {
             question: data[nr].question,
             answers: [data[nr].answers[0], data[nr].answers[1], data[nr].answers[2], data[nr].answers[3]],
             correct: data[nr].correct,
-            nr: this.state.nr + 1
+            nr: this.state.nr 
         });
     }
 
@@ -63,9 +64,14 @@ class Questions extends React.Component {
     nextQuestion() {
         let { nr, total, score } = this.state;
         let { correct, increaseScore } = this.props;
+        var increase = 0;
 
         if (this.state.test === this.state.correct) {
-            this.handleIncreaseScore();
+            if(increase == 0){
+                increase++;
+                console.log(increase);
+                this.handleIncreaseScore();
+            }
         }
 
         if (nr === total) {
@@ -118,8 +124,9 @@ class Questions extends React.Component {
         let { correct, increaseScore } = this.props;
         let answer = Number(elem.dataset.id);
         let updatedClassNames = this.state.classNames;
+        let increase = 0;
         console.log((elem.dataset.id).split(","));
-
+     
         if (answer === correct) {
             increaseScore();
         }
@@ -153,11 +160,18 @@ class Questions extends React.Component {
     }
 
     last() {
-        let { correct, increaseScore } = this.props;
+        let { correct, increaseScore} = this.props;
+        
         for(var x=0;x<this.state.total;x++){
             //alert(this.state.nome[x])
+            console.log(this.state.increase);
             if(this.state.datas[x].correct == this.state.nome[x]){
-                this.handleIncreaseScore();
+                //this.handleIncreaseScore();
+                if(this.state.increase < 1){
+                    this.setState({increase :1});
+                    //console.log(increase);
+                    this.handleIncreaseScore();
+                }
             }
             //alert(this.state.datas[x].correct);
         }
