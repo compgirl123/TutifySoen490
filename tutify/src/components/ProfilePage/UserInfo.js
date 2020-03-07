@@ -225,11 +225,13 @@ export class UserInfo extends React.Component {
   // Displaying the current image file being uploaded.
   imageFileChanged = async (event) => {
     const f = event.target.files[0];
-    await this.setState({
-      newPicture: event.target.files[0],
-      profilePicture: URL.createObjectURL(f),
-      isPictureChanged: true,
-    });
+    if(f) {
+      this.setState({
+        newPicture: event.target.files[0],
+        profilePicture: URL.createObjectURL(f),
+        isPictureChanged: true,
+      });
+    }
   }
 
   // Handling the submit of a new profile image and uploading it into the database as a multer file
