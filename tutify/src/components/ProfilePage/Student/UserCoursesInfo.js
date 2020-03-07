@@ -5,6 +5,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Fab from '@material-ui/core/Fab';
+import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Table from '@material-ui/core/Table';
@@ -53,10 +54,10 @@ class UserCoursesInfo extends React.Component {
             </TableBody>
           </Table>
           <br/>
-                    <Fab variant="extended" href="/courses" aria-label="add" fontSize="small" className={classes.courseButton}>
+                    <Button variant="outlined" href="/courses" aria-label="add" fontSize="small" className={classes.courseButton}>
                       <CloudUploadIcon fontSize="small" style={{ width: '15px', height: '15px' }} />
                       &nbsp; View Documents
-                    </Fab>
+                    </Button>
           <br />
         </CardContent>
       </Card>
