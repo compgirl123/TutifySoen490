@@ -61,7 +61,8 @@ class TutorCard extends Component {
             user_id: props.user_id,
             connectedTutors: props.connectedTutors,
             tutor: props.tutor._id,
-            courses: props.tutor.subjects
+            courses: props.tutor.subjects,
+            profilePicture: ""
         };
         this.handleClickOpen = this.handleClickOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -89,6 +90,8 @@ class TutorCard extends Component {
 
     // Fetches the profile image file from our database
     getImg() {
+        if(!this.props.tutor.uploadedPicture)
+            return
         axios.get('/api/getPicture/' + this.props.tutor.uploadedPicture.imgData)
         .then((res) => {
             this.setState({
