@@ -16,7 +16,11 @@
             "Physics",
             "Chemistry"
         ],
-        "picture": "https://i.imgur.com/kyh5A1e.jpg"
+        "picture": "https://i.imgur.com/kyh5A1e.jpg",
+        "uploadedpicture": {
+            "imgName": "kyh5A1e.jpg",
+            "imgData": "1cd1f07c151c4d41b0763023410c147a.jpg"
+          }
         },
         {
         "_id": {
@@ -32,7 +36,11 @@
         "subjects": [
             "Computer Science"
         ],
-        "picture": "https://i.imgur.com/QD2zlLB.png"
+        "picture": "https://i.imgur.com/QD2zlLB.png",
+        "uploadedpicture": {
+            "imgName": "kyh5A1e.jpg",
+            "imgData": "1cd1f07c151c4d41b0763023410c147a.jpg"
+          }
         },
         {
         "_id": {
@@ -48,7 +56,11 @@
         "subjects": [
             "COMP499 Data Analytics"
         ],
-        "picture": "https://i.imgur.com/vgZrB5U.jpg"
+        "picture": "https://i.imgur.com/vgZrB5U.jpg",
+        "uploadedpicture": {
+            "imgName": "kyh5A1e.jpg",
+            "imgData": "1cd1f07c151c4d41b0763023410c147a.jpg"
+          }
         },
         {
         "_id": {
@@ -64,7 +76,11 @@
         "subjects": [
             "English"
         ],
-        "picture": "https://i.imgur.com/RIpoMew.jpg"
+        "picture": "https://i.imgur.com/RIpoMew.jpg",
+        "uploadedpicture": {
+            "imgName": "kyh5A1e.jpg",
+            "imgData": "1cd1f07c151c4d41b0763023410c147a.jpg"
+          }
         },
         {
         "_id": {
@@ -80,7 +96,11 @@
         "subjects": [
             "Software Engineering"
         ],
-        "picture": "https://i.imgur.com/wuu5J5c.jpg"
+        "picture": "https://i.imgur.com/wuu5J5c.jpg",
+        "uploadedpicture": {
+            "imgName": "kyh5A1e.jpg",
+            "imgData": "1cd1f07c151c4d41b0763023410c147a.jpg"
+          }
         },
         {
         "_id": {
@@ -96,7 +116,11 @@
         "subjects": [
             "French"
         ],
-        "picture": "https://i.imgur.com/aPehazP.jpg"
+        "picture": "https://i.imgur.com/aPehazP.jpg",
+        "uploadedpicture": {
+            "imgName": "kyh5A1e.jpg",
+            "imgData": "1cd1f07c151c4d41b0763023410c147a.jpg"
+          }
         }
     ]
 }
