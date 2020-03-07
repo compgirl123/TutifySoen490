@@ -335,10 +335,44 @@ var Videos = mongoose.model('Videos', new Schema({
   }
 }), "videos");
 
+// -------- Quizes --------- // 
+var Quizes = mongoose.model('Quizes', new Schema({
+  title: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  questions: [{
+    type: String,
+    required: true
+  }],
+  choices: [{
+    type: NumberInt,
+    required: true
+  }],
+  answers: [{
+    type: NumberInt,
+    required: true
+  }],
+  tutorId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Tutor',
+    required: true
+  },
+  course: {
+    type: String,
+    required: true
+  }
+}), "quizes");
+
 // export the Schemas
 module.exports = {
   Tutor: Tutor,
   Profile: Profile,
+  Quizes: Quizes,
   Student: Student,
   Account: Account,
   Appointment: Appointment,
