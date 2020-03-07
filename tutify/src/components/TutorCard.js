@@ -67,6 +67,10 @@ class TutorCard extends Component {
         this.handleClose = this.handleClose.bind(this);
     }
 
+    componentDidMount() {
+        this.getImg();
+    }
+
     handleFeedback = () => {
         this.setState({ open: true })
     }
@@ -83,9 +87,21 @@ class TutorCard extends Component {
         return this.state.connectedTutors.some(item => item._id === tutorID)
     }
 
+    // Fetches the profile image file from our database
+    getImg() {
+        axios.get('/api/getPicture/' + this.props.tutor.uploadedPicture.imgData)
+        .then((res) => {
+            this.setState({
+            profilePicture: res.data.data
+            });
+        }, (error) => {
+            console.error("Could not get uploaded profile image from database (API call error) " + error);
+        });
+    }
+
     render() {
         const { classes, tutor } = this.props
-        const { open, scroll } = this.state
+        const { open, scroll, profilePicture } = this.state
 
         return (
             <Grid item xs={12} sm={6} md={4}>
@@ -99,7 +115,7 @@ class TutorCard extends Component {
                         <div className={classes.paper}>
                             <Grid container spacing={2}>
                                 <Grid item>
-                                    <Avatar src={tutor.picture} className={classes.bigAvatar} />
+                                    <Avatar src={profilePicture} className={classes.bigAvatar} />
                                 </Grid>
                                 <Grid item xs={12} sm container>
                                     <Grid item xs container direction="column" spacing={2}>
@@ -176,7 +192,7 @@ class TutorCard extends Component {
                     <CardActionArea>
                         <CardMedia
                             className={classes.cardMedia}
-                            image={tutor.picture}
+                            image={profilePicture}
                             title={tutor.first_name + " " + tutor.last_name}
                         />
                     </CardActionArea>
