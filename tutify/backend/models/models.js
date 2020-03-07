@@ -45,7 +45,6 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
     {
       title: { type: String },
       text: { type: String },
-      tutorImg: { type: String },
       tutorName: { type: String },
       tutorid: { type: Schema.Types.ObjectId, ref: 'Tutor' },
       new: { type: Boolean },
