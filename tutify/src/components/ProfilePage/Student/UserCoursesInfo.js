@@ -4,7 +4,6 @@ import * as tutifyStyle from '../../../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
