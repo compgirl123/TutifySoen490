@@ -39,8 +39,11 @@ class ProfilePage extends React.Component {
       __t: "",
       tutors: [],
       courses: [],
-      students:[]
+      students: [],
+      open: false
     };
+    his.handleClose = this.handleClose.bind(this);
+    this.handleClickOpen = this.handleClickOpen.bind(this);
   }
   toggleDrawer = booleanValue => () => {
     this.setState({
@@ -73,22 +76,31 @@ class ProfilePage extends React.Component {
 
       })
       .catch(err => console.error("Session could not be checked: " + err));
-      };
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
 
 
   //this method uses the backend API to find a student's courses
   getUserCourses = () => {
     console.info("Fetching student courses from db...");
     fetch('/api/getUserCourses', {
-        method: 'GET',
-        credentials: 'include'
+      method: 'GET',
+      credentials: 'include'
     })
       .then(response => response.json())
       .then(res => {
         this.setState({ courses: res.data });
       })
-      .catch(err => 
-      console.error("Could not get courses from database (API call error) " + err));
+      .catch(err =>
+        console.error("Could not get courses from database (API call error) " + err));
   };
 
   //this method uses the backend API to find a tutor's students
@@ -131,7 +143,7 @@ class ProfilePage extends React.Component {
               </IconButton>
             </div>
             <Paper>
-            {this.state.Toggle ? <ScheduledEvents /> : <NewCalendar />}
+              {this.state.Toggle ? <ScheduledEvents /> : <NewCalendar />}
             </Paper>
           </Drawer>
           <main className={classes.content}>
@@ -143,20 +155,20 @@ class ProfilePage extends React.Component {
                 {/* User Info */}
                 <Grid item xs={4}>
                   <Card>
-                 <UserInfo />
+                    <UserInfo />
                   </Card>
                 </Grid>
 
                 <Grid item xs={6}>
                   <Grid >
                     <Paper>
-                    {this.state.Toggle ? <UserCoursesInfo courses={this.state.courses} />: <TutorCoursesInfo   />}   
+                      {this.state.Toggle ? <UserCoursesInfo courses={this.state.courses} /> : <TutorCoursesInfo />}
                     </Paper>
                   </Grid>
                   <br />
                   <Grid >
                     <Paper>
-                    {this.state.Toggle ? <UserTutorsInfo tutors={this.state.tutors} />: <TutorStudentsInfo students={this.state.students}/>}
+                      {this.state.Toggle ? <UserTutorsInfo tutors={this.state.tutors} /> : <TutorStudentsInfo students={this.state.students} />}
 
                     </Paper>
                   </Grid>
