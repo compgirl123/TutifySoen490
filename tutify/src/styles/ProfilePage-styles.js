@@ -115,6 +115,11 @@ export const styles = theme => ({
     width: '60px', 
     height: '60px', 
   },
+  share:{
+    alignSelf: 'center', 
+    width: '45px', 
+    height: '45px', 
+  },
   cardStyle: {
     display: 'block',
     height: '30vw',

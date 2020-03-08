@@ -23,12 +23,14 @@ import axios from 'axios';
 import Facebook from 'react-sharingbuttons/dist/buttons/Facebook';
 import 'react-sharingbuttons/dist/main.css';
 import Twitter from 'react-sharingbuttons/dist/buttons/Twitter';
+import Email from 'react-sharingbuttons/dist/buttons/Email';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from "@material-ui/core/Button";
+import ShareIcon from '@material-ui/icons/Share';
 
 
 class ProfilePage extends React.Component {
@@ -87,6 +89,14 @@ class ProfilePage extends React.Component {
   };
 
 
+  //This method closes the dialog box
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
 
   //this method uses the backend API to find a student's courses
   getUserCourses = () => {
@@ -124,6 +134,15 @@ class ProfilePage extends React.Component {
     const { open } = this.state;
     const url = 'http://tutify-259321.appspot.com/'
     const shareText = 'Tutify is an application system for helping tutors and their students connect. Check it out!'
+    const subject = 'Tutify Application'
+    const emailURL = 'Hello,\n\n'
+      + 'Thank you for showing interest in Tutify.\n'
+      + 'Very briefly, Tutify is an application system for helping tutors and their students connect.\n'
+      + 'To further discover the services offered by Tutify, click on the link below.\n\n'
+      + 'Website: http://tutify-259321.appspot.com/ \n\n'
+      + 'Cheers,\n'
+      + 'Tutify team'
+
     return (
       <React.Fragment>
         <main>
@@ -133,6 +152,9 @@ class ProfilePage extends React.Component {
             </IconButton>
             <IconButton onClick={this.toggleDrawer(true)}>
               <Avatar src={calendarIcon} className={classes.avatar}></Avatar>
+            </IconButton>
+            <IconButton>
+              <ShareIcon fontSize="medium" onClick={() => { this.handleClickOpen(); }} className={classes.share} />
             </IconButton>
           </Drawer>
           <Drawer
@@ -190,6 +212,7 @@ class ProfilePage extends React.Component {
                         </DialogContentText>
                   </div>
                   <div>
+                    <Email url={emailURL} subject={subject} />
                     <Facebook url={url} />
                     <Twitter url={url} shareText={shareText} />
 

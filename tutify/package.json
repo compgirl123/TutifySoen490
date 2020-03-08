@@ -55,6 +55,7 @@
     "react-router-config": "^5.0.1",
     "react-router-dom": "^5.0.1",
     "react-scripts": "^3.3.0",
+    "react-sharingbuttons": "^1.0.0",
     "react-test-renderer": "^16.9.0",
     "react-time-picker": "^3.7.2",
     "redux": "^4.0.4",
