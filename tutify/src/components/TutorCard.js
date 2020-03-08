@@ -61,10 +61,15 @@ class TutorCard extends Component {
             user_id: props.user_id,
             connectedTutors: props.connectedTutors,
             tutor: props.tutor._id,
-            courses: props.tutor.subjects
+            courses: props.tutor.subjects,
+            profilePicture: ""
         };
         this.handleClickOpen = this.handleClickOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
+    }
+
+    componentDidMount() {
+        this.getImg();
     }
 
     handleFeedback = () => {
@@ -83,9 +88,23 @@ class TutorCard extends Component {
         return this.state.connectedTutors.some(item => item._id === tutorID)
     }
 
+    // Fetches the profile image file from our database
+    getImg() {
+        if(!this.props.tutor.uploadedPicture)
+            return
+        axios.get('/api/getPicture/' + this.props.tutor.uploadedPicture.imgData)
+        .then((res) => {
+            this.setState({
+            profilePicture: res.data.data
+            });
+        }, (error) => {
+            console.error("Could not get uploaded profile image from database (API call error) " + error);
+        });
+    }
+
     render() {
         const { classes, tutor } = this.props
-        const { open, scroll } = this.state
+        const { open, scroll, profilePicture } = this.state
 
         return (
             <Grid item xs={12} sm={6} md={4}>
@@ -99,7 +118,7 @@ class TutorCard extends Component {
                         <div className={classes.paper}>
                             <Grid container spacing={2}>
                                 <Grid item>
-                                    <Avatar src={tutor.picture} className={classes.bigAvatar} />
+                                    <Avatar src={profilePicture} className={classes.bigAvatar} />
                                 </Grid>
                                 <Grid item xs={12} sm container>
                                     <Grid item xs container direction="column" spacing={2}>
@@ -176,7 +195,7 @@ class TutorCard extends Component {
                     <CardActionArea>
                         <CardMedia
                             className={classes.cardMedia}
-                            image={tutor.picture}
+                            image={profilePicture}
                             title={tutor.first_name + " " + tutor.last_name}
                         />
                     </CardActionArea>

@@ -45,8 +45,8 @@ const Profile = mongoose.model('Profile', new mongoose.Schema({
     {
       title: { type: String },
       text: { type: String },
-      tutorImg: { type: String },
       tutorName: { type: String },
+      tutorImg: {type: String},
       tutorid: { type: Schema.Types.ObjectId, ref: 'Tutor' },
       new: { type: Boolean },
     }
@@ -82,6 +82,11 @@ const TutorSchema = mongoose.Schema({
   picture: {
     type: String,
     required: true
+  },
+  uploadedPicture: 
+  { 
+    imgName: { type: String, required: true, default: "none" },
+    imgData:{ type: String, required: true }
   },
   students: [
     { type: Schema.Types.ObjectId, ref: 'Student' }

@@ -41,7 +41,11 @@
             "$oid": "5dba6e4e1c9d440000b48a81"
           }
         }
-      ]
+      ],
+      "uploadedpicture": {
+        "imgName": "kyh5A1e.jpg",
+        "imgData": "1cd1f07c151c4d41b0763023410c147a.jpg"
+      }
     },
     {
       "_id": {
@@ -129,7 +133,11 @@
             "$oid": "5dbaf0751c9d440000c0ab0c"
           }
         }
-      ]
+      ],
+      "uploadedpicture": {
+        "imgName": "kyh5A1e.jpg",
+        "imgData": "1cd1f07c151c4d41b0763023410c147a.jpg"
+      }
     },
     {
       "_id": {
@@ -216,6 +224,10 @@
       },
       "__v": {
         "$numberInt": "0"
+      },
+      "uploadedpicture": {
+        "imgName": "kyh5A1e.jpg",
+        "imgData": "1cd1f07c151c4d41b0763023410c147a.jpg"
       }
     },
     {
