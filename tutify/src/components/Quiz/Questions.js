@@ -28,6 +28,7 @@ class Questions extends React.Component {
             showButton: false,
             questionAnswered: false,
             score: 0,
+            finalScore : 0,
             displayPopup: 'flex',
             isAnswered: false,
             classNames: false,
@@ -43,6 +44,7 @@ class Questions extends React.Component {
         this.handleShowButton = this.handleShowButton.bind(this);
         this.handleStartQuiz = this.handleStartQuiz.bind(this);
         this.handleIncreaseScore = this.handleIncreaseScore.bind(this);
+        this.handleDecreaseScore = this.handleDecreaseScore.bind(this);
         this.checkAnswer = this.checkAnswer.bind(this);
     }
 
@@ -62,16 +64,19 @@ class Questions extends React.Component {
     }
 
     nextQuestion() {
-        let { nr, total, score } = this.state;
-        let { correct, increaseScore } = this.props;
+        let { nr, total} = this.state;
         var increase = 0;
 
         if (this.state.test === this.state.correct) {
-            if(increase == 0){
-                increase++;
+           // if(increase === 0){
+                //increase++;
                 console.log(increase);
                 this.handleIncreaseScore();
-            }
+            //}
+        }
+        else{
+            this.handleDecreaseScore();
+            console.log(this.state.test);
         }
 
         if (nr === total) {
@@ -109,26 +114,42 @@ class Questions extends React.Component {
     }
 
     handleIncreaseScore() {
+        console.log("D");
+        console.log(this.state.score);
         this.setState({
             score: this.state.score + 1
         });
-        /*this.setState({
-            percent: ((this.state.score)/(this.state.total)) *100
-        });*/
+    }
+    
+    handleDecreaseScore() {
+        this.setState({
+            score: this.state.score - 1
+        });
     }
 
     checkAnswer(e) {
-        let { isAnswered } = this.props;
-       
         let elem = e.currentTarget;
-        let { correct, increaseScore } = this.props;
-        let answer = Number(elem.dataset.id);
+        let { increaseScore, decreaseScore } = this.props;
+        let answer = Number((elem.dataset.id).split(",")[2]);
+        let correct = Number(this.state.datas[(elem.dataset.id).split(",")[1]].correct);
         let updatedClassNames = this.state.classNames;
-        let increase = 0;
-        console.log((elem.dataset.id).split(","));
-     
+        //console.log((elem.dataset.id).split(",")[2]);
+        console.log(answer);
+        console.log(this.state.datas[(elem.dataset.id).split(",")[1]].correct);
+        console.log(this.state.correct);
+        console.log(this.state.nr);
+        // make array "correct", filter by (elem.dataset.id).split(",")[1];
         if (answer === correct) {
-            increaseScore();
+            alert("d");
+            if(this.state.score <= this.state.total - 1){
+                this.handleIncreaseScore();
+                console.log(this.state.score);
+            }
+
+            console.log(this.state.score);
+        }
+        else{
+            //decreaseScore();
         }
   
         this.setState({
@@ -139,7 +160,7 @@ class Questions extends React.Component {
         nome[(elem.dataset.id).split(",")[1]] = Number((elem.dataset.id).split(",")[2]);
         console.log(ahh);
         console.log(this.state.datas[(elem.dataset.id).split(",")[1]].question);
-        this.state.datas[(elem.dataset.id).split(",")[1]].yo = (elem.dataset.id).split(",")[0];
+        //this.state.datas[(elem.dataset.id).split(",")[1]].yo = (elem.dataset.id).split(",")[0];
         console.log(this.state.datas[(elem.dataset.id).split(",")[1]]);
         console.log(nome);
 
@@ -160,18 +181,7 @@ class Questions extends React.Component {
     }
 
     last() {
-        let { correct, increaseScore} = this.props;
-        
-        for(var x=0;x<this.state.total;x++){
-            console.log(this.state.increase);
-            if(this.state.datas[x].correct == this.state.nome[x]){
-                if(this.state.increase < 1){
-                    this.setState({increase :1});
-                    this.handleIncreaseScore();
-                }
-            }
-        }
-        
+        this.setState({finalScore:this.state.score});
     }
 
     handleCalculateResult(){
@@ -179,11 +189,8 @@ class Questions extends React.Component {
     }
 
     render() {
-        let { answers } = this.props;
         const { classes } = this.props;
-        let { classNames, datas } = this.state;
-
-        let { nr, total, question, correct, showButton, questionAnswered, displayPopup, score } = this.state;
+        let { datas, total } = this.state;
 
         return (
             <Paper>
@@ -199,10 +206,10 @@ class Questions extends React.Component {
                                     </div>
                                     <div id="answers">
                                         <ul className={classes.answersUl}>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={c.answers[0] + "," + i + "," + "1"}><span className={classes.answersLiSpan}>A</span> <p className={classes.answersP}>{c.answers[0]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={c.answers[1] + "," + i + "," + "2"}><span className={classes.answersLiSpan}>B</span> <p className={classes.answersP}>{c.answers[1]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={c.answers[2] + "," + i + "," + "3"}><span className={classes.answersLiSpan}>C</span> <p className={classes.answersP}>{c.answers[2]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={c.answers[3] + "," + i + "," + "4"}><span className={classes.answersLiSpan}>D</span> <p className={classes.answersP}>{c.answers[3]}</p></li>
+                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.answers[0]},${i},1`}><span className={classes.answersLiSpan}>A</span> <p className={classes.answersP}>{c.answers[0]}</p></li>
+                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.answers[1]},${i},2`}><span className={classes.answersLiSpan}>B</span> <p className={classes.answersP}>{c.answers[1]}</p></li>
+                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.answers[2]},${i},3`}><span className={classes.answersLiSpan}>C</span> <p className={classes.answersP}>{c.answers[2]}</p></li>
+                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.answers[3]},${i},4`}><span className={classes.answersLiSpan}>D</span> <p className={classes.answersP}>{c.answers[3]}</p></li>
                                         </ul>
                                     </div>
                                     <div className={classes.submit}>
@@ -217,39 +224,13 @@ class Questions extends React.Component {
                                 <button className={classes.fancyBtn} onClick={this.last} >{'Finish quiz'}</button>
                             </div>
                             <div class={classes.wrapper}>
-                                <p>Score: You got {this.state.score}/ {this.state.total} or {this.state.percent} %</p>
+                                <p>Score: You got {this.state.finalScore}/ {this.state.total} or {(this.state.finalScore/ this.state.total)*100} %</p>
                             </div>
                             <div class={classes.wrapper}>
                                 <button className={classes.fancyBtn} onClick={() => window.location.replace("/quizResults/")} >{'View Answers'}</button>
                             </div>
                         </div>
-                        
-                        {/*<div className={classes.main}>
-                            <div className="row">
-                                <div className="col-lg-10 col-lg-offset-1">
-                                    <div className={classes.question}>
-                                        <h4 className={classes.h4}> Question {nr}/{total}</h4>
-                                        <p className={classes.p}>{question}</p>
-                                    </div>
-                                    <div id="answers">
-                                        <ul className={classes.answersUl}>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id="1"><span className={classes.answersLiSpan}>A</span> <p className={classes.answersP}>{this.state.answers[0]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id="2"><span className={classes.answersLiSpan}>B</span> <p className={classes.answersP}>{this.state.answers[1]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id="3"><span className={classes.answersLiSpan}>C</span> <p className={classes.answersP}>{this.state.answers[2]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id="4"><span className={classes.answersLiSpan}>D</span> <p className={classes.answersP}>{this.state.answers[3]}</p></li>
-                                        </ul>
-                                    </div>
-                                    <div className={classes.submit}>
-                                    <br/>
-                                        {this.state.test > 0 ? "Answer Chosen: "+ this.state.answers[this.state.test-1] :<br/>}
-                                        <br/>
-                                    <br/>
-                                        {showButton ? <button className={classes.fancyBtn} onClick={this.nextQuestion} >{nr === total ? 'Finish quiz' : 'Next question'}</button> : null}
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>*/}</main>
+                    </main>
                 </React.Fragment>
             </Paper>
 
