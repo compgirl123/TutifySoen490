@@ -36,12 +36,12 @@ class UserDashboard extends React.Component {
             .then(response => response.json())
             .then(res => {
                 if (res.isLoggedIn) {
-                    this.setState({ 
-                        Toggle: true, 
-                        _id: res.userInfo._id, 
-                        todos: res.userInfo.todos, 
+                    this.setState({
+                        Toggle: true,
+                        _id: res.userInfo._id,
+                        todos: res.userInfo.todos,
                         tutors: res.userInfo.tutors,
-                        notifications: res.userInfo.notifications 
+                        notifications: res.userInfo.notifications
                     });
                     this.getCourses()
                 }
@@ -49,7 +49,7 @@ class UserDashboard extends React.Component {
                     this.setState({ Toggle: false });
                 }
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     };
 
 
@@ -64,7 +64,7 @@ class UserDashboard extends React.Component {
                 this.setState({ courses: res.data });
 
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     }
 
     // This function deletes a notif from the list both in the db and in the current state
@@ -73,13 +73,13 @@ class UserDashboard extends React.Component {
             student_id: this.state._id,
             notif_id: notif_id,
         })
-        .then((res) => {
-            this.setState({
-                notifications: res.data.notifications
+            .then((res) => {
+                this.setState({
+                    notifications: res.data.notifications
+                });
+            }, (error) => {
+                console.log(error);
             });
-          }, (error) => {
-            console.log(error);
-          });  
     }
 
     render() {
@@ -99,17 +99,20 @@ class UserDashboard extends React.Component {
                 <main className={classes.root}>
                     <Grid container className={classes.container}>
                         <Grid item sm={6} className={classes.gridItem}>
-                            <Notifications notifications={notifications} updateNotificationList={this.updateNotificationList}  />
+                            <Notifications
+                                notifications={notifications}
+                                updateNotificationList={this.updateNotificationList}
+                            />
                         </Grid>
                         <Grid item xs={4} sm={6} className={classes.gridItem}>
-                            <VisibleTodoList sessionTodos={todos} _id={_id}/>
+                            <VisibleTodoList sessionTodos={todos} _id={_id} />
                         </Grid>
                     </Grid>
                     <Grid container className={classes.container}>
                         <Grid item xs={6} sm={6} className={classes.gridItem}>
                             <MyCourseList courses={courses} />
                         </Grid>
-                        
+
                     </Grid>
                     <Footer />
                 </main>

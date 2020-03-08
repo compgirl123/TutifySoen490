@@ -66,7 +66,7 @@ export class TutorList extends React.Component {
                     this.setState({ Toggle: false });
                 }
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     };
 
     // Function that handles how the Share Document button is displayed on the page.
@@ -105,7 +105,7 @@ export class TutorList extends React.Component {
             .then((res) => {
                 this.setState({ tutors: res.data.data });
             }, (error) => {
-                console.log(error);
+                console.error(error);
             })
     };
 

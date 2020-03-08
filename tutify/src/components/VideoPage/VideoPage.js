@@ -135,7 +135,7 @@ export class Studentdocs extends React.Component {
                     this.setState({ Toggle: false });
                 }
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     };
 
     // Getting all of the tutors the student is registered with as well as their videos

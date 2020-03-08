@@ -1,6 +1,8 @@
 const Tutor = require('../models/models').Tutor;
 const Event = require('../models/models').Event;
 const Student = require('../models/models').Student;
+const Mfiles = require('../models/models').Mfiles;
+const Mchunks = require('../models/models').Mchunks;
 
 // this method fetches all available tutors in our database
 exports.getTutors = async function (req, res) {
@@ -275,4 +277,72 @@ exports.getTutorCourses = async function (req, res) {
             if (err) return handleError(err);
             return res.json({ success: true, data: tutor.courses });
         });
+};
+
+// this method updates the existing profile image of a tutor
+exports.uploadTutorImg = async function (req, res) {
+    const { name, _id, prevImg } = req.body;
+    const { filename } = req.file;
+
+    // shorten file name if too long
+    if (name.split(".")[0].length > 25) {
+        name_new = name.substring(0, 25) + "." + name.split(".")[1];
+    }
+    else {
+        name_new = name;
+    }
+
+    let newImg = { 
+        imgName: name,
+        imgData: filename
+    }
+
+    Tutor.findByIdAndUpdate(_id,
+        { $set: { "uploadedPicture": newImg, }},
+        { "new": true, "upsert": true },
+        (err, user) => {
+            if (err) return res.json({ success: false, error: err });
+
+            // Delete previous image from db
+            // Retrieving the file information from the db (from uploads.files)
+            Mfiles.findOneAndRemove({ filename: prevImg }, (err, file) => {
+                if (err) {
+                    console.error("Could not find the specified name by its file name");
+                    return res.status(404).send({
+                        title: 'File error',
+                        message: 'Error finding file',
+                        error: err.errMsg
+                    });
+                } else  {
+                    console.error("MFile deleted successfully.");
+                    //Retrieving the chunks from the db (from uploads.chunks)       
+                    Mchunks.findOneAndRemove({ files_id: file._id }, (err, chunks) => {
+                        var chunkArray = chunks;
+                        if (!chunkArray || chunkArray.length === 0) {
+                            console.error("Could not find the chunks data for the file");
+                            return res.status(404).send({
+                                title: 'Delete Error',
+                                message: 'No data found'
+                            });
+                        } else {
+                            console.error("File chuncks deleted successfully.");
+                            //update the session
+                            req.session.userInfo = user;
+                            req.session.save(function (err) {
+                                if (err) {
+                                    console.error("The session was unable to be saved");
+                                    return res.json({ success: false, error: err });
+                                }
+                                console.info("The session was able to be saved");
+                                req.session.reload(function (err) {
+                                    //session reloaded
+                                    return res.json({ success: true, userInfo: user });
+                                });
+                            });
+                        }
+                    });
+                }
+            });    
+        }
+    );
 };

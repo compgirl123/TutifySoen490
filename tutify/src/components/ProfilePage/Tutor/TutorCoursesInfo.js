@@ -8,7 +8,6 @@ import CourseSelection from './CourseSelection';
 import swal from 'sweetalert';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
 import Box from '@material-ui/core/Box';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
@@ -129,17 +128,17 @@ export class TutorCoursesInfo extends React.Component {
           </Table>
 
           <br />
-          <Fab
-            variant="extended"
+          <Button
+            variant="outlined"
             aria-label="add"
             fontSize="small"
-            className={classes.margin} style={{ maxHeight: '25px', }}
+            className={classes.margin}
             href="/uploadingDocs"
           >
             <CloudUploadIcon fontSize="small" style={{ width: '15px', height: '15px' }} />
             &nbsp; Upload Documents
 
-          </Fab>
+          </Button>
 
           <br />
 

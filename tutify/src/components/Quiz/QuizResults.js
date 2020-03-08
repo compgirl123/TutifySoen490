@@ -57,11 +57,10 @@ class Main extends React.Component {
     componentWillMount() {
         let { nr } = this.state;
         this.pushData(nr);
-        console.log(this.state.datas);
     }
 
     nextQuestion() {
-        let { nr, total} = this.state;
+        let { nr, total } = this.state;
 
         if (this.state.test === this.state.correct) {
             this.handleIncreaseScore();
@@ -82,22 +81,17 @@ class Main extends React.Component {
                 showButton: false,
                 questionAnswered: false
             });
-            //alert(this.state.nr);
         }
-
     }
 
     handleShowButton() {
-        //alert(data[(this.state.nr)-1].answers[this.state.nr]);
         this.setState({
             showButton: true,
             questionAnswered: true
         })
-
     }
 
     handleStartQuiz() {
-        //alert("sweet");
         this.setState({
             displayPopup: 'none',
             nr: 1
@@ -111,25 +105,13 @@ class Main extends React.Component {
     }
 
     checkAnswer(e) {
-        //if(!isAnswered) {
         let elem = e.currentTarget;
         let { correct, increaseScore } = this.props;
         let answer = Number(elem.dataset.id);
         let updatedClassNames = this.state.classNames;
-        console.log((elem.dataset.id).split(","));
-        //console.log(answer);
+        
         if (answer === correct) {
-            alert("ehhlo");
-            /*alert("HIHIHI");
-            alert(answer);*/
-            //updatedClassNames[answer-1] = 'right';
             increaseScore();
-        }
-        else {
-            /*alert("wrong");
-            alert(answer);*/
-
-            //updatedClassNames[answer-1] = 'wrong';
         }
         this.setState({
             classNames: updatedClassNames
@@ -137,12 +119,6 @@ class Main extends React.Component {
 
         ahh[(elem.dataset.id).split(",")[1]] = (elem.dataset.id).split(",")[0];
         nome[(elem.dataset.id).split(",")[1]] = Number((elem.dataset.id).split(",")[2]);
-        console.log(ahh);
-        console.log(this.state.datas[(elem.dataset.id).split(",")[1]].question);
-        //this.state.datas[(elem.dataset.id).split(",")[1]].yo = (elem.dataset.id).split(",")[0];
-        console.log(this.state.datas[(elem.dataset.id).split(",")[1]]);
-        console.log(nome);
-
         this.setState({
             test: elem.dataset.id,
             haha: ahh,
@@ -150,7 +126,6 @@ class Main extends React.Component {
         })
 
         this.handleShowButton();
-        //}
     }
 
     componentDidMount() {
@@ -195,7 +170,7 @@ class Main extends React.Component {
                                     </div>
                                     <div className={classes.submit}>
                                         <br />
-                                        {"Correct Answer : " + dataa[i].answers[dataa[i].correct-1]}
+                                        {"Correct Answer : " + dataa[i].answers[dataa[i].correct - 1]}
                                         <br />
                                         <br />
                                     </div>
@@ -205,32 +180,6 @@ class Main extends React.Component {
                                 <button className={classes.fancyBtn} onClick={this.last} >{'Finish quiz'}</button>
                             </div>
                         </div>
-                        {/*<div className={classes.main}>
-                            <div className="row">
-                                <div className="col-lg-10 col-lg-offset-1">
-                                    <div className={classes.question}>
-                                        <h4 className={classes.h4}> Question {nr}/{total}</h4>
-                                        <p className={classes.p}>{question}</p>
-                                    </div>
-                                    <div id="answers">
-                                        <ul className={classes.answersUl}>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id="1"><span className={classes.answersLiSpan}>A</span> <p className={classes.answersP}>{this.state.answers[0]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id="2"><span className={classes.answersLiSpan}>B</span> <p className={classes.answersP}>{this.state.answers[1]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id="3"><span className={classes.answersLiSpan}>C</span> <p className={classes.answersP}>{this.state.answers[2]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id="4"><span className={classes.answersLiSpan}>D</span> <p className={classes.answersP}>{this.state.answers[3]}</p></li>
-                                        </ul>
-                                    </div>
-                                    <div className={classes.submit}>
-                                    <br/>
-                                        {this.state.test > 0 ? "Answer Chosen: "+ this.state.answers[this.state.test-1] :<br/>}
-                                        <br/>
-                                    <br/>
-                                        {showButton ? <button className={classes.fancyBtn} onClick={this.nextQuestion} >{nr === total ? 'Finish quiz' : 'Next question'}</button> : null}
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>*/}
                     </main>
                 </React.Fragment>
             </Paper>
@@ -239,5 +188,4 @@ class Main extends React.Component {
     }
 };
 
-//export default Main
 export default withStyles(tutifyStyle.styles, { withTheme: true })(Main);

@@ -21,7 +21,7 @@ exports.getLatestUpload = async function (req, res) {
 // This method adds restriction information for uploaded documents.
 exports.addUploadedFiles = async function (req, res) {
     let uploaded_files = new UploadedFiles();
-    const { name, admin} = req.body;
+    const { name, admin } = req.body;
     const { filename } = req.file;
     const { _id } = new mongoose.Types.ObjectId();
 

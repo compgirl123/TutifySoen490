@@ -28,7 +28,7 @@ export class TutorSidebar extends Component {
         localStorage.clear();
       })
       .catch(err => {
-        console.log(err)
+        console.error(err)
         localStorage.clear();
       });
   };

@@ -39,7 +39,7 @@ exports.resetPassword = async function (req, res) {
 
     Tutor.findOne({ resetPasswordToken: resetPasswordToken }, function (err, tutor) {
         if (err) {
-            console.log("Error while trying to authentificate the user (database request failed)");
+            console.error("Error while trying to authentificate the user (database request failed)");
             return res.status(500).send();
         }
 
@@ -47,11 +47,11 @@ exports.resetPassword = async function (req, res) {
             if (tutor.resetPasswordExpires > Date.now()) {
                 bcrypt.genSalt(10, (err, salt) => {
                     if (err) {
-                        console.log(err);
+                        console.error(err);
                     } else {
                         bcrypt.hash(password, salt, (err, hash) => {
                             if (err) {
-                                console.log(err);
+                                console.error(err);
                             }
 
                             Account.findByIdAndUpdate({ _id: tutor.account },
@@ -83,11 +83,11 @@ exports.resetPassword = async function (req, res) {
                     if (student.resetPasswordExpires > Date.now()) {
                         bcrypt.genSalt(10, (err, salt) => {
                             if (err) {
-                                console.log(err);
+                                console.error(err);
                             } else {
                                 bcrypt.hash(password, salt, (err, hash) => {
                                     if (err) {
-                                        console.log(err);
+                                        console.error(err);
                                     }
                                     Account.findByIdAndUpdate({ _id: student.account },
                                         { $set: { "password": hash } },
@@ -357,7 +357,7 @@ exports.assignCourse = async function (req, res) {
             }
         );
     }).catch(err => {
-        console.log(err)
+        console.error(err)
     });
 }
 
@@ -388,11 +388,11 @@ exports.putUser = async function (req, res) {
     // this method encrypts the password in order to maximize security for our application
     bcrypt.genSalt(10, (err, salt) => {
         if (err) {
-            console.log(err);
+            console.error(err);
         } else {
             bcrypt.hash(req.body.password, salt, (err, hash) => {
                 if (err) {
-                    console.log(err);
+                    console.error(err);
                 } else {
                     encrypted_password = hash;
                     if (!first_name || !last_name || !email || !password || !program_of_study || !education_level || !school) {
@@ -419,13 +419,13 @@ exports.putUser = async function (req, res) {
                         studentProfile.nbNewNotifications = 0
                         studentProfile.save(function (err, student) {
                             if (err) {
-                                console.log(err)
+                                console.error(err)
                                 return res.json({ success: false, error: err });
                             }
                             // Update account with user id
                             Account.updateOne({ _id: acc._id },
                                 { user_profile: student._id },
-                                function (err) { if (err) console.log(err) });
+                                function (err) { if (err) console.error(err) });
 
                         });
                         return res.json({ success: true });

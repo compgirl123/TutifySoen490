@@ -60,7 +60,6 @@ class Questions extends React.Component {
     componentWillMount() {
         let { nr } = this.state;
         this.pushData(nr);
-        console.log(this.state.datas);
     }
 
     nextQuestion() {
@@ -68,15 +67,10 @@ class Questions extends React.Component {
         var increase = 0;
 
         if (this.state.test === this.state.correct) {
-           // if(increase === 0){
-                //increase++;
-                console.log(increase);
-                this.handleIncreaseScore();
-            //}
+            this.handleIncreaseScore();
         }
         else{
             this.handleDecreaseScore();
-            console.log(this.state.test);
         }
 
         if (nr === total) {
@@ -114,8 +108,6 @@ class Questions extends React.Component {
     }
 
     handleIncreaseScore() {
-        console.log("D");
-        console.log(this.state.score);
         this.setState({
             score: this.state.score + 1
         });
@@ -129,41 +121,26 @@ class Questions extends React.Component {
 
     checkAnswer(e) {
         let elem = e.currentTarget;
-        let { increaseScore, decreaseScore } = this.props;
         let answer = Number((elem.dataset.id).split(",")[2]);
         let correct = Number(this.state.datas[(elem.dataset.id).split(",")[1]].correct);
         let updatedClassNames = this.state.classNames;
-        //console.log((elem.dataset.id).split(",")[2]);
-        console.log(answer);
-        console.log(this.state.datas[(elem.dataset.id).split(",")[1]].correct);
-        console.log(this.state.correct);
-        console.log(this.state.nr);
-        // make array "correct", filter by (elem.dataset.id).split(",")[1];
         if (answer === correct) {
-            alert("d");
             if(this.state.score <= this.state.total - 1){
                 this.handleIncreaseScore();
-                console.log(this.state.score);
             }
-
-            console.log(this.state.score);
         }
         else{
-            //decreaseScore();
+            if(this.state.score > 0){
+                this.handleDecreaseScore();
+            }
+           
         }
-  
         this.setState({
             classNames: updatedClassNames
         })
 
         ahh[(elem.dataset.id).split(",")[1]] = (elem.dataset.id).split(",")[0];
         nome[(elem.dataset.id).split(",")[1]] = Number((elem.dataset.id).split(",")[2]);
-        console.log(ahh);
-        console.log(this.state.datas[(elem.dataset.id).split(",")[1]].question);
-        //this.state.datas[(elem.dataset.id).split(",")[1]].yo = (elem.dataset.id).split(",")[0];
-        console.log(this.state.datas[(elem.dataset.id).split(",")[1]]);
-        console.log(nome);
-
         this.setState({
             test: elem.dataset.id,
             haha: ahh,
@@ -233,10 +210,8 @@ class Questions extends React.Component {
                     </main>
                 </React.Fragment>
             </Paper>
-
         );
     }
 };
 
-//export default Questions
 export default withStyles(tutifyStyle.styles, { withTheme: true })(Questions);
