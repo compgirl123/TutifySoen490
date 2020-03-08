@@ -20,6 +20,18 @@ import TutorCoursesInfo from './Tutor/TutorCoursesInfo';
 import NewCalendar from './Tutor/Calendar';
 import TutorStudentsInfo from './Tutor/TutorStudentsInfo';
 import axios from 'axios';
+import Facebook from 'react-sharingbuttons/dist/buttons/Facebook';
+import 'react-sharingbuttons/dist/main.css';
+import Twitter from 'react-sharingbuttons/dist/buttons/Twitter';
+import Email from 'react-sharingbuttons/dist/buttons/Email';
+import Reddit from 'react-sharingbuttons/dist/buttons/Reddit';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import Button from "@material-ui/core/Button";
+import ShareIcon from '@material-ui/icons/Share';
 
 
 class ProfilePage extends React.Component {
@@ -30,8 +42,11 @@ class ProfilePage extends React.Component {
       __t: "",
       tutors: [],
       courses: [],
-      students:[]
+      students: [],
+      open: false
     };
+    this.handleClose = this.handleClose.bind(this);
+    this.handleClickOpen = this.handleClickOpen.bind(this);
   }
   toggleDrawer = booleanValue => () => {
     this.setState({
@@ -64,22 +79,39 @@ class ProfilePage extends React.Component {
 
       })
       .catch(err => console.error("Session could not be checked: " + err));
-      };
+  };
 
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+
+  //This method closes the dialog box
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
 
   //this method uses the backend API to find a student's courses
   getUserCourses = () => {
     console.info("Fetching student courses from db...");
     fetch('/api/getUserCourses', {
-        method: 'GET',
-        credentials: 'include'
+      method: 'GET',
+      credentials: 'include'
     })
       .then(response => response.json())
       .then(res => {
         this.setState({ courses: res.data });
       })
-      .catch(err => 
-      console.error("Could not get courses from database (API call error) " + err));
+      .catch(err =>
+        console.error("Could not get courses from database (API call error) " + err));
   };
 
   //this method uses the backend API to find a tutor's students
@@ -100,6 +132,18 @@ class ProfilePage extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const { open } = this.state;
+    const url = 'http://tutify-259321.appspot.com/'
+    const shareText = 'Tutify is an application system for helping tutors and their students connect. Check it out!'
+    const subject = 'Tutify Application'
+    const emailURL = 'Hello,\n\n'
+      + 'Thank you for showing interest in Tutify.\n'
+      + 'Very briefly, Tutify is an application system for helping tutors and their students connect.\n'
+      + 'To further discover the services offered by Tutify, click on the link below.\n\n'
+      + 'Website: http://tutify-259321.appspot.com/ \n\n'
+      + 'Cheers,\n'
+      + 'Tutify team'
+
     return (
       <React.Fragment>
         <main>
@@ -109,6 +153,9 @@ class ProfilePage extends React.Component {
             </IconButton>
             <IconButton onClick={this.toggleDrawer(true)}>
               <Avatar src={calendarIcon} className={classes.avatar}></Avatar>
+            </IconButton>
+            <IconButton>
+              <ShareIcon fontSize="medium" onClick={() => { this.handleClickOpen(); }} className={classes.share} />
             </IconButton>
           </Drawer>
           <Drawer
@@ -122,7 +169,7 @@ class ProfilePage extends React.Component {
               </IconButton>
             </div>
             <Paper>
-            {this.state.Toggle ? <ScheduledEvents /> : <NewCalendar />}
+              {this.state.Toggle ? <ScheduledEvents /> : <NewCalendar />}
             </Paper>
           </Drawer>
           <main className={classes.content}>
@@ -134,20 +181,20 @@ class ProfilePage extends React.Component {
                 {/* User Info */}
                 <Grid item xs={4}>
                   <Card>
-                 <UserInfo />
+                    <UserInfo />
                   </Card>
                 </Grid>
 
                 <Grid item xs={6}>
                   <Grid >
                     <Paper>
-                    {this.state.Toggle ? <UserCoursesInfo courses={this.state.courses} />: <TutorCoursesInfo   />}   
+                      {this.state.Toggle ? <UserCoursesInfo courses={this.state.courses} /> : <TutorCoursesInfo />}
                     </Paper>
                   </Grid>
                   <br />
                   <Grid >
                     <Paper>
-                    {this.state.Toggle ? <UserTutorsInfo tutors={this.state.tutors} />: <TutorStudentsInfo students={this.state.students}/>}
+                      {this.state.Toggle ? <UserTutorsInfo tutors={this.state.tutors} /> : <TutorStudentsInfo students={this.state.students} />}
 
                     </Paper>
                   </Grid>
@@ -155,6 +202,40 @@ class ProfilePage extends React.Component {
 
               </Grid>
             </Container>
+            <div>
+
+              <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
+                <DialogTitle id="simple-dialog-title">Share</DialogTitle>
+                <DialogContent>
+                  <div>
+                    <DialogContentText>
+                      Choose one of the following platforms:
+                        </DialogContentText>
+                  </div>
+                  <div>
+                    <Email url={emailURL} subject={subject} />
+                    <Facebook url={url} />
+                    <Twitter url={url} shareText={shareText} />
+                    <Reddit url={url} />
+                  </div>
+
+                </DialogContent>
+                <Grid
+                  container
+                  direction="row-reverse"
+                  justify="space-between"
+                  alignItems="baseline"
+                >
+                  <Grid item>
+                    <DialogActions>
+                      <Button onClick={this.handleClose}>Close</Button>
+                    </DialogActions>
+                  </Grid>
+
+                </Grid>
+
+              </Dialog>
+            </div>
             <main>
               {/* Hero unit */}
 
