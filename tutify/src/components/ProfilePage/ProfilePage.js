@@ -20,6 +20,15 @@ import TutorCoursesInfo from './Tutor/TutorCoursesInfo';
 import NewCalendar from './Tutor/Calendar';
 import TutorStudentsInfo from './Tutor/TutorStudentsInfo';
 import axios from 'axios';
+import Facebook from 'react-sharingbuttons/dist/buttons/Facebook';
+import 'react-sharingbuttons/dist/main.css';
+import Twitter from 'react-sharingbuttons/dist/buttons/Twitter';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import Button from "@material-ui/core/Button";
 
 
 class ProfilePage extends React.Component {
