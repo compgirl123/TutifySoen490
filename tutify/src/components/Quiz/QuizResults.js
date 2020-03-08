@@ -5,7 +5,6 @@ import { withStyles } from "@material-ui/core/styles";
 import Paper from '@material-ui/core/Paper';
 import DashBoardNavBar from '../DashBoardNavBar';
 import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
 
 const dataa = [
     {
@@ -62,16 +61,10 @@ class Main extends React.Component {
     }
 
     nextQuestion() {
-        let { nr, total, score } = this.state;
-        //alert(this.state.answers[this.state.correct-1])
-        let { correct, increaseScore } = this.props;
+        let { nr, total} = this.state;
 
         if (this.state.test === this.state.correct) {
-            //this.state.classNames[this.state.test-1] = 'right';
             this.handleIncreaseScore();
-        }
-        else {
-            //this.state.classNames[this.state.test-1] = 'wrong';
         }
 
         if (nr === total) {
@@ -81,7 +74,6 @@ class Main extends React.Component {
             alert(this.state.score);
         } else {
             this.pushData(nr);
-            //alert(nr);
             this.setState({
                 showButton: false,
                 questionAnswered: false
@@ -119,7 +111,6 @@ class Main extends React.Component {
     }
 
     checkAnswer(e) {
-        let { isAnswered } = this.props;
         //if(!isAnswered) {
         let elem = e.currentTarget;
         let { correct, increaseScore } = this.props;
@@ -148,7 +139,7 @@ class Main extends React.Component {
         nome[(elem.dataset.id).split(",")[1]] = Number((elem.dataset.id).split(",")[2]);
         console.log(ahh);
         console.log(this.state.datas[(elem.dataset.id).split(",")[1]].question);
-        this.state.datas[(elem.dataset.id).split(",")[1]].yo = (elem.dataset.id).split(",")[0];
+        //this.state.datas[(elem.dataset.id).split(",")[1]].yo = (elem.dataset.id).split(",")[0];
         console.log(this.state.datas[(elem.dataset.id).split(",")[1]]);
         console.log(nome);
 
@@ -174,11 +165,10 @@ class Main extends React.Component {
     }
 
     render() {
-        let { answers } = this.props;
         const { classes } = this.props;
-        let { classNames, datas } = this.state;
+        let { datas } = this.state;
 
-        let { nr, total, question, correct, showButton, questionAnswered, displayPopup, score } = this.state;
+        let { total } = this.state;
 
         return (
             <Paper>
@@ -197,10 +187,10 @@ class Main extends React.Component {
                                     </div>
                                     <div id="answers">
                                         <ul className={classes.answersUl}>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={c.answers[0] + "," + i + "," + "1"}><span className={classes.answersLiSpan}>A</span> <p className={classes.answersP}>{c.answers[0]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={c.answers[1] + "," + i + "," + "2"}><span className={classes.answersLiSpan}>B</span> <p className={classes.answersP}>{c.answers[1]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={c.answers[2] + "," + i + "," + "3"}><span className={classes.answersLiSpan}>C</span> <p className={classes.answersP}>{c.answers[2]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={c.answers[3] + "," + i + "," + "4"}><span className={classes.answersLiSpan}>D</span> <p className={classes.answersP}>{c.answers[3]}</p></li>
+                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.answers[0]},${i},1`}><span className={classes.answersLiSpan}>A</span> <p className={classes.answersP}>{c.answers[0]}</p></li>
+                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.answers[0]},${i},2`}><span className={classes.answersLiSpan}>B</span> <p className={classes.answersP}>{c.answers[1]}</p></li>
+                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.answers[0]},${i},3`}><span className={classes.answersLiSpan}>C</span> <p className={classes.answersP}>{c.answers[2]}</p></li>
+                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.answers[0]},${i},4`}><span className={classes.answersLiSpan}>D</span> <p className={classes.answersP}>{c.answers[3]}</p></li>
                                         </ul>
                                     </div>
                                     <div className={classes.submit}>

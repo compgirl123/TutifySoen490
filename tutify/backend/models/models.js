@@ -336,7 +336,8 @@ var Videos = mongoose.model('Videos', new Schema({
 }), "videos");
 
 // -------- Quizes --------- // 
-var Quizes = mongoose.model('Quizes', new Schema({
+// fix issues 
+/*var Quizes = mongoose.model('Quizes', new Schema({
   title: {
     type: String,
     required: true
@@ -350,11 +351,11 @@ var Quizes = mongoose.model('Quizes', new Schema({
     required: true
   }],
   choices: [{
-    type: NumberInt,
+    type: NumberInt(),
     required: true
   }],
   answers: [{
-    type: NumberInt,
+    type: NumberInt(),
     required: true
   }],
   tutorId: {
@@ -366,13 +367,13 @@ var Quizes = mongoose.model('Quizes', new Schema({
     type: String,
     required: true
   }
-}), "quizes");
+}), "quizes");*/
 
 // export the Schemas
 module.exports = {
   Tutor: Tutor,
   Profile: Profile,
-  Quizes: Quizes,
+  //Quizes: Quizes,
   Student: Student,
   Account: Account,
   Appointment: Appointment,
