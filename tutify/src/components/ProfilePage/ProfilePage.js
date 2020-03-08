@@ -24,6 +24,7 @@ import Facebook from 'react-sharingbuttons/dist/buttons/Facebook';
 import 'react-sharingbuttons/dist/main.css';
 import Twitter from 'react-sharingbuttons/dist/buttons/Twitter';
 import Email from 'react-sharingbuttons/dist/buttons/Email';
+import Reddit from 'react-sharingbuttons/dist/buttons/Reddit';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
@@ -215,7 +216,7 @@ class ProfilePage extends React.Component {
                     <Email url={emailURL} subject={subject} />
                     <Facebook url={url} />
                     <Twitter url={url} shareText={shareText} />
-
+                    <Reddit url={url} />
                   </div>
 
                 </DialogContent>
