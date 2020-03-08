@@ -163,13 +163,17 @@ class Questions extends React.Component {
         let { correct, increaseScore} = this.props;
         
         for(var x=0;x<this.state.total;x++){
+            //alert(this.state.nome[x])
             console.log(this.state.increase);
             if(this.state.datas[x].correct == this.state.nome[x]){
+                //this.handleIncreaseScore();
                 if(this.state.increase < 1){
                     this.setState({increase :1});
+                    //console.log(increase);
                     this.handleIncreaseScore();
                 }
             }
+            //alert(this.state.datas[x].correct);
         }
         
     }
