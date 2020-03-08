@@ -113,7 +113,6 @@ export class Document extends Component {
       method: 'DELETE'
     }).then(res => res.json())
       .then(response => {
-        //console.log(response);
         if (response.success) {
           this.loadFile();
           console.info("The file has successfully been deleted")

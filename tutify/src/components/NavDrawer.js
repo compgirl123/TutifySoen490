@@ -36,7 +36,7 @@ export class NavDrawer extends React.Component {
           this.setState({ Toggle: false });
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error(err));
   };
 
 

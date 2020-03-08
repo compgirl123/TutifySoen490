@@ -49,7 +49,7 @@ class UserDashboard extends React.Component {
                     this.setState({ Toggle: false });
                 }
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     };
 
 
@@ -64,7 +64,7 @@ class UserDashboard extends React.Component {
                 this.setState({ courses: res.data });
 
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     }
 
     // This function deletes a notif from the list both in the db and in the current state

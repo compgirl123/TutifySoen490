@@ -45,7 +45,7 @@ class ContactTutor extends React.Component {
           this.setState({ Toggle: false });
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error(err));
   };
 
   // Uses our backend api to fetch the courses from our database
@@ -59,7 +59,7 @@ class ContactTutor extends React.Component {
         this.setState({ courses: res.data });
 
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error(err));
   }
 
 

@@ -122,7 +122,6 @@ class Questions extends React.Component {
         let answer = Number((elem.dataset.id).split(",")[2]);
         let correct = Number(this.state.datas[(elem.dataset.id).split(",")[1]].correct);
         let updatedClassNames = this.state.classNames;
-      
         if (answer === correct) {
             if(this.state.score <= this.state.total - 1){
                 this.handleIncreaseScore();
@@ -133,7 +132,6 @@ class Questions extends React.Component {
                 this.handleDecreaseScore();
             }
         }
-  
         this.setState({
             classNames: updatedClassNames
         })

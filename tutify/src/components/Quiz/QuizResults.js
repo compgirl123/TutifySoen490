@@ -59,7 +59,7 @@ class Main extends React.Component {
     }
 
     nextQuestion() {
-        let { nr, total} = this.state;
+        let { nr, total } = this.state;
 
         if (this.state.answerSelected === this.state.correct) {
             this.handleIncreaseScore();
@@ -81,7 +81,6 @@ class Main extends React.Component {
                 questionAnswered: false
             });
         }
-
     }
 
     handleShowButton() {
@@ -89,7 +88,6 @@ class Main extends React.Component {
             showButton: true,
             questionAnswered: true
         })
-
     }
 
     handleStartQuiz() {

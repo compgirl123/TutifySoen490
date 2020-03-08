@@ -60,7 +60,7 @@ export class ViewCourse extends React.Component {
           this.setState({ Toggle: false, shouldView: false });
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error(err));
   };
 
   // Uses our backend api to fetch the courses from our database
@@ -73,7 +73,7 @@ export class ViewCourse extends React.Component {
       .then(res => {
         this.setState({ courses: res.data });
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error(err));
   }
 
   // Uses our backend api to fetch the courses from our database
@@ -86,7 +86,7 @@ export class ViewCourse extends React.Component {
       .then(res => {
         this.setState({ courses: res.data });
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error(err));
   }
 
   // Loading all files from the database for the specific course
@@ -116,7 +116,7 @@ export class ViewCourse extends React.Component {
         }
       }
     )
-      .catch(err => console.log(err));
+      .catch(err => console.error(err));
   }
 
   // Allowing for files to be deleted for specific courses.
@@ -134,7 +134,7 @@ export class ViewCourse extends React.Component {
             file_id: ids
           }
           ).then((res) => { })
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
           window.location.reload();
         }
       });
@@ -145,7 +145,6 @@ export class ViewCourse extends React.Component {
     if (event.target.checked) {
       let list = this.state.shareTo;
       list.push(event.target.name);
-      console.log(list);
       await this.setState({ shareTo: list });
 
     } else {
