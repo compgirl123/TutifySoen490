@@ -352,16 +352,8 @@ var Quizes = mongoose.model('Quizes', new Schema({
     required: true
   },
   questions: [{
-    type: String,
-    required: true
-  }],
-  choices: [{
-    type: NumberInt,
-    required: true
-  }],
-  answers: [{
-    type: NumberInt,
-    required: true
+    type: Schema.Types.ObjectId,
+    ref: 'Question',
   }],
   tutorId: {
     type: Schema.Types.ObjectId,
@@ -369,10 +361,41 @@ var Quizes = mongoose.model('Quizes', new Schema({
     required: true
   },
   course: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: 'Course',
     required: true
   }
 }), "quizes");
+
+// -------- Questions --------- // 
+var Questions = mongoose.model('Questions', new Schema({
+  title: {
+    type: String,
+    required: true
+  },
+  question: {
+    type: String,
+    required: true
+  },
+  choices: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Question',
+  }],
+  answerIndex: {
+    type: NumberInt,
+    required:true
+  },
+  creator: {
+    type: Schema.Types.ObjectId,
+    ref: 'Tutor',
+    required: true
+  },
+  course: {
+    type: Schema.Types.ObjectId,
+    ref: 'Course',
+    required: true
+  }
+}), "questions");
 
 // export the Schemas
 module.exports = {
