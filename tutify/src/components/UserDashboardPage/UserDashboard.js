@@ -100,7 +100,6 @@ class UserDashboard extends React.Component {
                     <Grid container className={classes.container}>
                         <Grid item sm={6} className={classes.gridItem}>
                             <Notifications
-                                tutors={tutors}
                                 notifications={notifications}
                                 updateNotificationList={this.updateNotificationList}
                             />
