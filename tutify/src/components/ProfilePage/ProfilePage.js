@@ -44,7 +44,7 @@ class ProfilePage extends React.Component {
       students: [],
       open: false
     };
-    his.handleClose = this.handleClose.bind(this);
+    this.handleClose = this.handleClose.bind(this);
     this.handleClickOpen = this.handleClickOpen.bind(this);
   }
   toggleDrawer = booleanValue => () => {
