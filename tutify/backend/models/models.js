@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-var NumberInt = require('mongoose-int32');
+//var NumberInt = require('mongoose-int32');
 
 // -------- Account --------- // 
 
@@ -342,7 +342,7 @@ var Videos = mongoose.model('Videos', new Schema({
 }), "videos");
 
 // -------- Quizes --------- // 
-var Quizes = mongoose.model('Quizes', new Schema({
+/*var Quizes = mongoose.model('Quizes', new Schema({
   title: {
     type: String,
     required: true
@@ -372,13 +372,13 @@ var Quizes = mongoose.model('Quizes', new Schema({
     type: String,
     required: true
   }
-}), "quizes");
+}), "quizes");*/
 
 // export the Schemas
 module.exports = {
   Tutor: Tutor,
   Profile: Profile,
-  Quizes: Quizes,
+  //Quizes: Quizes,
   Student: Student,
   Account: Account,
   Appointment: Appointment,

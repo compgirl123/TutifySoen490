@@ -17,8 +17,8 @@ const dataa = [
         correct: 1
     }
 ]
-var ahh = [];
-var nome = [];
+var answersSelected = [];
+var answersSelectedNumerical = [];
 class Questions extends React.Component {
     constructor(props) {
         super(props);
@@ -32,12 +32,11 @@ class Questions extends React.Component {
             displayPopup: 'flex',
             isAnswered: false,
             classNames: false,
-            test: 0,
+            answerSelected: 0,
             datas: dataa,
-            haha: [],
-            nome: [],
-            percent: "",
-            increase : 0
+            selectedAnswers: [],
+            answersSelectedNumerical: [],
+            percent: ""
         }
         this.nextQuestion = this.nextQuestion.bind(this);
         this.last = this.last.bind(this);
@@ -64,9 +63,8 @@ class Questions extends React.Component {
 
     nextQuestion() {
         let { nr, total} = this.state;
-        var increase = 0;
 
-        if (this.state.test === this.state.correct) {
+        if (this.state.answerSelected === this.state.correct) {
             this.handleIncreaseScore();
         }
         else{
@@ -134,20 +132,19 @@ class Questions extends React.Component {
             if(this.state.score > 0){
                 this.handleDecreaseScore();
             }
-           
         }
   
         this.setState({
             classNames: updatedClassNames
         })
 
-        ahh[(elem.dataset.id).split(",")[1]] = (elem.dataset.id).split(",")[0];
-        nome[(elem.dataset.id).split(",")[1]] = Number((elem.dataset.id).split(",")[2]);
+        answersSelected[(elem.dataset.id).split(",")[1]] = (elem.dataset.id).split(",")[0];
+        answersSelectedNumerical[(elem.dataset.id).split(",")[1]] = Number((elem.dataset.id).split(",")[2]);
        
         this.setState({
-            test: elem.dataset.id,
-            haha: ahh,
-            nome: nome
+            answerSelected: elem.dataset.id,
+            selectedAnswers: answersSelected,
+            answersSelectedNumerical: answersSelectedNumerical
         })
         this.handleShowButton();
     }
@@ -162,10 +159,6 @@ class Questions extends React.Component {
 
     last() {
         this.setState({finalScore:this.state.score});
-    }
-
-    handleCalculateResult(){
-        alert(typeof this.state.nome);
     }
 
     render() {
@@ -194,7 +187,7 @@ class Questions extends React.Component {
                                     </div>
                                     <div className={classes.submit}>
                                         <br />
-                                        {this.state.haha[i] !== undefined ? "Answer Chosen: " + this.state.haha[i] : "Answer Chosen: "+ "Please Choose an Answer"}
+                                        {this.state.selectedAnswers[i] !== undefined ? `Answer Chosen: ${this.state.selectedAnswers[i]}` : `Answer Chosen: Please Choose an Answer}`}
                                         <br />
                                         <br />
                                     </div>
@@ -204,7 +197,7 @@ class Questions extends React.Component {
                                 <button className={classes.fancyBtn} onClick={this.last} >{'Finish quiz'}</button>
                             </div>
                             <div class={classes.wrapper}>
-                                <p>Score: You got {this.state.finalScore}/ {this.state.total} or {(this.state.finalScore/ this.state.total)*100} %</p>
+                                <p>Score: You got {this.state.finalScore}/ {this.state.total} or {(this.state.finalScore / this.state.total) * 100} %</p>
                             </div>
                             <div class={classes.wrapper}>
                                 <button className={classes.fancyBtn} onClick={() => window.location.replace("/quizResults/")} >{'View Answers'}</button>
