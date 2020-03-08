@@ -1,7 +1,7 @@
 const Quizes = require('../models/models').Quizes;
 const Questions = require('../models/models').Questions;
 
-// this method fetches all available quizes in our database
+// this method fetches all available quizes from a tutor in our database
 exports.getQuizes = async function (req, res) {
     var id = [];
     if (req.session.userInfo.__t == "tutor") {
@@ -20,8 +20,8 @@ exports.getQuizes = async function (req, res) {
     });
 };
 
-// this method select quizes in our database
-exports.getSelectQuizes = async (req, res) => {
+// this method select the quizes by course
+exports.getCourseQuizes = async (req, res) => {
     var id = [];
     if (req.session.userInfo.__t == "tutor") {
         id.push(req.session.userInfo._id);
@@ -83,7 +83,7 @@ exports.addQuestion = async function (req, res) {
     });
 };
 
-// this method deletes a new quiz to the db
+// this method deletes a quiz to the db
 exports.deleteQuiz = async function (req, res) {
     const { _id } = req.body;
     // selected quiz to delete by tutor
@@ -93,6 +93,20 @@ exports.deleteQuiz = async function (req, res) {
             return res.send(err);
         }
         console.info("The quiz has been deleted");
+        return res.json({ success: true });
+    });
+};
+
+// this method deletes a question to the db
+exports.deleteQuestion = async function (req, res) {
+    const { _id } = req.body;
+    // selected quiz to delete by tutor
+    Questions.findByIdAndRemove(_id, (err) => {
+        if (err) {
+            console.error("The delete order was given, but was not executed by the database. This may be due to a connection error.");
+            return res.send(err);
+        }
+        console.info("The question has been deleted");
         return res.json({ success: true });
     });
 };

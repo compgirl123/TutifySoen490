@@ -369,10 +369,6 @@ var Quizes = mongoose.model('Quizes', new Schema({
 
 // -------- Questions --------- // 
 var Questions = mongoose.model('Questions', new Schema({
-  title: {
-    type: String,
-    required: true
-  },
   question: {
     type: String,
     required: true
