@@ -76,4 +76,50 @@ exports.deleteFile = async (req, res) => {
 }
 
 
+exports.getPicture = async (req, res) => {
+
+  // Retrieving the image information from the db (from uploads.files)
+  await Mfiles.findOne({ filename: req.params.filename }, async (err, file) => {
+    if (err) {
+      console.error("Could not find the specified name by its file name");
+      return await res.status(404).send({
+        title: 'File error',
+        message: 'Error finding file',
+        error: err.errMsg
+      });
+    }
+    if (!file || file.length === 0) {
+      console.error("Could not download the file");
+      return await res.status(500).send({
+        title: 'Download Error',
+        message: 'No file found'
+      });
+    } else {
+      //Retrieving the chunks from the db (from uploads.chunks)       
+      await Mchunks.find({ files_id: file._id }, async (err, chunks) => {
+        var chunkArray = chunks;
+        if (!chunkArray || chunkArray.length === 0) {
+          console.error("Could not find the chunks data for the file");
+          return await res.status(404).send({
+            title: 'Download Error',
+            message: 'No data found'
+          });
+        }
+
+        //Concatinate the data in an array
+        let fileData = [];
+        for (let i = 0; i < chunkArray.length; i++) {
+          fileData.push(chunkArray[i].data.toString('base64'));
+        }
+        //Display the chunks using the data URI format          
+        let finalFile = 'data:' + file.contentType + ';base64,'
+          + fileData.join('');
+
+
+        res.status(200).send({ data: finalFile, datatype: file.contentType });
+      });
+    }
+  });
+}
+
 

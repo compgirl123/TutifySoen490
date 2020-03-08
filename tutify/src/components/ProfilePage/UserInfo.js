@@ -16,6 +16,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import EditIcon from '@material-ui/icons/Edit';
 import Box from '@material-ui/core/Box';
+import PublishIcon from '@material-ui/icons/Publish';
 
 export class UserInfo extends React.Component {
   constructor(props) {
@@ -40,10 +41,15 @@ export class UserInfo extends React.Component {
       scroll: 'paper',
       tutorPicture: "",
       description: "",
-      updatedDescription: ""
+      updatedDescription: "",
+      profilePicture: "",
+      isPictureChanged: false,
     };
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.imageFileChanged = this.imageFileChanged.bind(this);
+    this.handleUploadImg = this.handleUploadImg.bind(this);
+    this.getImg = this.getImg.bind(this);
   }
 
   toggleDrawer = booleanValue => () => {
@@ -70,7 +76,7 @@ export class UserInfo extends React.Component {
 
   handleChangeValue = e => this.setState({ value: e.target.value });
 
-    //retrieves the session
+  //retrieves the session
   checkSession = () => {
     console.info("Fetching session...");
     fetch('/api/checkSession', {
@@ -85,15 +91,17 @@ export class UserInfo extends React.Component {
             first_name: res.userInfo.first_name, last_name: res.userInfo.last_name,
             email: res.email, education_level: res.userInfo.education_level, school: res.userInfo.school,
             program_of_study: res.userInfo.program_of_study, students: res.userInfo.students, subjects: res.userInfo.subjects,
-            tutorPicture: res.userInfo.picture,
+            tutorPicture: res.userInfo.picture, profilePictureID: res.userInfo.uploadedPicture,
             description: res.userInfo.description
           });
+          this.getImg();
         }
         else {
           this.setState({ Toggle: false });
         }
       })
-      .catch(err => console.error("Session could not be checked: " + err));  };
+      .catch(err => console.error("Session could not be checked: " + err));
+  };
 
   update = async (value) => {
     await this.setState({
@@ -204,7 +212,7 @@ export class UserInfo extends React.Component {
       });
   };
 
-  //determines whether tutor or student info needs to be updated
+  // Determines whether tutor or student info needs to be updated
   updateInfo = () => {
     if (this.state.__t === "tutor") {
       this.updateTutorOptions();
@@ -214,9 +222,64 @@ export class UserInfo extends React.Component {
     }
   }
 
+  // Displaying the current image file being uploaded.
+  imageFileChanged = async (event) => {
+    const f = event.target.files[0];
+    if(f) {
+      this.setState({
+        newPicture: event.target.files[0],
+        profilePicture: URL.createObjectURL(f),
+        isPictureChanged: true,
+      });
+    }
+  }
+
+  // Handling the submit of a new profile image and uploading it into the database as a multer file
+  handleUploadImg = async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData();
+
+    if(this.state.isPictureChanged) {
+      formData.append('file', this.state.newPicture);
+      formData.append('_id', this.state._id);
+      formData.append('name', this.state.newPicture.name);
+      formData.append('prevImg', this.state.profilePictureID.imgData);
+    }
+
+    else {
+      swal("No picture selected. Could not update profile image.", "", "error")
+    }
+
+    axios.post('/uploadTutorImg', formData)
+      .then((res) => {
+        this.setState({
+          profilePictureID: res.data.userInfo.uploadedPicture,
+        });
+        swal("Profile image successfully updated!", "", "success")
+        this.getImg();
+      }, (error) => {
+        console.error("Could not update the tutor image in the database (API call error) " + error);
+      });
+  }
+
+  // Fetches the profile image file from our database
+  getImg() {
+    axios.get('/api/getPicture/' + this.state.profilePictureID.imgData)
+      .then((res) => {
+        this.setState({
+          profilePicture: res.data.data
+        });
+      }, (error) => {
+        console.error("Could not get uploaded profile image from database (API call error) " + error);
+      });
+  }
+
   render() {
     const { classes } = this.props;
     const { open } = this.state;
+
+
 
     return (
       <Card className={classes.card}>
@@ -224,9 +287,20 @@ export class UserInfo extends React.Component {
           {this.state.__t === "tutor" ?
 
             <CardContent>
-
-              <img src={this.state.tutorPicture} width="100%" height="40%" alt="Profile">
+              <img src={this.state.profilePicture} width="100%" height="40%" alt="Profile">
               </img>
+              <form onSubmit={this.handleUploadImg}>
+                <input
+                  type="file"
+                  id="fileUpload"
+                  onChange={this.imageFileChanged}
+                  className={classes.inputUpload}
+                  accept=".png,.jpg"
+                ></input>
+                <Button type="submit" size="small" className={classes.submit}>
+                  <PublishIcon />
+                </Button>
+              </form>
             </CardContent>
             :
             <CardContent>
@@ -248,14 +322,13 @@ export class UserInfo extends React.Component {
             }} />
 
             {this.state.__t === "student" ?
-
               <Typography className={classes.InfoContext}>
                 Status: Student
-            </Typography>
+              </Typography>
               :
               <Typography className={classes.InfoContext}>
                 Status: Tutor
-          </Typography>
+              </Typography>
             }
 
             <Typography className={classes.InfoContext}>
@@ -274,7 +347,6 @@ export class UserInfo extends React.Component {
             </Typography>
 
             {this.state.__t === "student" ?
-
               <Typography className={classes.InfoContext}>
                 <br />
                 Education Level: {this.state.education_level}
@@ -292,7 +364,6 @@ export class UserInfo extends React.Component {
                 </div>
                 <br />
               </div>
-
             }
             <br />
 
@@ -303,8 +374,8 @@ export class UserInfo extends React.Component {
               <EditIcon /> &nbsp;
               Edit Info
             </Button>
-          </CardContent>
 
+          </CardContent>
 
           <div>
 
@@ -406,7 +477,7 @@ export class UserInfo extends React.Component {
           </div>
 
         </React.Fragment>
-      </Card>
+      </Card >
     );
   }
 }

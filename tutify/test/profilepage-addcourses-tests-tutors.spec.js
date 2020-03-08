@@ -91,7 +91,7 @@ describe('The Profile Page adding Courses Feature for Tutors.', () => {
         course_selection_wrapper.setState({ courses: course_selection_wrapper.state.selected });
 
         // Finding the Button component document on the TutorCourses page.
-        const edit_courses_save = wrapper.find(Button).at(0);
+        const edit_courses_save = wrapper.find(Button).at(1);
         // Adding the subject Italian to the subjects the Tutor Teaches
         (tutor_class_wrapper.state().subjects).push('Italian');
         // Setting state of subjects to have the new array values with the new subject included.

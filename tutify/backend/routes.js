@@ -127,6 +127,8 @@ router.get('/viewCourse/:coursename', uploadedFilesController.viewCourseDocs);
 
 router.get('/doc/:studentid',uploadedFilesController.viewSpecificStudentFiles);
 
+router.get('/getPicture/:filename', filesController.getPicture);
+
 // -------- DELETE FILES ROUTES --------- // 
 
 router.post('/getFileToDelete', uploadedFilesController.deleteFiles);

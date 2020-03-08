@@ -19,9 +19,10 @@ export class Notifications extends React.Component {
         };
     }
 
+
     render() {
         const { classes, notifications, updateNotificationList } = this.props
-        
+
         return (
             <React.Fragment>
                 <Paper className={classes.tableWrapper}>
@@ -34,13 +35,13 @@ export class Notifications extends React.Component {
                         <TableBody>
                             <TableRow>
                                 <List>
-                                    {notifications ? notifications.map((notif, i) => (
-                                        <AddNotif
-                                            key={i}
-                                            notif={notifications[notifications.length - 1 - i]}
-                                            updateNotificationList = {updateNotificationList}
-                                        />
-                                    )) : <></>}
+                                        {notifications ? notifications.map((notif, i) => (
+                                            <AddNotif
+                                                key={i}
+                                                notif={notifications[notifications.length - 1 - i]}
+                                                updateNotificationList={updateNotificationList}
+                                            />
+                                        )) : <></>}
                                 </List>
                             </TableRow>
                         </TableBody>

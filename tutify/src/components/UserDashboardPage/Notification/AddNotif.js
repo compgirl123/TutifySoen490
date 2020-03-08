@@ -8,12 +8,10 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
 
-
 class AddNotif extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
         };
     }
 
@@ -23,7 +21,7 @@ class AddNotif extends React.Component {
     };
 
     render() {
-        const { notif, updateNotificationList } = this.props
+        const { notif, updateNotificationList} = this.props
 
         return (
             <Grid container>
