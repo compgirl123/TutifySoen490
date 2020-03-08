@@ -121,6 +121,9 @@ class ProfilePage extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const { open } = this.state;
+    const url = 'http://tutify-259321.appspot.com/'
+    const shareText = 'Tutify is an application system for helping tutors and their students connect. Check it out!'
     return (
       <React.Fragment>
         <main>
@@ -176,6 +179,39 @@ class ProfilePage extends React.Component {
 
               </Grid>
             </Container>
+            <div>
+
+              <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
+                <DialogTitle id="simple-dialog-title">Share</DialogTitle>
+                <DialogContent>
+                  <div>
+                    <DialogContentText>
+                      Choose one of the following platforms:
+                        </DialogContentText>
+                  </div>
+                  <div>
+                    <Facebook url={url} />
+                    <Twitter url={url} shareText={shareText} />
+
+                  </div>
+
+                </DialogContent>
+                <Grid
+                  container
+                  direction="row-reverse"
+                  justify="space-between"
+                  alignItems="baseline"
+                >
+                  <Grid item>
+                    <DialogActions>
+                      <Button onClick={this.handleClose}>Close</Button>
+                    </DialogActions>
+                  </Grid>
+
+                </Grid>
+
+              </Dialog>
+            </div>
             <main>
               {/* Hero unit */}
 
