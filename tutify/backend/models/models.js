@@ -402,6 +402,7 @@ module.exports = {
   Tutor: Tutor,
   Profile: Profile,
   Quizes: Quizes,
+  Questions: Questions,
   Student: Student,
   Account: Account,
   Appointment: Appointment,

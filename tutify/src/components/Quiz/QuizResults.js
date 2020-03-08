@@ -18,8 +18,8 @@ const dataa = [
         correct: 1
     }
 ]
-var ahh = [];
-var nome = [];
+var ansSelected = [];
+var answersSelectedNumerical = [];
 class Main extends React.Component {
     constructor(props) {
         super(props);
@@ -32,10 +32,9 @@ class Main extends React.Component {
             displayPopup: 'flex',
             isAnswered: false,
             classNames: false,
-            test: 0,
+            answerSelected: 0,
             datas: dataa,
-            haha: [],
-            nome: []
+            answersSelectedNumerical: []
         }
         this.nextQuestion = this.nextQuestion.bind(this);
         this.last = this.last.bind(this);
@@ -62,7 +61,7 @@ class Main extends React.Component {
     nextQuestion() {
         let { nr, total } = this.state;
 
-        if (this.state.test === this.state.correct) {
+        if (this.state.answerSelected === this.state.correct) {
             this.handleIncreaseScore();
         }
 
@@ -117,12 +116,12 @@ class Main extends React.Component {
             classNames: updatedClassNames
         })
 
-        ahh[(elem.dataset.id).split(",")[1]] = (elem.dataset.id).split(",")[0];
-        nome[(elem.dataset.id).split(",")[1]] = Number((elem.dataset.id).split(",")[2]);
+        ansSelected[(elem.dataset.id).split(",")[1]] = (elem.dataset.id).split(",")[0];
+        answersSelectedNumerical[(elem.dataset.id).split(",")[1]] = Number((elem.dataset.id).split(",")[2]);
+
         this.setState({
-            test: elem.dataset.id,
-            haha: ahh,
-            nome: nome
+            answerSelected: elem.dataset.id,
+            answersSelectedNumerical: ansSelected
         })
 
         this.handleShowButton();
@@ -136,13 +135,12 @@ class Main extends React.Component {
         return true;
     }
     last() {
-        alert(this.state.nome);
+        alert(this.state.answersSelectedNumerical);
     }
 
     render() {
         const { classes } = this.props;
         let { datas } = this.state;
-
         let { total } = this.state;
 
         return (
@@ -176,14 +174,10 @@ class Main extends React.Component {
                                     </div>
                                 </div>
                             ))}
-                            <div class={classes.wrapper}>
-                                <button className={classes.fancyBtn} onClick={this.last} >{'Finish quiz'}</button>
-                            </div>
                         </div>
                     </main>
                 </React.Fragment>
             </Paper>
-
         );
     }
 };
