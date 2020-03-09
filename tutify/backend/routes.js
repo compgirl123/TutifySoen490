@@ -134,15 +134,15 @@ router.get('/getPicture/:filename', filesController.getPicture);
 
 router.get('/getQuizes', quizController.getQuizes);
 
-router.get('/getCourseQuizes', uploadedFilesController.getCourseQuizes);
+router.get('/getCourseQuizes', quizController.getCourseQuizes);
 
-router.post('/addQuestion', uploadedFilesController.addQuestion);
+router.post('/addQuestion', quizController.addQuestion);
 
-router.post('/addQuiz', uploadedFilesController.addQuiz);
+router.post('/addQuiz', quizController.addQuiz);
 
-router.post('/deleteQuiz', uploadedFilesController.deleteQuiz);
+router.post('/deleteQuiz', quizController.deleteQuiz);
 
-router.post('/deleteQuestion', uploadedFilesController.deleteQuestion);
+router.post('/deleteQuestion', quizController.deleteQuestion);
 
 // -------- DELETE FILES ROUTES --------- // 
 

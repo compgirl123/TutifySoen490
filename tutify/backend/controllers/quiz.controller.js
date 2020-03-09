@@ -2,7 +2,7 @@ const Quizes = require('../models/models').Quizes;
 const Questions = require('../models/models').Questions;
 
 // this method fetches all available quizes from a tutor in our database
-exports.getQuizes = async function (req, res) {
+exports.getQuizes = async (req, res) => {
     var id = [];
     if (req.session.userInfo.__t == "tutor") {
         id.push(req.session.userInfo._id);
