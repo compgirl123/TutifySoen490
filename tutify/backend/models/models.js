@@ -386,8 +386,8 @@ var Questions = mongoose.model('Questions', new Schema({
     required: true
   },
   choices: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Question',
+    type: String,
+    required: true
   }],
   answerIndex: {
     type: NumberInt,

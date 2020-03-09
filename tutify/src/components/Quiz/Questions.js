@@ -47,7 +47,7 @@ class Questions extends React.Component {
     }
 
     componentWillMount() {
-        this.setState({datas:dataa});  
+        this.loadQuestions();
     }
 
     async loadQuestions() {

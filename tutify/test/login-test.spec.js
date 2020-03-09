@@ -44,6 +44,7 @@ describe('The Login Page ', () => {
         console.log(input1.props().id);
         console.log(document.getElementById(input1.props().id).value);
         document.getElementById(input1.props().id).setAttribute('value', mocked2.password);
+        console.log(document.getElementById(input1.props().id).value);
         shallowwrapper.setState({ password: document.getElementById(input1.props().id).value });
         
         // finding the sample data matched to the TextField Login button and seeing if it matches in our 
