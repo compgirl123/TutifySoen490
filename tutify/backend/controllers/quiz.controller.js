@@ -61,6 +61,19 @@ exports.addQuiz = async function (req, res) {
     });
 };
 
+// this method adds a new quiz to the database
+exports.getAllQuestions = async function (req, res) {
+    
+   Questions.find({}, async (err, questions) => {
+    if (err) {
+        console.error("The quizes were not found");
+        return await res.json({ success: false, error: err })
+    }
+    console.info("The quizes were found");
+    return await res.json({ success: true, data: questions });
+   })
+};
+
 
 // this method adds a new question to the database
 exports.addQuestion = async function (req, res) {

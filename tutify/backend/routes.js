@@ -134,6 +134,8 @@ router.get('/getPicture/:filename', filesController.getPicture);
 
 router.get('/getQuizes', quizController.getQuizes);
 
+router.get('/getAllQuestions', quizController.getAllQuestions);
+
 router.get('/getCourseQuizes', quizController.getCourseQuizes);
 
 router.post('/addQuestion', quizController.addQuestion);
