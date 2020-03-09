@@ -28,7 +28,7 @@ const todos = (state = [], action) => {
       axios.post('/api/updateUserTodos', {
         _id: action.id,
         todos: state,
-      }).catch(err => console.log(err));
+      }).catch(err => console.error(err));
       return state
     default:
       return state

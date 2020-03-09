@@ -70,7 +70,7 @@ export class StudentList extends React.Component {
           this.setState({ Toggle: false });
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error(err));
   };
 
   // Function that handles how the Share Document button is displayed on the page.
@@ -109,7 +109,7 @@ export class StudentList extends React.Component {
       .then((res) => {
         this.setState({ students: res.data.data });
       }, (error) => {
-        console.log(error);
+        console.error(error);
       })
   };
 

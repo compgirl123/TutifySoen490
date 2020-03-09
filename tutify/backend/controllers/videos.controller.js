@@ -51,7 +51,7 @@ exports.addVideo = async function (req, res) {
     videos.course = course;
     videos.save(function (err, videos) {
         if (err) {
-            console.log(err);
+            console.error(err);
             console.error("The video couldn't get added to the database (API request failed)");
             return res.json({ success: false, error: err });
         }

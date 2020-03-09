@@ -12,6 +12,7 @@ var filesController = require('./controllers/files.controller')
 var uploadedFilesController = require('./controllers/uploaded_files.controller')
 var resourceController = require('./controllers/resource.controller')
 var videoController = require('./controllers/videos.controller')
+var quizController = require('./controllers/quiz.controller')
 
 // -------- TUTOR ROUTES --------- // 
 
@@ -128,6 +129,22 @@ router.get('/viewCourse/:coursename', uploadedFilesController.viewCourseDocs);
 router.get('/doc/:studentid',uploadedFilesController.viewSpecificStudentFiles);
 
 router.get('/getPicture/:filename', filesController.getPicture);
+
+// ---------  QUIZ ROUTES -------- //
+
+router.get('/getQuizes', quizController.getQuizes);
+
+router.get('/getAllQuestions', quizController.getAllQuestions);
+
+router.get('/getCourseQuizes', quizController.getCourseQuizes);
+
+router.post('/addQuestion', quizController.addQuestion);
+
+router.post('/addQuiz', quizController.addQuiz);
+
+router.post('/deleteQuiz', quizController.deleteQuiz);
+
+router.post('/deleteQuestion', quizController.deleteQuestion);
 
 // -------- DELETE FILES ROUTES --------- // 
 

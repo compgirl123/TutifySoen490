@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+var NumberInt = require('mongoose-int32');
 
 // -------- Account --------- // 
 
@@ -340,10 +341,64 @@ var Videos = mongoose.model('Videos', new Schema({
   }
 }), "videos");
 
+// -------- Quizes --------- // 
+var Quizes = mongoose.model('Quizes', new Schema({
+  title: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  questions: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Question',
+  }],
+  tutorId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Tutor',
+    required: true
+  },
+  course: {
+    type: Schema.Types.ObjectId,
+    ref: 'Course',
+    required: true
+  }
+}), "quizes");
+
+// -------- Questions --------- // 
+var Questions = mongoose.model('Questions', new Schema({
+  question: {
+    type: String,
+    required: true
+  },
+  choices: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Question',
+  }],
+  answerIndex: {
+    type: NumberInt,
+    required:true
+  },
+  creator: {
+    type: Schema.Types.ObjectId,
+    ref: 'Tutor',
+    required: true
+  },
+  course: {
+    type: Schema.Types.ObjectId,
+    ref: 'Course',
+    required: true
+  }
+}), "questions");
+
 // export the Schemas
 module.exports = {
   Tutor: Tutor,
   Profile: Profile,
+  Quizes: Quizes,
+  Questions: Questions,
   Student: Student,
   Account: Account,
   Appointment: Appointment,
