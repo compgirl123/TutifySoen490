@@ -1,5 +1,4 @@
 import React from 'react';
-import data from './data';
 import * as tutifyStyle from '../../styles/Quiz-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Paper from '@material-ui/core/Paper';
@@ -47,21 +46,8 @@ class Questions extends React.Component {
         this.checkAnswer = this.checkAnswer.bind(this);
     }
 
-    // pushData(nr) {
-    //     this.setState({
-    //         question: data[nr].question,
-    //         answers: [data[nr].answers[0], data[nr].answers[1], data[nr].answers[2], data[nr].answers[3]],
-    //         correct: data[nr].correct,
-    //         nr: this.state.nr
-    //     });
-    // }
-
     componentWillMount() {
-        let { nr } = this.state;
-        // this.loadQuestions()
-        this.setState({datas:dataa});
-        // this.pushData(nr);
-        
+        this.setState({datas:dataa});  
     }
 
     async loadQuestions() {
@@ -75,7 +61,6 @@ class Questions extends React.Component {
                     this.setState({ datas: [], session: res.session });
                 }
                 console.info("The files have been loaded");
-                console.info("GO AHEADED:   "+JSON.stringify(this.state.datas));
             })
             .catch(err => console.error("Could not load the files: " + err));
     }
@@ -170,8 +155,6 @@ class Questions extends React.Component {
         this.setState({
             classNames: ['', '', '', '']
         });
-
-        return true;
     }
 
     last() {
