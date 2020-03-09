@@ -8,12 +8,12 @@ import DashBoardNavBar from '../DashBoardNavBar';
 const dataa = [
     {
         question: 'What does CSS stand for?',
-        answers: ['Computer Style Sheets', 'Creative Style Sheets', 'Cascading Style Sheets', 'Colorful Style Sheets'],
+        choices: ['Computer Style Sheets', 'Creative Style Sheets', 'Cascading Style Sheets', 'Colorful Style Sheets'],
         correct: 3
     },
     {
         question: 'Where in an HTML document is the correct place to refer to an external style sheet?',
-        answers: ['In the <head> section', 'In the <body> section', 'At the end of the document', 'You can\'t refer to an external style sheet'],
+        choices: ['In the <head> section', 'In the <body> section', 'At the end of the document', 'You can\'t refer to an external style sheet'],
         correct: 1
     }
 ]
@@ -58,7 +58,8 @@ class Questions extends React.Component {
 
     componentWillMount() {
         let { nr } = this.state;
-        this.loadQuestions()
+        // this.loadQuestions()
+        this.setState({datas:dataa});
         // this.pushData(nr);
         
     }
