@@ -28,6 +28,7 @@ import NotFoundPage from './components/NotFoundPage';
 import ForgotPassword from './components/ResetPassword/ForgotPassword';
 import ResetPassword from './components/ResetPassword/ResetPassword';
 import Quizzes from './components/Quiz/Questions';
+import ChooseCourseAndQuiz from './components/Quiz/ChooseCourseAndQuiz';
 import QuizResults from './components/Quiz/QuizResults';
 import TutorPublicProfilePage from "./components/ProfilePage/Tutor/TutorPublicProfile/TutorPublicProfilePage";
 import TrophiesView from './components/TrophiesView/TrophiesView';
@@ -72,6 +73,7 @@ function MainPage() {
         <PrivateRoute exact path="/videos/:id" component={TutorVideos} />
         <PrivateRoute exact path="/choosetutorVideo" component={ChooseTutorVideos} />
         <PrivateRoute exact path="/quiz" component={Quizzes} />
+        <PrivateRoute exact path="/chooseClassAndQuiz" component={ ChooseCourseAndQuiz} />
         <PrivateRoute exact path="/quizResults" component={QuizResults} />
         <PrivateRoute exact path="/trophies" component={TrophiesView} />
         <Route path="*" component={NotFoundPage} />
