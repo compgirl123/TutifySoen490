@@ -45,8 +45,8 @@ export class Studentdocs extends React.Component {
         super(props);
         this.state = {
             title: "",
-            description: "",
-            videoLink: "",
+            question: "",
+            choices: "",
             tutorId: "",
             tutorFirstName: "",
             tutorLastName: "",
@@ -67,7 +67,7 @@ export class Studentdocs extends React.Component {
 
     // Handling the Closing of the Dialog Box
     handleClose = () => {
-        this.setState({ open: false, link: "", title: "", course: "" });
+        this.setState({ open: false, title: "", question: "", choices: "" });
     };
 
     // Handling the Opening of the Dialog Box
@@ -244,7 +244,7 @@ export class Studentdocs extends React.Component {
         tutor.push(this.state.id);
         //swal to confirm the addition of new video
         swal({
-            title: "Would you like to add the following video?",
+            title: "Would you like to add the following quiz?",
             buttons: {
                 confirm: "Yes",
                 cancel: "Cancel",
@@ -381,7 +381,7 @@ export class Studentdocs extends React.Component {
                         <Container maxWidth="lg" className={classes.container}>
                             {this.state.accountType === "tutor" ?
                                 <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addVideoButton} >
-                                    Add Video
+                                    Add Quiz
                                 </Button>
                                 :
                                 <br />
@@ -464,21 +464,46 @@ export class Studentdocs extends React.Component {
                                             shrink: true,
                                         }}
                                         margin="dense"
-                                        id="videoLink"
-                                        name="videoLink"
+                                        id="question"
+                                        name="question"
                                         onChange={e => { handleVideoEmbedding(e) }}
-                                        autoComplete="videoLink"
-                                        label="Link"
-                                        defaultValue={this.state.video}
+                                        autoComplete="question"
+                                        label="question"
+                                        defaultValue={this.state.question}
                                         fullWidth
                                     />
                                     <TextField
-                                        id="description"
-                                        name="description"
-                                        label="Description"
+                                        id="option 1"
+                                        name="option 1"
+                                        label="option 1"
                                         onChange={e => this.setState({ description: e.target.value })}
-                                        multiline
-                                        rows="4"
+                                        defaultValue={this.state.description}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <TextField
+                                        id="option 2"
+                                        name="option 2"
+                                        label="option 2"
+                                        onChange={e => this.setState({ description: e.target.value })}
+                                        defaultValue={this.state.description}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <TextField
+                                        id="option 3"
+                                        name="option 3"
+                                        label="option 3"
+                                        onChange={e => this.setState({ description: e.target.value })}
+                                        defaultValue={this.state.description}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <TextField
+                                        id="option 4"
+                                        name="option 4"
+                                        label="option 4"
+                                        onChange={e => this.setState({ description: e.target.value })}
                                         defaultValue={this.state.description}
                                         variant="outlined"
                                         style={{ width: '100%', marginTop: "35px" }}
