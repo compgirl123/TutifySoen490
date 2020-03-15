@@ -17,6 +17,7 @@ import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import PublishIcon from '@material-ui/icons/Publish';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
+import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
 
 class Sidebar extends Component {
   constructor(props) {
@@ -60,6 +61,15 @@ class Sidebar extends Component {
             </ListItemIcon>
             <ListItemText primary="My Profile" />
           </ListItem>
+
+          <ListItem button component="a" href="/trophies">
+            <ListItemIcon>
+              <EmojiEventsIcon />
+            </ListItemIcon>
+            <ListItemText primary="My Trophies" />
+          </ListItem>
+
+          
 
           <ListItem button component="a" href="/courses">
             <ListItemIcon>
