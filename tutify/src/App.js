@@ -41,7 +41,6 @@ function MainPage() {
         <Route exact path="/login" component={Login} />
         <Route exact path="/forgotpassword" component={ForgotPassword} />
         <Route exact path="/resetpassword/:token" component={ResetPassword} />
-        <Route path="*" component={NotFoundPage} />
         <Route exact path="/profile/:id" component={TutorPublicProfilePage} />
         <PrivateRoute exact path="/search" component={SearchTutors} />
         <PrivateRoute exact path="/profile" component={ProfilePage} />
@@ -73,6 +72,7 @@ function MainPage() {
         <PrivateRoute exact path="/choosetutorVideo" component={ChooseTutorVideos} />
         <PrivateRoute exact path="/quiz" component={Quizzes} />
         <PrivateRoute exact path="/quizResults" component={QuizResults} />
+        <Route path="*" component={NotFoundPage} />
       </Switch>
     </Router>
   );
