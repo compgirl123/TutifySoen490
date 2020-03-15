@@ -29,6 +29,7 @@ import ForgotPassword from './components/ResetPassword/ForgotPassword';
 import ResetPassword from './components/ResetPassword/ResetPassword';
 import Quizzes from './components/Quiz/Questions';
 import QuizResults from './components/Quiz/QuizResults';
+import TutorPublicProfilePage from "./components/ProfilePage/Tutor/TutorPublicProfilePage";
 
 // This is all the url routing.
 function MainPage() {
@@ -40,6 +41,8 @@ function MainPage() {
         <Route exact path="/login" component={Login} />
         <Route exact path="/forgotpassword" component={ForgotPassword} />
         <Route exact path="/resetpassword/:token" component={ResetPassword} />
+        <Route path="*" component={NotFoundPage} />
+        <Route exact path="/profile/:id" component={TutorPublicProfilePage} />
         <PrivateRoute exact path="/search" component={SearchTutors} />
         <PrivateRoute exact path="/profile" component={ProfilePage} />
         <PrivateRoute exact path="/students" component={StudentList} />
@@ -70,7 +73,6 @@ function MainPage() {
         <PrivateRoute exact path="/choosetutorVideo" component={ChooseTutorVideos} />
         <PrivateRoute exact path="/quiz" component={Quizzes} />
         <PrivateRoute exact path="/quizResults" component={QuizResults} />
-        <Route path="*" component={NotFoundPage} />
       </Switch>
     </Router>
   );
