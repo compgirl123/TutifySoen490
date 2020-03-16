@@ -31,7 +31,7 @@ class NavbarAddNotif extends React.Component {
                 <Grid xs={10} md={12} item>
                     <ListItem alignItems="flex-start" style={{ background: this.setItemColor(notif.new) }}>
                         <ListItemAvatar>
-                            <Avatar src={notif.tutorImg} />
+                            <Avatar />
                         </ListItemAvatar>
                         <ListItemText
                             primary={notif.title}

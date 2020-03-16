@@ -96,21 +96,24 @@ class UserDashboard extends React.Component {
             }
         });
 
-        // for each tutor id found, fetch their profile picture
+        let promise = Promise.resolve(); 
+        // for each tutor id found, fetch their profile picture     
         tutorIds.forEach(id => {
-            axios.get('/api/getTutorPicture/' + id)
-                .then((res) => {
-                    tutorImgsTemp.push({
-                        id:   id,
-                        value: res.data.data
-                    });
-                }, (error) => {
-                  console.error("Could not get uploaded profile image from database (API call error) " + error);
-                });
+          promise = axios.get('/api/getTutorPicture/' + id)
+          .then((res) => {        
+            tutorImgsTemp.push({
+                    id:   id,
+                    value: res.data.data
+                });  
+          }, (error) => {
+            console.error("Could not get uploaded profile image from database (API call error) " + error);
+          });
         });
-
-        console.log(tutorImgsTemp)
-        this.setState({ tutorImgs: tutorImgsTemp });
+        
+        promise.then(() => {
+          // now all our images have been saved
+          this.setState({ tutorImgs: tutorImgsTemp });
+        })
     }
 
     render() {

@@ -21,7 +21,10 @@ export class Notifications extends React.Component {
 
     // returns the appropriate image for the tutor who sent the notification
     returnImg(notif, tutorImgs) {
-        let found = tutorImgs.find(x => x.id.equals(notif.tutorid))
+        if(!tutorImgs)
+            return ""
+
+        let found = tutorImgs.find(x => x.id === notif.tutorid)
         if(found)
             return found.value;
         else
