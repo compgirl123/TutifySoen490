@@ -1,4 +1,5 @@
 const Videos = require('../models/models').Videos;
+const Course = require('../models/models').Course;
 
 // this method fetches all available videos in our database
 exports.getVideos = async function (req, res) {
@@ -28,15 +29,16 @@ exports.getSelectVideos = async (req, res) => {
     else if (req.session.userInfo.__t == "student") {
         id.push(req.query.tutor);
     }
-    await Videos.find({ tutorId: { $in: id }, course: req.query.tutorClasses[req.query.courseSelected] }, async (err, video) => {
-        if (err) {
-            console.error("The videos were not found");
-            return await res.json({ success: false, error: err })
-        }
-        console.info("The videos were found");
-        return await res.json({ success: true, data: video });
+    await Course.findOne({ name: req.query.tutorClasses[req.query.courseSelected] }, async (err, course) => {
+        await Videos.find({ tutorId: { $in: id }, course: course }, async (err, video) => {
+            if (err) {
+                console.error("The videos were not found");
+                return await res.json({ success: false, error: err })
+            }
+            console.info("The videos were found");
+            return await res.json({ success: true, data: video });
+        });
     });
-
 };
 
 // this method adds a new video to the database
@@ -48,15 +50,17 @@ exports.addVideo = async function (req, res) {
     videos.description = description;
     videos.videoLink = videoLink;
     videos.tutorId = tutorId;
-    videos.course = course;
-    videos.save(function (err, videos) {
-        if (err) {
-            console.error(err);
-            console.error("The video couldn't get added to the database (API request failed)");
-            return res.json({ success: false, error: err });
-        }
-        console.info("The video was successfully added to the database");
-        return res.json({ success: true, data: videos });
+    await Course.findOne({ name: course }, async (err, foundCourse) => {
+        videos.course = foundCourse; 
+        videos.save(function (err, videos) {
+            if (err) {
+                console.error(err);
+                console.error("The video couldn't get added to the database (API request failed)");
+                return res.json({ success: false, error: err });
+            }
+            console.info("The video was successfully added to the database");
+            return res.json({ success: true, data: videos });
+        });
     });
 };
 
