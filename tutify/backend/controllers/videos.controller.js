@@ -29,7 +29,7 @@ exports.getSelectVideos = async (req, res) => {
     else if (req.session.userInfo.__t == "student") {
         id.push(req.query.tutor);
     }
-    await Course.findOne({ name: req.query.tutorClasses[req.query.courseSelected] }, async (err, course) => {
+    await Course.findOne({ name: req.query.tutorClasses[req.query.courseSelected], tutors: { $in: id } }, async (err, course) => {
         await Videos.find({ tutorId: { $in: id }, course: course }, async (err, video) => {
             if (err) {
                 console.error("The videos were not found");
@@ -50,7 +50,7 @@ exports.addVideo = async function (req, res) {
     videos.description = description;
     videos.videoLink = videoLink;
     videos.tutorId = tutorId;
-    await Course.findOne({ name: course }, async (err, foundCourse) => {
+    await Course.findOne({ name: course, tutors: { $in: [tutorId] } }, async (err, foundCourse) => {
         videos.course = foundCourse; 
         videos.save(function (err, videos) {
             if (err) {
