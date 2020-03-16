@@ -269,7 +269,7 @@ export class MyCourses extends React.Component {
     })
     // Send announcement for new document
     sendNotification(students,
-      { tutorImg: this.state.tutorImg, tutorName: this.state.tutorName, tutorid: this.state._id },
+      { tutorName: this.state.tutorName, tutorid: this.state._id },
       { title: "New document shared for " + course.name, text: "A new document was shared for one of your courses." });
 
     swal("Succesfully uploaded document to Course(s)!", "", "success");

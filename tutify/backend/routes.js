@@ -130,6 +130,8 @@ router.get('/doc/:studentid',uploadedFilesController.viewSpecificStudentFiles);
 
 router.get('/getPicture/:filename', filesController.getPicture);
 
+router.get('/getTutorPicture/:id', filesController.getTutorPicture);
+
 // ---------  QUIZ ROUTES -------- //
 
 router.get('/getQuizes', quizController.getQuizes);

@@ -19,9 +19,18 @@ export class Notifications extends React.Component {
         };
     }
 
+    // returns the appropriate image for the tutor who sent the notification
+    returnImg(notif, tutorImgs) {
+        let found = tutorImgs.find(x => x.id.equals(notif.tutorid))
+        if(found)
+            return found.value;
+        else
+            return ""
+    }
+
 
     render() {
-        const { classes, notifications, updateNotificationList } = this.props
+        const { classes, notifications, updateNotificationList, tutorImgs } = this.props
 
         return (
             <React.Fragment>
@@ -39,6 +48,7 @@ export class Notifications extends React.Component {
                                             <AddNotif
                                                 key={i}
                                                 notif={notifications[notifications.length - 1 - i]}
+                                                tutorImg={this.returnImg(notifications[notifications.length - 1 - i], tutorImgs)}
                                                 updateNotificationList={updateNotificationList}
                                             />
                                         )) : <></>}

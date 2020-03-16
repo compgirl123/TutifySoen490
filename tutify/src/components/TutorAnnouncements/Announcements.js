@@ -113,7 +113,6 @@ export class Announcements extends React.Component {
             announcement: {
                 title: this.state.aTitle,
                 text: this.state.aText,
-                tutorImg: this.state.tutorImg,
                 tutorName: this.state.tutorName,
                 tutorid: this.state.tutor_id,
                 new: true

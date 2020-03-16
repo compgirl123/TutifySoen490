@@ -6,7 +6,6 @@ export function sendNotification(studentsList, tutorInfo, notifInfo){
       announcement: {
         title: notifInfo.title,
         text: notifInfo.text,
-        tutorImg: tutorInfo.tutorImg,
         tutorName: tutorInfo.tutorName,
         tutorid: tutorInfo.tutor_id,
         new: true,
