@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import * as tutifyStyle from '../../../styles/ProfilePage-styles';
+import * as tutifyStyle from '../../../../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Footer from "../../Footer";
-import NavBar from "../../NavBar";
-import UserInfo from '../UserInfo';
+import Footer from "../../../Footer";
+import NavBar from "../../../NavBar";
+import TutorInfo from './TutorInfo';
 import Card from '@material-ui/core/Card';
 import Paper from '@material-ui/core/Paper';
-import TutorCoursesInfo from '../Tutor/TutorCoursesInfo';
+import TutorCoursesInfo from '../TutorCoursesInfo';
 import axios from 'axios';
 import 'react-sharingbuttons/dist/main.css';
-import UserCoursesInfo from '../Student/UserCoursesInfo';
+import UserCoursesInfo from '../../Student/UserCoursesInfo';
 
 export class TutorPublicProfilePage extends Component {
     constructor(props) {
@@ -25,8 +25,6 @@ export class TutorPublicProfilePage extends Component {
             open: false,
             tutor: "",
         };
-        this.handleClose = this.handleClose.bind(this);
-        this.handleClickOpen = this.handleClickOpen.bind(this);
     }
     toggleDrawer = booleanValue => () => {
         this.setState({
@@ -35,6 +33,11 @@ export class TutorPublicProfilePage extends Component {
     };
 
     componentDidMount() {
+        this.getTutor()
+    }
+
+    //getting the tutor from the id passed in the path
+    getTutor = () => {
         const { match: { params } } = this.props;
 
         axios.get(`/getTutor/${params.id}`)
@@ -45,23 +48,6 @@ export class TutorPublicProfilePage extends Component {
             });
     }
 
-    handleClose = () => {
-        this.setState({ open: false });
-    };
-
-    handleClickOpen = () => {
-        this.setState({ open: true });
-    };
-
-
-    //This method closes the dialog box
-    handleClose = () => {
-        this.setState({ open: false });
-    };
-
-    handleClickOpen = () => {
-        this.setState({ open: true });
-    };
 
     //this method uses the backend API to find a student's courses
     getUserCourses = () => {
@@ -93,7 +79,7 @@ export class TutorPublicProfilePage extends Component {
                             <Grid container spacing={4}>
                                 <Grid item xs={4}>
                                     <Card>
-                                        <UserInfo />
+                                        <TutorInfo tutor={this.getTutor()} />
                                     </Card>
                                 </Grid>
                                 <Grid item xs={6}>

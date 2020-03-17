@@ -29,7 +29,7 @@ import ForgotPassword from './components/ResetPassword/ForgotPassword';
 import ResetPassword from './components/ResetPassword/ResetPassword';
 import Quizzes from './components/Quiz/Questions';
 import QuizResults from './components/Quiz/QuizResults';
-import TutorPublicProfilePage from "./components/ProfilePage/Tutor/TutorPublicProfilePage";
+import TutorPublicProfilePage from "./components/ProfilePage/Tutor/TutorPublicProfile/TutorPublicProfilePage";
 
 // This is all the url routing.
 function MainPage() {
