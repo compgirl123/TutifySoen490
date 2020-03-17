@@ -20,11 +20,7 @@ export class TutorSubjects extends React.Component {
       scroll: 'paper',
     };
   }
-
-  componentDidMount() {
-
-  }
-
+  
   render() {
     const { classes, subjects } = this.props;
     return (

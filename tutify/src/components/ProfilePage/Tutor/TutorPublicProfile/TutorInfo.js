@@ -33,7 +33,7 @@ export class TutorInfo extends React.Component {
     // Fetches the profile image file from our database
     getImg() {
         const tutor = this.props
-        axios.get('/api/getPicture/' + tutor.uploadedPicture)
+        axios.get('/api/getPicture/' + tutor.uploadedPicture.imgData)
             .then((res) => {
                 this.setState({
                     profilePicture: res.data.data
