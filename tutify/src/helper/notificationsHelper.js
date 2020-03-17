@@ -7,7 +7,7 @@ export function sendNotification(studentsList, tutorInfo, notifInfo){
         title: notifInfo.title,
         text: notifInfo.text,
         tutorName: tutorInfo.tutorName,
-        tutorid: tutorInfo.tutor_id,
+        tutorid: tutorInfo.tutorid,
         new: true,
       }
     })
