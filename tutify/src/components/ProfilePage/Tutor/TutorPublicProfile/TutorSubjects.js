@@ -26,7 +26,7 @@ export class TutorSubjects extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, subjects } = this.props;
     return (
       <Card className={classes.card}  >
         <CardContent>
@@ -42,7 +42,7 @@ export class TutorSubjects extends React.Component {
               <TableCell></TableCell> 
               <TableCell></TableCell> 
               <TableCell></TableCell>
-              {this.state.subjects.map(subject => (
+              {subjects.map(subject => (
                 <TableRow key={subject.id} >
                   <TableCell padding="none" >
                     <Avatar className={classes.avatar} style={{ width: '15px', height: '15px' }}></Avatar>

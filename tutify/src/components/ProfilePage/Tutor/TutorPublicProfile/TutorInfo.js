@@ -50,7 +50,7 @@ export class TutorInfo extends React.Component {
                 <React.Fragment>
 
                     <CardContent>
-                        <img src={this.state.profilePicture.imgData} width="100%" height="40%" alt="Profile">
+                        <img src={this.state.profilePicture} width="100%" height="40%" alt="Profile">
                         </img>
                     </CardContent>
                     <CardContent>

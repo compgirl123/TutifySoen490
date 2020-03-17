@@ -17,10 +17,8 @@ export class TutorPublicProfilePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tutors: [],
             courses: [],
-            students: [],
-            open: false,
+            subjects: [],
             tutor: "",
         };
     }
@@ -44,34 +42,18 @@ export class TutorPublicProfilePage extends Component {
             }
           }).then((res) => {
             this.setState({
-              tutor: res.data.tutor
-
+              tutor: res.data.tutor,
+              courses: res.data.courses,
+              subjects: res.data.subjects
             });
             console.info("Successfully fetched the specific tutor's information");
           })
             .catch(err => console.error("Could not get the tutor's information from the database: "+err));
     }
 
-
-    //this method uses the backend API to find a student's courses
-    getUserCourses = () => {
-        console.info("Fetching student courses from db...");
-        fetch('/api/getUserCourses', {
-            method: 'GET',
-            credentials: 'include'
-        })
-            .then(response => response.json())
-            .then(res => {
-                this.setState({ courses: res.data });
-            })
-            .catch(err =>
-                console.error("Could not get courses from database (API call error) " + err));
-    };
-
-
     render() {
         const { classes } = this.props;
-        const { tutor } = this.state;
+        const { tutor, courses, subjects } = this.state;
 
         return (
             <React.Fragment>
@@ -89,10 +71,10 @@ export class TutorPublicProfilePage extends Component {
                                 <Grid item xs={6}>
                                     <Grid >
                                         <Paper>
-                                            <TutorCourses courses={this.state.courses} />
+                                            <TutorCourses courses={courses} />
                                         </Paper><br />
                                         <Paper>
-                                            <TutorSubjects tutor={tutor} />
+                                            <TutorSubjects subjects={subjects} />
                                         </Paper>
                                     </Grid>
                                     <br />
