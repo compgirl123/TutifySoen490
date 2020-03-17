@@ -145,9 +145,13 @@ router.post('/addQuestion', quizController.addQuestion);
 
 router.post('/addQuiz', quizController.addQuiz);
 
+router.post('/addAttempt', quizController.addAttempt);
+
 router.post('/deleteQuiz', quizController.deleteQuiz);
 
 router.post('/deleteQuestion', quizController.deleteQuestion);
+
+router.post('/deleteAttempt', quizController.deleteAttempt);
 
 // -------- DELETE FILES ROUTES --------- // 
 

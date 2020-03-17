@@ -1,5 +1,6 @@
 const Quizes = require('../models/models').Quizes;
 const Questions = require('../models/models').Questions;
+const QuizAttempt = require('../models/models').QuizAttempt;
 
 // this method fetches all available quizes from a tutor in our database
 exports.getQuizes = async (req, res) => {
@@ -61,6 +62,26 @@ exports.addQuiz = async function (req, res) {
     });
 };
 
+// this method adds a new attempt and links it to the quiz
+exports.addAttempt = async function (req, res) {
+    const { score, quiz_id, studentId, answerIndexes } = req.body;
+    // new quiz to be added by tutor
+    let attempt = new QuizAttempt();
+    attempt.score = score;
+    attempt.answerIndex = answerIndexes;
+    attempt.quiz = quiz_id;
+    attempt.student = studentId;
+    attempt.save(function (err, attempt) {
+        if (err) {
+            console.error(err);
+            console.error("The attempt couldn't get added to the database (API request failed)");
+            return res.json({ success: false, error: err });
+        }
+        console.info("The attempt was successfully added to the database");
+        return res.json({ success: true, data: attempt });
+    });
+};
+
 // this method adds a new quiz to the database
 exports.getAllQuestions = async function (req, res) {
     
@@ -96,7 +117,7 @@ exports.addQuestion = async function (req, res) {
     });
 };
 
-// this method deletes a quiz to the db
+// this method deletes a quiz from the db
 exports.deleteQuiz = async function (req, res) {
     const { _id } = req.body;
     // selected quiz to delete by tutor
@@ -110,7 +131,7 @@ exports.deleteQuiz = async function (req, res) {
     });
 };
 
-// this method deletes a question to the db
+// this method deletes a question from the db
 exports.deleteQuestion = async function (req, res) {
     const { _id } = req.body;
     // selected quiz to delete by tutor
@@ -120,6 +141,20 @@ exports.deleteQuestion = async function (req, res) {
             return res.send(err);
         }
         console.info("The question has been deleted");
+        return res.json({ success: true });
+    });
+};
+
+// this method deletes an attempt from the db
+exports.deleteAttempt = async function (req, res) {
+    const { _id } = req.body;
+    // selected quiz to delete by tutor
+    QuizAttempt.findByIdAndRemove(_id, (err) => {
+        if (err) {
+            console.error("The delete order was given, but was not executed by the database. This may be due to a connection error.");
+            return res.send(err);
+        }
+        console.info("The attempt has been deleted");
         return res.json({ success: true });
     });
 };

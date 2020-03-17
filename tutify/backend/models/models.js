@@ -384,7 +384,7 @@ var Quizes = mongoose.model('Quizes', new Schema({
   },
   attempts: {
     type: Schema.Types.ObjectId,
-    ref: 'CompletedQuiz'
+    ref: 'QuizAttempt'
   },
 }), "quizes");
 
@@ -423,7 +423,7 @@ var Badges = mongoose.model('Badges', new Schema({
 }), "badges");
 
 // Answers to the quizes
-var CompletedQuiz = mongoose.model('CompletedQuiz', new Schema({
+var QuizAttempt = mongoose.model('QuizAttempt', new Schema({
   score: {
     type: NumberInt,
     required:true
@@ -442,7 +442,7 @@ var CompletedQuiz = mongoose.model('CompletedQuiz', new Schema({
     ref: 'Profile',
     required: true
   }
-}), "completed_quiz");
+}), "quiz.attempt");
 
 // export the Schemas
 module.exports = {
@@ -460,7 +460,7 @@ module.exports = {
   Mchunks: Mchunks,
   Resource: Resource,
   Videos: Videos,
-  CompletedQuiz:CompletedQuiz
+  QuizAttempt:QuizAttempt
 }
 
 
