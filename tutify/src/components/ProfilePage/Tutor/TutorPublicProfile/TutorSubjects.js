@@ -2,25 +2,16 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import * as tutifyStyle from '../../../../styles/ProfilePage-styles';
 import { withStyles } from "@material-ui/core/styles";
-import Grid from '@material-ui/core/Grid';
-import axios from 'axios';
-import CourseSelection from '../CourseSelection';
-import swal from 'sweetalert';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import EditIcon from '@material-ui/icons/Edit';
 import Box from '@material-ui/core/Box';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-
 
 export class TutorSubjects extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -33,7 +24,6 @@ export class TutorSubjects extends React.Component {
   componentDidMount() {
 
   }
-
 
   render() {
     const { classes } = this.props;
