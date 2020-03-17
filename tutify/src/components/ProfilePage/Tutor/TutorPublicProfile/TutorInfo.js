@@ -27,30 +27,13 @@ export class TutorInfo extends React.Component {
     }
 
     componentDidMount() {
-        this.getTutor()
+        this.getImg();
     }
-    //retrieves the tutor
-    getTutor = () => {
-        const tutor = this.props;
-        console.info("Fetching tutor...");
-        axios.get(`/getTutor/${tutor}`)
-            .then(({ data: tutor }) => {
-                console.log('tutor', tutor);
-                this.setState({
-                    tutor,
-                    first_name: tutor.first_name,
-                    last_name: tutor.last_name,
-                    email: tutor.email,
-                    school: tutor.school,
-
-                });
-                this.getImg();
-            })
-    };
 
     // Fetches the profile image file from our database
     getImg() {
-        axios.get('/api/getPicture/' + this.state.profilePictureID.imgData)
+        const tutor = this.props
+        axios.get('/api/getPicture/' + tutor.uploadedPicture)
             .then((res) => {
                 this.setState({
                     profilePicture: res.data.data
@@ -61,20 +44,19 @@ export class TutorInfo extends React.Component {
     }
 
     render() {
-        const { classes } = this.props;
-
+        const { classes, tutor } = this.props;
         return (
             <Card className={classes.card}>
                 <React.Fragment>
 
                     <CardContent>
-                        <img src={this.state.profilePicture} width="100%" height="40%" alt="Profile">
+                        <img src={this.state.profilePicture.imgData} width="100%" height="40%" alt="Profile">
                         </img>
                     </CardContent>
                     <CardContent>
                         <Typography component="p" variant="h5" >
                             <Box fontWeight="fontWeightBold">
-                                {this.state.first_name + " " + this.state.last_name}
+                                {tutor.first_name + " " + tutor.last_name}
                             </Box>
                         </Typography>
 
@@ -87,17 +69,17 @@ export class TutorInfo extends React.Component {
 
                         <Typography className={classes.InfoContext}>
                             <br />
-              Email : {this.state.email}
+              Email : {tutor.email}
                         </Typography>
 
                         <Typography className={classes.InfoContext}>
                             <br />
-              Program of Study: {this.state.program_of_study}
+              Program of Study: {tutor.program_of_study}
                         </Typography>
 
                         <Typography className={classes.InfoContext}>
                             <br />
-              School: {this.state.school}
+              School: {tutor.school}
                         </Typography>
 
                         <Typography className={classes.InfoContext}>
@@ -106,7 +88,7 @@ export class TutorInfo extends React.Component {
                         </Typography>
                         <div style={{ maxHeight: 120, overflow: 'auto' }}>
                             <Typography className={classes.InfoContext}>
-                                {this.state.description}
+                                {tutor.description}
                             </Typography>
                         </div>
                         <br />

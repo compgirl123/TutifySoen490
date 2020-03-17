@@ -17,8 +17,6 @@ export class TutorPublicProfilePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Toggle: false,
-            __t: "",
             tutors: [],
             courses: [],
             students: [],
@@ -47,6 +45,7 @@ export class TutorPublicProfilePage extends Component {
           }).then((res) => {
             this.setState({
               tutor: res.data.tutor
+
             });
             console.info("Successfully fetched the specific tutor's information");
           })
@@ -78,11 +77,9 @@ export class TutorPublicProfilePage extends Component {
             <React.Fragment>
                 <main>
                     <NavBar />
-
                     <main className={classes.content}>
                         <div className={classes.appBarSpacer} />
                         <Container maxWidth="lg" className={classes.container}>
-
                             <Grid container spacing={4}>
                                 <Grid item xs={4}>
                                     <Card>
@@ -95,19 +92,17 @@ export class TutorPublicProfilePage extends Component {
                                             <TutorCourses courses={this.state.courses} />
                                         </Paper><br />
                                         <Paper>
-                                            <TutorSubjects />
+                                            <TutorSubjects tutor={tutor} />
                                         </Paper>
                                     </Grid>
                                     <br />
                                     <Grid >
                                     </Grid>
                                 </Grid>
-
                             </Grid>
                         </Container>
                         <Footer />
                     </main>
-
                 </main>
             </React.Fragment>
         );
