@@ -8,10 +8,10 @@ import NavBar from "../../../NavBar";
 import TutorInfo from './TutorInfo';
 import Card from '@material-ui/core/Card';
 import Paper from '@material-ui/core/Paper';
-import TutorCoursesInfo from '../TutorCoursesInfo';
 import axios from 'axios';
 import 'react-sharingbuttons/dist/main.css';
 import UserCoursesInfo from '../../Student/UserCoursesInfo';
+import TutorSubjects from './TutorSubjects';
 
 export class TutorPublicProfilePage extends Component {
     constructor(props) {
@@ -88,7 +88,7 @@ export class TutorPublicProfilePage extends Component {
                                             <UserCoursesInfo courses={this.state.courses} />
                                         </Paper><br />
                                         <Paper>
-                                            <TutorCoursesInfo />
+                                            <TutorSubjects />
                                         </Paper>
                                     </Grid>
                                     <br />
