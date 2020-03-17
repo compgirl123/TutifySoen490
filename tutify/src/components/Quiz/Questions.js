@@ -4,28 +4,15 @@ import { withStyles } from "@material-ui/core/styles";
 import Paper from '@material-ui/core/Paper';
 import DashBoardNavBar from '../DashBoardNavBar';
 
-const datah = [
-    {
-        question: 'What does CSS stand for?',
-        choices: ['Computer Style Sheets', 'Creative Style Sheets', 'Cascading Style Sheets', 'Colorful Style Sheets'],
-        correct: '3'
-    },
-    {
-        question: 'Where in an HTML document is the correct place to refer to an external style sheet?',
-        choices: ['In the <head> section', 'In the <body> section', 'At the end of the document', 'You can\'t refer to an external style sheet'],
-        correct: '1'
-    }
-]
 var answersSelected = [];
 var answersSelectedNumerical = [];
-var colorArr=[];
+var colorArr = [];
 
 class Questions extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             nr: 0,
-            //total: datah.length,
             questionAnswered: false,
             score: 0,
             finalScore: 0,
@@ -33,14 +20,13 @@ class Questions extends React.Component {
             isAnswered: false,
             classNames: false,
             answerSelected: 0,
-            datas: datah,
+            datas: [],
             selectedAnswers: [],
             answersSelectedNumerical: [],
             percent: "",
-            finishedQuiz : false,
-            showButton : true,
-            color:['red','red'],
-            
+            finishedQuiz: false,
+            showButton: true,
+            color: ['red', 'red']
         }
         this.nextQuestion = this.nextQuestion.bind(this);
         this.finishQuiz = this.finishQuiz.bind(this);
@@ -62,7 +48,7 @@ class Questions extends React.Component {
                     this.setState({ datas: res.data, session: res.session, total: res.data.length });
                 }
                 else {
-                    this.setState({ datas: [], session: res.session, total : [] });
+                    this.setState({ datas: [], session: res.session, total: [] });
                 }
                 console.info("The files have been loaded");
             })
@@ -132,7 +118,7 @@ class Questions extends React.Component {
         }
         console.log(colorArr);
         this.setState({
-            color:colorArr,
+            color: colorArr,
             classNames: updatedClassNames
         })
 
@@ -155,8 +141,8 @@ class Questions extends React.Component {
 
     finishQuiz() {
         this.setState({ finalScore: this.state.score });
-        this.setState({ finishedQuiz: true});
-        this.setState({ showButton: false});
+        this.setState({ finishedQuiz: true });
+        this.setState({ showButton: false });
     }
 
     render() {
@@ -189,9 +175,9 @@ class Questions extends React.Component {
                                         <br />
                                         <b><font color={this.state.color[i]}>
                                             {this.state.finishedQuiz === true ?
-                                                `Correct Answer : ${datas[i].choices[datas[i].correct - 1]}`
+                                                `Correct Answer : ${c.choices[c.answerIndex - 1]}`
                                                 :
-                                                <br />
+                                            <br />
                                             }
                                         </font>
                                         </b>
@@ -199,18 +185,16 @@ class Questions extends React.Component {
                                     </div>
                                 </div>
                             ))}
-                            {/*onClick={() => window.location.replace("/chooseClassAndQuiz")} */}
                             <div class={classes.wrapper}>
                                 <p>Score: You got {this.state.finalScore}/ {this.state.total} or {(this.state.finalScore / this.state.total) * 100} %</p>
                             </div>
                             <div class={classes.wrapper}>
-                            {this.state.showButton === true?
-                            <button className={classes.fancyBtn} onClick={this.finishQuiz}>{'Finish quiz'}</button>
-                            :
-                            <button className={classes.fancyBtn} onClick={() => window.location.replace("/chooseClassAndQuiz")}>{'Return To Main Quiz Page'}</button>
-                            }
+                                {this.state.showButton === true ?
+                                    <button className={classes.fancyBtn} onClick={this.finishQuiz}>{'Finish quiz'}</button>
+                                    :
+                                    <button className={classes.fancyBtn} onClick={() => window.location.replace("/chooseClassAndQuiz")}>{'Return To Main Quiz Page'}</button>
+                                }
                             </div>
-                            
                         </div>
                     </main>
                 </React.Fragment>
