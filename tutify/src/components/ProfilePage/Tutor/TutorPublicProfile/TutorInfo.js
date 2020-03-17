@@ -18,7 +18,6 @@ export class TutorInfo extends React.Component {
             school: "",
             subjects: [],
             courses: [],
-            scroll: 'paper',
             tutorPicture: "",
             description: "",
             profilePicture: "",
