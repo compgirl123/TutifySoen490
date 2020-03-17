@@ -11,7 +11,7 @@ export class TutorInfo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tutor:"",
+            tutor: "",
             first_name: "",
             last_name: "",
             email: "",
@@ -34,19 +34,20 @@ export class TutorInfo extends React.Component {
         const tutor = this.props;
         console.info("Fetching tutor...");
         axios.get(`/getTutor/${tutor}`)
-            .then(({data: tutor}) => {
+            .then(({ data: tutor }) => {
                 console.log('tutor', tutor);
-                this.setState({ 
+                this.setState({
                     tutor,
                     first_name: tutor.first_name,
                     last_name: tutor.last_name,
                     email: tutor.email,
                     school: tutor.school,
-                    
+
                 });
                 this.getImg();
-        })};
-        
+            })
+    };
+
     // Fetches the profile image file from our database
     getImg() {
         axios.get('/api/getPicture/' + this.state.profilePictureID.imgData)
@@ -109,11 +110,7 @@ export class TutorInfo extends React.Component {
                             </Typography>
                         </div>
                         <br />
-
-
                     </CardContent>
-
-
                 </React.Fragment>
             </Card >
         );
