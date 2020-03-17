@@ -7,36 +7,29 @@ import CardContent from '@material-ui/core/CardContent';
 import Box from '@material-ui/core/Box';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import Avatar from '@material-ui/core/Avatar';
 
-class TutorCourses extends React.Component {
+class TutorDescription extends React.Component {
 
     render() {
-        const { classes, courses } = this.props;
+        const { classes, tutor} = this.props;
 
         return (
             <Card className={classes.card}  >
                 <CardContent>
                     <Typography component="p" variant="h6" >
                         <Box fontWeight="fontWeightBold">
-                            Courses
+                            About me
                         </Box>
                     </Typography>
 
                     <Table size="small">
                         <TableBody>
-                            {courses.map((c) => (
-                                <TableRow >
-                                    <TableCell padding="none">
-                                        <Avatar className={classes.avatar} style={{ width: '15px', height: '15px' }}></Avatar>
-                                    </TableCell>
-                                    <TableCell style={{ fontSize: '12pt' }}>
-                                        {c.course.name}
-                                    </TableCell>
-                                </TableRow>
-                            ))}
+                            <TableRow >
+                                <Typography component="p">
+                                    {tutor.description}
+                                </Typography>
+                            </TableRow>
                         </TableBody>
                     </Table>
                 </CardContent>
@@ -44,4 +37,4 @@ class TutorCourses extends React.Component {
         );
     }
 }
-export default withStyles(tutifyStyle.styles, { withTheme: true })(TutorCourses);
+export default withStyles(tutifyStyle.styles, { withTheme: true })(TutorDescription);

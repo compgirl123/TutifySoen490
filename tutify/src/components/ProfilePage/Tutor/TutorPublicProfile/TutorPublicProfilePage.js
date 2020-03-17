@@ -12,6 +12,7 @@ import axios from 'axios';
 import 'react-sharingbuttons/dist/main.css';
 import TutorCourses from './TutorCourses';
 import TutorSubjects from './TutorSubjects';
+import TutorDescription from './TutorDescription';
 
 export class TutorPublicProfilePage extends Component {
     constructor(props) {
@@ -46,7 +47,7 @@ export class TutorPublicProfilePage extends Component {
             this.setState({
               tutor: res.data.tutor,
               courses: res.data.tutor.courses,
-              subjects: res.data.tutor.subjects
+              subjects: res.data.tutor.subjects,
             });
             console.info("Successfully fetched the specific tutor's information");
             this.getImg();
@@ -68,7 +69,7 @@ export class TutorPublicProfilePage extends Component {
 
     render() {
         const { classes } = this.props;
-        const { tutor, courses, subjects, profilePicture } = this.state;
+        const { tutor, courses, subjects, profilePicture} = this.state;
 
         return (
             <React.Fragment>
@@ -84,7 +85,10 @@ export class TutorPublicProfilePage extends Component {
                                     </Card>
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <Grid >
+                                    <Grid>
+                                    <Paper>
+                                        <TutorDescription tutor={tutor} />
+                                        </Paper><br />
                                         <Paper>
                                             <TutorCourses courses={courses} />
                                         </Paper><br />

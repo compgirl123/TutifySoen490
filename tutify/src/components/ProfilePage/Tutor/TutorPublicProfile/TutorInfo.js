@@ -14,7 +14,7 @@ export class TutorInfo extends React.Component {
     }
 
     render() {
-        const { classes, tutor, profilePicture } = this.props;
+        const { classes, tutor, profilePicture} = this.props;
 
         return (
             <Card className={classes.card}>
@@ -53,16 +53,6 @@ export class TutorInfo extends React.Component {
               School: {tutor.school}
                         </Typography>
 
-                        <Typography className={classes.InfoContext}>
-                            <br />
-                  Description:<br />
-                        </Typography>
-                        <div style={{ maxHeight: 120, overflow: 'auto' }}>
-                            <Typography className={classes.InfoContext}>
-                                {tutor.description}
-                            </Typography>
-                        </div>
-                        <br />
                     </CardContent>
                 </React.Fragment>
             </Card >

@@ -20,7 +20,7 @@ export class TutorSubjects extends React.Component {
       scroll: 'paper',
     };
   }
-  
+
   render() {
     const { classes, subjects } = this.props;
     return (
@@ -33,11 +33,6 @@ export class TutorSubjects extends React.Component {
           </Typography>
           <Table size="small">
             <TableBody>
-              <TableCell></TableCell>
-              <TableCell></TableCell> 
-              <TableCell></TableCell> 
-              <TableCell></TableCell> 
-              <TableCell></TableCell>
               {subjects.map(subject => (
                 <TableRow key={subject.id} >
                   <TableCell padding="none" >
