@@ -40,12 +40,17 @@ export class TutorPublicProfilePage extends Component {
     getTutor = () => {
         const { match: { params } } = this.props;
 
-        axios.get(`/getTutor/${params.id}`)
-            .then(({ data: tutor }) => {
-                console.log('tutor', tutor);
-
-                this.setState({ tutor });
+        axios.get('/api/getTutor', {
+            params: {
+              ID: params.id
+            }
+          }).then((res) => {
+            this.setState({
+              tutor: res.data.tutor
             });
+            console.info("Successfully fetched the specific tutor's information");
+          })
+            .catch(err => console.error("Could not get the tutor's information from the database: "+err));
     }
 
 
@@ -67,6 +72,8 @@ export class TutorPublicProfilePage extends Component {
 
     render() {
         const { classes } = this.props;
+        const { tutor } = this.state;
+
         return (
             <React.Fragment>
                 <main>
@@ -79,7 +86,7 @@ export class TutorPublicProfilePage extends Component {
                             <Grid container spacing={4}>
                                 <Grid item xs={4}>
                                     <Card>
-                                        <TutorInfo tutor={this.getTutor()} />
+                                        <TutorInfo tutor={tutor} />
                                     </Card>
                                 </Grid>
                                 <Grid item xs={6}>
