@@ -204,7 +204,7 @@ export class NewCalendar extends React.Component {
 
         // Send announcement for this new event
         sendNotification(this.state.studentsSelected, 
-          {tutorImg: this.state.tutorImg, tutorName: this.state.tutorName, tutorid: this.state.tutor_id}, 
+          {tutorName: this.state.tutorName, tutorid: this.state.tutor_id}, 
           {title: "New event scheduled", text: "A new event was added to your schedule."});
 
         //change the format of the date and add new event id to list of event ids

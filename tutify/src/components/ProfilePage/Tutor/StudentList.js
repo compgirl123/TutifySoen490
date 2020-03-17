@@ -122,7 +122,7 @@ export class StudentList extends React.Component {
       });
     }
     sendNotification(ids, 
-      {tutorImg: this.state.tutorImg, tutorName: this.state.tutorName, tutorid: this.state.tutor_id}, 
+      {tutorName: this.state.tutorName, tutorid: this.state.tutor_id}, 
       {title: "New document shared.", text: "A new document was shared to you."});
 
     swal("Succesfully shared document to Student(s)!", "", "success");

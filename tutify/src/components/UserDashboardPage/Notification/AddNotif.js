@@ -21,14 +21,14 @@ class AddNotif extends React.Component {
     };
 
     render() {
-        const { notif, updateNotificationList} = this.props
+        const { notif, updateNotificationList, tutorImg} = this.props
 
         return (
             <Grid container>
                 <Grid xs={10} md={12} item >
                     <ListItem alignItems="flex-start">
                         <ListItemAvatar>
-                            <Avatar src={notif.tutorImg} />
+                            <Avatar src={tutorImg} />
                         </ListItemAvatar>
                         <ListItemText
                             primary={notif.title}
