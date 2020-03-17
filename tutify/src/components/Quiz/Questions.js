@@ -25,7 +25,7 @@ class Questions extends React.Component {
         super(props);
         this.state = {
             nr: 0,
-            total: datah.length,
+            //total: datah.length,
             questionAnswered: false,
             score: 0,
             finalScore: 0,
@@ -59,10 +59,10 @@ class Questions extends React.Component {
             .then(res => res.json())
             .then(res => {
                 if (res.data !== undefined) {
-                    this.setState({ datas: res.data, session: res.session });
+                    this.setState({ datas: res.data, session: res.session, total: res.data.length });
                 }
                 else {
-                    this.setState({ datas: [], session: res.session });
+                    this.setState({ datas: [], session: res.session, total : [] });
                 }
                 console.info("The files have been loaded");
             })
@@ -189,7 +189,7 @@ class Questions extends React.Component {
                                         <br />
                                         <b><font color={this.state.color[i]}>
                                             {this.state.finishedQuiz === true ?
-                                                `Correct Answer : ${datah[i].choices[datah[i].correct - 1]}`
+                                                `Correct Answer : ${datas[i].choices[datas[i].correct - 1]}`
                                                 :
                                                 <br />
                                             }
@@ -199,6 +199,7 @@ class Questions extends React.Component {
                                     </div>
                                 </div>
                             ))}
+                            {/*onClick={() => window.location.replace("/chooseClassAndQuiz")} */}
                             <div class={classes.wrapper}>
                                 <p>Score: You got {this.state.finalScore}/ {this.state.total} or {(this.state.finalScore / this.state.total) * 100} %</p>
                             </div>
@@ -206,7 +207,7 @@ class Questions extends React.Component {
                             {this.state.showButton === true?
                             <button className={classes.fancyBtn} onClick={this.finishQuiz}>{'Finish quiz'}</button>
                             :
-                            <button className={classes.fancyBtn} >{'Return To Main Quiz Page'}</button>
+                            <button className={classes.fancyBtn} onClick={() => window.location.replace("/chooseClassAndQuiz")}>{'Return To Main Quiz Page'}</button>
                             }
                             </div>
                             
