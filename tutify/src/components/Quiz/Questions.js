@@ -4,27 +4,28 @@ import { withStyles } from "@material-ui/core/styles";
 import Paper from '@material-ui/core/Paper';
 import DashBoardNavBar from '../DashBoardNavBar';
 
-const dataa = [
+const datah = [
     {
         question: 'What does CSS stand for?',
         choices: ['Computer Style Sheets', 'Creative Style Sheets', 'Cascading Style Sheets', 'Colorful Style Sheets'],
-        correct: 3
+        correct: '3'
     },
     {
         question: 'Where in an HTML document is the correct place to refer to an external style sheet?',
         choices: ['In the <head> section', 'In the <body> section', 'At the end of the document', 'You can\'t refer to an external style sheet'],
-        correct: 1
+        correct: '1'
     }
 ]
 var answersSelected = [];
 var answersSelectedNumerical = [];
+var colorArr=[];
+
 class Questions extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             nr: 0,
-            total: dataa.length,
-            showButton: false,
+            total: datah.length,
             questionAnswered: false,
             score: 0,
             finalScore: 0,
@@ -32,17 +33,20 @@ class Questions extends React.Component {
             isAnswered: false,
             classNames: false,
             answerSelected: 0,
-            datas: [],
+            datas: datah,
             selectedAnswers: [],
             answersSelectedNumerical: [],
-            percent: ""
+            percent: "",
+            finishedQuiz : false,
+            showButton : true,
+            color:['red','red'],
+            
         }
         this.nextQuestion = this.nextQuestion.bind(this);
-        this.last = this.last.bind(this);
+        this.finishQuiz = this.finishQuiz.bind(this);
         this.handleShowButton = this.handleShowButton.bind(this);
         this.handleStartQuiz = this.handleStartQuiz.bind(this);
         this.handleIncreaseScore = this.handleIncreaseScore.bind(this);
-        this.handleDecreaseScore = this.handleDecreaseScore.bind(this);
         this.checkAnswer = this.checkAnswer.bind(this);
     }
 
@@ -71,15 +75,11 @@ class Questions extends React.Component {
         if (this.state.answerSelected === this.state.correct) {
             this.handleIncreaseScore();
         }
-        else {
-            this.handleDecreaseScore();
-        }
 
         if (nr === total) {
             this.setState({
                 displayPopup: 'flex'
             });
-            alert(this.state.score);
         } else {
             this.pushData(nr);
             this.setState({
@@ -115,28 +115,24 @@ class Questions extends React.Component {
         });
     }
 
-    handleDecreaseScore() {
-        this.setState({
-            score: this.state.score - 1
-        });
-    }
-
     checkAnswer(e) {
         let elem = e.currentTarget;
         let answer = Number((elem.dataset.id).split(",")[2]);
-        let correct = Number(this.state.datas[(elem.dataset.id).split(",")[1]].answerIndex+1);
+        let correct = Number(this.state.datas[(elem.dataset.id).split(",")[1]].answerIndex);
         let updatedClassNames = this.state.classNames;
+
         if (answer === correct) {
             if (this.state.score <= this.state.total - 1) {
                 this.handleIncreaseScore();
+                colorArr[(elem.dataset.id).split(",")[1]] = 'green';
             }
         }
         else {
-            if (this.state.score > 0) {
-                this.handleDecreaseScore();
-            }
+            colorArr[(elem.dataset.id).split(",")[1]] = 'red';
         }
+        console.log(colorArr);
         this.setState({
+            color:colorArr,
             classNames: updatedClassNames
         })
 
@@ -157,8 +153,10 @@ class Questions extends React.Component {
         });
     }
 
-    last() {
+    finishQuiz() {
         this.setState({ finalScore: this.state.score });
+        this.setState({ finishedQuiz: true});
+        this.setState({ showButton: false});
     }
 
     render() {
@@ -187,21 +185,31 @@ class Questions extends React.Component {
                                     </div>
                                     <div className={classes.submit}>
                                         <br />
-                                        {this.state.selectedAnswers[i] !== undefined ? `Answer Chosen: ${this.state.selectedAnswers[i]}` : `Answer Chosen: Please Choose an Answer}`}
+                                        {this.state.selectedAnswers[i] !== undefined ? `Answer Chosen: ${this.state.selectedAnswers[i]}` : `Answer Chosen: Please Choose an Answer`}
                                         <br />
+                                        <b><font color={this.state.color[i]}>
+                                            {this.state.finishedQuiz === true ?
+                                                `Correct Answer : ${datah[i].choices[datah[i].correct - 1]}`
+                                                :
+                                                <br />
+                                            }
+                                        </font>
+                                        </b>
                                         <br />
                                     </div>
                                 </div>
                             ))}
                             <div class={classes.wrapper}>
-                                <button className={classes.fancyBtn} onClick={this.last} >{'Finish quiz'}</button>
-                            </div>
-                            <div class={classes.wrapper}>
                                 <p>Score: You got {this.state.finalScore}/ {this.state.total} or {(this.state.finalScore / this.state.total) * 100} %</p>
                             </div>
                             <div class={classes.wrapper}>
-                                <button className={classes.fancyBtn} onClick={() => window.location.replace("/quizResults/")} >{'View Answers'}</button>
+                            {this.state.showButton === true?
+                            <button className={classes.fancyBtn} onClick={this.finishQuiz}>{'Finish quiz'}</button>
+                            :
+                            <button className={classes.fancyBtn} >{'Return To Main Quiz Page'}</button>
+                            }
                             </div>
+                            
                         </div>
                     </main>
                 </React.Fragment>
