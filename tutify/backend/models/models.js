@@ -377,7 +377,15 @@ var Quizes = mongoose.model('Quizes', new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Course',
     required: true
-  }
+  },
+  allowed_attempts: {
+    type: NumberInt,
+    required: true
+  },
+  attempts: {
+    type: Schema.Types.ObjectId,
+    ref: 'CompletedQuiz'
+  },
 }), "quizes");
 
 // -------- Questions --------- // 
@@ -414,6 +422,28 @@ var Badges = mongoose.model('Badges', new Schema({
   badgePoints: Number
 }), "badges");
 
+// Answers to the quizes
+var CompletedQuiz = mongoose.model('CompletedQuiz', new Schema({
+  score: {
+    type: NumberInt,
+    required:true
+  },
+  answerIndexes: [{
+    type: NumberInt,
+    required:true
+  }],
+  quiz: {
+    type: Schema.Types.ObjectId,
+    ref: 'Quizes',
+    required: true
+  },
+  student: {
+    type: Schema.Types.ObjectId,
+    ref: 'Profile',
+    required: true
+  }
+}), "completed_quiz");
+
 // export the Schemas
 module.exports = {
   Tutor: Tutor,
@@ -430,8 +460,7 @@ module.exports = {
   Mchunks: Mchunks,
   Resource: Resource,
   Videos: Videos,
-  Badges: Badges
-
+  CompletedQuiz:CompletedQuiz
 }
 
 
