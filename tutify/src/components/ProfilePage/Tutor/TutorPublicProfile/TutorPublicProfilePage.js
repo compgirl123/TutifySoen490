@@ -19,8 +19,10 @@ export class TutorPublicProfilePage extends Component {
         this.state = {
             courses: [],
             subjects: [],
-            tutor: "",
+            tutor: {},
+            profilePicture: ""
         };
+        this.getImg = this.getImg.bind(this);
     }
     toggleDrawer = booleanValue => () => {
         this.setState({
@@ -43,17 +45,30 @@ export class TutorPublicProfilePage extends Component {
           }).then((res) => {
             this.setState({
               tutor: res.data.tutor,
-              courses: res.data.courses,
-              subjects: res.data.subjects
+              courses: res.data.tutor.courses,
+              subjects: res.data.tutor.subjects
             });
             console.info("Successfully fetched the specific tutor's information");
+            this.getImg();
           })
             .catch(err => console.error("Could not get the tutor's information from the database: "+err));
     }
 
+    // Fetches the profile image file from our database
+    getImg() {
+        axios.get('/api/getPicture/' + this.state.tutor.uploadedPicture.imgData)
+            .then((res) => {
+                this.setState({
+                    profilePicture: res.data.data
+                });
+            }, (error) => {
+                console.error("Could not get uploaded profile image from database (API call error) " + error);
+            });
+    }
+
     render() {
         const { classes } = this.props;
-        const { tutor, courses, subjects } = this.state;
+        const { tutor, courses, subjects, profilePicture } = this.state;
 
         return (
             <React.Fragment>
@@ -65,7 +80,7 @@ export class TutorPublicProfilePage extends Component {
                             <Grid container spacing={4}>
                                 <Grid item xs={4}>
                                     <Card>
-                                        <TutorInfo tutor={tutor} />
+                                        <TutorInfo tutor={tutor} profilePicture={profilePicture} />
                                     </Card>
                                 </Grid>
                                 <Grid item xs={6}>
