@@ -13,7 +13,6 @@ class TutorDescription extends React.Component {
 
     render() {
         const { classes, tutor} = this.props;
-
         return (
             <Card className={classes.card}  >
                 <CardContent>
@@ -22,7 +21,6 @@ class TutorDescription extends React.Component {
                             About me
                         </Box>
                     </Typography>
-
                     <Table size="small">
                         <TableBody>
                             <TableRow >

@@ -14,7 +14,7 @@ export class TutorInfo extends React.Component {
     }
 
     render() {
-        const { classes, tutor, profilePicture} = this.props;
+        const { classes, tutor, profilePicture, email} = this.props;
 
         return (
             <Card className={classes.card}>
@@ -40,7 +40,7 @@ export class TutorInfo extends React.Component {
 
                         <Typography className={classes.InfoContext}>
                             <br />
-              Email : {tutor.email}
+              Email : {email}
                         </Typography>
 
                         <Typography className={classes.InfoContext}>

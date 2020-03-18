@@ -21,7 +21,8 @@ export class TutorPublicProfilePage extends Component {
             courses: [],
             subjects: [],
             tutor: {},
-            profilePicture: ""
+            profilePicture: "",
+            email: "",
         };
         this.getImg = this.getImg.bind(this);
     }
@@ -48,8 +49,10 @@ export class TutorPublicProfilePage extends Component {
               tutor: res.data.tutor,
               courses: res.data.tutor.courses,
               subjects: res.data.tutor.subjects,
+              email: res.data.tutor.account.email
             });
             console.info("Successfully fetched the specific tutor's information");
+            console.info(this.state.email);
             this.getImg();
           })
             .catch(err => console.error("Could not get the tutor's information from the database: "+err));
@@ -69,7 +72,7 @@ export class TutorPublicProfilePage extends Component {
 
     render() {
         const { classes } = this.props;
-        const { tutor, courses, subjects, profilePicture} = this.state;
+        const { tutor, courses, subjects, profilePicture, email} = this.state;
 
         return (
             <React.Fragment>
@@ -81,7 +84,7 @@ export class TutorPublicProfilePage extends Component {
                             <Grid container spacing={4}>
                                 <Grid item xs={4}>
                                     <Card>
-                                        <TutorInfo tutor={tutor} profilePicture={profilePicture} />
+                                        <TutorInfo tutor={tutor} email={email} profilePicture={profilePicture} />
                                     </Card>
                                 </Grid>
                                 <Grid item xs={6}>
