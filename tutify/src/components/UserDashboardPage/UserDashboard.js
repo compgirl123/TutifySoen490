@@ -20,7 +20,8 @@ class UserDashboard extends React.Component {
             courses: [],
             todos: [],
             tutors: [],
-            notifications: []
+            notifications: [],
+            tutorImgs: []
         };
     }
 
@@ -43,6 +44,7 @@ class UserDashboard extends React.Component {
                         tutors: res.userInfo.tutors,
                         notifications: res.userInfo.notifications
                     });
+                    this.fetchTutorImages()
                     this.getCourses()
                 }
                 else {
@@ -82,9 +84,42 @@ class UserDashboard extends React.Component {
             });
     }
 
+    // fetch the tutor's profile images
+    fetchTutorImages = () => {
+        let tutorIds = []; // array for tutor ids
+        var tutorImgsTemp = []; // array for tutor ids + image data
+
+        // Get a list of all the tutors who sent notifications
+        this.state.notifications.forEach(notif => {
+            if(!(tutorIds.includes(notif.tutorid))) {
+                tutorIds.push(notif.tutorid)
+            }
+        });
+
+        let promises = [];
+        // for each tutor id found, fetch their profile picture     
+        tutorIds.forEach(id => {
+            promises.push( 
+                axios.get('/api/getTutorPicture/' + id)
+                .then((res) => {        
+                    tutorImgsTemp.push({
+                            id:   id,
+                            value: res.data.data
+                    });  
+                }, (error) => {
+                    console.error("Could not get uploaded profile image from database (API call error) " + error);
+                })
+          )
+        })
+        
+        Promise.all(promises).then(() => {
+            this.setState({ tutorImgs: tutorImgsTemp });
+        });
+    }
+
     render() {
         const { classes } = this.props;
-        const { courses, tutors, todos, notifications, _id } = this.state;
+        const { courses, tutors, todos, notifications, _id, tutorImgs } = this.state;
 
         return (
             <React.Fragment>
@@ -100,6 +135,7 @@ class UserDashboard extends React.Component {
                     <Grid container className={classes.container}>
                         <Grid item sm={6} className={classes.gridItem}>
                             <Notifications
+                                tutorImgs={tutorImgs}
                                 notifications={notifications}
                                 updateNotificationList={this.updateNotificationList}
                             />
