@@ -23,6 +23,8 @@ export class TutorPublicProfilePage extends Component {
             tutor: {},
             profilePicture: "",
             email: "",
+            accountId: "",
+            account: "",
         };
         this.getImg = this.getImg.bind(this);
     }
@@ -33,7 +35,26 @@ export class TutorPublicProfilePage extends Component {
     };
 
     componentDidMount() {
-        this.getTutor()
+        this.getTutor();
+    }
+
+    //getting the account object linked to the tutor in order to fetch the email address
+    getAccount = () =>{
+        axios.get(`/api/getAccountById`, {
+            params: {
+                ID: this.state.accountId
+            }
+        }).then((res) => {
+            this.setState({
+                account: res.data.account,
+                email: res.data.account.email
+            });
+            console.info(this.state.account);
+            console.info(this.state.email);
+            console.info("Successfully fetched the specific tutor's email");
+
+        })
+        .catch(err => console.error("Could not get the tutor's email: " + err));
     }
 
     //getting the tutor from the id passed in the path
@@ -49,11 +70,12 @@ export class TutorPublicProfilePage extends Component {
               tutor: res.data.tutor,
               courses: res.data.tutor.courses,
               subjects: res.data.tutor.subjects,
-              email: res.data.tutor.account.email
+              accountId: res.data.tutor.account,
             });
             console.info("Successfully fetched the specific tutor's information");
-            console.info(this.state.email);
+            console.info(this.state.accountId);
             this.getImg();
+            this.getAccount();
           })
             .catch(err => console.error("Could not get the tutor's information from the database: "+err));
     }

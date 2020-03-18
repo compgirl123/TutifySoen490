@@ -76,6 +76,8 @@ router.post('/resetPassword', userController.resetPassword);
 
 router.get('/getAccount', accountController.getAccount);
 
+router.get('/getAccountById', accountController.getAccountById);
+
 router.post('/updateAccount', accountController.updateAccount);
 
 router.post('/putAccount', accountController.putAccount);

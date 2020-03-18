@@ -1,16 +1,17 @@
 const Account = require('../models/models').Account;
 
-// this method fetches all available accounts in our database
-exports.getAccount = async function (req, res) {
-    Account.find((err, data) => {
-        if (err) {
-            console.error("Could not find the account");
-            return res.json({ success: false, error: err });
-        }
-        console.info("Account found");
-        return res.json({ success: true, data: data });
-    });
-}
+// fetches an account by id in our database
+exports.getAccountById = async function (req, res) {
+    Account.findOne({ _id: req.query.ID }).
+        exec(function (err, account) {
+            if (err) {
+                console.error("Account not found");
+                return handleError(err);
+            }
+            console.info("Account found");
+            return res.json({ success: true, account: account });
+        });
+};
 
 // this method overwrites existing account in our database
 exports.updateAccount = async function (req, res) {
