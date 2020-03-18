@@ -6,7 +6,7 @@ exports.getAccountById = async function (req, res) {
         exec(function (err, account) {
             if (err) {
                 console.error("Account not found");
-                return handleError(err);
+                return res.json({ success: false, error: err });
             }
             console.info("Account found");
             return res.json({ success: true, account: account });

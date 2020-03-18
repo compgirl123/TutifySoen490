@@ -49,8 +49,6 @@ export class TutorPublicProfilePage extends Component {
                 account: res.data.account,
                 email: res.data.account.email
             });
-            console.info(this.state.account);
-            console.info(this.state.email);
             console.info("Successfully fetched the specific tutor's email");
 
         })
@@ -73,11 +71,17 @@ export class TutorPublicProfilePage extends Component {
               accountId: res.data.tutor.account,
             });
             console.info("Successfully fetched the specific tutor's information");
-            console.info(this.state.accountId);
+
+            if(!res.data)
+                window.location = "/notfound";
+
             this.getImg();
             this.getAccount();
           })
-            .catch(err => console.error("Could not get the tutor's information from the database: "+err));
+            .catch(err => {
+                console.error("Could not get the tutor's information from the database: "+err);
+                window.location = "/notfound";
+            });
     }
 
     // Fetches the profile image file from our database
