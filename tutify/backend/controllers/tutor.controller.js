@@ -22,7 +22,7 @@ exports.getTutor = async function (req, res) {
         exec(function (err, tutor) {
             if (err) {
                 console.error("The specific tutor was not found");
-                return handleError(err);
+                return res.json({ success: false, error: err });
             }
             console.info("The specific tutor was found");
             return res.json({ success: true, tutor: tutor });
@@ -274,7 +274,7 @@ exports.deleteEvent = async function (req, res) {
 exports.getTutorCourses = async function (req, res) {
     Tutor.findOne({ _id: req.session.userInfo._id }).populate('courses.course').
         exec(function (err, tutor) {
-            if (err) return handleError(err);
+            if (err) return res.json({ success: false, error: err });
             return res.json({ success: true, data: tutor.courses });
         });
 };

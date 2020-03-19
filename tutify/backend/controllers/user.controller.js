@@ -534,7 +534,7 @@ exports.getUserCourses = async function (req, res) {
         exec(function (err, student) {
             if (err) {
                 console.error("Could not retrieve the user's courses");
-                return handleError(err);
+                return res.json({ success: false, error: err });
             }
             console.info("The user's course list has been retrieved successfully");
             return res.json({ success: true, data: student.courses });

@@ -22,7 +22,6 @@ class AddNotif extends React.Component {
 
     render() {
         const { notif, updateNotificationList, tutorImg} = this.props
-
         return (
             <Grid container>
                 <Grid xs={10} md={12} item >
