@@ -68,7 +68,8 @@ class ProfilePage extends React.Component {
       .then(res => {
         if (res.isLoggedIn) {
           if (res.userInfo.__t === "tutor") {
-            this.setState({ students: res.userInfo.students });
+            this.setState({ students: res.userInfo.students,
+            profileURL: 'http://tutify-259321.appspot.com/profile/' + res.userInfo._id  });
             this.FindStudents();
           }
           else if (res.userInfo.__t === "student") {
@@ -132,9 +133,8 @@ class ProfilePage extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { open } = this.state;
-    const url = 'http://tutify-259321.appspot.com/'
-    const shareText = 'Tutify is an application system for helping tutors and their students connect. Check it out!'
+    const { open, profileURL } = this.state;
+    const shareText = 'Tutify is an application system for helping tutors and their students connect. Check out my profile!'
     const subject = 'Tutify Application'
     const emailURL = 'Hello,\n\n'
       + 'Thank you for showing interest in Tutify.\n'
@@ -205,7 +205,7 @@ class ProfilePage extends React.Component {
             <div>
 
               <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
-                <DialogTitle id="simple-dialog-title">Share</DialogTitle>
+                <DialogTitle id="simple-dialog-title">Share Your Profile</DialogTitle>
                 <DialogContent>
                   <div>
                     <DialogContentText>
@@ -214,9 +214,9 @@ class ProfilePage extends React.Component {
                   </div>
                   <div>
                     <Email url={emailURL} subject={subject} />
-                    <Facebook url={url} />
-                    <Twitter url={url} shareText={shareText} />
-                    <Reddit url={url} />
+                    <Facebook url={profileURL} />
+                    <Twitter url={profileURL} shareText={shareText} />
+                    <Reddit url={profileURL} />
                   </div>
 
                 </DialogContent>
