@@ -12,6 +12,7 @@ import MenuBookIcon from '@material-ui/icons/MenuBook';
 import CreateIcon from '@material-ui/icons/Create';
 import ClassIcon from '@material-ui/icons/Class';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
+import StarsIcon from '@material-ui/icons/Stars';
 
 export class TutorSidebar extends Component {
   constructor(props) {
@@ -66,6 +67,13 @@ export class TutorSidebar extends Component {
                 <ClassIcon />
               </ListItemIcon>
               <ListItemText primary="My Courses" />
+            </ListItem>
+
+            <ListItem button component="a" href="/chooseClassAndQuiz">
+              <ListItemIcon>
+                <StarsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Quiz" />
             </ListItem>
 
             <ListItem button component="a" href="/videos">

@@ -18,6 +18,7 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import PublishIcon from '@material-ui/icons/Publish';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
+import StarsIcon from '@material-ui/icons/Stars';
 
 class Sidebar extends Component {
   constructor(props) {
@@ -75,30 +76,42 @@ class Sidebar extends Component {
             </ListItemIcon>
             <ListItemText primary="Shared From Courses" />
           </ListItem>
+
           <ListItem button component="a" href="/uploadingDocs">
             <ListItemIcon>
               <PublishIcon />
             </ListItemIcon>
             <ListItemText primary="Upload Documents" />
           </ListItem>
+
           <ListItem button component="a" href="/doclist">
             <ListItemIcon>
               <MenuBookIcon />
             </ListItemIcon>
             <ListItemText primary="All Documents" />
           </ListItem>
+
           <ListItem button component="a" href="/search">
             <ListItemIcon>
               <SearchIcon />
             </ListItemIcon>
             <ListItemText primary="Search" />
           </ListItem>
+
+          <ListItem button component="a" href="/quiz">
+              <ListItemIcon>
+                <StarsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Quiz" />
+            </ListItem>
+
           <ListItem button component="a" href="/choosetutorVideo">
             <ListItemIcon>
               <VideoLibraryIcon />
             </ListItemIcon>
             <ListItemText primary="Videos" />
           </ListItem>
+
           <ListItem button component="a" href="/" onClick={this.handleChange} >
             <ListItemIcon>
               <ExitToAppIcon />
