@@ -50,7 +50,12 @@ export class Studentdocs extends React.Component {
             tutorId: "",
             tutorFirstName: "",
             tutorLastName: "",
-            videos: [],
+            options: [],
+            videos:[],
+            option1 : "",
+            option2 : "",
+            option3 : "",
+            option4 : "",
             course: "",
             accountType: "",
             open: false,
@@ -238,10 +243,16 @@ export class Studentdocs extends React.Component {
         return pattern.test(url);
     }
 
+
     // Adding a new video according to what the user inputs into the Dialog box to the db
-    addVideoToDb = () => {
+    addQuizToDb = () => {
         var tutor = [];
+        var inputtedOptions = [];
         tutor.push(this.state.id);
+        inputtedOptions.push(this.state.option1,this.state.option2,this.state.option3,this.state.option4);
+        console.log(inputtedOptions);
+        this.setState({options: inputtedOptions});
+        console.log(inputtedOptions);
         //swal to confirm the addition of new video
         swal({
             title: "Would you like to add the following quiz?",
@@ -259,11 +270,17 @@ export class Studentdocs extends React.Component {
                     <p>
                         <p>
                             <b>
-                                description: {this.state.description}
+                                Options: {this.state.options}
                             </b>
+                            <p>Option 1: {this.state.option1}</p>
+                            <p>Option 2: {this.state.option2}</p>
+                            <p>Option 3: {this.state.option3}</p>
+                            <p>Option 4: {this.state.option4}</p>
                         </p>
                         <p>
-                            Video Link: {this.state.videoLink}
+                            <b>
+                            Correct: {this.state.videoLink}
+                            </b>
                         </p>
                         Tutor: {this.state.tutorFirstName} {this.state.tutorLastName}
                     </p>
@@ -277,7 +294,7 @@ export class Studentdocs extends React.Component {
                     if (this.state.title !== '' && this.state.description !== '' &&
                         this.state.videoLink !== '' && this.isURL(this.state.videoLink)&& 
                         this.state.tutorId !== '' && this.state.course !== '') {
-                        axios.post('/api/addVideo', {
+                        axios.post('/api/addQuestion', {
                             title: this.state.title,
                             description: this.state.description,
                             videoLink: this.state.videoLink,
@@ -473,38 +490,38 @@ export class Studentdocs extends React.Component {
                                         fullWidth
                                     />
                                     <TextField
-                                        id="option 1"
-                                        name="option 1"
-                                        label="option 1"
-                                        onChange={e => this.setState({ description: e.target.value })}
-                                        defaultValue={this.state.description}
+                                        id="option1"
+                                        name="option1"
+                                        label="option1"
+                                        onChange={e => this.setState({ option1: e.target.value })}
+                                        defaultValue={this.state.option1}
                                         variant="outlined"
                                         style={{ width: '100%', marginTop: "35px" }}
                                     />
                                     <TextField
-                                        id="option 2"
-                                        name="option 2"
-                                        label="option 2"
-                                        onChange={e => this.setState({ description: e.target.value })}
-                                        defaultValue={this.state.description}
+                                        id="option2"
+                                        name="option2"
+                                        label="option2"
+                                        onChange={e => this.setState({ option2: e.target.value })}
+                                        defaultValue={this.state.option2}
                                         variant="outlined"
                                         style={{ width: '100%', marginTop: "35px" }}
                                     />
                                     <TextField
-                                        id="option 3"
-                                        name="option 3"
-                                        label="option 3"
-                                        onChange={e => this.setState({ description: e.target.value })}
-                                        defaultValue={this.state.description}
+                                        id="option3"
+                                        name="option3"
+                                        label="option3"
+                                        onChange={e => this.setState({ option3: e.target.value })}
+                                        defaultValue={this.state.option3}
                                         variant="outlined"
                                         style={{ width: '100%', marginTop: "35px" }}
                                     />
                                     <TextField
-                                        id="option 4"
-                                        name="option 4"
-                                        label="option 4"
-                                        onChange={e => this.setState({ description: e.target.value })}
-                                        defaultValue={this.state.description}
+                                        id="option4"
+                                        name="option4"
+                                        label="option4"
+                                        onChange={e => this.setState({ option4: e.target.value })}
+                                        defaultValue={this.state.option4}
                                         variant="outlined"
                                         style={{ width: '100%', marginTop: "35px" }}
                                     />
@@ -593,7 +610,7 @@ export class Studentdocs extends React.Component {
                                         </Select>
                                     </FormControl>
                                     <br /><br />
-                                    <Button variant="contained" size="lg" active onClick={() => { this.addVideoToDb(); }} className={classes.formControl}>
+                                    <Button variant="contained" size="lg" active onClick={() => { this.addQuizToDb(); }} className={classes.formControl}>
                                         Save
                                     </Button>
                                 </DialogContent>
