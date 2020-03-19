@@ -19,6 +19,7 @@ import PublishIcon from '@material-ui/icons/Publish';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
 import StarsIcon from '@material-ui/icons/Stars';
+import AssessmentIcon from '@material-ui/icons/Assessment';
 
 class Sidebar extends Component {
   constructor(props) {
@@ -103,6 +104,14 @@ class Sidebar extends Component {
                 <StarsIcon />
               </ListItemIcon>
               <ListItemText primary="Quiz" />
+            </ListItem>
+
+
+            <ListItem button component="a" href="/grades">
+              <ListItemIcon>
+                <AssessmentIcon />
+              </ListItemIcon>
+              <ListItemText primary="Grades" />
             </ListItem>
 
           <ListItem button component="a" href="/choosetutorVideo">
