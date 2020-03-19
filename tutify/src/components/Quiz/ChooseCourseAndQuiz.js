@@ -444,7 +444,7 @@ export class Studentdocs extends React.Component {
                         {/* Dialog box when clicked on the "add new video" button */}
                         <div>
                             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
-                                <DialogTitle id="simple-dialog-title">{this.state.tutorFirstName}, Add a new Video</DialogTitle>
+                                <DialogTitle id="simple-dialog-title">{this.state.tutorFirstName}, Add a new Quiz</DialogTitle>
                                 <DialogContent>
                                     <TextField
                                         InputLabelProps={{
@@ -464,11 +464,11 @@ export class Studentdocs extends React.Component {
                                             shrink: true,
                                         }}
                                         margin="dense"
-                                        id="question"
-                                        name="question"
+                                        id="question 1"
+                                        name="question 1"
                                         onChange={e => { handleVideoEmbedding(e) }}
-                                        autoComplete="question"
-                                        label="question"
+                                        autoComplete="question 1"
+                                        label="question 1"
                                         defaultValue={this.state.question}
                                         fullWidth
                                     />
@@ -509,6 +509,78 @@ export class Studentdocs extends React.Component {
                                         style={{ width: '100%', marginTop: "35px" }}
                                     />
                                     <br /><br />
+                                    <FormControl className={classes.formControl}>
+                                        <InputLabel>
+                                            Please choose the right option
+                                         </InputLabel>
+                                        <Select>
+                                        <MenuItem value={1}>One</MenuItem>
+                                        <MenuItem value={2}>Two</MenuItem>
+                                        <MenuItem value={3}>Three</MenuItem>
+                                        <MenuItem value={4}>Four</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                    <TextField
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        margin="dense"
+                                        id="question 2"
+                                        name="question 2"
+                                        onChange={e => { handleVideoEmbedding(e) }}
+                                        autoComplete="question 2"
+                                        label="question 2"
+                                        defaultValue={this.state.question}
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        id="option 1"
+                                        name="option 1"
+                                        label="option 1"
+                                        onChange={e => this.setState({ description: e.target.value })}
+                                        defaultValue={this.state.description}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <TextField
+                                        id="option 2"
+                                        name="option 2"
+                                        label="option 2"
+                                        onChange={e => this.setState({ description: e.target.value })}
+                                        defaultValue={this.state.description}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <TextField
+                                        id="option 3"
+                                        name="option 3"
+                                        label="option 3"
+                                        onChange={e => this.setState({ description: e.target.value })}
+                                        defaultValue={this.state.description}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <TextField
+                                        id="option 4"
+                                        name="option 4"
+                                        label="option 4"
+                                        onChange={e => this.setState({ description: e.target.value })}
+                                        defaultValue={this.state.description}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <br /><br />
+                                    <FormControl className={classes.formControl}>
+                                        <InputLabel>
+                                            Please choose the right option
+                                         </InputLabel>
+                                        <Select>
+                                        <MenuItem value={1}>One</MenuItem>
+                                        <MenuItem value={2}>Two</MenuItem>
+                                        <MenuItem value={3}>Three</MenuItem>
+                                        <MenuItem value={4}>Four</MenuItem>
+                                        </Select>
+                                    </FormControl>
                                     <FormControl className={classes.formControl}>
                                         <InputLabel>
                                             Course
