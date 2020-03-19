@@ -326,7 +326,7 @@ export class Studentdocs extends React.Component {
                             question: this.state.title,
                             choices: this.state.inputtedOptionsq1,
                             answerIndex: this.state.correctq1,
-                            tutorId: this.state.tutorId,
+                            creator: this.state.tutorId,
                             course: this.state.course
                         })
                             .then((res) => {

@@ -1,6 +1,7 @@
 const Quizes = require('../models/models').Quizes;
 const Questions = require('../models/models').Questions;
 const QuizAttempt = require('../models/models').QuizAttempt;
+const Course = require('../models/models').Course;
 
 // this method fetches all available quizes from a tutor in our database
 exports.getQuizes = async (req, res) => {
@@ -50,8 +51,20 @@ exports.addQuiz = async function (req, res) {
     quizes.description = description;
     quizes.questions = questions;
     quizes.tutorId = tutorId;
-    quizes.course = course;
-    quizes.save(function (err, quizes) {
+    //quizes.course = course;
+    await Course.findOne({ name: course, tutors: { $in: [tutorId] } }, async (err, foundCourse) => {
+        quizes.course = foundCourse; 
+        quizes.save(function (err, quizes) {
+            if (err) {
+                console.error(err);
+                console.error("The quiz couldn't get added to the database (API request failed)");
+                return res.json({ success: false, error: err });
+            }
+            console.info("The quiz was successfully added to the database");
+            return res.json({ success: true, data: quizes });
+        });
+    });
+    /*quizes.save(function (err, quizes) {
         if (err) {
             console.error(err);
             console.error("The quiz couldn't get added to the database (API request failed)");
@@ -59,7 +72,7 @@ exports.addQuiz = async function (req, res) {
         }
         console.info("The quiz was successfully added to the database");
         return res.json({ success: true, data: quizes });
-    });
+    });*/
 };
 
 // this method adds a new attempt and links it to the quiz
@@ -98,15 +111,27 @@ exports.getAllQuestions = async function (req, res) {
 
 // this method adds a new question to the database
 exports.addQuestion = async function (req, res) {
-    const { question, choices, answerIndex, tutorId, course } = req.body;
+    const { question, choices, answerIndex, creator, course } = req.body;
     // new quiz to be added by tutor
     let questions = new Questions();
     questions.question = question;
     questions.choices = choices;
     questions.answerIndex = answerIndex;
-    questions.tutorId = tutorId;
+    questions.creator = creator;
     questions.course = course;
-    questions.save(function (err, question) {
+    await Course.findOne({ name: course, tutors: { $in: [creator] } }, async (err, foundCourse) => {
+        questions.course = foundCourse; 
+        questions.save(function (err, question) {
+            if (err) {
+                console.error(err);
+                console.error("The question couldn't get added to the database (API request failed)");
+                return res.json({ success: false, error: err });
+            }
+            console.info("The question was successfully added to the database");
+            return res.json({ success: true, data: question });
+        });
+    });
+    /*questions.save(function (err, question) {
         if (err) {
             console.error(err);
             console.error("The question couldn't get added to the database (API request failed)");
@@ -114,7 +139,7 @@ exports.addQuestion = async function (req, res) {
         }
         console.info("The question was successfully added to the database");
         return res.json({ success: true, data: question });
-    });
+    });*/
 };
 
 // this method deletes a quiz from the db
