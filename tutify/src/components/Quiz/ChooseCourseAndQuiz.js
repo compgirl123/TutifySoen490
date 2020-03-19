@@ -50,12 +50,19 @@ export class Studentdocs extends React.Component {
             tutorId: "",
             tutorFirstName: "",
             tutorLastName: "",
-            options: [],
+            optionsq1: [],
+            optionsq2: [],
+            correctq1: "",
+            correctq2: "",
             videos:[],
-            option1 : "",
-            option2 : "",
-            option3 : "",
-            option4 : "",
+            option1q1 : "",
+            option2q1 : "",
+            option3q1 : "",
+            option4q1 : "",
+            option1q2 : "",
+            option2q2 : "",
+            option3q2 : "",
+            option4q2 : "",
             course: "",
             accountType: "",
             open: false,
@@ -247,12 +254,17 @@ export class Studentdocs extends React.Component {
     // Adding a new video according to what the user inputs into the Dialog box to the db
     addQuizToDb = () => {
         var tutor = [];
-        var inputtedOptions = [];
+        var inputtedOptionsq1 = [];
         tutor.push(this.state.id);
-        inputtedOptions.push(this.state.option1,this.state.option2,this.state.option3,this.state.option4);
-        console.log(inputtedOptions);
-        this.setState({options: inputtedOptions});
-        console.log(inputtedOptions);
+        inputtedOptionsq1.push(this.state.option1,this.state.option2,this.state.option3,this.state.option4);
+        console.log(inputtedOptionsq1);
+        this.setState({options: inputtedOptionsq1});
+        console.log(inputtedOptionsq1);
+        var inputtedOptionsq2 = [];
+        inputtedOptionsq2.push(this.state.option1,this.state.option2,this.state.option3,this.state.option4);
+        console.log(inputtedOptionsq2);
+        this.setState({options: inputtedOptionsq2});
+        console.log(inputtedOptionsq2);
         //swal to confirm the addition of new video
         swal({
             title: "Would you like to add the following quiz?",
@@ -270,19 +282,35 @@ export class Studentdocs extends React.Component {
                     <p>
                         <p>
                             <b>
-                                Options: {this.state.options}
+                                Question 1 Options : {this.state.optionsq1}
                             </b>
-                            <p>Option 1: {this.state.option1}</p>
-                            <p>Option 2: {this.state.option2}</p>
-                            <p>Option 3: {this.state.option3}</p>
-                            <p>Option 4: {this.state.option4}</p>
+                            <p>Option 1: {this.state.option1q1}</p>
+                            <p>Option 2: {this.state.option2q1}</p>
+                            <p>Option 3: {this.state.option3q1}</p>
+                            <p>Option 4: {this.state.option4q1}</p>
+                        </p>
+                        <p>
+                        <b>
+                            Question 1 Correct: {this.state.correctq1}
+                        </b>
                         </p>
                         <p>
                             <b>
-                            Correct: {this.state.videoLink}
+                                Question 2 Options : {this.state.optionsq2}
                             </b>
+                            <p>Option 1: {this.state.option1q2}</p>
+                            <p>Option 2: {this.state.option2q2}</p>
+                            <p>Option 3: {this.state.option3q2}</p>
+                            <p>Option 4: {this.state.option4q2}</p>
+                        </p>
+                        <p>
+                        <b>
+                            Question 2 Correct: {this.state.correctq2}
+                        </b>
                         </p>
                         Tutor: {this.state.tutorFirstName} {this.state.tutorLastName}
+                        <br/>
+                        Course: {this.state.course}
                     </p>
                 </div>
             )
@@ -291,13 +319,13 @@ export class Studentdocs extends React.Component {
             .then((value) => {
                 if (value) {
                     console.info("Adding video to db...");
-                    if (this.state.title !== '' && this.state.description !== '' &&
+                    /*if (this.state.title !== '' && this.state.description !== '' &&
                         this.state.videoLink !== '' && this.isURL(this.state.videoLink)&& 
-                        this.state.tutorId !== '' && this.state.course !== '') {
+                        this.state.tutorId !== '' && this.state.course !== '') {*/
                         axios.post('/api/addQuestion', {
-                            title: this.state.title,
-                            description: this.state.description,
-                            videoLink: this.state.videoLink,
+                            question: this.state.title,
+                            choices: this.state.inputtedOptionsq1,
+                            answerIndex: this.state.correctq1,
                             tutorId: this.state.tutorId,
                             course: this.state.course
                         })
@@ -312,7 +340,7 @@ export class Studentdocs extends React.Component {
                         console.error("Empty fields");
                         swal("Could not add resource, empty or invalid fields.", "", "error")
                     }
-                }
+                /*}*/
             });
     }
 
@@ -481,47 +509,47 @@ export class Studentdocs extends React.Component {
                                             shrink: true,
                                         }}
                                         margin="dense"
-                                        id="question 1"
-                                        name="question 1"
+                                        id="question1"
+                                        name="question1"
                                         onChange={e => { handleVideoEmbedding(e) }}
-                                        autoComplete="question 1"
-                                        label="question 1"
+                                        autoComplete="question1"
+                                        label="question1"
                                         defaultValue={this.state.question}
                                         fullWidth
                                     />
                                     <TextField
-                                        id="option1"
-                                        name="option1"
+                                        id="option1q1"
+                                        name="option1q1"
                                         label="option1"
-                                        onChange={e => this.setState({ option1: e.target.value })}
-                                        defaultValue={this.state.option1}
+                                        onChange={e => this.setState({ option1q1: e.target.value })}
+                                        defaultValue={this.state.option1q1}
                                         variant="outlined"
                                         style={{ width: '100%', marginTop: "35px" }}
                                     />
                                     <TextField
-                                        id="option2"
-                                        name="option2"
+                                        id="option2q1"
+                                        name="option2q1"
                                         label="option2"
-                                        onChange={e => this.setState({ option2: e.target.value })}
-                                        defaultValue={this.state.option2}
+                                        onChange={e => this.setState({ option2q1: e.target.value })}
+                                        defaultValue={this.state.option2q1}
                                         variant="outlined"
                                         style={{ width: '100%', marginTop: "35px" }}
                                     />
                                     <TextField
-                                        id="option3"
-                                        name="option3"
+                                        id="option3q1"
+                                        name="option3q1"
                                         label="option3"
-                                        onChange={e => this.setState({ option3: e.target.value })}
-                                        defaultValue={this.state.option3}
+                                        onChange={e => this.setState({ option3q1: e.target.value })}
+                                        defaultValue={this.state.option3q1}
                                         variant="outlined"
                                         style={{ width: '100%', marginTop: "35px" }}
                                     />
                                     <TextField
-                                        id="option4"
-                                        name="option4"
+                                        id="option4q1"
+                                        name="option4q1"
                                         label="option4"
-                                        onChange={e => this.setState({ option4: e.target.value })}
-                                        defaultValue={this.state.option4}
+                                        onChange={e => this.setState({ option4q1: e.target.value })}
+                                        defaultValue={this.state.option4q1}
                                         variant="outlined"
                                         style={{ width: '100%', marginTop: "35px" }}
                                     />
@@ -530,11 +558,11 @@ export class Studentdocs extends React.Component {
                                         <InputLabel>
                                             Please choose the right option
                                          </InputLabel>
-                                        <Select>
-                                        <MenuItem value={1}>One</MenuItem>
-                                        <MenuItem value={2}>Two</MenuItem>
-                                        <MenuItem value={3}>Three</MenuItem>
-                                        <MenuItem value={4}>Four</MenuItem>
+                                        <Select onChange={e => this.setState({ correctq1: e.target.value })}>
+                                            <MenuItem value={1}>One</MenuItem>
+                                            <MenuItem value={2}>Two</MenuItem>
+                                            <MenuItem value={3}>Three</MenuItem>
+                                            <MenuItem value={4}>Four</MenuItem>
                                         </Select>
                                     </FormControl>
                                     <TextField
@@ -542,8 +570,8 @@ export class Studentdocs extends React.Component {
                                             shrink: true,
                                         }}
                                         margin="dense"
-                                        id="question 2"
-                                        name="question 2"
+                                        id="question2"
+                                        name="question2"
                                         onChange={e => { handleVideoEmbedding(e) }}
                                         autoComplete="question 2"
                                         label="question 2"
@@ -551,38 +579,38 @@ export class Studentdocs extends React.Component {
                                         fullWidth
                                     />
                                     <TextField
-                                        id="option 1"
-                                        name="option 1"
-                                        label="option 1"
-                                        onChange={e => this.setState({ description: e.target.value })}
-                                        defaultValue={this.state.description}
+                                        id="option1q2"
+                                        name="option1q2"
+                                        label="option1"
+                                        onChange={e => this.setState({ option1q2: e.target.value })}
+                                        defaultValue={this.state.option1q2}
                                         variant="outlined"
                                         style={{ width: '100%', marginTop: "35px" }}
                                     />
                                     <TextField
-                                        id="option 2"
-                                        name="option 2"
-                                        label="option 2"
-                                        onChange={e => this.setState({ description: e.target.value })}
-                                        defaultValue={this.state.description}
+                                        id="option2q2"
+                                        name="option2q2"
+                                        label="option2"
+                                        onChange={e => this.setState({ option2q2: e.target.value })}
+                                        defaultValue={this.state.option2q2}
                                         variant="outlined"
                                         style={{ width: '100%', marginTop: "35px" }}
                                     />
                                     <TextField
-                                        id="option 3"
-                                        name="option 3"
-                                        label="option 3"
-                                        onChange={e => this.setState({ description: e.target.value })}
-                                        defaultValue={this.state.description}
+                                        id="option3q2"
+                                        name="option3q2"
+                                        label="option3"
+                                        onChange={e => this.setState({ option3q2: e.target.value })}
+                                        defaultValue={this.state.option3q2}
                                         variant="outlined"
                                         style={{ width: '100%', marginTop: "35px" }}
                                     />
                                     <TextField
-                                        id="option 4"
-                                        name="option 4"
-                                        label="option 4"
-                                        onChange={e => this.setState({ description: e.target.value })}
-                                        defaultValue={this.state.description}
+                                        id="option4q2"
+                                        name="option4q2"
+                                        label="option4"
+                                        onChange={e => this.setState({ option4q2: e.target.value })}
+                                        defaultValue={this.state.option4q2}
                                         variant="outlined"
                                         style={{ width: '100%', marginTop: "35px" }}
                                     />
@@ -591,11 +619,11 @@ export class Studentdocs extends React.Component {
                                         <InputLabel>
                                             Please choose the right option
                                          </InputLabel>
-                                        <Select>
-                                        <MenuItem value={1}>One</MenuItem>
-                                        <MenuItem value={2}>Two</MenuItem>
-                                        <MenuItem value={3}>Three</MenuItem>
-                                        <MenuItem value={4}>Four</MenuItem>
+                                        <Select onChange={e => this.setState({ correctq2: e.target.value })}>
+                                            <MenuItem value={1}>One</MenuItem>
+                                            <MenuItem value={2}>Two</MenuItem>
+                                            <MenuItem value={3}>Three</MenuItem>
+                                            <MenuItem value={4}>Four</MenuItem>
                                         </Select>
                                     </FormControl>
                                     <FormControl className={classes.formControl}>
