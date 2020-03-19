@@ -298,7 +298,7 @@ class Questions extends React.Component {
 
                         <div>
                             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
-                                <DialogTitle id="simple-dialog-title">{this.state.tutorFirstName}Add a new Quiz</DialogTitle>
+                                <DialogTitle id="simple-dialog-title">{this.state.tutorFirstName}Add more questions</DialogTitle>
                                 <DialogContent>
                                     <TextField
                                         InputLabelProps={{
