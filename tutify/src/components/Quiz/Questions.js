@@ -3,6 +3,9 @@ import * as tutifyStyle from '../../styles/Quiz-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Paper from '@material-ui/core/Paper';
 import DashBoardNavBar from '../DashBoardNavBar';
+import Button from '@material-ui/core/Button';
+import axios from "axios";
+import swal from '@sweetalert/with-react';
 
 var answersSelected = [];
 var answersSelectedNumerical = [];
@@ -144,6 +147,73 @@ class Questions extends React.Component {
         this.setState({ finishedQuiz: true });
         this.setState({ showButton: false });
     }
+     // Adding a new question according to what the user inputs into the Dialog box to the db
+     addQuestionToDb = () => {
+        var tutor = [];
+        var inputtedOptions = [];
+        tutor.push(this.state.id);
+        inputtedOptions.push(this.state.option1,this.state.option2,this.state.option3,this.state.option4);
+        console.log(inputtedOptions);
+        this.setState({options: inputtedOptions});
+        console.log(inputtedOptions);
+        //swal to confirm the addition of new question
+        swal({
+            title: "Would you like to add the following question to the quiz page?",
+            buttons: {
+                confirm: "Yes",
+                cancel: "Cancel",
+            },
+            content: (
+                <div>
+                    <p>
+                        <p>
+                            <b>
+                                Options: {this.state.options}
+                            </b>
+                            <p>Option 1: {this.state.option1}</p>
+                            <p>Option 2: {this.state.option2}</p>
+                            <p>Option 3: {this.state.option3}</p>
+                            <p>Option 4: {this.state.option4}</p>
+                        </p>
+                        <p>
+                            <b>
+                            Correct: {this.state.videoLink}
+                            </b>
+                        </p>
+                        Tutor: {this.state.tutorFirstName} {this.state.tutorLastName}
+                    </p>
+                </div>
+            )
+        })
+            //adds the link, title, and course to the db 
+            .then((value) => {
+                if (value) {
+                    console.info("Adding video to db...");
+                    if (this.state.title !== '' && this.state.description !== '' &&
+                        this.state.videoLink !== '' && this.isURL(this.state.videoLink)&& 
+                        this.state.tutorId !== '' && this.state.course !== '') {
+                        axios.post('/api/addQuestion', {
+                            title: this.state.title,
+                            description: this.state.description,
+                            videoLink: this.state.videoLink,
+                            tutorId: this.state.tutorId,
+                            course: this.state.course
+                        })
+                            .then((res) => {
+                                swal("Video successfully added!", "", "success");
+                                window.location.reload();
+                            }, (error) => {
+                                console.error("Could not add video to database (API call error) " + error);
+                            });
+                    }
+                    else {
+                        console.error("Empty fields");
+                        swal("Could not add resource, empty or invalid fields.", "", "error")
+                    }
+                }
+            });
+    }
+
 
     render() {
         const { classes } = this.props;
@@ -155,6 +225,13 @@ class Questions extends React.Component {
                     <main>
                         <DashBoardNavBar />
                         <div className={classes.main}>
+                            <p>
+                            <div>
+                            <Button variant="contained" size="lg">
+                            Add Questions
+                            </Button>
+                            </div>
+                            </p>
                             {datas.map((c, i) => (
                                 <div className="col-lg-10 col-lg-offset-1">
                                     <div className={classes.question}>

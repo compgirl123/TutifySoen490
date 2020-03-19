@@ -251,7 +251,7 @@ export class Studentdocs extends React.Component {
     }
 
 
-    // Adding a new video according to what the user inputs into the Dialog box to the db
+    // Adding a new quiz according to what the user inputs into the Dialog box to the db
     addQuizToDb = () => {
         var tutor = [];
         var inputtedOptionsq1 = [];
