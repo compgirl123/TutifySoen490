@@ -256,12 +256,12 @@ export class Studentdocs extends React.Component {
         var tutor = [];
         var inputtedOptionsq1 = [];
         tutor.push(this.state.id);
-        inputtedOptionsq1.push(this.state.option1,this.state.option2,this.state.option3,this.state.option4);
+        inputtedOptionsq1.push(this.state.option1q1,this.state.option2q1,this.state.option3q1,this.state.option4q1);
         console.log(inputtedOptionsq1);
         this.setState({options: inputtedOptionsq1});
         console.log(inputtedOptionsq1);
         var inputtedOptionsq2 = [];
-        inputtedOptionsq2.push(this.state.option1,this.state.option2,this.state.option3,this.state.option4);
+        inputtedOptionsq2.push(this.state.option1q2,this.state.option2q2,this.state.option3q2,this.state.option4q2);
         console.log(inputtedOptionsq2);
         this.setState({options: inputtedOptionsq2});
         console.log(inputtedOptionsq2);
@@ -324,7 +324,7 @@ export class Studentdocs extends React.Component {
                         this.state.tutorId !== '' && this.state.course !== '') {*/
                         axios.post('/api/addQuestion', {
                             question: this.state.title,
-                            choices: this.state.inputtedOptionsq1,
+                            choices: inputtedOptionsq1,
                             answerIndex: this.state.correctq1,
                             creator: this.state.tutorId,
                             course: this.state.course
@@ -457,7 +457,6 @@ export class Studentdocs extends React.Component {
                                                                 </IconButton>
                                                                 :
                                                                 <></>
-
                                                             }
                                                         </Typography>
                                                         <Typography variant="body2" color="textSecondary" component="p">
@@ -466,18 +465,20 @@ export class Studentdocs extends React.Component {
                                                     </CardContent>
                                                 </CardActionArea>
                                                 <CardActions>
-                                                    <Button type="button" size="small" fullWidth className="submit">
-                                                        Share Document
-                                                    </Button>
-                                                    {/*{this.props.match.params.file !== undefined
-                                                        ? <Button type="button" onClick={event => this.sharedDocument(event, c.course, c.students)} size="small" fullWidth className="submit">
-                                                        Share Document
+                                                    {this.state.accountType === "tutor"
+                                                        ? <Button type="button" size="small" onClick={() => window.location.replace("/quiz")} fullWidth className="submit">
+                                                        View Quiz
                                                     </Button>
                                                         :
-                                                        <Button type="button" onClick={() => window.location.replace("/viewCourse/" + (c.course._id).replace(/ /g, ""))} size="small" href="" fullWidth className="submit">
-                                                        View Documents
-                                                    </Button>
-                                                    }*/}
+                                                       <></>
+                                                    }
+                                                    {this.state.accountType === "student"
+                                                        ? <Button type="button" size="small" fullWidth className="submit">
+                                                        Take Quiz
+                                                        </Button>
+                                                        :
+                                                       <></>
+                                                    }
                                                 </CardActions>
                                             </Card>
                                         </Grid>

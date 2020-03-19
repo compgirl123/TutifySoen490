@@ -99,7 +99,7 @@ class Sidebar extends Component {
             <ListItemText primary="Search" />
           </ListItem>
 
-          <ListItem button component="a" href="/quiz">
+          <ListItem button component="a" href="/choosetutorQuiz">
               <ListItemIcon>
                 <StarsIcon />
               </ListItemIcon>
