@@ -14,8 +14,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
-import MenuItem from "@material-ui/core/MenuItem";
 import Grid from '@material-ui/core/Grid';
+import MenuItem from "@material-ui/core/MenuItem";
 
 var answersSelected = [];
 var answersSelectedNumerical = [];
@@ -295,10 +295,9 @@ class Questions extends React.Component {
                                 }
                             </div>
                         </div>
-
                         <div>
                             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
-                                <DialogTitle id="simple-dialog-title">{this.state.tutorFirstName}Add more questions</DialogTitle>
+                                <DialogTitle id="simple-dialog-title">{this.state.tutorFirstName} Add a new Quiz</DialogTitle>
                                 <DialogContent>
                                     <TextField
                                         InputLabelProps={{
@@ -318,32 +317,129 @@ class Questions extends React.Component {
                                             shrink: true,
                                         }}
                                         margin="dense"
-                                        id="description"
-                                        name="description"
+                                        id="question1"
+                                        name="question1"
                                         //onChange={e => { handleVideoEmbedding(e) }}
-                                        autoComplete="description"
-                                        label="description"
-                                        defaultValue={this.state.description}
+                                        autoComplete="question1"
+                                        label="question1"
+                                        defaultValue={this.state.question}
                                         fullWidth
                                     />
+                                    <TextField
+                                        id="option1q1"
+                                        name="option1q1"
+                                        label="option1"
+                                        onChange={e => this.setState({ option1q1: e.target.value })}
+                                        defaultValue={this.state.option1q1}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <TextField
+                                        id="option2q1"
+                                        name="option2q1"
+                                        label="option2"
+                                        onChange={e => this.setState({ option2q1: e.target.value })}
+                                        defaultValue={this.state.option2q1}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <TextField
+                                        id="option3q1"
+                                        name="option3q1"
+                                        label="option3"
+                                        onChange={e => this.setState({ option3q1: e.target.value })}
+                                        defaultValue={this.state.option3q1}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <TextField
+                                        id="option4q1"
+                                        name="option4q1"
+                                        label="option4"
+                                        onChange={e => this.setState({ option4q1: e.target.value })}
+                                        defaultValue={this.state.option4q1}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <br /><br />
+                                    <FormControl className={classes.formControl}>
+                                        <InputLabel>
+                                            Please choose the right option
+                                         </InputLabel>
+                                        <Select onChange={e => this.setState({ correctq1: e.target.value })}>
+                                            <MenuItem value={1}>One</MenuItem>
+                                            <MenuItem value={2}>Two</MenuItem>
+                                            <MenuItem value={3}>Three</MenuItem>
+                                            <MenuItem value={4}>Four</MenuItem>
+                                        </Select>
+                                    </FormControl>
                                     <TextField
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
                                         margin="dense"
-                                        id="question"
-                                        name="question"
+                                        id="question2"
+                                        name="question2"
                                         //onChange={e => { handleVideoEmbedding(e) }}
-                                        autoComplete="question"
-                                        label="question"
+                                        autoComplete="question 2"
+                                        label="question 2"
                                         defaultValue={this.state.question}
                                         fullWidth
                                     />
+                                    <TextField
+                                        id="option1q2"
+                                        name="option1q2"
+                                        label="option1"
+                                        onChange={e => this.setState({ option1q2: e.target.value })}
+                                        defaultValue={this.state.option1q2}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <TextField
+                                        id="option2q2"
+                                        name="option2q2"
+                                        label="option2"
+                                        onChange={e => this.setState({ option2q2: e.target.value })}
+                                        defaultValue={this.state.option2q2}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <TextField
+                                        id="option3q2"
+                                        name="option3q2"
+                                        label="option3"
+                                        onChange={e => this.setState({ option3q2: e.target.value })}
+                                        defaultValue={this.state.option3q2}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <TextField
+                                        id="option4q2"
+                                        name="option4q2"
+                                        label="option4"
+                                        onChange={e => this.setState({ option4q2: e.target.value })}
+                                        defaultValue={this.state.option4q2}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <br /><br />
+                                    <FormControl className={classes.formControl}>
+                                        <InputLabel>
+                                            Please choose the right option
+                                         </InputLabel>
+                                        <Select onChange={e => this.setState({ correctq2: e.target.value })}>
+                                            <MenuItem value={1}>One</MenuItem>
+                                            <MenuItem value={2}>Two</MenuItem>
+                                            <MenuItem value={3}>Three</MenuItem>
+                                            <MenuItem value={4}>Four</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                    <br /><br />
                                     <FormControl className={classes.formControl}>
                                         <InputLabel>
                                             Course
                                          </InputLabel>
-                                        <Select
+                                         <Select
                                             onChange={e => this.setState({ course: e.target.value })}>
                                             {/* {categoryOptions.map((category, index) => (
                                                 <MenuItem value={category}>{category}</MenuItem>
@@ -369,6 +465,8 @@ class Questions extends React.Component {
                                 </Grid>
                             </Dialog>
                         </div>
+
+                        
                     </main>
                 </React.Fragment>
             </Paper>
