@@ -2,7 +2,6 @@ const express = require('express');
 var cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
-const router = require('./backend/routes');
 var session = require('express-session');
 const API_PORT = 8080;
 const app = express();
@@ -16,10 +15,6 @@ app.use(logger('dev'));
 
 //express cookie-session middleware
 app.use(session({secret:"sdshkgjdhgkhgkjsd322k3j4nkjkjhb3", resave:false, saveUninitialized: true}))
-
-// append /api for our http requests
-app.use('/api', router);
-app.use('/public', express.static('public'));
 
 // file upload requirements
 app.use(express.json());
