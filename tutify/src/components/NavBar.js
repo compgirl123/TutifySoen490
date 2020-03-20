@@ -64,7 +64,8 @@ export class NavBar extends Component {
       })
       .catch(err => {
         console.error("An error occured while checking the current session: "+err)
-        sessionLogout()
+        if(this.props.location != "index")
+          sessionLogout()
       });
   }
 

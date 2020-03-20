@@ -55,7 +55,7 @@ class Main extends React.Component {
     return (
       <React.Fragment>
         <CssBaseline />
-        <NavBar />
+        <NavBar location="index" />
         {/* Hero unit */}
         <Container maxWidth="sm" component="main" className={classes.heroContent}>
           <Typography component="h2" variant="h2" align="center" color="textPrimary" gutterBottom>
