@@ -64,6 +64,7 @@ export class Studentdocs extends React.Component {
             option3q2 : "",
             option4q2 : "",
             course: "",
+            courseIndex: 0,
             accountType: "",
             open: false,
             Toggle: false,
@@ -89,19 +90,19 @@ export class Studentdocs extends React.Component {
 
     // This function gets the videos corresponding to each of the tutor's classes.
     getTutorClassVideos = (e) => {
-        axios.get('/api/getSelectVideos', {
+        axios.get('/api/getCourseQuizes', {
             params: {
-                courseSelected: this.state.newValue,
-                tutorClasses: this.state.categoryOptions,
-                tutor: this.props.match.params.id
+                    courseIndex: this.state.newValue,
+                    tutorClasses: this.state.categoryOptions,
+                    tutorId: this.state.tutorId
             }
         }).then((res) => {
             // fetch the videos
             console.info("Successfully fetched the videos from the class");
             console.info(res);
-            this.setState({
+            /*this.setState({
                 videos: res.data.data
-            });
+            });*/
         })
             .catch(err => console.error("Could not get the videos from the database: " + err));
     }
@@ -194,14 +195,24 @@ export class Studentdocs extends React.Component {
     }
 
     // This function gets the videos corresponding to each of the tutor's classes.
+    // ici
     getTutorClassVideosOnFirstLoad = () => {
-        axios.get('/api/getSelectVideos', {
+        /*, {
             params: {
                 courseSelected: 0,
                 tutorClasses: [localStorage.getItem("courses").split(",")[0]],
                 tutor: this.props.match.params.id
             }
-        }).then((res) => {
+        }*/
+        axios.get('/api/getCourseQuizes',
+         {
+            params: {
+                courseIndex: this.state.newValue,
+                tutorClasses: this.state.categoryOptions,
+                tutorId: this.state.tutorId
+            }
+        }
+        ).then((res) => {
             // fetch the videos
             console.info("Successfully fetched the videos from the class");
             console.info(res);
@@ -282,31 +293,8 @@ export class Studentdocs extends React.Component {
                     <p>
                         <p>
                             <b>
-                                Question 1 Options : {this.state.optionsq1}
+                                Description : {this.state.description}
                             </b>
-                            <p>Option 1: {this.state.option1q1}</p>
-                            <p>Option 2: {this.state.option2q1}</p>
-                            <p>Option 3: {this.state.option3q1}</p>
-                            <p>Option 4: {this.state.option4q1}</p>
-                        </p>
-                        <p>
-                        <b>
-                            Question 1 Correct: {this.state.correctq1}
-                        </b>
-                        </p>
-                        <p>
-                            <b>
-                                Question 2 Options : {this.state.optionsq2}
-                            </b>
-                            <p>Option 1: {this.state.option1q2}</p>
-                            <p>Option 2: {this.state.option2q2}</p>
-                            <p>Option 3: {this.state.option3q2}</p>
-                            <p>Option 4: {this.state.option4q2}</p>
-                        </p>
-                        <p>
-                        <b>
-                            Question 2 Correct: {this.state.correctq2}
-                        </b>
                         </p>
                         Tutor: {this.state.tutorFirstName} {this.state.tutorLastName}
                         <br/>
@@ -322,11 +310,10 @@ export class Studentdocs extends React.Component {
                     /*if (this.state.title !== '' && this.state.description !== '' &&
                         this.state.videoLink !== '' && this.isURL(this.state.videoLink)&& 
                         this.state.tutorId !== '' && this.state.course !== '') {*/
-                        axios.post('/api/addQuestion', {
-                            question: this.state.title,
-                            choices: inputtedOptionsq1,
-                            answerIndex: this.state.correctq1,
-                            creator: this.state.tutorId,
+                        axios.post('/api/addQuiz', {
+                            title: this.state.title,
+                            description: this.state.description,
+                            tutorId: this.state.tutorId,
                             course: this.state.course
                         })
                             .then((res) => {
@@ -374,30 +361,22 @@ export class Studentdocs extends React.Component {
         // Handling the change in option in the top filtering by course bar
         const handleChange = (event, newValue) => {
             this.setState({ newValue: newValue });
-            axios.get('/api/getSelectVideos', {
+            axios.get('/api/getCourseQuizes', {
                 params: {
-                    courseSelected: newValue,
+                    courseIndex: newValue,
                     tutorClasses: this.state.categoryOptions,
-                    tutor: this.props.match.params.id
+                    tutorId: this.state.tutorId
                 }
             }).then((res) => {
                 // fetch the videos
                 console.info("Successfully fetched the videos");
+                console.log(res)
                 this.setState({
                     videos: res.data.data
                 });
             })
                 .catch(err => console.error("Could not get the videos from the database: " + err));
         };
-
-        // Handling the embedding of the video Links.
-        const handleVideoEmbedding = (e) => {
-            if ((e.target.value).split("/")[2] === "www.youtube.com") {
-                this.setState({ videoLink: "https://www.youtube.com/embed/" + (e.target.value).split("=")[1] });
-            } else if ((e.target.value).split("/")[2] === "drive.google.com") {
-                this.setState({ videoLink: (e.target.value).split("/view")[0] + "/preview" });
-            }
-        }
 
         return (
             <React.Fragment>
@@ -490,7 +469,7 @@ export class Studentdocs extends React.Component {
                         {/* Dialog box when clicked on the "add new video" button */}
                         <div>
                             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
-                                <DialogTitle id="simple-dialog-title">{this.state.tutorFirstName}Add more questions</DialogTitle>
+                                <DialogTitle id="simple-dialog-title">{this.state.tutorFirstName}, Add Quiz Information</DialogTitle>
                                 <DialogContent>
                                     <TextField
                                         InputLabelProps={{
@@ -512,23 +491,10 @@ export class Studentdocs extends React.Component {
                                         margin="dense"
                                         id="description"
                                         name="description"
-                                        //onChange={e => { handleVideoEmbedding(e) }}
+                                        onChange={e => this.setState({ description: e.target.value })}
                                         autoComplete="description"
                                         label="description"
                                         defaultValue={this.state.description}
-                                        fullWidth
-                                    />
-                                    <TextField
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        margin="dense"
-                                        id="question"
-                                        name="question"
-                                        //onChange={e => { handleVideoEmbedding(e) }}
-                                        autoComplete="question"
-                                        label="question"
-                                        defaultValue={this.state.question}
                                         fullWidth
                                     />
                                     <FormControl className={classes.formControl}>
@@ -537,9 +503,9 @@ export class Studentdocs extends React.Component {
                                          </InputLabel>
                                         <Select
                                             onChange={e => this.setState({ course: e.target.value })}>
-                                            {/* {categoryOptions.map((category, index) => (
+                                            {categoryOptions.map((category, index) => (
                                                 <MenuItem value={category}>{category}</MenuItem>
-                                            ))} */}
+                                            ))}
                                         </Select>
                                     </FormControl>
                                     <br /><br />

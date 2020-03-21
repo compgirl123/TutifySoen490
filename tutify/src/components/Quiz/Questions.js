@@ -55,6 +55,49 @@ class Questions extends React.Component {
         this.loadQuestions();
     }
 
+     // This function gets the videos corresponding to each of the tutor's classes.
+     getTutorClassVideosOnFirstLoad = () => {
+        axios.get('/api/getSelectVideos', {
+            params: {
+                courseSelected: 0,
+                tutorClasses: [localStorage.getItem("courses").split(",")[0]],
+                tutor: this.props.match.params.id
+            }
+        }).then((res) => {
+            // fetch the videos
+            console.info("Successfully fetched the videos from the class");
+            console.info(res);
+            this.setState({
+                videos: res.data.data
+            });
+        })
+            .catch(err => console.error("Could not get the videos from the database: " + err));
+    }
+
+    // Getting all of the courses the user is taking for each tutor
+    getUserCourses = () => {
+        axios.get('/api/getUserCourses', {
+        }).then((res) => {
+            // fetch the videos
+            var courses = [];
+            console.info("Successfully fetched the videos");
+            for (var x = 0; x < res.data.data.length; x++) {
+                if (res.data.data[x].tutor._id === this.props.match.params.id) {
+                    courses.push(res.data.data[x].course.name)
+                }
+            }
+            localStorage.setItem("courses", courses);
+            this.setState({
+                categoryOptions: courses
+            });
+            if (!localStorage.getItem("reloadStudents")) {
+                localStorage.setItem("reloadStudents", true);
+                window.location.reload(true);
+            }
+        })
+            .catch(err => console.error("Could not get the videos from the database: " + err));
+    }
+
     async loadQuestions() {
         fetch('/api/getAllQuestions')
             .then(res => res.json())
@@ -239,8 +282,27 @@ class Questions extends React.Component {
 
     render() {
         const { classes } = this.props;
-        let { datas,  open, total } = this.state;
+        let { datas,  open, total , categoryOptions} = this.state;
 
+         // Handling the change in option in the top filtering by course bar
+         const handleChange = (event, newValue) => {
+            this.setState({ newValue: newValue });
+            axios.get('/api/getSelectVideos', {
+                params: {
+                    courseSelected: newValue,
+                    tutorClasses: this.state.categoryOptions,
+                    tutor: this.props.match.params.id
+                }
+            }).then((res) => {
+                // fetch the videos
+                console.info("Successfully fetched the videos");
+                this.setState({
+                    videos: res.data.data
+                });
+            })
+                .catch(err => console.error("Could not get the videos from the database: " + err));
+        };
+        
         return (
             <Paper>
                 <React.Fragment>
@@ -441,9 +503,9 @@ class Questions extends React.Component {
                                          </InputLabel>
                                          <Select
                                             onChange={e => this.setState({ course: e.target.value })}>
-                                            {/* {categoryOptions.map((category, index) => (
+                                            {categoryOptions.map((category, index) => (
                                                 <MenuItem value={category}>{category}</MenuItem>
-                                            ))} */}
+                                            ))}
                                         </Select>
                                     </FormControl>
                                     <br /><br />

@@ -2,6 +2,7 @@ const Quizes = require('../models/models').Quizes;
 const Questions = require('../models/models').Questions;
 const QuizAttempt = require('../models/models').QuizAttempt;
 const Course = require('../models/models').Course;
+const Question = require('../models/models').Question;
 
 // this method fetches all available quizes from a tutor in our database
 exports.getQuizes = async (req, res) => {
@@ -31,7 +32,10 @@ exports.getCourseQuizes = async (req, res) => {
     else if (req.session.userInfo.__t == "student") {
         id.push(req.query.tutor);
     }
-    await Quizes.find({ tutorId: { $in: id }, course: req.query.tutorClasses[req.query.courseSelected] }, async (err, quiz) => {
+    var position = parseInt(req.query.courseIndex)
+
+    await Course.findOne({ name: req.query.tutorClasses[position], tutors: { $in: [req.query.tutorId] } }, async (err, foundCourse) => {
+        await Quizes.find({ tutorId: { $in: id }, course: foundCourse }, async (err, quiz) => {
         if (err) {
             console.error("The quizes were not found");
             return await res.json({ success: false, error: err })
@@ -39,19 +43,22 @@ exports.getCourseQuizes = async (req, res) => {
         console.info("The quizes were found");
         return await res.json({ success: true, data: quiz });
     });
-
+    });
 };
 
 // this method adds a new quiz to the database
 exports.addQuiz = async function (req, res) {
-    const { title, description, questions, tutorId, course } = req.body;
+    const { title, description,tutorId, course } = req.body;
+    // questions
     // new quiz to be added by tutor
     let quizes = new Quizes();
     quizes.title = title;
     quizes.description = description;
-    quizes.questions = questions;
+   // quizes.questions = questions;
     quizes.tutorId = tutorId;
     //quizes.course = course;
+    // ADD A FIND ONE FOR THE OTHER DB TOO
+   
     await Course.findOne({ name: course, tutors: { $in: [tutorId] } }, async (err, foundCourse) => {
         quizes.course = foundCourse; 
         quizes.save(function (err, quizes) {
