@@ -374,7 +374,8 @@ class Questions extends React.Component {
                             choices: inputtedOptions,
                             answerIndex: this.state.correctq1,
                             creator: this.state.tutorId,
-                            course: this.state.course
+                            course: this.state.course,
+                            quizId: this.props.match.params.id
                         })
                             .then((res) => {
                                 swal("Video successfully added!", "", "success");

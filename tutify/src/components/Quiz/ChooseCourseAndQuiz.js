@@ -445,7 +445,7 @@ export class Studentdocs extends React.Component {
                                                 </CardActionArea>
                                                 <CardActions>
                                                     {this.state.accountType === "tutor"
-                                                        ? <Button type="button" size="small" onClick={() => window.location.replace("/quiz")} fullWidth className="submit">
+                                                        ? <Button type="button" size="small" onClick={() => window.location.replace("/quiz/"+ (file._id).replace(/ /g, ""))} fullWidth className="submit">
                                                         View Quiz
                                                     </Button>
                                                         :

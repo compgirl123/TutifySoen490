@@ -118,14 +118,16 @@ exports.getAllQuestions = async function (req, res) {
 
 // this method adds a new question to the database
 exports.addQuestion = async function (req, res) {
-    const { question, choices, answerIndex, creator, course } = req.body;
+    const { question, choices, answerIndex, creator, course , quizId} = req.body;
     // new quiz to be added by tutor
     let questions = new Questions();
+    let quizes = new Quizes();
     questions.question = question;
     questions.choices = choices;
     questions.answerIndex = answerIndex;
     questions.creator = creator;
     questions.course = course;
+    console.log(quizId);
     await Course.findOne({ name: course, tutors: { $in: [creator] } }, async (err, foundCourse) => {
         questions.course = foundCourse; 
         questions.save(function (err, question) {
@@ -134,19 +136,28 @@ exports.addQuestion = async function (req, res) {
                 console.error("The question couldn't get added to the database (API request failed)");
                 return res.json({ success: false, error: err });
             }
+            console.log(question._id);
+            Quizes.findByIdAndUpdate(quizId,
+                {
+                    "$push": {
+                        "questions": question._id
+                    }
+                },
+            { "new": true, "upsert": true },
+            function (err, profile) {
+                if (err) {
+                    console.error("The uploaded file was unable to be updated in the database");
+                    throw err;
+                }
+                else {
+                    console.info("The file was uploaded successfully");
+                }
+            });
             console.info("The question was successfully added to the database");
             return res.json({ success: true, data: question });
         });
+       
     });
-    /*questions.save(function (err, question) {
-        if (err) {
-            console.error(err);
-            console.error("The question couldn't get added to the database (API request failed)");
-            return res.json({ success: false, error: err });
-        }
-        console.info("The question was successfully added to the database");
-        return res.json({ success: true, data: question });
-    });*/
 };
 
 // this method deletes a quiz from the db
