@@ -37,7 +37,18 @@ class Questions extends React.Component {
             selectedAnswers: [],
             answersSelectedNumerical: [],
             categoryOptions: [],
+            option1q1 : "",
+            option2q1 : "",
+            option3q1 : "",
+            option4q1 : "",
+            option1q2 : "",
+            option2q2 : "",
+            option3q2 : "",
+            option4q2 : "",
+            correctq1: "",
+            correctq2: "",
             percent: "",
+            question1: "",
             finishedQuiz: false,
             showButton: true,
             color: ['red', 'red'],
@@ -53,7 +64,102 @@ class Questions extends React.Component {
 
     componentWillMount() {
         this.loadQuestions();
+        this.checkSession();
     }
+
+    // Setting the login state for the user.
+    checkSession = () => {
+        fetch('/api/checkSession', {
+            method: 'GET',
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .then((res) => {
+                if (res.isLoggedIn) {
+                    // if user is a tutor, then execute the following
+                    if (res.userInfo.__t === "tutor") {
+                        // Setting the states for the tutor
+                        this.setState({
+                            tutorId: res.userInfo._id,
+                            tutorFirstName: res.userInfo.first_name,
+                            tutorLastName: res.userInfo.last_name,
+                            accountType: res.userInfo.__t
+                        })
+                        // getting tutor courses for filtering bar on top
+                        this.getTutorCourses();
+                        // getting the first class's videos on first Load of page
+                        //this.getTutorClassVideosOnFirstLoad();
+                    }
+                    // if user is a student, then execute the following
+                    else if (res.userInfo.__t === "student") {
+                        // Setting the states for the student
+                        this.setState({
+                            tutorId: res.userInfo._id,
+                            accountType: res.userInfo.__t,
+                        })
+                        // getting all tutors and their videos for a specific student
+                        //this.getAllVideosStudent();
+                        // getting user courses
+                        this.getUserCourses();
+                        // getting the first class's videos on first Load of page
+                        //this.getTutorClassVideosOnFirstLoad();
+                    }
+
+                }
+                else {
+                    this.setState({ Toggle: false });
+                }
+            })
+            .catch(err => console.error(err));
+    };
+
+    // Getting all of the courses the tutor teaches
+    getTutorCourses = () => {
+        axios.get('/api/getTutorCourses', {
+        }).then((res) => {
+            var courses = [];
+            console.info("Successfully fetched the videos");
+            for (var x = 0; x < res.data.data.length; x++) {
+                courses.push(res.data.data[x].course.name);
+            }
+            this.setState({
+                categoryOptions: courses
+            });
+
+            if (!localStorage.getItem("reloadTutor")) {
+                localStorage.setItem("reloadTutor", true);
+                window.location.reload(true);
+            }
+            localStorage.setItem("courses", courses);
+            return res.data;
+        })
+            .catch(err => console.error("Could not get the videos from the database: " + err));
+    }
+
+    // Getting all of the courses the user is taking for each tutor
+    getUserCourses = () => {
+        axios.get('/api/getUserCourses', {
+        }).then((res) => {
+            // fetch the videos
+            var courses = [];
+            console.info("Successfully fetched the videos");
+            for (var x = 0; x < res.data.data.length; x++) {
+                if (res.data.data[x].tutor._id === this.props.match.params.id) {
+                    courses.push(res.data.data[x].course.name)
+                }
+            }
+            localStorage.setItem("courses", courses);
+            this.setState({
+                categoryOptions: courses
+            });
+            if (!localStorage.getItem("reloadStudents")) {
+                localStorage.setItem("reloadStudents", true);
+                window.location.reload(true);
+            }
+        })
+            .catch(err => console.error("Could not get the videos from the database: " + err));
+    }
+
 
      // This function gets the videos corresponding to each of the tutor's classes.
      getTutorClassVideosOnFirstLoad = () => {
@@ -217,7 +323,7 @@ class Questions extends React.Component {
         var tutor = [];
         var inputtedOptions = [];
         tutor.push(this.state.id);
-        inputtedOptions.push(this.state.option1,this.state.option2,this.state.option3,this.state.option4);
+        inputtedOptions.push(this.state.option1q1,this.state.option2q1,this.state.option3q1,this.state.option4q1);
         console.log(inputtedOptions);
         this.setState({options: inputtedOptions});
         console.log(inputtedOptions);
@@ -231,18 +337,24 @@ class Questions extends React.Component {
             content: (
                 <div>
                     <p>
+                    <p>
+                            <b>
+                                Question: {this.state.question1}
+                            </b>
+                            
+                        </p>
                         <p>
                             <b>
                                 Options: {this.state.options}
                             </b>
-                            <p>Option 1: {this.state.option1}</p>
-                            <p>Option 2: {this.state.option2}</p>
-                            <p>Option 3: {this.state.option3}</p>
-                            <p>Option 4: {this.state.option4}</p>
+                            <p>Option 1: {this.state.option1q1}</p>
+                            <p>Option 2: {this.state.option2q1}</p>
+                            <p>Option 3: {this.state.option3q1}</p>
+                            <p>Option 4: {this.state.option4q1}</p>
                         </p>
                         <p>
                             <b>
-                            Correct: {this.state.videoLink}
+                            Correct: {this.state.correctq1}
                             </b>
                         </p>
                         Tutor: {this.state.tutorFirstName} {this.state.tutorLastName}
@@ -254,14 +366,14 @@ class Questions extends React.Component {
             .then((value) => {
                 if (value) {
                     console.info("Adding video to db...");
-                    if (this.state.title !== '' && this.state.description !== '' &&
+                    /*if (this.state.title !== '' && this.state.description !== '' &&
                         this.state.videoLink !== '' && this.isURL(this.state.videoLink)&& 
-                        this.state.tutorId !== '' && this.state.course !== '') {
+                        this.state.tutorId !== '' && this.state.course !== '') {*/
                         axios.post('/api/addQuestion', {
-                            title: this.state.title,
-                            description: this.state.description,
-                            videoLink: this.state.videoLink,
-                            tutorId: this.state.tutorId,
+                            question: this.state.question1,
+                            choices: inputtedOptions,
+                            answerIndex: this.state.correctq1,
+                            creator: this.state.tutorId,
                             course: this.state.course
                         })
                             .then((res) => {
@@ -270,11 +382,11 @@ class Questions extends React.Component {
                             }, (error) => {
                                 console.error("Could not add video to database (API call error) " + error);
                             });
-                    }
-                    else {
+                    /*}*/
+                    /*else {*/
                         console.error("Empty fields");
                         swal("Could not add resource, empty or invalid fields.", "", "error")
-                    }
+                    /*}*/
                 }
             });
     }
@@ -359,21 +471,8 @@ class Questions extends React.Component {
                         </div>
                         <div>
                             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
-                                <DialogTitle id="simple-dialog-title">{this.state.tutorFirstName} Add a new Quiz</DialogTitle>
+                                <DialogTitle id="simple-dialog-title">{this.state.tutorFirstName} Add new Questions to Quiz</DialogTitle>
                                 <DialogContent>
-                                    <TextField
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        margin="dense"
-                                        id="title"
-                                        name="title"
-                                        onChange={e => this.setState({ title: e.target.value })}
-                                        autoComplete="title"
-                                        label="Title"
-                                        type="title"
-                                        fullWidth
-                                    />
                                     <TextField
                                         InputLabelProps={{
                                             shrink: true,
@@ -381,7 +480,7 @@ class Questions extends React.Component {
                                         margin="dense"
                                         id="question1"
                                         name="question1"
-                                        //onChange={e => { handleVideoEmbedding(e) }}
+                                        onChange={e => this.setState({ question1: e.target.value })}
                                         autoComplete="question1"
                                         label="question1"
                                         defaultValue={this.state.question}
@@ -509,7 +608,7 @@ class Questions extends React.Component {
                                         </Select>
                                     </FormControl>
                                     <br /><br />
-                                    <Button variant="contained" size="lg" active onClick={() => { this.addQuizToDb(); }} className={classes.formControl}>
+                                    <Button variant="contained" size="lg" active onClick={() => { this.addQuestionToDb(); }} className={classes.formControl}>
                                         Save
                                     </Button>
                                 </DialogContent>
@@ -527,8 +626,6 @@ class Questions extends React.Component {
                                 </Grid>
                             </Dialog>
                         </div>
-
-                        
                     </main>
                 </React.Fragment>
             </Paper>
