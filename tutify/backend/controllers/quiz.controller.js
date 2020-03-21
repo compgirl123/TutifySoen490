@@ -34,7 +34,7 @@ exports.getCourseQuizes = async (req, res) => {
     }
     var position = parseInt(req.query.courseIndex)
 
-    await Course.findOne({ name: req.query.tutorClasses[position], tutors: { $in: [req.query.tutorId] } }, async (err, foundCourse) => {
+    await Course.findOne({ name: req.query.tutorClasses[req.query.courseIndex], tutors: { $in: id } }, async (err, foundCourse) => {
         await Quizes.find({ tutorId: { $in: id }, course: foundCourse }, async (err, quiz) => {
         if (err) {
             console.error("The quizes were not found");

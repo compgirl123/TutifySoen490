@@ -74,7 +74,7 @@ export class Studentdocs extends React.Component {
     };
 
     // This function gets the videos corresponding to each of the tutor's classes.
-    getTutorClassVideos = (e) => {
+    /*getTutorClassVideos = (e) => {
         axios.get('/api/getSelectVideos', {
             params: {
                 courseSelected: this.state.newValue,
@@ -90,7 +90,7 @@ export class Studentdocs extends React.Component {
             });
         })
             .catch(err => console.error("Could not get the videos from the database: " + err));
-    }
+    }*/
 
     // Setting the login state for the user.
     checkSession = () => {
@@ -367,7 +367,7 @@ export class Studentdocs extends React.Component {
                                 variant="scrollable"
                                 scrollButtons="auto"
                                 aria-label="scrollable auto tabs example"
-                                onclick={(e) => { this.setState({ newValue: e.target.value }); this.getTutorClassVideos(e); }}
+                                onclick={(e) => { this.setState({ newValue: e.target.value }); /*this.getTutorClassVideos(e);*/ }}
                             >
 
                                 {categoryOptions.map((category, index) => (

@@ -45,8 +45,6 @@ export class Studentdocs extends React.Component {
         super(props);
         this.state = {
             title: "",
-            question: "",
-            choices: "",
             tutorId: "",
             tutorFirstName: "",
             tutorLastName: "",
@@ -54,15 +52,7 @@ export class Studentdocs extends React.Component {
             optionsq2: [],
             correctq1: "",
             correctq2: "",
-            videos:[],
-            option1q1 : "",
-            option2q1 : "",
-            option3q1 : "",
-            option4q1 : "",
-            option1q2 : "",
-            option2q2 : "",
-            option3q2 : "",
-            option4q2 : "",
+            videos: [],
             course: "",
             courseIndex: 0,
             accountType: "",
@@ -80,32 +70,13 @@ export class Studentdocs extends React.Component {
 
     // Handling the Closing of the Dialog Box
     handleClose = () => {
-        this.setState({ open: false, title: "", question: "", choices: "" });
+        this.setState({ open: false, title: "" });
     };
 
     // Handling the Opening of the Dialog Box
     handleClickOpen = () => {
         this.setState({ open: true });
     };
-
-    // This function gets the videos corresponding to each of the tutor's classes.
-    getTutorClassVideos = (e) => {
-        axios.get('/api/getCourseQuizes', {
-            params: {
-                    courseIndex: this.state.newValue,
-                    tutorClasses: this.state.categoryOptions,
-                    tutorId: this.state.tutorId
-            }
-        }).then((res) => {
-            // fetch the videos
-            console.info("Successfully fetched the videos from the class");
-            console.info(res);
-            /*this.setState({
-                videos: res.data.data
-            });*/
-        })
-            .catch(err => console.error("Could not get the videos from the database: " + err));
-    }
 
     // Setting the login state for the user.
     checkSession = () => {
@@ -125,10 +96,10 @@ export class Studentdocs extends React.Component {
                             tutorLastName: res.userInfo.last_name,
                             accountType: res.userInfo.__t
                         })
-                        // getting tutor courses for filtering bar on top
-                        this.getTutorCourses();
                         // getting the first class's videos on first Load of page
                         this.getTutorClassVideosOnFirstLoad();
+                        // getting tutor courses for filtering bar on top
+                        this.getTutorCourses();
                     }
                     // if user is a student, then execute the following
                     else if (res.userInfo.__t === "student") {
@@ -197,22 +168,14 @@ export class Studentdocs extends React.Component {
     // This function gets the videos corresponding to each of the tutor's classes.
     // ici
     getTutorClassVideosOnFirstLoad = () => {
-        /*, {
+       // here, add comment
+        axios.get('/api/getCourseQuizes', {
             params: {
-                courseSelected: 0,
+                courseIndex: 0,
                 tutorClasses: [localStorage.getItem("courses").split(",")[0]],
                 tutor: this.props.match.params.id
             }
-        }*/
-        axios.get('/api/getCourseQuizes',
-         {
-            params: {
-                courseIndex: this.state.newValue,
-                tutorClasses: this.state.categoryOptions,
-                tutorId: this.state.tutorId
-            }
-        }
-        ).then((res) => {
+        }).then((res) => {
             // fetch the videos
             console.info("Successfully fetched the videos from the class");
             console.info(res);
@@ -222,7 +185,6 @@ export class Studentdocs extends React.Component {
         })
             .catch(err => console.error("Could not get the videos from the database: " + err));
     }
-
     // Getting all of the courses the user is taking for each tutor
     getUserCourses = () => {
         axios.get('/api/getUserCourses', {
@@ -249,13 +211,13 @@ export class Studentdocs extends React.Component {
 
     // This function checks if the image url provided by the user is a URL
     isURL(url) {
-        if(!url) return false;
-        var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+        if (!url) return false;
+        var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
             '((\\d{1,3}\\.){3}\\d{1,3}))|' + // OR ip (v4) address
             'localhost' + // OR localhost
-            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
             '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
 
         return pattern.test(url);
@@ -267,15 +229,11 @@ export class Studentdocs extends React.Component {
         var tutor = [];
         var inputtedOptionsq1 = [];
         tutor.push(this.state.id);
-        inputtedOptionsq1.push(this.state.option1q1,this.state.option2q1,this.state.option3q1,this.state.option4q1);
-        console.log(inputtedOptionsq1);
-        this.setState({options: inputtedOptionsq1});
-        console.log(inputtedOptionsq1);
+        inputtedOptionsq1.push(this.state.option1q1, this.state.option2q1, this.state.option3q1, this.state.option4q1);
+        this.setState({ options: inputtedOptionsq1 });
         var inputtedOptionsq2 = [];
-        inputtedOptionsq2.push(this.state.option1q2,this.state.option2q2,this.state.option3q2,this.state.option4q2);
-        console.log(inputtedOptionsq2);
-        this.setState({options: inputtedOptionsq2});
-        console.log(inputtedOptionsq2);
+        inputtedOptionsq2.push(this.state.option1q2, this.state.option2q2, this.state.option3q2, this.state.option4q2);
+        this.setState({ options: inputtedOptionsq2 });
         //swal to confirm the addition of new video
         swal({
             title: "Would you like to add the following quiz?",
@@ -297,7 +255,7 @@ export class Studentdocs extends React.Component {
                             </b>
                         </p>
                         Tutor: {this.state.tutorFirstName} {this.state.tutorLastName}
-                        <br/>
+                        <br />
                         Course: {this.state.course}
                     </p>
                 </div>
@@ -310,23 +268,23 @@ export class Studentdocs extends React.Component {
                     /*if (this.state.title !== '' && this.state.description !== '' &&
                         this.state.videoLink !== '' && this.isURL(this.state.videoLink)&& 
                         this.state.tutorId !== '' && this.state.course !== '') {*/
-                        axios.post('/api/addQuiz', {
-                            title: this.state.title,
-                            description: this.state.description,
-                            tutorId: this.state.tutorId,
-                            course: this.state.course
-                        })
-                            .then((res) => {
-                                swal("Video successfully added!", "", "success");
-                                window.location.reload();
-                            }, (error) => {
-                                console.error("Could not add video to database (API call error) " + error);
-                            });
-                    }
-                    else {
-                        console.error("Empty fields");
-                        swal("Could not add resource, empty or invalid fields.", "", "error")
-                    }
+                    axios.post('/api/addQuiz', {
+                        title: this.state.title,
+                        description: this.state.description,
+                        tutorId: this.state.tutorId,
+                        course: this.state.course
+                    })
+                        .then((res) => {
+                            swal("Video successfully added!", "", "success");
+                            window.location.reload();
+                        }, (error) => {
+                            console.error("Could not add video to database (API call error) " + error);
+                        });
+                }
+                else {
+                    console.error("Empty fields");
+                    swal("Could not add resource, empty or invalid fields.", "", "error")
+                }
                 /*}*/
             });
     }
@@ -363,7 +321,7 @@ export class Studentdocs extends React.Component {
             this.setState({ newValue: newValue });
             axios.get('/api/getCourseQuizes', {
                 params: {
-                    courseIndex: newValue,
+                    courseIndex: parseInt(newValue),
                     tutorClasses: this.state.categoryOptions,
                     tutorId: this.state.tutorId
                 }
@@ -445,18 +403,18 @@ export class Studentdocs extends React.Component {
                                                 </CardActionArea>
                                                 <CardActions>
                                                     {this.state.accountType === "tutor"
-                                                        ? <Button type="button" size="small" onClick={() => window.location.replace("/quiz/"+ (file._id).replace(/ /g, ""))} fullWidth className="submit">
-                                                        View Quiz
+                                                        ? <Button type="button" size="small" onClick={() => window.location.replace("/quiz/" + (file._id).replace(/ /g, ""))} fullWidth className="submit">
+                                                            View Quiz
                                                     </Button>
                                                         :
-                                                       <></>
+                                                        <></>
                                                     }
                                                     {this.state.accountType === "student"
                                                         ? <Button type="button" size="small" fullWidth className="submit">
-                                                        Take Quiz
+                                                            Take Quiz
                                                         </Button>
                                                         :
-                                                       <></>
+                                                        <></>
                                                     }
                                                 </CardActions>
                                             </Card>

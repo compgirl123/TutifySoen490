@@ -11,7 +11,6 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
-import clsx from 'clsx';
 import Container from '@material-ui/core/Container';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from "@material-ui/core/Typography";

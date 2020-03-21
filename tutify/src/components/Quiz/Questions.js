@@ -54,7 +54,6 @@ class Questions extends React.Component {
             color: ['red', 'red'],
             open: false,
         }
-        this.nextQuestion = this.nextQuestion.bind(this);
         this.finishQuiz = this.finishQuiz.bind(this);
         this.handleShowButton = this.handleShowButton.bind(this);
         this.handleStartQuiz = this.handleStartQuiz.bind(this);
@@ -87,8 +86,6 @@ class Questions extends React.Component {
                         })
                         // getting tutor courses for filtering bar on top
                         this.getTutorCourses();
-                        // getting the first class's videos on first Load of page
-                        //this.getTutorClassVideosOnFirstLoad();
                     }
                     // if user is a student, then execute the following
                     else if (res.userInfo.__t === "student") {
@@ -97,12 +94,8 @@ class Questions extends React.Component {
                             tutorId: res.userInfo._id,
                             accountType: res.userInfo.__t,
                         })
-                        // getting all tutors and their videos for a specific student
-                        //this.getAllVideosStudent();
                         // getting user courses
                         this.getUserCourses();
-                        // getting the first class's videos on first Load of page
-                        //this.getTutorClassVideosOnFirstLoad();
                     }
 
                 }
@@ -160,50 +153,6 @@ class Questions extends React.Component {
             .catch(err => console.error("Could not get the videos from the database: " + err));
     }
 
-
-     // This function gets the videos corresponding to each of the tutor's classes.
-     getTutorClassVideosOnFirstLoad = () => {
-        axios.get('/api/getSelectVideos', {
-            params: {
-                courseSelected: 0,
-                tutorClasses: [localStorage.getItem("courses").split(",")[0]],
-                tutor: this.props.match.params.id
-            }
-        }).then((res) => {
-            // fetch the videos
-            console.info("Successfully fetched the videos from the class");
-            console.info(res);
-            this.setState({
-                videos: res.data.data
-            });
-        })
-            .catch(err => console.error("Could not get the videos from the database: " + err));
-    }
-
-    // Getting all of the courses the user is taking for each tutor
-    getUserCourses = () => {
-        axios.get('/api/getUserCourses', {
-        }).then((res) => {
-            // fetch the videos
-            var courses = [];
-            console.info("Successfully fetched the videos");
-            for (var x = 0; x < res.data.data.length; x++) {
-                if (res.data.data[x].tutor._id === this.props.match.params.id) {
-                    courses.push(res.data.data[x].course.name)
-                }
-            }
-            localStorage.setItem("courses", courses);
-            this.setState({
-                categoryOptions: courses
-            });
-            if (!localStorage.getItem("reloadStudents")) {
-                localStorage.setItem("reloadStudents", true);
-                window.location.reload(true);
-            }
-        })
-            .catch(err => console.error("Could not get the videos from the database: " + err));
-    }
-
     async loadQuestions() {
         fetch('/api/getAllQuestions')
             .then(res => res.json())
@@ -219,31 +168,6 @@ class Questions extends React.Component {
             .catch(err => console.error("Could not load the files: " + err));
     }
 
-    nextQuestion() {
-        let { nr, total } = this.state;
-
-        if (this.state.answerSelected === this.state.correct) {
-            this.handleIncreaseScore();
-        }
-
-        if (nr === total) {
-            this.setState({
-                displayPopup: 'flex'
-            });
-        } else {
-            this.pushData(nr);
-            this.setState({
-                showButton: false,
-                questionAnswered: false
-            });
-            this.setState({
-                showButton: false,
-                questionAnswered: false
-            });
-        }
-
-    }
-
     handleShowButton() {
         this.setState({
             showButton: true,
@@ -252,15 +176,15 @@ class Questions extends React.Component {
 
     }
 
-        // Handling the Closing of the Dialog Box
-        handleClose = () => {
-            this.setState({ open: false, title: "", description: "", question: "", course: "" });
-        };
-    
-        // Handling the Opening of the Dialog Box
-        handleClickOpen = () => {
-            this.setState({ open: true });
-        };
+    // Handling the Closing of the Dialog Box
+    handleClose = () => {
+        this.setState({ open: false, title: "", description: "", question: "", course: "" });
+    };
+
+    // Handling the Opening of the Dialog Box
+    handleClickOpen = () => {
+        this.setState({ open: true });
+    };
 
     handleStartQuiz() {
         this.setState({
@@ -307,331 +231,321 @@ class Questions extends React.Component {
         this.handleShowButton();
     }
 
-    componentDidMount() {
-        this.setState({
-            classNames: ['', '', '', '']
-        });
-    }
-
     finishQuiz() {
         this.setState({ finalScore: this.state.score });
         this.setState({ finishedQuiz: true });
         this.setState({ showButton: false });
     }
-     // Adding a new question according to what the user inputs into the Dialog box to the db
-     addQuestionToDb = () => {
-        var tutor = [];
-        var inputtedOptions = [];
-        tutor.push(this.state.id);
-        inputtedOptions.push(this.state.option1q1,this.state.option2q1,this.state.option3q1,this.state.option4q1);
-        console.log(inputtedOptions);
-        this.setState({options: inputtedOptions});
-        console.log(inputtedOptions);
-        //swal to confirm the addition of new question
-        swal({
-            title: "Would you like to add the following question to the quiz page?",
-            buttons: {
-                confirm: "Yes",
-                cancel: "Cancel",
-            },
-            content: (
-                <div>
+    // Adding a new question according to what the user inputs into the Dialog box to the db
+    addQuestionToDb = () => {
+    var tutor = [];
+    var inputtedOptions = [];
+    tutor.push(this.state.id);
+    inputtedOptions.push(this.state.option1q1,this.state.option2q1,this.state.option3q1,this.state.option4q1);
+    this.setState({options: inputtedOptions});
+    //swal to confirm the addition of new question
+    swal({
+        title: "Would you like to add the following question to the quiz page?",
+        buttons: {
+            confirm: "Yes",
+            cancel: "Cancel",
+        },
+        content: (
+            <div>
+                <p>
                     <p>
-                    <p>
-                            <b>
-                                Question: {this.state.question1}
-                            </b>
-                            
-                        </p>
-                        <p>
-                            <b>
-                                Options: {this.state.options}
-                            </b>
-                            <p>Option 1: {this.state.option1q1}</p>
-                            <p>Option 2: {this.state.option2q1}</p>
-                            <p>Option 3: {this.state.option3q1}</p>
-                            <p>Option 4: {this.state.option4q1}</p>
-                        </p>
-                        <p>
-                            <b>
-                            Correct: {this.state.correctq1}
-                            </b>
-                        </p>
-                        Tutor: {this.state.tutorFirstName} {this.state.tutorLastName}
+                        <b>
+                            Question: {this.state.question1}
+                        </b>
+                        
                     </p>
-                </div>
-            )
-        })
-            //adds the link, title, and course to the db 
-            .then((value) => {
-                if (value) {
-                    console.info("Adding video to db...");
-                    /*if (this.state.title !== '' && this.state.description !== '' &&
-                        this.state.videoLink !== '' && this.isURL(this.state.videoLink)&& 
-                        this.state.tutorId !== '' && this.state.course !== '') {*/
-                        axios.post('/api/addQuestion', {
-                            question: this.state.question1,
-                            choices: inputtedOptions,
-                            answerIndex: this.state.correctq1,
-                            creator: this.state.tutorId,
-                            course: this.state.course,
-                            quizId: this.props.match.params.id
-                        })
-                            .then((res) => {
-                                swal("Video successfully added!", "", "success");
-                                window.location.reload();
-                            }, (error) => {
-                                console.error("Could not add video to database (API call error) " + error);
-                            });
-                    /*}*/
-                    /*else {*/
-                        console.error("Empty fields");
-                        swal("Could not add resource, empty or invalid fields.", "", "error")
-                    /*}*/
-                }
-            });
-    }
+                    <p>
+                        <b>
+                            Options: {this.state.options}
+                        </b>
+                        <p>Option 1: {this.state.option1q1}</p>
+                        <p>Option 2: {this.state.option2q1}</p>
+                        <p>Option 3: {this.state.option3q1}</p>
+                        <p>Option 4: {this.state.option4q1}</p>
+                    </p>
+                    <p>
+                        <b>
+                        Correct: {this.state.correctq1}
+                        </b>
+                    </p>
+                    Tutor: {this.state.tutorFirstName} {this.state.tutorLastName}
+                </p>
+            </div>
+        )
+    })
+        //adds the link, title, and course to the db 
+        .then((value) => {
+            if (value) {
+                console.info("Adding video to db...");
+                /*if (this.state.title !== '' && this.state.description !== '' &&
+                    this.state.videoLink !== '' && this.isURL(this.state.videoLink)&& 
+                    this.state.tutorId !== '' && this.state.course !== '') {*/
+                    axios.post('/api/addQuestion', {
+                        question: this.state.question1,
+                        choices: inputtedOptions,
+                        answerIndex: this.state.correctq1,
+                        creator: this.state.tutorId,
+                        course: this.state.course,
+                        quizId: this.props.match.params.id
+                    })
+                        .then((res) => {
+                            swal("Video successfully added!", "", "success");
+                            window.location.reload();
+                        }, (error) => {
+                            console.error("Could not add video to database (API call error) " + error);
+                        });
+                /*}*/
+                /*else {*/
+                    console.error("Empty fields");
+                    swal("Could not add resource, empty or invalid fields.", "", "error")
+                /*}*/
+            }
+        });
+}
 
-
-    render() {
-        const { classes } = this.props;
-        let { datas,  open, total , categoryOptions} = this.state;
-
-         // Handling the change in option in the top filtering by course bar
-         const handleChange = (event, newValue) => {
-            this.setState({ newValue: newValue });
-            axios.get('/api/getSelectVideos', {
-                params: {
-                    courseSelected: newValue,
-                    tutorClasses: this.state.categoryOptions,
-                    tutor: this.props.match.params.id
-                }
-            }).then((res) => {
-                // fetch the videos
-                console.info("Successfully fetched the videos");
-                this.setState({
-                    videos: res.data.data
-                });
-            })
-                .catch(err => console.error("Could not get the videos from the database: " + err));
-        };
-        
-        return (
-            <Paper>
-                <React.Fragment>
-                    <main>
-                        <DashBoardNavBar />
-                        <div className={classes.main}>
-                            <p>
+render() {
+    const { classes } = this.props;
+    let { datas,  open, total , categoryOptions} = this.state;
+    // Handling the change in option in the top filtering by course bar
+    const handleChange = (event, newValue) => {
+    this.setState({ newValue: newValue });
+    axios.get('/api/getSelectVideos', {
+        params: {
+            courseSelected: newValue,
+            tutorClasses: this.state.categoryOptions,
+            tutor: this.props.match.params.id
+        }
+    }).then((res) => {
+        // fetch the videos
+        console.info("Successfully fetched the videos");
+        this.setState({
+            videos: res.data.data
+        });
+    })
+        .catch(err => console.error("Could not get the videos from the database: " + err));
+};
+    
+    return (
+        <Paper>
+            <React.Fragment>
+                <main>
+                    <DashBoardNavBar />
+                    <div className={classes.main}>
+                        <p>
                             <div>
-                            <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addQuestionToDb} >
-                            Add Questions
-                            </Button>
+                                <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addQuestionToDb} >
+                                    Add Questions
+                        </Button>
                             </div>
-                            </p>
-                            {datas.map((c, i) => (
-                                <div className="col-lg-10 col-lg-offset-1">
-                                    <div className={classes.question}>
-                                        <h4 className={classes.h4}> Question {i + 1}/{total}</h4>
-                                        <p className={classes.p}>{c.question}</p>
-                                    </div>
-                                    <div id="answers">
-                                        <ul className={classes.answersUl}>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[0]},${i},1`}><span className={classes.answersLiSpan}>A</span> <p className={classes.answersP}>{c.choices[0]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[1]},${i},2`}><span className={classes.answersLiSpan}>B</span> <p className={classes.answersP}>{c.choices[1]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[2]},${i},3`}><span className={classes.answersLiSpan}>C</span> <p className={classes.answersP}>{c.choices[2]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[3]},${i},4`}><span className={classes.answersLiSpan}>D</span> <p className={classes.answersP}>{c.choices[3]}</p></li>
-                                        </ul>
-                                    </div>
-                                    <div className={classes.submit}>
-                                        <br />
-                                        {this.state.selectedAnswers[i] !== undefined ? `Answer Chosen: ${this.state.selectedAnswers[i]}` : `Answer Chosen: Please Choose an Answer`}
-                                        <br />
-                                        <b><font color={this.state.color[i]}>
-                                            {this.state.finishedQuiz === true ?
-                                                `Correct Answer : ${c.choices[c.answerIndex - 1]}`
-                                                :
-                                            <br />
-                                            }
-                                        </font>
-                                        </b>
-                                        <br />
-                                    </div>
+                        </p>
+                        {datas.map((c, i) => (
+                            <div className="col-lg-10 col-lg-offset-1">
+                                <div className={classes.question}>
+                                    <h4 className={classes.h4}> Question {i + 1}/{total}</h4>
+                                    <p className={classes.p}>{c.question}</p>
                                 </div>
-                            ))}
-                            <div class={classes.wrapper}>
-                                <p>Score: You got {this.state.finalScore}/ {this.state.total} or {(this.state.finalScore / this.state.total) * 100} %</p>
+                                <div id="answers">
+                                    <ul className={classes.answersUl}>
+                                        <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[0]},${i},1`}><span className={classes.answersLiSpan}>A</span> <p className={classes.answersP}>{c.choices[0]}</p></li>
+                                        <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[1]},${i},2`}><span className={classes.answersLiSpan}>B</span> <p className={classes.answersP}>{c.choices[1]}</p></li>
+                                        <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[2]},${i},3`}><span className={classes.answersLiSpan}>C</span> <p className={classes.answersP}>{c.choices[2]}</p></li>
+                                        <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[3]},${i},4`}><span className={classes.answersLiSpan}>D</span> <p className={classes.answersP}>{c.choices[3]}</p></li>
+                                    </ul>
+                                </div>
+                                <div className={classes.submit}>
+                                    <br />
+                                    {this.state.selectedAnswers[i] !== undefined ? `Answer Chosen: ${this.state.selectedAnswers[i]}` : `Answer Chosen: Please Choose an Answer`}
+                                    <br />
+                                    <b><font color={this.state.color[i]}>
+                                        {this.state.finishedQuiz === true ?
+                                            `Correct Answer : ${c.choices[c.answerIndex - 1]}`
+                                            :
+                                            <br />
+                                        }
+                                    </font>
+                                    </b>
+                                    <br />
+                                </div>
                             </div>
-                            <div class={classes.wrapper}>
-                                {this.state.showButton === true ?
-                                    <button className={classes.fancyBtn} onClick={this.finishQuiz}>{'Finish quiz'}</button>
-                                    :
-                                    <button className={classes.fancyBtn} onClick={() => window.location.replace("/chooseClassAndQuiz")}>{'Return To Main Quiz Page'}</button>
-                                }
-                            </div>
+                        ))}
+                        <div class={classes.wrapper}>
+                            <p>Score: You got {this.state.finalScore}/ {this.state.total} or {(this.state.finalScore / this.state.total) * 100} %</p>
                         </div>
-                        <div>
-                            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
-                                <DialogTitle id="simple-dialog-title">{this.state.tutorFirstName} Add new Questions to Quiz</DialogTitle>
-                                <DialogContent>
-                                    <TextField
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        margin="dense"
-                                        id="question1"
-                                        name="question1"
-                                        onChange={e => this.setState({ question1: e.target.value })}
-                                        autoComplete="question1"
-                                        label="question1"
-                                        defaultValue={this.state.question}
-                                        fullWidth
-                                    />
-                                    <TextField
-                                        id="option1q1"
-                                        name="option1q1"
-                                        label="option1"
-                                        onChange={e => this.setState({ option1q1: e.target.value })}
-                                        defaultValue={this.state.option1q1}
-                                        variant="outlined"
-                                        style={{ width: '100%', marginTop: "35px" }}
-                                    />
-                                    <TextField
-                                        id="option2q1"
-                                        name="option2q1"
-                                        label="option2"
-                                        onChange={e => this.setState({ option2q1: e.target.value })}
-                                        defaultValue={this.state.option2q1}
-                                        variant="outlined"
-                                        style={{ width: '100%', marginTop: "35px" }}
-                                    />
-                                    <TextField
-                                        id="option3q1"
-                                        name="option3q1"
-                                        label="option3"
-                                        onChange={e => this.setState({ option3q1: e.target.value })}
-                                        defaultValue={this.state.option3q1}
-                                        variant="outlined"
-                                        style={{ width: '100%', marginTop: "35px" }}
-                                    />
-                                    <TextField
-                                        id="option4q1"
-                                        name="option4q1"
-                                        label="option4"
-                                        onChange={e => this.setState({ option4q1: e.target.value })}
-                                        defaultValue={this.state.option4q1}
-                                        variant="outlined"
-                                        style={{ width: '100%', marginTop: "35px" }}
-                                    />
-                                    <br /><br />
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel>
-                                            Please choose the right option
-                                         </InputLabel>
-                                        <Select onChange={e => this.setState({ correctq1: e.target.value })}>
-                                            <MenuItem value={1}>One</MenuItem>
-                                            <MenuItem value={2}>Two</MenuItem>
-                                            <MenuItem value={3}>Three</MenuItem>
-                                            <MenuItem value={4}>Four</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                    <TextField
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        margin="dense"
-                                        id="question2"
-                                        name="question2"
-                                        //onChange={e => { handleVideoEmbedding(e) }}
-                                        autoComplete="question 2"
-                                        label="question 2"
-                                        defaultValue={this.state.question}
-                                        fullWidth
-                                    />
-                                    <TextField
-                                        id="option1q2"
-                                        name="option1q2"
-                                        label="option1"
-                                        onChange={e => this.setState({ option1q2: e.target.value })}
-                                        defaultValue={this.state.option1q2}
-                                        variant="outlined"
-                                        style={{ width: '100%', marginTop: "35px" }}
-                                    />
-                                    <TextField
-                                        id="option2q2"
-                                        name="option2q2"
-                                        label="option2"
-                                        onChange={e => this.setState({ option2q2: e.target.value })}
-                                        defaultValue={this.state.option2q2}
-                                        variant="outlined"
-                                        style={{ width: '100%', marginTop: "35px" }}
-                                    />
-                                    <TextField
-                                        id="option3q2"
-                                        name="option3q2"
-                                        label="option3"
-                                        onChange={e => this.setState({ option3q2: e.target.value })}
-                                        defaultValue={this.state.option3q2}
-                                        variant="outlined"
-                                        style={{ width: '100%', marginTop: "35px" }}
-                                    />
-                                    <TextField
-                                        id="option4q2"
-                                        name="option4q2"
-                                        label="option4"
-                                        onChange={e => this.setState({ option4q2: e.target.value })}
-                                        defaultValue={this.state.option4q2}
-                                        variant="outlined"
-                                        style={{ width: '100%', marginTop: "35px" }}
-                                    />
-                                    <br /><br />
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel>
-                                            Please choose the right option
-                                         </InputLabel>
-                                        <Select onChange={e => this.setState({ correctq2: e.target.value })}>
-                                            <MenuItem value={1}>One</MenuItem>
-                                            <MenuItem value={2}>Two</MenuItem>
-                                            <MenuItem value={3}>Three</MenuItem>
-                                            <MenuItem value={4}>Four</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                    <br /><br />
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel>
-                                            Course
-                                         </InputLabel>
-                                         <Select
-                                            onChange={e => this.setState({ course: e.target.value })}>
-                                            {categoryOptions.map((category, index) => (
-                                                <MenuItem value={category}>{category}</MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                    <br /><br />
-                                    <Button variant="contained" size="lg" active onClick={() => { this.addQuestionToDb(); }} className={classes.formControl}>
-                                        Save
-                                    </Button>
-                                </DialogContent>
-                                <Grid
-                                    container
-                                    direction="row-reverse"
-                                    justify="space-between"
-                                    alignItems="baseline"
-                                >
-                                    <Grid item>
-                                        <DialogActions>
-                                            <Button onClick={this.handleClose}>Close</Button>
-                                        </DialogActions>
-                                    </Grid>
+                        <div class={classes.wrapper}>
+                            {this.state.showButton === true ?
+                                <button className={classes.fancyBtn} onClick={this.finishQuiz}>{'Finish quiz'}</button>
+                                :
+                                <button className={classes.fancyBtn} onClick={() => window.location.replace("/chooseClassAndQuiz")}>{'Return To Main Quiz Page'}</button>
+                            }
+                        </div>
+                    </div>
+                    <div>
+                        <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
+                            <DialogTitle id="simple-dialog-title">{this.state.tutorFirstName} Add new Questions to Quiz</DialogTitle>
+                            <DialogContent>
+                                <TextField
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    margin="dense"
+                                    id="question1"
+                                    name="question1"
+                                    onChange={e => this.setState({ question1: e.target.value })}
+                                    autoComplete="question1"
+                                    label="question1"
+                                    defaultValue={this.state.question}
+                                    fullWidth
+                                />
+                                <TextField
+                                    id="option1q1"
+                                    name="option1q1"
+                                    label="option1"
+                                    onChange={e => this.setState({ option1q1: e.target.value })}
+                                    defaultValue={this.state.option1q1}
+                                    variant="outlined"
+                                    style={{ width: '100%', marginTop: "35px" }}
+                                />
+                                <TextField
+                                    id="option2q1"
+                                    name="option2q1"
+                                    label="option2"
+                                    onChange={e => this.setState({ option2q1: e.target.value })}
+                                    defaultValue={this.state.option2q1}
+                                    variant="outlined"
+                                    style={{ width: '100%', marginTop: "35px" }}
+                                />
+                                <TextField
+                                    id="option3q1"
+                                    name="option3q1"
+                                    label="option3"
+                                    onChange={e => this.setState({ option3q1: e.target.value })}
+                                    defaultValue={this.state.option3q1}
+                                    variant="outlined"
+                                    style={{ width: '100%', marginTop: "35px" }}
+                                />
+                                <TextField
+                                    id="option4q1"
+                                    name="option4q1"
+                                    label="option4"
+                                    onChange={e => this.setState({ option4q1: e.target.value })}
+                                    defaultValue={this.state.option4q1}
+                                    variant="outlined"
+                                    style={{ width: '100%', marginTop: "35px" }}
+                                />
+                                <br /><br />
+                                <FormControl className={classes.formControl}>
+                                    <InputLabel>
+                                        Please choose the right option
+                                        </InputLabel>
+                                    <Select onChange={e => this.setState({ correctq1: e.target.value })}>
+                                        <MenuItem value={1}>One</MenuItem>
+                                        <MenuItem value={2}>Two</MenuItem>
+                                        <MenuItem value={3}>Three</MenuItem>
+                                        <MenuItem value={4}>Four</MenuItem>
+                                    </Select>
+                                </FormControl>
+                                <TextField
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    margin="dense"
+                                    id="question2"
+                                    name="question2"
+                                    //onChange={e => { handleVideoEmbedding(e) }}
+                                    autoComplete="question 2"
+                                    label="question 2"
+                                    defaultValue={this.state.question}
+                                    fullWidth
+                                />
+                                <TextField
+                                    id="option1q2"
+                                    name="option1q2"
+                                    label="option1"
+                                    onChange={e => this.setState({ option1q2: e.target.value })}
+                                    defaultValue={this.state.option1q2}
+                                    variant="outlined"
+                                    style={{ width: '100%', marginTop: "35px" }}
+                                />
+                                <TextField
+                                    id="option2q2"
+                                    name="option2q2"
+                                    label="option2"
+                                    onChange={e => this.setState({ option2q2: e.target.value })}
+                                    defaultValue={this.state.option2q2}
+                                    variant="outlined"
+                                    style={{ width: '100%', marginTop: "35px" }}
+                                />
+                                <TextField
+                                    id="option3q2"
+                                    name="option3q2"
+                                    label="option3"
+                                    onChange={e => this.setState({ option3q2: e.target.value })}
+                                    defaultValue={this.state.option3q2}
+                                    variant="outlined"
+                                    style={{ width: '100%', marginTop: "35px" }}
+                                />
+                                <TextField
+                                    id="option4q2"
+                                    name="option4q2"
+                                    label="option4"
+                                    onChange={e => this.setState({ option4q2: e.target.value })}
+                                    defaultValue={this.state.option4q2}
+                                    variant="outlined"
+                                    style={{ width: '100%', marginTop: "35px" }}
+                                />
+                                <br /><br />
+                                <FormControl className={classes.formControl}>
+                                    <InputLabel>
+                                        Please choose the right option
+                                        </InputLabel>
+                                    <Select onChange={e => this.setState({ correctq2: e.target.value })}>
+                                        <MenuItem value={1}>One</MenuItem>
+                                        <MenuItem value={2}>Two</MenuItem>
+                                        <MenuItem value={3}>Three</MenuItem>
+                                        <MenuItem value={4}>Four</MenuItem>
+                                    </Select>
+                                </FormControl>
+                                <br /><br />
+                                <FormControl className={classes.formControl}>
+                                    <InputLabel>
+                                        Course
+                                        </InputLabel>
+                                    <Select
+                                        onChange={e => this.setState({ course: e.target.value })}>
+                                        {categoryOptions.map((category, index) => (
+                                            <MenuItem value={category}>{category}</MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                                <br /><br />
+                                <Button variant="contained" size="lg" active onClick={() => { this.addQuestionToDb(); }} className={classes.formControl}>
+                                    Save
+                                </Button>
+                            </DialogContent>
+                            <Grid
+                                container
+                                direction="row-reverse"
+                                justify="space-between"
+                                alignItems="baseline"
+                            >
+                                <Grid item>
+                                    <DialogActions>
+                                        <Button onClick={this.handleClose}>Close</Button>
+                                    </DialogActions>
                                 </Grid>
-                            </Dialog>
-                        </div>
-                    </main>
-                </React.Fragment>
-            </Paper>
-        );
-    }
+                            </Grid>
+                        </Dialog>
+                    </div>
+                </main>
+            </React.Fragment>
+        </Paper>
+    );
+}
 };
 
 export default withStyles(tutifyStyle.styles, { withTheme: true })(Questions);
