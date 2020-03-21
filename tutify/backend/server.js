@@ -71,8 +71,8 @@ app.use('/api', router);
 app.use('/public', express.static('public'));
 
 // uploading files routes
-app.post('/uploadFile', upload.single('file'), uploadController.addUploadedFiles);
-app.post('/uploadTutorImg', upload.single('file'), tutorController.uploadTutorImg);
+app.post('/api/uploadFile', upload.single('file'), uploadController.addUploadedFiles);
+app.post('/api/uploadTutorImg', upload.single('file'), tutorController.uploadTutorImg);
 
 // file upload requirements
 app.use(express.json());

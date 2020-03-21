@@ -84,7 +84,7 @@ export class DocList extends React.Component {
 
   // Loading all tutor files from database in order to display them neatly on the All Documents Page.
   async loadFiles() {
-    fetch('/api/uploadFile')
+    fetch('/api/populateUploadedFiles')
       .then(res => res.json())
       .then(res => {
         if (res.file !== undefined) {

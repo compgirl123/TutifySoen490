@@ -110,7 +110,7 @@ router.get('/getFile/:filename', filesController.getFile);
 
 router.post("/files/del/:id", filesController.deleteFile);
 
-router.get('/uploadFile', uploadedFilesController.populateUploadedFiles);
+router.get('/populateUploadedFiles', uploadedFilesController.populateUploadedFiles);
 
 router.get('/uploadingDocs', uploadedFilesController.getLatestUpload);
 

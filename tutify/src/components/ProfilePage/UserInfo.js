@@ -251,7 +251,7 @@ export class UserInfo extends React.Component {
       swal("No picture selected. Could not update profile image.", "", "error")
     }
 
-    axios.post('/uploadTutorImg', formData)
+    axios.post('/api/uploadTutorImg', formData)
       .then((res) => {
         this.setState({
           profilePictureID: res.data.userInfo.uploadedPicture,

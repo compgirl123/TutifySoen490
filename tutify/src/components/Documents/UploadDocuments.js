@@ -91,7 +91,7 @@ export class UploadDocuments extends Component {
     formData.append('file', this.state.file);
     formData.append('admin', this.state.user_id);
     formData.append('name', this.state.file.name);
-    await axios.post("/uploadFile", formData).then(res => {
+    await axios.post("/api/uploadFile", formData).then(res => {
     }).catch(err => {
       console.error("The uploaded file cannot be sent to the database: " + err);
     });
