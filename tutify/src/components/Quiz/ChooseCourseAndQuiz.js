@@ -96,10 +96,10 @@ export class Studentdocs extends React.Component {
                             tutorLastName: res.userInfo.last_name,
                             accountType: res.userInfo.__t
                         })
-                        // getting the first class's videos on first Load of page
-                        this.getTutorClassVideosOnFirstLoad();
                         // getting tutor courses for filtering bar on top
                         this.getTutorCourses();
+                        // getting the first class's videos on first Load of page
+                        this.getTutorClassVideosOnFirstLoad();
                     }
                     // if user is a student, then execute the following
                     else if (res.userInfo.__t === "student") {
@@ -159,7 +159,8 @@ export class Studentdocs extends React.Component {
                 localStorage.setItem("reloadTutor", true);
                 window.location.reload(true);
             }
-            localStorage.setItem("courses", courses);
+            localStorage.setItem("coursesPresent", courses);
+            console.log(localStorage.getItem("coursesPresent"));
             return res.data;
         })
             .catch(err => console.error("Could not get the videos from the database: " + err));
@@ -172,7 +173,7 @@ export class Studentdocs extends React.Component {
         axios.get('/api/getCourseQuizes', {
             params: {
                 courseIndex: 0,
-                tutorClasses: [localStorage.getItem("courses").split(",")[0]],
+                tutorClasses: [localStorage.getItem("coursesPresent").split(",")[0]],
                 tutor: this.props.match.params.id
             }
         }).then((res) => {
@@ -197,7 +198,7 @@ export class Studentdocs extends React.Component {
                     courses.push(res.data.data[x].course.name)
                 }
             }
-            localStorage.setItem("courses", courses);
+            localStorage.setItem("coursesPresen", courses);
             this.setState({
                 categoryOptions: courses
             });

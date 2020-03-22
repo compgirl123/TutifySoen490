@@ -97,7 +97,6 @@ class Questions extends React.Component {
                         // getting user courses
                         this.getUserCourses();
                     }
-
                 }
                 else {
                     this.setState({ Toggle: false });
@@ -153,8 +152,8 @@ class Questions extends React.Component {
             .catch(err => console.error("Could not get the videos from the database: " + err));
     }
 
-    async loadQuestions() {
-        fetch('/api/getAllQuestions')
+    /*async loadQuestions() {
+        fetch('/api/getSelectedQuizQuestions')
             .then(res => res.json())
             .then(res => {
                 if (res.data !== undefined) {
@@ -166,7 +165,31 @@ class Questions extends React.Component {
                 console.info("The files have been loaded");
             })
             .catch(err => console.error("Could not load the files: " + err));
-    }
+    }*/
+
+    loadQuestions = () => {
+        // here, add comment
+         axios.get('/api/getSelectedQuizQuestions', {
+             params: {
+                 quizId: this.props.match.params.id
+             }
+         }).then((res) => {
+             // fetch the videos
+             if (res.data !== undefined) {
+                this.setState({ datas: res.data.data, session: res.session, total: res.data.data.length });
+            }
+            else {
+                this.setState({ datas: [], session: res.session, total: [] });
+            }
+            /*console.info("The files have been loaded");
+             console.info("Successfully fetched the videos from the class");
+             console.info(res.data.data);
+             this.setState({
+                 datas: res.data.data
+             });*/
+         })
+             .catch(err => console.error("Could not get the videos from the database: " + err));
+     }
 
     handleShowButton() {
         this.setState({
@@ -508,18 +531,6 @@ render() {
                                         <MenuItem value={2}>Two</MenuItem>
                                         <MenuItem value={3}>Three</MenuItem>
                                         <MenuItem value={4}>Four</MenuItem>
-                                    </Select>
-                                </FormControl>
-                                <br /><br />
-                                <FormControl className={classes.formControl}>
-                                    <InputLabel>
-                                        Course
-                                        </InputLabel>
-                                    <Select
-                                        onChange={e => this.setState({ course: e.target.value })}>
-                                        {categoryOptions.map((category, index) => (
-                                            <MenuItem value={category}>{category}</MenuItem>
-                                        ))}
                                     </Select>
                                 </FormControl>
                                 <br /><br />
