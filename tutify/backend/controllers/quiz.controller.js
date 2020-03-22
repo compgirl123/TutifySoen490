@@ -36,31 +36,28 @@ exports.getCourseQuizes = async (req, res) => {
 
     await Course.findOne({ name: req.query.tutorClasses[req.query.courseIndex], tutors: { $in: id } }, async (err, foundCourse) => {
         await Quizes.find({ tutorId: { $in: id }, course: foundCourse }, async (err, quiz) => {
-        if (err) {
-            console.error("The quizes were not found");
-            return await res.json({ success: false, error: err })
-        }
-        console.info("The quizes were found");
-        return await res.json({ success: true, data: quiz });
-    });
+            if (err) {
+                console.error("The quizes were not found");
+                return await res.json({ success: false, error: err })
+            }
+            console.info("The quizes were found");
+            return await res.json({ success: true, data: quiz });
+        });
     });
 };
 
 // this method adds a new quiz to the database
 exports.addQuiz = async function (req, res) {
-    const { title, description,tutorId, course } = req.body;
+    const { title, description, tutorId, course } = req.body;
     // questions
     // new quiz to be added by tutor
     let quizes = new Quizes();
     quizes.title = title;
     quizes.description = description;
-   // quizes.questions = questions;
     quizes.tutorId = tutorId;
-    //quizes.course = course;
     // ADD A FIND ONE FOR THE OTHER DB TOO
-   
     await Course.findOne({ name: course, tutors: { $in: [tutorId] } }, async (err, foundCourse) => {
-        quizes.course = foundCourse; 
+        quizes.course = foundCourse;
         quizes.save(function (err, quizes) {
             if (err) {
                 console.error(err);
@@ -71,15 +68,6 @@ exports.addQuiz = async function (req, res) {
             return res.json({ success: true, data: quizes });
         });
     });
-    /*quizes.save(function (err, quizes) {
-        if (err) {
-            console.error(err);
-            console.error("The quiz couldn't get added to the database (API request failed)");
-            return res.json({ success: false, error: err });
-        }
-        console.info("The quiz was successfully added to the database");
-        return res.json({ success: true, data: quizes });
-    });*/
 };
 
 // this method adds a new attempt and links it to the quiz
@@ -104,62 +92,41 @@ exports.addAttempt = async function (req, res) {
 
 // this method adds a new quiz to the database
 exports.getAllQuestions = async function (req, res) {
-   Questions.find({}, async (err, questions) => {
-    if (err) {
-        console.error("The quizes were not found");
-        return await res.json({ success: false, error: err })
-    }
-    console.info("The quizes were found");
-    return await res.json({ success: true, data: questions });
-   })
-};
-
-// this method retrieves the questions for the current quiz selected
-exports.getSelectedQuizQuestions = async function (req, res) {
-    var test= [];
-    Quizes.find({_id: req.query.quizId }, async (err, questions) => {
-        questions.forEach(function (err, question) {
-            (questions[question].questions).forEach(function (err, q) {
-                Questions.find({_id:questions[question].questions}, async (err, qs) => {
-                    (qs).forEach(function (err, qa) {
-                        console.log(qs[qa]);
-                        test.push(qs[qa]);
-                    });
-                    if (err) {
-                        console.error("The quizes were not found");
-                        //return await res.json({ success: false, error: err })
-                    }
-                    console.info("The quizes were found");
-                    return await res.json({ success: true, data: test });
-                   })   
-            }); 
-            /*if (err) {
-                console.error("The quizes were not found");
-                return res.json({ success: false, error: err })
-            }
-            console.info("The quizes were found");
-            return res.json({ success: true, data: questions });  */
-        });
-        /*if (err) {
-            console.error("The quizes were not found");
-            return await res.json({ success: false, error: err })
-        }
-        console.info("The quizes were found");
-        return await res.json({ success: true, data: questions });*/
-    })
-    /*Questions.find({}, async (err, questions) => {
+    Questions.find({}, async (err, questions) => {
         if (err) {
             console.error("The quizes were not found");
             return await res.json({ success: false, error: err })
         }
         console.info("The quizes were found");
         return await res.json({ success: true, data: questions });
-       })*/
- };
+    })
+};
+
+// this method retrieves the questions for the current quiz selected
+exports.getSelectedQuizQuestions = async function (req, res) {
+    var test = [];
+    await Quizes.find({ _id: req.query.quizId }, async (err, questions) => {
+        await questions.forEach(async function (err, question) {
+            await (questions[question].questions).forEach(async function (err, q) {
+                await Questions.find({ _id: questions[question].questions }, async (err, qs) => {
+                    await (qs).forEach(async function (err, qa) {
+                        console.log(qs[qa]);
+                        test.push(qs[qa]);
+                    });
+                    if (err) {
+                        console.error("The quizes were not found");
+                    }
+                    console.info("The quizes were found");
+                    return await res.json({ success: true, data: test });
+                })
+            });
+        });
+    })
+};
 
 // this method adds a new question to the database
 exports.addQuestion = async function (req, res) {
-    const { question, choices, answerIndex, creator, course , quizId} = req.body;
+    const { question, choices, answerIndex, creator, course, quizId } = req.body;
     // new quiz to be added by tutor
     let questions = new Questions();
     let quizes = new Quizes();
@@ -167,23 +134,21 @@ exports.addQuestion = async function (req, res) {
     questions.choices = choices;
     questions.answerIndex = answerIndex;
     questions.creator = creator;
-    questions.course = course;
+    questions.course = quizId;
     console.log(quizId);
-    await Course.findOne({ name: course, tutors: { $in: [creator] } }, async (err, foundCourse) => {
-        questions.course = foundCourse; 
-        questions.save(function (err, question) {
-            if (err) {
-                console.error(err);
-                console.error("The question couldn't get added to the database (API request failed)");
-                return res.json({ success: false, error: err });
-            }
-            console.log(question._id);
-            Quizes.findByIdAndUpdate(quizId,
-                {
-                    "$push": {
-                        "questions": question._id
-                    }
-                },
+    questions.save(function (err, question) {
+        if (err) {
+            console.error(err);
+            console.error("The question couldn't get added to the database (API request failed)");
+            return res.json({ success: false, error: err });
+        }
+        console.log(question._id);
+        Quizes.findByIdAndUpdate(quizId,
+            {
+                "$push": {
+                    "questions": question._id
+                }
+            },
             { "new": true, "upsert": true },
             function (err, profile) {
                 if (err) {
@@ -194,10 +159,8 @@ exports.addQuestion = async function (req, res) {
                     console.info("The file was uploaded successfully");
                 }
             });
-            console.info("The question was successfully added to the database");
-            return res.json({ success: true, data: question });
-        });
-       
+        console.info("The question was successfully added to the database");
+        return res.json({ success: true, data: question });
     });
 };
 

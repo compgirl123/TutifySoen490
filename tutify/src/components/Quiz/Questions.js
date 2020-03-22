@@ -152,21 +152,6 @@ class Questions extends React.Component {
             .catch(err => console.error("Could not get the videos from the database: " + err));
     }
 
-    /*async loadQuestions() {
-        fetch('/api/getSelectedQuizQuestions')
-            .then(res => res.json())
-            .then(res => {
-                if (res.data !== undefined) {
-                    this.setState({ datas: res.data, session: res.session, total: res.data.length });
-                }
-                else {
-                    this.setState({ datas: [], session: res.session, total: [] });
-                }
-                console.info("The files have been loaded");
-            })
-            .catch(err => console.error("Could not load the files: " + err));
-    }*/
-
     loadQuestions = () => {
         // here, add comment
          axios.get('/api/getSelectedQuizQuestions', {
@@ -175,18 +160,12 @@ class Questions extends React.Component {
              }
          }).then((res) => {
              // fetch the videos
-             if (res.data !== undefined) {
+            if (res.data !== undefined) {
                 this.setState({ datas: res.data.data, session: res.session, total: res.data.data.length });
             }
             else {
                 this.setState({ datas: [], session: res.session, total: [] });
             }
-            /*console.info("The files have been loaded");
-             console.info("Successfully fetched the videos from the class");
-             console.info(res.data.data);
-             this.setState({
-                 datas: res.data.data
-             });*/
          })
              .catch(err => console.error("Could not get the videos from the database: " + err));
      }
@@ -466,67 +445,6 @@ render() {
                                         Please choose the right option
                                         </InputLabel>
                                     <Select onChange={e => this.setState({ correctq1: e.target.value })}>
-                                        <MenuItem value={1}>One</MenuItem>
-                                        <MenuItem value={2}>Two</MenuItem>
-                                        <MenuItem value={3}>Three</MenuItem>
-                                        <MenuItem value={4}>Four</MenuItem>
-                                    </Select>
-                                </FormControl>
-                                <TextField
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    margin="dense"
-                                    id="question2"
-                                    name="question2"
-                                    //onChange={e => { handleVideoEmbedding(e) }}
-                                    autoComplete="question 2"
-                                    label="question 2"
-                                    defaultValue={this.state.question}
-                                    fullWidth
-                                />
-                                <TextField
-                                    id="option1q2"
-                                    name="option1q2"
-                                    label="option1"
-                                    onChange={e => this.setState({ option1q2: e.target.value })}
-                                    defaultValue={this.state.option1q2}
-                                    variant="outlined"
-                                    style={{ width: '100%', marginTop: "35px" }}
-                                />
-                                <TextField
-                                    id="option2q2"
-                                    name="option2q2"
-                                    label="option2"
-                                    onChange={e => this.setState({ option2q2: e.target.value })}
-                                    defaultValue={this.state.option2q2}
-                                    variant="outlined"
-                                    style={{ width: '100%', marginTop: "35px" }}
-                                />
-                                <TextField
-                                    id="option3q2"
-                                    name="option3q2"
-                                    label="option3"
-                                    onChange={e => this.setState({ option3q2: e.target.value })}
-                                    defaultValue={this.state.option3q2}
-                                    variant="outlined"
-                                    style={{ width: '100%', marginTop: "35px" }}
-                                />
-                                <TextField
-                                    id="option4q2"
-                                    name="option4q2"
-                                    label="option4"
-                                    onChange={e => this.setState({ option4q2: e.target.value })}
-                                    defaultValue={this.state.option4q2}
-                                    variant="outlined"
-                                    style={{ width: '100%', marginTop: "35px" }}
-                                />
-                                <br /><br />
-                                <FormControl className={classes.formControl}>
-                                    <InputLabel>
-                                        Please choose the right option
-                                        </InputLabel>
-                                    <Select onChange={e => this.setState({ correctq2: e.target.value })}>
                                         <MenuItem value={1}>One</MenuItem>
                                         <MenuItem value={2}>Two</MenuItem>
                                         <MenuItem value={3}>Three</MenuItem>
