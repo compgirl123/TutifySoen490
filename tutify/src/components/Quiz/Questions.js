@@ -41,10 +41,6 @@ class Questions extends React.Component {
             option2q1 : "",
             option3q1 : "",
             option4q1 : "",
-            option1q2 : "",
-            option2q2 : "",
-            option3q2 : "",
-            option4q2 : "",
             correctq1: "",
             correctq2: "",
             percent: "",
@@ -312,25 +308,7 @@ class Questions extends React.Component {
 
 render() {
     const { classes } = this.props;
-    let { datas,  open, total , categoryOptions} = this.state;
-    // Handling the change in option in the top filtering by course bar
-    const handleChange = (event, newValue) => {
-    this.setState({ newValue: newValue });
-    axios.get('/api/getSelectVideos', {
-        params: {
-            courseSelected: newValue,
-            tutorClasses: this.state.categoryOptions,
-            tutor: this.props.match.params.id
-        }
-    }).then((res) => {
-        // fetch the videos
-        console.info("Successfully fetched the videos");
-        this.setState({
-            videos: res.data.data
-        });
-    })
-        .catch(err => console.error("Could not get the videos from the database: " + err));
-};
+    let { datas,  open, total } = this.state;
     
     return (
         <Paper>
