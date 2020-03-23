@@ -48,7 +48,7 @@ export class NavBar extends Component {
   }
 
   checkSession = () => {
-    console.info("Fetching session...");
+    console.info("Fetching session... (dashboardnavbar)");
     fetch('/api/checkSession', {
       method: 'GET',
       credentials: 'include'
