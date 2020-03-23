@@ -106,7 +106,7 @@ class Questions extends React.Component {
         axios.get('/api/getTutorCourses', {
         }).then((res) => {
             var courses = [];
-            console.info("Successfully fetched the videos");
+            console.info("Successfully fetched the courses");
             for (var x = 0; x < res.data.data.length; x++) {
                 courses.push(res.data.data[x].course.name);
             }
@@ -121,16 +121,16 @@ class Questions extends React.Component {
             localStorage.setItem("courses", courses);
             return res.data;
         })
-            .catch(err => console.error("Could not get the videos from the database: " + err));
+            .catch(err => console.error("Could not get the courses from the database: " + err));
     }
 
     // Getting all of the courses the user is taking for each tutor
     getUserCourses = () => {
         axios.get('/api/getUserCourses', {
         }).then((res) => {
-            // fetch the videos
+            // fetch the courses
             var courses = [];
-            console.info("Successfully fetched the videos");
+            console.info("Successfully fetched the courses");
             for (var x = 0; x < res.data.data.length; x++) {
                 if (res.data.data[x].tutor._id === this.props.match.params.id) {
                     courses.push(res.data.data[x].course.name)
@@ -145,7 +145,7 @@ class Questions extends React.Component {
                 window.location.reload(true);
             }
         })
-            .catch(err => console.error("Could not get the videos from the database: " + err));
+            .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
 
     loadQuestions = () => {
@@ -155,7 +155,7 @@ class Questions extends React.Component {
                  quizId: this.props.match.params.id
              }
          }).then((res) => {
-             // fetch the videos
+             // fetch the questions
             if (res.data !== undefined) {
                 this.setState({ datas: res.data.data, session: res.session, total: res.data.data.length });
             }
@@ -163,7 +163,7 @@ class Questions extends React.Component {
                 this.setState({ datas: [], session: res.session, total: [] });
             }
          })
-             .catch(err => console.error("Could not get the videos from the database: " + err));
+             .catch(err => console.error("Could not get the questions from the database: " + err));
      }
 
     handleShowButton() {
@@ -279,7 +279,7 @@ class Questions extends React.Component {
         //adds the link, title, and course to the db 
         .then((value) => {
             if (value) {
-                console.info("Adding video to db...");
+                console.info("Adding question to db...");
                 /*if (this.state.title !== '' && this.state.description !== '' &&
                     this.state.videoLink !== '' && this.isURL(this.state.videoLink)&& 
                     this.state.tutorId !== '' && this.state.course !== '') {*/
@@ -292,10 +292,10 @@ class Questions extends React.Component {
                         quizId: this.props.match.params.id
                     })
                         .then((res) => {
-                            swal("Video successfully added!", "", "success");
+                            swal("Question successfully added!", "", "success");
                             window.location.reload();
                         }, (error) => {
-                            console.error("Could not add video to database (API call error) " + error);
+                            console.error("Could not add question to database (API call error) " + error);
                         });
                 /*}*/
                 /*else {*/

@@ -33,13 +33,11 @@ exports.getCourseQuizes = async (req, res) => {
     console.log(req.session.userInfo.__t);
     if (req.session.userInfo.__t == "tutor") {
         id.push(req.session.userInfo._id);
-        console.log("pierre");
-        console.log(id);
+        console.info("Get Tutor Id");
     }
     else if (req.session.userInfo.__t == "student") {
         id.push(req.query.tutor);
-        console.log("pierre");
-        console.log(id);
+        console.info("Get Tutor Id");
     }
 
     await Course.findOne({ name: req.query.tutorClasses[req.query.courseIndex], tutors: { $in: id } }, async (err, foundCourse) => {
@@ -56,13 +54,14 @@ exports.getCourseQuizes = async (req, res) => {
 
 // this method adds a new quiz to the database
 exports.addQuiz = async function (req, res) {
-    const { title, description, tutorId, course } = req.body;
+    const { title, description, tutorId, points, course } = req.body;
     // questions
     // new quiz to be added by tutor
     let quizes = new Quizes();
     quizes.title = title;
     quizes.description = description;
     quizes.tutorId = tutorId;
+    quizes.points = points;
     // ADD A FIND ONE FOR THE OTHER DB TOO
     await Course.findOne({ name: course, tutors: { $in: [tutorId] } }, async (err, foundCourse) => {
         quizes.course = foundCourse;

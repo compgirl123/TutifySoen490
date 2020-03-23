@@ -263,6 +263,11 @@ export class Studentdocs extends React.Component {
                                 Description : {this.state.description}
                             </b>
                         </p>
+                        <p>
+                            <b>
+                                Points : {this.state.points}
+                            </b>
+                        </p>
                         Tutor: {this.state.tutorFirstName} {this.state.tutorLastName}
                         <br />
                         Course: {this.state.course}
@@ -282,6 +287,7 @@ export class Studentdocs extends React.Component {
                         description: this.state.description,
                         points: this.state.points,
                         tutorId: this.state.tutorId,
+                        points: this.state.points,
                         course: this.state.course
                     })
                         .then((res) => {
@@ -470,7 +476,7 @@ export class Studentdocs extends React.Component {
                                         fullWidth
                                     />
 
-<TextField
+                                     <TextField
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
