@@ -33,6 +33,7 @@ import grades from './components/Quiz/grades';
 import ChooseCourseAndQuiz from './components/Quiz/ChooseCourseAndQuiz';
 import TutorPublicProfilePage from "./components/ProfilePage/Tutor/TutorPublicProfile/TutorPublicProfilePage";
 import TrophiesView from './components/TrophiesView/TrophiesView';
+import StudentGradesView from './components/Quiz/StudentGradesView';
 
 // This is all the url routing.
 function MainPage() {
@@ -82,6 +83,7 @@ function MainPage() {
         <PrivateRoute exact path="/choosetutorQuiz" component={ChooseTutorQuizzes} />
         <PrivateRoute exact path="/chooseClassAndQuiz/:id" component={ChooseCourseAndQuiz} />
         <PrivateRoute exact path="/chooseClassAndQuiz" component={ChooseCourseAndQuiz} />
+        <PrivateRoute exact path="/StudentGradesView" component={StudentGradesView} />
         <Route path="*" component={NotFoundPage} />
       </Switch>
     </Router>
