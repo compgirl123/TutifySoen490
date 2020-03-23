@@ -1,29 +1,23 @@
-const Quizes = require('../models/models').Quizes;
-const Questions = require('../models/models').Questions;
-const QuizAttempt = require('../models/models').QuizAttempt;
-const Course = require('../models/models').Course;
-const Question = require('../models/models').Question;
+const QuizPoints = require('../models/models').QuizPoints;
 
-// this method fetches all available quizes from a tutor in our database
-exports.addPoints = async (req, res) => {
-    var id = [];
-    if (req.session.userInfo.__t == "tutor") {
-        id.push(req.session.userInfo._id);
-        console.log("HI");
-        console.log(id);
-    }
-    else if (req.session.userInfo.__t == "student") {
-        id.push(req.query.tutor);
-        console.log("HI");
-        console.log(id);
-    }
-    Quizes.find({ tutorId: { $in: id } }, function (err, quiz) {
+// this method adds a new quiz to the database
+exports.addQuizPointsStudent = async function (req, res) {
+    const { points,quizId } = req.body;
+    // questions
+    // new quiz to be added by tutor
+    let quizpoints = new QuizPoints();
+    quizpoints.points = points;
+    quizpoints.quizId = quizId;
+    console.log("points are:");
+    console.log(points);
+    quizpoints.save(function (err, quizes) {
         if (err) {
-            console.error("The quizes were not found");
-            return res.json({ success: false, error: err })
+            console.error(err);
+            console.error("The quiz couldn't get added to the database (API request failed)");
+            return res.json({ success: false, error: err });
         }
-        console.info("The quizes were found");
-        return res.json({ success: true, data: quiz });
+        console.info("The quiz was successfully added to the database");
+        return res.json({ success: true, data: quizpoints });
     });
 };
 

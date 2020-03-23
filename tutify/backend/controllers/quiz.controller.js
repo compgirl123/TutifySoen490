@@ -52,6 +52,30 @@ exports.getCourseQuizes = async (req, res) => {
     });
 };
 
+// this method returns the specific quiz the user is on.
+exports.getSpecificQuiz = async (req, res) => {
+    var id = [];
+    console.log(req.query.quizId);
+    console.log(req.session.userInfo.__t);
+    if (req.session.userInfo.__t == "tutor") {
+        id.push(req.session.userInfo._id);
+        console.info("Get Tutor Id");
+    }
+    else if (req.session.userInfo.__t == "student") {
+        id.push(req.query.tutor);
+        console.info("Get Tutor Id");
+    }
+        await Quizes.findOne({ _id: req.query.quizId }, async (err, quiz) => {
+            console.log(quiz);
+            if (err) {
+                console.error("The quizes were not found");
+                return await res.json({ success: false, error: err })
+            }
+            console.info("The quizes were found");
+            return await res.json({ success: true, data: quiz });
+        });
+};
+
 // this method adds a new quiz to the database
 exports.addQuiz = async function (req, res) {
     const { title, description, tutorId, points, course } = req.body;

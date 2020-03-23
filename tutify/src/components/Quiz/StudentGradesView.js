@@ -123,7 +123,6 @@ export class StudentGradeView extends React.Component {
   
     render() {
       const { classes } = this.props;
-      const { students } = this.state;
       const fixedHeightPaper = clsx(classes.paper);
   
       return (

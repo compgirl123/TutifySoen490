@@ -174,7 +174,6 @@ export class Studentdocs extends React.Component {
     // ici
     getTutorClassVideosOnFirstLoad = () => {
        // here, add comment
-       console.log("YO");
        console.log(localStorage.getItem("coursesPresent"));
        console.log(this.props.match.params.id);
         axios.get('/api/getCourseQuizes', {
@@ -287,7 +286,6 @@ export class Studentdocs extends React.Component {
                         description: this.state.description,
                         points: this.state.points,
                         tutorId: this.state.tutorId,
-                        points: this.state.points,
                         course: this.state.course
                     })
                         .then((res) => {

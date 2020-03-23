@@ -76,7 +76,6 @@ function MainPage() {
         <PrivateRoute exact path="/choosetutorVideo" component={ChooseTutorVideos} />
         <PrivateRoute exact path="/quiz" component={Quizzes} />
         <PrivateRoute exact path="/grades" component={grades} />
-        <PrivateRoute exact path="/quizResults" component={QuizResults} />
         <PrivateRoute exact path="/trophies" component={TrophiesView} />
         <PrivateRoute exact path="/quiz/:id" component={Quizzes} />
         <PrivateRoute exact path="/choosetutorQuiz/:id" component={ChooseTutorQuizzes} />

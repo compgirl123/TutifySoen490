@@ -45,6 +45,7 @@ class Questions extends React.Component {
             correctq2: "",
             percent: "",
             question1: "",
+            points: 0,
             finishedQuiz: false,
             showButton: true,
             color: ['red', 'red'],
@@ -56,6 +57,8 @@ class Questions extends React.Component {
         this.handleStartQuiz = this.handleStartQuiz.bind(this);
         this.handleIncreaseScore = this.handleIncreaseScore.bind(this);
         this.checkAnswer = this.checkAnswer.bind(this);
+        this.addPointstoDb = this.addPointstoDb.bind(this);
+        this.retrieveQuizDetails = this.retrieveQuizDetails.bind(this);
     }
 
     componentWillMount() {
@@ -206,7 +209,7 @@ class Questions extends React.Component {
 
         this.setState({questionsClicked: true});
 
-        if(this.state.finishedQuiz == false){
+        if(this.state.finishedQuiz === false){
             if (answer === correct) {
                 if (this.state.score <= this.state.total - 1) {
                     this.handleIncreaseScore();
@@ -236,15 +239,45 @@ class Questions extends React.Component {
 
     finishQuiz() {
         console.log(this.state.score);
-        console.log(this.state.finishedQuiz);
-        if(this.state.questionsClicked == true){
+        console.log(this.state.questionsClicked);
+        if(this.state.questionsClicked === true){
+            this.addPointstoDb();
             this.setState({ finalScore: this.state.score });
             this.setState({ finishedQuiz: true });
-            this.setState({ showButton: false });
+            this.setState({ showButton: false }); 
         }
-        else if(this.state.questionsClicked == false){
+        else if(this.state.questionsClicked === false){
             alert("Please Answer at least one Question");
         }
+    }
+
+    // This function adds the points earned for the completed Quiz to Db.
+    addPointstoDb(){
+        this.retrieveQuizDetails();
+        axios.post('/api/addQuizPointsStudent', {
+            points: this.state.points,
+            quizId : this.props.match.params.id
+        }).then((res) => {
+            // fetch the videos
+            console.log(res);
+            console.info("Successfully fetched the videos");
+        })
+        .catch(err => console.error("Could not get the videos from the database: " + err));
+    }
+
+    // retrieve points here
+     retrieveQuizDetails(){
+        axios.get('/api/getSpecificQuiz', {
+            quizId: this.props.match.params.id
+        }).then((res) => {
+            // fetch the videos
+            console.log(res);
+            // just added 20 points as a test here, modify it according to 
+            // getSpecificQuiz in quiz.controller.js
+            this.setState({points:20})
+            console.info("Successfully fetched the videos");
+        })
+        .catch(err => console.error("Could not get the videos from the database: " + err));
     }
 
     // Adding a new question according to what the user inputs into the Dialog box to the db

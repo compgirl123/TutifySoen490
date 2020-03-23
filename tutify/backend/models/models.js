@@ -436,6 +436,14 @@ var QuizPoints = mongoose.model('QuizPoints', new Schema({
     ref: 'Quizes',
     required: true
   },
+  quiz: {
+    type: Schema.Types.ObjectId,
+    ref: 'Quizes',
+    required: true
+  },
+  student: [
+    { type: Schema.Types.ObjectId, ref: 'Student' }
+  ]
 }), "quizpoints");
 
 
