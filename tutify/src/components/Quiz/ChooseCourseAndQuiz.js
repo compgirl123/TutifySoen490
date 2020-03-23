@@ -280,6 +280,7 @@ export class Studentdocs extends React.Component {
                     axios.post('/api/addQuiz', {
                         title: this.state.title,
                         description: this.state.description,
+                        points: this.state.points,
                         tutorId: this.state.tutorId,
                         course: this.state.course
                     })
@@ -468,6 +469,21 @@ export class Studentdocs extends React.Component {
                                         defaultValue={this.state.description}
                                         fullWidth
                                     />
+
+<TextField
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        margin="dense"
+                                        id="Points"
+                                        name="Points"
+                                        onChange={e => this.setState({ points: e.target.value })}
+                                        autoComplete="Points"
+                                        label="Points"
+                                        defaultValue={this.state.points}
+                                        fullWidth
+                                    />
+
                                     <FormControl className={classes.formControl}>
                                         <InputLabel>
                                             Course
