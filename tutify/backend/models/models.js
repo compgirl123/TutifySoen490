@@ -429,6 +429,15 @@ var Badges = mongoose.model('Badges', new Schema({
   description: String,
   badgePoints: Number
 }), "badges");
+// -------- Points For Quizzes --------- // 
+var QuizPoints = mongoose.model('QuizPoints', new Schema({
+  points: {
+    type: NumberInt,
+    ref: 'Quizes',
+    required: true
+  },
+}), "quizpoints");
+
 
 // Answers to the quizes
 var QuizAttempt = mongoose.model('QuizAttempt', new Schema({
@@ -458,6 +467,7 @@ module.exports = {
   Profile: Profile,
   Quizes: Quizes,
   Questions: Questions,
+  QuizPoints: QuizPoints,
   Student: Student,
   Account: Account,
   Appointment: Appointment,

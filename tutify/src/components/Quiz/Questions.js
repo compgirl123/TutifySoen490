@@ -49,6 +49,7 @@ class Questions extends React.Component {
             showButton: true,
             color: ['red', 'red'],
             open: false,
+            questionsClicked : false
         }
         this.finishQuiz = this.finishQuiz.bind(this);
         this.handleShowButton = this.handleShowButton.bind(this);
@@ -203,37 +204,49 @@ class Questions extends React.Component {
         let correct = Number(this.state.datas[(elem.dataset.id).split(",")[1]].answerIndex);
         let updatedClassNames = this.state.classNames;
 
-        if (answer === correct) {
-            if (this.state.score <= this.state.total - 1) {
-                this.handleIncreaseScore();
-                colorArr[(elem.dataset.id).split(",")[1]] = 'green';
+        this.setState({questionsClicked: true});
+
+        if(this.state.finishedQuiz == false){
+            if (answer === correct) {
+                if (this.state.score <= this.state.total - 1) {
+                    this.handleIncreaseScore();
+                    colorArr[(elem.dataset.id).split(",")[1]] = 'green';
+                }
             }
-        }
-        else {
-            colorArr[(elem.dataset.id).split(",")[1]] = 'red';
-        }
-        console.log(colorArr);
-        this.setState({
-            color: colorArr,
-            classNames: updatedClassNames
-        })
+            else {
+                colorArr[(elem.dataset.id).split(",")[1]] = 'red';
+            }
+            console.log(colorArr);
+            this.setState({
+                color: colorArr,
+                classNames: updatedClassNames
+            })
 
-        answersSelected[(elem.dataset.id).split(",")[1]] = (elem.dataset.id).split(",")[0];
-        answersSelectedNumerical[(elem.dataset.id).split(",")[1]] = Number((elem.dataset.id).split(",")[2]);
+            answersSelected[(elem.dataset.id).split(",")[1]] = (elem.dataset.id).split(",")[0];
+            answersSelectedNumerical[(elem.dataset.id).split(",")[1]] = Number((elem.dataset.id).split(",")[2]);
 
-        this.setState({
-            answerSelected: elem.dataset.id,
-            selectedAnswers: answersSelected,
-            answersSelectedNumerical: answersSelectedNumerical
-        })
-        this.handleShowButton();
+            this.setState({
+                answerSelected: elem.dataset.id,
+                selectedAnswers: answersSelected,
+                answersSelectedNumerical: answersSelectedNumerical
+            })
+            this.handleShowButton();
+        }
     }
 
     finishQuiz() {
-        this.setState({ finalScore: this.state.score });
-        this.setState({ finishedQuiz: true });
-        this.setState({ showButton: false });
+        console.log(this.state.score);
+        console.log(this.state.finishedQuiz);
+        if(this.state.questionsClicked == true){
+            this.setState({ finalScore: this.state.score });
+            this.setState({ finishedQuiz: true });
+            this.setState({ showButton: false });
+        }
+        else if(this.state.questionsClicked == false){
+            alert("Please Answer at least one Question");
+        }
     }
+
     // Adding a new question according to what the user inputs into the Dialog box to the db
     addQuestionToDb = () => {
     var tutor = [];
