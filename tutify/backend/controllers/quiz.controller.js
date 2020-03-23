@@ -9,9 +9,13 @@ exports.getQuizes = async (req, res) => {
     var id = [];
     if (req.session.userInfo.__t == "tutor") {
         id.push(req.session.userInfo._id);
+        console.log("HI");
+        console.log(id);
     }
     else if (req.session.userInfo.__t == "student") {
         id.push(req.query.tutor);
+        console.log("HI");
+        console.log(id);
     }
     Quizes.find({ tutorId: { $in: id } }, function (err, quiz) {
         if (err) {
@@ -26,13 +30,17 @@ exports.getQuizes = async (req, res) => {
 // this method select the quizes by course
 exports.getCourseQuizes = async (req, res) => {
     var id = [];
+    console.log(req.session.userInfo.__t);
     if (req.session.userInfo.__t == "tutor") {
         id.push(req.session.userInfo._id);
+        console.log("pierre");
+        console.log(id);
     }
     else if (req.session.userInfo.__t == "student") {
         id.push(req.query.tutor);
+        console.log("pierre");
+        console.log(id);
     }
-    var position = parseInt(req.query.courseIndex)
 
     await Course.findOne({ name: req.query.tutorClasses[req.query.courseIndex], tutors: { $in: id } }, async (err, foundCourse) => {
         await Quizes.find({ tutorId: { $in: id }, course: foundCourse }, async (err, quiz) => {
@@ -105,6 +113,7 @@ exports.getAllQuestions = async function (req, res) {
 // this method retrieves the questions for the current quiz selected
 exports.getSelectedQuizQuestions = async function (req, res) {
     var test = [];
+    console.log(req.query.quizId)
     await Quizes.find({ _id: req.query.quizId }, async (err, questions) => {
         await questions.forEach(async function (err, question) {
             await (questions[question].questions).forEach(async function (err, q) {

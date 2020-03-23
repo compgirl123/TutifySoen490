@@ -90,6 +90,7 @@ export class Studentdocs extends React.Component {
                     // if user is a tutor, then execute the following
                     if (res.userInfo.__t === "tutor") {
                         // Setting the states for the tutor
+                        console.log("colis")
                         this.setState({
                             tutorId: res.userInfo._id,
                             tutorFirstName: res.userInfo.first_name,
@@ -104,14 +105,16 @@ export class Studentdocs extends React.Component {
                     // if user is a student, then execute the following
                     else if (res.userInfo.__t === "student") {
                         // Setting the states for the student
+                        console.log("tabarnak")
+                        console.log(res.userInfo);
                         this.setState({
-                            tutorId: res.userInfo._id,
+                            tutorId: this.props.match.params.id,
                             accountType: res.userInfo.__t,
                         })
-                        // getting all tutors and their videos for a specific student
-                        this.getAllVideosStudent();
                         // getting user courses
                         this.getUserCourses();
+                        // getting all tutors and their videos for a specific student
+                        this.getAllVideosStudent();
                         // getting the first class's videos on first Load of page
                         this.getTutorClassVideosOnFirstLoad();
                     }
@@ -128,7 +131,8 @@ export class Studentdocs extends React.Component {
     getAllVideosStudent = () => {
         axios.get('/api/getTutor', {
             params: {
-                ID: this.props.match.params.id
+                ID: this.props.match.params.id,
+                tutor:this.props.match.params.id
             }
         }).then((res) => {
             // fetch the videos
@@ -170,6 +174,9 @@ export class Studentdocs extends React.Component {
     // ici
     getTutorClassVideosOnFirstLoad = () => {
        // here, add comment
+       console.log("YO");
+       console.log(localStorage.getItem("coursesPresent"));
+       console.log(this.props.match.params.id);
         axios.get('/api/getCourseQuizes', {
             params: {
                 courseIndex: 0,
@@ -179,6 +186,7 @@ export class Studentdocs extends React.Component {
         }).then((res) => {
             // fetch the videos
             console.info("Successfully fetched the videos from the class");
+            console.log("yoyuoyoyo");
             console.info(res);
             this.setState({
                 videos: res.data.data
@@ -198,7 +206,7 @@ export class Studentdocs extends React.Component {
                     courses.push(res.data.data[x].course.name)
                 }
             }
-            localStorage.setItem("coursesPresen", courses);
+            localStorage.setItem("coursesPresent", courses);
             this.setState({
                 categoryOptions: courses
             });
@@ -324,12 +332,14 @@ export class Studentdocs extends React.Component {
                 params: {
                     courseIndex: parseInt(newValue),
                     tutorClasses: this.state.categoryOptions,
-                    tutorId: this.state.tutorId
+                    tutorId: this.state.tutorId,
+                    tutor: this.props.match.params.id
                 }
             }).then((res) => {
                 // fetch the videos
                 console.info("Successfully fetched the videos");
                 console.log(res)
+                console.log(this.state.tutorId)
                 this.setState({
                     videos: res.data.data
                 });
@@ -408,9 +418,6 @@ export class Studentdocs extends React.Component {
                                                         <Button type="button" size="small" onClick={() => window.location.replace("/quiz/" + (file._id).replace(/ /g, ""))} fullWidth className="submit">
                                                             View Quiz
                                                           </Button>
-                                                         <Button type="button" size="small" onClick={() => window.location.replace("/quiz/" + (file._id).replace(/ /g, ""))} fullWidth className="submit">
-                                                           Share Quiz 
-                                                         </Button>
                                                          </>
                                                         :
                                                         <></>

@@ -378,6 +378,9 @@ var Quizes = mongoose.model('Quizes', new Schema({
     ref: 'Course',
     required: true
   },
+  sharedToStudents: [
+    { type: Schema.Types.ObjectId, ref: 'Student' }
+  ]
   /*allowed_attempts: {
     type: NumberInt,
     required: true
