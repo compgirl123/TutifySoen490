@@ -14,6 +14,9 @@ import TableHead from '@material-ui/core/TableHead';
 import Container from '@material-ui/core/Container';
 import Typography from "@material-ui/core/Typography";
 import TableRow from '@material-ui/core/TableRow';
+import clsx from 'clsx';
+import Footer from '../Footer';
+import Title from '../ProfilePage/Title';
 
 // Displaying the list of students the tutor can share their documents to.
 export class grades extends React.Component {
@@ -121,28 +124,32 @@ export class grades extends React.Component {
     render() {
       const { classes } = this.props;
       const { students } = this.state;
+      const fixedHeightPaper = clsx(classes.paper);
   
       return (
-        <Paper className={classes.paper}>
         <React.Fragment>
-          <main>
-            <DashBoardNavBar />
-            <main className={classes.content}>
-              <Container maxWidth="lg" className={classes.container}>
+        <main>
+          <DashBoardNavBar />
+          <main className={classes.content}>
+            <div className={classes.appBarSpacer} />
+            <Container maxWidth="lg">
+              <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
+                List of Documents
+              </Typography>
               <Grid container spacing={2}>
                 {/* Student Info */}
                 <Grid item xs={12} md={12} lg={24}>
-                    <Typography component="h6" variant="h6" align="center">Grades</Typography>
+                  <p>
+                  <Paper className={fixedHeightPaper}>
+                      <Title>Quiz Grades </Title>
                       <Table size="small">
-                          <TableHead>
+                        <TableHead>
                             <TableRow>
                               <TableCell>First Name</TableCell>
                               <TableCell>Last Name</TableCell>
-                              <TableCell>Program</TableCell>
-                              <TableCell>School</TableCell>
-                              <TableCell>Level of Education</TableCell>
+                              <TableCell>Course</TableCell>
                               <TableCell>Quiz Title</TableCell>
-                                <TableCell>Grade</TableCell>
+                                <TableCell>Points</TableCell>
                             </TableRow>
                           </TableHead>
                           <TableBody>
@@ -150,9 +157,7 @@ export class grades extends React.Component {
                               <TableRow key={student._id}>
                                 <TableCell>{student.first_name}</TableCell>
                                 <TableCell>{student.last_name}</TableCell>
-                                <TableCell>{student.program_of_study}</TableCell>
-                                <TableCell>{student.school}</TableCell>
-                                <TableCell>{student.education_level}</TableCell>
+                                <TableCell></TableCell>
                                 <TableCell></TableCell>
                                 <TableCell></TableCell>
                               </TableRow>
@@ -162,20 +167,19 @@ export class grades extends React.Component {
                           </TableRow>
   
                           </TableBody>
-                        </Table>
-                  </Grid>
+                      </Table>
+                  </Paper>
+                  </p>
                 </Grid>
-                <p></p>
-              </Container>
-              <div/>
-
-            </main>
-  
+              </Grid>
+            </Container>
+            {/* Footer */}
+            <Footer />
           </main>
-        </React.Fragment>
-        </Paper>
 
-        );
+        </main>
+      </React.Fragment>
+    );
   }
 }
 export default withStyles(tutifyStyle.styles, { withTheme: true })(grades);
