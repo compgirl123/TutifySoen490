@@ -46,7 +46,7 @@ exports.getCourseQuizes = async (req, res) => {
                 console.error("The quizes were not found");
                 return await res.json({ success: false, error: err })
             }
-            console.info("The quizes were found");
+            console.info("The quizes of the course were found");
             return await res.json({ success: true, data: quiz });
         });
     });
@@ -71,7 +71,7 @@ exports.getSpecificQuiz = async (req, res) => {
                 console.error("The quizes were not found");
                 return await res.json({ success: false, error: err })
             }
-            console.info("The quizes were found");
+            console.info("The specific quiz was found");
             return await res.json({ success: true, data: quiz });
         });
 };
@@ -116,7 +116,15 @@ exports.addAttempt = async function (req, res) {
             return res.json({ success: false, error: err });
         }
         console.info("The attempt was successfully added to the database");
-        return res.json({ success: true, data: attempt });
+        Quizes.findOneAndUpdate({_id: attempt.quiz},  { "$push": { "attempts": attempt._id }},{useFindAndModify: false},(error)=>{
+            if(error){
+                console.error("Could not link the quiz to the attempt");
+                console.error(error);
+                return res.json({ success: false, data: [] }); 
+            }
+            return res.json({ success: true, data: attempt }); 
+        });
+           
     });
 };
 
@@ -127,7 +135,7 @@ exports.getAllQuestions = async function (req, res) {
             console.error("The quizes were not found");
             return await res.json({ success: false, error: err })
         }
-        console.info("The quizes were found");
+        console.info("The questions were found");
         return await res.json({ success: true, data: questions });
     })
 };
@@ -147,7 +155,7 @@ exports.getSelectedQuizQuestions = async function (req, res) {
                     if (err) {
                         console.error("The quizes were not found");
                     }
-                    console.info("The quizes were found");
+                    console.info("The specific quiz' questions were found");
                     return await res.json({ success: true, data: test });
                 })
             });
@@ -165,7 +173,7 @@ exports.addQuestion = async function (req, res) {
     questions.choices = choices;
     questions.answerIndex = answerIndex;
     questions.creator = creator;
-    questions.course = quizId;
+    questions.course = course;
     console.log(quizId);
     questions.save(function (err, question) {
         if (err) {

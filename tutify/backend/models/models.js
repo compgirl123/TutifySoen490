@@ -83,10 +83,10 @@ const TutorSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  uploadedPicture: 
-  { 
+  uploadedPicture:
+  {
     imgName: { type: String, required: true, default: "none" },
-    imgData:{ type: String, required: true }
+    imgData: { type: String, required: true }
   },
   students: [
     { type: Schema.Types.ObjectId, ref: 'Student' }
@@ -408,7 +408,7 @@ var Questions = mongoose.model('Questions', new Schema({
   }],
   answerIndex: {
     type: NumberInt,
-    required:true
+    required: true
   },
   creator: {
     type: Schema.Types.ObjectId,
@@ -435,7 +435,7 @@ var Badges = mongoose.model('Badges', new Schema({
 var QuizAttempt = mongoose.model('QuizAttempt', new Schema({
   score: {
     type: NumberInt,
-    required:true
+    required: true
   },
   quiz: {
     type: Schema.Types.ObjectId,
@@ -465,7 +465,7 @@ module.exports = {
   Mchunks: Mchunks,
   Resource: Resource,
   Videos: Videos,
-  QuizAttempt:QuizAttempt
+  QuizAttempt: QuizAttempt
 }
 
 

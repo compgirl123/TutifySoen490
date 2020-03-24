@@ -90,7 +90,6 @@ export class Studentdocs extends React.Component {
                     // if user is a tutor, then execute the following
                     if (res.userInfo.__t === "tutor") {
                         // Setting the states for the tutor
-                        console.log("colis")
                         this.setState({
                             tutorId: res.userInfo._id,
                             tutorFirstName: res.userInfo.first_name,
@@ -105,8 +104,6 @@ export class Studentdocs extends React.Component {
                     // if user is a student, then execute the following
                     else if (res.userInfo.__t === "student") {
                         // Setting the states for the student
-                        console.log("tabarnak")
-                        console.log(res.userInfo);
                         this.setState({
                             tutorId: this.props.match.params.id,
                             accountType: res.userInfo.__t,
@@ -132,7 +129,7 @@ export class Studentdocs extends React.Component {
         axios.get('/api/getTutor', {
             params: {
                 ID: this.props.match.params.id,
-                tutor:this.props.match.params.id
+                tutor: this.props.match.params.id
             }
         }).then((res) => {
             // fetch the videos
@@ -173,9 +170,7 @@ export class Studentdocs extends React.Component {
     // This function gets the videos corresponding to each of the tutor's classes.
     // ici
     getTutorClassVideosOnFirstLoad = () => {
-       // here, add comment
-       console.log(localStorage.getItem("coursesPresent"));
-       console.log(this.props.match.params.id);
+        // here, add comment
         axios.get('/api/getCourseQuizes', {
             params: {
                 courseIndex: 0,
@@ -185,7 +180,6 @@ export class Studentdocs extends React.Component {
         }).then((res) => {
             // fetch the videos
             console.info("Successfully fetched the videos from the class");
-            console.log("yoyuoyoyo");
             console.info(res);
             this.setState({
                 videos: res.data.data
@@ -215,20 +209,6 @@ export class Studentdocs extends React.Component {
             }
         })
             .catch(err => console.error("Could not get the videos from the database: " + err));
-    }
-
-    // This function checks if the image url provided by the user is a URL
-    isURL(url) {
-        if (!url) return false;
-        var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-            '((\\d{1,3}\\.){3}\\d{1,3}))|' + // OR ip (v4) address
-            'localhost' + // OR localhost
-            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-            '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
-
-        return pattern.test(url);
     }
 
 
@@ -277,10 +257,7 @@ export class Studentdocs extends React.Component {
             //adds the link, title, and course to the db 
             .then((value) => {
                 if (value) {
-                    console.info("Adding video to db...");
-                    /*if (this.state.title !== '' && this.state.description !== '' &&
-                        this.state.videoLink !== '' && this.isURL(this.state.videoLink)&& 
-                        this.state.tutorId !== '' && this.state.course !== '') {*/
+                    console.info("Adding quiz to db...");
                     axios.post('/api/addQuiz', {
                         title: this.state.title,
                         description: this.state.description,
@@ -289,10 +266,10 @@ export class Studentdocs extends React.Component {
                         course: this.state.course
                     })
                         .then((res) => {
-                            swal("Video successfully added!", "", "success");
+                            swal("Quiz successfully added!", "", "success");
                             window.location.reload();
                         }, (error) => {
-                            console.error("Could not add video to database (API call error) " + error);
+                            console.error("Could not add quiz to database (API call error) " + error);
                         });
                 }
                 else {
@@ -420,15 +397,15 @@ export class Studentdocs extends React.Component {
                                                 <CardActions>
                                                     {this.state.accountType === "tutor"
                                                         ? <>
-                                                        <Button type="button" size="small" href={'/quiz/'+file._id}  fullWidth className="submit">
-                                                            View Quiz
+                                                            <Button type="button" size="small" href={'/quiz/' + file._id} fullWidth className="submit">
+                                                                View Quiz
                                                           </Button>
-                                                         </>
+                                                        </>
                                                         :
                                                         <></>
                                                     }
                                                     {this.state.accountType === "student"
-                                                        ? <Button type="button" size="small" href={'/quiz/'+file._id} fullWidth className="submit">
+                                                        ? <Button type="button" size="small" href={'/quiz/' + file._id} fullWidth className="submit">
                                                             Take Quiz
                                                         </Button>
                                                         :
@@ -474,7 +451,7 @@ export class Studentdocs extends React.Component {
                                         fullWidth
                                     />
 
-                                     <TextField
+                                    <TextField
                                         InputLabelProps={{
                                             shrink: true,
                                         }}

@@ -25,6 +25,7 @@ export class StudentGradeView extends React.Component {
       this.state = {
         drawerOpened: false,
         students: [],
+        attempts: []
       };
     }
   
@@ -124,6 +125,7 @@ export class StudentGradeView extends React.Component {
     render() {
       const { classes } = this.props;
       const fixedHeightPaper = clsx(classes.paper);
+      const{ attempts } = this.state
   
       return (
         <React.Fragment>
