@@ -107,7 +107,6 @@ exports.addAttempt = async function (req, res) {
     // new quiz to be added by tutor
     let attempt = new QuizAttempt();
     attempt.score = score;
-    attempt.answerIndex = answerIndexes;
     attempt.quiz = quiz_id;
     attempt.student = studentId;
     attempt.save(function (err, attempt) {

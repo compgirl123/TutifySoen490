@@ -253,10 +253,11 @@ class Questions extends React.Component {
 
     // This function adds the points earned for the completed Quiz to Db.
     addPointstoDb(){
+        console.error(this.state);
         this.retrieveQuizDetails();
-        axios.post('/api/addQuizPointsStudent', {
-            points: this.state.points,
-            quizId : this.props.match.params.id
+        axios.post('/api/addAttempt', {
+            score: this.state.points,
+            quiz : this.props.match.params.id
         }).then((res) => {
             // fetch the videos
             console.log(res);
