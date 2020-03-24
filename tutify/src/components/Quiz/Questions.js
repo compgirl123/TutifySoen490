@@ -346,13 +346,13 @@ class Questions extends React.Component {
                                 <div>
                                     <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addQuestionToDb} >
                                         Add Questions
-                        </Button>
+                                    </Button>
                                 </div>
                             </p>
                             {datas.map((c, i) => (
                                 <div className="col-lg-10 col-lg-offset-1">
                                     <div className={classes.question}>
-                                        <h4 className={classes.h4}> Question {i + 1}/{total}</h4>
+                                        <h1> Question {i + 1}/{total}</h1>
                                         <p className={classes.p}>{c.question}</p>
                                     </div>
                                     <div id="answers">
