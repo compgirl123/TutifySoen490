@@ -146,6 +146,8 @@ router.get('/getSelectedQuizQuestions', quizController.getSelectedQuizQuestions)
 
 router.get('/getSpecificQuiz', quizController.getSpecificQuiz);
 
+router.get('/getStudentAttempts', quizController.getStudentAttempts)
+
 router.post('/addQuestion', quizController.addQuestion);
 
 router.post('/addQuiz', quizController.addQuiz);

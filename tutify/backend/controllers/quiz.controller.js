@@ -2,7 +2,6 @@ const Quizes = require('../models/models').Quizes;
 const Questions = require('../models/models').Questions;
 const QuizAttempt = require('../models/models').QuizAttempt;
 const Course = require('../models/models').Course;
-const Question = require('../models/models').Question;
 
 // this method fetches all available quizes from a tutor in our database
 exports.getQuizes = async (req, res) => {
@@ -120,13 +119,29 @@ exports.addAttempt = async function (req, res) {
             if(error){
                 console.error("Could not link the quiz to the attempt");
                 console.error(error);
-                return res.json({ success: false, data: [] }); 
+                return res.json({ success: false, error: error }); 
             }
             return res.json({ success: true, data: attempt }); 
         });
            
     });
 };
+
+// This method is to get all the attempts of a specific student
+exports.getStudentAttempts = async function (req, res) {
+    const { studentId } = req.body;
+    QuizAttempt.find({student:studentId}, async (err, attempts) => {
+        if (err) {
+            console.error("The attempts of the student were not found");
+            return await res.json({ success: false, error: err })
+        }
+        console.info("The attempts of the student were found");
+        return await res.json({ success: true, data: attempts });
+    });
+
+}
+
+
 
 // this method adds a new quiz to the database
 exports.getAllQuestions = async function (req, res) {
