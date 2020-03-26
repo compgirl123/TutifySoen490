@@ -47,7 +47,7 @@ export class StudentGradeView extends React.Component {
       await this.setState({ shareTo: filteredArray });
     }
   }
-  loadAttempts = async () => {
+  loadAttempts = () => {
     axios.get('/api/getStudentAttempts', {
       params: {
         studentId: this.state.tutor_id,
@@ -55,6 +55,7 @@ export class StudentGradeView extends React.Component {
     }).then((res) => {
       // fetch the videos
       console.info("Successfully fetched the attempts");
+      console.log(res);
       this.setState({
         attempts: res.data.data
       });
@@ -165,7 +166,6 @@ export class StudentGradeView extends React.Component {
                             <TableCell>Quiz Title</TableCell>
                             <TableCell>Course</TableCell>
                             <TableCell>Points</TableCell>
-
                           </TableRow>
                         </TableHead>
                         <TableBody>

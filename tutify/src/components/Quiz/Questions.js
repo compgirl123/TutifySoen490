@@ -47,7 +47,8 @@ class Questions extends React.Component {
             question1: "",
             points: 0,
             finishedQuiz: false,
-            showButton: true,
+            showButtonTutor: true,
+            showButtonStudent: true,
             color: ['red', 'red'],
             open: false,
             questionsClicked: false
@@ -88,6 +89,7 @@ class Questions extends React.Component {
                     }
                     // if user is a student, then execute the following
                     else if (res.userInfo.__t === "student") {
+                        console.log(res);
                         // Setting the states for the student
                         this.setState({
                             tutorId: res.userInfo._id,
@@ -171,7 +173,8 @@ class Questions extends React.Component {
 
     handleShowButton() {
         this.setState({
-            showButton: true,
+            showButtonTutor: true,
+            showButtonStudent: true,
             questionAnswered: true
         })
 
@@ -240,7 +243,8 @@ class Questions extends React.Component {
             this.addPointstoDb();
             this.setState({ finalScore: this.state.score });
             this.setState({ finishedQuiz: true });
-            this.setState({ showButton: false });
+            this.setState({ showButtonTutor: false });
+            this.setState({ showButtonStudent: false });
         }
         else if (this.state.questionsClicked === false) {
             alert("Please Answer at least one Question");
@@ -383,10 +387,18 @@ class Questions extends React.Component {
                                 <p>Score: You got {this.state.finalScore}/ {this.state.total} or {(this.state.finalScore / this.state.total) * 100} %</p>
                             </div>
                             <div class={classes.wrapper}>
-                                {this.state.showButton === true ?
-                                    <button className={classes.fancyBtn} onClick={this.finishQuiz}>{'Finish quiz'}</button>
-                                    :
-                                    <button className={classes.fancyBtn} onClick={() => window.location.replace("/chooseClassAndQuiz")}>{'Return To Main Quiz Page'}</button>
+                                {this.state.showButtonStudent === true 
+                                    ? <button className={classes.fancyBtn} onClick={this.finishQuiz}>{'Finish quiz'}</button>
+                                    : [
+                                        (this.state.accountType === "tutor"
+                                            ?  <button className={classes.fancyBtn} onClick={() => window.location.replace("/chooseClassAndQuiz")}>{'Return To Main Quiz Page'}</button>
+                                            : <></>
+                                        ),
+                                        (this.state.accountType === "student"
+                                            ?  <button className={classes.fancyBtn} onClick={() => window.location.replace("/choosetutorQuiz")}>{'Return To Main Quiz Page'}</button>
+                                            : <></>
+                                        )
+                                        ]
                                 }
                             </div>
                         </div>

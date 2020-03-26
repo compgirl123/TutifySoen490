@@ -19,115 +19,138 @@ import Footer from '../Footer';
 import Title from '../ProfilePage/Title';
 
 // Displaying the list of students the tutor can share their documents to.
-export class grades extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        drawerOpened: false,
-        students: [],
-      };
-    }
-  
-    componentDidMount() {
-      this.checkSession();
-      this.setState({ fileid: this.props.match.params.file });
-    }
-  
-    // Handling the checkbox management in order to select one or many options.
-    handleCheckbox = async (event) => {
-      if (event.target.checked) {
-        let list = this.state.shareTo;
-        list.push(event.target.name);
-        await this.setState({ shareTo: list });
-      } else {
-        let filteredArray = this.state.shareTo.filter(item => item !== event.target.name);
-        await this.setState({ shareTo: filteredArray });
-      }
-    }
-  
-    // Setting the login state of user.
-    checkSession = () => {
-      fetch('/api/checkSession', {
-        method: 'GET',
-        credentials: 'include'
-      })
-        .then(response => response.json())
-        .then((res) => {
-          if (res.isLoggedIn) {
-            this.setState({
-              students: res.userInfo.students,
-              tutor_id: res.userInfo._id,
-              tutorName: res.userInfo.first_name + " " + res.userInfo.last_name,
-              tutorImg: res.userInfo.picture,
-            })
-            this.FindStudents();
-          }
-          else {
-            this.setState({ Toggle: false });
-          }
-        })
-        .catch(err => console.error(err));
+export class StudentGradeView extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      drawerOpened: false,
+      students: [],
+      attempts: [],
+      tutor_id : ""
     };
-  
-    // Function that handles how the Share Document button is displayed on the page.
-    handleShareDocButton = (tableTitle = false, bottomButton = false) => {
-      if (!tableTitle) {
-        if (this.props.match.params.file === undefined) {
-          return <Button type="button" onClick={() => window.location.replace("/doclist")} variant="contained" size="small" className="submit">Share Document</Button>;
+  }
+
+  componentDidMount() {
+    this.checkSession();
+    console.log("HIIIII    "+JSON.stringify(this.state));
+    this.loadAttempts();
+    this.setState({ fileid: this.props.match.params.file });
+  }
+
+  // Setting the login state of user.
+  checkSession = () => {
+    fetch('/api/checkSession', {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then(response => response.json())
+      .then((res) => {
+        if (res.isLoggedIn) {
+          console.log(res.userInfo._id);
+          this.setState({
+            students: res.userInfo.students,
+            tutor_id: res.userInfo._id,
+            tutorName: res.userInfo.first_name + " " + res.userInfo.last_name,
+            tutorImg: res.userInfo.picture,
+          })
+          // this.FindStudents();
         }
-        if (bottomButton) {
-          return <Button type="button" style={{ "left": "80%", "top": "10px" }} onClick={event => this.shareDocument(event, this.state.shareTo)} variant="contained" size="small" className="submit">
-            Share Document
-        </Button>;
+        else {
+          this.setState({ Toggle: false });
         }
-      }
-    }
-  
-    // Function that handles how the View Document button is displayed on the page.
-    handleViewDocButton = (stuid, tableTitle = false, bottomButton = false) => {
-      if (!tableTitle) {
-        if (this.props.match.params.file === undefined) {
-          return <Button type="button" onClick={() => window.location.replace("/doc/" + stuid)} variant="contained" size="small" className="submit">View Documents</Button>;
-        }
-        if (bottomButton) {
-          return <Button type="button" style={{ "left": "80%", "top": "10px" }} onClick={event => this.shareDocument(event, this.state.shareTo)} variant="contained" size="small" className="submit">
-            Share Document
-        </Button>;
-        }
-      }
-    }
-  
-    // Getting the student information from database.
-    FindStudents = () => {
-      axios.post('/api/findStudents', {
-        students: this.state.students
       })
-        .then((res) => {
-          this.setState({ students: res.data.data });
-        }, (error) => {
-          console.error(error);
-        })
-    };
-  
-    // Share document to selected students
-    shareDocument = (e, ids) => {
-      for (const studentid in ids) {
-        axios.post("/api/students/" + this.state.fileid, {
-          id_student: ids[studentid],
-          file_name: this.props.match.params.file
-        });
-      }
-  
-      swal("Succesfully shared document to Student(s)!", "", "success");
+      .catch(err => console.error(err));
+  };
+
+  // Handling the checkbox management in order to select one or many options.
+  handleCheckbox = async (event) => {
+    if (event.target.checked) {
+      let list = this.state.shareTo;
+      list.push(event.target.name);
+      await this.setState({ shareTo: list });
+    } else {
+      let filteredArray = this.state.shareTo.filter(item => item !== event.target.name);
+      await this.setState({ shareTo: filteredArray });
     }
-  
-    render() {
-      const { classes } = this.props;
-      const { students } = this.state;
-      const fixedHeightPaper = clsx(classes.paper);
-  
-      return (
-        <React.Fragment>
+  }
+
+  loadAttempts = () => {
+    axios.get('/api/getStudentAttempts',{
+      params: {
+        studentId: this.state.tutor_id,
+      }
+    }).then((res) => {
+      // fetch the videos
+      console.info("Successfully fetched the attempts");
+      console.log(res);
+      console.log(this.state.tutor_id);
+      this.setState({
+        attempts: res.data.data
+      });
+    })
+      .catch(err => console.error("Could not get the attempts from the database: " + err));
+  }
+
+
+  // Function that handles how the Share Document button is displayed on the page.
+  handleShareDocButton = (tableTitle = false, bottomButton = false) => {
+    if (!tableTitle) {
+      if (this.props.match.params.file === undefined) {
+        return <Button type="button" onClick={() => window.location.replace("/doclist")} variant="contained" size="small" className="submit">Share Document</Button>;
+      }
+      if (bottomButton) {
+        return <Button type="button" style={{ "left": "80%", "top": "10px" }} onClick={event => this.shareDocument(event, this.state.shareTo)} variant="contained" size="small" className="submit">
+          Share Document
+        </Button>;
+      }
+    }
+  }
+
+  // Function that handles how the View Document button is displayed on the page.
+  handleViewDocButton = (stuid, tableTitle = false, bottomButton = false) => {
+    if (!tableTitle) {
+      if (this.props.match.params.file === undefined) {
+        return <Button type="button" onClick={() => window.location.replace("/doc/" + stuid)} variant="contained" size="small" className="submit">View Documents</Button>;
+      }
+      if (bottomButton) {
+        return <Button type="button" style={{ "left": "80%", "top": "10px" }} onClick={event => this.shareDocument(event, this.state.shareTo)} variant="contained" size="small" className="submit">
+          Share Document
+        </Button>;
+      }
+    }
+  }
+
+  // Getting the student information from database.
+  FindStudents = () => {
+    axios.post('/api/findStudents', {
+      students: this.state.students
+    })
+      .then((res) => {
+        this.setState({ students: res.data.data });
+      }, (error) => {
+        console.error(error);
+      })
+  };
+
+  // Share document to selected students
+  shareDocument = (e, ids) => {
+    for (const studentid in ids) {
+      axios.post("/api/students/" + this.state.fileid, {
+        id_student: ids[studentid],
+        file_name: this.props.match.params.file
+      });
+    }
+
+    swal("Succesfully shared document to Student(s)!", "", "success");
+  }
+
+  render() {
+    const { classes } = this.props;
+    const fixedHeightPaper = clsx(classes.paper);
+    const { attempts } = this.state
+
+    return (
+      <React.Fragment>
         <main>
           <DashBoardNavBar />
           <main className={classes.content}>
@@ -140,35 +163,29 @@ export class grades extends React.Component {
                 {/* Student Info */}
                 <Grid item xs={12} md={12} lg={24}>
                   <p>
-                  <Paper className={fixedHeightPaper}>
-                      <Title>Quiz Grades </Title>
+                    <Paper className={fixedHeightPaper}>
+                      <Title> My Grades </Title>
                       <Table size="small">
                         <TableHead>
-                            <TableRow>
-                              <TableCell>First Name</TableCell>
-                              <TableCell>Last Name</TableCell>
-                              <TableCell>Course</TableCell>
-                              <TableCell>Quiz Title</TableCell>
-                                <TableCell>Points</TableCell>
-                            </TableRow>
-                          </TableHead>
-                          <TableBody>
-                            {students.map(student => (
-                              <TableRow key={student._id}>
-                                <TableCell>{student.first_name}</TableCell>
-                                <TableCell>{student.last_name}</TableCell>
-                                <TableCell></TableCell>
-                                <TableCell></TableCell>
-                                <TableCell></TableCell>
-                              </TableRow>
-                            ))}
-  
-                          <TableRow> 
+                          <TableRow>
+                            <TableCell>Quiz Title</TableCell>
+                            <TableCell>Description</TableCell>
+                            <TableCell>Course</TableCell>
+                            <TableCell>Points</TableCell>
                           </TableRow>
-  
-                          </TableBody>
+                        </TableHead>
+                        <TableBody>
+                          {attempts.map((attempt, index) => (
+                            <TableRow>
+                              <TableCell>{attempt.quiz.title}</TableCell>
+                              <TableCell>{attempt.quiz.description}</TableCell>
+                              <TableCell>{attempt.quiz.course}</TableCell>
+                              <TableCell>{attempt.score}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
                       </Table>
-                  </Paper>
+                    </Paper>
                   </p>
                 </Grid>
               </Grid>
@@ -182,4 +199,4 @@ export class grades extends React.Component {
     );
   }
 }
-export default withStyles(tutifyStyle.styles, { withTheme: true })(grades);
+export default withStyles(tutifyStyle.styles, { withTheme: true })(StudentGradeView);

@@ -130,18 +130,47 @@ exports.addAttempt = async function (req, res) {
 // This method is to get all the attempts of a specific student
 exports.getStudentAttempts = async function (req, res) {
     const { studentId } = req.body;
-    QuizAttempt.find({student:studentId}, async (err, attempts) => {
-        if (err) {
-            console.error("The attempts of the student were not found");
-            return await res.json({ success: false, error: err })
-        }
-        console.info("The attempts of the student were found");
-        return await res.json({ success: true, data: attempts });
-    });
+    console.log("pierre tour effel");
+    console.log(studentId)
+    console.log(req.params);
+    console.log(req.session.userInfo._id);
+    /*Tutor.findOne({ _id: req.query.ID }).populate('courses.course').
+        exec(function (err, tutor) {
+            if (err) {
+                console.error("The specific tutor was not found");
+                return res.json({ success: false, error: err });
+            }
+            console.info("The specific tutor was found");
+            return res.json({ success: true, tutor: tutor });
+    });*/
+    QuizAttempt.find({student:req.session.userInfo._id}).populate('quiz').populate('student').
+            exec(function (err, attempts) {
+                console.log(attempts);
+                if (err) {
+                    console.error("The specific tutor was not found");
+                    return res.json({ success: false, error: err });
+                }
+                console.info("The specific tutor was found");
+                return res.json({ success: true, data: attempts });
+        });
+    //, async (err, attempts) => {
+        /*attempts.forEach(async function (err, attempt) {
+            console.log(attempts[attempt].quiz);
+            //console.log(attempt.quiz);
+            /*Quizes.find({ _id: attempts[attempt].quiz }, async (err, qs) => {
+                console.log("francde");
+                console.log(qs);
+                if (err) {
+                    console.error("The attempts of the student were not found");
+                    return await res.json({ success: false, error: err })
+                }
+                console.info("The attempts of the student were found");
+                return await res.json({ success: true, data: attempts, test: qs });
+            })*/
+       // });  
+    //});
 
 }
-
-
 
 // this method adds a new quiz to the database
 exports.getAllQuestions = async function (req, res) {
