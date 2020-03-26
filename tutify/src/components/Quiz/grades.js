@@ -33,7 +33,6 @@ export class StudentGradeView extends React.Component {
 
   componentDidMount() {
     this.checkSession();
-    console.log("HIIIII    " + JSON.stringify(this.state));
     this.loadAttempts();
     this.setState({ fileid: this.props.match.params.file });
   }
@@ -47,7 +46,6 @@ export class StudentGradeView extends React.Component {
       .then(response => response.json())
       .then((res) => {
         if (res.isLoggedIn) {
-          console.log(res.userInfo._id);
           this.setState({
             students: res.userInfo.students,
             tutor_id: res.userInfo._id,
@@ -55,7 +53,6 @@ export class StudentGradeView extends React.Component {
             tutorImg: res.userInfo.picture,
             accountType: res.userInfo.__t
           })
-          // this.FindStudents();
         }
         else {
           this.setState({ Toggle: false });
@@ -84,8 +81,6 @@ export class StudentGradeView extends React.Component {
     }).then((res) => {
       // fetch the videos
       console.info("Successfully fetched the attempts");
-      console.log(res);
-      console.log(this.state.tutor_id);
       this.setState({
         attempts: res.data.data
       });
@@ -184,7 +179,7 @@ export class StudentGradeView extends React.Component {
                             }
                             {this.state.accountType === "tutor"
                               ?
-                              <> 
+                              <>
                                 <TableCell>Student Name</TableCell>
                                 <TableCell>Quiz Title</TableCell>
                                 <TableCell>Description</TableCell>
@@ -197,7 +192,7 @@ export class StudentGradeView extends React.Component {
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {attempts.map((attempt,i) => (
+                          {attempts.map((attempt, i) => (
                             <TableRow>
                               {this.state.accountType === "tutor"
                                 ?
@@ -225,30 +220,6 @@ export class StudentGradeView extends React.Component {
                               }
                             </TableRow>
                           ))}
-                          {/*{attempts.map((attempt, index) => (
-                            <TableRow>
-                            {this.state.accountType === "tutor"
-                              ?
-                              <>
-                              <TableCell>{attempt.quiz.title}</TableCell>
-                                <TableCell>{attempt.quiz.description}</TableCell>
-                                <TableCell>{attempt.quiz.course}</TableCell>
-                                <TableCell>{attempt.score}</TableCell>
-                              </>
-                              :<></>
-                            }
-                            {this.state.accountType === "student"
-                              ?
-                              <>
-                              <TableCell>{attempt.quiz.title}</TableCell>
-                                <TableCell>{attempt.quiz.description}</TableCell>
-                                <TableCell>{attempt.quiz.course}</TableCell>
-                                <TableCell>{attempt.score}</TableCell>
-                              </>
-                              :<></>
-                            }
-                            </TableRow>
-                          ))}*/}
                         </TableBody>
                       </Table>
                     </Paper>
@@ -259,7 +230,6 @@ export class StudentGradeView extends React.Component {
             {/* Footer */}
             <Footer />
           </main>
-
         </main>
       </React.Fragment>
     );

@@ -52,7 +52,7 @@ export class Studentdocs extends React.Component {
             optionsq2: [],
             correctq1: "",
             correctq2: "",
-            videos: [],
+            quizzes: [],
             course: "",
             courseIndex: 0,
             points : 0,
@@ -100,8 +100,8 @@ export class Studentdocs extends React.Component {
                         })
                         // getting tutor courses for filtering bar on top
                         this.getTutorCourses();
-                        // getting the first class's videos on first Load of page
-                        this.getTutorClassVideosOnFirstLoad();
+                        // getting the first class's quizzes on first Load of page
+                        this.getTutorClassquizzesOnFirstLoad();
                     }
                     // if user is a student, then execute the following
                     else if (res.userInfo.__t === "student") {
@@ -112,10 +112,10 @@ export class Studentdocs extends React.Component {
                         })
                         // getting user courses
                         this.getUserCourses();
-                        // getting all tutors and their videos for a specific student
-                        this.getAllVideosStudent();
-                        // getting the first class's videos on first Load of page
-                        this.getTutorClassVideosOnFirstLoad();
+                        // getting all tutors and their quizzes for a specific student
+                        this.getAllquizzesStudent();
+                        // getting the first class's quizzes on first Load of page
+                        this.getTutorClassquizzesOnFirstLoad();
                     }
 
                 }
@@ -126,23 +126,23 @@ export class Studentdocs extends React.Component {
             .catch(err => console.error(err));
     };
 
-    // Getting all of the tutors the student is registered with as well as their videos
-    getAllVideosStudent = () => {
+    // Getting all of the tutors the student is registered with as well as their quizzes
+    getAllquizzesStudent = () => {
         axios.get('/api/getTutor', {
             params: {
                 ID: this.props.match.params.id,
                 tutor: this.props.match.params.id
             }
         }).then((res) => {
-            // fetch the videos
-            console.info("Successfully fetched the videos for the Student");
+            // fetch the quizzes
+            console.info("Successfully fetched the quizzes for the Student");
             // setting state of the video array in order to get information from each video
             this.setState({
                 tutorFirstName: res.data.tutor.first_name,
                 tutorLastName: res.data.tutor.last_name
             });
         })
-            .catch(err => console.error("Could not get the videos from the database: " + err));
+            .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
 
     // Getting all of the courses the tutor teaches
@@ -150,7 +150,7 @@ export class Studentdocs extends React.Component {
         axios.get('/api/getTutorCourses', {
         }).then((res) => {
             var courses = [];
-            console.info("Successfully fetched the videos");
+            console.info("Successfully fetched the quizzes");
             for (var x = 0; x < res.data.data.length; x++) {
                 courses.push(res.data.data[x].course.name);
             }
@@ -163,15 +163,14 @@ export class Studentdocs extends React.Component {
                 window.location.reload(true);
             }
             localStorage.setItem("coursesPresent", courses);
-            console.log(localStorage.getItem("coursesPresent"));
             return res.data;
         })
-            .catch(err => console.error("Could not get the videos from the database: " + err));
+            .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
 
-    // This function gets the videos corresponding to each of the tutor's classes.
+    // This function gets the quizzes corresponding to each of the tutor's classes.
     // ici
-    getTutorClassVideosOnFirstLoad = () => {
+    getTutorClassquizzesOnFirstLoad = () => {
         // here, add comment
         axios.get('/api/getCourseQuizes', {
             params: {
@@ -180,22 +179,22 @@ export class Studentdocs extends React.Component {
                 tutor: this.props.match.params.id
             }
         }).then((res) => {
-            // fetch the videos
-            console.info("Successfully fetched the videos from the class");
+            // fetch the quizzes
+            console.info("Successfully fetched the quizzes from the class");
             console.info(res);
             this.setState({
-                videos: res.data.data
+                quizzes: res.data.data
             });
         })
-            .catch(err => console.error("Could not get the videos from the database: " + err));
+            .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
     // Getting all of the courses the user is taking for each tutor
     getUserCourses = () => {
         axios.get('/api/getUserCourses', {
         }).then((res) => {
-            // fetch the videos
+            // fetch the quizzes
             var courses = [];
-            console.info("Successfully fetched the videos");
+            console.info("Successfully fetched the quizzes");
             for (var x = 0; x < res.data.data.length; x++) {
                 if (res.data.data[x].tutor._id === this.props.match.params.id) {
                     courses.push(res.data.data[x].course.name)
@@ -210,7 +209,7 @@ export class Studentdocs extends React.Component {
                 window.location.reload(true);
             }
         })
-            .catch(err => console.error("Could not get the videos from the database: " + err));
+            .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
 
 
@@ -279,7 +278,6 @@ export class Studentdocs extends React.Component {
                     console.error("Empty fields");
                     swal("Could not add resource, empty or invalid fields.", "", "error")
                 }
-                /*}*/
             });
     }
 
@@ -308,7 +306,7 @@ export class Studentdocs extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const { videos, open, newValue, categoryOptions } = this.state;
+        const { quizzes, open, newValue, categoryOptions } = this.state;
 
         // Handling the change in option in the top filtering by course bar
         const handleChange = (event, newValue) => {
@@ -321,15 +319,13 @@ export class Studentdocs extends React.Component {
                     tutor: this.props.match.params.id
                 }
             }).then((res) => {
-                // fetch the videos
-                console.info("Successfully fetched the videos");
-                console.log(res)
-                console.log(this.state.tutorId)
+                // fetch the quizzes
+                console.info("Successfully fetched the quizzes");
                 this.setState({
-                    videos: res.data.data
+                    quizzes: res.data.data
                 });
             })
-                .catch(err => console.error("Could not get the videos from the database: " + err));
+                .catch(err => console.error("Could not get the quizzes from the database: " + err));
         };
 
         return (
@@ -347,7 +343,7 @@ export class Studentdocs extends React.Component {
                                 variant="scrollable"
                                 scrollButtons="auto"
                                 aria-label="scrollable auto tabs example"
-                                onclick={(e) => { this.setState({ newValue: e.target.value }); this.getTutorClassVideos(e); }}
+                                onclick={(e) => { this.setState({ newValue: e.target.value }); this.getTutorClassquizzes(e); }}
                             >
 
                                 {categoryOptions.map((category, index) => (
@@ -371,7 +367,7 @@ export class Studentdocs extends React.Component {
                             <Grid container spacing={4}>
                                 {/* Quizzes */}
                                 <Grid container spacing={5}>
-                                    {videos.map((file, index) => (
+                                    {quizzes.map((file, index) => (
                                         <Grid item xs={4} md={4} lg={4}>
                                             <Card className={classes.card}>
                                                 <CardActionArea>

@@ -8,13 +8,9 @@ exports.getQuizes = async (req, res) => {
     var id = [];
     if (req.session.userInfo.__t == "tutor") {
         id.push(req.session.userInfo._id);
-        console.log("HI");
-        console.log(id);
     }
     else if (req.session.userInfo.__t == "student") {
         id.push(req.query.tutor);
-        console.log("HI");
-        console.log(id);
     }
     Quizes.find({ tutorId: { $in: id } }, function (err, quiz) {
         if (err) {
@@ -29,7 +25,6 @@ exports.getQuizes = async (req, res) => {
 // this method select the quizes by course
 exports.getCourseQuizes = async (req, res) => {
     var id = [];
-    console.log(req.session.userInfo.__t);
     if (req.session.userInfo.__t == "tutor") {
         id.push(req.session.userInfo._id);
         console.info("Get Tutor Id");
@@ -54,8 +49,6 @@ exports.getCourseQuizes = async (req, res) => {
 // this method returns the specific quiz the user is on.
 exports.getSpecificQuiz = async (req, res) => {
     var id = [];
-    console.log(req.query.quizId);
-    console.log(req.session.userInfo.__t);
     if (req.session.userInfo.__t == "tutor") {
         id.push(req.session.userInfo._id);
         console.info("Get Tutor Id");
@@ -64,20 +57,19 @@ exports.getSpecificQuiz = async (req, res) => {
         id.push(req.query.tutor);
         console.info("Get Tutor Id");
     }
-        await Quizes.findOne({ _id: req.query.quizId }, async (err, quiz) => {
-            console.log(quiz);
-            if (err) {
-                console.error("The quizes were not found");
-                return await res.json({ success: false, error: err })
-            }
-            console.info("The specific quiz was found");
-            return await res.json({ success: true, data: quiz });
-        });
+    await Quizes.findOne({ _id: req.query.quizId }, async (err, quiz) => {
+        if (err) {
+            console.error("The quizes were not found");
+            return await res.json({ success: false, error: err })
+        }
+        console.info("The specific quiz was found");
+        return await res.json({ success: true, data: quiz });
+    });
 };
 
 // this method adds a new quiz to the database
 exports.addQuiz = async function (req, res) {
-    const { title, description, tutorId, points, course , allowed_attempts} = req.body;
+    const { title, description, tutorId, points, course, allowed_attempts } = req.body;
     // questions
     // new quiz to be added by tutor
     let quizes = new Quizes();
@@ -116,108 +108,55 @@ exports.addAttempt = async function (req, res) {
             return res.json({ success: false, error: err });
         }
         console.info("The attempt was successfully added to the database");
-        Quizes.findOneAndUpdate({_id: attempt.quiz},  { "$push": { "attempts": attempt._id }},{useFindAndModify: false},(error)=>{
-            if(error){
+        Quizes.findOneAndUpdate({ _id: attempt.quiz }, { "$push": { "attempts": attempt._id } }, { useFindAndModify: false }, (error) => {
+            if (error) {
                 console.error("Could not link the quiz to the attempt");
                 console.error(error);
-                return res.json({ success: false, error: error }); 
+                return res.json({ success: false, error: error });
             }
-            return res.json({ success: true, data: attempt }); 
+            return res.json({ success: true, data: attempt });
         });
-           
+
     });
 };
 
 // This method is to get all the attempts of a specific student
 exports.getStudentAttempts = async function (req, res) {
-   var lookup = [];
-   if(req.session.userInfo.__t === "tutor"){
-       //console.log(req.session.userInfo.students);
-       lookup = req.session.userInfo.students;
-       /*QuizAttempt.find({student: { $in: lookup } }).populate([
+    var lookup = [];
+    if (req.session.userInfo.__t === "tutor") {
+        lookup = req.session.userInfo.students;
+        console.info("Saving an array of student id's collected from tutor account");
+    }
+    else if (req.session.userInfo.__t === "student") {
+        lookup.push(req.session.userInfo._id);
+        console.info("Saving the current student's id collected from student account");
+    }
+    QuizAttempt.find({ student: { $in: lookup } }).populate([
         {
-          path: 'quiz',
-		  populate: {
-            path: 'course'
-		  }
+            path: 'quiz',
+            populate: {
+                path: 'course'
+            }
         },
         {
-           path: 'quiz',
-           populate: {
-              path: 'tutorId'
-           }
+            path: 'quiz',
+            populate: {
+                path: 'tutorId'
+            }
         },
-        { 
-           path: 'student'
+        {
+            path: 'student'
         }
     ]).
         exec(function (err, attempts) {
-            console.log(attempts);
             if (err) {
                 console.error("The specific tutor was not found");
                 return res.json({ success: false, error: err });
             }
             console.info("The specific tutor was found");
             return res.json({ success: true, data: attempts });
-    });*/
-   }
-   else if(req.session.userInfo.__t === "student"){
-       lookup.push(req.session.userInfo._id);
-       /*QuizAttempt.find({student: lookup }).populate([
-        {
-          path: 'quiz',
-		  populate: {
-            path: 'course'
-		  }
-        },
-        {
-           path: 'quiz',
-           populate: {
-              path: 'tutorId'
-           }
-        },
-        { 
-           path: 'student'
-        }
-    ]).
-        exec(function (err, attempts) {
-            console.log(attempts);
-            if (err) {
-                console.error("The specific tutor was not found");
-                return res.json({ success: false, error: err });
-            }
-            console.info("The specific tutor was found");
-            return res.json({ success: true, data: attempts });
-    });*/
-   }
+        });
 
-   QuizAttempt.find({student: { $in: lookup } }).populate([
-        {
-          path: 'quiz',
-		  populate: {
-            path: 'course'
-		  }
-        },
-        {
-           path: 'quiz',
-           populate: {
-              path: 'tutorId'
-           }
-        },
-        { 
-           path: 'student'
-        }
-    ]).
-        exec(function (err, attempts) {
-            console.log(attempts);
-            if (err) {
-                console.error("The specific tutor was not found");
-                return res.json({ success: false, error: err });
-            }
-            console.info("The specific tutor was found");
-            return res.json({ success: true, data: attempts });
-    });
-   
 }
 
 // this method adds a new quiz to the database
@@ -234,21 +173,19 @@ exports.getAllQuestions = async function (req, res) {
 
 // this method retrieves the questions for the current quiz selected
 exports.getSelectedQuizQuestions = async function (req, res) {
-    var test = [];
-    console.log(req.query.quizId)
+    var quiz_questions = [];
     await Quizes.find({ _id: req.query.quizId }, async (err, questions) => {
         await questions.forEach(async function (err, question) {
             await (questions[question].questions).forEach(async function (err, q) {
                 await Questions.find({ _id: questions[question].questions }, async (err, qs) => {
                     await (qs).forEach(async function (err, qa) {
-                        console.log(qs[qa]);
-                        test.push(qs[qa]);
+                        quiz_questions.push(qs[qa]);
                     });
                     if (err) {
                         console.error("The quizes were not found");
                     }
                     console.info("The specific quiz' questions were found");
-                    return await res.json({ success: true, data: test });
+                    return await res.json({ success: true, data: quiz_questions });
                 })
             });
         });
@@ -266,14 +203,12 @@ exports.addQuestion = async function (req, res) {
     questions.answerIndex = answerIndex;
     questions.creator = creator;
     questions.quizId = quizId;
-    console.log(quizId);
     questions.save(function (err, question) {
         if (err) {
             console.error(err);
             console.error("The question couldn't get added to the database (API request failed)");
             return res.json({ success: false, error: err });
         }
-        console.log(question._id);
         Quizes.findByIdAndUpdate(quizId,
             {
                 "$push": {
