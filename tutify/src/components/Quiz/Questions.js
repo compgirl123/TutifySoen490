@@ -239,15 +239,31 @@ class Questions extends React.Component {
     }
 
     finishQuiz() {
-        if (this.state.questionsClicked === true) {
-            this.addPointstoDb();
-            this.setState({ finalScore: this.state.score });
-            this.setState({ finishedQuiz: true });
-            this.setState({ showButtonTutor: false });
-            this.setState({ showButtonStudent: false });
+        if(this.state.accountType === "student")
+        {
+            if (this.state.questionsClicked === true) {
+                this.addPointstoDb();
+                this.setState({ finalScore: this.state.score });
+                this.setState({ finishedQuiz: true });
+                this.setState({ showButtonTutor: false });
+                this.setState({ showButtonStudent: false });
+            }
+            else if (this.state.questionsClicked === false) {
+                alert("Please Answer at least one Question");
+            }
         }
-        else if (this.state.questionsClicked === false) {
-            alert("Please Answer at least one Question");
+        else if(this.state.accountType === "tutor")
+        {
+            if (this.state.questionsClicked === true) {
+                this.setState({ finalScore: this.state.score });
+                this.setState({ finishedQuiz: true });
+                this.setState({ showButtonTutor: false });
+                this.setState({ showButtonStudent: false });
+            }
+            else if (this.state.questionsClicked === false) {
+                alert("Please Answer at least one Question");
+            }
+
         }
     }
 

@@ -26,7 +26,8 @@ export class StudentGradeView extends React.Component {
       drawerOpened: false,
       students: [],
       attempts: [],
-      tutor_id : ""
+      tutor_id : "",
+      accountType : ""
     };
   }
 
@@ -52,6 +53,7 @@ export class StudentGradeView extends React.Component {
             tutor_id: res.userInfo._id,
             tutorName: res.userInfo.first_name + " " + res.userInfo.last_name,
             tutorImg: res.userInfo.picture,
+            accountType: res.userInfo.__t
           })
           // this.FindStudents();
         }
@@ -164,23 +166,57 @@ export class StudentGradeView extends React.Component {
                 <Grid item xs={12} md={12} lg={24}>
                   <p>
                     <Paper className={fixedHeightPaper}>
+                    <br/><br/>
                       <Title> My Grades </Title>
                       <Table size="small">
                         <TableHead>
                           <TableRow>
+                            {this.state.accountType === "student"
+                            ?
+                            <>
                             <TableCell>Quiz Title</TableCell>
                             <TableCell>Description</TableCell>
                             <TableCell>Course</TableCell>
                             <TableCell>Points</TableCell>
+                            </>
+                            :<></>
+                          }
+                          {this.state.accountType === "tutor"
+                            ?
+                            <>
+                            <TableCell>Student Name</TableCell>
+                            <TableCell>Quiz Title</TableCell>
+                            <TableCell>Description</TableCell>
+                            <TableCell>Course</TableCell>
+                            <TableCell>Points</TableCell>
+                            </>
+                            :<></>
+                          }
                           </TableRow>
                         </TableHead>
                         <TableBody>
                           {attempts.map((attempt, index) => (
                             <TableRow>
+                            {this.state.accountType === "tutor"
+                              ?
+                              <>
                               <TableCell>{attempt.quiz.title}</TableCell>
-                              <TableCell>{attempt.quiz.description}</TableCell>
-                              <TableCell>{attempt.quiz.course}</TableCell>
-                              <TableCell>{attempt.score}</TableCell>
+                                <TableCell>{attempt.quiz.description}</TableCell>
+                                <TableCell>{attempt.quiz.course}</TableCell>
+                                <TableCell>{attempt.score}</TableCell>
+                              </>
+                              :<></>
+                            }
+                            {this.state.accountType === "student"
+                              ?
+                              <>
+                              <TableCell>{attempt.quiz.title}</TableCell>
+                                <TableCell>{attempt.quiz.description}</TableCell>
+                                <TableCell>{attempt.quiz.course}</TableCell>
+                                <TableCell>{attempt.score}</TableCell>
+                              </>
+                              :<></>
+                            }
                             </TableRow>
                           ))}
                         </TableBody>
