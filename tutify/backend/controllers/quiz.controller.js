@@ -77,7 +77,7 @@ exports.getSpecificQuiz = async (req, res) => {
 
 // this method adds a new quiz to the database
 exports.addQuiz = async function (req, res) {
-    const { title, description, tutorId, points, course } = req.body;
+    const { title, description, tutorId, points, course , allowed_attempts} = req.body;
     // questions
     // new quiz to be added by tutor
     let quizes = new Quizes();
@@ -85,6 +85,7 @@ exports.addQuiz = async function (req, res) {
     quizes.description = description;
     quizes.tutorId = tutorId;
     quizes.points = points;
+    quizes.allowed_attempts = allowed_attempts;
     // ADD A FIND ONE FOR THE OTHER DB TOO
     await Course.findOne({ name: course, tutors: { $in: [tutorId] } }, async (err, foundCourse) => {
         quizes.course = foundCourse;
@@ -102,10 +103,10 @@ exports.addQuiz = async function (req, res) {
 
 // this method adds a new attempt and links it to the quiz
 exports.addAttempt = async function (req, res) {
-    const { score, quiz_id, studentId, answerIndexes } = req.body;
+    const { points, quiz_id, studentId, answerIndexes } = req.body;
     // new quiz to be added by tutor
     let attempt = new QuizAttempt();
-    attempt.score = score;
+    attempt.points = points;
     attempt.quiz = quiz_id;
     attempt.student = studentId;
     attempt.save(function (err, attempt) {
@@ -128,9 +129,12 @@ exports.addAttempt = async function (req, res) {
 };
 
 // This method is to get all the attempts of a specific student
-// FIX FOR TUTOR PLZ
 exports.getStudentAttempts = async function (req, res) {
-    QuizAttempt.find({student:req.session.userInfo._id}).populate([
+   var lookup = [];
+   if(req.session.userInfo.__t === "tutor"){
+       //console.log(req.session.userInfo.students);
+       lookup = req.session.userInfo.students;
+       /*QuizAttempt.find({student: { $in: lookup } }).populate([
         {
           path: 'quiz',
 		  populate: {
@@ -138,10 +142,67 @@ exports.getStudentAttempts = async function (req, res) {
 		  }
         },
         {
-            path: 'quiz',
-            populate: {
-                path: 'tutorId'
+           path: 'quiz',
+           populate: {
+              path: 'tutorId'
+           }
+        },
+        { 
+           path: 'student'
         }
+    ]).
+        exec(function (err, attempts) {
+            console.log(attempts);
+            if (err) {
+                console.error("The specific tutor was not found");
+                return res.json({ success: false, error: err });
+            }
+            console.info("The specific tutor was found");
+            return res.json({ success: true, data: attempts });
+    });*/
+   }
+   else if(req.session.userInfo.__t === "student"){
+       lookup.push(req.session.userInfo._id);
+       /*QuizAttempt.find({student: lookup }).populate([
+        {
+          path: 'quiz',
+		  populate: {
+            path: 'course'
+		  }
+        },
+        {
+           path: 'quiz',
+           populate: {
+              path: 'tutorId'
+           }
+        },
+        { 
+           path: 'student'
+        }
+    ]).
+        exec(function (err, attempts) {
+            console.log(attempts);
+            if (err) {
+                console.error("The specific tutor was not found");
+                return res.json({ success: false, error: err });
+            }
+            console.info("The specific tutor was found");
+            return res.json({ success: true, data: attempts });
+    });*/
+   }
+
+   QuizAttempt.find({student: { $in: lookup } }).populate([
+        {
+          path: 'quiz',
+		  populate: {
+            path: 'course'
+		  }
+        },
+        {
+           path: 'quiz',
+           populate: {
+              path: 'tutorId'
+           }
         },
         { 
            path: 'student'
@@ -156,6 +217,7 @@ exports.getStudentAttempts = async function (req, res) {
             console.info("The specific tutor was found");
             return res.json({ success: true, data: attempts });
     });
+   
 }
 
 // this method adds a new quiz to the database
@@ -203,7 +265,7 @@ exports.addQuestion = async function (req, res) {
     questions.choices = choices;
     questions.answerIndex = answerIndex;
     questions.creator = creator;
-    questions.course = course;
+    questions.quizId = quizId;
     console.log(quizId);
     questions.save(function (err, question) {
         if (err) {

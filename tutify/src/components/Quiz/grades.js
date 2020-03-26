@@ -184,8 +184,7 @@ export class StudentGradeView extends React.Component {
                             }
                             {this.state.accountType === "tutor"
                               ?
-                              <>
-                                
+                              <> 
                                 <TableCell>Student Name</TableCell>
                                 <TableCell>Quiz Title</TableCell>
                                 <TableCell>Description</TableCell>
@@ -198,7 +197,7 @@ export class StudentGradeView extends React.Component {
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {attempts.map((attempt, index) => (
+                          {attempts.map((attempt,i) => (
                             <TableRow>
                               {this.state.accountType === "tutor"
                                 ?
@@ -208,7 +207,7 @@ export class StudentGradeView extends React.Component {
                                   <TableCell>{attempt.quiz.description}</TableCell>
                                   <TableCell>{attempt.quiz.course.name}</TableCell>
                                   <TableCell>{attempt.quiz.tutorId.first_name} {attempt.quiz.tutorId.last_name} </TableCell>
-                                  <TableCell>{attempt.score}</TableCell>
+                                  <TableCell>{attempt.quiz.points}</TableCell>
                                 </>
                                 : <></>
                               }
@@ -219,7 +218,7 @@ export class StudentGradeView extends React.Component {
                                   <TableCell>{attempt.quiz.description}</TableCell>
                                   <TableCell>{attempt.quiz.course.name}</TableCell>
                                   <TableCell>{attempt.quiz.tutorId.first_name} {attempt.quiz.tutorId.last_name} </TableCell>
-                                  <TableCell>{attempt.score}</TableCell>
+                                  <TableCell>{attempt.quiz.points}</TableCell>
 
                                 </>
                                 : <></>

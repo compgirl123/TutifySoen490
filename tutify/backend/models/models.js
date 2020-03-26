@@ -383,9 +383,9 @@ var Quizes = mongoose.model('Quizes', new Schema({
     ref: 'Course',
     required: true
   },
-  sharedToStudents: [
+  /*sharedToStudents: [
     { type: Schema.Types.ObjectId, ref: 'Student' }
-  ],
+  ],*/
   allowed_attempts: {
     type: NumberInt,
     required: true
@@ -415,9 +415,9 @@ var Questions = mongoose.model('Questions', new Schema({
     ref: 'Tutor',
     required: true
   },
-  course: {
+  quizId: {
     type: Schema.Types.ObjectId,
-    ref: 'Course',
+    ref: 'Quizes',
     required: true
   }
 }), "questions");
@@ -433,8 +433,9 @@ var Badges = mongoose.model('Badges', new Schema({
 
 // Answers to the quizes
 var QuizAttempt = mongoose.model('QuizAttempt', new Schema({
-  score: {
+  points: {
     type: NumberInt,
+    ref: 'Quizes',
     required: true
   },
   quiz: {

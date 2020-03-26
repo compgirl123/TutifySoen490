@@ -55,7 +55,9 @@ export class Studentdocs extends React.Component {
             videos: [],
             course: "",
             courseIndex: 0,
+            points : 0,
             accountType: "",
+            allowedAttempts : 1,
             open: false,
             Toggle: false,
             categoryOptions: [],
@@ -263,7 +265,8 @@ export class Studentdocs extends React.Component {
                         description: this.state.description,
                         points: this.state.points,
                         tutorId: this.state.tutorId,
-                        course: this.state.course
+                        course: this.state.course,
+                        allowed_attempts: this.state.allowedAttempts
                     })
                         .then((res) => {
                             swal("Quiz successfully added!", "", "success");
@@ -462,6 +465,20 @@ export class Studentdocs extends React.Component {
                                         autoComplete="Points"
                                         label="Points"
                                         defaultValue={this.state.points}
+                                        fullWidth
+                                    />
+
+                                    <TextField
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        margin="dense"
+                                        id="allowedAttempts"
+                                        name="AllowedAttempts"
+                                        onChange={e => this.setState({ allowedAttempts: e.target.value })}
+                                        autoComplete="allowedAttempts"
+                                        label="Allowed Attempts"
+                                        defaultValue={this.state.allowedAttempts}
                                         fullWidth
                                     />
 

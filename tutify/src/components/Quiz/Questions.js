@@ -20,7 +20,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 var answersSelected = [];
 var answersSelectedNumerical = [];
 var colorArr = [];
-
+var specificQuestionsAnswered = [];
+//var dec =  false;
+//var dec = true;
+ 
 class Questions extends React.Component {
     constructor(props) {
         super(props);
@@ -51,13 +54,15 @@ class Questions extends React.Component {
             showButtonStudent: true,
             color: ['red', 'red'],
             open: false,
-            questionsClicked: false
+            questionsClicked: false,
+            nbQuestionsAnswered: []
         }
         this.finishQuiz = this.finishQuiz.bind(this);
         this.handleShowButton = this.handleShowButton.bind(this);
         this.handleStartQuiz = this.handleStartQuiz.bind(this);
-        this.handleIncreaseScore = this.handleIncreaseScore.bind(this);
+        //this.handleIncreaseScore = this.handleIncreaseScore.bind(this);
         this.checkAnswer = this.checkAnswer.bind(this);
+        //this.checkQuestion = this.checkQuestion.bind(this);
         this.addPointstoDb = this.addPointstoDb.bind(this);
     }
 
@@ -197,15 +202,34 @@ class Questions extends React.Component {
         });
     }
 
-    handleIncreaseScore() {
+    /*handleIncreaseScore() {
         this.setState({
             score: this.state.score + 1
         });
     }
 
+    handleDecreaseScore() {
+        this.setState({
+            score: this.state.score - 1
+        });
+    }*/
+
+    /*checkQuestion(e){
+        let elem = e.currentTarget;
+        console.log(elem);
+    }*/
+
     checkAnswer(e) {
         let elem = e.currentTarget;
+        console.log("HI");
+        let questionIndex = Number((elem.dataset.id).split(",")[1]);
+        console.log("HEYY");
+        console.log(questionIndex);
+        specificQuestionsAnswered[questionIndex] = true;
+        console.log(specificQuestionsAnswered);
+        this.setState({nbQuestionsAnswered:specificQuestionsAnswered});
         let answer = Number((elem.dataset.id).split(",")[2]);
+        console.log(elem);
         let correct = Number(this.state.datas[(elem.dataset.id).split(",")[1]].answerIndex);
         let updatedClassNames = this.state.classNames;
 
@@ -213,13 +237,24 @@ class Questions extends React.Component {
 
         if (this.state.finishedQuiz === false) {
             if (answer === correct) {
-                if (this.state.score <= this.state.total - 1) {
-                    this.handleIncreaseScore();
+                if (this.state.score <= this.state.total - (this.state.total-1)) {
+                    //this.handleIncreaseScore();
                     colorArr[(elem.dataset.id).split(",")[1]] = 'green';
                 }
+                /*if (this.state.score <= this.state.total - 1) {
+                    this.handleIncreaseScore();
+                    colorArr[(elem.dataset.id).split(",")[1]] = 'green';
+                }*/
             }
             else {
-                colorArr[(elem.dataset.id).split(",")[1]] = 'red';
+                //if(dec == true){
+                   // dec= false
+                    console.log("Hi");
+                    //colorArr[(elem.dataset.id).split(",")[1]] = 'red';
+                    //this.handleDecreaseScore();
+                    colorArr[(elem.dataset.id).split(",")[1]] = 'red';
+                //}
+                //colorArr[(elem.dataset.id).split(",")[1]] = 'red';
             }
             this.setState({
                 color: colorArr,
@@ -239,38 +274,49 @@ class Questions extends React.Component {
     }
 
     finishQuiz() {
-        if(this.state.accountType === "student")
-        {
-            if (this.state.questionsClicked === true) {
-                this.addPointstoDb();
-                this.setState({ finalScore: this.state.score });
-                this.setState({ finishedQuiz: true });
-                this.setState({ showButtonTutor: false });
-                this.setState({ showButtonStudent: false });
-            }
-            else if (this.state.questionsClicked === false) {
-                alert("Please Answer at least one Question");
-            }
+        console.log(this.state.nbQuestionsAnswered.length);
+        var t = false;
+        console.log(this.state.nbQuestionsAnswered.includes(undefined)); 
+        if(this.state.nbQuestionsAnswered.length < this.state.total){
+            alert("Please Answer all Questions");
+            console.log("OHH YEA");
+            console.log(t);
         }
-        else if(this.state.accountType === "tutor")
-        {
-            if (this.state.questionsClicked === true) {
-                this.setState({ finalScore: this.state.score });
-                this.setState({ finishedQuiz: true });
-                this.setState({ showButtonTutor: false });
-                this.setState({ showButtonStudent: false });
+        else if (this.state.nbQuestionsAnswered.length == this.state.total){
+            if(this.state.nbQuestionsAnswered.includes(undefined) == true){
+                alert("Please Answer all Questions"); 
             }
-            else if (this.state.questionsClicked === false) {
-                alert("Please Answer at least one Question");
+            else if (this.state.nbQuestionsAnswered.includes(undefined) == false){
+                if(this.state.accountType === "student"){
+                    if (this.state.questionsClicked === true) {
+                        this.addPointstoDb();
+                        this.setState({ finishedQuiz: true });
+                        this.setState({ showButtonTutor: false });
+                        this.setState({ showButtonStudent: false });
+                    }
+                    else if (this.state.questionsClicked === false) {
+                        alert("Please Answer at least one Question");
+                    }
+                }
+                else if(this.state.accountType === "tutor"){
+                    if (this.state.questionsClicked === true) {
+                        this.setState({ finishedQuiz: true });
+                        this.setState({ showButtonTutor: false });
+                        this.setState({ showButtonStudent: false });
+                    }
+                    else if (this.state.questionsClicked === false) {
+                        alert("Please Answer at least one Question");
+                    }
+        
+                }
             }
-
-        }
+        } 
     }
 
     // This function adds the points earned for the completed Quiz to Db.
     addPointstoDb() {
         axios.post('/api/addAttempt', {
-            score: this.state.points,
+            points: this.state.points,
             quiz_id: this.props.match.params.id,
             studentId: this.state.tutorId
         }).then((res) => {
@@ -329,17 +375,19 @@ class Questions extends React.Component {
                     /*if (this.state.title !== '' && this.state.description !== '' &&
                         this.state.videoLink !== '' && this.isURL(this.state.videoLink)&& 
                         this.state.tutorId !== '' && this.state.course !== '') {*/
+                            console.log(this.state.course);
                     axios.post('/api/addQuestion', {
                         question: this.state.question1,
                         choices: inputtedOptions,
                         answerIndex: this.state.correctq1,
                         creator: this.state.tutorId,
-                        course: this.state.course,
                         quizId: this.props.match.params.id
                     })
                         .then((res) => {
                             swal("Question successfully added!", "", "success");
                             window.location.reload();
+                            console.log(res);
+                            console.log(this.state.course);
                         }, (error) => {
                             console.error("Could not add question to database (API call error) " + error);
                         });
@@ -364,9 +412,13 @@ class Questions extends React.Component {
                         <div className={classes.main}>
                             <p>
                                 <div>
+                                {this.state.accountType === "tutor" ?
                                     <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addQuestionToDb} >
                                         Add Questions
                                     </Button>
+                                    :
+                                    <br />
+                                }
                                 </div>
                             </p>
                             {datas.map((c, i) => (
@@ -399,19 +451,26 @@ class Questions extends React.Component {
                                     </div>
                                 </div>
                             ))}
-                            <div class={classes.wrapper}>
-                                <p>Score: You got {this.state.finalScore}/ {this.state.total} or {(this.state.finalScore / this.state.total) * 100} %</p>
-                            </div>
+
                             <div class={classes.wrapper}>
                                 {this.state.showButtonStudent === true 
                                     ? <button className={classes.fancyBtn} onClick={this.finishQuiz}>{'Finish quiz'}</button>
                                     : [
                                         (this.state.accountType === "tutor"
-                                            ?  <button className={classes.fancyBtn} onClick={() => window.location.replace("/chooseClassAndQuiz")}>{'Return To Main Quiz Page'}</button>
+                                            ?  
+                                            <>
+                                            <button className={classes.fancyBtn} onClick={() => window.location.replace("/chooseClassAndQuiz")}>{'Return To Main Quiz Page'}</button>
+                                            </>
                                             : <></>
                                         ),
                                         (this.state.accountType === "student"
-                                            ?  <button className={classes.fancyBtn} onClick={() => window.location.replace("/choosetutorQuiz")}>{'Return To Main Quiz Page'}</button>
+                                            ?  
+                                            <>
+                                            <div class={classes.wrapper}>
+                                                 <p> Congrats! You successfully completed this {this.state.total} question quiz.</p>
+                                            </div>
+                                            <button className={classes.fancyBtn} onClick={() => window.location.replace("/choosetutorQuiz")}>{'Return To Main Quiz Page'}</button>
+                                            </>
                                             : <></>
                                         )
                                         ]
