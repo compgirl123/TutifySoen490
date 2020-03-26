@@ -128,23 +128,34 @@ exports.addAttempt = async function (req, res) {
 };
 
 // This method is to get all the attempts of a specific student
+// FIX FOR TUTOR PLZ
 exports.getStudentAttempts = async function (req, res) {
-    const { studentId } = req.body;
-    console.log("pierre tour effel");
-    console.log(studentId)
-    console.log(req.params);
-    console.log(req.session.userInfo._id);
-//.populate('student')
-    QuizAttempt.find({student:req.session.userInfo._id}).populate('quiz').populate('student').
-            exec(function (err, attempts) {
-                console.log(attempts);
-                if (err) {
-                    console.error("The specific tutor was not found");
-                    return res.json({ success: false, error: err });
-                }
-                console.info("The specific tutor was found");
-                return res.json({ success: true, data: attempts });
-        });
+    QuizAttempt.find({student:req.session.userInfo._id}).populate([
+        {
+          path: 'quiz',
+		  populate: {
+            path: 'course'
+		  }
+        },
+        {
+            path: 'quiz',
+            populate: {
+                path: 'tutorId'
+        }
+        },
+        { 
+           path: 'student'
+        }
+    ]).
+        exec(function (err, attempts) {
+            console.log(attempts);
+            if (err) {
+                console.error("The specific tutor was not found");
+                return res.json({ success: false, error: err });
+            }
+            console.info("The specific tutor was found");
+            return res.json({ success: true, data: attempts });
+    });
 }
 
 // this method adds a new quiz to the database
