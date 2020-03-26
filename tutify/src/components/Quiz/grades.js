@@ -185,6 +185,7 @@ export class StudentGradeView extends React.Component {
                             {this.state.accountType === "tutor"
                               ?
                               <>
+                                
                                 <TableCell>Student Name</TableCell>
                                 <TableCell>Quiz Title</TableCell>
                                 <TableCell>Description</TableCell>
