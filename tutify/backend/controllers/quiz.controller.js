@@ -48,13 +48,13 @@ exports.getCourseQuizes = async (req, res) => {
                 console.error("The quizes were not found");
                 return res.json({ success: false, error: err })
             }
-
             if (req.session.userInfo.__t == "student") {
                 mod_quizes = [];
                 for (index = 0; index < quizes.length; index++) {
                     var quiz = quizes[index].toObject();
                     attempt_done = 0;
                     if (quiz.attempts != undefined) {
+                        console.log(quiz.attempts.length);
                         if (quiz.attempts.length == undefined) {
                             if (quiz.attempts.student == req.session.userInfo._id) {
                                 attempt_done++;
@@ -63,6 +63,7 @@ exports.getCourseQuizes = async (req, res) => {
                         else {
                             for (attemptIndex = 0; attemptIndex < quiz.attempts.length; attemptIndex++) {
                                 console.warn(quiz);
+                                console.log(quiz.attempts[attemptIndex].student == req.session.userInfo._id);
                                 if (quiz.attempts[attemptIndex].student == req.session.userInfo._id) {
                                     attempt_done++;
                                 }

@@ -383,11 +383,11 @@ var Quizes = mongoose.model('Quizes', new Schema({
     ref: 'Course',
     required: true
   },
-  attempts: {
+  attempts: [{
     type: Schema.Types.ObjectId,
     ref: 'QuizAttempt',
-    required:true
-  }
+    required: true
+  }]
 }), "quizes");
 
 // -------- Questions --------- // 
