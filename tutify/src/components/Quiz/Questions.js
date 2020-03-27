@@ -308,7 +308,7 @@ class Questions extends React.Component {
             // fetch the quizzes
             var tester = [];
             console.info("Successfully fetched the quizzes from the class");
-            if(res.data.data.length == 0){
+            if(res.data.data.length === 0){
                 this.setState({left_attempts:this.state.quizzes-1});  
             }
             if(res.data.data.length > 0){
@@ -327,10 +327,9 @@ class Questions extends React.Component {
 
     // This function adds the
     addPointstoDb = () => {
+        console.warn()
         axios.post('/api/addAttempt', {
-            //completed_attempts: this.state.quizzes.allowed_attempts-1,
             completed_attempts:this.state.quizzes,
-            attempts_left: this.state.left_attempts,
             quiz_id: this.props.match.params.id,
             studentId: this.state.tutorId
         }).then((res) => {

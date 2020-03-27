@@ -437,8 +437,8 @@ export class Studentdocs extends React.Component {
                                                         <></>
                                                     }
                                                     {this.state.accountType === "student"
-                                                        ? <Button type="button" size="small" href={'/quiz/' + file._id} fullWidth className="submit">
-                                                            Take Quiz, {file.allowed_attempts} Attempt(s) Left
+                                                        ? <Button type="button" size="small" href={'/quiz/' + file._id} fullWidth className="submit" disabled={file.available_attempts<1}>
+                                                            Take Quiz, {file.available_attempts} Attempt(s) Left
                                                         </Button>
                                                         :
                                                         <></>

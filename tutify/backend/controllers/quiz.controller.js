@@ -35,14 +35,45 @@ exports.getCourseQuizes = async (req, res) => {
     }
 
     await Course.findOne({ name: req.query.tutorClasses[req.query.courseIndex], tutors: { $in: id } }, async (err, foundCourse) => {
-        await Quizes.find({ tutorId: { $in: id }, course: foundCourse }, async (err, quiz) => {
+        await Quizes.find({ tutorId: { $in: id }, course: foundCourse }).populate([
+            {
+                path: 'attempts',
+                select: 'student'
+            },
+            {
+                path: 'course'
+            }
+        ]).exec(function (err, quizes) {
             if (err) {
                 console.error("The quizes were not found");
-                return await res.json({ success: false, error: err })
+                return res.json({ success: false, error: err })
             }
-            console.info("The quizes of the course were found");
-            return await res.json({ success: true, data: quiz });
+            
+            if (req.session.userInfo.__t == "student") {
+                mod_quizes = [];
+                for (index = 0; index < quizes.length; index++) {
+                    var quiz = quizes[index].toObject();
+                    attempt_done = 0;
+                    for (attemptIndex = 0; attemptIndex < quizes.length; attemptIndex++) {
+                        if (quiz.attempts != undefined && quiz.attempts.student == req.session.userInfo._id) {
+                            attempt_done++;
+                        }
+                    }
+                    quiz.available_attempts = quiz.allowed_attempts - attempt_done;
+                    mod_quizes.push(quiz);
+                }
+                console.info("The quizes of the course were found");
+                return res.json({ success: true, data: mod_quizes });
+
+            }
+            else{
+                console.info("The quizes of the course were found");
+                return res.json({ success: true, data: quizes });
+            }
+           
         });
+
+
     });
 };
 
@@ -99,6 +130,7 @@ exports.addQuiz = async function (req, res) {
     quizes.tutorId = tutorId;
     quizes.points = points;
     quizes.allowed_attempts = allowed_attempts;
+    quizes.attempts = [];
     // ADD A FIND ONE FOR THE OTHER DB TOO
     await Course.findOne({ name: course, tutors: { $in: [tutorId] } }, async (err, foundCourse) => {
         quizes.course = foundCourse;
@@ -116,11 +148,10 @@ exports.addQuiz = async function (req, res) {
 
 // this method adds a new attempt and links it to the quiz
 exports.addAttempt = async function (req, res) {
-    const { completed_attempts,attempts_left, quiz_id, studentId } = req.body;
+    const { completed_attempts, attempts_left, quiz_id, studentId } = req.body;
     // new quiz to be added by tutor
     let attempt = new QuizAttempt();
     attempt.completed_attempts = completed_attempts;
-    attempt.attempts_left = attempts_left;
     attempt.quiz = quiz_id;
     attempt.student = studentId;
     attempt.save(function (err, attempt) {
