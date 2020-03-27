@@ -48,17 +48,28 @@ exports.getCourseQuizes = async (req, res) => {
                 console.error("The quizes were not found");
                 return res.json({ success: false, error: err })
             }
-            
+
             if (req.session.userInfo.__t == "student") {
                 mod_quizes = [];
                 for (index = 0; index < quizes.length; index++) {
                     var quiz = quizes[index].toObject();
                     attempt_done = 0;
-                    for (attemptIndex = 0; attemptIndex < quizes.length; attemptIndex++) {
-                        if (quiz.attempts != undefined && quiz.attempts.student == req.session.userInfo._id) {
-                            attempt_done++;
+                    if (quiz.attempts != undefined) {
+                        if (quiz.attempts.length == undefined) {
+                            if (quiz.attempts.student == req.session.userInfo._id) {
+                                attempt_done++;
+                            }
+                        }
+                        else {
+                            for (attemptIndex = 0; attemptIndex < quiz.attempts.length; attemptIndex++) {
+                                console.warn(quiz);
+                                if (quiz.attempts[attemptIndex].student == req.session.userInfo._id) {
+                                    attempt_done++;
+                                }
+                            }
                         }
                     }
+
                     quiz.available_attempts = quiz.allowed_attempts - attempt_done;
                     mod_quizes.push(quiz);
                 }
@@ -66,11 +77,11 @@ exports.getCourseQuizes = async (req, res) => {
                 return res.json({ success: true, data: mod_quizes });
 
             }
-            else{
+            else {
                 console.info("The quizes of the course were found");
                 return res.json({ success: true, data: quizes });
             }
-           
+
         });
 
 
