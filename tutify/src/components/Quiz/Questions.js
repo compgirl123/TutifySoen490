@@ -292,7 +292,7 @@ class Questions extends React.Component {
             console.info(res);
             this.setState({
                 quizzes: res.data.data.allowed_attempts,
-                //attempts_left: res.data.data.allowed_attempts-1
+                attempts_left: res.data.data.allowed_attempts-1
             });
             this.a();
         })
@@ -319,7 +319,6 @@ class Questions extends React.Component {
                 if(this.state.left_attempts <= 0){
                     window.location.replace("/choosetutorQuiz");
                 }
-                //console.log(this.state.left_attempts);
             } 
         })
             .catch(err => console.error("Could not get the quizzes from the database: " + err));
@@ -333,8 +332,6 @@ class Questions extends React.Component {
             quiz_id: this.props.match.params.id,
             studentId: this.state.tutorId
         }).then((res) => {
-            //this.setState({attempts_left:this.state.quizzes-1});
-            //console.log(this.state.attempts_left);
             console.info("Successfully created an attempt");
         })
             .catch(err => console.error("Could not create an attempt and put it in the database: " + err));
