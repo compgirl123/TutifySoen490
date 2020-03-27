@@ -67,6 +67,27 @@ exports.getSpecificQuiz = async (req, res) => {
     });
 };
 
+// this method returns the specific quiz the user is on.
+exports.getSpecificQuizAttempts = async (req, res) => {
+    var id = [];
+    if (req.session.userInfo.__t == "tutor") {
+        id.push(req.session.userInfo._id);
+        console.info("Get Tutor Id");
+    }
+    else if (req.session.userInfo.__t == "student") {
+        id.push(req.query.tutor);
+        console.info("Get Tutor Id");
+    }
+    await QuizAttempt.find({ _id: req.query.quizId }, async (err, quiz) => {
+        if (err) {
+            console.error("The quizes were not found");
+            return await res.json({ success: false, error: err })
+        }
+        console.info("The specific quiz was found");
+        return await res.json({ success: true, data: quiz });
+    });
+};
+
 // this method adds a new quiz to the database
 exports.addQuiz = async function (req, res) {
     const { title, description, tutorId, points, course, allowed_attempts } = req.body;
@@ -95,10 +116,11 @@ exports.addQuiz = async function (req, res) {
 
 // this method adds a new attempt and links it to the quiz
 exports.addAttempt = async function (req, res) {
-    const { points, quiz_id, studentId, answerIndexes } = req.body;
+    const { completed_attempts,attempts_left, quiz_id, studentId } = req.body;
     // new quiz to be added by tutor
     let attempt = new QuizAttempt();
-    attempt.points = points;
+    attempt.completed_attempts = completed_attempts;
+    attempt.attempts_left = attempts_left;
     attempt.quiz = quiz_id;
     attempt.student = studentId;
     attempt.save(function (err, attempt) {

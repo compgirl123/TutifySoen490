@@ -45,7 +45,6 @@ class Questions extends React.Component {
             option3q1: "",
             option4q1: "",
             correctq1: "",
-            correctq2: "",
             percent: "",
             question1: "",
             points: 0,
@@ -55,7 +54,9 @@ class Questions extends React.Component {
             color: ['red', 'red'],
             open: false,
             questionsClicked: false,
-            nbQuestionsAnswered: []
+            nbQuestionsAnswered: [],
+            quizzes: [],
+            left_attempts : 0
         }
         this.finishQuiz = this.finishQuiz.bind(this);
         this.handleShowButton = this.handleShowButton.bind(this);
@@ -64,6 +65,7 @@ class Questions extends React.Component {
         this.checkAnswer = this.checkAnswer.bind(this);
         //this.checkQuestion = this.checkQuestion.bind(this);
         this.addPointstoDb = this.addPointstoDb.bind(this);
+        this.a = this.a.bind(this);
     }
 
     componentWillMount() {
@@ -102,6 +104,7 @@ class Questions extends React.Component {
                         })
                         // getting user courses
                         this.getUserCourses();
+                        this.getTutorClassquizzesOnFirstLoad();
                     }
                 }
                 else {
@@ -245,12 +248,12 @@ class Questions extends React.Component {
             alert("Please Answer all Questions");
             console.info("If the number of answered questions is less than the total, inform user that they need to answer all questions");
         }
-        else if (this.state.nbQuestionsAnswered.length == this.state.total){
-            if(this.state.nbQuestionsAnswered.includes(undefined) == true){
+        else if (this.state.nbQuestionsAnswered.length === this.state.total){
+            if(this.state.nbQuestionsAnswered.includes(undefined) === true){
                 alert("Please Answer all Questions"); 
                 console.info("If the number of answered questions is less than the total, inform user that they need to answer all questions");
             }
-            else if (this.state.nbQuestionsAnswered.includes(undefined) == false){
+            else if (this.state.nbQuestionsAnswered.includes(undefined) === false){
                 if(this.state.accountType === "student"){
                     if (this.state.questionsClicked === true) {
                         this.addPointstoDb();
@@ -277,13 +280,62 @@ class Questions extends React.Component {
         } 
     }
 
-    // This function adds the points earned for the completed Quiz to Db.
-    addPointstoDb() {
+    // This function gets the quizzes corresponding to each of the tutor's classes.
+    getTutorClassquizzesOnFirstLoad = () => {
+        axios.get('/api/getSpecificQuiz', {
+            params: {
+                quizId: this.props.match.params.id
+            }
+        }).then((res) => {
+            // fetch the quizzes
+            console.info("Successfully fetched the quizzes from the class");
+            console.info(res);
+            this.setState({
+                quizzes: res.data.data.allowed_attempts,
+                //attempts_left: res.data.data.allowed_attempts-1
+            });
+            this.a();
+        })
+            .catch(err => console.error("Could not get the quizzes from the database: " + err));
+    }
+
+    a = () => {
+        axios.get('/api/getSpecificQuizAttempts', {
+            params: {
+                quizId: this.props.match.params.id
+            }
+        }).then((res) => {
+            // fetch the quizzes
+            var tester = [];
+            console.info("Successfully fetched the quizzes from the class");
+            if(res.data.data.length == 0){
+                this.setState({left_attempts:this.state.quizzes-1});  
+            }
+            if(res.data.data.length > 0){
+               for(var x=0;x<res.data.data.length;x++){
+                    tester.push(res.data.data[x].attempts_left);
+                }
+                this.setState({left_attempts:Math.min(...tester)-1}); 
+                if(this.state.left_attempts <= 0){
+                    window.location.replace("/choosetutorQuiz");
+                }
+                //console.log(this.state.left_attempts);
+            } 
+        })
+            .catch(err => console.error("Could not get the quizzes from the database: " + err));
+    }
+
+    // This function adds the
+    addPointstoDb = () => {
         axios.post('/api/addAttempt', {
-            points: this.state.points,
+            //completed_attempts: this.state.quizzes.allowed_attempts-1,
+            completed_attempts:this.state.quizzes,
+            attempts_left: this.state.left_attempts,
             quiz_id: this.props.match.params.id,
             studentId: this.state.tutorId
         }).then((res) => {
+            //this.setState({attempts_left:this.state.quizzes-1});
+            //console.log(this.state.attempts_left);
             console.info("Successfully created an attempt");
         })
             .catch(err => console.error("Could not create an attempt and put it in the database: " + err));

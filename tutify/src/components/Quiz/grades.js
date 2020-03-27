@@ -214,7 +214,6 @@ export class StudentGradeView extends React.Component {
                                   <TableCell>{attempt.quiz.course.name}</TableCell>
                                   <TableCell>{attempt.quiz.tutorId.first_name} {attempt.quiz.tutorId.last_name} </TableCell>
                                   <TableCell>{attempt.quiz.points}</TableCell>
-
                                 </>
                                 : <></>
                               }

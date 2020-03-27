@@ -160,6 +160,8 @@ router.post('/deleteQuestion', quizController.deleteQuestion);
 
 router.post('/deleteAttempt', quizController.deleteAttempt);
 
+router.get('/getSpecificQuizAttempts', quizController.getSpecificQuizAttempts);
+
 // -------- DELETE FILES ROUTES --------- // 
 
 router.post('/getFileToDelete', uploadedFilesController.deleteFiles);

@@ -30,6 +30,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from "@material-ui/core/MenuItem";
 import CardActions from '@material-ui/core/CardActions';
 
+// FOR TMR: DO A JOIN TO GET QUIZ ATTEMPTS
 
 // Defines what content is shown based on index of selected tab
 function a11yProps(index) {
@@ -169,9 +170,7 @@ export class Studentdocs extends React.Component {
     }
 
     // This function gets the quizzes corresponding to each of the tutor's classes.
-    // ici
     getTutorClassquizzesOnFirstLoad = () => {
-        // here, add comment
         axios.get('/api/getCourseQuizes', {
             params: {
                 courseIndex: 0,
@@ -183,7 +182,7 @@ export class Studentdocs extends React.Component {
             console.info("Successfully fetched the quizzes from the class");
             console.info(res);
             this.setState({
-                quizzes: res.data.data
+                quizzes: res.data.data,
             });
         })
             .catch(err => console.error("Could not get the quizzes from the database: " + err));
@@ -304,6 +303,19 @@ export class Studentdocs extends React.Component {
             });
     }
 
+    a = () => {
+        axios.get('/api/getSpecificQuizAttempts', {
+            params: {
+                quizId: this.props.match.params.id
+            }
+        }).then((res) => {
+            // fetch the quizzes
+            console.log("HAHA");
+            console.log(this.state.quizzes);
+        })
+            .catch(err => console.error("Could not get the quizzes from the database: " + err));
+    }
+
     render() {
         const { classes } = this.props;
         const { quizzes, open, newValue, categoryOptions } = this.state;
@@ -324,6 +336,7 @@ export class Studentdocs extends React.Component {
                 this.setState({
                     quizzes: res.data.data
                 });
+                console.log(this.state.quizzes);
             })
                 .catch(err => console.error("Could not get the quizzes from the database: " + err));
         };
@@ -367,6 +380,7 @@ export class Studentdocs extends React.Component {
                             <Grid container spacing={4}>
                                 {/* Quizzes */}
                                 <Grid container spacing={5}>
+
                                     {quizzes.map((file, index) => (
                                         <Grid item xs={4} md={4} lg={4}>
                                             <Card className={classes.card}>
@@ -388,9 +402,28 @@ export class Studentdocs extends React.Component {
                                                                 <></>
                                                             }
                                                         </Typography>
-                                                        <Typography variant="body2" color="textSecondary" component="p">
-                                                            Description : {file.description}
-                                                        </Typography>
+                                                        {this.state.accountType === "tutor"
+                                                        ? <>
+                                                            <Typography variant="body2" color="textSecondary" component="p">
+                                                                Description : {file.description}
+                                                                <br/>
+                                                                Total Allowed Attempts : {file.allowed_attempts}
+                                                            </Typography>
+                                                        </>
+                                                        :
+                                                        <></>
+                                                        }
+                                                        {this.state.accountType === "student"
+                                                        ? <>
+                                                            <Typography variant="body2" color="textSecondary" component="p">
+                                                                Description : {file.description}
+                                                                <br/>
+                                                                Total Allowed Attempts : {file.allowed_attempts}
+                                                            </Typography>
+                                                            </>
+                                                            :
+                                                        <></>
+                                                        }
                                                     </CardContent>
                                                 </CardActionArea>
                                                 <CardActions>
@@ -405,7 +438,7 @@ export class Studentdocs extends React.Component {
                                                     }
                                                     {this.state.accountType === "student"
                                                         ? <Button type="button" size="small" href={'/quiz/' + file._id} fullWidth className="submit">
-                                                            Take Quiz
+                                                            Take Quiz, {file.allowed_attempts} Attempt(s) Left
                                                         </Button>
                                                         :
                                                         <></>
