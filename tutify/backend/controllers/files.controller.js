@@ -175,10 +175,10 @@ exports.getTutorPicture = async (req, res) => {
     });  
 }
 
+//this method get all badges from the db
 exports.getBadges = async (req, res) => {
   var finalFiles = [];
   var count = 0;
-
 
   Badges.find((err, badges) => {
 
@@ -186,7 +186,6 @@ exports.getBadges = async (req, res) => {
 
 
     badges.forEach((badge) => {
-      console.log(badge);
       // Retrieving the image information from the db (from uploads.files)
       Mfiles.findOne({ filename: badge.imageData}, async (err, file) => {
         if (err) {

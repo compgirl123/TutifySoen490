@@ -222,6 +222,22 @@ export const styles = theme => ({
   dialogBoxBadgePoints:{
     fontWeight: "bold", 
     fontSize: 15
-  }
+  },
   
+  avatarBadge:{
+    width: '100px', 
+    height: '100px'
+  },
+
+  avatarDialogBox:{
+    width: '150px', 
+    height: '150px' 
+  },
+
+  levelButton:{
+    marginTop: "50px", 
+    fontWeight: "bold", 
+    fontSize: 17
+  }
+
 });
