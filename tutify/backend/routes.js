@@ -13,6 +13,7 @@ var uploadedFilesController = require('./controllers/uploaded_files.controller')
 var resourceController = require('./controllers/resource.controller')
 var videoController = require('./controllers/videos.controller')
 var quizController = require('./controllers/quiz.controller')
+var badgeController = require('./controllers/badge.controller')
 
 // -------- TUTOR ROUTES --------- // 
 
@@ -71,8 +72,6 @@ router.post('/deleteNotification', userController.deleteNotification);
 router.post('/forgotPassword', userController.forgotPassword);
 
 router.post('/resetPassword', userController.resetPassword);
-
-router.post('/unlockBadge', userController.unlockBadge);
 
 // -------- ACCOUNT ROUTES --------- // 
 
@@ -134,8 +133,6 @@ router.get('/getPicture/:filename', filesController.getPicture);
 
 router.get('/getTutorPicture/:id', filesController.getTutorPicture);
 
-router.get('/getBadges', filesController.getBadges);
-
 // ---------  QUIZ ROUTES -------- //
 
 router.get('/getQuizes', quizController.getQuizes);
@@ -177,5 +174,11 @@ router.get('/getSelectVideos', videoController.getSelectVideos);
 router.post('/addVideo', videoController.addVideo);
 
 router.post('/deleteVideo', videoController.deleteVideo);
+
+// -------- BADGES --------- // 
+
+router.get('/getBadges', badgeController.getBadges);
+
+router.post('/unlockBadge', badgeController.unlockBadge);
 
 module.exports = router;

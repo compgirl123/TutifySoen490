@@ -33,7 +33,6 @@ class TrophiesView extends React.Component {
       dialogBoxfinalFile: "",
       dialogBoxBadgePoints: 100,
       dialogBoxDescription: "",
-      dialogBoxPointsLeft: 0,
       badges2: [],
       badges: [],
       id: "",
@@ -131,7 +130,7 @@ class TrophiesView extends React.Component {
             }
           }
         }
-
+        //splitting 8 badges into two arrays of 4 badges each
         for (var k = 0; k < 4; k++) {
           badges1.push(allBadges[k]);
           badges2.push(allBadges[k + 4]);

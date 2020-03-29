@@ -1,7 +1,6 @@
 const Account = require('../models/models').Account;
 const Student = require('../models/models').Student;
 const Tutor = require('../models/models').Tutor;
-const Badges = require('../models/models').Badges;
 
 var session = require('express-session');
 // Nodejs encryption with CTR
@@ -670,37 +669,4 @@ exports.deleteNotification = async function (req, res) {
     }).catch(err => {
         console.error("The notification has not been deleted properly: " + err);
     });
-};
-
-// this method unlocks a badge
-exports.unlockBadge = async function (req, res) {
-    const { student_id, badge_id, totalPoints } = req.body;
-
-    Student.update({ "_id": student_id, "badgeDiscriminator.badgeId": badge_id },
-        { "$set": { "badgeDiscriminator.$.enable": 1 } },
-        { "new": true, "upsert": true },
-        function (err, student) {
-            if (err) {
-                console.error("Unable to delete the file reference from the course's file list");
-                throw err;
-            }
-
-            Student.findByIdAndUpdate(student_id,
-                { $set: { "totalPoints": totalPoints } },
-                { "new": true, "upsert": true },
-                function (err, student) {
-                    if (err) {
-                        console.error("Unable to delete the file reference from the course's file list");
-                        throw err;
-                    }
-                    req.session.userInfo.totalPoints = totalPoints;
-                    req.session.userInfo.badgeDiscriminator = student.badgeDiscriminator;
-                    req.session.save();
-
-                    return res.json({ success: true, data: student });
-
-                });
-
-        });
-
 };

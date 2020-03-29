@@ -186,7 +186,7 @@ export const styles = theme => ({
     fontFamily: 'Arial Rounded MT Bold',
     fontSize: 50,
     color: 'rgba(0,200,83,1)',
-    marginTop: 20
+    marginTop: 40
   },
 
   levelHeading2:{
