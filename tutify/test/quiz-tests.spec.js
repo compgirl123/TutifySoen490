@@ -1,4 +1,5 @@
-import React from "react";
+// Not Ready now
+/*import React from "react";
 import InputBase from '@material-ui/core/InputBase';
 import Questions, { Questions as QuestionsClass } from "../src/components/Quiz/Questions";
 import { createMount } from '@material-ui/core/test-utils';
@@ -36,4 +37,4 @@ describe('The tutor search filter ', () => {
 
 
    
-}); 
+}); */
