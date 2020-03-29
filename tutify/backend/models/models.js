@@ -127,7 +127,20 @@ const StudentSchema = mongoose.Schema({
       course: {
         type: Schema.Types.ObjectId,
         ref: 'Course'
+
       },
+    }
+  ],
+  level: Number,
+  levelPoints: Number,
+  totalPoints: Number,
+  badgeDiscriminator: [
+    {
+      badgeId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Badges'
+      },
+      enable: Number
     }
   ]
 });
@@ -392,6 +405,14 @@ var Questions = mongoose.model('Questions', new Schema({
   }
 }), "questions");
 
+// -------- Badges --------- //
+var Badges = mongoose.model('Badges', new Schema({
+  imageName: String,
+  imageData: String,
+  description: String,
+  badgePoints: Number
+}), "badges");
+
 // export the Schemas
 module.exports = {
   Tutor: Tutor,
@@ -407,7 +428,9 @@ module.exports = {
   Mfiles: Mfiles,
   Mchunks: Mchunks,
   Resource: Resource,
-  Videos: Videos
+  Videos: Videos,
+  Badges: Badges
+
 }
 
 

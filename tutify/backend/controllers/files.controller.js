@@ -173,5 +173,3 @@ exports.getTutorPicture = async (req, res) => {
         });
     });  
 }
-
-

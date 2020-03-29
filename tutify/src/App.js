@@ -30,6 +30,7 @@ import ResetPassword from './components/ResetPassword/ResetPassword';
 import Quizzes from './components/Quiz/Questions';
 import QuizResults from './components/Quiz/QuizResults';
 import TutorPublicProfilePage from "./components/ProfilePage/Tutor/TutorPublicProfile/TutorPublicProfilePage";
+import TrophiesView from './components/TrophiesView/TrophiesView';
 
 // This is all the url routing.
 function MainPage() {
@@ -72,6 +73,7 @@ function MainPage() {
         <PrivateRoute exact path="/choosetutorVideo" component={ChooseTutorVideos} />
         <PrivateRoute exact path="/quiz" component={Quizzes} />
         <PrivateRoute exact path="/quizResults" component={QuizResults} />
+        <PrivateRoute exact path="/trophies" component={TrophiesView} />
         <Route path="*" component={NotFoundPage} />
       </Switch>
     </Router>

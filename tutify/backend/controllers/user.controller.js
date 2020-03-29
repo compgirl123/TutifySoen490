@@ -60,7 +60,7 @@ exports.resetPassword = async function (req, res) {
                                 function (err) {
                                     if (err) throw err;
                                 });
-                                console.info("Password was updated in the database.");
+                            console.info("Password was updated in the database.");
                             return res.json({ success: true, data: success });
                         });
                     };

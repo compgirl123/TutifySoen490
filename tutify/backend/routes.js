@@ -13,6 +13,7 @@ var uploadedFilesController = require('./controllers/uploaded_files.controller')
 var resourceController = require('./controllers/resource.controller')
 var videoController = require('./controllers/videos.controller')
 var quizController = require('./controllers/quiz.controller')
+var badgeController = require('./controllers/badge.controller')
 
 // -------- TUTOR ROUTES --------- // 
 
@@ -173,5 +174,11 @@ router.get('/getSelectVideos', videoController.getSelectVideos);
 router.post('/addVideo', videoController.addVideo);
 
 router.post('/deleteVideo', videoController.deleteVideo);
+
+// -------- BADGES --------- // 
+
+router.get('/getBadges', badgeController.getBadges);
+
+router.post('/unlockBadge', badgeController.unlockBadge);
 
 module.exports = router;

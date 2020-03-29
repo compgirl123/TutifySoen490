@@ -144,7 +144,100 @@ export const styles = theme => ({
    
     fontSize: "large"
 
+  },
+  badgeButton1: {
+    "&:hover": {
+      backgroundColor: "transparent"
+    },
+    marginTop: "30px"
+
+  },
+  badgeButton2: {
+    "&:hover": {
+      backgroundColor: "transparent"
+    },
+    marginTop: "-120px"
+
+  },
+
+  badgeButtonDisabled: {
+    "&:hover": {
+      backgroundColor: "transparent"
+    },
+    filter: "blur(2px)",
+    marginTop: "30px"
+
+  },
+
+  badgeButtonDisabled2: {
+    "&:hover": {
+      backgroundColor: "transparent"
+    },
+    filter: "blur(2px)",
+    marginTop: "-120px"
+
+  },
+
+  badgeGrid:{
+    alignItems:"right",
+  },
+
+  levelHeading:{
+    fontFamily: 'Arial Rounded MT Bold',
+    fontSize: 50,
+    color: 'rgba(0,200,83,1)',
+    marginTop: 40
+  },
+
+  levelHeading2:{
+    fontFamily: 'Arial Rounded MT Bold',
+    fontSize: 50,
+    color: 'grey',
+    marginTop: -60, 
+    marginLeft: 4  
+
+
+  },
+
+  CircularProgressbar:{
+    fontFamily: 'Arial Rounded MT Bold',
+    fontSize: '5px',
+    marginTop: 30, 
+
+  },
+
+  buttonBadges: {
+    "&:hover": {
+      backgroundColor: "transparent"
+    },
+    marginTop: "50px",
+  },
+
+  totalPoints:{
+    marginTop: "50px", 
+    fontWeight: "bold", 
+    fontSize: 15
+  },
+
+  dialogBoxBadgePoints:{
+    fontWeight: "bold", 
+    fontSize: 15
+  },
+  
+  avatarBadge:{
+    width: '100px', 
+    height: '100px'
+  },
+
+  avatarDialogBox:{
+    width: '150px', 
+    height: '150px' 
+  },
+
+  levelButton:{
+    marginTop: "50px", 
+    fontWeight: "bold", 
+    fontSize: 17
   }
 
-  
 });
