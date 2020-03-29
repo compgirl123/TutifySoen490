@@ -72,6 +72,9 @@ router.post('/forgotPassword', userController.forgotPassword);
 
 router.post('/resetPassword', userController.resetPassword);
 
+router.post('/unlockBadge', userController.unlockBadge);
+
+
 // -------- ACCOUNT ROUTES --------- // 
 
 router.get('/getAccountById', accountController.getAccountById);
