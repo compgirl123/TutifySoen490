@@ -132,6 +132,8 @@ router.get('/getPicture/:filename', filesController.getPicture);
 
 router.get('/getTutorPicture/:id', filesController.getTutorPicture);
 
+router.get('/getBadges', filesController.getBadges);
+
 // ---------  QUIZ ROUTES -------- //
 
 router.get('/getQuizes', quizController.getQuizes);
