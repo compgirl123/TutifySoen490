@@ -123,6 +123,21 @@ class TrophiesView extends React.Component {
       });
   }
 
+
+ handleClickOpen = (id) => {
+  var badge2 = [];
+  this.state.badges.forEach(function (badge) {
+    if (badge.label.badge._id === id) {
+      badge2 = badge;
+    }
+  });
+
+  this.setState({
+    open: true, dialogBoxFileName: badge2.label.badge.imageName, dialogBoxfinalFile: badge2.label.finalFile,
+    dialogBoxBadgePoints: badge2.label.badge.badgePoints, badge_id: id, dialogBoxenable: badge2.value.enable
+  });
+};
+
   render() {
     const { classes } = this.props;
     const { open } = this.state;
