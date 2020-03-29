@@ -30,8 +30,6 @@ import Select from '@material-ui/core/Select';
 import MenuItem from "@material-ui/core/MenuItem";
 import CardActions from '@material-ui/core/CardActions';
 
-// FOR TMR: DO A JOIN TO GET QUIZ ATTEMPTS
-
 // Defines what content is shown based on index of selected tab
 function a11yProps(index) {
     return {
@@ -49,16 +47,12 @@ export class Studentdocs extends React.Component {
             tutorId: "",
             tutorFirstName: "",
             tutorLastName: "",
-            optionsq1: [],
-            optionsq2: [],
-            correctq1: "",
-            correctq2: "",
             quizzes: [],
             course: "",
             courseIndex: 0,
-            points : 0,
+            points: 0,
             accountType: "",
-            allowedAttempts : 1,
+            allowedAttempts: 1,
             open: false,
             Toggle: false,
             categoryOptions: [],
@@ -187,6 +181,7 @@ export class Studentdocs extends React.Component {
         })
             .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
+
     // Getting all of the courses the user is taking for each tutor
     getUserCourses = () => {
         axios.get('/api/getUserCourses', {
@@ -211,8 +206,7 @@ export class Studentdocs extends React.Component {
             .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
 
-
-    // Adding a new quiz according to what the user inputs into the Dialog box to the db
+    // Adding a new quiz according to what the user inputs into the Dialog box to the database
     addQuizToDb = () => {
         var tutor = [];
         var inputtedOptionsq1 = [];
@@ -222,7 +216,6 @@ export class Studentdocs extends React.Component {
         var inputtedOptionsq2 = [];
         inputtedOptionsq2.push(this.state.option1q2, this.state.option2q2, this.state.option3q2, this.state.option4q2);
         this.setState({ options: inputtedOptionsq2 });
-        //swal to confirm the addition of new video
         swal({
             title: "Would you like to add the following quiz?",
             buttons: {
@@ -237,16 +230,16 @@ export class Studentdocs extends React.Component {
                         </b>
                     </p>
                     <p>
-                        <p>
-                            <b>
-                                Description : {this.state.description}
-                            </b>
-                        </p>
-                        <p>
-                            <b>
-                                Points : {this.state.points}
-                            </b>
-                        </p>
+                    <p>
+                        <b>
+                            Description : {this.state.description}
+                        </b>
+                    </p>
+                    <p>
+                        <b>
+                            Points : {this.state.points}
+                        </b>
+                    </p>
                         Tutor: {this.state.tutorFirstName} {this.state.tutorLastName}
                         <br />
                         Course: {this.state.course}
@@ -254,7 +247,7 @@ export class Studentdocs extends React.Component {
                 </div>
             )
         })
-            //adds the link, title, and course to the db 
+            // adds the link, title, and course to the database 
             .then((value) => {
                 if (value) {
                     console.info("Adding quiz to db...");
@@ -303,19 +296,6 @@ export class Studentdocs extends React.Component {
             });
     }
 
-    a = () => {
-        axios.get('/api/getSpecificQuizAttempts', {
-            params: {
-                quizId: this.props.match.params.id
-            }
-        }).then((res) => {
-            // fetch the quizzes
-            console.log("HAHA");
-            console.log(this.state.quizzes);
-        })
-            .catch(err => console.error("Could not get the quizzes from the database: " + err));
-    }
-
     render() {
         const { classes } = this.props;
         const { quizzes, open, newValue, categoryOptions } = this.state;
@@ -358,11 +338,9 @@ export class Studentdocs extends React.Component {
                                 aria-label="scrollable auto tabs example"
                                 onclick={(e) => { this.setState({ newValue: e.target.value }); this.getTutorClassquizzes(e); }}
                             >
-
                                 {categoryOptions.map((category, index) => (
                                     <Tab label={category} {...a11yProps(index)} />
                                 ))}
-
                             </Tabs>
                         </AppBar>
                         <Container maxWidth="lg" className={classes.container}>
@@ -380,7 +358,6 @@ export class Studentdocs extends React.Component {
                             <Grid container spacing={4}>
                                 {/* Quizzes */}
                                 <Grid container spacing={5}>
-
                                     {quizzes.map((file, index) => (
                                         <Grid item xs={4} md={4} lg={4}>
                                             <Card className={classes.card}>
@@ -403,26 +380,26 @@ export class Studentdocs extends React.Component {
                                                             }
                                                         </Typography>
                                                         {this.state.accountType === "tutor"
-                                                        ? <>
-                                                            <Typography variant="body2" color="textSecondary" component="p">
-                                                                Description : {file.description}
-                                                                <br/>
-                                                                Total Allowed Attempts : {file.allowed_attempts}
-                                                            </Typography>
-                                                        </>
-                                                        :
-                                                        <></>
-                                                        }
-                                                        {this.state.accountType === "student"
-                                                        ? <>
-                                                            <Typography variant="body2" color="textSecondary" component="p">
-                                                                Description : {file.description}
-                                                                <br/>
-                                                                Total Allowed Attempts : {file.allowed_attempts}
-                                                            </Typography>
+                                                            ? <>
+                                                                <Typography variant="body2" color="textSecondary" component="p">
+                                                                    Description : {file.description}
+                                                                    <br />
+                                                                    Total Allowed Attempts : {file.allowed_attempts}
+                                                                </Typography>
                                                             </>
                                                             :
-                                                        <></>
+                                                            <></>
+                                                        }
+                                                        {this.state.accountType === "student"
+                                                            ? <>
+                                                                <Typography variant="body2" color="textSecondary" component="p">
+                                                                    Description : {file.description}
+                                                                    <br />
+                                                                    Total Allowed Attempts : {file.allowed_attempts}
+                                                                </Typography>
+                                                            </>
+                                                            :
+                                                            <></>
                                                         }
                                                     </CardContent>
                                                 </CardActionArea>
@@ -437,7 +414,7 @@ export class Studentdocs extends React.Component {
                                                         <></>
                                                     }
                                                     {this.state.accountType === "student"
-                                                        ? <Button type="button" size="small" href={'/quiz/' + file._id} fullWidth className="submit" disabled={file.available_attempts<1}>
+                                                        ? <Button type="button" size="small" href={'/quiz/' + file._id} fullWidth className="submit" disabled={file.available_attempts < 1}>
                                                             Take Quiz, {file.available_attempts} Attempt(s) Left
                                                         </Button>
                                                         :
@@ -510,7 +487,6 @@ export class Studentdocs extends React.Component {
                                         defaultValue={this.state.allowedAttempts}
                                         fullWidth
                                     />
-
                                     <FormControl className={classes.formControl}>
                                         <InputLabel>
                                             Course

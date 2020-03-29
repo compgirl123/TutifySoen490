@@ -3,7 +3,7 @@ const Questions = require('../models/models').Questions;
 const QuizAttempt = require('../models/models').QuizAttempt;
 const Course = require('../models/models').Course;
 
-// this method fetches all available quizes from a tutor in our database
+// this method fetches all available quizes from a tutor in our database.
 exports.getQuizes = async (req, res) => {
     var id = [];
     if (req.session.userInfo.__t == "tutor") {
@@ -22,7 +22,7 @@ exports.getQuizes = async (req, res) => {
     });
 };
 
-// this method select the quizes by course
+// this method select all the quizes by specific course. 
 exports.getCourseQuizes = async (req, res) => {
     var id = [];
     if (req.session.userInfo.__t == "tutor") {
@@ -54,38 +54,34 @@ exports.getCourseQuizes = async (req, res) => {
                     var quiz = quizes[index].toObject();
                     attempt_done = 0;
                     if (quiz.attempts != undefined) {
-                        console.log(quiz.attempts.length);
                         if (quiz.attempts.length == undefined) {
                             if (quiz.attempts.student == req.session.userInfo._id) {
+                                console.info("Increase attempt number");
                                 attempt_done++;
                             }
                         }
                         else {
                             for (attemptIndex = 0; attemptIndex < quiz.attempts.length; attemptIndex++) {
                                 console.warn(quiz);
-                                console.log(quiz.attempts[attemptIndex].student == req.session.userInfo._id);
                                 if (quiz.attempts[attemptIndex].student == req.session.userInfo._id) {
+                                    console.info("Increase attempt number");
                                     attempt_done++;
                                 }
                             }
                         }
                     }
-
+                    console.info("Set allowed attempts left for student");
                     quiz.available_attempts = quiz.allowed_attempts - attempt_done;
                     mod_quizes.push(quiz);
                 }
                 console.info("The quizes of the course were found");
                 return res.json({ success: true, data: mod_quizes });
-
             }
             else {
                 console.info("The quizes of the course were found");
                 return res.json({ success: true, data: quizes });
             }
-
         });
-
-
     });
 };
 
@@ -110,7 +106,7 @@ exports.getSpecificQuiz = async (req, res) => {
     });
 };
 
-// this method returns the specific quiz the user is on.
+// this method returns all information concerning the specific quiz attempts for the quiz that the user has selected 
 exports.getSpecificQuizAttempts = async (req, res) => {
     var id = [];
     if (req.session.userInfo.__t == "tutor") {
@@ -131,11 +127,9 @@ exports.getSpecificQuizAttempts = async (req, res) => {
     });
 };
 
-// this method adds a new quiz to the database
+// this method adds a new quiz to the database.
 exports.addQuiz = async function (req, res) {
     const { title, description, tutorId, points, course, allowed_attempts } = req.body;
-    // questions
-    // new quiz to be added by tutor
     let quizes = new Quizes();
     quizes.title = title;
     quizes.description = description;
@@ -143,7 +137,6 @@ exports.addQuiz = async function (req, res) {
     quizes.points = points;
     quizes.allowed_attempts = allowed_attempts;
     quizes.attempts = [];
-    // ADD A FIND ONE FOR THE OTHER DB TOO
     await Course.findOne({ name: course, tutors: { $in: [tutorId] } }, async (err, foundCourse) => {
         quizes.course = foundCourse;
         quizes.save(function (err, quizes) {
@@ -158,10 +151,9 @@ exports.addQuiz = async function (req, res) {
     });
 };
 
-// this method adds a new attempt and links it to the quiz
+// this method adds a new attempt and links it to the quiz.
 exports.addAttempt = async function (req, res) {
-    const { completed_attempts, attempts_left, quiz_id, studentId } = req.body;
-    // new quiz to be added by tutor
+    const { completed_attempts, quiz_id, studentId } = req.body;
     let attempt = new QuizAttempt();
     attempt.completed_attempts = completed_attempts;
     attempt.quiz = quiz_id;
@@ -181,11 +173,10 @@ exports.addAttempt = async function (req, res) {
             }
             return res.json({ success: true, data: attempt });
         });
-
     });
 };
 
-// This method is to get all the attempts of a specific student
+// this method is to get all the attempts of a specific student.
 exports.getStudentAttempts = async function (req, res) {
     var lookup = [];
     if (req.session.userInfo.__t === "tutor") {
@@ -221,10 +212,9 @@ exports.getStudentAttempts = async function (req, res) {
             console.info("The specific tutor was found");
             return res.json({ success: true, data: attempts });
         });
-
 }
 
-// this method adds a new quiz to the database
+// this method fetches all the quizzes present in the database.
 exports.getAllQuestions = async function (req, res) {
     Questions.find({}, async (err, questions) => {
         if (err) {
@@ -236,15 +226,15 @@ exports.getAllQuestions = async function (req, res) {
     })
 };
 
-// this method retrieves the questions for the current quiz selected
+// this method retrieves the questions for the current quiz selected.
 exports.getSelectedQuizQuestions = async function (req, res) {
     var quiz_questions = [];
     await Quizes.find({ _id: req.query.quizId }, async (err, questions) => {
         await questions.forEach(async function (err, question) {
             await (questions[question].questions).forEach(async function (err, q) {
-                await Questions.find({ _id: questions[question].questions }, async (err, qs) => {
-                    await (qs).forEach(async function (err, qa) {
-                        quiz_questions.push(qs[qa]);
+                await Questions.find({ _id: questions[question].questions }, async (err, questionset) => {
+                    await (questionset).forEach(async function (err, eachquestion) {
+                        quiz_questions.push(questionset[eachquestion]);
                     });
                     if (err) {
                         console.error("The quizes were not found");
@@ -257,12 +247,10 @@ exports.getSelectedQuizQuestions = async function (req, res) {
     })
 };
 
-// this method adds a new question to the database
+// this method adds a new question to the database.
 exports.addQuestion = async function (req, res) {
-    const { question, choices, answerIndex, creator, course, quizId } = req.body;
-    // new quiz to be added by tutor
+    const { question, choices, answerIndex, creator, quizId } = req.body;
     let questions = new Questions();
-    let quizes = new Quizes();
     questions.question = question;
     questions.choices = choices;
     questions.answerIndex = answerIndex;
@@ -283,11 +271,11 @@ exports.addQuestion = async function (req, res) {
             { "new": true, "upsert": true },
             function (err, profile) {
                 if (err) {
-                    console.error("The uploaded file was unable to be updated in the database");
+                    console.error("The question was unable to be updated in the database");
                     throw err;
                 }
                 else {
-                    console.info("The file was uploaded successfully");
+                    console.info("The question was uploaded successfully");
                 }
             });
         console.info("The question was successfully added to the database");
@@ -295,10 +283,9 @@ exports.addQuestion = async function (req, res) {
     });
 };
 
-// this method deletes a quiz from the db
+// this method deletes a quiz from the db.
 exports.deleteQuiz = async function (req, res) {
     const { _id } = req.body;
-    // selected quiz to delete by tutor
     Quizes.findByIdAndRemove(_id, (err) => {
         if (err) {
             console.error("The delete order was given, but was not executed by the database. This may be due to a connection error.");
@@ -309,10 +296,9 @@ exports.deleteQuiz = async function (req, res) {
     });
 };
 
-// this method deletes a question from the db
+// this method deletes a question from the db.
 exports.deleteQuestion = async function (req, res) {
     const { _id } = req.body;
-    // selected quiz to delete by tutor
     Questions.findByIdAndRemove(_id, (err) => {
         if (err) {
             console.error("The delete order was given, but was not executed by the database. This may be due to a connection error.");
@@ -323,10 +309,9 @@ exports.deleteQuestion = async function (req, res) {
     });
 };
 
-// this method deletes an attempt from the db
+// this method deletes an attempt from the db.
 exports.deleteAttempt = async function (req, res) {
     const { _id } = req.body;
-    // selected quiz to delete by tutor
     QuizAttempt.findByIdAndRemove(_id, (err) => {
         if (err) {
             console.error("The delete order was given, but was not executed by the database. This may be due to a connection error.");

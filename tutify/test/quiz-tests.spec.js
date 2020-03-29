@@ -1,6 +1,6 @@
 import React from "react";
 import InputBase from '@material-ui/core/InputBase';
-import Questions, { Questions as Questions } from "../src/components/Quiz/Questions";
+import Questions, { Questions as QuestionsClass } from "../src/components/Quiz/Questions";
 import { createMount } from '@material-ui/core/test-utils';
 import { configure } from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";

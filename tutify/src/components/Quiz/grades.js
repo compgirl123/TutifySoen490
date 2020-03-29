@@ -3,9 +3,7 @@ import * as tutifyStyle from '../../styles/Quiz-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Paper from '@material-ui/core/Paper';
 import DashBoardNavBar from '../DashBoardNavBar';
-import Button from '@material-ui/core/Button';
 import axios from "axios";
-import swal from '@sweetalert/with-react';
 import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -23,7 +21,6 @@ export class StudentGradeView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      drawerOpened: false,
       students: [],
       attempts: [],
       tutor_id: "",
@@ -73,6 +70,7 @@ export class StudentGradeView extends React.Component {
     }
   }
 
+  // Loading all of the questions for the selected quiz. 
   loadAttempts = () => {
     axios.get('/api/getStudentAttempts', {
       params: {
@@ -86,59 +84,6 @@ export class StudentGradeView extends React.Component {
       });
     })
       .catch(err => console.error("Could not get the attempts from the database: " + err));
-  }
-
-
-  // Function that handles how the Share Document button is displayed on the page.
-  handleShareDocButton = (tableTitle = false, bottomButton = false) => {
-    if (!tableTitle) {
-      if (this.props.match.params.file === undefined) {
-        return <Button type="button" onClick={() => window.location.replace("/doclist")} variant="contained" size="small" className="submit">Share Document</Button>;
-      }
-      if (bottomButton) {
-        return <Button type="button" style={{ "left": "80%", "top": "10px" }} onClick={event => this.shareDocument(event, this.state.shareTo)} variant="contained" size="small" className="submit">
-          Share Document
-        </Button>;
-      }
-    }
-  }
-
-  // Function that handles how the View Document button is displayed on the page.
-  handleViewDocButton = (stuid, tableTitle = false, bottomButton = false) => {
-    if (!tableTitle) {
-      if (this.props.match.params.file === undefined) {
-        return <Button type="button" onClick={() => window.location.replace("/doc/" + stuid)} variant="contained" size="small" className="submit">View Documents</Button>;
-      }
-      if (bottomButton) {
-        return <Button type="button" style={{ "left": "80%", "top": "10px" }} onClick={event => this.shareDocument(event, this.state.shareTo)} variant="contained" size="small" className="submit">
-          Share Document
-        </Button>;
-      }
-    }
-  }
-
-  // Getting the student information from database.
-  FindStudents = () => {
-    axios.post('/api/findStudents', {
-      students: this.state.students
-    })
-      .then((res) => {
-        this.setState({ students: res.data.data });
-      }, (error) => {
-        console.error(error);
-      })
-  };
-
-  // Share document to selected students
-  shareDocument = (e, ids) => {
-    for (const studentid in ids) {
-      axios.post("/api/students/" + this.state.fileid, {
-        id_student: ids[studentid],
-        file_name: this.props.match.params.file
-      });
-    }
-
-    swal("Succesfully shared document to Student(s)!", "", "success");
   }
 
   render() {
