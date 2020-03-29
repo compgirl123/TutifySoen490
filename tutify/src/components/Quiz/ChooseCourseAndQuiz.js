@@ -39,7 +39,7 @@ function a11yProps(index) {
 }
 
 // displaying the documents shared to students
-export class Studentdocs extends React.Component {
+export class ChooseCourseAndQuiz extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -525,5 +525,5 @@ export class Studentdocs extends React.Component {
         );
     }
 }
-export default withStyles(tutifyStyle.styles, { withTheme: true })(Studentdocs);
+export default withStyles(tutifyStyle.styles, { withTheme: true })(ChooseCourseAndQuiz);
 

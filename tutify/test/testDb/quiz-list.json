@@ -1,0 +1,47 @@
+{
+    "data": [
+        {
+            "_id": {
+                "$oid": "5e7903b5f07077083cd949b4"
+            },
+            "questions": [
+                {
+                    "$oid": "5e7d12e047a0f53c4a02bf1f"
+                }
+            ],
+            "sharedToStudents": [],
+            "title": "Test",
+            "description": "Testee",
+            "tutorId": {
+                "$oid": "5dacd1cf1c9d440000aa0b1b"
+            },
+            "points": {
+                "$numberInt": "15"
+            },
+            "allowed_attempts": {
+                "$numberInt": "1"
+            },
+            "course": {
+                "$oid": "5e4f27e37c97b5073b437301"
+            },
+            "__v": {
+                "$numberInt": "0"
+            },
+            "available_attempts":2,
+            "attempts": [
+                {
+                    "$oid": "5e7ff285bb4bc360ab6431b1"
+                },
+                {
+                    "$oid": "5e7ff288bb4bc360ab6431b2"
+                },
+                {
+                    "$oid": "5e7ff2cbbb4bc360ab6431b4"
+                },
+                {
+                    "$oid": "5e7ff2cbbb4bc360ab6431b3"
+                }
+            ]
+        }
+    ]
+}

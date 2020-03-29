@@ -1,19 +1,16 @@
-// Not Ready now
 import React from "react";
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import TextField from "@material-ui/core/TextField";
 import Questions, { Questions as QuestionsClass } from "../src/components/Quiz/Questions";
 import { createMount } from '@material-ui/core/test-utils';
 import { configure } from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
-import { DialogContent } from "@material-ui/core";
 
 
 var json = require("./testDb/quiz.json");
 
 configure({ adapter: new Adapter() });
-describe('The tutor search filter ', () => {
+describe('The quiz page ', () => {
     let mount;
 
     beforeAll(() => {
@@ -36,9 +33,6 @@ describe('The tutor search filter ', () => {
             fancyBtn: "FANCYBTN",
             formControl: "FORMCONTROL"
         }
-
-        // Just a placeholder to make travis work
-        expect(true).toBe(true);
 
         // All the mounting and state setting
         const wrapper = mount(<Questions classes={mockedClass} match={mockedEvent}></Questions>);
