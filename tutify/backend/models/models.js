@@ -127,7 +127,20 @@ const StudentSchema = mongoose.Schema({
       course: {
         type: Schema.Types.ObjectId,
         ref: 'Course'
+
       },
+    }
+  ],
+  level: Number,
+  levelPoints: Number,
+  totalPoints: Number,
+  badgeDiscriminator: [
+    {
+      badgeId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Badges'
+      },
+      enable: Number
     }
   ]
 });
