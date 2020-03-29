@@ -1,6 +1,7 @@
 const Account = require('../models/models').Account;
 const Student = require('../models/models').Student;
 const Tutor = require('../models/models').Tutor;
+const Badges = require('../models/models').Badges;
 
 var session = require('express-session');
 // Nodejs encryption with CTR
@@ -669,4 +670,98 @@ exports.deleteNotification = async function (req, res) {
     }).catch(err => {
         console.error("The notification has not been deleted properly: " + err);
     });
+};
+
+// this method 
+exports.unlockBadge = async function (req, res) {
+    const { student_id, badge_id, totalPoints} = req.body;
+    
+    let enabled = {
+        badgeId: badge_id,
+        enable: 1
+    }
+    
+    var url = "badgeDiscriminator." + badge_id + ".enable";
+
+    Student.update({"_id": student_id, "badgeDiscriminator.badgeId" : badge_id },
+        { "$set": { "badgeDiscriminator.$.enable" : 1} },
+        { "new": true, "upsert": true },
+        function (err, student) {
+            if (err) {
+                console.error("Unable to delete the file reference from the course's file list");
+                throw err;
+        }
+/** 
+        Student.findOne({ _id: student_id }, function (err, student) {
+            if (err) {
+                console.error("The event " + event + " has not been found");
+                return res.json({ success: true, error: err });
+            };
+            //for(var i = 0; i < student.badgeDiscriminator; i++){
+                console.log(student.badgeDiscriminator);
+                
+                if(student.badgeDiscriminator[i].badgeId === badge_id){
+                req.session.userInfo.badgeDiscriminator = student.badgeDiscriminator;
+                req.session.save(); 
+                }
+                
+            //}
+               
+        });
+        */
+
+    Student.findByIdAndUpdate(student_id,
+        { $set: { "totalPoints": totalPoints }},
+        { "new": true, "upsert": true },
+        function (err, student) {
+            if (err) {
+                console.error("Unable to delete the file reference from the course's file list");
+                throw err;
+        }
+        console.log(student);
+        req.session.userInfo.totalPoints = totalPoints;
+        req.session.userInfo.badgeDiscriminator = student.badgeDiscriminator;
+        req.session.save();
+
+        return res.json({ success: true, data: student});
+
+    });
+
+});
+    /** 
+    Student.find((err, student) => {
+        if (err) return res.json({ success: false, error: err });
+        var students = student
+        
+    Badges.find((err, badge) => {
+        if (err) return res.json({ success: false, error: err });
+        for(var j = 0; j < students.length;j++)
+        {
+
+            var id = students[j]._id;
+
+        for(var i = 0; i < badge.length;i++){
+
+        let enabled = {
+            badgeId: badge[i]._id,
+            enable: 0
+        }
+        console.log(student[j]);
+         Student.findByIdAndUpdate(id,
+            { "$push": { "badgeDiscriminator": enabled } },
+            { "new": true, "upsert": true },
+            function (err, student) {
+                if (err) {
+                    console.error("Unable to delete the file reference from the course's file list");
+                    throw err;
+                }
+
+            });
+        }
+    }
+});
+        
+});
+*/
+    
 };
