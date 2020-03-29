@@ -354,8 +354,8 @@ var Videos = mongoose.model('Videos', new Schema({
   }
 }), "videos");
 
-// -------- Quizes --------- // 
-var Quizes = mongoose.model('Quizes', new Schema({
+// -------- Quizzes --------- // 
+var Quizzes = mongoose.model('Quizzes', new Schema({
   title: {
     type: String,
     required: true
@@ -392,7 +392,7 @@ var Quizes = mongoose.model('Quizes', new Schema({
     ref: 'QuizAttempt',
     required: true
   }]
-}), "quizes");
+}), "quizzes");
 
 // -------- Questions --------- // 
 var Questions = mongoose.model('Questions', new Schema({
@@ -415,7 +415,7 @@ var Questions = mongoose.model('Questions', new Schema({
   },
   quizId: {
     type: Schema.Types.ObjectId,
-    ref: 'Quizes',
+    ref: 'Quizzes',
     required: true
   }
 }), "questions");
@@ -429,11 +429,11 @@ var Badges = mongoose.model('Badges', new Schema({
 }), "badges");
 
 
-// Answers to the quizes
+// Answers to the quizzes
 var QuizAttempt = mongoose.model('QuizAttempt', new Schema({
   quiz: {
     type: Schema.Types.ObjectId,
-    ref: 'Quizes',
+    ref: 'Quizzes',
     required: true
   },
   student: {
@@ -447,7 +447,7 @@ var QuizAttempt = mongoose.model('QuizAttempt', new Schema({
 module.exports = {
   Tutor: Tutor,
   Profile: Profile,
-  Quizes: Quizes,
+  Quizzes: Quizzes,
   Questions: Questions,
   Student: Student,
   Account: Account,

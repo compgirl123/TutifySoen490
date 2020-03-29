@@ -73,25 +73,6 @@ export class Studentdocs extends React.Component {
         this.setState({ open: true });
     };
 
-    // This function gets the videos corresponding to each of the tutor's classes.
-    /*getTutorClassVideos = (e) => {
-        axios.get('/api/getSelectVideos', {
-            params: {
-                courseSelected: this.state.newValue,
-                tutorClasses: this.state.categoryOptions,
-                tutor: this.props.match.params.id
-            }
-        }).then((res) => {
-            // fetch the videos
-            console.info("Successfully fetched the videos from the class");
-            console.info(res);
-            this.setState({
-                videos: res.data.data
-            });
-        })
-            .catch(err => console.error("Could not get the videos from the database: " + err));
-    }*/
-
     // Setting the login state for the user.
     checkSession = () => {
         fetch('/api/checkSession', {
@@ -367,7 +348,7 @@ export class Studentdocs extends React.Component {
                                 variant="scrollable"
                                 scrollButtons="auto"
                                 aria-label="scrollable auto tabs example"
-                                onclick={(e) => { this.setState({ newValue: e.target.value }); /*this.getTutorClassVideos(e);*/ }}
+                                onclick={(e) => { this.setState({ newValue: e.target.value }); }}
                             >
 
                                 {categoryOptions.map((category, index) => (

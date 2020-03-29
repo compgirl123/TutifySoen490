@@ -19,7 +19,6 @@ describe('The quiz page ', () => {
 
     it('should display the questions properly', () => {
         // The value sent in the input
-        /*const mockedEvent = { target: { value: "ma"} } */
 
         const mockedEvent = {
             params: { id: '5e2a278df179bdc10d28385e' }
@@ -56,7 +55,6 @@ describe('The quiz page ', () => {
 
     it('should pop-up a dialog box when the state boolean changes', () => {
         // The value sent in the input
-        /*const mockedEvent = { target: { value: "ma"} } */
 
         const mockedEvent = {
             params: { id: '5e2a278df179bdc10d28385e' }

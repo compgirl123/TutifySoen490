@@ -17,7 +17,7 @@ import Footer from '../Footer';
 import Title from '../ProfilePage/Title';
 
 // Displaying the list of students the tutor can share their documents to.
-export class StudentGradeView extends React.Component {
+export class Grades extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -179,4 +179,4 @@ export class StudentGradeView extends React.Component {
     );
   }
 }
-export default withStyles(tutifyStyle.styles, { withTheme: true })(StudentGradeView);
+export default withStyles(tutifyStyle.styles, { withTheme: true })(Grades);

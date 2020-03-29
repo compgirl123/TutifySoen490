@@ -106,7 +106,7 @@ class Sidebar extends Component {
             <ListItemText primary="Quiz" />
           </ListItem>
 
-          <ListItem button component="a" href="/grades">
+          <ListItem button component="a" href="/Grades">
              <ListItemIcon>
                <AssessmentIcon />
              </ListItemIcon>
