@@ -65,17 +65,14 @@ export class ChooseCourseAndQuiz extends React.Component {
         this.checkSession();
     }
 
-    // Handling the Closing of the Dialog Box
     handleClose = () => {
         this.setState({ open: false, title: "" });
     };
 
-    // Handling the Opening of the Dialog Box
     handleClickOpen = () => {
         this.setState({ open: true });
     };
 
-    // Setting the login state for the user.
     checkSession = () => {
         fetch('/api/checkSession', {
             method: 'GET',
@@ -84,18 +81,14 @@ export class ChooseCourseAndQuiz extends React.Component {
             .then(response => response.json())
             .then((res) => {
                 if (res.isLoggedIn) {
-                    // if user is a tutor, then execute the following
                     if (res.userInfo.__t === "tutor") {
-                        // Setting the states for the tutor
                         this.setState({
                             tutorId: res.userInfo._id,
                             tutorFirstName: res.userInfo.first_name,
                             tutorLastName: res.userInfo.last_name,
                             accountType: res.userInfo.__t
                         })
-                        // getting tutor courses for filtering bar on top
                         this.getTutorCourses();
-                        // getting the first class's quizzes on first Load of page
                         this.getTutorClassquizzesOnFirstLoad();
                     }
                     // if user is a student, then execute the following
@@ -105,11 +98,8 @@ export class ChooseCourseAndQuiz extends React.Component {
                             tutorId: this.props.match.params.id,
                             accountType: res.userInfo.__t,
                         })
-                        // getting user courses
                         this.getUserCourses();
-                        // getting all tutors and their quizzes for a specific student
                         this.getAllquizzesStudent();
-                        // getting the first class's quizzes on first Load of page
                         this.getTutorClassquizzesOnFirstLoad();
                     }
 
@@ -129,9 +119,7 @@ export class ChooseCourseAndQuiz extends React.Component {
                 tutor: this.props.match.params.id
             }
         }).then((res) => {
-            // fetch the quizzes
             console.info("Successfully fetched the quizzes for the Student");
-            // setting state of the video array in order to get information from each video
             this.setState({
                 tutorFirstName: res.data.tutor.first_name,
                 tutorLastName: res.data.tutor.last_name
@@ -172,7 +160,6 @@ export class ChooseCourseAndQuiz extends React.Component {
                 tutor: this.props.match.params.id
             }
         }).then((res) => {
-            // fetch the quizzes
             console.info("Successfully fetched the quizzes from the class");
             console.info(res);
             this.setState({
@@ -186,7 +173,6 @@ export class ChooseCourseAndQuiz extends React.Component {
     getUserCourses = () => {
         axios.get('/api/getUserCourses', {
         }).then((res) => {
-            // fetch the quizzes
             var courses = [];
             console.info("Successfully fetched the quizzes");
             for (var x = 0; x < res.data.data.length; x++) {
@@ -230,16 +216,16 @@ export class ChooseCourseAndQuiz extends React.Component {
                         </b>
                     </p>
                     <p>
-                    <p>
-                        <b>
-                            Description : {this.state.description}
-                        </b>
-                    </p>
-                    <p>
-                        <b>
-                            Points : {this.state.points}
-                        </b>
-                    </p>
+                        <p>
+                            <b>
+                                Description : {this.state.description}
+                            </b>
+                        </p>
+                        <p>
+                            <b>
+                                Points : {this.state.points}
+                            </b>
+                        </p>
                         Tutor: {this.state.tutorFirstName} {this.state.tutorLastName}
                         <br />
                         Course: {this.state.course}
@@ -247,7 +233,6 @@ export class ChooseCourseAndQuiz extends React.Component {
                 </div>
             )
         })
-            // adds the link, title, and course to the database 
             .then((value) => {
                 if (value) {
                     console.info("Adding quiz to db...");
@@ -300,7 +285,6 @@ export class ChooseCourseAndQuiz extends React.Component {
         const { classes } = this.props;
         const { quizzes, open, newValue, categoryOptions } = this.state;
 
-        // Handling the change in option in the top filtering by course bar
         const handleChange = (event, newValue) => {
             this.setState({ newValue: newValue });
             axios.get('/api/getCourseQuizes', {
@@ -311,7 +295,6 @@ export class ChooseCourseAndQuiz extends React.Component {
                     tutor: this.props.match.params.id
                 }
             }).then((res) => {
-                // fetch the quizzes
                 console.info("Successfully fetched the quizzes");
                 this.setState({
                     quizzes: res.data.data
