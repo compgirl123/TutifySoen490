@@ -144,6 +144,49 @@ export const styles = theme => ({
    
     fontSize: "large"
 
+  },
+  badgeButton1: {
+    "&:hover": {
+      backgroundColor: "transparent"
+    },
+    marginTop: "30px"
+
+  },
+  badgeButton2: {
+    "&:hover": {
+      backgroundColor: "transparent"
+    },
+    marginTop: "-120px"
+
+  },
+
+  badgeButtonDisabled: {
+    "&:hover": {
+      backgroundColor: "transparent"
+    },
+    filter: "blur(2px)",
+    marginTop: "30px"
+
+  },
+
+  badgeButtonDisabled2: {
+    "&:hover": {
+      backgroundColor: "transparent"
+    },
+    filter: "blur(2px)",
+    marginTop: "-120px"
+
+  },
+
+  badgeGrid:{
+    alignItems:"right",
+  },
+  levelHeading:{
+    fontFamily: 'Arial Rounded MT Bold',
+    fontSize: 70,
+    color: 'rgba(0,200,83,1)',
+    marginTop: 20
+
   }
 
   
