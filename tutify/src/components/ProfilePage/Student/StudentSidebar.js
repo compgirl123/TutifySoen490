@@ -69,8 +69,6 @@ class Sidebar extends Component {
             <ListItemText primary="My Trophies" />
           </ListItem>
 
-          
-
           <ListItem button component="a" href="/courses">
             <ListItemIcon>
               <MenuBookIcon />

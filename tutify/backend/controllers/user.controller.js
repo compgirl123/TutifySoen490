@@ -693,7 +693,6 @@ exports.unlockBadge = async function (req, res) {
                         console.error("Unable to delete the file reference from the course's file list");
                         throw err;
                     }
-                    console.log(student);
                     req.session.userInfo.totalPoints = totalPoints;
                     req.session.userInfo.badgeDiscriminator = student.badgeDiscriminator;
                     req.session.save();

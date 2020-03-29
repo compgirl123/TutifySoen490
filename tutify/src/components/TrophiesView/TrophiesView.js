@@ -81,7 +81,7 @@ class TrophiesView extends React.Component {
 
   //this function unlocks a badge
   Unlock = () => {
-    
+
     swal({
       title: "Are you sure you want to unlock this badge?",
       icon: "warning",
@@ -90,7 +90,7 @@ class TrophiesView extends React.Component {
     })
       .then((willDelete) => {
         if (willDelete) {
-        
+
           var totalPoints = this.state.totalPoints - this.state.dialogBoxBadgePoints;
           //unlock badge backend
           console.info("Unlocking badge...");
@@ -167,7 +167,7 @@ class TrophiesView extends React.Component {
     const { open } = this.state;
     const percentage = this.state.levelPoints;
     const value = (this.state.levelPoints / 200) * 100;
-    
+
     return (
       <React.Fragment>
 
@@ -219,7 +219,7 @@ class TrophiesView extends React.Component {
 
                       {badge.value.enable === 1 ?
                         <Button variant="outlined" className={classes.badgeButton1} onClick={() => { this.handleClickOpen(badge.label.badge._id); }}>
-                          <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadge}/>
+                          <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadge} />
                         </Button>
                         :
                         <Button variant="outlined" className={classes.badgeButtonDisabled} onClick={() => { this.handleClickOpen(badge.label.badge._id); }}>
