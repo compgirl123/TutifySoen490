@@ -94,7 +94,35 @@ class TrophiesView extends React.Component {
 
   
 
-  
+  getBadges = () => {
+    axios.get('/api/getBadges')
+      .then((res) => {
+        var allBadges = [];
+        var badges1 = [];
+        var badges2 = [];
+        var bag1 = [];
+        for (var i = 0; i < 8; i++) {
+          for (var j = 0; j < 8; j++) {
+            if (this.state.discriminator[j].badgeId === res.data.data[i].badge._id) {
+              bag1 = this.state.discriminator[j];
+              allBadges.push({ label: res.data.data[i], value: bag1 });
+            }
+          }
+        }
+
+        for (var i = 0; i < 4; i++) {
+          badges1.push(allBadges[i]);
+          badges2.push(allBadges[i + 4]);
+        }
+        this.setState({
+          badges1: badges1, badges2: badges2, badges: allBadges, dialogBoxFileName: res.data.data[0].badge.imageName,
+          dialogBoxfinalFile: res.data.data[0].finalFile, dialogBoxBadgePoints: res.data.data[0].badge.badgePoints,
+        });
+      }, (error) => {
+        console.error("Could not get uploaded profile image from database (API call error) " + error);
+      });
+  }
+
   render() {
     const { classes } = this.props;
     const { open } = this.state;
