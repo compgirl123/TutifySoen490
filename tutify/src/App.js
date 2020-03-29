@@ -21,6 +21,7 @@ import Studentdocs from './components/ProfilePage/Studentdocs';
 import Tutordocs from './components/ProfilePage/Tutordocs';
 import TutorVideos from './components/VideoPage/VideoPage';
 import ChooseTutorVideos from './components/VideoPage/ChooseTutorVideoPage';
+import ChooseTutorQuizzes from './components/Quiz/ChooseTutorForQuizzes';
 import ResourcePage from './components/Resources/ResourcePage';
 import PrivateRoute from './components/PrivateRoute';
 import MainRoute from './components/MainRoute';
@@ -28,7 +29,8 @@ import NotFoundPage from './components/NotFoundPage';
 import ForgotPassword from './components/ResetPassword/ForgotPassword';
 import ResetPassword from './components/ResetPassword/ResetPassword';
 import Quizzes from './components/Quiz/Questions';
-import QuizResults from './components/Quiz/QuizResults';
+import Grades from './components/Quiz/Grades';
+import ChooseCourseAndQuiz from './components/Quiz/ChooseCourseAndQuiz';
 import TutorPublicProfilePage from "./components/ProfilePage/Tutor/TutorPublicProfile/TutorPublicProfilePage";
 import TrophiesView from './components/TrophiesView/TrophiesView';
 
@@ -72,8 +74,13 @@ function MainPage() {
         <PrivateRoute exact path="/videos/:id" component={TutorVideos} />
         <PrivateRoute exact path="/choosetutorVideo" component={ChooseTutorVideos} />
         <PrivateRoute exact path="/quiz" component={Quizzes} />
-        <PrivateRoute exact path="/quizResults" component={QuizResults} />
         <PrivateRoute exact path="/trophies" component={TrophiesView} />
+        <PrivateRoute exact path="/quiz/:id" component={Quizzes} />
+        <PrivateRoute exact path="/choosetutorQuiz/:id" component={ChooseTutorQuizzes} />
+        <PrivateRoute exact path="/choosetutorQuiz" component={ChooseTutorQuizzes} />
+        <PrivateRoute exact path="/Grades" component={Grades} />
+        <PrivateRoute exact path="/chooseClassAndQuiz/:id" component={ChooseCourseAndQuiz} />
+        <PrivateRoute exact path="/chooseClassAndQuiz" component={ChooseCourseAndQuiz} />
         <Route path="*" component={NotFoundPage} />
       </Switch>
     </Router>

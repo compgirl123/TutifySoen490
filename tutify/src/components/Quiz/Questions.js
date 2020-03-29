@@ -3,167 +3,394 @@ import * as tutifyStyle from '../../styles/Quiz-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Paper from '@material-ui/core/Paper';
 import DashBoardNavBar from '../DashBoardNavBar';
+import Button from '@material-ui/core/Button';
+import axios from "axios";
+import swal from '@sweetalert/with-react';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import TextField from '@material-ui/core/TextField';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import Grid from '@material-ui/core/Grid';
+import MenuItem from "@material-ui/core/MenuItem";
 
-const dataa = [
-    {
-        question: 'What does CSS stand for?',
-        choices: ['Computer Style Sheets', 'Creative Style Sheets', 'Cascading Style Sheets', 'Colorful Style Sheets'],
-        correct: 3
-    },
-    {
-        question: 'Where in an HTML document is the correct place to refer to an external style sheet?',
-        choices: ['In the <head> section', 'In the <body> section', 'At the end of the document', 'You can\'t refer to an external style sheet'],
-        correct: 1
-    }
-]
 var answersSelected = [];
 var answersSelectedNumerical = [];
-class Questions extends React.Component {
+var colorArr = [];
+var specificQuestionsAnswered = [];
+
+export class Questions extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            nr: 0,
-            total: dataa.length,
-            showButton: false,
             questionAnswered: false,
-            score: 0,
-            finalScore: 0,
-            displayPopup: 'flex',
-            isAnswered: false,
             classNames: false,
             answerSelected: 0,
             datas: [],
             selectedAnswers: [],
             answersSelectedNumerical: [],
-            percent: ""
+            categoryOptions: [],
+            option1q1: "",
+            option2q1: "",
+            option3q1: "",
+            option4q1: "",
+            correctq1: "",
+            question1: "",
+            finishedQuiz: false,
+            showButtonTutor: true,
+            showButtonStudent: true,
+            color: ['red', 'red'],
+            open: false,
+            questionsClicked: false,
+            nbQuestionsAnswered: [],
+            quizzes: [],
+            left_attempts: 0
         }
-        this.nextQuestion = this.nextQuestion.bind(this);
-        this.last = this.last.bind(this);
+        this.finishQuiz = this.finishQuiz.bind(this);
         this.handleShowButton = this.handleShowButton.bind(this);
-        this.handleStartQuiz = this.handleStartQuiz.bind(this);
-        this.handleIncreaseScore = this.handleIncreaseScore.bind(this);
-        this.handleDecreaseScore = this.handleDecreaseScore.bind(this);
         this.checkAnswer = this.checkAnswer.bind(this);
+        this.addPointstoDb = this.addPointstoDb.bind(this);
+        this.quizAttempts = this.quizAttempts.bind(this);
     }
 
     componentWillMount() {
-        this.setState({datas:dataa});  
+        this.loadQuestions();
+        this.checkSession();
     }
 
-    async loadQuestions() {
-        fetch('/api/getAllQuestions')
-            .then(res => res.json())
-            .then(res => {
-                if (res.data !== undefined) {
-                    this.setState({ datas: res.data, session: res.session });
+    // Setting the login state for the user for both tutor and student.
+    checkSession = () => {
+        fetch('/api/checkSession', {
+            method: 'GET',
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .then((res) => {
+                if (res.isLoggedIn) {
+                    // if user is a tutor, then execute the following
+                    if (res.userInfo.__t === "tutor") {
+                        // Setting the states for the tutor
+                        this.setState({
+                            tutorId: res.userInfo._id,
+                            tutorFirstName: res.userInfo.first_name,
+                            tutorLastName: res.userInfo.last_name,
+                            accountType: res.userInfo.__t
+                        })
+                        // getting tutor courses for filtering bar on top
+                        this.getTutorCourses();
+                    }
+                    // if user is a student, then execute the following
+                    else if (res.userInfo.__t === "student") {
+                        console.log(res);
+                        // Setting the states for the student
+                        this.setState({
+                            tutorId: res.userInfo._id,
+                            accountType: res.userInfo.__t,
+                        })
+                        // getting user courses
+                        this.getUserCourses();
+                        this.getTutorClassquizzesOnFirstLoad();
+                    }
                 }
                 else {
-                    this.setState({ datas: [], session: res.session });
+                    this.setState({ Toggle: false });
                 }
-                console.info("The files have been loaded");
             })
-            .catch(err => console.error("Could not load the files: " + err));
+            .catch(err => console.error(err));
+    };
+
+    // Getting all of the courses the tutor teaches
+    getTutorCourses = () => {
+        axios.get('/api/getTutorCourses', {
+        }).then((res) => {
+            var courses = [];
+            console.info("Successfully fetched the courses");
+            for (var x = 0; x < res.data.data.length; x++) {
+                courses.push(res.data.data[x].course.name);
+            }
+            this.setState({
+                categoryOptions: courses
+            });
+
+            if (!localStorage.getItem("reloadTutor")) {
+                // Setting localStorage variable to reload page to reload Questions for tutor.
+                localStorage.setItem("reloadTutor", true);
+                window.location.reload(true);
+            }
+            // Store all of the tutor's courses in a localStorage variable to display courses on page.
+            localStorage.setItem("courses", courses);
+            return res.data;
+        })
+            .catch(err => console.error("Could not get the courses from the database: " + err));
     }
 
-    nextQuestion() {
-        let { nr, total } = this.state;
-
-        if (this.state.answerSelected === this.state.correct) {
-            this.handleIncreaseScore();
-        }
-        else {
-            this.handleDecreaseScore();
-        }
-
-        if (nr === total) {
+    // Getting all of the courses the user is taking for each tutor
+    getUserCourses = () => {
+        axios.get('/api/getUserCourses', {
+        }).then((res) => {
+            // fetch the courses
+            var courses = [];
+            console.info("Successfully fetched the courses");
+            for (var x = 0; x < res.data.data.length; x++) {
+                if (res.data.data[x].tutor._id === this.props.match.params.id) {
+                    courses.push(res.data.data[x].course.name)
+                }
+            }
+            localStorage.setItem("courses", courses);
             this.setState({
-                displayPopup: 'flex'
+                categoryOptions: courses
             });
-            alert(this.state.score);
-        } else {
-            this.pushData(nr);
-            this.setState({
-                showButton: false,
-                questionAnswered: false
-            });
-            this.setState({
-                showButton: false,
-                questionAnswered: false
-            });
-        }
-
+            if (!localStorage.getItem("reloadStudents")) {
+                localStorage.setItem("reloadStudents", true);
+                window.location.reload(true);
+            }
+        })
+            .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
 
+    // Loading all of the questions for the selected quiz.
+    loadQuestions = () => {
+        axios.get('/api/getSelectedQuizQuestions', {
+            params: {
+                quizId: this.props.match.params.id
+            }
+        }).then((res) => {
+            // fetch the questions
+            if (res.data !== undefined) {
+                this.setState({ datas: res.data.data, session: res.session, total: res.data.data.length });
+            }
+            else {
+                this.setState({ datas: [], session: res.session, total: [] });
+            }
+        })
+            .catch(err => console.error("Could not get the questions from the database: " + err));
+    }
+
+    // Handling the showing of the finish quiz button and return to menu button.
     handleShowButton() {
         this.setState({
-            showButton: true,
+            showButtonTutor: true,
+            showButtonStudent: true,
             questionAnswered: true
         })
-
     }
 
-    handleStartQuiz() {
-        this.setState({
-            displayPopup: 'none',
-            nr: 1
-        });
-    }
+    // Handling the Closing of the Dialog Box
+    handleClose = () => {
+        this.setState({ open: false, title: "", description: "", question: "", course: "" });
+    };
 
-    handleIncreaseScore() {
-        this.setState({
-            score: this.state.score + 1
-        });
-    }
+    // Handling the Opening of the Dialog Box
+    handleClickOpen = () => {
+        this.setState({ open: true });
+    };
 
-    handleDecreaseScore() {
-        this.setState({
-            score: this.state.score - 1
-        });
-    }
-
+    // Constantly checking answer upon selection of an option for each question of the quiz. 
     checkAnswer(e) {
+        // Getting the question number and answer selected
         let elem = e.currentTarget;
+        let questionIndex = Number((elem.dataset.id).split(",")[1]);
+        specificQuestionsAnswered[questionIndex] = true;
+        this.setState({ nbQuestionsAnswered: specificQuestionsAnswered });
         let answer = Number((elem.dataset.id).split(",")[2]);
-        let correct = Number(this.state.datas[(elem.dataset.id).split(",")[1]].answerIndex+1);
+        let correct = Number(this.state.datas[(elem.dataset.id).split(",")[1]].answerIndex);
         let updatedClassNames = this.state.classNames;
-        if (answer === correct) {
-            if (this.state.score <= this.state.total - 1) {
-                this.handleIncreaseScore();
-            }
-        }
-        else {
-            if (this.state.score > 0) {
-                this.handleDecreaseScore();
-            }
-        }
-        this.setState({
-            classNames: updatedClassNames
-        })
+        this.setState({ questionsClicked: true });
 
-        answersSelected[(elem.dataset.id).split(",")[1]] = (elem.dataset.id).split(",")[0];
-        answersSelectedNumerical[(elem.dataset.id).split(",")[1]] = Number((elem.dataset.id).split(",")[2]);
+        // if quiz is not finished but user selects answer, then save answer selected
+        if (this.state.finishedQuiz === false) {
+            if (answer === correct) {
+                // set the correct answer to be shown in green if the person taking the quiz has answered correctly
+                colorArr[(elem.dataset.id).split(",")[1]] = 'green';
+            }
+            else {
+                // set the correct answer to be shown in red if the person taking the quiz has not answered correctly
+                colorArr[(elem.dataset.id).split(",")[1]] = 'red';
+            }
 
-        this.setState({
-            answerSelected: elem.dataset.id,
-            selectedAnswers: answersSelected,
-            answersSelectedNumerical: answersSelectedNumerical
-        })
-        this.handleShowButton();
+            this.setState({
+                color: colorArr,
+                classNames: updatedClassNames
+            })
+
+            answersSelected[(elem.dataset.id).split(",")[1]] = (elem.dataset.id).split(",")[0];
+            answersSelectedNumerical[(elem.dataset.id).split(",")[1]] = Number((elem.dataset.id).split(",")[2]);
+
+            // saving all of the final answered questions into states.
+            this.setState({
+                answerSelected: elem.dataset.id,
+                selectedAnswers: answersSelected,
+                answersSelectedNumerical: answersSelectedNumerical
+            })
+            this.handleShowButton();
+        }
     }
 
-    componentDidMount() {
-        this.setState({
-            classNames: ['', '', '', '']
-        });
+    /**
+     * Handles what happends when quiz is finished. Forces user to answer all questions to make
+     * the quiz count for the total number of points earned for that quiz.
+     **/
+    finishQuiz() {
+        if (this.state.nbQuestionsAnswered.length < this.state.total) {
+            alert("Please Answer all Questions");
+            console.info("If the number of answered questions is less than the total, inform user that they need to answer all questions");
+        }
+        else if (this.state.nbQuestionsAnswered.length === this.state.total) {
+            if (this.state.nbQuestionsAnswered.includes(undefined) === true) {
+                alert("Please Answer all Questions");
+                console.info("If the number of answered questions is less than the total, inform user that they need to answer all questions");
+            }
+            else if (this.state.nbQuestionsAnswered.includes(undefined) === false) {
+                if (this.state.accountType === "student") {
+                    if (this.state.questionsClicked === true) {
+                        this.addPointstoDb();
+                        this.setState({ finishedQuiz: true });
+                        this.setState({ showButtonTutor: false });
+                        this.setState({ showButtonStudent: false });
+                    }
+                    else if (this.state.questionsClicked === false) {
+                        alert("Please Answer at least one Question");
+                    }
+                }
+                else if (this.state.accountType === "tutor") {
+                    if (this.state.questionsClicked === true) {
+                        this.setState({ finishedQuiz: true });
+                        this.setState({ showButtonTutor: false });
+                        this.setState({ showButtonStudent: false });
+                    }
+                    else if (this.state.questionsClicked === false) {
+                        alert("Please Answer at least one Question");
+                    }
+
+                }
+            }
+        }
     }
 
-    last() {
-        this.setState({ finalScore: this.state.score });
+    // This function retrieves the quizzes corresponding to each of the tutor's classes.
+    getTutorClassquizzesOnFirstLoad = () => {
+        axios.get('/api/getSpecificQuiz', {
+            params: {
+                quizId: this.props.match.params.id
+            }
+        }).then((res) => {
+            // fetch the quizzes
+            console.info("Successfully fetched the quizzes from the class");
+            console.info(res);
+            this.setState({
+                quizzes: res.data.data.allowed_attempts,
+                attempts_left: res.data.data.allowed_attempts - 1
+            });
+            this.quizAttempts();
+        })
+            .catch(err => console.error("Could not get the quizzes from the database: " + err));
+    }
+
+    // Fetches all of the attempts for certain quizzes corresponding to a certain class.
+    quizAttempts = () => {
+        axios.get('/api/getSpecificQuizAttempts', {
+            params: {
+                quizId: this.props.match.params.id
+            }
+        }).then((res) => {
+            // fetch the quizzes
+            var quiz_attempts = [];
+            console.info("Successfully fetched the quizzes from the class");
+            if (res.data.data.length === 0) {
+                this.setState({ left_attempts: this.state.quizzes - 1 });
+            }
+            if (res.data.data.length > 0) {
+                for (var x = 0; x < res.data.data.length; x++) {
+                    quiz_attempts.push(res.data.data[x].attempts_left);
+                }
+                this.setState({ left_attempts: Math.min(...quiz_attempts) - 1 });
+                if (this.state.left_attempts <= 0) {
+                    window.location.replace("/choosetutorQuiz");
+                }
+            }
+        })
+            .catch(err => console.error("Could not get the quizzes from the database: " + err));
+    }
+
+    // This function adds the completed quiz with the points associated with it as an attempt for the student.
+    addPointstoDb = () => {
+        axios.post('/api/addAttempt', {
+            completed_attempts: this.state.quizzes,
+            quiz_id: this.props.match.params.id,
+            studentId: this.state.tutorId
+        }).then((res) => {
+            console.info("Successfully created an attempt");
+        })
+            .catch(err => console.error("Could not create an attempt and put it in the database: " + err));
+    }
+
+    // Adding a new question according to what the user inputs into the Dialog box to the db
+    addQuestionToDb = () => {
+        var tutor = [];
+        var inputtedOptions = [];
+        tutor.push(this.state.id);
+        inputtedOptions.push(this.state.option1q1, this.state.option2q1, this.state.option3q1, this.state.option4q1);
+        this.setState({ options: inputtedOptions });
+        swal({
+            title: "Would you like to add the following question to the quiz page?",
+            buttons: {
+                confirm: "Yes",
+                cancel: "Cancel",
+            },
+            content: (
+                <div>
+                    <p>
+                        <p>
+                            <b> Question: {this.state.question1} </b>
+                        </p>
+                        <p>
+                            <b>
+                                Options: {this.state.options}
+                            </b>
+                            <p>Option 1: {this.state.option1q1}</p>
+                            <p>Option 2: {this.state.option2q1}</p>
+                            <p>Option 3: {this.state.option3q1}</p>
+                            <p>Option 4: {this.state.option4q1}</p>
+                        </p>
+                        <p>
+                            <b>
+                                Correct: {this.state.correctq1}
+                            </b>
+                        </p>
+                    Tutor: {this.state.tutorFirstName} {this.state.tutorLastName}
+                    </p>
+                </div>
+            )
+        })
+            // adds the question, choices, answerIndex, creator and quizId to database
+            .then((value) => {
+                if (value) {
+                    console.info("Adding question to db...");
+                    axios.post('/api/addQuestion', {
+                        question: this.state.question1,
+                        choices: inputtedOptions,
+                        answerIndex: this.state.correctq1,
+                        creator: this.state.tutorId,
+                        quizId: this.props.match.params.id
+                    })
+                        .then((res) => {
+                            swal("Question successfully added!", "", "success");
+                            window.location.reload();
+                            console.log(res);
+                            console.log(this.state.course);
+                        }, (error) => {
+                            console.error("Could not add question to database (API call error) " + error);
+                        });
+                }
+            });
     }
 
     render() {
         const { classes } = this.props;
-        let { datas, total } = this.state;
+        let { datas, open, total } = this.state;
 
         return (
             <Paper>
@@ -171,10 +398,21 @@ class Questions extends React.Component {
                     <main>
                         <DashBoardNavBar />
                         <div className={classes.main}>
+
+                            <div>
+                                {this.state.accountType === "tutor" ?
+                                    <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addQuestionToDb} >
+                                        Add Questions
+                                </Button>
+                                    :
+                                    <br />
+                                }
+                            </div>
+
                             {datas.map((c, i) => (
                                 <div className="col-lg-10 col-lg-offset-1">
                                     <div className={classes.question}>
-                                        <h4 className={classes.h4}> Question {i + 1}/{total}</h4>
+                                        <h1> Question {i + 1}/{total}</h1>
                                         <p className={classes.p}>{c.question}</p>
                                     </div>
                                     <div id="answers">
@@ -187,21 +425,128 @@ class Questions extends React.Component {
                                     </div>
                                     <div className={classes.submit}>
                                         <br />
-                                        {this.state.selectedAnswers[i] !== undefined ? `Answer Chosen: ${this.state.selectedAnswers[i]}` : `Answer Chosen: Please Choose an Answer}`}
+                                        {this.state.selectedAnswers[i] !== undefined ? `Answer Chosen: ${this.state.selectedAnswers[i]}` : `Answer Chosen: Please Choose an Answer`}
                                         <br />
+                                        <b><font color={this.state.color[i]}>
+                                            {this.state.finishedQuiz === true ?
+                                                `Correct Answer : ${c.choices[c.answerIndex - 1]}`
+                                                :
+                                                <br />
+                                            }
+                                        </font>
+                                        </b>
                                         <br />
                                     </div>
                                 </div>
                             ))}
-                            <div class={classes.wrapper}>
-                                <button className={classes.fancyBtn} onClick={this.last} >{'Finish quiz'}</button>
+                            <div className={classes.wrapper}>
+                                {this.state.showButtonStudent === true
+                                    ? <button className={classes.fancyBtn} onClick={this.finishQuiz}>{'Finish quiz'}</button>
+                                    : [
+                                        (this.state.accountType === "tutor"
+                                            ?
+                                            <>
+                                                <button className={classes.fancyBtn} onClick={() => window.location.replace("/chooseClassAndQuiz")}>{'Return To Main Quiz Page'}</button>
+                                            </>
+                                            : <></>
+                                        ),
+                                        (this.state.accountType === "student"
+                                            ?
+                                            <>
+                                                <div className={classes.wrapper}>
+                                                    <p> Congrats! You successfully completed this {this.state.total} question quiz.</p>
+                                                </div>
+                                                <button className={classes.fancyBtn} onClick={() => window.location.replace("/choosetutorQuiz")}>{'Return To Main Quiz Page'}</button>
+                                            </>
+                                            : <></>
+                                        )
+                                    ]
+                                }
                             </div>
-                            <div class={classes.wrapper}>
-                                <p>Score: You got {this.state.finalScore}/ {this.state.total} or {(this.state.finalScore / this.state.total) * 100} %</p>
-                            </div>
-                            <div class={classes.wrapper}>
-                                <button className={classes.fancyBtn} onClick={() => window.location.replace("/quizResults/")} >{'View Answers'}</button>
-                            </div>
+                        </div>
+                        <div>
+                            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
+                                <DialogTitle id="simple-dialog-title">{this.state.tutorFirstName} Add new Questions to Quiz</DialogTitle>
+                                <DialogContent>
+                                    <TextField
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        margin="dense"
+                                        id="question1"
+                                        name="question1"
+                                        onChange={e => this.setState({ question1: e.target.value })}
+                                        autoComplete="question1"
+                                        label="question1"
+                                        defaultValue={this.state.question}
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        id="option1q1"
+                                        name="option1q1"
+                                        label="option1"
+                                        onChange={e => this.setState({ option1q1: e.target.value })}
+                                        defaultValue={this.state.option1q1}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <TextField
+                                        id="option2q1"
+                                        name="option2q1"
+                                        label="option2"
+                                        onChange={e => this.setState({ option2q1: e.target.value })}
+                                        defaultValue={this.state.option2q1}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <TextField
+                                        id="option3q1"
+                                        name="option3q1"
+                                        label="option3"
+                                        onChange={e => this.setState({ option3q1: e.target.value })}
+                                        defaultValue={this.state.option3q1}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <TextField
+                                        id="option4q1"
+                                        name="option4q1"
+                                        label="option4"
+                                        onChange={e => this.setState({ option4q1: e.target.value })}
+                                        defaultValue={this.state.option4q1}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <br /><br />
+                                    <FormControl className={classes.formControl}>
+                                        <InputLabel>
+                                            Please choose the right option
+                                        </InputLabel>
+                                        <Select onChange={e => this.setState({ correctq1: e.target.value })}>
+                                            <MenuItem value={1}>One</MenuItem>
+                                            <MenuItem value={2}>Two</MenuItem>
+                                            <MenuItem value={3}>Three</MenuItem>
+                                            <MenuItem value={4}>Four</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                    <br /><br />
+                                    <Button variant="contained" size="lg" active onClick={() => { this.addQuestionToDb(); }} className={classes.formControl}>
+                                        Save
+                                </Button>
+                                </DialogContent>
+                                <Grid
+                                    container
+                                    direction="row-reverse"
+                                    justify="space-between"
+                                    alignItems="baseline"
+                                >
+                                    <Grid item>
+                                        <DialogActions>
+                                            <Button onClick={this.handleClose}>Close</Button>
+                                        </DialogActions>
+                                    </Grid>
+                                </Grid>
+                            </Dialog>
                         </div>
                     </main>
                 </React.Fragment>

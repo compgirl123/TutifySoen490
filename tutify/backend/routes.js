@@ -141,13 +141,25 @@ router.get('/getAllQuestions', quizController.getAllQuestions);
 
 router.get('/getCourseQuizes', quizController.getCourseQuizes);
 
+router.get('/getSelectedQuizQuestions', quizController.getSelectedQuizQuestions);
+
+router.get('/getSpecificQuiz', quizController.getSpecificQuiz);
+
+router.get('/getStudentAttempts', quizController.getStudentAttempts)
+
 router.post('/addQuestion', quizController.addQuestion);
 
 router.post('/addQuiz', quizController.addQuiz);
 
+router.post('/addAttempt', quizController.addAttempt);
+
 router.post('/deleteQuiz', quizController.deleteQuiz);
 
 router.post('/deleteQuestion', quizController.deleteQuestion);
+
+router.post('/deleteAttempt', quizController.deleteAttempt);
+
+router.get('/getSpecificQuizAttempts', quizController.getSpecificQuizAttempts);
 
 // -------- DELETE FILES ROUTES --------- // 
 

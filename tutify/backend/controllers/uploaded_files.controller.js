@@ -64,7 +64,6 @@ exports.addUploadedFiles = async function (req, res) {
 // This Method Gets the Document Files from the Database
 exports.populateUploadedFiles = async function (req, res) {
     UploadedFiles.find({ admin: req.session.userInfo._id }, function (err, uploaded_docs) {
-
         if (err) {
             console.error("The uploaded files were not found to be populated");
             throw err;

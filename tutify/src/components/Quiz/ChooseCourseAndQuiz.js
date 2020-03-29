@@ -28,6 +28,7 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from "@material-ui/core/MenuItem";
+import CardActions from '@material-ui/core/CardActions';
 
 // Defines what content is shown based on index of selected tab
 function a11yProps(index) {
@@ -38,19 +39,20 @@ function a11yProps(index) {
 }
 
 // displaying the documents shared to students
-export class Studentdocs extends React.Component {
+export class ChooseCourseAndQuiz extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             title: "",
-            description: "",
-            videoLink: "",
             tutorId: "",
             tutorFirstName: "",
             tutorLastName: "",
-            videos: [],
+            quizzes: [],
             course: "",
+            courseIndex: 0,
+            points: 0,
             accountType: "",
+            allowedAttempts: 1,
             open: false,
             Toggle: false,
             categoryOptions: [],
@@ -65,7 +67,7 @@ export class Studentdocs extends React.Component {
 
     // Handling the Closing of the Dialog Box
     handleClose = () => {
-        this.setState({ open: false, link: "", title: "", course: "" });
+        this.setState({ open: false, title: "" });
     };
 
     // Handling the Opening of the Dialog Box
@@ -93,22 +95,22 @@ export class Studentdocs extends React.Component {
                         })
                         // getting tutor courses for filtering bar on top
                         this.getTutorCourses();
-                        // getting the first class's videos on first Load of page
-                        this.getTutorClassVideosOnFirstLoad();
+                        // getting the first class's quizzes on first Load of page
+                        this.getTutorClassquizzesOnFirstLoad();
                     }
                     // if user is a student, then execute the following
                     else if (res.userInfo.__t === "student") {
                         // Setting the states for the student
                         this.setState({
-                            tutorId: res.userInfo._id,
+                            tutorId: this.props.match.params.id,
                             accountType: res.userInfo.__t,
                         })
-                        // getting all tutors and their videos for a specific student
-                        this.getAllVideosStudent();
                         // getting user courses
                         this.getUserCourses();
-                        // getting the first class's videos on first Load of page
-                        this.getTutorClassVideosOnFirstLoad();
+                        // getting all tutors and their quizzes for a specific student
+                        this.getAllquizzesStudent();
+                        // getting the first class's quizzes on first Load of page
+                        this.getTutorClassquizzesOnFirstLoad();
                     }
 
                 }
@@ -119,22 +121,23 @@ export class Studentdocs extends React.Component {
             .catch(err => console.error(err));
     };
 
-    // Getting all of the tutors the student is registered with as well as their videos
-    getAllVideosStudent = () => {
+    // Getting all of the tutors the student is registered with as well as their quizzes
+    getAllquizzesStudent = () => {
         axios.get('/api/getTutor', {
             params: {
-                ID: this.props.match.params.id
+                ID: this.props.match.params.id,
+                tutor: this.props.match.params.id
             }
         }).then((res) => {
-            // fetch the videos
-            console.info("Successfully fetched the videos for the Student");
+            // fetch the quizzes
+            console.info("Successfully fetched the quizzes for the Student");
             // setting state of the video array in order to get information from each video
             this.setState({
                 tutorFirstName: res.data.tutor.first_name,
                 tutorLastName: res.data.tutor.last_name
             });
         })
-            .catch(err => console.error("Could not get the videos from the database: " + err));
+            .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
 
     // Getting all of the courses the tutor teaches
@@ -142,7 +145,7 @@ export class Studentdocs extends React.Component {
         axios.get('/api/getTutorCourses', {
         }).then((res) => {
             var courses = [];
-            console.info("Successfully fetched the videos");
+            console.info("Successfully fetched the quizzes");
             for (var x = 0; x < res.data.data.length; x++) {
                 courses.push(res.data.data[x].course.name);
             }
@@ -154,44 +157,44 @@ export class Studentdocs extends React.Component {
                 localStorage.setItem("reloadTutor", true);
                 window.location.reload(true);
             }
-            localStorage.setItem("courses", courses);
+            localStorage.setItem("coursesPresent", courses);
             return res.data;
         })
-            .catch(err => console.error("Could not get the videos from the database: " + err));
+            .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
 
-    // This function gets the videos corresponding to each of the tutor's classes.
-    getTutorClassVideosOnFirstLoad = () => {
-        axios.get('/api/getSelectVideos', {
+    // This function gets the quizzes corresponding to each of the tutor's classes.
+    getTutorClassquizzesOnFirstLoad = () => {
+        axios.get('/api/getCourseQuizes', {
             params: {
-                courseSelected: 0,
-                tutorClasses: [localStorage.getItem("courses").split(",")[0]],
+                courseIndex: 0,
+                tutorClasses: [localStorage.getItem("coursesPresent").split(",")[0]],
                 tutor: this.props.match.params.id
             }
         }).then((res) => {
-            // fetch the videos
-            console.info("Successfully fetched the videos from the class");
+            // fetch the quizzes
+            console.info("Successfully fetched the quizzes from the class");
             console.info(res);
             this.setState({
-                videos: res.data.data
+                quizzes: res.data.data,
             });
         })
-            .catch(err => console.error("Could not get the videos from the database: " + err));
+            .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
 
     // Getting all of the courses the user is taking for each tutor
     getUserCourses = () => {
         axios.get('/api/getUserCourses', {
         }).then((res) => {
-            // fetch the videos
+            // fetch the quizzes
             var courses = [];
-            console.info("Successfully fetched the videos");
+            console.info("Successfully fetched the quizzes");
             for (var x = 0; x < res.data.data.length; x++) {
                 if (res.data.data[x].tutor._id === this.props.match.params.id) {
                     courses.push(res.data.data[x].course.name)
                 }
             }
-            localStorage.setItem("courses", courses);
+            localStorage.setItem("coursesPresent", courses);
             this.setState({
                 categoryOptions: courses
             });
@@ -200,30 +203,21 @@ export class Studentdocs extends React.Component {
                 window.location.reload(true);
             }
         })
-            .catch(err => console.error("Could not get the videos from the database: " + err));
+            .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
 
-    // This function checks if the image url provided by the user is a URL
-    isURL(url) {
-        if(!url) return false;
-        var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-            '((\\d{1,3}\\.){3}\\d{1,3}))|' + // OR ip (v4) address
-            'localhost' + // OR localhost
-            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-            '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
-
-        return pattern.test(url);
-    }
-
-    // Adding a new video according to what the user inputs into the Dialog box to the db
-    addVideoToDb = () => {
+    // Adding a new quiz according to what the user inputs into the Dialog box to the database
+    addQuizToDb = () => {
         var tutor = [];
+        var inputtedOptionsq1 = [];
         tutor.push(this.state.id);
-        //swal to confirm the addition of new video
+        inputtedOptionsq1.push(this.state.option1q1, this.state.option2q1, this.state.option3q1, this.state.option4q1);
+        this.setState({ options: inputtedOptionsq1 });
+        var inputtedOptionsq2 = [];
+        inputtedOptionsq2.push(this.state.option1q2, this.state.option2q2, this.state.option3q2, this.state.option4q2);
+        this.setState({ options: inputtedOptionsq2 });
         swal({
-            title: "Would you like to add the following video?",
+            title: "Would you like to add the following quiz?",
             buttons: {
                 confirm: "Yes",
                 cancel: "Cancel",
@@ -236,44 +230,45 @@ export class Studentdocs extends React.Component {
                         </b>
                     </p>
                     <p>
-                        <p>
-                            <b>
-                                description: {this.state.description}
-                            </b>
-                        </p>
-                        <p>
-                            Video Link: {this.state.videoLink}
-                        </p>
+                    <p>
+                        <b>
+                            Description : {this.state.description}
+                        </b>
+                    </p>
+                    <p>
+                        <b>
+                            Points : {this.state.points}
+                        </b>
+                    </p>
                         Tutor: {this.state.tutorFirstName} {this.state.tutorLastName}
+                        <br />
+                        Course: {this.state.course}
                     </p>
                 </div>
             )
         })
-            //adds the link, title, and course to the db 
+            // adds the link, title, and course to the database 
             .then((value) => {
                 if (value) {
-                    console.info("Adding video to db...");
-                    if (this.state.title !== '' && this.state.description !== '' &&
-                        this.state.videoLink !== '' && this.isURL(this.state.videoLink)&& 
-                        this.state.tutorId !== '' && this.state.course !== '') {
-                        axios.post('/api/addVideo', {
-                            title: this.state.title,
-                            description: this.state.description,
-                            videoLink: this.state.videoLink,
-                            tutorId: this.state.tutorId,
-                            course: this.state.course
-                        })
-                            .then((res) => {
-                                swal("Video successfully added!", "", "success");
-                                window.location.reload();
-                            }, (error) => {
-                                console.error("Could not add video to database (API call error) " + error);
-                            });
-                    }
-                    else {
-                        console.error("Empty fields");
-                        swal("Could not add resource, empty or invalid fields.", "", "error")
-                    }
+                    console.info("Adding quiz to db...");
+                    axios.post('/api/addQuiz', {
+                        title: this.state.title,
+                        description: this.state.description,
+                        points: this.state.points,
+                        tutorId: this.state.tutorId,
+                        course: this.state.course,
+                        allowed_attempts: this.state.allowedAttempts
+                    })
+                        .then((res) => {
+                            swal("Quiz successfully added!", "", "success");
+                            window.location.reload();
+                        }, (error) => {
+                            console.error("Could not add quiz to database (API call error) " + error);
+                        });
+                }
+                else {
+                    console.error("Empty fields");
+                    swal("Could not add resource, empty or invalid fields.", "", "error")
                 }
             });
     }
@@ -303,35 +298,28 @@ export class Studentdocs extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const { videos, open, newValue, categoryOptions } = this.state;
+        const { quizzes, open, newValue, categoryOptions } = this.state;
 
         // Handling the change in option in the top filtering by course bar
         const handleChange = (event, newValue) => {
             this.setState({ newValue: newValue });
-            axios.get('/api/getSelectVideos', {
+            axios.get('/api/getCourseQuizes', {
                 params: {
-                    courseSelected: newValue,
+                    courseIndex: parseInt(newValue),
                     tutorClasses: this.state.categoryOptions,
+                    tutorId: this.state.tutorId,
                     tutor: this.props.match.params.id
                 }
             }).then((res) => {
-                // fetch the videos
-                console.info("Successfully fetched the videos");
+                // fetch the quizzes
+                console.info("Successfully fetched the quizzes");
                 this.setState({
-                    videos: res.data.data
+                    quizzes: res.data.data
                 });
+                console.log(this.state.quizzes);
             })
-                .catch(err => console.error("Could not get the videos from the database: " + err));
+                .catch(err => console.error("Could not get the quizzes from the database: " + err));
         };
-
-        // Handling the embedding of the video Links.
-        const handleVideoEmbedding = (e) => {
-            if ((e.target.value).split("/")[2] === "www.youtube.com") {
-                this.setState({ videoLink: "https://www.youtube.com/embed/" + (e.target.value).split("=")[1] });
-            } else if ((e.target.value).split("/")[2] === "drive.google.com") {
-                this.setState({ videoLink: (e.target.value).split("/view")[0] + "/preview" });
-            }
-        }
 
         return (
             <React.Fragment>
@@ -348,68 +336,102 @@ export class Studentdocs extends React.Component {
                                 variant="scrollable"
                                 scrollButtons="auto"
                                 aria-label="scrollable auto tabs example"
-                                onclick={(e) => { this.setState({ newValue: e.target.value }); }}
+                                onclick={(e) => { this.setState({ newValue: e.target.value }); this.getTutorClassquizzes(e); }}
                             >
-
                                 {categoryOptions.map((category, index) => (
                                     <Tab label={category} {...a11yProps(index)} />
                                 ))}
-
                             </Tabs>
                         </AppBar>
                         <Container maxWidth="lg" className={classes.container}>
                             {this.state.accountType === "tutor" ?
                                 <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addVideoButton} >
-                                    Add Video
+                                    Add Quiz
                                 </Button>
                                 :
                                 <br />
                             }
                             <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                                {this.state.tutorFirstName} {this.state.tutorLastName}'s Tutoring Videos
+                                {this.state.tutorFirstName} {this.state.tutorLastName}'s Quizzes
                             </Typography>
-                            <Title> Videos </Title>
+                            <Title> Quizzes </Title>
                             <Grid container spacing={4}>
-                                {/* Videos */}
-                                {videos.map((file, index) => (
-                                    <Grid item xs={6} sm={6} lg={6}>
-                                        <Card className={classes.card} >
-                                            <CardActionArea>
-                                                <CardMedia
-                                                    className={classes.media}
-                                                    title="French"
-                                                    width='100%'
-                                                    height='100%'
-                                                />
-                                                <CardContent>
-                                                    <Typography gutterBottom variant="h5" component="h2">
-                                                        {file.title}
-                                                        {this.state.accountType === "tutor" ?
-                                                            <IconButton variant="contained" size="lg" active onClick={event => this.deleteVideo(file._id)} className={classes.deleteCourseButton} >
-                                                                <DeleteForeverIcon className={classes.deleteIconButton} />
-                                                            </IconButton>
+                                {/* Quizzes */}
+                                <Grid container spacing={5}>
+                                    {quizzes.map((file, index) => (
+                                        <Grid item xs={4} md={4} lg={4}>
+                                            <Card className={classes.card}>
+                                                <CardActionArea>
+                                                    <CardMedia
+                                                        className={classes.media}
+                                                        title="French"
+                                                        width='100%'
+                                                        height='100%'
+                                                    />
+                                                    <CardContent>
+                                                        <Typography gutterBottom variant="h5" component="h2">
+                                                            {file.title}
+                                                            {this.state.discriminator === "tutor" ?
+                                                                <IconButton variant="contained" size="lg" active onClick={event => this.deleteVideo(file._id)} className={classes.deleteCourseButton} >
+                                                                    <DeleteForeverIcon className={classes.deleteIconButton} />
+                                                                </IconButton>
+                                                                :
+                                                                <></>
+                                                            }
+                                                        </Typography>
+                                                        {this.state.accountType === "tutor"
+                                                            ? <>
+                                                                <Typography variant="body2" color="textSecondary" component="p">
+                                                                    Description : {file.description}
+                                                                    <br />
+                                                                    Total Allowed Attempts : {file.allowed_attempts}
+                                                                </Typography>
+                                                            </>
                                                             :
                                                             <></>
                                                         }
-                                                    </Typography>
-                                                    <Typography gutterBottom variant="h6" component="h6">
-                                                        Description : {file.description}
-                                                    </Typography>
-                                                    <div className={classes.cardStyle}>
-                                                        <iframe width="100%" height="100%" src={file.videoLink} title={file.title} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                                    </div>
-                                                </CardContent>
-                                            </CardActionArea>
-                                        </Card>
-                                    </Grid>
-                                ))}
+                                                        {this.state.accountType === "student"
+                                                            ? <>
+                                                                <Typography variant="body2" color="textSecondary" component="p">
+                                                                    Description : {file.description}
+                                                                    <br />
+                                                                    Total Allowed Attempts : {file.allowed_attempts}
+                                                                </Typography>
+                                                            </>
+                                                            :
+                                                            <></>
+                                                        }
+                                                    </CardContent>
+                                                </CardActionArea>
+                                                <CardActions>
+                                                    {this.state.accountType === "tutor"
+                                                        ? <>
+                                                            <Button type="button" size="small" href={'/quiz/' + file._id} fullWidth className="submit">
+                                                                View Quiz
+                                                          </Button>
+                                                        </>
+                                                        :
+                                                        <></>
+                                                    }
+                                                    {this.state.accountType === "student"
+                                                        ? <Button type="button" size="small" href={'/quiz/' + file._id} fullWidth className="submit" disabled={file.available_attempts < 1}>
+                                                            Take Quiz, {file.available_attempts} Attempt(s) Left
+                                                        </Button>
+                                                        :
+                                                        <></>
+                                                    }
+                                                </CardActions>
+                                            </Card>
+                                        </Grid>
+                                    ))}
+                                </Grid>
                             </Grid>
                         </Container>
 
                         {/* Dialog box when clicked on the "add new video" button */}
                         <div>
                             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
-                                <DialogTitle id="simple-dialog-title">{this.state.tutorFirstName}, Add a new Video</DialogTitle>
+                                <DialogTitle id="simple-dialog-title">{this.state.tutorFirstName}, Add Quiz Information</DialogTitle>
                                 <DialogContent>
                                     <TextField
                                         InputLabelProps={{
@@ -429,26 +451,42 @@ export class Studentdocs extends React.Component {
                                             shrink: true,
                                         }}
                                         margin="dense"
-                                        id="videoLink"
-                                        name="videoLink"
-                                        onChange={e => { handleVideoEmbedding(e) }}
-                                        autoComplete="videoLink"
-                                        label="Link"
-                                        defaultValue={this.state.video}
-                                        fullWidth
-                                    />
-                                    <TextField
                                         id="description"
                                         name="description"
-                                        label="Description"
                                         onChange={e => this.setState({ description: e.target.value })}
-                                        multiline
-                                        rows="4"
+                                        autoComplete="description"
+                                        label="description"
                                         defaultValue={this.state.description}
-                                        variant="outlined"
-                                        style={{ width: '100%', marginTop: "35px" }}
+                                        fullWidth
                                     />
-                                    <br /><br />
+
+                                    <TextField
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        margin="dense"
+                                        id="Points"
+                                        name="Points"
+                                        onChange={e => this.setState({ points: e.target.value })}
+                                        autoComplete="Points"
+                                        label="Points"
+                                        defaultValue={this.state.points}
+                                        fullWidth
+                                    />
+
+                                    <TextField
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        margin="dense"
+                                        id="allowedAttempts"
+                                        name="AllowedAttempts"
+                                        onChange={e => this.setState({ allowedAttempts: e.target.value })}
+                                        autoComplete="allowedAttempts"
+                                        label="Allowed Attempts"
+                                        defaultValue={this.state.allowedAttempts}
+                                        fullWidth
+                                    />
                                     <FormControl className={classes.formControl}>
                                         <InputLabel>
                                             Course
@@ -461,7 +499,7 @@ export class Studentdocs extends React.Component {
                                         </Select>
                                     </FormControl>
                                     <br /><br />
-                                    <Button variant="contained" size="lg" active onClick={() => { this.addVideoToDb(); }} className={classes.formControl}>
+                                    <Button variant="contained" size="lg" active onClick={() => { this.addQuizToDb(); }} className={classes.formControl}>
                                         Save
                                     </Button>
                                 </DialogContent>
@@ -487,5 +525,5 @@ export class Studentdocs extends React.Component {
         );
     }
 }
-export default withStyles(tutifyStyle.styles, { withTheme: true })(Studentdocs);
+export default withStyles(tutifyStyle.styles, { withTheme: true })(ChooseCourseAndQuiz);
 

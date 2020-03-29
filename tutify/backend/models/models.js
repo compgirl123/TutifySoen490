@@ -83,10 +83,10 @@ const TutorSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  uploadedPicture: 
-  { 
+  uploadedPicture:
+  {
     imgName: { type: String, required: true, default: "none" },
-    imgData:{ type: String, required: true }
+    imgData: { type: String, required: true }
   },
   students: [
     { type: Schema.Types.ObjectId, ref: 'Student' }
@@ -348,13 +348,14 @@ var Videos = mongoose.model('Videos', new Schema({
     required: true
   },
   course: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: 'Course',
     required: true
   }
 }), "videos");
 
-// -------- Quizes --------- // 
-var Quizes = mongoose.model('Quizes', new Schema({
+// -------- Quizzes --------- // 
+var Quizzes = mongoose.model('Quizzes', new Schema({
   title: {
     type: String,
     required: true
@@ -372,12 +373,26 @@ var Quizes = mongoose.model('Quizes', new Schema({
     ref: 'Tutor',
     required: true
   },
+  points: {
+    type: NumberInt,
+    ref: 'Tutor',
+    required: true
+  },
+  allowed_attempts:{
+    type: NumberInt,
+    required:true
+  },
   course: {
     type: Schema.Types.ObjectId,
     ref: 'Course',
     required: true
-  }
-}), "quizes");
+  },
+  attempts: [{
+    type: Schema.Types.ObjectId,
+    ref: 'QuizAttempt',
+    required: true
+  }]
+}), "quizzes");
 
 // -------- Questions --------- // 
 var Questions = mongoose.model('Questions', new Schema({
@@ -386,21 +401,21 @@ var Questions = mongoose.model('Questions', new Schema({
     required: true
   },
   choices: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Question',
+    type: String,
+    required: true
   }],
   answerIndex: {
     type: NumberInt,
-    required:true
+    required: true
   },
   creator: {
     type: Schema.Types.ObjectId,
     ref: 'Tutor',
     required: true
   },
-  course: {
+  quizId: {
     type: Schema.Types.ObjectId,
-    ref: 'Course',
+    ref: 'Quizzes',
     required: true
   }
 }), "questions");
@@ -413,11 +428,26 @@ var Badges = mongoose.model('Badges', new Schema({
   badgePoints: Number
 }), "badges");
 
+
+// Answers to the quizzes
+var QuizAttempt = mongoose.model('QuizAttempt', new Schema({
+  quiz: {
+    type: Schema.Types.ObjectId,
+    ref: 'Quizzes',
+    required: true
+  },
+  student: {
+    type: Schema.Types.ObjectId,
+    ref: 'Profile',
+    required: true
+  }
+}), "quiz.attempt");
+
 // export the Schemas
 module.exports = {
   Tutor: Tutor,
   Profile: Profile,
-  Quizes: Quizes,
+  Quizzes: Quizzes,
   Questions: Questions,
   Student: Student,
   Account: Account,
@@ -429,8 +459,7 @@ module.exports = {
   Mchunks: Mchunks,
   Resource: Resource,
   Videos: Videos,
-  Badges: Badges
-
+  QuizAttempt: QuizAttempt
 }
 
 

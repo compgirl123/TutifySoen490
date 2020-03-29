@@ -13,7 +13,6 @@ export const theme = createMuiTheme({
   }
 });
 
-
 export const styles = theme => ({
     toolbar: theme.mixins.toolbar,
     main:{
@@ -48,7 +47,7 @@ export const styles = theme => ({
         paddingRight: '50px'
     },
     question: {
-        background: 'linear-gradient(45deg, rgb(0, 200, 83) 0%, rgb(200, 255, 75) 100%)',
+        background: '#cccccc',
         color: 'white',
         padding: '10px',
         textAlign: 'center'
