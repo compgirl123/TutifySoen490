@@ -181,13 +181,42 @@ export const styles = theme => ({
   badgeGrid:{
     alignItems:"right",
   },
+
   levelHeading:{
     fontFamily: 'Arial Rounded MT Bold',
     fontSize: 70,
     color: 'rgba(0,200,83,1)',
     marginTop: 20
+  },
 
+  levelHeading2:{
+    fontFamily: 'Arial Rounded MT Bold',
+    fontSize: 70,
+    color: 'grey',
+    marginTop: -80, 
+    marginLeft: 4  
+
+
+  },
+
+  CircularProgressbar:{
+    fontFamily: 'Arial Rounded MT Bold',
+    fontSize: '5px',
+    marginTop: 30, 
+
+  },
+
+  buttonBadges: {
+    "&:hover": {
+      backgroundColor: "transparent"
+    },
+    marginTop: "50px",
+  },
+
+  totalPoints:{
+    marginTop: "50px", 
+    fontWeight: "bold", 
+    fontSize: 15
   }
-
   
 });
