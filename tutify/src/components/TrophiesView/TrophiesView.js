@@ -80,7 +80,6 @@ class TrophiesView extends React.Component {
 
   //this function unlocks a badge
   Unlock = () => {
-
     swal({
       title: "Are you sure you want to unlock this badge?",
       icon: "warning",
@@ -89,7 +88,6 @@ class TrophiesView extends React.Component {
     })
       .then((willDelete) => {
         if (willDelete) {
-
           var totalPoints = this.state.totalPoints - this.state.dialogBoxBadgePoints;
           //unlock badge backend
           console.info("Unlocking badge...");
@@ -135,7 +133,6 @@ class TrophiesView extends React.Component {
           badges1.push(allBadges[k]);
           badges2.push(allBadges[k + 4]);
         }
-
         this.setState({
           badges1: badges1, badges2: badges2, badges: allBadges, dialogBoxFileName: res.data.data[0].badge.imageName,
           dialogBoxfinalFile: res.data.data[0].finalFile, dialogBoxBadgePoints: res.data.data[0].badge.badgePoints,
@@ -169,17 +166,12 @@ class TrophiesView extends React.Component {
 
     return (
       <React.Fragment>
-
         <main>
-
           <DashBoardNavBar />
           <main className={classes.content}>
-
             <div className={classes.appBarSpacer} />
-
             <Container maxWidth="lg" className={classes.container}>
               <Grid container spacing={4}>
-
                 {/* User Info */}
                 <Grid item xs={3} align="center">
                   <Typography variant="h1" className={classes.levelHeading}>
@@ -196,12 +188,9 @@ class TrophiesView extends React.Component {
                   <Button size="large" className={classes.buttonBadges}>
                     <HelpIcon fontSize="large" />
                   </Button>
-
                 </Grid>
               </Grid>
-
               <Grid container spacing={4}>
-
                 {/* User Info */}
                 <Grid item xs={3} align="center">
                   <CircularProgressbar value={value} text={`${percentage} Points`} styles={buildStyles({
@@ -215,7 +204,6 @@ class TrophiesView extends React.Component {
                 {this.state.badges1.map(badge => (
                   <Grid item xs={6} md={2} className={classes.badgeGrid}>
                     <Grid>
-
                       {badge.value.enable === 1 ?
                         <Button variant="outlined" className={classes.badgeButton1} onClick={() => { this.handleClickOpen(badge.label.badge._id); }}>
                           <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadge} />
@@ -230,7 +218,6 @@ class TrophiesView extends React.Component {
                 ))}
               </Grid>
               <Grid container spacing={4}>
-
                 {/* User Info */}
                 <Grid item xs={3} align="center">
                   <Button variant="outlined" size="large" className={classes.levelButton} >Level {this.state.level} Completion: 200 Points</Button>
@@ -240,9 +227,7 @@ class TrophiesView extends React.Component {
                 {this.state.badges2.map(badge => (
                   <Grid item xs={6} md={2} className={classes.badgeGrid}>
                     <Grid>
-
                       {badge.value.enable === 1 ?
-
                         <Button variant="outlined" className={classes.badgeButton2} onClick={() => { this.handleClickOpen(badge.label.badge._id); }}>
                           <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadge} />
                         </Button>
@@ -251,7 +236,6 @@ class TrophiesView extends React.Component {
                           <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadge} />
                         </Button>
                       }
-
                     </Grid>
                   </Grid>
                 ))}
@@ -259,7 +243,6 @@ class TrophiesView extends React.Component {
             </Container>
             <main>
               {/* Hero unit */}
-
             </main>
             <Footer />
           </main>
