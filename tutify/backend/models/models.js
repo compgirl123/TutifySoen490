@@ -405,6 +405,14 @@ var Questions = mongoose.model('Questions', new Schema({
   }
 }), "questions");
 
+// -------- Badges --------- //
+var Badges = mongoose.model('Badges', new Schema({
+  imageName: String,
+  imageData: String,
+  description: String,
+  badgePoints: Number
+}), "badges");
+
 // export the Schemas
 module.exports = {
   Tutor: Tutor,
@@ -420,7 +428,9 @@ module.exports = {
   Mfiles: Mfiles,
   Mchunks: Mchunks,
   Resource: Resource,
-  Videos: Videos
+  Videos: Videos,
+  Badges: Badges
+
 }
 
 
