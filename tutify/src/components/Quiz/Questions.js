@@ -21,8 +21,8 @@ var answersSelected = [];
 var answersSelectedNumerical = [];
 var colorArr = [];
 var specificQuestionsAnswered = [];
- 
-class Questions extends React.Component {
+
+export class Questions extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -53,7 +53,7 @@ class Questions extends React.Component {
         this.handleShowButton = this.handleShowButton.bind(this);
         this.checkAnswer = this.checkAnswer.bind(this);
         this.addPointstoDb = this.addPointstoDb.bind(this);
-        this.quizAttempts= this.quizAttempts.bind(this);
+        this.quizAttempts = this.quizAttempts.bind(this);
     }
 
     componentWillMount() {
@@ -194,7 +194,7 @@ class Questions extends React.Component {
         let elem = e.currentTarget;
         let questionIndex = Number((elem.dataset.id).split(",")[1]);
         specificQuestionsAnswered[questionIndex] = true;
-        this.setState({nbQuestionsAnswered:specificQuestionsAnswered});
+        this.setState({ nbQuestionsAnswered: specificQuestionsAnswered });
         let answer = Number((elem.dataset.id).split(",")[2]);
         let correct = Number(this.state.datas[(elem.dataset.id).split(",")[1]].answerIndex);
         let updatedClassNames = this.state.classNames;
@@ -232,19 +232,19 @@ class Questions extends React.Component {
     /**
      * Handles what happends when quiz is finished. Forces user to answer all questions to make
      * the quiz count for the total number of points earned for that quiz.
-     **/ 
+     **/
     finishQuiz() {
-        if(this.state.nbQuestionsAnswered.length < this.state.total){
+        if (this.state.nbQuestionsAnswered.length < this.state.total) {
             alert("Please Answer all Questions");
             console.info("If the number of answered questions is less than the total, inform user that they need to answer all questions");
         }
-        else if (this.state.nbQuestionsAnswered.length === this.state.total){
-            if(this.state.nbQuestionsAnswered.includes(undefined) === true){
-                alert("Please Answer all Questions"); 
+        else if (this.state.nbQuestionsAnswered.length === this.state.total) {
+            if (this.state.nbQuestionsAnswered.includes(undefined) === true) {
+                alert("Please Answer all Questions");
                 console.info("If the number of answered questions is less than the total, inform user that they need to answer all questions");
             }
-            else if (this.state.nbQuestionsAnswered.includes(undefined) === false){
-                if(this.state.accountType === "student"){
+            else if (this.state.nbQuestionsAnswered.includes(undefined) === false) {
+                if (this.state.accountType === "student") {
                     if (this.state.questionsClicked === true) {
                         this.addPointstoDb();
                         this.setState({ finishedQuiz: true });
@@ -255,7 +255,7 @@ class Questions extends React.Component {
                         alert("Please Answer at least one Question");
                     }
                 }
-                else if(this.state.accountType === "tutor"){
+                else if (this.state.accountType === "tutor") {
                     if (this.state.questionsClicked === true) {
                         this.setState({ finishedQuiz: true });
                         this.setState({ showButtonTutor: false });
@@ -264,10 +264,10 @@ class Questions extends React.Component {
                     else if (this.state.questionsClicked === false) {
                         alert("Please Answer at least one Question");
                     }
-        
+
                 }
             }
-        } 
+        }
     }
 
     // This function retrieves the quizzes corresponding to each of the tutor's classes.
@@ -299,18 +299,18 @@ class Questions extends React.Component {
             // fetch the quizzes
             var quiz_attempts = [];
             console.info("Successfully fetched the quizzes from the class");
-            if(res.data.data.length === 0){
-                this.setState({left_attempts:this.state.quizzes-1});  
+            if (res.data.data.length === 0) {
+                this.setState({ left_attempts: this.state.quizzes - 1 });
             }
-            if(res.data.data.length > 0){
-               for(var x=0;x<res.data.data.length;x++){
-                quiz_attempts.push(res.data.data[x].attempts_left);
+            if (res.data.data.length > 0) {
+                for (var x = 0; x < res.data.data.length; x++) {
+                    quiz_attempts.push(res.data.data[x].attempts_left);
                 }
-                this.setState({left_attempts:Math.min(...quiz_attempts)-1}); 
-                if(this.state.left_attempts <= 0){
+                this.setState({ left_attempts: Math.min(...quiz_attempts) - 1 });
+                if (this.state.left_attempts <= 0) {
                     window.location.replace("/choosetutorQuiz");
                 }
-            } 
+            }
         })
             .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
@@ -368,27 +368,27 @@ class Questions extends React.Component {
                 </div>
             )
         })
-        // adds the question, choices, answerIndex, creator and quizId to database
-        .then((value) => {
-            if (value) {
-                console.info("Adding question to db...");
-                axios.post('/api/addQuestion', {
-                    question: this.state.question1,
-                    choices: inputtedOptions,
-                    answerIndex: this.state.correctq1,
-                    creator: this.state.tutorId,
-                    quizId: this.props.match.params.id
-                })
-                    .then((res) => {
-                        swal("Question successfully added!", "", "success");
-                        window.location.reload();
-                        console.log(res);
-                        console.log(this.state.course);
-                    }, (error) => {
-                        console.error("Could not add question to database (API call error) " + error);
-                    });
-            }
-        });
+            // adds the question, choices, answerIndex, creator and quizId to database
+            .then((value) => {
+                if (value) {
+                    console.info("Adding question to db...");
+                    axios.post('/api/addQuestion', {
+                        question: this.state.question1,
+                        choices: inputtedOptions,
+                        answerIndex: this.state.correctq1,
+                        creator: this.state.tutorId,
+                        quizId: this.props.match.params.id
+                    })
+                        .then((res) => {
+                            swal("Question successfully added!", "", "success");
+                            window.location.reload();
+                            console.log(res);
+                            console.log(this.state.course);
+                        }, (error) => {
+                            console.error("Could not add question to database (API call error) " + error);
+                        });
+                }
+            });
     }
 
     render() {
@@ -401,17 +401,17 @@ class Questions extends React.Component {
                     <main>
                         <DashBoardNavBar />
                         <div className={classes.main}>
-                            <p>
-                                <div>
-                                    {this.state.accountType === "tutor" ?
-                                        <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addQuestionToDb} >
-                                            Add Questions
-                                    </Button>
-                                        :
-                                        <br />
-                                    }
-                                </div>
-                            </p>
+
+                            <div>
+                                {this.state.accountType === "tutor" ?
+                                    <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addQuestionToDb} >
+                                        Add Questions
+                                </Button>
+                                    :
+                                    <br />
+                                }
+                            </div>
+
                             {datas.map((c, i) => (
                                 <div className="col-lg-10 col-lg-offset-1">
                                     <div className={classes.question}>
@@ -442,7 +442,7 @@ class Questions extends React.Component {
                                     </div>
                                 </div>
                             ))}
-                            <div class={classes.wrapper}>
+                            <div className={classes.wrapper}>
                                 {this.state.showButtonStudent === true
                                     ? <button className={classes.fancyBtn} onClick={this.finishQuiz}>{'Finish quiz'}</button>
                                     : [
@@ -456,7 +456,7 @@ class Questions extends React.Component {
                                         (this.state.accountType === "student"
                                             ?
                                             <>
-                                                <div class={classes.wrapper}>
+                                                <div className={classes.wrapper}>
                                                     <p> Congrats! You successfully completed this {this.state.total} question quiz.</p>
                                                 </div>
                                                 <button className={classes.fancyBtn} onClick={() => window.location.replace("/choosetutorQuiz")}>{'Return To Main Quiz Page'}</button>

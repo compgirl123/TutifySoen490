@@ -1,0 +1,51 @@
+{
+    "data": {
+        "questions": [
+            {
+                "_id": {
+                    "$oid": "5e77dc302bc2bc2e3318d3d4"
+                },
+                "choices": [
+                    "Majestic Mirage",
+                    "Majestic Elegance",
+                    "Majestic Elegance Club",
+                    "Majestic Colonial"
+                ],
+                "question": "What hotel does Edward Calederon Work at",
+                "answerIndex": {
+                    "$numberInt": "3"
+                },
+                "creator": {
+                    "$oid": "5dacd1cf1c9d440000aa0b1b"
+                },
+                "course": {
+                    "$oid": "5e77dc082bc2bc2e3318d3d3"
+                },
+                "__v": {
+                    "$numberInt": "0"
+                }
+            }
+        ],
+        "_id": "5e790520de7ad1089848a74f",
+        "title": "Blake",
+        "description": "O/'Reilly",
+        "tutorId": "5dacd1cf1c9d440000aa0b1b",
+        "points": 15,
+        "allowed_attempts": 3,
+        "course": {
+            "tutors": [
+                "5dacd1cf1c9d440000aa0b1b"
+            ],
+            "students": [],
+            "sharedToCourses": [
+                "5e2f70669276dc56aab4b986"
+            ],
+            "_id": "5e2f70669276dc56aab4b986",
+            "name": "Oreilly Business Calculus",
+            "description": "Tutoring for Blake\"s cousin Phil",
+            "educationLevel": "University",
+            "__v": 0
+        },
+        "__v": 0
+    }
+}
