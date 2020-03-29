@@ -14,7 +14,6 @@ var resourceController = require('./controllers/resource.controller')
 var videoController = require('./controllers/videos.controller')
 var quizController = require('./controllers/quiz.controller')
 var badgeController = require('./controllers/badge.controller')
-var quizPointsController = require('./controllers/quizpoints.controller')
 
 // -------- TUTOR ROUTES --------- // 
 
