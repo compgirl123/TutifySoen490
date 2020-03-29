@@ -92,6 +92,37 @@ class TrophiesView extends React.Component {
     this.setState({ open: false });
   };
 
+  Unlock = () => {
+
+    swal({
+      title: "Are you sure you want to unlock this badge?",
+      icon: "warning",
+      buttons: [true, "Yes"],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+
+          var totalPoints = this.state.totalPoints - this.state.dialogBoxBadgePoints;
+
+          axios.post('/api/unlockBadge', {
+            student_id: this.state.id,
+            badge_id: this.state.badge_id,
+            totalPoints: totalPoints,
+          })
+            .then(res => {
+              swal("Successfully unlocked badge", "", "success")
+                .then((value) => {
+                  window.location = "/trophies";
+                });
+              //celerbation confetti
+              this.setState({ open: false })
+              this.checkSession();
+            })
+            .catch(err => console.error("Session could not be checked: " + err));
+        }
+      });
+  }
   
 
   getBadges = () => {
