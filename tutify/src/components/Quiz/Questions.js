@@ -344,10 +344,7 @@ export class Questions extends React.Component {
                 <div>
                     <p>
                         <p>
-                            <b>
-                                Question: {this.state.question1}
-                            </b>
-
+                            <b> Question: {this.state.question1} </b>
                         </p>
                         <p>
                             <b>
