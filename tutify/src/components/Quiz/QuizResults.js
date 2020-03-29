@@ -1,24 +1,26 @@
 import React from 'react';
+import data from './data';
 import * as tutifyStyle from '../../styles/Quiz-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Paper from '@material-ui/core/Paper';
 import DashBoardNavBar from '../DashBoardNavBar';
+import Typography from '@material-ui/core/Typography';
 
 const dataa = [
     {
         question: 'What does CSS stand for?',
-        choices: ['Computer Style Sheets', 'Creative Style Sheets', 'Cascading Style Sheets', 'Colorful Style Sheets'],
+        answers: ['Computer Style Sheets', 'Creative Style Sheets', 'Cascading Style Sheets', 'Colorful Style Sheets'],
         correct: 3
     },
     {
         question: 'Where in an HTML document is the correct place to refer to an external style sheet?',
-        choices: ['In the <head> section', 'In the <body> section', 'At the end of the document', 'You can\'t refer to an external style sheet'],
+        answers: ['In the <head> section', 'In the <body> section', 'At the end of the document', 'You can\'t refer to an external style sheet'],
         correct: 1
     }
 ]
-var answersSelected = [];
+var ansSelected = [];
 var answersSelectedNumerical = [];
-class Questions extends React.Component {
+class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,42 +29,33 @@ class Questions extends React.Component {
             showButton: false,
             questionAnswered: false,
             score: 0,
-            finalScore: 0,
             displayPopup: 'flex',
             isAnswered: false,
             classNames: false,
             answerSelected: 0,
-            datas: [],
-            selectedAnswers: [],
-            answersSelectedNumerical: [],
-            percent: ""
+            datas: dataa,
+            answersSelectedNumerical: []
         }
         this.nextQuestion = this.nextQuestion.bind(this);
         this.last = this.last.bind(this);
         this.handleShowButton = this.handleShowButton.bind(this);
         this.handleStartQuiz = this.handleStartQuiz.bind(this);
         this.handleIncreaseScore = this.handleIncreaseScore.bind(this);
-        this.handleDecreaseScore = this.handleDecreaseScore.bind(this);
         this.checkAnswer = this.checkAnswer.bind(this);
     }
 
-    componentWillMount() {
-        this.setState({datas:dataa});  
+    pushData(nr) {
+        this.setState({
+            question: data[nr].question,
+            answers: [data[nr].answers[0], data[nr].answers[1], data[nr].answers[2], data[nr].answers[3]],
+            correct: data[nr].correct,
+            nr: this.state.nr + 1
+        });
     }
 
-    async loadQuestions() {
-        fetch('/api/getAllQuestions')
-            .then(res => res.json())
-            .then(res => {
-                if (res.data !== undefined) {
-                    this.setState({ datas: res.data, session: res.session });
-                }
-                else {
-                    this.setState({ datas: [], session: res.session });
-                }
-                console.info("The files have been loaded");
-            })
-            .catch(err => console.error("Could not load the files: " + err));
+    componentWillMount() {
+        let { nr } = this.state;
+        this.pushData(nr);
     }
 
     nextQuestion() {
@@ -70,9 +63,6 @@ class Questions extends React.Component {
 
         if (this.state.answerSelected === this.state.correct) {
             this.handleIncreaseScore();
-        }
-        else {
-            this.handleDecreaseScore();
         }
 
         if (nr === total) {
@@ -91,7 +81,6 @@ class Questions extends React.Component {
                 questionAnswered: false
             });
         }
-
     }
 
     handleShowButton() {
@@ -99,7 +88,6 @@ class Questions extends React.Component {
             showButton: true,
             questionAnswered: true
         })
-
     }
 
     handleStartQuiz() {
@@ -115,39 +103,27 @@ class Questions extends React.Component {
         });
     }
 
-    handleDecreaseScore() {
-        this.setState({
-            score: this.state.score - 1
-        });
-    }
-
     checkAnswer(e) {
         let elem = e.currentTarget;
-        let answer = Number((elem.dataset.id).split(",")[2]);
-        let correct = Number(this.state.datas[(elem.dataset.id).split(",")[1]].answerIndex+1);
+        let { correct, increaseScore } = this.props;
+        let answer = Number(elem.dataset.id);
         let updatedClassNames = this.state.classNames;
+        
         if (answer === correct) {
-            if (this.state.score <= this.state.total - 1) {
-                this.handleIncreaseScore();
-            }
-        }
-        else {
-            if (this.state.score > 0) {
-                this.handleDecreaseScore();
-            }
+            increaseScore();
         }
         this.setState({
             classNames: updatedClassNames
         })
 
-        answersSelected[(elem.dataset.id).split(",")[1]] = (elem.dataset.id).split(",")[0];
+        ansSelected[(elem.dataset.id).split(",")[1]] = (elem.dataset.id).split(",")[0];
         answersSelectedNumerical[(elem.dataset.id).split(",")[1]] = Number((elem.dataset.id).split(",")[2]);
 
         this.setState({
             answerSelected: elem.dataset.id,
-            selectedAnswers: answersSelected,
-            answersSelectedNumerical: answersSelectedNumerical
+            answersSelectedNumerical: ansSelected
         })
+
         this.handleShowButton();
     }
 
@@ -155,15 +131,17 @@ class Questions extends React.Component {
         this.setState({
             classNames: ['', '', '', '']
         });
-    }
 
+        return true;
+    }
     last() {
-        this.setState({ finalScore: this.state.score });
+        alert(this.state.answersSelectedNumerical);
     }
 
     render() {
         const { classes } = this.props;
-        let { datas, total } = this.state;
+        let { datas } = this.state;
+        let { total } = this.state;
 
         return (
             <Paper>
@@ -171,6 +149,9 @@ class Questions extends React.Component {
                     <main>
                         <DashBoardNavBar />
                         <div className={classes.main}>
+                            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+                                Quiz Answers
+                            </Typography>
                             {datas.map((c, i) => (
                                 <div className="col-lg-10 col-lg-offset-1">
                                     <div className={classes.question}>
@@ -179,29 +160,20 @@ class Questions extends React.Component {
                                     </div>
                                     <div id="answers">
                                         <ul className={classes.answersUl}>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[0]},${i},1`}><span className={classes.answersLiSpan}>A</span> <p className={classes.answersP}>{c.choices[0]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[1]},${i},2`}><span className={classes.answersLiSpan}>B</span> <p className={classes.answersP}>{c.choices[1]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[2]},${i},3`}><span className={classes.answersLiSpan}>C</span> <p className={classes.answersP}>{c.choices[2]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[3]},${i},4`}><span className={classes.answersLiSpan}>D</span> <p className={classes.answersP}>{c.choices[3]}</p></li>
+                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.answers[0]},${i},1`}><span className={classes.answersLiSpan}>A</span> <p className={classes.answersP}>{c.answers[0]}</p></li>
+                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.answers[0]},${i},2`}><span className={classes.answersLiSpan}>B</span> <p className={classes.answersP}>{c.answers[1]}</p></li>
+                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.answers[0]},${i},3`}><span className={classes.answersLiSpan}>C</span> <p className={classes.answersP}>{c.answers[2]}</p></li>
+                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.answers[0]},${i},4`}><span className={classes.answersLiSpan}>D</span> <p className={classes.answersP}>{c.answers[3]}</p></li>
                                         </ul>
                                     </div>
                                     <div className={classes.submit}>
                                         <br />
-                                        {this.state.selectedAnswers[i] !== undefined ? `Answer Chosen: ${this.state.selectedAnswers[i]}` : `Answer Chosen: Please Choose an Answer}`}
+                                        {"Correct Answer : " + dataa[i].answers[dataa[i].correct - 1]}
                                         <br />
                                         <br />
                                     </div>
                                 </div>
                             ))}
-                            <div class={classes.wrapper}>
-                                <button className={classes.fancyBtn} onClick={this.last} >{'Finish quiz'}</button>
-                            </div>
-                            <div class={classes.wrapper}>
-                                <p>Score: You got {this.state.finalScore}/ {this.state.total} or {(this.state.finalScore / this.state.total) * 100} %</p>
-                            </div>
-                            <div class={classes.wrapper}>
-                                <button className={classes.fancyBtn} onClick={() => window.location.replace("/quizResults/")} >{'View Answers'}</button>
-                            </div>
                         </div>
                     </main>
                 </React.Fragment>
@@ -210,4 +182,4 @@ class Questions extends React.Component {
     }
 };
 
-export default withStyles(tutifyStyle.styles, { withTheme: true })(Questions);
+export default withStyles(tutifyStyle.styles, { withTheme: true })(Main);

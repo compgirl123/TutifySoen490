@@ -1,4 +1,5 @@
 import React from 'react';
+import data from './data';
 import * as tutifyStyle from '../../styles/Quiz-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Paper from '@material-ui/core/Paper';
@@ -7,12 +8,12 @@ import DashBoardNavBar from '../DashBoardNavBar';
 const dataa = [
     {
         question: 'What does CSS stand for?',
-        choices: ['Computer Style Sheets', 'Creative Style Sheets', 'Cascading Style Sheets', 'Colorful Style Sheets'],
+        answers: ['Computer Style Sheets', 'Creative Style Sheets', 'Cascading Style Sheets', 'Colorful Style Sheets'],
         correct: 3
     },
     {
         question: 'Where in an HTML document is the correct place to refer to an external style sheet?',
-        choices: ['In the <head> section', 'In the <body> section', 'At the end of the document', 'You can\'t refer to an external style sheet'],
+        answers: ['In the <head> section', 'In the <body> section', 'At the end of the document', 'You can\'t refer to an external style sheet'],
         correct: 1
     }
 ]
@@ -27,12 +28,12 @@ class Questions extends React.Component {
             showButton: false,
             questionAnswered: false,
             score: 0,
-            finalScore: 0,
+            finalScore : 0,
             displayPopup: 'flex',
             isAnswered: false,
             classNames: false,
             answerSelected: 0,
-            datas: [],
+            datas: dataa,
             selectedAnswers: [],
             answersSelectedNumerical: [],
             percent: ""
@@ -46,32 +47,27 @@ class Questions extends React.Component {
         this.checkAnswer = this.checkAnswer.bind(this);
     }
 
-    componentWillMount() {
-        this.setState({datas:dataa});  
+    pushData(nr) {
+        this.setState({
+            question: data[nr].question,
+            answers: [data[nr].answers[0], data[nr].answers[1], data[nr].answers[2], data[nr].answers[3]],
+            correct: data[nr].correct,
+            nr: this.state.nr 
+        });
     }
 
-    async loadQuestions() {
-        fetch('/api/getAllQuestions')
-            .then(res => res.json())
-            .then(res => {
-                if (res.data !== undefined) {
-                    this.setState({ datas: res.data, session: res.session });
-                }
-                else {
-                    this.setState({ datas: [], session: res.session });
-                }
-                console.info("The files have been loaded");
-            })
-            .catch(err => console.error("Could not load the files: " + err));
+    componentWillMount() {
+        let { nr } = this.state;
+        this.pushData(nr);
     }
 
     nextQuestion() {
-        let { nr, total } = this.state;
+        let { nr, total} = this.state;
 
         if (this.state.answerSelected === this.state.correct) {
             this.handleIncreaseScore();
         }
-        else {
+        else{
             this.handleDecreaseScore();
         }
 
@@ -114,7 +110,7 @@ class Questions extends React.Component {
             score: this.state.score + 1
         });
     }
-
+    
     handleDecreaseScore() {
         this.setState({
             score: this.state.score - 1
@@ -124,15 +120,15 @@ class Questions extends React.Component {
     checkAnswer(e) {
         let elem = e.currentTarget;
         let answer = Number((elem.dataset.id).split(",")[2]);
-        let correct = Number(this.state.datas[(elem.dataset.id).split(",")[1]].answerIndex+1);
+        let correct = Number(this.state.datas[(elem.dataset.id).split(",")[1]].correct);
         let updatedClassNames = this.state.classNames;
         if (answer === correct) {
-            if (this.state.score <= this.state.total - 1) {
+            if(this.state.score <= this.state.total - 1){
                 this.handleIncreaseScore();
             }
         }
-        else {
-            if (this.state.score > 0) {
+        else{
+            if(this.state.score > 0){
                 this.handleDecreaseScore();
             }
         }
@@ -142,7 +138,7 @@ class Questions extends React.Component {
 
         answersSelected[(elem.dataset.id).split(",")[1]] = (elem.dataset.id).split(",")[0];
         answersSelectedNumerical[(elem.dataset.id).split(",")[1]] = Number((elem.dataset.id).split(",")[2]);
-
+       
         this.setState({
             answerSelected: elem.dataset.id,
             selectedAnswers: answersSelected,
@@ -155,10 +151,12 @@ class Questions extends React.Component {
         this.setState({
             classNames: ['', '', '', '']
         });
+
+        return true;
     }
 
     last() {
-        this.setState({ finalScore: this.state.score });
+        this.setState({finalScore:this.state.score});
     }
 
     render() {
@@ -179,10 +177,10 @@ class Questions extends React.Component {
                                     </div>
                                     <div id="answers">
                                         <ul className={classes.answersUl}>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[0]},${i},1`}><span className={classes.answersLiSpan}>A</span> <p className={classes.answersP}>{c.choices[0]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[1]},${i},2`}><span className={classes.answersLiSpan}>B</span> <p className={classes.answersP}>{c.choices[1]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[2]},${i},3`}><span className={classes.answersLiSpan}>C</span> <p className={classes.answersP}>{c.choices[2]}</p></li>
-                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[3]},${i},4`}><span className={classes.answersLiSpan}>D</span> <p className={classes.answersP}>{c.choices[3]}</p></li>
+                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.answers[0]},${i},1`}><span className={classes.answersLiSpan}>A</span> <p className={classes.answersP}>{c.answers[0]}</p></li>
+                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.answers[1]},${i},2`}><span className={classes.answersLiSpan}>B</span> <p className={classes.answersP}>{c.answers[1]}</p></li>
+                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.answers[2]},${i},3`}><span className={classes.answersLiSpan}>C</span> <p className={classes.answersP}>{c.answers[2]}</p></li>
+                                            <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.answers[3]},${i},4`}><span className={classes.answersLiSpan}>D</span> <p className={classes.answersP}>{c.answers[3]}</p></li>
                                         </ul>
                                     </div>
                                     <div className={classes.submit}>
