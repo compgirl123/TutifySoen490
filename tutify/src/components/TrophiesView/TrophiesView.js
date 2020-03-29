@@ -67,7 +67,7 @@ class TrophiesView extends React.Component {
 
   }
 
- 
+  
 
   checkSession = () => {
     console.info("Fetching session...");
@@ -95,14 +95,13 @@ class TrophiesView extends React.Component {
   
 
   
-
-  
-
   render() {
     const { classes } = this.props;
     const { open } = this.state;
     const percentage = this.state.levelPoints;
-    
+    const value = (this.state.levelPoints / 200) * 100;
+    const button = document.querySelector(".my-button")
+    button.addEventListener("click", () => confetti(button))
 
     return (
       <React.Fragment>
@@ -137,8 +136,62 @@ class TrophiesView extends React.Component {
                 </Grid>
               </Grid>
 
-              
-              
+              <Grid container spacing={4}>
+
+                {/* User Info */}
+                <Grid item xs={3} align="center">
+                  <CircularProgressbar value={value} text={`${percentage} Points`} styles={buildStyles({
+                    textColor: 'gray',
+                    pathColor: 'rgba(0,200,83,1)',
+                    textSize: "13px",
+                  })} className={classes.CircularProgressbar} />
+                </Grid>
+                <Grid item xs={1}>
+                </Grid>
+                {this.state.badges1.map(badge => (
+                  <Grid item xs={6} md={2} className={classes.badgeGrid}>
+                    <Grid>
+
+                      {badge.value.enable === 1 ?
+                        <Button variant="outlined" className={classes.badgeButton1} onClick={() => { this.handleClickOpen(badge.label.badge._id); }}>
+                          <Avatar variant="rounded" src={badge.label.finalFile} style={{ width: '100px', height: '100px' }} />
+                        </Button>
+                        :
+                        <Button variant="outlined" className={classes.badgeButtonDisabled} onClick={() => { this.handleClickOpen(badge.label.badge._id); }}>
+                          <Avatar variant="rounded" src={badge.label.finalFile} style={{ width: '100px', height: '100px' }} />
+                        </Button>
+                      }
+                    </Grid>
+                  </Grid>
+                ))}
+              </Grid>
+              <Grid container spacing={4}>
+
+                {/* User Info */}
+                <Grid item xs={3} align="center">
+                  <Button variant="outlined" size="large" style={{ marginTop: "50px", fontWeight: "bold", fontSize: 20 }} >Level {this.state.level}: 200 Points</Button>
+                </Grid>
+                <Grid item xs={1}>
+                </Grid>
+                {this.state.badges2.map(badge => (
+                  <Grid item xs={6} md={2} className={classes.badgeGrid}>
+                    <Grid>
+
+                      {badge.value.enable === 1 ?
+
+                        <Button variant="outlined" className={classes.badgeButton2} onClick={() => { this.handleClickOpen(badge.label.badge._id); }}>
+                          <Avatar variant="rounded" src={badge.label.finalFile} style={{ width: '100px', height: '100px' }} />
+                        </Button>
+                        :
+                        <Button variant="outlined" className={classes.badgeButtonDisabled2} onClick={() => { this.handleClickOpen(badge.label.badge._id); }}>
+                          <Avatar variant="rounded" src={badge.label.finalFile} style={{ width: '100px', height: '100px' }} />
+                        </Button>
+                      }
+
+                    </Grid>
+                  </Grid>
+                ))}
+              </Grid>
             </Container>
             <main>
               {/* Hero unit */}
