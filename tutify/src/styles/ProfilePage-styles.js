@@ -217,6 +217,11 @@ export const styles = theme => ({
     marginTop: "50px", 
     fontWeight: "bold", 
     fontSize: 15
+  },
+
+  dialogBoxBadgePoints:{
+    fontWeight: "bold", 
+    fontSize: 15
   }
   
 });

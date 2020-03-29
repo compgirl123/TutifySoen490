@@ -43,6 +43,8 @@ class TrophiesView extends React.Component {
       dialogBoxFileName: "",
       dialogBoxfinalFile: "",
       dialogBoxBadgePoints: 100,
+      dialogBoxDescription: "",
+      dialogBoxPointsLeft: 0,
       badges2: [],
       badges: [],
       id: "",
@@ -165,7 +167,8 @@ class TrophiesView extends React.Component {
 
   this.setState({
     open: true, dialogBoxFileName: badge2.label.badge.imageName, dialogBoxfinalFile: badge2.label.finalFile,
-    dialogBoxBadgePoints: badge2.label.badge.badgePoints, badge_id: id, dialogBoxenable: badge2.value.enable
+    dialogBoxBadgePoints: badge2.label.badge.badgePoints, badge_id: id, dialogBoxenable: badge2.value.enable,
+    dialogBoxDescription: badge2.label.badge.description
   });
 };
 
@@ -174,9 +177,10 @@ class TrophiesView extends React.Component {
     const { open } = this.state;
     const percentage = this.state.levelPoints;
     const value = (this.state.levelPoints / 200) * 100;
-    const button = document.querySelector(".my-button")
-    button.addEventListener("click", () => confetti(button))
-
+    //const button = document.querySelector(".hello")
+    //if(button){
+    //button.addEventListener("click", () => confetti(button))
+    //}
     return (
       <React.Fragment>
 
@@ -274,7 +278,7 @@ class TrophiesView extends React.Component {
             <Footer />
           </main>
           <div>
-            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open} maxWidth="lg">
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open} maxWidth="lg" align="center">
               <DialogTitle align="center">{this.state.dialogBoxFileName}</DialogTitle>
               <DialogContent align="center">
                 <Avatar variant="rounded" src={this.state.dialogBoxfinalFile} style={{ width: '150px', height: '150px' }} />
@@ -282,7 +286,11 @@ class TrophiesView extends React.Component {
               <DialogContent>
 
                 <DialogContentText>
+                  {this.state.dialogBoxDescription}
                 </DialogContentText>
+              </DialogContent>
+              <DialogContent>
+              <Button variant="outlined" size="large" className={classes.dialogBoxBadgePoints} >Points: {this.state.dialogBoxBadgePoints}</Button>
               </DialogContent>
 
               <Grid
@@ -308,9 +316,14 @@ class TrophiesView extends React.Component {
                       </DialogActions>
 
                     :
+                    (this.state.dialogBoxenable === 0) ?
                     <DialogActions>
-                      <Button variant="contained" onClick={() => this.Unlock()} disabled>Unlock</Button>
-                    </DialogActions>
+                    <Button variant="contained" onClick={() => this.Unlock()} disabled>Unlock</Button>
+                  </DialogActions>
+                      :
+                      <DialogActions>
+                      </DialogActions>
+                    
                   }
                 </Grid>
 
