@@ -247,9 +247,11 @@ export class Questions extends React.Component {
                 if (this.state.accountType === "student") {
                     if (this.state.questionsClicked === true) {
                         this.addPointstoDb();
-                        this.setState({ finishedQuiz: true });
-                        this.setState({ showButtonTutor: false });
-                        this.setState({ showButtonStudent: false });
+                        this.setState({ 
+                            finishedQuiz: true, 
+                            showButtonTutor: false, 
+                            showButtonStudent: false 
+                        });
                     }
                     else if (this.state.questionsClicked === false) {
                         alert("Please Answer at least one Question");
@@ -257,9 +259,11 @@ export class Questions extends React.Component {
                 }
                 else if (this.state.accountType === "tutor") {
                     if (this.state.questionsClicked === true) {
-                        this.setState({ finishedQuiz: true });
-                        this.setState({ showButtonTutor: false });
-                        this.setState({ showButtonStudent: false });
+                        this.setState({ 
+                            finishedQuiz: true, 
+                            showButtonTutor: false, 
+                            showButtonStudent: false 
+                        });
                     }
                     else if (this.state.questionsClicked === false) {
                         alert("Please Answer at least one Question");
