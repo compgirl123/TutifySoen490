@@ -378,6 +378,10 @@ var Quizes = mongoose.model('Quizes', new Schema({
     ref: 'Tutor',
     required: true
   },
+  allowed_attempts:{
+    type: NumberInt,
+    required:true
+  },
   course: {
     type: Schema.Types.ObjectId,
     ref: 'Course',
