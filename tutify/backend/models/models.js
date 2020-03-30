@@ -459,7 +459,8 @@ module.exports = {
   Mchunks: Mchunks,
   Resource: Resource,
   Videos: Videos,
-  QuizAttempt: QuizAttempt
+  QuizAttempt: QuizAttempt,
+  Badges: Badges
 }
 
 
