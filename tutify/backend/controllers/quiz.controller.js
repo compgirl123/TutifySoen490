@@ -248,13 +248,14 @@ exports.getSelectedQuizQuestions = async function (req, res) {
 
 // this method adds a new question to the database.
 exports.addQuestion = async function (req, res) {
-    const { question, choices, answerIndex, creator, quizId } = req.body;
+    const { question, choices, answerIndex, creator, quizId, points } = req.body;
     let questions = new Questions();
     questions.question = question;
     questions.choices = choices;
     questions.answerIndex = answerIndex;
     questions.creator = creator;
     questions.quizId = quizId;
+    questions.points = points;
     questions.save(function (err, question) {
         if (err) {
             console.error(err);

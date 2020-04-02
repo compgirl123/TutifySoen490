@@ -39,7 +39,7 @@ export class Questions extends React.Component {
             option4q1: "",
             correctq1: "",
             question1: "",
-            points1: "",
+            points1: 0,
             finishedQuiz: false,
             showButtonTutor: true,
             showButtonStudent: true,
@@ -375,31 +375,32 @@ export class Questions extends React.Component {
                 if (value) {
                     console.info("Adding question to db...");
 
-                    if (this.state.question1 !== '' && this.state.option1q1 !== '' 
-                    && this.state.option2q1 !== '' && this.state.option3q1 !== '' 
-                    && this.state.option4q1 !== ''&& this.state.correctq1 !== ''&& this.state.points1 !== '') {
+                    if (this.state.question1 !== '' && this.state.option1q1 !== ''
+                        && this.state.option2q1 !== '' && this.state.option3q1 !== ''
+                        && this.state.option4q1 !== '' && this.state.correctq1 !== '' && this.state.points1 !== '') {
 
-                    axios.post('/api/addQuestion', {
-                        question: this.state.question1,
-                        choices: inputtedOptions,
-                        answerIndex: this.state.correctq1,
-                        creator: this.state.tutorId,
-                        quizId: this.props.match.params.id
-                    })
-                        .then((res) => {
-                            swal("Question successfully added!", "", "success");
-                            window.location.reload();
-                            console.log(res);
-                            console.log(this.state.course);
-                        }, (error) => {
-                            console.error("Could not add question to database (API call error) " + error);
-                        });
+                        axios.post('/api/addQuestion', {
+                            question: this.state.question1,
+                            choices: inputtedOptions,
+                            answerIndex: this.state.correctq1,
+                            creator: this.state.tutorId,
+                            quizId: this.props.match.params.id,
+                            points: this.state.points1
+                        })
+                            .then((res) => {
+                                swal("Question successfully added!", "", "success");
+                                window.location.reload();
+                                console.log(res);
+                                console.log(this.state.course);
+                            }, (error) => {
+                                console.error("Could not add question to database (API call error) " + error);
+                            });
+                    }
+                    else {
+                        console.error("Empty fields");
+                        swal("Could not add resource, empty or invalid fields.", "", "error")
+                    }
                 }
-                else {
-                    console.error("Empty fields");
-                    swal("Could not add resource, empty or invalid fields.", "", "error")
-                }
-            }
             });
     }
 
@@ -496,6 +497,19 @@ export class Questions extends React.Component {
                                         fullWidth
                                     />
                                     <TextField
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        margin="dense"
+                                        id="points1"
+                                        name="points1"
+                                        onChange={e => this.setState({ points1: e.target.value })}
+                                        label="Points"
+                                        type="number"
+                                        defaultValue={this.state.question}
+                                        fullWidth
+                                    />
+                                    <TextField
                                         id="option1q1"
                                         name="option1q1"
                                         label="option1"
@@ -531,15 +545,7 @@ export class Questions extends React.Component {
                                         variant="outlined"
                                         style={{ width: '100%', marginTop: "35px" }}
                                     />
-                                    <TextField
-                                        id="points1"
-                                        name="points1"
-                                        label="points"
-                                        onChange={e => this.setState({ points1: e.target.value })}
-                                        defaultValue={this.state.points1}
-                                        variant="outlined"
-                                        style={{ width: '100%', marginTop: "35px" }}
-                                    />
+
                                     <br /><br />
                                     <FormControl className={classes.formControl}>
                                         <InputLabel>
