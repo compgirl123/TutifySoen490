@@ -352,9 +352,7 @@ export class Questions extends React.Component {
                             <b> Question: {this.state.question1} </b>
                         </p>
                         <p>
-                            <b>
-                                Options: {this.state.options}
-                            </b>
+                            <b> Options: {this.state.options}</b>
                             <p>Option 1: {this.state.option1q1}</p>
                             <p>Option 2: {this.state.option2q1}</p>
                             <p>Option 3: {this.state.option3q1}</p>
@@ -370,38 +368,38 @@ export class Questions extends React.Component {
                 </div>
             )
         })
-            // adds the question, choices, answerIndex, creator and quizId to database
-            .then((value) => {
-                if (value) {
-                    console.info("Adding question to db...");
+        // adds the question, choices, answerIndex, creator and quizId to database
+        .then((value) => {
+            if (value) {
+                console.info("Adding question to db...");
 
-                    if (this.state.question1 !== '' && this.state.option1q1 !== ''
-                        && this.state.option2q1 !== '' && this.state.option3q1 !== ''
-                        && this.state.option4q1 !== '' && this.state.correctq1 !== '' && this.state.points1 !== '') {
+                if (this.state.question1 !== '' && this.state.option1q1 !== ''
+                    && this.state.option2q1 !== '' && this.state.option3q1 !== ''
+                    && this.state.option4q1 !== '' && this.state.correctq1 !== '' && this.state.points1 !== '') {
 
-                        axios.post('/api/addQuestion', {
-                            question: this.state.question1,
-                            choices: inputtedOptions,
-                            answerIndex: this.state.correctq1,
-                            creator: this.state.tutorId,
-                            quizId: this.props.match.params.id,
-                            points: this.state.points1
-                        })
-                            .then((res) => {
-                                swal("Question successfully added!", "", "success");
-                                window.location.reload();
-                                console.log(res);
-                                console.log(this.state.course);
-                            }, (error) => {
-                                console.error("Could not add question to database (API call error) " + error);
-                            });
-                    }
-                    else {
-                        console.error("Empty fields");
-                        swal("Could not add resource, empty or invalid fields.", "", "error")
-                    }
+                    axios.post('/api/addQuestion', {
+                        question: this.state.question1,
+                        choices: inputtedOptions,
+                        answerIndex: this.state.correctq1,
+                        creator: this.state.tutorId,
+                        quizId: this.props.match.params.id,
+                        points: this.state.points1
+                    })
+                        .then((res) => {
+                            swal("Question successfully added!", "", "success");
+                            window.location.reload();
+                            console.log(res);
+                            console.log(this.state.course);
+                        }, (error) => {
+                            console.error("Could not add question to database (API call error) " + error);
+                        });
                 }
-            });
+                else {
+                    console.error("Empty fields");
+                    swal("Could not add resource, empty or invalid fields.", "", "error")
+                }
+            }
+        });
     }
 
     render() {
