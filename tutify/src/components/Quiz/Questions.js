@@ -275,6 +275,27 @@ export class Questions extends React.Component {
         }
     }
 
+    deleteQuestion = () => {
+        swal({
+            title: "Are you sure you want delete this question?",
+            icon: "warning",
+            buttons: [true, "Yes"],
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    axios.post('/api/deleteQuestion', {
+                    })
+                        .then((res) => {
+                            swal("Question successfully deleted!", "", "success");
+                            window.location.reload();
+                        }, (error) => {
+                            console.error("Could not delete question to database (API call error) " + error);
+                        });
+                }
+            });
+    }
+
     // This function retrieves the quizzes corresponding to each of the tutor's classes.
     getTutorClassquizzesOnFirstLoad = () => {
         axios.get('/api/getSpecificQuiz', {
@@ -435,6 +456,15 @@ export class Questions extends React.Component {
                                             <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[2]},${i},3`}><span className={classes.answersLiSpan}>C</span> <p className={classes.answersP}>{c.choices[2]}</p></li>
                                             <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[3]},${i},4`}><span className={classes.answersLiSpan}>D</span> <p className={classes.answersP}>{c.choices[3]}</p></li>
                                         </ul>
+                                        <div className={classes.DeleteQuestion}>
+                                        {this.state.accountType === "tutor" ?
+                                    <Button variant="contained" size="lg" active onClick={event => this.deleteQuestion()}>
+                                        Delete Question
+                                    </Button>
+                                    :
+                                    <br />
+                                }
+                                </div>
                                     </div>
                                     <div className={classes.submit}>
                                         <br />
