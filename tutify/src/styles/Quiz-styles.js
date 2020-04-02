@@ -156,8 +156,8 @@ export const styles = theme => ({
       height: 140,
     },
     questionButton: {
-        margin: "44px", 
-      },
+        margin: '30px', 
+    },
     divContainer:{
       padding: theme.spacing(10, 0, 8),
     },

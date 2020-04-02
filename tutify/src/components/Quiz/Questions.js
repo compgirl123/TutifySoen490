@@ -247,10 +247,10 @@ export class Questions extends React.Component {
                 if (this.state.accountType === "student") {
                     if (this.state.questionsClicked === true) {
                         this.addPointstoDb();
-                        this.setState({ 
-                            finishedQuiz: true, 
-                            showButtonTutor: false, 
-                            showButtonStudent: false 
+                        this.setState({
+                            finishedQuiz: true,
+                            showButtonTutor: false,
+                            showButtonStudent: false
                         });
                     }
                     else if (this.state.questionsClicked === false) {
@@ -259,10 +259,10 @@ export class Questions extends React.Component {
                 }
                 else if (this.state.accountType === "tutor") {
                     if (this.state.questionsClicked === true) {
-                        this.setState({ 
-                            finishedQuiz: true, 
-                            showButtonTutor: false, 
-                            showButtonStudent: false 
+                        this.setState({
+                            finishedQuiz: true,
+                            showButtonTutor: false,
+                            showButtonStudent: false
                         });
                     }
                     else if (this.state.questionsClicked === false) {
@@ -402,12 +402,11 @@ export class Questions extends React.Component {
                     <main>
                         <DashBoardNavBar />
                         <div className={classes.main}>
-
-                            <div>
+                            <div className={classes.questionButton}>
                                 {this.state.accountType === "tutor" ?
-                                    <Button className={classes.questionButton} variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addQuestionToDb} >
+                                    <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addQuestionToDb} >
                                         Add Questions
-                                </Button>
+                                    </Button>
                                     :
                                     <br />
                                 }
