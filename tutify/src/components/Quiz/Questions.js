@@ -405,7 +405,7 @@ export class Questions extends React.Component {
 
                             <div>
                                 {this.state.accountType === "tutor" ?
-                                    <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addQuestionToDb} >
+                                    <Button className={classes.questionButton} variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addQuestionToDb} >
                                         Add Questions
                                 </Button>
                                     :
