@@ -39,6 +39,7 @@ export class Questions extends React.Component {
             option4q1: "",
             correctq1: "",
             question1: "",
+            points1: "",
             finishedQuiz: false,
             showButtonTutor: true,
             showButtonStudent: true,
@@ -373,6 +374,11 @@ export class Questions extends React.Component {
             .then((value) => {
                 if (value) {
                     console.info("Adding question to db...");
+
+                    if (this.state.question1 !== '' && this.state.option1q1 !== '' 
+                    && this.state.option2q1 !== '' && this.state.option3q1 !== '' 
+                    && this.state.option4q1 !== ''&& this.state.correctq1 !== ''&& this.state.points1 !== '') {
+
                     axios.post('/api/addQuestion', {
                         question: this.state.question1,
                         choices: inputtedOptions,
@@ -389,6 +395,11 @@ export class Questions extends React.Component {
                             console.error("Could not add question to database (API call error) " + error);
                         });
                 }
+                else {
+                    console.error("Empty fields");
+                    swal("Could not add resource, empty or invalid fields.", "", "error")
+                }
+            }
             });
     }
 
@@ -518,6 +529,15 @@ export class Questions extends React.Component {
                                         label="option4"
                                         onChange={e => this.setState({ option4q1: e.target.value })}
                                         defaultValue={this.state.option4q1}
+                                        variant="outlined"
+                                        style={{ width: '100%', marginTop: "35px" }}
+                                    />
+                                    <TextField
+                                        id="points1"
+                                        name="points1"
+                                        label="points"
+                                        onChange={e => this.setState({ points1: e.target.value })}
+                                        defaultValue={this.state.points1}
                                         variant="outlined"
                                         style={{ width: '100%', marginTop: "35px" }}
                                     />
