@@ -236,25 +236,29 @@ export class ChooseCourseAndQuiz extends React.Component {
             .then((value) => {
                 if (value) {
                     console.info("Adding quiz to db...");
-                    axios.post('/api/addQuiz', {
-                        title: this.state.title,
-                        description: this.state.description,
-                        points: this.state.points,
-                        tutorId: this.state.tutorId,
-                        course: this.state.course,
-                        allowed_attempts: this.state.allowedAttempts
-                    })
-                        .then((res) => {
-                            swal("Quiz successfully added!", "", "success");
-                            window.location.reload();
-                        }, (error) => {
-                            console.error("Could not add quiz to database (API call error) " + error);
-                        });
+                    if (this.state.title !== '' && this.state.description !== '' 
+                        && this.state.points !== '' && this.state.tutorId !== '' 
+                        && this.state.course !== '') {
+                        axios.post('/api/addQuiz', {
+                            title: this.state.title,
+                            description: this.state.description,
+                            points: this.state.points,
+                            tutorId: this.state.tutorId,
+                            course: this.state.course,
+                            allowed_attempts: this.state.allowedAttempts
+                        })
+                            .then((res) => {
+                                swal("Quiz successfully added!", "", "success");
+                                window.location.reload();
+                            }, (error) => {
+                                console.error("Could not add quiz to database (API call error) " + error);
+                            });
                 }
                 else {
                     console.error("Empty fields");
                     swal("Could not add resource, empty or invalid fields.", "", "error")
                 }
+            }
             });
     }
 
@@ -453,6 +457,7 @@ export class ChooseCourseAndQuiz extends React.Component {
                                         onChange={e => this.setState({ points: e.target.value })}
                                         autoComplete="Points"
                                         label="Points"
+                                        type = "number"
                                         defaultValue={this.state.points}
                                         fullWidth
                                     />
@@ -467,9 +472,11 @@ export class ChooseCourseAndQuiz extends React.Component {
                                         onChange={e => this.setState({ allowedAttempts: e.target.value })}
                                         autoComplete="allowedAttempts"
                                         label="Allowed Attempts"
+                                        type = "number"
                                         defaultValue={this.state.allowedAttempts}
                                         fullWidth
                                     />
+
                                     <FormControl className={classes.formControl}>
                                         <InputLabel>
                                             Course
