@@ -492,11 +492,16 @@ export class ChooseCourseAndQuiz extends React.Component {
                                     justify="space-between"
                                     alignItems="baseline"
                                 >
-                                    <Grid item>
-                                        <DialogActions>
-                                            <Button onClick={this.handleClose}>Close</Button>
-                                        </DialogActions>
-                                    </Grid>
+                                <Grid item>
+                                    <DialogActions>
+                                        <Button onClick={this.handleClose}>Close</Button>
+                                    </DialogActions>
+                                </Grid>
+                                <Grid item>
+                                    <DialogActions>
+                                        <Button onClick={this.addQuizToDb}>Save</Button>
+                                    </DialogActions>
+                                </Grid>
                                 </Grid>
                             </Dialog>
                         </div>
