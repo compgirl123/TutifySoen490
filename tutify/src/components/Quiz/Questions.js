@@ -534,9 +534,6 @@ export class Questions extends React.Component {
                                         </Select>
                                     </FormControl>
                                     <br /><br />
-                                    <Button variant="contained" size="lg" active onClick={() => { this.addQuestionToDb(); }} className={classes.formControl}>
-                                        Save
-                                </Button>
                                 </DialogContent>
                                 <Grid
                                     container

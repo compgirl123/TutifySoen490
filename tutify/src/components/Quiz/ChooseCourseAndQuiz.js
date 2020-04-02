@@ -482,9 +482,6 @@ export class ChooseCourseAndQuiz extends React.Component {
                                         </Select>
                                     </FormControl>
                                     <br /><br />
-                                    <Button variant="contained" size="lg" active onClick={() => { this.addQuizToDb(); }} className={classes.formControl}>
-                                        Save
-                                    </Button>
                                 </DialogContent>
                                 <Grid
                                     container
