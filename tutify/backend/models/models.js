@@ -417,6 +417,10 @@ var Questions = mongoose.model('Questions', new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Quizzes',
     required: true
+  },
+  points:{
+    type: NumberInt,
+    required: true
   }
 }), "questions");
 
