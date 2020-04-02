@@ -158,6 +158,12 @@ export const styles = theme => ({
     questionButton: {
         margin: '30px', 
     },
+    DeleteQuestion: {
+        margin: '30px', 
+        color: "#fff",
+        textAlign: 'center',
+    },
+
     divContainer:{
       padding: theme.spacing(10, 0, 8),
     },
