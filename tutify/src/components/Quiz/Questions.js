@@ -549,6 +549,11 @@ export class Questions extends React.Component {
                                             <Button onClick={this.handleClose}>Close</Button>
                                         </DialogActions>
                                     </Grid>
+                                    <Grid item>
+                                        <DialogActions>
+                                            <Button onClick={this.addQuestionToDb}>Save</Button>
+                                        </DialogActions>
+                                    </Grid>
                                 </Grid>
                             </Dialog>
                         </div>
