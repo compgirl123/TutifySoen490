@@ -262,24 +262,23 @@ export class ChooseCourseAndQuiz extends React.Component {
             });
     }
 
-    // this method deletes a video from the database 
-    deleteVideo = (video_id) => {
+    // this method deletes a quiz from the database 
+    deleteQuiz = () => {
         swal({
-            title: "Are you sure you want delete this video?",
+            title: "Are you sure you want delete this quiz?",
             icon: "warning",
             buttons: [true, "Yes"],
             dangerMode: true,
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    axios.post('/api/deleteVideo', {
-                        _id: video_id
+                    axios.post('/api/deleteQuiz', {
                     })
                         .then((res) => {
-                            swal("Video successfully deleted!", "", "success");
+                            swal("Quiz successfully deleted!", "", "success");
                             window.location.reload();
                         }, (error) => {
-                            console.error("Could not delete course to database (API call error) " + error);
+                            console.error("Could not delete quiz to database (API call error) " + error);
                         });
                 }
             });
@@ -356,16 +355,16 @@ export class ChooseCourseAndQuiz extends React.Component {
                                                         height='100%'
                                                     />
                                                     <CardContent>
-                                                        <Typography gutterBottom variant="h5" component="h2">
-                                                            {file.title}
-                                                            {this.state.discriminator === "tutor" ?
-                                                                <IconButton variant="contained" size="lg" active onClick={event => this.deleteVideo(file._id)} className={classes.deleteCourseButton} >
-                                                                    <DeleteForeverIcon className={classes.deleteIconButton} />
-                                                                </IconButton>
-                                                                :
-                                                                <></>
-                                                            }
-                                                        </Typography>
+                                                    <Typography gutterBottom variant="h5" component="h2">
+                                                        {file.title}
+                                                        {this.state.accountType === "tutor" ?
+                                                            <IconButton variant="contained" size="lg" active onClick={event => this.deleteQuiz()} className={classes.deleteCourseButton} >
+                                                                <DeleteForeverIcon className={classes.deleteIconButton} />
+                                                            </IconButton>
+                                                            :
+                                                            <></>
+                                                        }
+                                                    </Typography>
                                                         {this.state.accountType === "tutor"
                                                             ? <>
                                                                 <Typography variant="body2" color="textSecondary" component="p">
