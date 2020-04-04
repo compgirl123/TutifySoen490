@@ -444,6 +444,9 @@ var QuizAttempt = mongoose.model('QuizAttempt', new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Profile',
     required: true
+  },
+  attempt_number:{
+    type: NumberInt
   }
 }), "quiz.attempt");
 

@@ -56,7 +56,9 @@ export class ChooseCourseAndQuiz extends React.Component {
             open: false,
             Toggle: false,
             categoryOptions: [],
-            newValue: 0
+            newValue: 0,
+            totalAttempts: 0,
+            attemptsLeft: 0
         };
         this.getTutorCourses = this.getTutorCourses.bind(this);
     }
@@ -164,6 +166,8 @@ export class ChooseCourseAndQuiz extends React.Component {
             console.info(res);
             this.setState({
                 quizzes: res.data.data,
+                totalAttempts: res.data.data.allowed_attempts,
+                attemptsLeft: res.data.data.available_attempts
             });
         })
             .catch(err => console.error("Could not get the quizzes from the database: " + err));

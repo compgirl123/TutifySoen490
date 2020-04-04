@@ -48,7 +48,10 @@ export class Questions extends React.Component {
             questionsClicked: false,
             nbQuestionsAnswered: [],
             quizzes: [],
-            left_attempts: 0
+            left_attempts: 0,
+            attempts: 0,
+            attemptsLeft: 0,
+            totalAttempts: 0
         }
         this.finishQuiz = this.finishQuiz.bind(this);
         this.handleShowButton = this.handleShowButton.bind(this);
@@ -140,7 +143,7 @@ export class Questions extends React.Component {
                     courses.push(res.data.data[x].course.name)
                 }
             }
-            localStorage.setItem("courses", courses);
+            localStorage.setItem("coursesPresent", courses);
             this.setState({
                 categoryOptions: courses
             });
@@ -247,12 +250,17 @@ export class Questions extends React.Component {
             else if (this.state.nbQuestionsAnswered.includes(undefined) === false) {
                 if (this.state.accountType === "student") {
                     if (this.state.questionsClicked === true) {
+                        console.log(this.state.quizzes);
+                        console.log(this.state.attemptsLeft);
+                        console.log(this.state.totalAttempts);
+                        //console.log(this.state.quizzes);
                         this.addPointstoDb();
                         this.setState({
                             finishedQuiz: true,
                             showButtonTutor: false,
                             showButtonStudent: false
                         });
+                        this.getTutorClassquizzesOnFirstLoad();
                     }
                     else if (this.state.questionsClicked === false) {
                         alert("Please Answer at least one Question");
@@ -265,6 +273,7 @@ export class Questions extends React.Component {
                             showButtonTutor: false,
                             showButtonStudent: false
                         });
+                        this.getTutorClassquizzesOnFirstLoad();
                     }
                     else if (this.state.questionsClicked === false) {
                         alert("Please Answer at least one Question");
@@ -299,21 +308,23 @@ export class Questions extends React.Component {
 
     // This function retrieves the quizzes corresponding to each of the tutor's classes.
     getTutorClassquizzesOnFirstLoad = () => {
-        axios.get('/api/getSpecificQuiz', {
-            params: {
-                quizId: this.props.match.params.id
-            }
-        }).then((res) => {
-            // fetch the quizzes
-            console.info("Successfully fetched the quizzes from the class");
-            console.info(res);
-            this.setState({
-                quizzes: res.data.data.allowed_attempts,
-                attempts_left: res.data.data.allowed_attempts - 1
-            });
-            this.quizAttempts();
-        })
-            .catch(err => console.error("Could not get the quizzes from the database: " + err));
+            axios.get('/api/getCourseQuizes', {
+                params: {
+                    courseIndex: 0,
+                    tutorClasses: [localStorage.getItem("coursesPresent").split(",")[0]],
+                    tutor: this.props.match.params.id
+                }
+            }).then((res) => {
+                console.info("Successfully fetched the quizzes from the class");
+                console.log([localStorage.getItem("coursesPresent").split(",")[0]]);
+                console.info(res);
+                this.setState({
+                    quizzes: res.data.data,
+                    totalAttempts: res.data.data.allowed_attempts,
+                    attemptsLeft: res.data.data.available_attempts
+                });
+            })
+                .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
 
     // Fetches all of the attempts for certain quizzes corresponding to a certain class.

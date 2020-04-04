@@ -2,7 +2,7 @@ const Quizzes = require('../models/models').Quizzes;
 const Questions = require('../models/models').Questions;
 const QuizAttempt = require('../models/models').QuizAttempt;
 const Course = require('../models/models').Course;
-var ObjectId = require('mongodb').ObjectID;
+
 // this method fetches all available quizzes from a tutor in our database.
 exports.getQuizes = async (req, res) => {
     var id = [];
@@ -71,6 +71,7 @@ exports.getCourseQuizes = async (req, res) => {
                     }
                     console.info("Set allowed attempts left for student");
                     quiz.available_attempts = quiz.allowed_attempts - attempt_done;
+                    quiz.attempt_number = attempt_done;
                     mod_quizes.push(quiz);
                 }
                 console.info("The quizzes of the course were found");
@@ -157,20 +158,33 @@ exports.addAttempt = async function (req, res) {
     attempt.completed_attempts = completed_attempts;
     attempt.quiz = quiz_id;
     attempt.student = studentId;
-    attempt.save(function (err, attempt) {
-        if (err) {
-            console.error(err);
-            console.error("The attempt couldn't get added to the database (API request failed)");
-            return res.json({ success: false, error: err });
+    var array = [];
+    QuizAttempt.find({ quiz: quiz_id, student: studentId }, function (err, quizzes) {
+        if (quizzes.length == 0) {
+            attempt.attempt_number = 1;
         }
-        console.info("The attempt was successfully added to the database");
-        Quizzes.findOneAndUpdate({ _id: attempt.quiz }, { "$push": { "attempts": attempt._id } }, { useFindAndModify: false }, (error) => {
-            if (error) {
-                console.error("Could not link the quiz to the attempt");
-                console.error(error);
-                return res.json({ success: false, error: error });
+        else {
+            quizzes.forEach(function (err, quizId) {
+                array.push(quizzes[quizId].attempt_number);
+            });
+            console.log(Math.max(...array));
+            attempt.attempt_number = Math.max(...array) + 1;
+        }
+        attempt.save(function (err, attempt) {
+            if (err) {
+                console.error(err);
+                console.error("The attempt couldn't get added to the database (API request failed)");
+                return res.json({ success: false, error: err });
             }
-            return res.json({ success: true, data: attempt });
+            console.info("The attempt was successfully added to the database");
+            Quizzes.findOneAndUpdate({ _id: attempt.quiz }, { "$push": { "attempts": attempt._id } }, { useFindAndModify: false }, (error) => {
+                if (error) {
+                    console.error("Could not link the quiz to the attempt");
+                    console.error(error);
+                    return res.json({ success: false, error: error });
+                }
+                return res.json({ success: true, data: attempt });
+            });
         });
     });
 };

@@ -82,6 +82,7 @@ export class Grades extends React.Component {
       this.setState({
         attempts: res.data.data
       });
+      console.log(res);
     })
       .catch(err => console.error("Could not get the attempts from the database: " + err));
   }
@@ -115,10 +116,13 @@ export class Grades extends React.Component {
                               ?
                               <>
                                 <TableCell>Quiz Title</TableCell>
+                                <TableCell>Quiz Attempt #</TableCell>
                                 <TableCell>Description</TableCell>
                                 <TableCell>Course</TableCell>
                                 <TableCell>Tutor</TableCell>
-                                <TableCell>Points</TableCell>
+                                <TableCell>Base Points</TableCell>
+                                <TableCell>Quiz Points</TableCell>
+                                <TableCell>Total Points</TableCell>
                               </>
                               : <></>
                             }
@@ -127,10 +131,13 @@ export class Grades extends React.Component {
                               <>
                                 <TableCell>Student Name</TableCell>
                                 <TableCell>Quiz Title</TableCell>
+                                <TableCell>Quiz Attempt #</TableCell>
                                 <TableCell>Description</TableCell>
                                 <TableCell>Course</TableCell>
                                 <TableCell>Tutor</TableCell>
-                                <TableCell>Points</TableCell>
+                                <TableCell>Base Points</TableCell>
+                                <TableCell>Quiz Points</TableCell>
+                                <TableCell>Total Points</TableCell>
                               </>
                               : <></>
                             }
@@ -144,9 +151,12 @@ export class Grades extends React.Component {
                                 <>
                                   <TableCell>{attempt.student.first_name} {attempt.student.last_name}</TableCell>
                                   <TableCell>{attempt.quiz.title}</TableCell>
+                                  <TableCell>{attempt.attempt_number}</TableCell>
                                   <TableCell>{attempt.quiz.description}</TableCell>
                                   <TableCell>{attempt.quiz.course.name}</TableCell>
                                   <TableCell>{attempt.quiz.tutorId.first_name} {attempt.quiz.tutorId.last_name} </TableCell>
+                                  <TableCell>{attempt.quiz.points}</TableCell>
+                                  <TableCell>{attempt.quiz.points}</TableCell>
                                   <TableCell>{attempt.quiz.points}</TableCell>
                                 </>
                                 : <></>
@@ -155,9 +165,12 @@ export class Grades extends React.Component {
                                 ?
                                 <>
                                   <TableCell>{attempt.quiz.title}</TableCell>
+                                  <TableCell>{attempt.attempt_number}</TableCell>
                                   <TableCell>{attempt.quiz.description}</TableCell>
                                   <TableCell>{attempt.quiz.course.name}</TableCell>
                                   <TableCell>{attempt.quiz.tutorId.first_name} {attempt.quiz.tutorId.last_name} </TableCell>
+                                  <TableCell>{attempt.quiz.points}</TableCell>
+                                  <TableCell>{attempt.quiz.points}</TableCell>
                                   <TableCell>{attempt.quiz.points}</TableCell>
                                 </>
                                 : <></>
