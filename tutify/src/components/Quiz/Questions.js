@@ -275,7 +275,7 @@ export class Questions extends React.Component {
         }
     }
 
-    deleteQuestion = () => {
+    deleteQuestion = (question_id) => {
         swal({
             title: "Are you sure you want delete this question?",
             icon: "warning",
@@ -285,6 +285,7 @@ export class Questions extends React.Component {
             .then((willDelete) => {
                 if (willDelete) {
                     axios.post('/api/deleteQuestion', {
+                        _id: question_id
                     })
                         .then((res) => {
                             swal("Question successfully deleted!", "", "success");
@@ -456,14 +457,14 @@ export class Questions extends React.Component {
                                             <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[2]},${i},3`}><span className={classes.answersLiSpan}>C</span> <p className={classes.answersP}>{c.choices[2]}</p></li>
                                             <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[3]},${i},4`}><span className={classes.answersLiSpan}>D</span> <p className={classes.answersP}>{c.choices[3]}</p></li>
                                         </ul>
-                                        <div className={classes.DeleteQuestion}>
-                                        {this.state.accountType === "tutor" ?
-                                    <Button variant="contained" size="lg" active onClick={event => this.deleteQuestion()}>
-                                        Delete Question
-                                    </Button>
-                                    :
-                                    <br />
-                                }
+                                    <div className={classes.DeleteQuestion}>
+                                    {this.state.accountType === "tutor" ?
+                                        <Button variant="contained" size="lg" active onClick={event => this.deleteQuestion(c._id)}>
+                                            Delete Question
+                                        </Button>
+                                        :
+                                        <br />
+                                    }
                                 </div>
                                     </div>
                                     <div className={classes.submit}>

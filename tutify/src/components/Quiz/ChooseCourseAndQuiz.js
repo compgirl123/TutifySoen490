@@ -263,7 +263,7 @@ export class ChooseCourseAndQuiz extends React.Component {
     }
 
     // this method deletes a quiz from the database 
-    deleteQuiz = () => {
+    deleteQuiz = (quiz_id,questions) => {
         swal({
             title: "Are you sure you want delete this quiz?",
             icon: "warning",
@@ -273,6 +273,8 @@ export class ChooseCourseAndQuiz extends React.Component {
             .then((willDelete) => {
                 if (willDelete) {
                     axios.post('/api/deleteQuiz', {
+                        _id: quiz_id,
+                        questions: questions
                     })
                         .then((res) => {
                             swal("Quiz successfully deleted!", "", "success");
@@ -358,7 +360,7 @@ export class ChooseCourseAndQuiz extends React.Component {
                                                     <Typography gutterBottom variant="h5" component="h2">
                                                         {file.title}
                                                         {this.state.accountType === "tutor" ?
-                                                            <IconButton variant="contained" size="lg" active onClick={event => this.deleteQuiz()} className={classes.deleteCourseButton} >
+                                                            <IconButton variant="contained" size="lg" active onClick={event => this.deleteQuiz(file._id,file.questions)} className={classes.deleteCourseButton} >
                                                                 <DeleteForeverIcon className={classes.deleteIconButton} />
                                                             </IconButton>
                                                             :

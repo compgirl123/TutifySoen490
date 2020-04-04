@@ -2,7 +2,7 @@ const Quizzes = require('../models/models').Quizzes;
 const Questions = require('../models/models').Questions;
 const QuizAttempt = require('../models/models').QuizAttempt;
 const Course = require('../models/models').Course;
-
+var ObjectId = require('mongodb').ObjectID;
 // this method fetches all available quizzes from a tutor in our database.
 exports.getQuizes = async (req, res) => {
     var id = [];
@@ -286,13 +286,38 @@ exports.addQuestion = async function (req, res) {
 // this method deletes a quiz from the db.
 exports.deleteQuiz = async function (req, res) {
     const { _id } = req.body;
+    await Quizzes.find({ _id: _id }, async function (err, quizzes) {
+        await quizzes.forEach(async function (err, quiz) {
+            await quizzes[quiz].questions.forEach(async function (err, quizId) {
+                await Questions.findByIdAndRemove(quizzes[quiz].questions[quizId],
+                    async function (err, student) {
+                        if (err) {
+                            console.error("Unable to delete the file reference of the profile object");
+                            console.log(err);
+                        }
+                    });
+                await QuizAttempt.find({ quiz: _id }, async function (err, quizzes) {
+                    await quizzes.forEach(async function (err, quizId) {
+                        await QuizAttempt.findByIdAndRemove(quizzes[quizId]._id,
+                            async function (err, student) {
+                                if (err) {
+                                    console.error("Unable to delete the file reference of the profile object");
+                                    console.log(err);
+                                }
+                            });
+                    });
+                });
+            });
+        });
+    });
     Quizzes.findByIdAndRemove(_id, (err) => {
+        console.log(_id);
         if (err) {
             console.error("The delete order was given, but was not executed by the database. This may be due to a connection error.");
             return res.send(err);
         }
         console.info("The quiz has been deleted");
-        return res.json({ success: true });
+        return res.json({ successQuiz: true });
     });
 };
 
@@ -321,6 +346,7 @@ exports.deleteAttempt = async function (req, res) {
         return res.json({ success: true });
     });
 };
+
 
 
 
