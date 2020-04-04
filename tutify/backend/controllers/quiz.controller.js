@@ -292,18 +292,18 @@ exports.deleteQuiz = async function (req, res) {
                 await Questions.findByIdAndRemove(quizzes[quiz].questions[quizId],
                     async function (err, student) {
                         if (err) {
-                            console.error("Unable to delete the file reference of the profile object");
-                            console.log(err);
+                            console.error("Unable to delete the question(s) in reference to the selected quiz");
                         }
+                        console.info("Quiz question(s) Deleted");
                     });
                 await QuizAttempt.find({ quiz: _id }, async function (err, quizzes) {
                     await quizzes.forEach(async function (err, quizId) {
                         await QuizAttempt.findByIdAndRemove(quizzes[quizId]._id,
                             async function (err, student) {
                                 if (err) {
-                                    console.error("Unable to delete the file reference of the profile object");
-                                    console.log(err);
+                                    console.error("Unable to delete the quiz attempt in reference to the selected quiz");
                                 }
+                                console.info("Quiz attempt(s) Deleted");
                             });
                     });
                 });
@@ -316,7 +316,7 @@ exports.deleteQuiz = async function (req, res) {
             console.error("The delete order was given, but was not executed by the database. This may be due to a connection error.");
             return res.send(err);
         }
-        console.info("The quiz has been deleted");
+        console.info("Quiz Deleted");
         return res.json({ successQuiz: true });
     });
 };
@@ -329,7 +329,7 @@ exports.deleteQuestion = async function (req, res) {
             console.error("The delete order was given, but was not executed by the database. This may be due to a connection error.");
             return res.send(err);
         }
-        console.info("The question has been deleted");
+        console.info("Question has been deleted");
         return res.json({ success: true });
     });
 };
@@ -346,7 +346,3 @@ exports.deleteAttempt = async function (req, res) {
         return res.json({ success: true });
     });
 };
-
-
-
-
