@@ -153,6 +153,8 @@ router.post('/addQuiz', quizController.addQuiz);
 
 router.post('/addAttempt', quizController.addAttempt);
 
+router.post('/addTotalPointsForUser', quizController.addTotalPointsForUser);
+
 router.post('/deleteQuiz', quizController.deleteQuiz);
 
 router.post('/deleteQuestion', quizController.deleteQuestion);

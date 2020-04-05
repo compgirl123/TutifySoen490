@@ -2,6 +2,7 @@ const Quizzes = require('../models/models').Quizzes;
 const Questions = require('../models/models').Questions;
 const QuizAttempt = require('../models/models').QuizAttempt;
 const Course = require('../models/models').Course;
+const Student = require('../models/models').Student;
 
 // this method fetches all available quizzes from a tutor in our database.
 exports.getQuizes = async (req, res) => {
@@ -153,11 +154,12 @@ exports.addQuiz = async function (req, res) {
 
 // this method adds a new attempt and links it to the quiz.
 exports.addAttempt = async function (req, res) {
-    const { completed_attempts, quiz_id, studentId } = req.body;
+    const { completed_attempts, quiz_id, studentId, quiz_points_scored } = req.body;
     let attempt = new QuizAttempt();
     attempt.completed_attempts = completed_attempts;
     attempt.quiz = quiz_id;
     attempt.student = studentId;
+    attempt.quiz_points_scored = quiz_points_scored;
     var array = [];
     QuizAttempt.find({ quiz: quiz_id, student: studentId }, function (err, quizzes) {
         if (quizzes.length == 0) {
@@ -189,6 +191,40 @@ exports.addAttempt = async function (req, res) {
     });
 };
 
+// this method adds the total points for quizzes for each user.
+exports.addTotalPointsForUser = async function (req, res) {
+    const { totalPoints } = req.body;
+    //console.log(totalPoints);
+    var points = [];
+    /*totalPoints.forEach(function (err, quizId) {
+        console.log(totalPoints[quizId]);
+        console.log("HERE on top");
+        //array.push(quizzes[quizId].attempt_number);
+    });*/
+    for (var key in totalPoints) {
+        var value = totalPoints[key];
+        //console.log(key, value);
+        console.log(Math.max(...value));
+        points.push(Math.max(...value));
+    }
+    console.log(points);
+    var totalP=0;
+    for(var i in points) { totalP += points[i]; }
+    console.log(totalP);
+     
+    //console.log(Math.max(...totalPoints));
+    /*console.log(req.session.userInfo._id);
+    console.log(totalPoints);
+    console.log(Math.max(...totalPoints));*/
+    let profile = Student();
+    Student.findByIdAndUpdate({ _id: req.session.userInfo._id },
+    { $set: { "totalPoints": totalP } },
+    { "new": true, "upsert": true },
+    function (err) {
+        if (err) throw err;
+    });
+};
+
 // this method is to get all the attempts of a specific student.
 exports.getStudentAttempts = async function (req, res) {
     var lookup = [];
@@ -216,7 +252,7 @@ exports.getStudentAttempts = async function (req, res) {
         {
             path: 'student'
         }
-    ]).
+    ]).sort({ quiz: 1 }).
         exec(function (err, attempts) {
             if (err) {
                 console.error("The specific tutor was not found");

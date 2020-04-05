@@ -83,6 +83,39 @@ export class Grades extends React.Component {
         attempts: res.data.data
       });
       console.log(res);
+      this.test1();
+    })
+      .catch(err => console.error("Could not get the attempts from the database: " + err));
+  }
+
+  // Loading all of the questions for the selected quiz. 
+  test1 = () => {
+    var totals = {};
+    var quizzes = [];
+    for(var x = 0;x<this.state.attempts.length;x++){
+      quizzes.push(this.state.attempts[x].quiz._id);
+    }
+    
+    var quizzes2 = Array.from(new Set(quizzes));
+    console.log(quizzes2);
+    var testa = [];
+    for(var z = 0; z < quizzes2.length;z++){
+      for(var y = 0; y < this.state.attempts.length;y++){
+        if(this.state.attempts[y].quiz._id == quizzes2[z]){
+          console.log(this.state.attempts[y].quiz._id);
+          testa.push(this.state.attempts[y].quiz_points_scored+this.state.attempts[y].quiz.points);
+        }
+      }
+      totals[quizzes2[z]] = testa;
+      testa = [];
+    }
+    console.log(totals);
+    axios.post('/api/addTotalPointsForUser',{
+      totalPoints: totals
+  }).then((res) => {
+      // fetch the videos
+      console.info("Successfully fetched the attempts");
+      console.log(res);
     })
       .catch(err => console.error("Could not get the attempts from the database: " + err));
   }
@@ -156,7 +189,7 @@ export class Grades extends React.Component {
                                   <TableCell>{attempt.quiz.course.name}</TableCell>
                                   <TableCell>{attempt.quiz.tutorId.first_name} {attempt.quiz.tutorId.last_name} </TableCell>
                                   <TableCell>{attempt.quiz.points}</TableCell>
-                                  <TableCell>{attempt.quiz.points}</TableCell>
+                                  <TableCell>{attempt.quiz_points_scored}</TableCell>
                                   <TableCell>{attempt.quiz.points}</TableCell>
                                 </>
                                 : <></>
@@ -170,8 +203,8 @@ export class Grades extends React.Component {
                                   <TableCell>{attempt.quiz.course.name}</TableCell>
                                   <TableCell>{attempt.quiz.tutorId.first_name} {attempt.quiz.tutorId.last_name} </TableCell>
                                   <TableCell>{attempt.quiz.points}</TableCell>
-                                  <TableCell>{attempt.quiz.points}</TableCell>
-                                  <TableCell>{attempt.quiz.points}</TableCell>
+                                  <TableCell>{attempt.quiz_points_scored}</TableCell>
+                                  <TableCell>{attempt.quiz.points+attempt.quiz_points_scored}</TableCell>
                                 </>
                                 : <></>
                               }

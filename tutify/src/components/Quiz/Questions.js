@@ -21,6 +21,8 @@ var answersSelected = [];
 var answersSelectedNumerical = [];
 var colorArr = [];
 var specificQuestionsAnswered = [];
+var pointsAccumulated = [];
+var totalScorePoints = [];
 
 export class Questions extends React.Component {
     constructor(props) {
@@ -51,7 +53,9 @@ export class Questions extends React.Component {
             left_attempts: 0,
             attempts: 0,
             attemptsLeft: 0,
-            totalAttempts: 0
+            totalAttempts: 0,
+            totalPoints: 0,
+            totalScorePoints: 0
         }
         this.finishQuiz = this.finishQuiz.bind(this);
         this.handleShowButton = this.handleShowButton.bind(this);
@@ -165,10 +169,19 @@ export class Questions extends React.Component {
             // fetch the questions
             if (res.data !== undefined) {
                 this.setState({ datas: res.data.data, session: res.session, total: res.data.data.length });
+                for(var x=0;x<this.state.datas.length;x++){
+                    console.log(this.state.datas[x].points);
+                    totalScorePoints.push(this.state.datas[x].points);
+                    var totalP=0;
+                    for(var i in totalScorePoints) { totalP += totalScorePoints[i]; }
+                    console.log(totalP);
+                }
+                this.setState({ totalScorePoints:totalP });
             }
             else {
                 this.setState({ datas: [], session: res.session, total: [] });
             }
+            
         })
             .catch(err => console.error("Could not get the questions from the database: " + err));
     }
@@ -203,21 +216,29 @@ export class Questions extends React.Component {
         let correct = Number(this.state.datas[(elem.dataset.id).split(",")[1]].answerIndex);
         let updatedClassNames = this.state.classNames;
         this.setState({ questionsClicked: true });
-
+ 
         // if quiz is not finished but user selects answer, then save answer selected
         if (this.state.finishedQuiz === false) {
             if (answer === correct) {
                 // set the correct answer to be shown in green if the person taking the quiz has answered correctly
                 colorArr[(elem.dataset.id).split(",")[1]] = 'green';
+                pointsAccumulated[questionIndex] = this.state.datas[questionIndex].points;
             }
             else {
                 // set the correct answer to be shown in red if the person taking the quiz has not answered correctly
                 colorArr[(elem.dataset.id).split(",")[1]] = 'red';
+                pointsAccumulated[questionIndex] = null;
+                // check if it ever gets here then remove points.
             }
+
+            var total=0;
+            for(var i in pointsAccumulated) { total += pointsAccumulated[i]; }
+            console.log(total);
 
             this.setState({
                 color: colorArr,
-                classNames: updatedClassNames
+                classNames: updatedClassNames,
+                totalPoints: total
             })
 
             answersSelected[(elem.dataset.id).split(",")[1]] = (elem.dataset.id).split(",")[0];
@@ -358,7 +379,8 @@ export class Questions extends React.Component {
         axios.post('/api/addAttempt', {
             completed_attempts: this.state.quizzes,
             quiz_id: this.props.match.params.id,
-            studentId: this.state.tutorId
+            studentId: this.state.tutorId,
+            quiz_points_scored: this.state.totalPoints
         }).then((res) => {
             console.info("Successfully created an attempt");
         })
@@ -385,7 +407,7 @@ export class Questions extends React.Component {
                             <b> Question: {this.state.question1} </b>
                         </p>
                         <p>
-                            <b> Options: {this.state.options}</b>
+                            <b>Options: {this.state.options}</b>
                             <p>Option 1: {this.state.option1q1}</p>
                             <p>Option 2: {this.state.option2q1}</p>
                             <p>Option 3: {this.state.option3q1}</p>
@@ -405,7 +427,6 @@ export class Questions extends React.Component {
         .then((value) => {
             if (value) {
                 console.info("Adding question to db...");
-
                 if (this.state.question1 !== '' && this.state.option1q1 !== ''
                     && this.state.option2q1 !== '' && this.state.option3q1 !== ''
                     && this.state.option4q1 !== '' && this.state.correctq1 !== '' && this.state.points1 !== '') {
@@ -509,7 +530,7 @@ export class Questions extends React.Component {
                                             ?
                                             <>
                                                 <div className={classes.wrapper}>
-                                                    <p> Congrats! You successfully completed this {this.state.total} question quiz.</p>
+                                                    <p> Congrats! You scored {this.state.totalPoints} points out of a total {this.state.totalScorePoints} for this {this.state.total} question quiz.</p>
                                                 </div>
                                                 <button className={classes.fancyBtn} onClick={() => window.location.replace("/choosetutorQuiz")}>{'Return To Main Quiz Page'}</button>
                                             </>
@@ -585,7 +606,6 @@ export class Questions extends React.Component {
                                         variant="outlined"
                                         style={{ width: '100%', marginTop: "35px" }}
                                     />
-
                                     <br /><br />
                                     <FormControl className={classes.formControl}>
                                         <InputLabel>
