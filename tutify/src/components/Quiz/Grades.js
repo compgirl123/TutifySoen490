@@ -50,6 +50,7 @@ export class Grades extends React.Component {
             tutorImg: res.userInfo.picture,
             accountType: res.userInfo.__t
           })
+          console.info("Set up the states for Logged in user.");
         }
         else {
           this.setState({ Toggle: false });
@@ -70,7 +71,7 @@ export class Grades extends React.Component {
     }
   }
 
-  // Loading all of the questions for the selected quiz. 
+  // Loading all of the attempts for the selected student. 
   loadAttempts = () => {
     axios.get('/api/getStudentAttempts', {
       params: {
@@ -82,41 +83,39 @@ export class Grades extends React.Component {
       this.setState({
         attempts: res.data.data
       });
-      console.log(res);
-      this.test1();
+      this.totalPointsScored();
     })
       .catch(err => console.error("Could not get the attempts from the database: " + err));
   }
 
   // Loading all of the questions for the selected quiz. 
-  test1 = () => {
+  totalPointsScored = () => {
     var totals = {};
     var quizzes = [];
     for(var x = 0;x<this.state.attempts.length;x++){
       quizzes.push(this.state.attempts[x].quiz._id);
     }
-    
-    var quizzes2 = Array.from(new Set(quizzes));
-    console.log(quizzes2);
-    var testa = [];
-    for(var z = 0; z < quizzes2.length;z++){
+
+    var uniqueQuizArray = Array.from(new Set(quizzes));
+    var pointsScored = [];
+    for(var z = 0; z < uniqueQuizArray.length;z++){
       for(var y = 0; y < this.state.attempts.length;y++){
-        if(this.state.attempts[y].quiz._id == quizzes2[z]){
-          console.log(this.state.attempts[y].quiz._id);
-          testa.push(this.state.attempts[y].quiz_points_scored+this.state.attempts[y].quiz.points);
+        if(this.state.attempts[y].quiz._id == uniqueQuizArray[z]){
+          console.info("Setting total points scored.");
+          pointsScored.push(this.state.attempts[y].quiz_points_scored+this.state.attempts[y].quiz.points);
         }
       }
-      totals[quizzes2[z]] = testa;
-      testa = [];
+      totals[uniqueQuizArray[z]] = pointsScored;
+      pointsScored = [];
     }
-    console.log(totals);
-    axios.post('/api/addTotalPointsForUser',{
-      totalPoints: totals
-  }).then((res) => {
-      // fetch the videos
-      console.info("Successfully fetched the attempts");
-      console.log(res);
-    })
+
+      axios.post('/api/addTotalPointsForUser',{
+        totalPoints: totals
+        }).then((res) => {
+            // fetch the videos
+            console.info("Successfully fetched the attempts");
+            console.log(res);
+          })
       .catch(err => console.error("Could not get the attempts from the database: " + err));
   }
 
@@ -204,7 +203,7 @@ export class Grades extends React.Component {
                                   <TableCell>{attempt.quiz.tutorId.first_name} {attempt.quiz.tutorId.last_name} </TableCell>
                                   <TableCell>{attempt.quiz.points}</TableCell>
                                   <TableCell>{attempt.quiz_points_scored}</TableCell>
-                                  <TableCell>{attempt.quiz.points+attempt.quiz_points_scored}</TableCell>
+                                  <TableCell>{attempt.quiz.points + attempt.quiz_points_scored}</TableCell>
                                 </>
                                 : <></>
                               }

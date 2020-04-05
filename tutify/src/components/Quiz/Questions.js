@@ -17,7 +17,6 @@ import Select from '@material-ui/core/Select';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from "@material-ui/core/MenuItem";
 
-var answersSelected = [];
 var answersSelectedNumerical = [];
 var colorArr = [];
 var specificQuestionsAnswered = [];
@@ -51,7 +50,6 @@ export class Questions extends React.Component {
             nbQuestionsAnswered: [],
             quizzes: [],
             left_attempts: 0,
-            attempts: 0,
             attemptsLeft: 0,
             totalAttempts: 0,
             totalPoints: 0,
@@ -92,7 +90,6 @@ export class Questions extends React.Component {
                     }
                     // if user is a student, then execute the following
                     else if (res.userInfo.__t === "student") {
-                        console.log(res);
                         // Setting the states for the student
                         this.setState({
                             tutorId: res.userInfo._id,
@@ -152,6 +149,7 @@ export class Questions extends React.Component {
                 categoryOptions: courses
             });
             if (!localStorage.getItem("reloadStudents")) {
+                // Setting localStorage variable to reload page to reload Students for tutor.
                 localStorage.setItem("reloadStudents", true);
                 window.location.reload(true);
             }
@@ -169,12 +167,11 @@ export class Questions extends React.Component {
             // fetch the questions
             if (res.data !== undefined) {
                 this.setState({ datas: res.data.data, session: res.session, total: res.data.data.length });
-                for(var x=0;x<this.state.datas.length;x++){
-                    console.log(this.state.datas[x].points);
+                for(var x = 0; x < this.state.datas.length; x++){
+                    console.info("Find totals for Scoring and save into a state.");
                     totalScorePoints.push(this.state.datas[x].points);
                     var totalP=0;
                     for(var i in totalScorePoints) { totalP += totalScorePoints[i]; }
-                    console.log(totalP);
                 }
                 this.setState({ totalScorePoints:totalP });
             }
@@ -223,17 +220,17 @@ export class Questions extends React.Component {
                 // set the correct answer to be shown in green if the person taking the quiz has answered correctly
                 colorArr[(elem.dataset.id).split(",")[1]] = 'green';
                 pointsAccumulated[questionIndex] = this.state.datas[questionIndex].points;
+                console.info("Set the correct answer selected as green text");
             }
             else {
                 // set the correct answer to be shown in red if the person taking the quiz has not answered correctly
                 colorArr[(elem.dataset.id).split(",")[1]] = 'red';
                 pointsAccumulated[questionIndex] = null;
-                // check if it ever gets here then remove points.
+                console.info("Set the correct answer selected as red text");
             }
 
             var total=0;
             for(var i in pointsAccumulated) { total += pointsAccumulated[i]; }
-            console.log(total);
 
             this.setState({
                 color: colorArr,
@@ -254,10 +251,10 @@ export class Questions extends React.Component {
         }
     }
 
-    /**
+    /*
      * Handles what happends when quiz is finished. Forces user to answer all questions to make
      * the quiz count for the total number of points earned for that quiz.
-     **/
+     */
     finishQuiz() {
         if (this.state.nbQuestionsAnswered.length < this.state.total) {
             alert("Please Answer all Questions");
@@ -271,10 +268,7 @@ export class Questions extends React.Component {
             else if (this.state.nbQuestionsAnswered.includes(undefined) === false) {
                 if (this.state.accountType === "student") {
                     if (this.state.questionsClicked === true) {
-                        console.log(this.state.quizzes);
-                        console.log(this.state.attemptsLeft);
-                        console.log(this.state.totalAttempts);
-                        //console.log(this.state.quizzes);
+                        console.info("Enter here after student has answered all questions.");
                         this.addPointstoDb();
                         this.setState({
                             finishedQuiz: true,
@@ -285,10 +279,12 @@ export class Questions extends React.Component {
                     }
                     else if (this.state.questionsClicked === false) {
                         alert("Please Answer at least one Question");
+                        console.info("Enter here if not all questions have been answered.");
                     }
                 }
                 else if (this.state.accountType === "tutor") {
                     if (this.state.questionsClicked === true) {
+                        console.info("Enter here after student has answered all questions.");
                         this.setState({
                             finishedQuiz: true,
                             showButtonTutor: false,
@@ -298,8 +294,8 @@ export class Questions extends React.Component {
                     }
                     else if (this.state.questionsClicked === false) {
                         alert("Please Answer at least one Question");
+                        console.info("Enter here if not all questions have been answered.");
                     }
-
                 }
             }
         }
@@ -319,6 +315,7 @@ export class Questions extends React.Component {
                     })
                         .then((res) => {
                             swal("Question successfully deleted!", "", "success");
+                            console.info("Delete Question");
                             window.location.reload();
                         }, (error) => {
                             console.error("Could not delete question to database (API call error) " + error);
@@ -337,8 +334,6 @@ export class Questions extends React.Component {
                 }
             }).then((res) => {
                 console.info("Successfully fetched the quizzes from the class");
-                console.log([localStorage.getItem("coursesPresent").split(",")[0]]);
-                console.info(res);
                 this.setState({
                     quizzes: res.data.data,
                     totalAttempts: res.data.data.allowed_attempts,
@@ -360,14 +355,17 @@ export class Questions extends React.Component {
             console.info("Successfully fetched the quizzes from the class");
             if (res.data.data.length === 0) {
                 this.setState({ left_attempts: this.state.quizzes - 1 });
+                console.info("Setting the amount of attempts left.");
             }
             if (res.data.data.length > 0) {
                 for (var x = 0; x < res.data.data.length; x++) {
                     quiz_attempts.push(res.data.data[x].attempts_left);
+                    console.info("Add Quiz Attempts");
                 }
                 this.setState({ left_attempts: Math.min(...quiz_attempts) - 1 });
                 if (this.state.left_attempts <= 0) {
                     window.location.replace("/choosetutorQuiz");
+                    console.info("Redirect to choosetutorQuiz if there are no attempts left on the quiz.");
                 }
             }
         })
@@ -382,12 +380,12 @@ export class Questions extends React.Component {
             studentId: this.state.tutorId,
             quiz_points_scored: this.state.totalPoints
         }).then((res) => {
-            console.info("Successfully created an attempt");
+            console.info("Successfully created an attempt.");
         })
             .catch(err => console.error("Could not create an attempt and put it in the database: " + err));
     }
 
-    // Adding a new question according to what the user inputs into the Dialog box to the db
+    // Adding a new question according to what the user inputs into the Dialog box to the db.
     addQuestionToDb = () => {
         var tutor = [];
         var inputtedOptions = [];
@@ -442,8 +440,7 @@ export class Questions extends React.Component {
                         .then((res) => {
                             swal("Question successfully added!", "", "success");
                             window.location.reload();
-                            console.log(res);
-                            console.log(this.state.course);
+                            console.info("Added question to the database.");
                         }, (error) => {
                             console.error("Could not add question to database (API call error) " + error);
                         });
@@ -475,7 +472,6 @@ export class Questions extends React.Component {
                                     <br />
                                 }
                             </div>
-
                             {datas.map((c, i) => (
                                 <div className="col-lg-10 col-lg-offset-1">
                                     <div className={classes.question}>
@@ -489,15 +485,15 @@ export class Questions extends React.Component {
                                             <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[2]},${i},3`}><span className={classes.answersLiSpan}>C</span> <p className={classes.answersP}>{c.choices[2]}</p></li>
                                             <li onClick={this.checkAnswer} className={classes.answersLi} data-id={`${c.choices[3]},${i},4`}><span className={classes.answersLiSpan}>D</span> <p className={classes.answersP}>{c.choices[3]}</p></li>
                                         </ul>
-                                    <div className={classes.DeleteQuestion}>
-                                    {this.state.accountType === "tutor" ?
-                                        <Button variant="contained" size="lg" active onClick={event => this.deleteQuestion(c._id)}>
-                                            Delete Question
+                                        <div className={classes.DeleteQuestion}>
+                                            {this.state.accountType === "tutor" ?
+                                                <Button variant="contained" size="lg" active onClick={event => this.deleteQuestion(c._id)}>
+                                                    Delete Question
                                         </Button>
-                                        :
-                                        <br />
-                                    }
-                                </div>
+                                                :
+                                                <br />
+                                            }
+                                        </div>
                                     </div>
                                     <div className={classes.submit}>
                                         <br />

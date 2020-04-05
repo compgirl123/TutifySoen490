@@ -30,7 +30,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from "@material-ui/core/MenuItem";
 import CardActions from '@material-ui/core/CardActions';
 
-// Defines what content is shown based on index of selected tab
+// Defines what content is shown based on index of selected tab.
 function a11yProps(index) {
     return {
         id: `scrollable-auto-tab-${index}`,
@@ -38,7 +38,7 @@ function a11yProps(index) {
     };
 }
 
-// displaying the documents shared to students
+// displaying the documents shared to students.
 export class ChooseCourseAndQuiz extends React.Component {
     constructor(props) {
         super(props);
@@ -113,7 +113,7 @@ export class ChooseCourseAndQuiz extends React.Component {
             .catch(err => console.error(err));
     };
 
-    // Getting all of the tutors the student is registered with as well as their quizzes
+    // Getting all of the tutors the student is registered with as well as their quizzes.
     getAllquizzesStudent = () => {
         axios.get('/api/getTutor', {
             params: {
@@ -130,7 +130,7 @@ export class ChooseCourseAndQuiz extends React.Component {
             .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
 
-    // Getting all of the courses the tutor teaches
+    // Getting all of the courses the tutor teaches.
     getTutorCourses = () => {
         axios.get('/api/getTutorCourses', {
         }).then((res) => {
@@ -153,7 +153,7 @@ export class ChooseCourseAndQuiz extends React.Component {
             .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
 
-    // This function gets the quizzes corresponding to each of the tutor's classes.
+    // This function gets the quizzes corresponding to each of the tutor's classes upon first load of the page.
     getTutorClassquizzesOnFirstLoad = () => {
         axios.get('/api/getCourseQuizes', {
             params: {
@@ -189,6 +189,7 @@ export class ChooseCourseAndQuiz extends React.Component {
                 categoryOptions: courses
             });
             if (!localStorage.getItem("reloadStudents")) {
+                // Store all of the student's courses in a localStorage variable.
                 localStorage.setItem("reloadStudents", true);
                 window.location.reload(true);
             }
@@ -196,7 +197,7 @@ export class ChooseCourseAndQuiz extends React.Component {
             .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
 
-    // Adding a new quiz according to what the user inputs into the Dialog box to the database
+    // Adding a new quiz according to what the user inputs into the Dialog box to the database.
     addQuizToDb = () => {
         var tutor = [];
         var inputtedOptionsq1 = [];
@@ -308,7 +309,7 @@ export class ChooseCourseAndQuiz extends React.Component {
                 this.setState({
                     quizzes: res.data.data
                 });
-                console.log(this.state.quizzes);
+                console.info("Fetching quizzes.");
             })
                 .catch(err => console.error("Could not get the quizzes from the database: " + err));
         };
@@ -361,16 +362,16 @@ export class ChooseCourseAndQuiz extends React.Component {
                                                         height='100%'
                                                     />
                                                     <CardContent>
-                                                    <Typography gutterBottom variant="h5" component="h2">
-                                                        {file.title}
-                                                        {this.state.accountType === "tutor" ?
-                                                            <IconButton variant="contained" size="lg" active onClick={event => this.deleteQuiz(file._id,file.questions)} className={classes.deleteCourseButton} >
-                                                                <DeleteForeverIcon className={classes.deleteIconButton} />
-                                                            </IconButton>
-                                                            :
-                                                            <></>
-                                                        }
-                                                    </Typography>
+                                                        <Typography gutterBottom variant="h5" component="h2">
+                                                            {file.title}
+                                                            {this.state.accountType === "tutor" ?
+                                                                <IconButton variant="contained" size="lg" active onClick={event => this.deleteQuiz(file._id, file.questions)} className={classes.deleteCourseButton} >
+                                                                    <DeleteForeverIcon className={classes.deleteIconButton} />
+                                                                </IconButton>
+                                                                :
+                                                                <></>
+                                                            }
+                                                        </Typography>
                                                         {this.state.accountType === "tutor"
                                                             ? <>
                                                                 <Typography variant="body2" color="textSecondary" component="p">
@@ -462,7 +463,7 @@ export class ChooseCourseAndQuiz extends React.Component {
                                         onChange={e => this.setState({ points: e.target.value })}
                                         autoComplete="Points"
                                         label="Points"
-                                        type = "number"
+                                        type="number"
                                         defaultValue={this.state.points}
                                         fullWidth
                                     />
@@ -477,7 +478,7 @@ export class ChooseCourseAndQuiz extends React.Component {
                                         onChange={e => this.setState({ allowedAttempts: e.target.value })}
                                         autoComplete="allowedAttempts"
                                         label="Allowed Attempts"
-                                        type = "number"
+                                        type="number"
                                         defaultValue={this.state.allowedAttempts}
                                         fullWidth
                                     />
@@ -501,16 +502,16 @@ export class ChooseCourseAndQuiz extends React.Component {
                                     justify="space-between"
                                     alignItems="baseline"
                                 >
-                                <Grid item>
-                                    <DialogActions>
-                                        <Button onClick={this.handleClose}>Close</Button>
-                                    </DialogActions>
-                                </Grid>
-                                <Grid item>
-                                    <DialogActions>
-                                        <Button onClick={this.addQuizToDb}>Save</Button>
-                                    </DialogActions>
-                                </Grid>
+                                    <Grid item>
+                                        <DialogActions>
+                                            <Button onClick={this.handleClose}>Close</Button>
+                                        </DialogActions>
+                                    </Grid>
+                                    <Grid item>
+                                        <DialogActions>
+                                            <Button onClick={this.addQuizToDb}>Save</Button>
+                                        </DialogActions>
+                                    </Grid>
                                 </Grid>
                             </Dialog>
                         </div>
