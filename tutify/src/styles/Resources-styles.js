@@ -16,9 +16,13 @@ export const styles = theme => ({
         height: 140,
       },
       divContainer:{
-        padding: theme.spacing(10, 0, 8),
+        padding: theme.spacing(16, 2, 10),
+        margin:"0 auto",
       },
       link: {
           textDecoration: 'none',
       },
+      resources: {
+        marginTop: theme.spacing(10)
+      }
   });
