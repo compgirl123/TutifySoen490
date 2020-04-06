@@ -28,6 +28,7 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from "@material-ui/core/MenuItem";
+import green from '@material-ui/core/colors/green';
 
 // Defines what content is shown based on index of selected tab
 function a11yProps(index) {
@@ -54,7 +55,7 @@ export class Studentdocs extends React.Component {
             open: false,
             Toggle: false,
             categoryOptions: [],
-            newValue: 0
+            newValue: 0,
         };
         this.getTutorCourses = this.getTutorCourses.bind(this);
     }
@@ -205,13 +206,13 @@ export class Studentdocs extends React.Component {
 
     // This function checks if the image url provided by the user is a URL
     isURL(url) {
-        if(!url) return false;
-        var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+        if (!url) return false;
+        var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
             '((\\d{1,3}\\.){3}\\d{1,3}))|' + // OR ip (v4) address
             'localhost' + // OR localhost
-            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
             '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
 
         return pattern.test(url);
@@ -254,7 +255,7 @@ export class Studentdocs extends React.Component {
                 if (value) {
                     console.info("Adding video to db...");
                     if (this.state.title !== '' && this.state.description !== '' &&
-                        this.state.videoLink !== '' && this.isURL(this.state.videoLink)&& 
+                        this.state.videoLink !== '' && this.isURL(this.state.videoLink) &&
                         this.state.tutorId !== '' && this.state.course !== '') {
                         axios.post('/api/addVideo', {
                             title: this.state.title,
@@ -305,6 +306,19 @@ export class Studentdocs extends React.Component {
         const { classes } = this.props;
         const { videos, open, newValue, categoryOptions } = this.state;
 
+        var styles = {
+            default_tab: {
+              color: green[700],
+              indicatorColor: green[900],
+              fontWeight: 400,
+            }
+          }
+      
+          styles.tab = []
+          styles.tab[0] = styles.default_tab;
+          styles.tab[1] = styles.default_tab;
+          styles.tab[2] = styles.default_tab;
+
         // Handling the change in option in the top filtering by course bar
         const handleChange = (event, newValue) => {
             this.setState({ newValue: newValue });
@@ -344,15 +358,13 @@ export class Studentdocs extends React.Component {
                                 value={newValue}
                                 onChange={handleChange}
                                 indicatorColor="primary"
-                                textColor="primary"
-                                variant="scrollable"
-                                scrollButtons="auto"
-                                aria-label="scrollable auto tabs example"
+                                value={0}
+                                aria-label="disabled tabs"
                                 onclick={(e) => { this.setState({ newValue: e.target.value }); }}
                             >
 
                                 {categoryOptions.map((category, index) => (
-                                    <Tab label={category} {...a11yProps(index)} />
+                                    <Tab  style={styles.tab[0]} label={category} {...a11yProps(index)} />
                                 ))}
 
                             </Tabs>

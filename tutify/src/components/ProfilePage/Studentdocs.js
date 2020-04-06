@@ -174,7 +174,7 @@ export class Studentdocs extends React.Component {
                   indicatorColor="primary"
                   inkBarStyle={{
                     textColor: "black",
-                    background: "#FF5733",
+
                     height: "5px",
                     marginTop: "-5px"
                   }}
