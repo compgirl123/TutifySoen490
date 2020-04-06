@@ -165,11 +165,11 @@ export class Studentdocs extends React.Component {
       <React.Fragment>
         <main>
           <DashBoardNavBar />
-          <main className={classes.content}>
+          <main >
             <div className={classes.appBarSpacer} />
             {(this.state.profileType === "tutor" && this.state.tutorViewStudents === false)
               ?
-              <Paper className={classes.root}>
+              <Paper>
                 <Tabs
                   indicatorColor="primary"
                   inkBarStyle={{
@@ -272,7 +272,7 @@ export class Studentdocs extends React.Component {
                                   <TableCell>{presentableExtension(filename)}</TableCell>
                                   <TableCell>{tutor_name}</TableCell>
                                   <TableCell>{presentableUploadTime(uploadDate)}</TableCell>
-                                  <TableCell ><Fab type="button" variant="extended" className={classes.courseButton} aria-label="add" size="small" fontSize="small" onClick={() => window.open(link)} id={file._id}><GetAppIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab></TableCell>
+                                  <TableCell ><Button type="button" onClick={() => window.open(link)} id={file._id}><GetAppIcon /></Button></TableCell>
                                 </TableRow>
                               )
                             })

@@ -33,13 +33,13 @@ import { presentableExtension, presentableName, presentableUploadTime } from '..
 function SharingOptions(props) {
   if (props.status === 'student') {
     if (props.buttons) {
-      return <TableCell><Fab type="button" variant="extended" aria-label="add" size="small" className={props.courseButton} onClick={() => window.location.replace("/tutors/" + props.encrypted_file_name)} id={props.fileId}><GroupAddIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab></TableCell>
+      return <TableCell><Button type="button" onClick={() => window.location.replace("/tutors/" + props.encrypted_file_name)} id={props.fileId}><GroupAddIcon /></Button></TableCell>
     }
     return <TableCell><Typography variant="h6">Share to a Tutor</Typography></TableCell>
   } else {
     if (props.buttons) {
-      return [<TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" fontSize="small" className={props.courseButton} onClick={() => window.location.replace("/tutorCourses/" + props.encrypted_file_name)} id={props.fileId}><MenuBookIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>,
-      <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={props.courseButton} onClick={() => window.location.replace("/students/" + props.encrypted_file_name)} id={props.fileId}><GroupAddIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab></TableCell>]
+      return [<TableCell align="center"><Button type="button" variant="extended" aria-label="add" size="small" fontSize="small" className={props.courseButton} onClick={() => window.location.replace("/tutorCourses/" + props.encrypted_file_name)} id={props.fileId}><MenuBookIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Button></TableCell>,
+      <TableCell align="center"><Button type="button" variant="extended" aria-label="add" size="small" className={props.courseButton} onClick={() => window.location.replace("/students/" + props.encrypted_file_name)} id={props.fileId}><GroupAddIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Button></TableCell>]
     }
     return [<TableCell>Share to <br />Specific Course</TableCell>,
     <TableCell>Share to <br />Specific Student</TableCell>]
@@ -183,11 +183,11 @@ export class DocList extends React.Component {
       <React.Fragment>
         <main>
           <DashBoardNavBar />
-          <main className={classes.content}>
+          <main>
             <div className={classes.appBarSpacer} />
             {(this.state.profileType === "tutor")
               ?
-              <Paper className={classes.root}>
+              <Paper>
                 <Tabs
                   indicatorColor="primary"
                   inkBarStyle={{
@@ -285,7 +285,7 @@ export class DocList extends React.Component {
                                   encrypted_file_name={encrypted_file_name}
                                   fileId={file._id}
                                 />
-                                <TableCell><Fab type="button" size="small" variant="extended" aria-label="add"  className={classes.courseButton} onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab ></TableCell>
+                                <TableCell><Button type="button" onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon/></Button></TableCell>
 
                                 <TableCell align="center"><Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></TableCell>
                               </TableRow>
