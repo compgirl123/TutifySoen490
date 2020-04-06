@@ -75,9 +75,6 @@ export class ChooseTutorForQuizzes extends React.Component {
             <main className={classes.content}>
               <div className={classes.appBarSpacer} />
               <Container maxWidth="lg" className={classes.container}>
-                <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                  Choose Tutor to View Their Quizzes for Enrolled Classes
-                </Typography>
                 <Grid container spacing={5}>
                   {tutors.map((c, i) => (
                     <Grid item xs={4} md={4} lg={4}>
@@ -95,7 +92,7 @@ export class ChooseTutorForQuizzes extends React.Component {
                           </CardContent>
                         </CardActionArea>
                         <CardActions>
-                          <Button type="button" onClick={() => window.location.replace("/chooseClassAndQuiz/" + (c._id).replace(/ /g, ""))} size="small" href="" fullWidth className="submit">
+                          <Button type="button" variant="outlined" onClick={() => window.location.replace("/chooseClassAndQuiz/" + (c._id).replace(/ /g, ""))} size="small" href="" fullWidth className="submit">
                             View Tutor Quizzes
                             </Button>
                         </CardActions>
