@@ -16,6 +16,7 @@ import Paper from '@material-ui/core/Paper';
 import Fab from "@material-ui/core/Fab";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import PublishIcon from '@material-ui/icons/Publish';
+import Title from '../ProfilePage/Title';
 
 // Display a Ui for Tutors in order to be able to upload their documents
 export class UploadDocuments extends Component {
@@ -103,15 +104,31 @@ export class UploadDocuments extends Component {
     const { classes } = this.props;
     return (
       <React.Fragment>
-        <main>
+        <main className={classes.root}>
           <DashBoardNavBar />
-          <div className={classes.heroContent}>
-            <Container className={classes.container}>
-              <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-                Upload Documents
-              </Typography>
-            </Container>
-            <div className={classes.uploadDocApp}>
+          <Title>Upload Documents</Title>
+          <Paper>
+            <Table stickyHeader aria-label="">
+              <TableHead>
+                <TableRow>
+                  <TableCell><Typography variant="h6">Date</Typography></TableCell>
+                  <TableCell><Typography variant="h6">Name</Typography></TableCell>
+                  <TableCell align="right"><Typography variant="h6">Download File</Typography></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>{this.state.recentUploadDate}</TableCell>
+                  <TableCell>{this.state.recentFileName}</TableCell>
+                  <TableCell align="right">
+                    <Button type="button" variant="extended" aria-label="add" size="small" onClick={() => window.open(this.state.recentFileLink)} >
+                      <GetAppIcon fontSize="small" style={{ width: '22px', height: '22px' }} />
+                    </Button >
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </Paper>
               <div className={classes.uploadContainer}>
                 <form onSubmit={this.handleSubmit}>
                   <input
@@ -120,36 +137,12 @@ export class UploadDocuments extends Component {
                     onChange={this.fileChanged}
                     className={classes.inputUpload}
                   />
-                  <Button type="submit" size="small" className={classes.submit}>
+                  <Button type="submit" size="small" variant="extended">
                     <PublishIcon />
                   </Button>
                 </form>
                 {/* </form> */}
               </div>
-            </div>
-          </div>
-          <Paper>
-            <Table stickyHeader aria-label="">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Date</TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell align="right">Download File</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell>{this.state.recentUploadDate}</TableCell>
-                  <TableCell>{this.state.recentFileName}</TableCell>
-                  <TableCell align="right">
-                    <Fab type="button" variant="extended" aria-label="add" size="small" className={classes.courseButton} onClick={() => window.open(this.state.recentFileLink)} >
-                      <GetAppIcon fontSize="small" style={{ width: '22px', height: '22px' }} />
-                    </Fab >
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </Paper>
           <div className={classes.seeMore}>
             <Link color="primary" href="/doclist">
               See more
