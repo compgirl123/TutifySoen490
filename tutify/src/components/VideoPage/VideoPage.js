@@ -337,7 +337,7 @@ export class Studentdocs extends React.Component {
             <React.Fragment>
                 <main>
                     <DashBoardNavBar />
-                    <main className={classes.content}>
+                    <main >
                         <div className={classes.appBarSpacer} />
                         <AppBar position="static" color="default" textAlign="center">
                             <Tabs
@@ -368,7 +368,7 @@ export class Studentdocs extends React.Component {
                             <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                                 {this.state.tutorFirstName} {this.state.tutorLastName}'s Tutoring Videos
                             </Typography>
-                            <Title> Videos </Title>
+                            <br />
                             <Grid container spacing={4}>
                                 {/* Videos */}
                                 {videos.map((file, index) => (
