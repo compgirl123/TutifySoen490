@@ -56,7 +56,7 @@ class Sidebar extends Component {
     return (
       <div>
         <Divider />
-        <List>
+        <List className={classes.sideBarList}>
           <ListItem button component="a" href="/profile">
             <ListItemIcon>
               <AccountBoxIcon />
@@ -120,6 +120,13 @@ class Sidebar extends Component {
             <ListItemText primary="Videos" />
           </ListItem>
 
+          <ListItem button component="a" href="/resources">
+              <ListItemIcon>
+                <BookIcon />
+              </ListItemIcon>
+              <ListItemText primary="Useful Resources" />
+            </ListItem>
+
           <ListItem button component="a" href="/" onClick={this.handleChange} >
             <ListItemIcon>
               <ExitToAppIcon />
@@ -150,32 +157,6 @@ class Sidebar extends Component {
             </List>
           </ListItem>
         </List>
-
-        <Divider />
-        <List>
-          <div>
-            <ListSubheader inset>Homework</ListSubheader>
-            <ListItem button>
-              <ListItemIcon>
-                <AssignmentIcon />
-              </ListItemIcon>
-              <ListItemText primary="My Assignments" />
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon>
-                <AssignmentIcon />
-              </ListItemIcon>
-              <ListItemText primary="Extra Problems" />
-            </ListItem>
-            <ListItem button component="a" href="/resources">
-              <ListItemIcon>
-                <BookIcon />
-              </ListItemIcon>
-              <ListItemText primary="Useful Resources" />
-            </ListItem>
-          </div>
-        </List>
-
       </div>
     );
   }
