@@ -209,37 +209,34 @@ export class Studentdocs extends React.Component {
                 
             }
             <Container maxWidth="lg" className={classes.container}>
-              <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                List of Documents
-              </Typography>
               <Grid container spacing={2}>
                 {/* Student Info */}
                 <Grid item xs={12} md={12} lg={24}>
                   <Paper className={fixedHeightPaper}>
                     <React.Fragment>
-                      <Title>My Documents </Title>
+                      <Title>My Documents</Title>
                       <Table size="small">
                         <TableHead>
                           <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Extension</TableCell>
+                            <TableCell><Typography variant="h6">Name</Typography></TableCell>
+                            <TableCell><Typography variant="h6">Extension</Typography></TableCell>
                             {this.props.match.params.studentid !== undefined
                               ?
-                              <TableCell>Upload Date</TableCell>
+                              <TableCell><Typography variant="h6">Upload Date</Typography></TableCell>
                               :
-                              <TableCell>Tutor</TableCell>
+                              <TableCell><Typography variant="h6">Tutor</Typography></TableCell>
                             }
                             {this.props.match.params.studentid !== undefined
                               ?
-                              <TableCell>Download</TableCell>
+                              <TableCell><Typography variant="h6">Download</Typography></TableCell>
                               :
-                              <TableCell>Upload Date</TableCell>
+                              <TableCell><Typography variant="h6">Upload Date</Typography></TableCell>
                             }
                             {this.props.match.params.studentid !== undefined
                               ?
-                              <TableCell>Choose Files to Delete</TableCell>
+                              <TableCell><Typography variant="h6">Select File(s) to Delete</Typography></TableCell>
                               :
-                              <TableCell>Download</TableCell>
+                              <TableCell><Typography variant="h6">Download</Typography></TableCell>
                             }
 
                           </TableRow>
@@ -275,7 +272,7 @@ export class Studentdocs extends React.Component {
                                   <TableCell>{presentableExtension(filename)}</TableCell>
                                   <TableCell>{tutor_name}</TableCell>
                                   <TableCell>{presentableUploadTime(uploadDate)}</TableCell>
-                                  <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" onClick={() => window.open(link)} id={file._id}><GetAppIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
+                                  <TableCell ><Fab type="button" variant="extended" className={classes.courseButton} aria-label="add" size="small" fontSize="small" onClick={() => window.open(link)} id={file._id}><GetAppIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab></TableCell>
                                 </TableRow>
                               )
                             })

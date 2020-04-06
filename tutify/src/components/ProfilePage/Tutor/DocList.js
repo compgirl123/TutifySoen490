@@ -27,18 +27,18 @@ import Button from "@material-ui/core/Button";
 import InboxIcon from '@material-ui/icons/Inbox';
 import SendIcon from '@material-ui/icons/Send';
 import green from '@material-ui/core/colors/green';
-import {presentableExtension, presentableName, presentableUploadTime} from '../../../helper/presentableHelper'
+import { presentableExtension, presentableName, presentableUploadTime } from '../../../helper/presentableHelper'
 
 
 function SharingOptions(props) {
   if (props.status === 'student') {
     if (props.buttons) {
-      return <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={props.courseButton} onClick={() => window.location.replace("/tutors/" + props.encrypted_file_name)} id={props.fileId}><GroupAddIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab></TableCell>
+      return <TableCell><Fab type="button" variant="extended" aria-label="add" size="small" className={props.courseButton} onClick={() => window.location.replace("/tutors/" + props.encrypted_file_name)} id={props.fileId}><GroupAddIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab></TableCell>
     }
-    return <TableCell>Share to <br />a Tutor</TableCell>
+    return <TableCell><Typography variant="h6">Share to a Tutor</Typography></TableCell>
   } else {
     if (props.buttons) {
-      return [<TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" className={props.courseButton} onClick={() => window.location.replace("/tutorCourses/" + props.encrypted_file_name)} id={props.fileId}><MenuBookIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>,
+      return [<TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" fontSize="small" className={props.courseButton} onClick={() => window.location.replace("/tutorCourses/" + props.encrypted_file_name)} id={props.fileId}><MenuBookIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>,
       <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={props.courseButton} onClick={() => window.location.replace("/students/" + props.encrypted_file_name)} id={props.fileId}><GroupAddIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab></TableCell>]
     }
     return [<TableCell>Share to <br />Specific Course</TableCell>,
@@ -72,7 +72,7 @@ export class DocList extends React.Component {
       .then(response => response.json())
       .then(res => {
         if (res.isLoggedIn) {
-          this.setState({ user_id: res.userInfo._id,profileType: res.userInfo.__t });
+          this.setState({ user_id: res.userInfo._id, profileType: res.userInfo.__t });
         }
         else {
           this.setState({ Toggle: false, shouldView: false, user_id: "Not logged in" });
@@ -197,7 +197,7 @@ export class DocList extends React.Component {
                     marginTop: "-5px"
                   }}
                   value={0}
-                  aria-label="disabled tabs example"
+                  aria-label="disabled tabs"
                   onChange={this.handleChange}
                   centered
                 >
@@ -212,12 +212,11 @@ export class DocList extends React.Component {
                     indicatorColor="primary"
                     inkBarStyle={{
                       textColor: "black",
-                      background: "#FF5733",
                       height: "5px",
                       marginTop: "-5px"
                     }}
                     value={0}
-                    aria-label="disabled tabs example"
+                    aria-label="disabled tabs"
                     onChange={this.handleChange}
                     centered
                   >
@@ -231,12 +230,11 @@ export class DocList extends React.Component {
                     indicatorColor="primary"
                     inkBarStyle={{
                       textColor: "black",
-                      background: "#FF5733",
                       height: "5px",
                       marginTop: "-5px"
                     }}
                     value={1}
-                    aria-label="disabled tabs example"
+                    aria-label="disabled tabs"
                     onChange={this.handleChange}
                     centered
                   >
@@ -247,9 +245,6 @@ export class DocList extends React.Component {
             }
 
             <Container maxWidth="lg" className={classes.container}>
-              <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                List of Documents
-              </Typography>
               <Grid container spacing={2}>
                 {/* Student Info */}
                 <Grid item xs={12} md={12} lg={24}>
@@ -259,15 +254,15 @@ export class DocList extends React.Component {
                       <Table size="small">
                         <TableHead>
                           <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Extension</TableCell>
-                            <TableCell>Uploaded on</TableCell>
+                            <TableCell><Typography variant="h6">Name</Typography></TableCell>
+                            <TableCell><Typography variant="h6">Extension</Typography></TableCell>
+                            <TableCell><Typography variant="h6">Uploaded on</Typography></TableCell>
                             <SharingOptions
                               status={this.state.profileType}
                               buttons={false}
                             />
-                            <TableCell>Download</TableCell>
-                            <TableCell>Select File(s) to Delete</TableCell>
+                            <TableCell><Typography variant="h6">Download</Typography></TableCell>
+                            <TableCell><Typography variant="h6">Select File(s) to Delete</Typography></TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
@@ -290,25 +285,25 @@ export class DocList extends React.Component {
                                   encrypted_file_name={encrypted_file_name}
                                   fileId={file._id}
                                 />
-                                <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" size="small" className={classes.courseButton} onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab ></TableCell>
-
+                                <TableCell><Fab type="button" size="small" variant="extended" aria-label="add"  className={classes.courseButton} onClick={() => window.open(link, "_blank")} id={file._id}><GetAppIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Fab ></TableCell>
 
                                 <TableCell align="center"><Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></TableCell>
                               </TableRow>
                             )
                           })}
-                          {this.state.files.length !== 0
-                            ?
-                            <TableRow><TableCell><Button type="button" onClick={event => this.getSelectedFiletoDelete(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Documents</Button></TableCell></TableRow>
-                            :
-                            <br />
-                          }
                         </TableBody>
                       </Table>
                     </React.Fragment>
                   </Paper>
                 </Grid>
               </Grid>
+              <br />
+              {this.state.files.length !== 0
+                ?
+                <Button type="button" onClick={event => this.getSelectedFiletoDelete(event, this.state.shareTo)} variant="contained" size="small" className={classes.submitDelete}>Delete Documents</Button>
+                :
+                <br />
+              }
             </Container>
             {/* Footer */}
             <Footer />
