@@ -54,11 +54,6 @@ describe('The List of documents Tutors Page', () => {
          * Checking the List of Students Page for Tutors and see if all elements are present  
         */
 
-        // Finding the Typography component that contains the Main Title Header Present on the Page.
-        const list_of_students_page = wrapper_shallow.dive().find(Typography).at(0);
-        // Making sure the header name on the tutor page is List of Documents
-        expect(list_of_students_page.props().children).toBe("List of Documents");
-
         // Finding the Title component  that contains the Table Title Students
         const students_title_table = wrapper_shallow.dive().find(Title).at(0);
         // Making sure the header name for the student page page is Students
