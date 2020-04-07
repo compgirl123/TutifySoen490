@@ -24,7 +24,8 @@ export class Grades extends React.Component {
       students: [],
       attempts: [],
       tutor_id: "",
-      accountType: ""
+      accountType: "",
+      totalPoints : 0
     };
   }
 
@@ -50,6 +51,7 @@ export class Grades extends React.Component {
             tutorImg: res.userInfo.picture,
             accountType: res.userInfo.__t
           })
+          this.setState({totalPoints:res.userInfo.totalPoints });
           console.info("Set up the states for Logged in user.");
         }
         else {
@@ -100,7 +102,7 @@ export class Grades extends React.Component {
     var pointsScored = [];
     for(var z = 0; z < uniqueQuizArray.length;z++){
       for(var y = 0; y < this.state.attempts.length;y++){
-        if(this.state.attempts[y].quiz._id == uniqueQuizArray[z]){
+        if(this.state.attempts[y].quiz._id === uniqueQuizArray[z]){
           console.info("Setting total points scored.");
           pointsScored.push(this.state.attempts[y].quiz_points_scored+this.state.attempts[y].quiz.points);
         }
@@ -114,7 +116,6 @@ export class Grades extends React.Component {
         }).then((res) => {
             // fetch the videos
             console.info("Successfully fetched the attempts");
-            console.log(res);
           })
       .catch(err => console.error("Could not get the attempts from the database: " + err));
   }
@@ -140,7 +141,21 @@ export class Grades extends React.Component {
                   <p>
                     <Paper className={fixedHeightPaper}>
                       <br /><br />
-                      <Title> My Grades </Title>
+                      {this.state.accountType === "student"
+                        ?
+                        <>
+                            <Title> My Grades </Title>
+                            <h4> Total Points: {this.state.totalPoints}  </h4>
+                        </>
+                        : <></>
+                      }
+                      {this.state.accountType === "tutor"
+                        ?
+                        <>
+                            <Title> Students' Grades </Title>
+                        </>
+                        : <></>
+                      }
                       <Table size="small">
                         <TableHead>
                           <TableRow>
@@ -169,7 +184,7 @@ export class Grades extends React.Component {
                                 <TableCell>Tutor</TableCell>
                                 <TableCell>Base Points</TableCell>
                                 <TableCell>Quiz Points</TableCell>
-                                <TableCell>Total Points</TableCell>
+                                <TableCell>Points for Attempt</TableCell>
                               </>
                               : <></>
                             }
@@ -189,7 +204,7 @@ export class Grades extends React.Component {
                                   <TableCell>{attempt.quiz.tutorId.first_name} {attempt.quiz.tutorId.last_name} </TableCell>
                                   <TableCell>{attempt.quiz.points}</TableCell>
                                   <TableCell>{attempt.quiz_points_scored}</TableCell>
-                                  <TableCell>{attempt.quiz.points}</TableCell>
+                                  <TableCell>{attempt.quiz.points + attempt.quiz_points_scored}</TableCell>
                                 </>
                                 : <></>
                               }

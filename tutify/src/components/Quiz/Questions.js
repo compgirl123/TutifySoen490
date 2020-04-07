@@ -478,6 +478,11 @@ export class Questions extends React.Component {
                                     <div className={classes.question}>
                                         <h1> Question {i + 1}/{total}</h1>
                                         <p className={classes.p}>{c.question}</p>
+                                        <br />
+                                        <font color="black" font-weight="bold">
+                                            {this.state.selectedAnswers[i] !== undefined ? `Answer Chosen: ${this.state.selectedAnswers[i]}` : `Answer Chosen: Please Choose an Answer`}
+                                        </font>
+                                        <br />
                                     </div>
                                     <div id="answers">
                                         <ul className={classes.answersUl}>
@@ -490,21 +495,18 @@ export class Questions extends React.Component {
                                             {this.state.accountType === "tutor" ?
                                                 <Button variant="contained" size="lg" active onClick={event => this.deleteQuestion(c._id)}>
                                                     Delete Question
-                                        </Button>
+                                                </Button>
                                                 :
-                                                <br />
+                                               <></>
                                             }
                                         </div>
                                     </div>
                                     <div className={classes.submit}>
-                                        <br />
-                                        {this.state.selectedAnswers[i] !== undefined ? `Answer Chosen: ${this.state.selectedAnswers[i]}` : `Answer Chosen: Please Choose an Answer`}
-                                        <br />
                                         <b><font color={this.state.color[i]}>
                                             {this.state.finishedQuiz === true ?
                                                 `Correct Answer : ${c.choices[c.answerIndex - 1]}`
                                                 :
-                                                <br />
+                                                <></>
                                             }
                                         </font>
                                         </b>
