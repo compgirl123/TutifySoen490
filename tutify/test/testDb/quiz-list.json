@@ -28,6 +28,7 @@
                 "$numberInt": "0"
             },
             "available_attempts":2,
+            "attempt_number":1,
             "attempts": [
                 {
                     "$oid": "5e7ff285bb4bc360ab6431b1"
