@@ -53,6 +53,7 @@ export class Grades extends React.Component {
           })
           this.setState({totalPoints:res.userInfo.totalPoints });
           console.info("Set up the states for Logged in user.");
+          console.log(res);
         }
         else {
           this.setState({ Toggle: false });
@@ -231,6 +232,13 @@ export class Grades extends React.Component {
                 </Grid>
               </Grid>
             </Container>
+            {this.state.accountType === "tutor"
+                                ?
+                                <>
+                        <h4> My Students: {this.state.totalPoints}  </h4>
+                                </>
+                                : <></>
+            }
             {/* Footer */}
             <Footer />
           </main>
