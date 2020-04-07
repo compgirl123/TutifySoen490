@@ -41,8 +41,8 @@ function SharingOptions(props) {
       return [<TableCell align="center"><Button type="button" variant="extended" aria-label="add" size="small" fontSize="small" className={props.courseButton} onClick={() => window.location.replace("/tutorCourses/" + props.encrypted_file_name)} id={props.fileId}><MenuBookIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Button></TableCell>,
       <TableCell align="center"><Button type="button" variant="extended" aria-label="add" size="small" className={props.courseButton} onClick={() => window.location.replace("/students/" + props.encrypted_file_name)} id={props.fileId}><GroupAddIcon fontSize="small" style={{ width: '22px', height: '22px' }} /></Button></TableCell>]
     }
-    return [<TableCell>Share to <br />Specific Course</TableCell>,
-    <TableCell>Share to <br />Specific Student</TableCell>]
+    return [<TableCell><Typography align="center" variant="h6">Share to Specific Course</Typography></TableCell>,
+    <TableCell><Typography align="center" variant="h6">Share to Specific Student</Typography></TableCell>]
   }
 }
 
@@ -199,7 +199,6 @@ export class DocList extends React.Component {
                   value={0}
                   aria-label="disabled tabs"
                   onChange={this.handleChange}
-                  centered
                 >
                   <Tab label="To Share" style={styles.tab[0]} icon={<SendIcon />} href="/doclist" />
                   <Tab label="Received" style={styles.tab[0]} icon={<InboxIcon />} href="/tutdoc" />
@@ -256,13 +255,13 @@ export class DocList extends React.Component {
                           <TableRow>
                             <TableCell><Typography variant="h6">Name</Typography></TableCell>
                             <TableCell><Typography variant="h6">Extension</Typography></TableCell>
-                            <TableCell><Typography variant="h6">Uploaded on</Typography></TableCell>
+                            <TableCell><Typography variant="h6" align="center">Uploaded on</Typography></TableCell>
                             <SharingOptions
                               status={this.state.profileType}
                               buttons={false}
                             />
                             <TableCell><Typography variant="h6">Download</Typography></TableCell>
-                            <TableCell><Typography variant="h6">Select File(s) to Delete</Typography></TableCell>
+                            <TableCell><Typography variant="h6" align="center">Select File(s) to Delete</Typography></TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
