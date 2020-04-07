@@ -139,7 +139,7 @@ export class Tutordocs extends React.Component {
             <React.Fragment>
                 <main>
                     <DashBoardNavBar />
-                    <main className={classes.content}>
+                    <main>
                         <div className={classes.appBarSpacer} />
                         <Paper className={classes.root}>
                             <Tabs

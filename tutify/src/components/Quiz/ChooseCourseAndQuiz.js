@@ -323,7 +323,7 @@ export class ChooseCourseAndQuiz extends React.Component {
             <React.Fragment>
                 <main>
                     <DashBoardNavBar />
-                    <main className={classes.content}>
+                    <main>
                         <div className={classes.appBarSpacer} />
                         <AppBar position="static" color="default" textAlign="center">
                             <Tabs

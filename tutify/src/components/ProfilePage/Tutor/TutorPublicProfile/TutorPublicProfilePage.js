@@ -104,7 +104,7 @@ export class TutorPublicProfilePage extends Component {
             <React.Fragment>
                 <main>
                     <NavBar />
-                    <main className={classes.content}>
+                    <main>
                         <div className={classes.appBarSpacer} />
                         <Container maxWidth="lg" className={classes.container}>
                             <Grid container spacing={4}>

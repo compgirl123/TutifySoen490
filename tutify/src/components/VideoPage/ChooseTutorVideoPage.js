@@ -75,7 +75,7 @@ export class ChooseTutorVideoPage extends React.Component {
         <React.Fragment>
           <main>
             <DashBoardNavBar />
-            <main className={classes.content}>
+            <main>
               <div className={classes.appBarSpacer} />
               <Container maxWidth="lg" className={classes.container}>
                 <Grid container spacing={5}>

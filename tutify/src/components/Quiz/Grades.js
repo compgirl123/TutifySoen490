@@ -95,7 +95,7 @@ export class Grades extends React.Component {
       <React.Fragment>
         <main>
           <DashBoardNavBar />
-          <main className={classes.content}>
+          <main>
             <div className={classes.appBarSpacer} />
             <Container maxWidth="lg">
               <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>

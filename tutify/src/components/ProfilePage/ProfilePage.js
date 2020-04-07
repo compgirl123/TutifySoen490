@@ -172,7 +172,7 @@ class ProfilePage extends React.Component {
               {this.state.Toggle ? <ScheduledEvents /> : <NewCalendar />}
             </Paper>
           </Drawer>
-          <main className={classes.content}>
+          <main>
             <div className={classes.appBarSpacer} />
             <Container maxWidth="lg" className={classes.container}>
 
