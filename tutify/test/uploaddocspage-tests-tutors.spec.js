@@ -67,13 +67,12 @@ describe('The Tutors Courses Page', () => {
         const titles = wrapper.find(TableRow).at(0);
 
         // Make sure the name of the first Table cell column exists and has the value "Date"
-        expect(titles.props().children[0].props.children).toBe('"<ForwardRef(WithStyles) variant="\h6\">Date</ForwardRef(WithStyles)>"');
-
+        expect(titles.find(Typography).at(0).props().children).toBe("Date");
         // Make sure the name of the first Table cell column exists and has the value "Name"
-        expect(titles.props().children[1].props.children).toBe("Name");
+        expect(titles.find(Typography).at(1).props().children).toBe("Name");
 
         // Make sure the name of the first Table cell column exists and has the value "Download"
-        expect(titles.props().children[2].props.children).toBe("Download File");
+        expect(titles.find(Typography).at(2).props().children).toBe("Download File");
 
         // Finding the first TableRow Component present on page
         const studentInformationrow1 = wrapper.find(TableRow).at(1);
