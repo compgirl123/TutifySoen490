@@ -161,5 +161,8 @@ export const styles = theme => ({
     link: {
         textDecoration: 'none',
     },
+    gradesContainer: {
+        marginTop: theme.spacing(12),
+    }
 });
 
