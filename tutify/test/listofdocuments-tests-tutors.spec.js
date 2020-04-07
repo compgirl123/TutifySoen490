@@ -76,33 +76,34 @@ describe('The List of documents Tutors Page', () => {
         */
 
         // Finding the first TableRow Component present on page
-        const titles = wrapper.find(TableRow).at(0);
+        const row = wrapper.find(TableRow).at(0);
 
         // Making sure the name of the first Table cell column exists and has the value "Name"
-        expect(titles.props().children[0].props.children).toBe("Name");
+        expect(row.find(Typography).at(0).props().children).toBe("Name");
 
         // Making sure the name of the second Table cell column exists and has the value "Extension"
-        expect(titles.props().children[1].props.children).toBe("Extension");
+        expect(row.find(Typography).at(1).props().children).toBe("Extension");
 
         // Making sure the name of the third Table cell column exists and has the value "Uploaded on"
-        expect(titles.props().children[2].props.children).toBe("Uploaded on");
-
+        expect(row.find(Typography).at(2).props().children).toBe("Uploaded on");
 
         // FIX COMMENT NAMES
         // Making sure the name of the column exists and has the status of tutor passed to function SharingOptions
-        expect(((titles.props().children[3].type).toString()).substring(0,23)).toBe("function SharingOptions");
+        expect(((row.props().children[3].type).toString()).substring(0,23)).toBe("function SharingOptions");
 
         // Making sure the name of the column exists and has the value "tutor"
-        expect(titles.props().children[3].props.status).toBe("tutor");
+        expect(row.props().children[3].props.status).toBe("tutor");
 
         // Making sure the name of the column exists and does not contain a button in the header
-        expect(titles.props().children[3].props.buttons).toBe(false);
+        expect(row.props().children[3].props.buttons).toBe(false);
         
         // Making sure the name of the column exists and has the value of Download
-        expect(titles.props().children[4].props.children).toBe("Download");
+        expect(row.find(Typography).at(4).props().children).toBe("Share to Specific Student");
 
         // Making sure the name of the column exists and has the value of Select File(s) to Delete
-        expect(titles.props().children[5].props.children).toBe("Select File(s) to Delete");
+        expect(row.find(Typography).at(5).props().children).toBe("Download");
+        
+        expect(row.find(Typography).at(6).props().children).toBe("Select File(s) to Delete");
 
         /**
          * Second Row (actual 1st student of the tutor should be shown here)
@@ -190,8 +191,5 @@ describe('The List of documents Tutors Page', () => {
         // Making sure that the Checkbox name matches the encrypted name of the file on page for the Checkbox
         expect(studentInformationrow2.props().children[5].props.children.props.inputProps['aria-label']).toBe('uncontrolled-checkbox');
 
-        // Checking if the Delete Button is Present on the Page if more than 0 documents exist.
-        const deleteButton = wrapper.find(TableRow).at(3);
-        expect(deleteButton.props().children.props.children.props.children).toBe("Delete Documents"); 
     });
 }); 
