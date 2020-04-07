@@ -403,7 +403,7 @@ export class ChooseCourseAndQuiz extends React.Component {
                                                 <CardActions>
                                                     {this.state.accountType === "tutor"
                                                         ? <>
-                                                            <Button type="button" size="small" href={'/quiz/' + file._id} fullWidth className="submit">
+                                                            <Button type="button" variant="outlined" size="small" href={'/quiz/' + file._id} fullWidth className="submit">
                                                                 View Quiz
                                                           </Button>
                                                         </>
