@@ -22,6 +22,7 @@ var colorArr = [];
 var specificQuestionsAnswered = [];
 var pointsAccumulated = [];
 var totalScorePoints = [];
+var answersSelected = [];
 
 export class Questions extends React.Component {
     constructor(props) {
