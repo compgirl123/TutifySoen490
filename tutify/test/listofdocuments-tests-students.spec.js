@@ -74,11 +74,6 @@ describe('The List of documents Students Page', () => {
          * Checking the Titles Present on the Page List of Documents Page for Students and see if all elements are present  
         */
 
-        // Finding the Typography component  that contains the Main Title Header Present on the Page.
-        const list_of_documents_students = wrapper_shallow.dive().find(Typography).at(0);
-        // Make sure the header name on the tutor page is List of Documents
-        expect(list_of_documents_students.props().children).toBe("List of Documents");
-
         // Finding the Table component 
         const table_component= wrapper_shallow.dive().find(Table).at(0);
         // Check if Table component exists
@@ -98,19 +93,19 @@ describe('The List of documents Students Page', () => {
         const titles = wrapper.find(TableRow).at(0);
 
         // Make sure the name of the first Table cell column exists and has the value "Name"
-        expect(titles.props().children[0].props.children).toBe("Name");
+        expect(titles.find(Typography).at(0).props().children).toBe("Name");
 
         // Make sure the name of the second Table cell column exists and has the value "Extension"
-        expect(titles.props().children[1].props.children).toBe("Extension");
+        expect(titles.find(Typography).at(1).props().children).toBe("Extension");
 
         // Make sure the name of the second Table cell column exists and has the value "Tutor"
-        expect(titles.props().children[2].props.children).toBe("Tutor");
+        expect(titles.find(Typography).at(2).props().children).toBe("Tutor");
 
         // Make sure the name of the third Table cell column exists and has the value "Upload Date"
-        expect(titles.props().children[3].props.children).toBe("Upload Date");
+        expect(titles.find(Typography).at(3).props().children).toBe("Upload Date");
 
         // Make sure the name of the third Table cell column exists and has the value "Download"
-        expect(titles.props().children[4].props.children).toBe("Download");
+        expect(titles.find(Typography).at(4).props().children).toBe("Download");
 
 
         /**
