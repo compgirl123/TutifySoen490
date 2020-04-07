@@ -48,11 +48,11 @@ describe('The Tutors Courses Page', () => {
         // Finding the Typography component that contains the Main Title Header Present on the Page.
         const course_title = wrapper_shallow.dive().find(Typography).at(0);
         // Make sure the header name for the student page has the value My Enrolled Courses
-        expect(course_title.props().children).toBe("Upload Documents");
+        expect(course_title.props().children).toBe("Date");
         // Getting the Card that contains information about the course.
         const cardInfo = wrapper.find(Button).at(0);
         // Making sure that the Course name matches the mock student’s.
-        expect(cardInfo.props().children.type.displayName).toBe("PublishIcon");
+        expect(cardInfo.props().children.type.displayName).toBe("GetAppIcon");
         // Finding the Table component 
         const table_component= wrapper_shallow.dive().find(Table).at(0);
         // Check if Table component exists
@@ -67,7 +67,7 @@ describe('The Tutors Courses Page', () => {
         const titles = wrapper.find(TableRow).at(0);
 
         // Make sure the name of the first Table cell column exists and has the value "Date"
-        expect(titles.props().children[0].props.children).toBe("Date");
+        expect(titles.props().children[0].props.children).toBe('"<ForwardRef(WithStyles) variant="\h6\">Date</ForwardRef(WithStyles)>"');
 
         // Make sure the name of the first Table cell column exists and has the value "Name"
         expect(titles.props().children[1].props.children).toBe("Name");
