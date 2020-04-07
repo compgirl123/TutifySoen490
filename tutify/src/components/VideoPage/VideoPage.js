@@ -6,7 +6,6 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Footer from '../Footer';
 import DashBoardNavBar from '../DashBoardNavBar'
-import Title from '../ProfilePage/Title';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -358,15 +357,12 @@ export class Studentdocs extends React.Component {
                                 value={newValue}
                                 onChange={handleChange}
                                 indicatorColor="primary"
-                                value={0}
                                 aria-label="disabled tabs"
                                 onclick={(e) => { this.setState({ newValue: e.target.value }); }}
                             >
-
                                 {categoryOptions.map((category, index) => (
                                     <Tab  style={styles.tab[0]} label={category} {...a11yProps(index)} />
                                 ))}
-
                             </Tabs>
                         </AppBar>
                         <Container maxWidth="lg" className={classes.container}>

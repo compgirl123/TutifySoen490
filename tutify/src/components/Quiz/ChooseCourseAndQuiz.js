@@ -6,7 +6,6 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Footer from '../Footer';
 import DashBoardNavBar from '../DashBoardNavBar'
-import Title from '../ProfilePage/Title';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';

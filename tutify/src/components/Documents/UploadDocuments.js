@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import * as tutifyStyle from '../../styles/UploadDocuments-styles';
 import { withStyles } from "@material-ui/core/styles";
@@ -13,7 +12,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
-import Fab from "@material-ui/core/Fab";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import PublishIcon from '@material-ui/icons/Publish';
 import Title from '../ProfilePage/Title';
