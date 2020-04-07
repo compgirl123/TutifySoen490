@@ -39,7 +39,6 @@ describe('The Students List for Tutors share doc Page', () => {
         // Setting parameter in url file to have the encrypted file name
         // This variable is for tutors sharing a file to the student list and documents for each student(s).
         const match = { params: { file: '0b4a82b9f708c18b5ee692e4d4e54817.jpg' } }
-        // All the mounting and state setting
         const wrapper = mount(<StudentList students = {mockedTutorStudentsList} match ={match} ></StudentList>);
         const wrapper_shallow = shallow(<StudentList students = {mockedTutorStudentsList} match ={match}></StudentList>);
         const student_class_wrapper = wrapper.find(StudentListClass);
@@ -49,45 +48,25 @@ describe('The Students List for Tutors share doc Page', () => {
          * Checking the List of Students Page for Tutors and see if all elements are present  
         */
 
-        // Finding the Title component  that contains the Table Title Students
         const students_title_table = wrapper_shallow.dive().find(Title).at(0);
-        // Make sure the header name for the student page page is Students
         expect(students_title_table.props().children).toBe("Students");
 
-        
-        // Finding the Table component 
         const table_component= wrapper_shallow.dive().find(Table).at(0);
-        // Check if Table component exists
         expect(table_component.exists()).toBeTruthy();
 
-        // Finding the TableRow component (row of the table)
         const table_row_component = wrapper_shallow.dive().find(TableRow).at(0);
-        // Check if TableRow component exists
         expect(table_row_component.exists()).toBeTruthy();
 
         /**
          * First Row (Table headers shown here)
         */
 
-        // Finding the second TableRow Component present on page
         const titles = wrapper.find(TableRow).at(0);
-
-        // Make sure the name of the first Table cell column exists and has the value "First Name"
         expect(titles.find(Typography).at(0).props().children).toBe("First Name");
-
-        // Make sure the name of the second Table cell column exists and has the value "Last Name"
         expect(titles.find(Typography).at(1).props().children).toBe("Last Name");
-
-        // Make sure the name of the third Table cell column exists and has the value "Program"
         expect(titles.find(Typography).at(2).props().children).toBe("Program");
-
-        // Make sure the name of the third Table cell column exists and has the value "School"
         expect(titles.find(Typography).at(3).props().children).toBe("School");
-
-        // Make sure the name of the fourth Table cell column exists and has the value "Level of Education"
         expect(titles.find(Typography).at(4).props().children).toBe("Level of Education");
-
-        // Make sure the name of the fourth Table cell column exists and has the value "Select student"
         expect(titles.find(Typography).at(5).props().children).toBe("Select student");
 
 
@@ -97,23 +76,11 @@ describe('The Students List for Tutors share doc Page', () => {
 
         // Finding the second TableRow Component present on page
         const studentInformationrow1 = wrapper.find(TableRow).at(1);
-
-        // Making sure that the First name of student matches the name on page
         expect(studentInformationrow1.props().children[0].props.children).toBe("Claudia Francesca");
-
-        // Making sure that the Last name of student matches the name on page
         expect(studentInformationrow1.props().children[1].props.children).toBe("Feochari");
-
-        // Making sure that the Program of study of student matches the name on page
         expect(studentInformationrow1.props().children[2].props.children).toBe("Soen");
-
-        // Making sure that the School of student matches the name on page
         expect(studentInformationrow1.props().children[3].props.children).toBe("concordia");
-
-        // Making sure that the Education Level of student matches the name on page
         expect(studentInformationrow1.props().children[4].props.children).toBe("university");
-
-        // Making sure that the checkbox present on page matches the checkbox component name value
         expect(studentInformationrow1.props().children[5].props.children.props.inputProps['aria-label']).toBe("uncontrolled-checkbox");
 
 
@@ -121,25 +88,12 @@ describe('The Students List for Tutors share doc Page', () => {
          * Third Row (actual 2nd student of the tutor should be shown here)
         */
 
-        // Finding the third TableRow Component present on page
         const studentInformationrow2 = wrapper.find(TableRow).at(2);
-
-        // Making sure that the First name of student matches the name on page
         expect(studentInformationrow2.props().children[0].props.children).toBe("Pierre Arthur");
-
-        // Making sure that the Last name of student matches the name on page
         expect(studentInformationrow2.props().children[1].props.children).toBe("Watine");
-
-        // Making sure that the Program of study of student matches the name on page
         expect(studentInformationrow2.props().children[2].props.children).toBe("Soen");
-
-        // Making sure that the School of student matches the name on page
         expect(studentInformationrow2.props().children[3].props.children).toBe("concordia");
-
-        // Making sure that the Education Level of student matches the name on page
         expect(studentInformationrow2.props().children[4].props.children).toBe("university");
-
-        // Making sure that the checkbox present on page matches the checkbox component name value
         expect(studentInformationrow2.props().children[5].props.children.props.inputProps['aria-label']).toBe("uncontrolled-checkbox");
 
     });

@@ -143,40 +143,21 @@ describe('The Student Dashboard Page Notifications', () => {
       }
     ]
 
-    // All the mounting and state setting
     const wrapper = mount(<Notifications notifications={notificationsArray}></Notifications>);
     const wrapper_shallow = shallow(<Notifications notifications={notificationsArray}></Notifications>);
+    
     const student_class_wrapper = wrapper.find(NotificationsClass);
-
-    // Setting State for notifications.
     student_class_wrapper.setState({ notifications: notificationsArray });
 
-    // Getting TableCell element from page.
     const notifications_title = wrapper.find(TableCell).at(0);
-    // Expect Title to equal title value of newest notification posted by tutor to student.
     expect(notifications_title.props().children.props.children).toBe("Notifications");
 
-    /* Checking if appropriate notifications are displayed on the student's side. */
-    // Getting Notification Information. Latest notification added appears first.
     const notification = wrapper.find(List).at(0);
-
-    // Expect Title to equal title value of newest notification posted by tutor to student.
     expect(notification.props().children[0].props.notif.title).toBe("Testing");
-
-    // Expect Text to equal text value of newest notification posted by tutor to student.
     expect(notification.props().children[0].props.notif.text).toBe("Hello Students");
-
-    // Expect Tutor name to equal tutor name of newest notification posted by tutor to student.
     expect(notification.props().children[0].props.notif.tutorName).toBe("Mohammed Alawami");
-
-
-    // Expect Title to equal title value of older notification posted by tutor to student.
     expect(notification.props().children[1].props.notif.title).toBe("A1");
-
-    // Expect Text to equal text value of older notification posted by tutor to student.
     expect(notification.props().children[1].props.notif.text).toBe("New announcement.");
-
-    // Expect Tutor name to equal tutor name of older notification posted by tutor to student.
     expect(notification.props().children[1].props.notif.tutorName).toBe("Mohammed Alawami");
 
   });

@@ -54,20 +54,13 @@ describe('The List of documents Tutors Page', () => {
          * Checking the List of Students Page for Tutors and see if all elements are present  
         */
 
-        // Finding the Title component  that contains the Table Title Students
         const students_title_table = wrapper_shallow.dive().find(Title).at(0);
-        // Making sure the header name for the student page page is Students
         expect(students_title_table.props().children).toBe("Uploaded Documents ");
 
-        
-        // Finding the Table component 
         const table_component= wrapper_shallow.dive().find(Table).at(0);
-        // Check if Table component exists
         expect(table_component.exists()).toBeTruthy();
 
-        // Finding the TableRow component  (row of the table)
         const table_row_component = wrapper_shallow.dive().find(TableRow).at(0);
-        // Check if TableRow component exists
         expect(table_row_component.exists()).toBeTruthy();
 
 
@@ -75,121 +68,51 @@ describe('The List of documents Tutors Page', () => {
          * First Row (Table headers shown here)
         */
 
-        // Finding the first TableRow Component present on page
         const row = wrapper.find(TableRow).at(0);
-
-        // Making sure the name of the first Table cell column exists and has the value "Name"
         expect(row.find(Typography).at(0).props().children).toBe("Name");
-
-        // Making sure the name of the second Table cell column exists and has the value "Extension"
         expect(row.find(Typography).at(1).props().children).toBe("Extension");
-
-        // Making sure the name of the third Table cell column exists and has the value "Uploaded on"
         expect(row.find(Typography).at(2).props().children).toBe("Uploaded on");
-
-        // FIX COMMENT NAMES
-        // Making sure the name of the column exists and has the status of tutor passed to function SharingOptions
         expect(((row.props().children[3].type).toString()).substring(0,23)).toBe("function SharingOptions");
-
-        // Making sure the name of the column exists and has the value "tutor"
         expect(row.props().children[3].props.status).toBe("tutor");
-
-        // Making sure the name of the column exists and does not contain a button in the header
         expect(row.props().children[3].props.buttons).toBe(false);
-        
-        // Making sure the name of the column exists and has the value of Download
         expect(row.find(Typography).at(4).props().children).toBe("Share to Specific Student");
-
-        // Making sure the name of the column exists and has the value of Select File(s) to Delete
         expect(row.find(Typography).at(5).props().children).toBe("Download");
-        
         expect(row.find(Typography).at(6).props().children).toBe("Select File(s) to Delete");
 
         /**
          * Second Row (actual 1st student of the tutor should be shown here)
         */
 
-        // Finding the second TableRow Component present on page
         const studentInformationrow1 = wrapper.find(TableRow).at(1);
-
-        // Making sure that the name of file matches the name on page
         expect(studentInformationrow1.props().children[0].props.children.props.children).toBe((mockedTutorDocList[0].name).split(".")[0]);
-
-        // Making sure that the extension type of files matches the type on page
         expect(studentInformationrow1.props().children[1].props.children).toBe("pdf");
-
-        // Making sure that the date and time of upload of the file matches the date and time on page
         expect(studentInformationrow1.props().children[2].props.children).toBe("2020-01-23 at 23:09");
-
-        // Making sure that the tutor name matches the tutor name on page
         expect(studentInformationrow1.props().children[3].props.status).toBe("tutor");
-
-        // Making sure that the sharing button on the page exists on second table row.
         expect(studentInformationrow1.props().children[3].props.buttons).toBe(true);
-
-        // Making sure that the encrypted name of the file matches the encrypted name of the file on page
         expect(studentInformationrow1.props().children[3].props.encryptedname).toBe(mockedTutorDocList[0].encrypted_file_name);
-
-        // Making sure that the file id of the file matches the file id on the page
         expect(studentInformationrow1.props().children[3].props.fileId).toBe(mockedTutorDocList[0]._id);
-
-        // Making sure that the download icon is present in the form of a button on the page
         expect(studentInformationrow1.props().children[4].props.children.props.type).toBe("button");
-
-        // Making sure that the id of the file matches the id present on the page
         expect(studentInformationrow1.props().children[4].props.children.props.id).toBe(mockedTutorDocList[0]._id);
-
-        // Making sure that the donwload button and its icon is present on the page
         expect(studentInformationrow1.props().children[4].props.children.props.children.type.displayName).toBe('GetAppIcon');
-
-        // Making sure that the encrypted name of the file matches the encrypted name of the file on page for the Checkbox
         expect(studentInformationrow1.props().children[5].props.children.props.name).toBe(mockedTutorDocList[0].encryptedname);
-
-        // Making sure that the Checkbox name matches the encrypted name of the file on page for the Checkbox
         expect(studentInformationrow1.props().children[5].props.children.props.inputProps['aria-label']).toBe('uncontrolled-checkbox');
 
         /**
          * Third Row (actual 2nd student of the tutor should be shown here)
         */
 
-        // Finding the third TableRow Component present on page
         const studentInformationrow2 = wrapper.find(TableRow).at(2);
-
-        // Making sure that the name of file matches the name on page
         expect(studentInformationrow2.props().children[0].props.children.props.children).toBe((mockedTutorDocList[1].name).split(".")[0]);
-
-        // Making sure that the extension type of files matches the type on page
         expect(studentInformationrow2.props().children[1].props.children).toBe("jpg");
-
-        // Making sure that the time of upload of the file matches the time on page
         expect(studentInformationrow2.props().children[2].props.children).toBe("2020-01-23 at 23:01");
-
-        // Making sure that the tutor name matches the tutor name on page
         expect(studentInformationrow2.props().children[3].props.status).toBe("tutor");
-
-        // Making sure that the sharing button on the page exists on second table row.
         expect(studentInformationrow2.props().children[3].props.buttons).toBe(true);
-
-        // Making sure that the encrypted name of the file matches the encrypted name of the file on page
         expect(studentInformationrow2.props().children[3].props.encryptedname).toBe(mockedTutorDocList[1].encrypted_file_name);
-
-        // Making sure that the file id of the file matches the file id on the page
         expect(studentInformationrow2.props().children[3].props.fileId).toBe(mockedTutorDocList[1]._id);
-
-        // Making sure that the download icon is present in the form of a button on the page
         expect(studentInformationrow2.props().children[4].props.children.props.type).toBe("button");
-
-        // Making sure that the id of the file matches the id present on the page
         expect(studentInformationrow2.props().children[4].props.children.props.id).toBe(mockedTutorDocList[1]._id);
-
-         // Making sure that the donwload button and its icon is present on the page
         expect(studentInformationrow2.props().children[4].props.children.props.children.type.displayName).toBe('GetAppIcon');
-
-        // Making sure that the encrypted name of the file matches the encrypted name of the file on page for the Checkbox
         expect(studentInformationrow2.props().children[5].props.children.props.name).toBe(mockedTutorDocList[1].encryptedname);
-
-        // Making sure that the Checkbox name matches the encrypted name of the file on page for the Checkbox
         expect(studentInformationrow2.props().children[5].props.children.props.inputProps['aria-label']).toBe('uncontrolled-checkbox');
-
     });
 }); 

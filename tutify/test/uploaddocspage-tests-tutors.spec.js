@@ -45,46 +45,28 @@ describe('The Tutors Courses Page', () => {
         /**
          * General Course Page
         */
-        // Finding the Typography component that contains the Main Title Header Present on the Page.
         const course_title = wrapper_shallow.dive().find(Typography).at(0);
-        // Make sure the header name for the student page has the value My Enrolled Courses
         expect(course_title.props().children).toBe("Date");
-        // Getting the Card that contains information about the course.
+        
         const cardInfo = wrapper.find(Button).at(0);
-        // Making sure that the Course name matches the mock student’s.
         expect(cardInfo.props().children.type.displayName).toBe("GetAppIcon");
-        // Finding the Table component 
+        
         const table_component= wrapper_shallow.dive().find(Table).at(0);
-        // Check if Table component exists
         expect(table_component.exists()).toBeTruthy();
 
-        // Finding the TableRow component  (row of the table)
         const table_row_component = wrapper_shallow.dive().find(TableRow).at(0);
-        // Check if TableRow component exists
         expect(table_row_component.exists()).toBeTruthy();
 
-        // Finding the first TableRow Component present on page
         const titles = wrapper.find(TableRow).at(0);
-
-        // Make sure the name of the first Table cell column exists and has the value "Date"
         expect(titles.find(Typography).at(0).props().children).toBe("Date");
-        // Make sure the name of the first Table cell column exists and has the value "Name"
         expect(titles.find(Typography).at(1).props().children).toBe("Name");
-
-        // Make sure the name of the first Table cell column exists and has the value "Download"
         expect(titles.find(Typography).at(2).props().children).toBe("Download File");
 
-        // Finding the first TableRow Component present on page
         const studentInformationrow1 = wrapper.find(TableRow).at(1);
-        // Make sure the name of the first Table cell column exists and has the value "Date"
         expect(studentInformationrow1.props().children[0].props.children).toBe(mockedTutorDocList[0].recentUploadDate);
-
-        // Make sure the name of the first Table cell column exists and has the value "Name"
         expect(studentInformationrow1.props().children[1].props.children).toBe(mockedTutorDocList[0].name);
-        // Make sure the name of the first Table cell column exists and has the value "GetAppIcon"
         expect(studentInformationrow1.props().children[2].props.children.props.children.type.displayName).toBe("GetAppIcon");
 
-        // Finding the first TableRow Component present on page
         const seemore = wrapper_shallow.dive().find(Link).at(0);
         expect(seemore.props().href).toBe("/doclist");
         expect(seemore.props().children).toBe("See more");

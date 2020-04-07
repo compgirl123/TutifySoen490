@@ -64,7 +64,6 @@ describe('The List of documents Students Page', () => {
         // Setting parameter in url studentid to be undefined as no variable is passed in for sharing that document.
         // This variable is for students viewing documents
         const match = { params: { studentid: undefined } }
-        // All the mounting and state setting
         const wrapper = mount(<Studentdocs files = {mockedStudentDocList} match={match}></Studentdocs>);
         const wrapper_shallow = shallow(<Studentdocs files = {mockedStudentDocList} match={match}></Studentdocs>);
         const student_class_wrapper = wrapper.find(StudentdocsClass);
@@ -73,15 +72,10 @@ describe('The List of documents Students Page', () => {
         /**
          * Checking the Titles Present on the Page List of Documents Page for Students and see if all elements are present  
         */
-
-        // Finding the Table component 
         const table_component= wrapper_shallow.dive().find(Table).at(0);
-        // Check if Table component exists
         expect(table_component.exists()).toBeTruthy();
 
-        // Finding the TableRow component  (row of the table)
         const table_row_component = wrapper_shallow.dive().find(TableRow).at(0);
-        // Check if TableRow component exists
         expect(table_row_component.exists()).toBeTruthy();
 
 
@@ -89,22 +83,11 @@ describe('The List of documents Students Page', () => {
          * First Row (Table headers shown here)
         */
 
-        // Finding the second TableRow Component present on page
         const titles = wrapper.find(TableRow).at(0);
-
-        // Make sure the name of the first Table cell column exists and has the value "Name"
         expect(titles.find(Typography).at(0).props().children).toBe("Name");
-
-        // Make sure the name of the second Table cell column exists and has the value "Extension"
         expect(titles.find(Typography).at(1).props().children).toBe("Extension");
-
-        // Make sure the name of the second Table cell column exists and has the value "Tutor"
         expect(titles.find(Typography).at(2).props().children).toBe("Tutor");
-
-        // Make sure the name of the third Table cell column exists and has the value "Upload Date"
         expect(titles.find(Typography).at(3).props().children).toBe("Upload Date");
-
-        // Make sure the name of the third Table cell column exists and has the value "Download"
         expect(titles.find(Typography).at(4).props().children).toBe("Download");
 
 
@@ -112,50 +95,24 @@ describe('The List of documents Students Page', () => {
          * Second Row (actual 1st student of the tutor should be shown here)
         */
 
-        // Finding the second TableRow Component present on page
         const firstfileListed = wrapper.find(TableRow).at(1);
-
-        // Making sure that the document name matches the name on page
         expect(firstfileListed.props().children[0].props.children.props.children).toBe((mockedStudentDocList[0].files[0]._doc.name).split(".")[0]);
-
-        // Making sure that the extension name matches the extension name on page
         expect(firstfileListed.props().children[1].props.children).toBe((mockedStudentDocList[0].files[0]._doc.name).split(".")[1]);
-
-        // Making sure that the tutor name matches the tutor name on page
         expect(firstfileListed.props().children[2].props.children).toBe(mockedStudentDocList[0].files[0].userName);
-
-        // Making sure that the upload date matches the upload date on page
         expect((firstfileListed.props().children[3].props.children).substring(0,10)).toBe((mockedStudentDocList[0].files[0]._doc.uploadDate).substring(0,10));
-        
-        // Making sure that the share buttons are present on the page and are of type button
         expect(firstfileListed.props().children[4].props.children.props.type).toBe('button');
-
-        // Making sure that the share buttons are present on the page and are of type GetAppIcon
         expect(firstfileListed.props().children[4].props.children.props.children.type.displayName).toBe('GetAppIcon');
 
         /**
          * Third Row (actual 2nd student of the tutor should be shown here)
         */
 
-        // Finding the third TableRow Component present on page
         const secondfileListed = wrapper.find(TableRow).at(2);
-
-        // Making sure that the document name matches the name on page
         expect(secondfileListed.props().children[0].props.children.props.children).toBe((mockedStudentDocList[0].files[1]._doc.name).split(".")[0]);
-
-        // Making sure that the extension name matches the extension name on page
         expect(secondfileListed.props().children[1].props.children).toBe((mockedStudentDocList[0].files[1]._doc.name).split(".")[1]);
-
-        // Making sure that the tutor name matches the tutor name on page
         expect(secondfileListed.props().children[2].props.children).toBe(mockedStudentDocList[0].files[1].userName);
-
-        // Making sure that the upload date matches the upload date on page
         expect((secondfileListed.props().children[3].props.children).substring(0,10)).toBe((mockedStudentDocList[0].files[1]._doc.uploadDate).substring(0,10));
-        
-        // Making sure that the share buttons are present on the page and are of type button
         expect(secondfileListed.props().children[4].props.children.props.type).toBe('button');
-
-        // Making sure that the share buttons are present on the page and are of type GetAppIcon
         expect(secondfileListed.props().children[4].props.children.props.children.type.displayName).toBe('GetAppIcon');
         
     });
