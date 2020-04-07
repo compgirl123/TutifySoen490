@@ -298,7 +298,7 @@ export class DocList extends React.Component {
               <br />
               {this.state.files.length !== 0
                 ?
-                <Button type="button" className="btn" onClick={event => this.getSelectedFiletoDelete(event, this.state.shareTo)} variant="contained" size="small" className={classes.submitDelete}>Delete Documents</Button>
+                <Button type="button" onClick={event => this.getSelectedFiletoDelete(event, this.state.shareTo)} variant="contained" size="small" className={classes.submitDelete}>Delete Documents</Button>
                 :
                 <br />
               }

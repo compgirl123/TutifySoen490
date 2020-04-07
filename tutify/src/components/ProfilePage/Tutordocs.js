@@ -203,7 +203,7 @@ export class Tutordocs extends React.Component {
                             <br/>
                             {this.state.files.length !== 0
                                 ?
-                                <Button type="button" className='btn' onClick={event => this.deleteFile(event, this.state.shareTo)} variant="contained" size="small" className={classes.submitDelete}>Delete Document</Button>
+                                <Button type="button" onClick={event => this.deleteFile(event, this.state.shareTo)} variant="contained" size="small" className={classes.submitDelete}>Delete Document</Button>
                                 :
                                 <br />
                             }
