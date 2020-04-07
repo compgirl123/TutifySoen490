@@ -25,7 +25,7 @@ import Tabs from '@material-ui/core/Tabs';
 import InboxIcon from '@material-ui/icons/Inbox';
 import SendIcon from '@material-ui/icons/Send';
 import green from '@material-ui/core/colors/green';
-import {presentableExtension, presentableName, presentableUploadTime} from '../../helper/presentableHelper';
+import { presentableExtension, presentableName, presentableUploadTime } from '../../helper/presentableHelper';
 
 // displaying the documents shared to students
 export class Tutordocs extends React.Component {
@@ -159,11 +159,7 @@ export class Tutordocs extends React.Component {
                             </Tabs>
                         </Paper>
                         <Container maxWidth="lg" className={classes.container}>
-                            <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                                List of Documents
-                            </Typography>
                             <Grid container spacing={2}>
-                                {/* Student Info */}
                                 <Grid item xs={12} md={12} lg={24}>
                                     <Paper className={fixedHeightPaper}>
                                         <React.Fragment>
@@ -171,16 +167,15 @@ export class Tutordocs extends React.Component {
                                             <Table size="small">
                                                 <TableHead>
                                                     <TableRow>
-                                                        <TableCell>Name</TableCell>
-                                                        <TableCell>Extension</TableCell>
-                                                        <TableCell>Upload Date</TableCell>
-                                                        <TableCell>Student</TableCell>
-                                                        <TableCell>Download</TableCell>
-                                                        <TableCell>Choose Files to Delete</TableCell>
+                                                        <TableCell><Typography variant="h6">Name</Typography></TableCell>
+                                                        <TableCell><Typography variant="h6">Extension</Typography></TableCell>
+                                                        <TableCell><Typography variant="h6">Upload Date</Typography></TableCell>
+                                                        <TableCell><Typography variant="h6">Student</Typography></TableCell>
+                                                        <TableCell><Typography variant="h6">Download</Typography></TableCell>
+                                                        <TableCell><Typography variant="h6">Select File(s) to Delete</Typography></TableCell>
                                                     </TableRow>
                                                 </TableHead>
                                                 <TableBody>
-
                                                     {
                                                         files.map((file, index) => {
                                                             var filename = file._doc.name;
@@ -194,17 +189,11 @@ export class Tutordocs extends React.Component {
                                                                     <TableCell>{presentableExtension(filename)}</TableCell>
                                                                     <TableCell>{presentableUploadTime(uploadDate)}</TableCell>
                                                                     <TableCell>{student_name}</TableCell>
-                                                                    <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" onClick={() => window.open(link)} id={file._id}><GetAppIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
-                                                                    <TableCell><Checkbox name={file._doc.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></TableCell>
+                                                                    <TableCell align="center"><Button type="button" onClick={() => window.open(link)} id={file._id}><GetAppIcon /></Button></TableCell>
+                                                                    <TableCell align="center"><Checkbox name={file._doc.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></TableCell>
                                                                 </TableRow>
                                                             )
                                                         })
-                                                    }
-                                                    {this.state.files.length !== 0
-                                                        ?
-                                                        <TableCell><Button type="button" onClick={event => this.deleteFile(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Document</Button></TableCell>
-                                                        :
-                                                        <br />
                                                     }
                                                 </TableBody>
                                             </Table>
@@ -212,6 +201,13 @@ export class Tutordocs extends React.Component {
                                     </Paper>
                                 </Grid>
                             </Grid>
+                            <br/>
+                            {this.state.files.length !== 0
+                                ?
+                                <Button type="button" onClick={event => this.deleteFile(event, this.state.shareTo)} variant="contained" size="small" className={classes.submitDelete}>Delete Document</Button>
+                                :
+                                <br />
+                            }
                         </Container>
 
                         {/* Footer */}

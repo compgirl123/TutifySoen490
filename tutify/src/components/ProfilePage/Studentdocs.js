@@ -25,7 +25,7 @@ import Tabs from '@material-ui/core/Tabs';
 import InboxIcon from '@material-ui/icons/Inbox';
 import SendIcon from '@material-ui/icons/Send';
 import green from '@material-ui/core/colors/green';
-import {presentableExtension, presentableName, presentableUploadTime} from '../../helper/presentableHelper';
+import { presentableExtension, presentableName, presentableUploadTime } from '../../helper/presentableHelper';
 
 // displaying the documents shared to students
 export class Studentdocs extends React.Component {
@@ -68,7 +68,7 @@ export class Studentdocs extends React.Component {
     fetch('/api/doc/:studentid')
       .then(res => res.json())
       .then(res => {
-        this.setState({ filesViewTutors: res.fileViewTutors,tutorViewStudents: true});
+        this.setState({ filesViewTutors: res.fileViewTutors, tutorViewStudents: true });
         console.info("File has been loaded correctly");
       })
       .catch(err => console.error("Files have not been loaded correctly: " + err));
@@ -205,8 +205,8 @@ export class Studentdocs extends React.Component {
                     <Tab label="Received" style={styles.tab[0]} icon={<InboxIcon />} href="/doc" />
                   </Tabs>
                 </Paper>
-              :<br/>
-                
+                : <br />
+
             }
             <Container maxWidth="lg" className={classes.container}>
               <Grid container spacing={2}>
@@ -277,18 +277,19 @@ export class Studentdocs extends React.Component {
                               )
                             })
                           }
-                          {this.props.match.params.studentid !== undefined && this.state.filesViewTutors.length !== 0
-                            ?
-                            <TableCell><Button type="button" onClick={event => this.deleteFile(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Document</Button></TableCell>
-                            :
-                            <br />
-                          }
                         </TableBody>
                       </Table>
                     </React.Fragment>
                   </Paper>
                 </Grid>
               </Grid>
+              <br />
+              {this.props.match.params.studentid !== undefined && this.state.filesViewTutors.length !== 0
+                ?
+                <Button type="button" onClick={event => this.deleteFile(event, this.state.shareTo)} variant="contained" size="small" className={classes.submitDelete}>Delete Document</Button>
+                :
+                <br />
+              }
             </Container>
 
             {/* Footer */}
