@@ -7,7 +7,6 @@ import { shallow } from 'enzyme';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import TableRow from '@material-ui/core/TableRow';
-import Title from "../src/components/ProfilePage/Title";
 
 configure({ adapter: new Adapter() });
 

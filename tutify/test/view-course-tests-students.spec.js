@@ -67,26 +67,16 @@ describe('The Students View Docs', () => {
         // Seeing if the Grid components Exists (import grid)
         expect(course_grid.exists()).toBeTruthy();
 
-        // Finding the Typography component that contains the title for the Course Documents component.
-        const table_title = wrapper_shallow_specific_course.dive().find(Typography).at(1);
-        // Make sure the specific student course page contains Course Documents header on it.
-        expect(table_title.props().children).toBe("Course Documents");
-
-        // Getting the Card that contains information about the course.
-        const course_title =  wrapper_specific_course.find(Typography).at(3);
-        // Make sure the specific student course page contains the Course header on it.
-        expect(course_title.props().children).toBe("COMP 472");
-
         // Getting the table information about the course documents.
         const table_content =  wrapper_specific_course.find(TableRow).at(0);
         // Getting the title of the course documents.
-        expect(table_content.props().children[0].props.children).toBe("Title");
+        expect(table_content.find(Typography).at(0).props().children).toBe("Title");
         // Getting the extension name of the course documents.
-        expect(table_content.props().children[1].props.children).toBe("Extension");
+        expect(table_content.find(Typography).at(1).props().children).toBe("Extension");
         // Getting the date of the course documents.
-        expect(table_content.props().children[2].props.children).toBe("Date");
+        expect(table_content.find(Typography).at(2).props().children).toBe("Date");
         // Getting the "download" title the course documents.
-        expect(table_content.props().children[3].props.children).toBe("Download Documents");
+        expect(table_content.find(Typography).at(3).props().children).toBe("Download Documents");
 
         // Finding the Table Row element containing the information of one row of a document shared to the class
         const course_document =  wrapper_specific_course.find(TableRow).at(1);
