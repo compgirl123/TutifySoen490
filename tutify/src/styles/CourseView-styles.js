@@ -25,6 +25,6 @@ export const styles = theme => ({
         marginTop: theme.spacing(4),
       },
       container: {
-        marginTop: '30px',
+        marginTop: theme.spacing(12),
       }
   });

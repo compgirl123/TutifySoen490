@@ -17,7 +17,8 @@ import Button from "@material-ui/core/Button";
 import Checkbox from '@material-ui/core/Checkbox';
 import swal from 'sweetalert';
 import axios from 'axios';
-import {presentableExtension, presentableName, presentableUploadTime} from '../../helper/presentableHelper';
+import { presentableExtension, presentableName, presentableUploadTime } from '../../helper/presentableHelper';
+import Title from "../ProfilePage/Title";
 
 // View the Specific Course Page with all of the Course Details.
 // Students can view documents.
@@ -38,7 +39,7 @@ export class ViewCourse extends React.Component {
   componentDidMount() {
     this.checkSession();
   }
-  
+
   // Distinguishing the tutor login from student login.
   checkSession = () => {
     fetch('/api/checkSession', {
@@ -54,7 +55,7 @@ export class ViewCourse extends React.Component {
           }
           else if (res.userInfo.__t === "tutor") {
             this.setState({ profileType: res.userInfo.__t });
-          } 
+          }
         }
         else {
           this.setState({ Toggle: false, shouldView: false });
@@ -112,10 +113,10 @@ export class ViewCourse extends React.Component {
             courseName = "No Documents Uploaded";
           }
           this.setState({ course_selected: courseName });
-          
+
         }
       }
-    )
+      )
       .catch(err => console.error(err));
   }
 
@@ -158,37 +159,29 @@ export class ViewCourse extends React.Component {
     const { files } = this.state;
 
     return (
-      <Paper className={classes.paper}>
+      <div className={classes.paper}>
         <React.Fragment>
           <main>
             <DashBoardNavBar />
             <main className={classes.content}>
               <div className={classes.appBarSpacer} />
               <Container maxWidth="lg" className={classes.container}>
-                <div className={classes.heroContent}>
-                  <Container className={classes.container}>
-                    <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-                      {this.state.course_selected}
-                    </Typography>
-                  </Container>
-                </div>
-
                 <Grid container spacing={3}>
                   <p></p>
                   <Grid item sm={12} className={classes.gridItem}>
-                    <Typography>Course Documents</Typography><p></p>
+                    <Title>{this.state.course_selected} Documents</Title><p></p>
                     <Paper className={classes.tableWrapper}>
                       <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                           <TableRow>
-                            <TableCell>Title</TableCell>
-                            <TableCell>Extension</TableCell>
-                            <TableCell>Date</TableCell>
-                            <TableCell>Download Documents</TableCell>
+                            <TableCell><Typography variant="h6">Title</Typography></TableCell>
+                            <TableCell><Typography variant="h6">Extension</Typography></TableCell>
+                            <TableCell><Typography variant="h6">Date</Typography></TableCell>
+                            <TableCell><Typography variant="h6">Download Documents</Typography></TableCell>
 
                             {this.state.profileType === "tutor"
                               ?
-                              <TableCell>Select Documents to Delete</TableCell>
+                              <TableCell><Typography variant="h6">Select File(s) to Delete</Typography></TableCell>
                               :
                               <br />
                             }
@@ -201,13 +194,13 @@ export class ViewCourse extends React.Component {
                               <TableCell>{presentableExtension(file.name)}</TableCell>
                               <TableCell>{presentableUploadTime(file.uploadDate)}</TableCell>
                               <TableCell>
-                                <Button type="button" onClick={() => window.open(file.link)} size="small" className="submit">
+                                <Button type="button" onClick={() => window.open(file.link)}>
                                   <GetAppIcon />
                                 </Button>
                               </TableCell>
                               {this.state.profileType === "tutor"
                                 ?
-                                <TableCell>
+                                <TableCell align="center">
                                   <Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} />
                                 </TableCell>
                                 :
@@ -215,19 +208,18 @@ export class ViewCourse extends React.Component {
                               }
                             </TableRow>
                           ))}
-                          {this.state.profileType === "tutor" && this.state.files.length !== 0
-                            ?
-                            <TableRow>
-                            <TableCell><Button type="button" onClick={event => this.deleteFile(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Documents</Button></TableCell>
-                            </TableRow>
-                            :
-                            <br />
-                          }
                         </TableBody>
                       </Table>
                     </Paper>
                   </Grid>
                 </Grid>
+                <br />
+                {this.state.profileType === "tutor" && this.state.files.length !== 0
+                  ?
+                  <Button type="button" style={{ float: "right" }} onClick={event => this.deleteFile(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Documents</Button>
+                  :
+                  <br />
+                }
               </Container>
               <main>
                 {/* Hero unit */}
@@ -239,7 +231,7 @@ export class ViewCourse extends React.Component {
 
           </main>
         </React.Fragment>
-      </Paper>
+      </div>
     );
   }
 }
