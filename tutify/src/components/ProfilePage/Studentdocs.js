@@ -234,7 +234,7 @@ export class Studentdocs extends React.Component {
                             }
                             {this.props.match.params.studentid !== undefined
                               ?
-                              <TableCell><Typography variant="h6">Select File(s) to Delete</Typography></TableCell>
+                              <TableCell><Typography align="center" variant="h6">Select File(s) <br/>to Delete</Typography></TableCell>
                               :
                               <TableCell><Typography variant="h6">Download</Typography></TableCell>
                             }
@@ -252,10 +252,11 @@ export class Studentdocs extends React.Component {
                               var uploadDate = file.uploadDate
                               return (
                                 <TableRow key={index}>
-                                  <td><a href={url}>{filename}</a></td>
-                                  <td>{uploadDate}</td>
-                                  <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link)} id={file._id}><GetAppIcon /></Button></td>
-                                  <td align="center"><Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></td>
+                                  <TableCell><a href={url}>{filename}</a></TableCell>
+                                  <TableCell>{presentableExtension(filename)}</TableCell>
+                                  <TableCell>{uploadDate}</TableCell>
+                                  <TableCell><Button type="button"  onClick={() => window.open(link)} id={file._id}><GetAppIcon /></Button></TableCell>
+                                  <TableCell align="center"><Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></TableCell>
                                 </TableRow>
                               )
                             })

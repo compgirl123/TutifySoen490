@@ -412,6 +412,7 @@ export class Questions extends React.Component {
                                     <br />
                                 }
                             </div>
+                            <br/>
 
                             {datas.map((c, i) => (
                                 <div className="col-lg-10 col-lg-offset-1">
