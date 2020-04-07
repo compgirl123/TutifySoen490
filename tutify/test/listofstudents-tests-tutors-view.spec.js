@@ -49,10 +49,6 @@ describe('The Students List for Tutors view docs Page', () => {
          * Checking the List of Students Page for Tutors and see if all elements are present  
         */
 
-        // Finding the Typography component  that contains the Main Title Header Present on the Page.
-        const list_of_students_page = wrapper_shallow.dive().find(Typography).at(0);
-        // Make sure the header name on the tutor page is List of Students
-        expect(list_of_students_page.props().children).toBe("List of Students");
 
         // Finding the Title component  that contains the Table Title Students
         const students_title_table = wrapper_shallow.dive().find(Title).at(0);
@@ -76,25 +72,25 @@ describe('The Students List for Tutors view docs Page', () => {
         */
 
         // Finding the second TableRow Component present on page
-        const tableTitles = wrapper.find(TableRow).at(0);
+        const titles = wrapper.find(TableRow).at(0);
 
         // Make sure the name of the first Table cell column exists and has the value "First Name"
-        expect(tableTitles.props().children[0].props.children).toBe("First Name");
+        expect(titles.find(Typography).at(0).props().children).toBe("First Name");
 
         // Make sure the name of the second Table cell column exists and has the value "Last Name"
-        expect(tableTitles.props().children[1].props.children).toBe("Last Name");
+        expect(titles.find(Typography).at(1).props().children).toBe("Last Name");
 
         // Make sure the name of the third Table cell column exists and has the value "Program"
-        expect(tableTitles.props().children[2].props.children).toBe("Program");
+        expect(titles.find(Typography).at(2).props().children).toBe("Program");
 
         // Make sure the name of the third Table cell column exists and has the value "School"
-        expect(tableTitles.props().children[3].props.children).toBe("School");
+        expect(titles.find(Typography).at(3).props().children).toBe("School");
 
         // Make sure the name of the fourth Table cell column exists and has the value "Level of Education"
-        expect(tableTitles.props().children[4].props.children).toBe("Level of Education");
+        expect(titles.find(Typography).at(4).props().children).toBe("Level of Education");
 
         // Make sure the name of the fourth Table cell column exists and has the value "View Doc"
-        expect(tableTitles.props().children[5].props.children).toBe("View Doc");
+        expect(titles.find(Typography).at(5).props().children).toBe("View Document");
 
 
         /**
@@ -148,8 +144,5 @@ describe('The Students List for Tutors view docs Page', () => {
         // Making sure that the View Documents button matches the button on page.
         expect(studentInformationrow1.props().children[5].props.children.props.children).toBe("View Documents");
 
-        // Checking if the Share Document is Present on the Page if more than 0 documents exist.
-        const shareButton = wrapper.find(TableRow).at(3);
-        expect(shareButton.props().children.props.children.props.children).toBe("Share Document");
     });
 }); 
