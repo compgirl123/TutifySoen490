@@ -41,7 +41,6 @@ class BlogPost extends React.Component {
             <DashBoardNavBar />
             <main>
               <div className={classes.appBarSpacer} />
-
               <Container maxWidth="lg" className={classes.container}>
                 <Typography variant="h5" component="h3">
                   Contact your Tutor
