@@ -49,10 +49,6 @@ class Sidebar extends Component {
     }));
   };
 
-  tutorURL(tutorID) {
-    return '/profile/' + tutorID
-  }
-
   render() {
     const { classes, tutors } = this.props;
     return (
