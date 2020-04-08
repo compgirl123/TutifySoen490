@@ -75,12 +75,9 @@ export class ChooseTutorVideoPage extends React.Component {
         <React.Fragment>
           <main>
             <DashBoardNavBar />
-            <main className={classes.content}>
+            <main>
               <div className={classes.appBarSpacer} />
               <Container maxWidth="lg" className={classes.container}>
-                <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                  Choose Tutor to View Tutoring Videos
-                </Typography>
                 <Grid container spacing={5}>
                   {videos.map((c, i) => (
                     <Grid item xs={4} md={4} lg={4}>
@@ -99,7 +96,7 @@ export class ChooseTutorVideoPage extends React.Component {
                           </CardContent>
                         </CardActionArea>
                         <CardActions>
-                          <Button type="button" onClick={() => window.location.replace("/videos/" + (c._id).replace(/ /g, ""))} size="small" href="" fullWidth className="submit">
+                          <Button type="button" variant="outlined" onClick={() => window.location.replace("/videos/" + (c._id).replace(/ /g, ""))} size="small" href="" fullWidth className="submit">
                             View Tutor Videos
                             </Button>
                         </CardActions>

@@ -137,16 +137,10 @@ export class StudentList extends React.Component {
       <React.Fragment>
         <main>
           <DashBoardNavBar />
-          <main className={classes.content}>
-
+          <main>
             <div className={classes.appBarSpacer} />
             <Container maxWidth="lg" className={classes.container}>
-              <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                List of Students
-              </Typography>
               <Grid container spacing={2}>
-
-                {/* Student Info */}
                 <Grid item xs={12} md={12} lg={24}>
                   <Paper className={fixedHeightPaper}>
                     <React.Fragment>
@@ -154,21 +148,19 @@ export class StudentList extends React.Component {
                       <Table size="small">
                         <TableHead>
                           <TableRow>
-                            <TableCell>First Name</TableCell>
-                            <TableCell>Last Name</TableCell>
-                            <TableCell>Program</TableCell>
-                            <TableCell>School</TableCell>
-                            <TableCell>Level of Education</TableCell>
+                            <TableCell><Typography variant="h6">First Name</Typography></TableCell>
+                            <TableCell><Typography variant="h6">Last Name</Typography></TableCell>
+                            <TableCell><Typography variant="h6">Program</Typography></TableCell>
+                            <TableCell><Typography variant="h6">School</Typography></TableCell>
+                            <TableCell><Typography variant="h6">Level of Education</Typography></TableCell>
                             {this.props.match.params.file !== undefined
                               ?
-                              <TableCell>Select student</TableCell>
+                              <TableCell><Typography variant="h6">Select student</Typography></TableCell>
                               :
-                              <TableCell>View Doc</TableCell>
+                              <TableCell><Typography variant="h6">View Document</Typography></TableCell>
                             }
                             <TableCell></TableCell>
-
-                            {this.handleShareDocButton(true)}
-
+                            {this.handleShareDocButton(true)} 
                           </TableRow>
                         </TableHead>
                         <TableBody>
@@ -189,20 +181,14 @@ export class StudentList extends React.Component {
                               </TableCell>
                             </TableRow>
                           ))}
-
-                        <TableRow> 
-                        <TableCell>
-                            {this.handleShareDocButton(false, true)}
-                        </TableCell>
-                        </TableRow>
-
                         </TableBody>
                       </Table>
                     </React.Fragment>
                   </Paper>
                 </Grid>
               </Grid>
-              <p></p>
+              <br/>
+              {this.handleShareDocButton(false, true)}
             </Container>
             {/* Footer */}
             <Footer />

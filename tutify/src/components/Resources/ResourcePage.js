@@ -6,7 +6,6 @@ import { withStyles } from "@material-ui/core/styles";
 import ResourceNavigation from './ResourceNavigation';
 import axios from "axios";
 
-
 class ResourcePage extends React.Component {
     constructor(props) {
         super(props);
@@ -29,39 +28,14 @@ class ResourcePage extends React.Component {
         axios.get('/api/getResources').then((res) => {
             // set the resources by education level
             this.setState({
-              primaryResources: res.data.data.filter(res => res.educationLevel === "Primary"),
-              secondaryResources: res.data.data.filter(res => res.educationLevel === "Secondary"),
-              postsecResources: res.data.data.filter(res => res.educationLevel === "PostSecondary"),
+                primaryResources: res.data.data.filter(res => res.educationLevel === "Primary"),
+                secondaryResources: res.data.data.filter(res => res.educationLevel === "Secondary"),
+                postsecResources: res.data.data.filter(res => res.educationLevel === "PostSecondary"),
             });
             console.info("Successfully fetched the resources");
-          })
-            .catch(err => console.error("Could not get the resources from the database: "+err));
+        })
+            .catch(err => console.error("Could not get the resources from the database: " + err));
     }
-
-    imgForLevel = () => {
-        if (this.props.location.state.postsecondary)
-            return {
-                justifyContent:'center', 
-                alignItems:'center',
-                minHeight: '450px',
-                backgroundImage: 'url("https://24t9d72kcs873my15o9hr1pu-wpengine.netdna-ssl.com/wp-content/uploads/2018/08/student-productivity-toggl-460x275.jpg")'
-            }
-        if (this.props.location.state.secondary)
-            return {
-                minHeight: '450px',
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: 'cover',
-                backgroundImage: 'url("https://westminsterlincoln.org/wp-content/uploads/2018/07/Cornwal-Public-Library-Book-Stack-Header.jpg")'
-            }
-        if (this.props.location.state.primary)
-            return {
-                minHeight: '450px',
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: 'cover',
-                backgroundImage: 'url("https://images.squarespace-cdn.com/content/v1/57b93284e4fcb5fdb2aa62c0/1477843411111-R1TYUZHFJ00HAM46RF8Q/ke17ZwdGBToddI8pDm48kDxhhhwBddJ9fDxYAvV-2zp7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0lfYLKn_Tkl3ql2udpuE0YVV890f3o8Id5G8tJhHvhmC6z2Yvz7ttIxB3b9uYcWrOg/Education+Banner.png?format=2500w")'
-            } 
-    }
-
 
     render() {
         const { classes } = this.props;
@@ -71,11 +45,7 @@ class ResourcePage extends React.Component {
         return (
             <React.Fragment>
                 <DashBoardNavBar />
-                <div className={classes.logo} style={this.imgForLevel()} >
-                    <div style={{minHeight:'450px'}}>
-                    </div>
-                </div>
-                <div>
+                <div className={classes.resources}>
                     {primary ? <ResourceNavigation res={primaryResources} /> : <></>}
                     {secondary ? <ResourceNavigation res={secondaryResources} /> : <></>}
                     {postsecondary ? <ResourceNavigation res={postsecResources} /> : <></>}

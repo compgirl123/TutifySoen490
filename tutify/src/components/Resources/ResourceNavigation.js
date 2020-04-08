@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import ResourceCard from './ResourceCard';
 import Grid from '@material-ui/core/Grid';
+import green from '@material-ui/core/colors/green';
 
 // Defines the content of the tab panel
 function TabPanel(props) {
@@ -80,6 +81,19 @@ export default function ResourceNavigation(props) {
         setValue(newValue);
     };
 
+    var styles = {
+        default_tab: {
+            color: green[700],
+            indicatorColor: green[900],
+            fontWeight: 400,
+        }
+    }
+
+    styles.tab = []
+    styles.tab[0] = styles.default_tab;
+    styles.tab[1] = styles.default_tab;
+    styles.tab[2] = styles.default_tab;
+
     return (
         <div className={classes.root}>
             <AppBar position="static" color="default" textAlign="center">
@@ -87,17 +101,22 @@ export default function ResourceNavigation(props) {
                     value={value}
                     onChange={handleChange}
                     indicatorColor="primary"
-                    textColor="primary"
-                    variant="scrollable"
-                    scrollButtons="auto"
-                    aria-label="scrollable auto tabs example"
+                    inkBarStyle={{
+                      textColor: "black",
+                      background: "#FF5733",
+                      height: "5px",
+                      marginTop: "-5px"
+                    }}
+                    
+                    aria-label="disabled tabs example"
+                    centered
                 >
-                    <Tab label="All" {...a11yProps(0)} />
-                    <Tab label="Studying" {...a11yProps(1)} />
-                    <Tab label="Writing" {...a11yProps(2)} />
-                    <Tab label="Learning" {...a11yProps(3)} />
-                    <Tab label="Career" {...a11yProps(4)} />
-                    <Tab label="Health" {...a11yProps(5)} />
+                    <Tab style={styles.tab[0]} label="All" {...a11yProps(0)} />
+                    <Tab style={styles.tab[0]} label="Studying" {...a11yProps(1)} />
+                    <Tab style={styles.tab[0]} label="Writing" {...a11yProps(2)} />
+                    <Tab style={styles.tab[0]} label="Learning" {...a11yProps(3)} />
+                    <Tab style={styles.tab[0]} label="Career" {...a11yProps(4)} />
+                    <Tab style={styles.tab[0]} label="Health" {...a11yProps(5)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>

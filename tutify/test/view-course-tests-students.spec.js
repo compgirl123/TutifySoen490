@@ -50,7 +50,6 @@ describe('The Students View Docs', () => {
             }
           ]
          
-        // Go to next page which contains information about a particular course the student is registered in.
         const wrapper_shallow_specific_course = shallow(<ViewCourse files={mockedStudent[0].files}></ViewCourse>);
         const wrapper_specific_course = mount(<ViewCourse files={mockedStudent[0].files}></ViewCourse>);
         const student_class_wrapper = wrapper_specific_course.find(ViewCourseClass);
@@ -62,42 +61,19 @@ describe('The Students View Docs', () => {
          * Specific Course Page
         */
         
-        // Finding the Grid component containing the Different classes student is registered for.
         const course_grid = wrapper_shallow_specific_course.dive().find(Grid).at(0);
-        // Seeing if the Grid components Exists (import grid)
         expect(course_grid.exists()).toBeTruthy();
 
-        // Finding the Typography component that contains the title for the Course Documents component.
-        const table_title = wrapper_shallow_specific_course.dive().find(Typography).at(1);
-        // Make sure the specific student course page contains Course Documents header on it.
-        expect(table_title.props().children).toBe("Course Documents");
-
-        // Getting the Card that contains information about the course.
-        const course_title =  wrapper_specific_course.find(Typography).at(3);
-        // Make sure the specific student course page contains the Course header on it.
-        expect(course_title.props().children).toBe("COMP 472");
-
-        // Getting the table information about the course documents.
         const table_content =  wrapper_specific_course.find(TableRow).at(0);
-        // Getting the title of the course documents.
-        expect(table_content.props().children[0].props.children).toBe("Title");
-        // Getting the extension name of the course documents.
-        expect(table_content.props().children[1].props.children).toBe("Extension");
-        // Getting the date of the course documents.
-        expect(table_content.props().children[2].props.children).toBe("Date");
-        // Getting the "download" title the course documents.
-        expect(table_content.props().children[3].props.children).toBe("Download Documents");
+        expect(table_content.find(Typography).at(0).props().children).toBe("Title");
+        expect(table_content.find(Typography).at(1).props().children).toBe("Extension");
+        expect(table_content.find(Typography).at(2).props().children).toBe("Date");
+        expect(table_content.find(Typography).at(3).props().children).toBe("Download Documents");
 
-        // Finding the Table Row element containing the information of one row of a document shared to the class
         const course_document =  wrapper_specific_course.find(TableRow).at(1);
-
-        // Expecting the document name to be equal to name in the course object
         expect(course_document.props().children[0].props.children).toBe((mockedStudent[0].files[0].name).split(".")[0]);
-        // Expecting the extension name to be equal to extension name in the course object
         expect(course_document.props().children[1].props.children).toBe((mockedStudent[0].files[0].name).split(".")[1]);
-        // Expecting the document upload Date to be equal to upload Date in the course object
         expect((course_document.props().children[2].props.children).split(" ")[0]).toBe((mockedStudent[0].files[0].uploadDate).split("T")[0]);
-        // Expecting the download icon name to be equal to the "GetAppIcon" representing the download document icon symbol
         expect(course_document.props().children[3].props.children.props.children.type.displayName).toBe("GetAppIcon");
 
     });

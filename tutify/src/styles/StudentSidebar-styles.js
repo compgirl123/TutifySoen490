@@ -1,6 +1,9 @@
 export const styles = theme => ({
     tutorList: {
-        maxHeight: 100,
-        overflow: "auto",     
+        maxHeight: 130,
+          
     },
+    sideBarList: {
+        maxWidth:250,
+    }
 });

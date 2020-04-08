@@ -39,16 +39,9 @@ describe('The quiz page ', () => {
         shallowwrapper.setState({ quizzes: json.data, datas: json.data.questions, open: false, total: 1 });
         shallowwrapper.setState({ accountType: "tutor" });
 
-
-        // Finding the Button component 
         const button_component = wrapper.find(Button).at(0);
-        // Check if the "add quiz" button exists
         expect(button_component.exists()).toBeTruthy();
-
-        // Displays the question properly
         expect(wrapper.find('.P').text()).toBe("What hotel does Edward Calederon Work at");
-
-        // Displays the answers properly
         expect(wrapper.find('.ANSWERSUL').text()).toBe("A Majestic MirageB Majestic EleganceC Majestic Elegance ClubD Majestic Colonial");
 
     });
@@ -78,14 +71,10 @@ describe('The quiz page ', () => {
         shallowwrapper.setState({ quizzes: json.data, datas: json.data.questions, open: false, total: 1 });
         shallowwrapper.setState({ accountType: "tutor" });
 
-
-        // Does not display the new question box when not asked
         expect(wrapper.find(Dialog).prop('open')).toBeFalsy();
-
 
         shallowwrapper.setState({ open: true });
 
-        // Displays the new question box when asked
         expect(wrapper.find(Dialog).prop('open')).toBeTruthy();
     });
 

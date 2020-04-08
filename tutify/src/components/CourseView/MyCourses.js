@@ -341,7 +341,7 @@ export class MyCourses extends React.Component {
                               Share Document
                           </Button>
                             :
-                            <Button type="button" onClick={() => window.location.replace("/viewCourse/" + (c.course._id).replace(/ /g, ""))} size="small" href="" fullWidth className="submit">
+                            <Button type="button" variant="outlined" onClick={() => window.location.replace("/viewCourse/" + (c.course._id).replace(/ /g, ""))} size="small" href="" fullWidth className="submit">
                               View Documents
                           </Button>
                           }

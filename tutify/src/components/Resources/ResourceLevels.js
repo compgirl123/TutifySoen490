@@ -91,9 +91,6 @@ class ResourceLevels extends React.Component {
             <React.Fragment>
                 <DashBoardNavBar />
                 <div className={classes.divContainer}>
-                    <Typography variant="h2" component="h1" align="center" gutterBottom>
-                        Select your Education Level
-                    </Typography>
                     <Container className={classes.container}>
                         <Grid container spacing={10}>
                             <Link className={classes.link} to={{ pathname: '/primary', state: { primary: true } }} >
