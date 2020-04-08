@@ -178,7 +178,6 @@ export class ViewCourse extends React.Component {
                             <TableCell><Typography variant="h6">Extension</Typography></TableCell>
                             <TableCell><Typography variant="h6">Date</Typography></TableCell>
                             <TableCell><Typography variant="h6">Download Documents</Typography></TableCell>
-
                             {this.state.profileType === "tutor"
                               ?
                               <TableCell><Typography variant="h6">Select File(s) to Delete</Typography></TableCell>
