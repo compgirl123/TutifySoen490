@@ -64,32 +64,6 @@ export class ViewCourse extends React.Component {
       .catch(err => console.error(err));
   };
 
-  // Uses our backend api to fetch the courses from our database
-  getTutorDataFromDb = () => {
-    fetch('/api/getTutorCourses', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then(res => {
-        this.setState({ courses: res.data });
-      })
-      .catch(err => console.error(err));
-  }
-
-  // Uses our backend api to fetch the courses from our database
-  getUserDataFromDb = () => {
-    fetch('/api/getUserCourses', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then(res => {
-        this.setState({ courses: res.data });
-      })
-      .catch(err => console.error(err));
-  }
-
   // Loading all files from the database for the specific course
   loadFiles() {
     fetch('/api/viewCourse/:coursename')

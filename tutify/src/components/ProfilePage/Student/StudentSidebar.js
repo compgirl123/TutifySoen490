@@ -142,7 +142,7 @@ class Sidebar extends Component {
           <ListItem>
             <List disablePadding className={classes.tutorList} >
               {tutors.map(tutor => (
-                <ListItem
+                <ListItem button component="a" href={'/profile/' + tutor._id}
                   key={tutor._id}>
                   <ListItemIcon>
                     <PermIdentityIcon />
