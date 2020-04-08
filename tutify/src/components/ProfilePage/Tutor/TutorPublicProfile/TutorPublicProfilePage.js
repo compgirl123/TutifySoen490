@@ -14,6 +14,7 @@ import TutorCourses from './TutorCourses';
 import TutorSubjects from './TutorSubjects';
 import TutorDescription from './TutorDescription';
 
+
 export class TutorPublicProfilePage extends Component {
     constructor(props) {
         super(props);
@@ -25,9 +26,12 @@ export class TutorPublicProfilePage extends Component {
             email: "",
             accountId: "",
             account: "",
+            student_id: "",
+            connectedTutors: []
         };
         this.getImg = this.getImg.bind(this);
     }
+    
     toggleDrawer = booleanValue => () => {
         this.setState({
             drawerOpened: booleanValue
@@ -36,24 +40,27 @@ export class TutorPublicProfilePage extends Component {
 
     componentDidMount() {
         this.getTutor();
+        this.checkSession();
     }
 
-    //getting the account object linked to the tutor in order to fetch the email address
-    getAccount = () =>{
-        axios.get(`/api/getAccountById`, {
-            params: {
-                ID: this.state.accountId
-            }
-        }).then((res) => {
-            this.setState({
-                account: res.data.account,
-                email: res.data.account.email
-            });
-            console.info("Successfully fetched the specific tutor's email");
-
+    checkSession = () => {
+        fetch('/api/checkSession', {
+          method: 'GET',
+          credentials: 'include'
         })
-        .catch(err => console.error("Could not get the tutor's email: " + err));
-    }
+          .then(response => response.json())
+          .then(res => {
+            if (res.isLoggedIn) {
+                if(res.userInfo.__t == "student"){
+                    this.setState({
+                        student_id: res.userInfo._id,
+                        connectedTutors: res.userInfo.tutors
+                    });
+                }
+            }
+          })
+          .catch(err => console.error("Session could not be checked: " + err));
+      };
 
     //getting the tutor from the id passed in the path
     getTutor = () => {
@@ -84,6 +91,23 @@ export class TutorPublicProfilePage extends Component {
             });
     }
 
+    //getting the account object linked to the tutor in order to fetch the email address
+    getAccount = () =>{
+        axios.get(`/api/getAccountById`, {
+            params: {
+                ID: this.state.accountId
+            }
+        }).then((res) => {
+            this.setState({
+                account: res.data.account,
+                email: res.data.account.email
+            });
+            console.info("Successfully fetched the specific tutor's email");
+
+        })
+        .catch(err => console.error("Could not get the tutor's email: " + err));
+    }
+
     // Fetches the profile image file from our database
     getImg() {
         axios.get('/api/getPicture/' + this.state.tutor.uploadedPicture.imgData)
@@ -98,7 +122,7 @@ export class TutorPublicProfilePage extends Component {
 
     render() {
         const { classes } = this.props;
-        const { tutor, courses, subjects, profilePicture, email} = this.state;
+        const { tutor, courses, subjects, profilePicture, email, student_id, connectedTutors} = this.state;
 
         return (
             <React.Fragment>
@@ -110,7 +134,8 @@ export class TutorPublicProfilePage extends Component {
                             <Grid container spacing={4}>
                                 <Grid item xs={4}>
                                     <Card>
-                                        <TutorInfo tutor={tutor} email={email} profilePicture={profilePicture} />
+                                        <TutorInfo tutor={tutor} email={email} profilePicture={profilePicture} 
+                                           studentID={student_id} studentTutors={connectedTutors} />
                                     </Card>
                                 </Grid>
                                 <Grid item xs={6}>

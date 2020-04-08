@@ -136,7 +136,6 @@ export class NavBar extends Component {
                 </Button>
               </div>
             }
-
           </Toolbar>
         </AppBar>
       </div >
