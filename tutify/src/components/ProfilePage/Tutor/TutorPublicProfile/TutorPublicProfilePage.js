@@ -31,7 +31,7 @@ export class TutorPublicProfilePage extends Component {
         };
         this.getImg = this.getImg.bind(this);
     }
-    
+
     toggleDrawer = booleanValue => () => {
         this.setState({
             drawerOpened: booleanValue
@@ -51,7 +51,7 @@ export class TutorPublicProfilePage extends Component {
           .then(response => response.json())
           .then(res => {
             if (res.isLoggedIn) {
-                if(res.userInfo.__t == "student"){
+                if(res.userInfo.__t === "student"){
                     this.setState({
                         student_id: res.userInfo._id,
                         connectedTutors: res.userInfo.tutors

@@ -59,7 +59,7 @@ export class TutorInfo extends React.Component {
                             School: {tutor.school}
                         </Typography>
 
-                        {studentID != "" ? <>
+                        {studentID !== "" ? <>
                             <hr style={{
                                 color: '#FFFFFF',
                                 backgroundColor: '#FFFFFF',
