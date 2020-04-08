@@ -330,7 +330,7 @@ exports.assignCourse = async function (req, res) {
         // Add student to list for the specific course
         tutor.courses.forEach((course) => {
             if (course.course == course_id) {
-                course.students.push(student_id)
+                course.students.push(mongoose.Types.ObjectId(student_id))
             }
         });
         tutor.save();

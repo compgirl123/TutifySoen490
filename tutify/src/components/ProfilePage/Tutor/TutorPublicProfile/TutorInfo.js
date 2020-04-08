@@ -5,6 +5,8 @@ import { withStyles } from "@material-ui/core/styles";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Box from '@material-ui/core/Box';
+import EnrollButton from "../../../EnrollButton";
+import ConnectButton from "../../../ConnectButton";
 
 export class TutorInfo extends React.Component {
     constructor(props) {
@@ -13,8 +15,12 @@ export class TutorInfo extends React.Component {
         }
     }
 
+    checkIfConnected(tutorID, studentTutors) {
+        return studentTutors.some(item => item._id === tutorID)
+    }
+
     render() {
-        const { classes, tutor, profilePicture, email} = this.props;
+        const { classes, tutor, profilePicture, email, studentID, studentTutors} = this.props;
 
         return (
             <Card className={classes.card}>
@@ -37,17 +43,39 @@ export class TutorInfo extends React.Component {
                         }} />
                         <br />
                         <Typography className={classes.InfoContext}>
-              Email : {email}
+                            Email : {email}
                         </Typography>
                         <br />
                         <Typography className={classes.InfoContext}>
-                            
-              Program of Study: {tutor.program_of_study}
+                            Program of Study: {tutor.program_of_study}
                         </Typography>
                         <br />
                         <Typography className={classes.InfoContext}>
-              School: {tutor.school}
+                            School: {tutor.school}
                         </Typography>
+
+                        {studentID !== "" ? <>
+                            <hr style={{
+                                color: '#FFFFFF',
+                                backgroundColor: '#FFFFFF',
+                                height: .5,
+                                borderColor: '#FFFFFF',
+                                marginBottom:'20px',
+                                marginTop:'20px'
+                            }} />
+                            <ConnectButton
+                                isConnected={this.checkIfConnected(tutor._id,studentTutors)}
+                                tutor={tutor}
+                                userId={studentID}
+                                id={tutor._id}
+                            />
+                            <EnrollButton
+                                isConnected={this.checkIfConnected(tutor._id,studentTutors)}
+                                tutor={tutor}
+                            />
+                            </> : <></>
+                        }                      
+
                     </CardContent>
                 </React.Fragment>
             </Card >
