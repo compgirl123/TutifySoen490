@@ -19,7 +19,6 @@ export class TutorInfo extends React.Component {
         return (
             <Card className={classes.card}>
                 <React.Fragment>
-
                     <CardContent>
                         <img src={profilePicture} width="100%" height="40%" alt="Profile">
                         </img>
@@ -30,29 +29,25 @@ export class TutorInfo extends React.Component {
                                 {tutor.first_name + " " + tutor.last_name}
                             </Box>
                         </Typography>
-
                         <hr style={{
                             color: '#FFFFFF',
                             backgroundColor: '#FFFFFF',
                             height: .5,
                             borderColor: '#FFFFFF'
                         }} />
-
+                        <br />
                         <Typography className={classes.InfoContext}>
-                            <br />
               Email : {email}
                         </Typography>
-
+                        <br />
                         <Typography className={classes.InfoContext}>
-                            <br />
+                            
               Program of Study: {tutor.program_of_study}
                         </Typography>
-
+                        <br />
                         <Typography className={classes.InfoContext}>
-                            <br />
               School: {tutor.school}
                         </Typography>
-
                     </CardContent>
                 </React.Fragment>
             </Card >

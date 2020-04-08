@@ -1,5 +1,4 @@
 import React from "react";
-import InputBase from '@material-ui/core/InputBase';
 import UserInfo, { UserInfo as UserInfoClass } from "../src/components/ProfilePage/UserInfo";
 import { createMount } from '@material-ui/core/test-utils';
 import { configure } from 'enzyme';
@@ -7,7 +6,6 @@ import Adapter from "enzyme-adapter-react-16";
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import { shallow } from 'enzyme';
 import Button from '@material-ui/core/Button';
@@ -34,18 +32,13 @@ describe('The Profile Page updating Profile Feature for Tutors.', () => {
              * Part 1 : Setting of the default profile page settings.
             */
 
-            // Finding the Typography html document that contains the type of user on the page (Tutor or Student).
             const tutor_status_input = wrapper.find(Typography).at(1);
 
-            // Checks if this Typography html document includes the word tutor to see if this is a tutor object
             var tutor = tutor_status_input.props().children.includes("Tutor");
 
-            // Saving all of the profile data from the profile.json into a variable.
             var profile_array = tutor_class_wrapper.state().data;
             var tutor_selected = 0;
 
-            // Select the first profile that appears as a tutor profile that will be used as a mocked event.
-            // Save this tutor profile index information in a variable.
             for (var x = 0; x < profile_array.length; x++) {
                 if (profile_array[x].__t == "tutor") {
                     tutor_selected = x;
@@ -55,9 +48,6 @@ describe('The Profile Page updating Profile Feature for Tutors.', () => {
 
             // If the description of the type of user on the page is a tutor, then perform this if statement.
             if (tutor) {
-
-                /* Setting the state of the wrapper in order to take the information from the school and set the wrapper 
-                with the tutor's school */
                 tutor_class_wrapper.setState({ school: profile_array[tutor_selected].school });
             }
 
@@ -68,35 +58,23 @@ describe('The Profile Page updating Profile Feature for Tutors.', () => {
              * Part 2: Setting values present on profile page and collecting that data and simulating an "update" 
             */
 
-            // Edit Profile display information on the Tutor Profile Page.
             var edit_information_text_on_page = wrapper_shallow.dive().find(DialogTitle).props().children;
             var edit_information_description_on_page = wrapper_shallow.dive().find(DialogContentText).props().children;
 
-            // Verify Tutor Profile information to see if the description in the Dialog Matches its Function 
             expect(edit_information_text_on_page).toBe("Edit Information");
             expect(edit_information_description_on_page).toBe("To edit your information, please change the desired value fields and click save.");
 
-            // Get school name value and then assign it to a new value.
             var school_name_value = wrapper_shallow.dive().find(TextField).at(3);
             school_name_value.value = "Tutify Tutor Mo";
 
-            // Assign the TextField Object a value for the new tutor school value.
             const school_changed = { target: { value: school_name_value.value } };
-
-            // Sending the onChange event to the TextField element.
             school_name_value.props().onChange(school_changed);
 
-            /* Setting the new updated state wrapper in order to take the new information from the school
-               and set the wrapper with the tutor's new school */
             tutor_class_wrapper.setState({ updatedSchool: school_name_value.value });
 
-            // Finding Update Button in order to update original state present on page with modified state. 
             var update_button = wrapper_shallow.dive().find(Button).at(1);
-
-            // Update original state with new state on click of the update button.
             update_button.props().onClick(tutor_class_wrapper.state().school = tutor_class_wrapper.state().updatedSchool);
 
-            // Verify if the original school state now equals the new state. Expect tests to pass.
             expect(tutor_class_wrapper.state().school).toBe(tutor_class_wrapper.state().updatedSchool);
 
         });
