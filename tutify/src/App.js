@@ -67,7 +67,6 @@ function MainPage() {
         <PrivateRoute exact path="/postsecondary" component={ResourcePage} />
         <PrivateRoute exact path="/tutors" component={TutorList} />
         <PrivateRoute exact path="/tutors/:file" component={TutorList} />
-        <PrivateRoute exact path="/courseList/:id" component={CourseList} />
         <PrivateRoute exact path="/tutorCourses/:file" component={MyCourses} />
         <PrivateRoute exact path="/tutdoc" component={Tutordocs} />
         <PrivateRoute exact path="/videos" component={TutorVideos} />
