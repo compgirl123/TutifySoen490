@@ -58,7 +58,7 @@ exports.addUploadedFiles = async function (req, res) {
             });
     });
 
-    res.redirect("/uploadingDocs" + req.body.name);
+    res.redirect("/documents" + req.body.name);
 }
 
 // This Method Gets the Document Files from the Database

@@ -13,7 +13,6 @@ import * as StudentSidebarStyle from "../../../styles/StudentSidebar-styles";
 import { withStyles } from "@material-ui/core/styles";
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import PublishIcon from '@material-ui/icons/Publish';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
 import StarsIcon from '@material-ui/icons/Stars';
@@ -69,7 +68,7 @@ class Sidebar extends Component {
             <ListItemText primary="Search" />
           </ListItem>
 
-          <ListItem button component="a" href="/uploadingDocs">
+          <ListItem button component="a" href="/documents">
             <ListItemIcon>
               <MenuBookIcon />
             </ListItemIcon>

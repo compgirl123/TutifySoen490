@@ -72,7 +72,7 @@ exports.deleteFile = async (req, res) => {
       return res.status(500).json({ err: err.message });
     }
     console.info("The file has been deleted successfully");
-    res.redirect("/uploadingDocs");
+    res.redirect("/documents");
   });
 }
 

@@ -133,7 +133,7 @@ export class TutorCoursesInfo extends React.Component {
             aria-label="add"
             fontSize="small"
             className={classes.margin}
-            href="/uploadingDocs"
+            href="/documents"
           >
             <CloudUploadIcon fontSize="small" style={{ width: '15px', height: '15px' }} />
             &nbsp; Upload Documents

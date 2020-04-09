@@ -11,7 +11,7 @@ import DocList from "./components/ProfilePage/Tutor/DocList";
 import CourseList from './components/CourseList';
 import MyCourses from "./components/CourseView/MyCourses";
 import UserDashboard from "./components/UserDashboardPage/UserDashboard";
-import UploadDocuments from "./components/Documents/UploadDocuments";
+import DocumentsPage from "./components/Documents/DocumentsPage";
 import BlogPost from "./components/BlogPost";
 import ViewCourse from "./components/CourseView/ViewCourse";
 import Announcements from "./components/TutorAnnouncements/Announcements";
@@ -53,7 +53,7 @@ function MainPage() {
         <PrivateRoute exact path="/tutorCourses/:file" component={MyCourses} />
         <PrivateRoute exact path="/courses" component={MyCourses} />
         <PrivateRoute exact path="/dashboard" component={UserDashboard} />
-        <PrivateRoute exact path="/uploadingDocs" component={UploadDocuments} />
+        <PrivateRoute exact path="/documents" component={DocumentsPage} />
         <PrivateRoute exact path="/postblog" component={BlogPost} />
         <PrivateRoute exact path="/doclist" component={DocList} />
         <PrivateRoute exact path="/viewCourse/:coursename" component={ViewCourse} />
