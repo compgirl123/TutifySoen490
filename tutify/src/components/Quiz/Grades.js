@@ -123,6 +123,7 @@ export class Grades extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const { students } = this.state;
     const fixedHeightPaper = clsx(classes.paper);
     const { attempts } = this.state
 
@@ -224,16 +225,46 @@ export class Grades extends React.Component {
                         </TableBody>
                       </Table>
                     </Paper>
+                    {this.state.accountType === "tutor"
+                                ?
+                                <>
+                        <Title> Student Total Points: {this.state.totalPoints}  </Title>
+                                </>
+                                : <></>
+                            }
+                                <Table size="small">
+                                <TableHead>
+                                  <TableRow>
+                                    {this.state.accountType === "tutor"
+                                      ?
+                                      <>
+                                        <TableCell><Typography variant="h6">First Name</Typography></TableCell>
+                                        <TableCell><Typography variant="h6">Last Name</Typography></TableCell>
+                                        <TableCell><Typography variant="h6">Total Quiz Points</Typography></TableCell>
+                                      </>
+                                      : <></>
+                                    }
+                                  </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                {students.map(student => (
+                                <TableRow key={student._id}>
+                                      {this.state.accountType === "tutor"
+                                        ?
+                                        <>
+                                          <TableCell>{student.first_name}</TableCell>
+                                          <TableCell>{student.last_name}</TableCell>
+                                          <TableCell></TableCell>
+                                        </>
+                                        : <></>
+                                      }
+                                    </TableRow>
+                                  ))}
+                                </TableBody>
+                              </Table>
                 </Grid>
               </Grid>
             </Container>
-            {this.state.accountType === "tutor"
-                                ?
-                                <>
-                        <h4> My Students: {this.state.totalPoints}  </h4>
-                                </>
-                                : <></>
-            }
             {/* Footer */}
             <Footer />
           </main>
