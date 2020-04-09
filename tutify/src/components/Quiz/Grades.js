@@ -266,9 +266,9 @@ export class Grades extends React.Component {
                                       {this.state.accountType === "tutor"
                                         ?
                                         <>
-                                          <TableCell align="center">Claudia</TableCell>
-                                          <TableCell align="center">Feochari</TableCell>
-                                          <TableCell align="center">10</TableCell>
+                                          <TableCell align="center">{student.first_name}</TableCell>
+                                          <TableCell align="center">{student.last_name}</TableCell>
+                                          <TableCell align="center">{students.totalPoints}</TableCell>
                                         </>
                                         : <></>
                                       }
