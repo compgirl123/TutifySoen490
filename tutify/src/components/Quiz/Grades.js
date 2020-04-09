@@ -51,6 +51,7 @@ export class Grades extends React.Component {
             tutorImg: res.userInfo.picture,
             accountType: res.userInfo.__t
           })
+          this.FindStudents();
           this.setState({totalPoints:res.userInfo.totalPoints });
           console.info("Set up the states for Logged in user.");
           console.log(res);
