@@ -24,7 +24,6 @@ class TutorCourses extends React.Component {
                             Courses
                         </Box>
                     </Typography>
-
                     <Table size="small">
                         <TableBody>
                             {courses.map((c) => (

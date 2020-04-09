@@ -19,13 +19,12 @@ import Button from "@material-ui/core/Button";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import swal from 'sweetalert';
 import Checkbox from '@material-ui/core/Checkbox';
-import Fab from "@material-ui/core/Fab";
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import InboxIcon from '@material-ui/icons/Inbox';
 import SendIcon from '@material-ui/icons/Send';
 import green from '@material-ui/core/colors/green';
-import {presentableExtension, presentableName, presentableUploadTime} from '../../helper/presentableHelper';
+import { presentableExtension, presentableName, presentableUploadTime } from '../../helper/presentableHelper';
 
 // displaying the documents shared to students
 export class Studentdocs extends React.Component {
@@ -68,7 +67,7 @@ export class Studentdocs extends React.Component {
     fetch('/api/doc/:studentid')
       .then(res => res.json())
       .then(res => {
-        this.setState({ filesViewTutors: res.fileViewTutors,tutorViewStudents: true});
+        this.setState({ filesViewTutors: res.fileViewTutors, tutorViewStudents: true });
         console.info("File has been loaded correctly");
       })
       .catch(err => console.error("Files have not been loaded correctly: " + err));
@@ -165,11 +164,11 @@ export class Studentdocs extends React.Component {
       <React.Fragment>
         <main>
           <DashBoardNavBar />
-          <main className={classes.content}>
+          <main >
             <div className={classes.appBarSpacer} />
             {(this.state.profileType === "tutor" && this.state.tutorViewStudents === false)
               ?
-              <Paper className={classes.root}>
+              <Paper>
                 <Tabs
                   indicatorColor="primary"
                   inkBarStyle={{
@@ -205,41 +204,38 @@ export class Studentdocs extends React.Component {
                     <Tab label="Received" style={styles.tab[0]} icon={<InboxIcon />} href="/doc" />
                   </Tabs>
                 </Paper>
-              :<br/>
-                
+                : <br />
+
             }
             <Container maxWidth="lg" className={classes.container}>
-              <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                List of Documents
-              </Typography>
               <Grid container spacing={2}>
                 {/* Student Info */}
                 <Grid item xs={12} md={12} lg={24}>
                   <Paper className={fixedHeightPaper}>
                     <React.Fragment>
-                      <Title>My Documents </Title>
+                      <Title>My Documents</Title>
                       <Table size="small">
                         <TableHead>
                           <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Extension</TableCell>
+                            <TableCell><Typography variant="h6">Name</Typography></TableCell>
+                            <TableCell><Typography variant="h6">Extension</Typography></TableCell>
                             {this.props.match.params.studentid !== undefined
                               ?
-                              <TableCell>Upload Date</TableCell>
+                              <TableCell><Typography variant="h6">Upload Date</Typography></TableCell>
                               :
-                              <TableCell>Tutor</TableCell>
+                              <TableCell><Typography variant="h6">Tutor</Typography></TableCell>
                             }
                             {this.props.match.params.studentid !== undefined
                               ?
-                              <TableCell>Download</TableCell>
+                              <TableCell><Typography variant="h6">Download</Typography></TableCell>
                               :
-                              <TableCell>Upload Date</TableCell>
+                              <TableCell><Typography variant="h6">Upload Date</Typography></TableCell>
                             }
                             {this.props.match.params.studentid !== undefined
                               ?
-                              <TableCell>Choose Files to Delete</TableCell>
+                              <TableCell><Typography align="center" variant="h6">Select File(s) <br/>to Delete</Typography></TableCell>
                               :
-                              <TableCell>Download</TableCell>
+                              <TableCell><Typography variant="h6">Download</Typography></TableCell>
                             }
 
                           </TableRow>
@@ -255,10 +251,11 @@ export class Studentdocs extends React.Component {
                               var uploadDate = file.uploadDate
                               return (
                                 <TableRow key={index}>
-                                  <td><a href={url}>{filename}</a></td>
-                                  <td>{uploadDate}</td>
-                                  <td align="center"><Button type="button" variant="contained" className="submit" size="small" onClick={() => window.open(link)} id={file._id}><GetAppIcon /></Button></td>
-                                  <td align="center"><Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></td>
+                                  <TableCell><a href={url}>{filename}</a></TableCell>
+                                  <TableCell>{presentableExtension(filename)}</TableCell>
+                                  <TableCell>{uploadDate}</TableCell>
+                                  <TableCell><Button type="button"  onClick={() => window.open(link)} id={file._id}><GetAppIcon /></Button></TableCell>
+                                  <TableCell align="center"><Checkbox name={file.encryptedname} value="uncontrolled" onChange={this.handleCheckbox} inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} /></TableCell>
                                 </TableRow>
                               )
                             })
@@ -275,16 +272,10 @@ export class Studentdocs extends React.Component {
                                   <TableCell>{presentableExtension(filename)}</TableCell>
                                   <TableCell>{tutor_name}</TableCell>
                                   <TableCell>{presentableUploadTime(uploadDate)}</TableCell>
-                                  <TableCell align="center"><Fab type="button" variant="extended" aria-label="add" fontSize="small" onClick={() => window.open(link)} id={file._id}><GetAppIcon fontSize="small" style={{ width: '20px', height: '20px' }} /></Fab></TableCell>
+                                  <TableCell ><Button type="button" onClick={() => window.open(link)} id={file._id}><GetAppIcon /></Button></TableCell>
                                 </TableRow>
                               )
                             })
-                          }
-                          {this.props.match.params.studentid !== undefined && this.state.filesViewTutors.length !== 0
-                            ?
-                            <TableCell><Button type="button" onClick={event => this.deleteFile(event, this.state.shareTo)} variant="contained" size="small" className="submit">Delete Document</Button></TableCell>
-                            :
-                            <br />
                           }
                         </TableBody>
                       </Table>
@@ -292,6 +283,13 @@ export class Studentdocs extends React.Component {
                   </Paper>
                 </Grid>
               </Grid>
+              <br />
+              {this.props.match.params.studentid !== undefined && this.state.filesViewTutors.length !== 0
+                ?
+                <Button type="button" onClick={event => this.deleteFile(event, this.state.shareTo)} variant="contained" size="small" className={classes.submitDelete}>Delete Document</Button>
+                :
+                <br />
+              }
             </Container>
 
             {/* Footer */}

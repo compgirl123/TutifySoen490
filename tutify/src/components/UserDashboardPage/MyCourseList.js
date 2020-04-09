@@ -16,14 +16,12 @@ class MyCourseList extends React.Component {
 
         return (
             <React.Fragment>
-
                 <Paper className={classes.tableWrapper}>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                             <TableRow>
                                 <TableCell><Typography variant="h6">Course</Typography></TableCell>
-                                <TableCell align="right"><Typography variant="h6">Tutor</Typography></TableCell>
-                                <TableCell align="right"><Typography variant="h6">Semester</Typography></TableCell>
+                                <TableCell><Typography variant="h6">Tutor</Typography></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -32,8 +30,7 @@ class MyCourseList extends React.Component {
                                     <TableCell scope="row">
                                         {c.course.name}
                                     </TableCell>
-                                    <TableCell align="right">{c.tutor.first_name + " " + c.tutor.last_name}</TableCell>
-                                    <TableCell align="right">2019</TableCell>
+                                    <TableCell>{c.tutor.first_name + " " + c.tutor.last_name}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -42,6 +39,5 @@ class MyCourseList extends React.Component {
             </React.Fragment>
         );
     }
-
 }
 export default withStyles(UserDashboardStyles.styles, { withTheme: true })(MyCourseList);

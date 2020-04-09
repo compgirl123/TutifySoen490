@@ -53,15 +53,10 @@ describe('The Tutors Courses Page', () => {
          * General Course Page
         */
 
-        // Getting the Card that contains information about the course.
         const cardInfo = wrapper.find(CardContent).at(0);
-        // Making sure that the Course name matches the mock student’s.
         expect(cardInfo.props().children[0].props.children[0]).toBe("COMP 472");
-        // Making sure that the Course Description matches the mock student’s.
         expect(cardInfo.props().children[1].props.children).toBe("Automated reasoning. Search and heuristic search. Game‑playing.");
-        // Getting the Card that contains information about the course.
         const buttonInfo = wrapper.find(Button).at(0);
-        // Making sure that the Button name displays Upload Document for the course.
         expect(buttonInfo.props().children).toBe("Share Document");
     });
 });

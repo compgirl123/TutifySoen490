@@ -238,6 +238,10 @@ export const styles = theme => ({
     marginTop: "50px", 
     fontWeight: "bold", 
     fontSize: 17
+  },
+
+  submitDelete:{
+    float:"right",
   }
 
 });

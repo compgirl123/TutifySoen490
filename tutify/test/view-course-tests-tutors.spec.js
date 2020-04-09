@@ -7,7 +7,6 @@ import { shallow } from 'enzyme';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import TableRow from '@material-ui/core/TableRow';
-import Title from "../src/components/ProfilePage/Title";
 
 configure({ adapter: new Adapter() });
 
@@ -19,7 +18,6 @@ describe('The Tutors Courses Page', () => {
     });
 
     it('Testing the specific view tutor courses. Checking if all of the required information for specfic tutor course page exists on the page.', () => {
-        // All the mounting and state setting
         
         const mockedTutor =  [
             {
@@ -57,7 +55,6 @@ describe('The Tutors Courses Page', () => {
             }
           ]
          
-        // Go to next page which contains information about a particular course the student is registered in.
         const wrapper_shallow_specific_course = shallow(<ViewCourse files={mockedTutor[0].files}></ViewCourse>);
         const wrapper_specific_course = mount(<ViewCourse files={mockedTutor[0].files}></ViewCourse>);
         const student_class_wrapper = wrapper_specific_course.find(ViewCourseClass);
@@ -69,52 +66,22 @@ describe('The Tutors Courses Page', () => {
          * Specific Course Page
         */
         
-        // Finding the Grid component containing the Different classes student is registered for.
         const test = wrapper_shallow_specific_course.dive().find(Grid).at(0);
-        // Seeing if the Grid components Exists (import grid)
         expect(test.exists()).toBeTruthy();
 
-        // Finding the Typography component that contains the title for the Course Documents component.
-        const course_title = wrapper_shallow_specific_course.dive().find(Typography).at(1);
-        // Make sure the specific student course page contains tutor Course Documents header on it.
-        expect(course_title.props().children).toBe("Course Documents");
-
-        // Getting the Card that contains information about the course.
-        const course_info =  wrapper_specific_course.find(Typography).at(3);
-        // Make sure the specific student course page contains tutor Course Documents header and name on it.
-        expect(course_info.props().children).toBe("COMP 472");
-
-        // Getting the Card that contains information about the course.
         const more_course_info =  wrapper_specific_course.find(TableRow).at(0);
-        // Make sure the specific student course page contains column "Title" in the Table
-        expect(more_course_info.props().children[0].props.children).toBe("Title");
-        // Make sure the specific student course page contains column "Extension" in the Table
-        expect(more_course_info.props().children[1].props.children).toBe("Extension");
-        // Make sure the specific student course page contains column "Date" in the Table
-        expect(more_course_info.props().children[2].props.children).toBe("Date");
-        // Make sure the specific student course page contains column "Download Documents" in the Table
-        expect(more_course_info.props().children[3].props.children).toBe("Download Documents");
-        // Make sure the specific student course page contains column "Select Documents to Delete" in the Table
-        expect(more_course_info.props().children[4].props.children).toBe("Select Documents to Delete");
+        expect(more_course_info.find(Typography).at(0).props().children).toBe("Title");
+        expect(more_course_info.find(Typography).at(1).props().children).toBe("Extension");
+        expect(more_course_info.find(Typography).at(2).props().children).toBe("Date");
+        expect(more_course_info.find(Typography).at(3).props().children).toBe("Download Documents");
+        expect(more_course_info.find(Typography).at(4).props().children).toBe("Select File(s) to Delete");
 
-        // Finding the Table Row element containing the information of one row of a document shared to the class
         const course_document =  wrapper_specific_course.find(TableRow).at(1);
-
-        // Expecting the document name to be equal to name in the course object
         expect(course_document.props().children[0].props.children).toBe((mockedTutor[0].files[0].name).split(".")[0]);
-        // Expecting the document extension name to be equal to extension name in the course object
         expect(course_document.props().children[1].props.children).toBe((mockedTutor[0].files[0].name).split(".")[1]);
-        // Expecting the document upload Date to be equal to upload Date in the course object
         expect((course_document.props().children[2].props.children).split(" ")[0]).toBe((mockedTutor[0].files[0].uploadDate).split("T")[0]);
-        // Expecting the download icon name to be equal to the "GetAppIcon" representing the download document icon symbol
         expect(course_document.props().children[3].props.children.props.children.type.displayName).toBe("GetAppIcon");
-        // Expecting the checkbox element to be present on page and to have checkbox element in it. 
         expect(course_document.props().children[4].props.children.props["inputProps"]['aria-label']).toBe("uncontrolled-checkbox");
-
-        // Finding last row of table that has the delete document button
-        const delete_doc =  wrapper_specific_course.find(TableRow).at(2);
-        // Expecting the Button at end of Page to have name "Delete Documents"
-        expect(delete_doc.props().children.props.children.props.children).toBe("Delete Documents");
     
     });
 }); 

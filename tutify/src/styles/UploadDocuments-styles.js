@@ -1,6 +1,6 @@
 export const styles = theme => ({
-  container: {
-    marginTop: '30px',
+  root: {
+    marginTop: theme.spacing(10),
   },
   input: {
     marginLeft: theme.spacing(1),
@@ -21,9 +21,6 @@ export const styles = theme => ({
     margin: 'auto',
     maxWidth: 500,
   },
-  uploadDocApp: {
-    textAlign: 'center'
-  },
   button: {
     margin: theme.spacing(1)
   },
@@ -31,18 +28,17 @@ export const styles = theme => ({
     height: "75px",
     padding: "20px",
   },
-  submit: {
-    float:'right',
-  },
   uploadContainer: {
     display: 'inline-block',
     textAlign: 'left',
     background: '#fff',
-    padding: '10px',
     width: '450px',
     position: 'relative,',
+    marginTop:'10px',
+    float:"left",
   },
   seeMore: {
     marginTop:'10px',
+    float:"right",
   },
 });

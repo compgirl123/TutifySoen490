@@ -6,7 +6,6 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Footer from '../Footer';
 import DashBoardNavBar from '../DashBoardNavBar'
-import Title from '../ProfilePage/Title';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -29,6 +28,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from "@material-ui/core/MenuItem";
 import CardActions from '@material-ui/core/CardActions';
+import green from '@material-ui/core/colors/green';
 
 // Defines what content is shown based on index of selected tab.
 function a11yProps(index) {
@@ -314,11 +314,25 @@ export class ChooseCourseAndQuiz extends React.Component {
                 .catch(err => console.error("Could not get the quizzes from the database: " + err));
         };
 
+        var styles = {
+            default_tab: {
+              color: green[700],
+              indicatorColor: green[900],
+              fontWeight: 400,
+            }
+          }
+      
+          styles.tab = []
+          styles.tab[0] = styles.default_tab;
+          styles.tab[1] = styles.default_tab;
+          styles.tab[2] = styles.default_tab;
+          styles.tab[this.state.slideIndex] = Object.assign({}, styles.tab[this.state.slideIndex], styles.active_tab);
+
         return (
             <React.Fragment>
                 <main>
                     <DashBoardNavBar />
-                    <main className={classes.content}>
+                    <main>
                         <div className={classes.appBarSpacer} />
                         <AppBar position="static" color="default" textAlign="center">
                             <Tabs
@@ -332,7 +346,7 @@ export class ChooseCourseAndQuiz extends React.Component {
                                 onclick={(e) => { this.setState({ newValue: e.target.value }); this.getTutorClassquizzes(e); }}
                             >
                                 {categoryOptions.map((category, index) => (
-                                    <Tab label={category} {...a11yProps(index)} />
+                                    <Tab style={styles.tab[0]} label={category} {...a11yProps(index)} />
                                 ))}
                             </Tabs>
                         </AppBar>
@@ -346,8 +360,7 @@ export class ChooseCourseAndQuiz extends React.Component {
                             }
                             <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                                 {this.state.tutorFirstName} {this.state.tutorLastName}'s Quizzes
-                            </Typography>
-                            <Title> Quizzes </Title>
+                            </Typography><br/>
                             <Grid container spacing={4}>
                                 {/* Quizzes */}
                                 <Grid container spacing={5}>
@@ -399,7 +412,7 @@ export class ChooseCourseAndQuiz extends React.Component {
                                                 <CardActions>
                                                     {this.state.accountType === "tutor"
                                                         ? <>
-                                                            <Button type="button" size="small" href={'/quiz/' + file._id} fullWidth className="submit">
+                                                            <Button type="button" variant="outlined" size="small" href={'/quiz/' + file._id} fullWidth className="submit">
                                                                 View Quiz
                                                           </Button>
                                                         </>
@@ -407,7 +420,7 @@ export class ChooseCourseAndQuiz extends React.Component {
                                                         <></>
                                                     }
                                                     {this.state.accountType === "student"
-                                                        ? <Button type="button" size="small" href={'/quiz/' + file._id} fullWidth className="submit" disabled={file.available_attempts < 1}>
+                                                        ? <Button variant="outlined" type="button" size="small" href={'/quiz/' + file._id} fullWidth className="submit" disabled={file.available_attempts < 1}>
                                                             Take Quiz, {file.available_attempts} Attempt(s) Left
                                                         </Button>
                                                         :

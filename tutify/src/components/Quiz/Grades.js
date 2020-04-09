@@ -130,16 +130,12 @@ export class Grades extends React.Component {
       <React.Fragment>
         <main>
           <DashBoardNavBar />
-          <main className={classes.content}>
+          <main className={classes.gradesContainer}>
             <div className={classes.appBarSpacer} />
             <Container maxWidth="lg">
-              <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
-                List of Documents
-              </Typography>
               <Grid container spacing={2}>
-                {/* Student Info */}
                 <Grid item xs={12} md={12} lg={24}>
-                  <p>
+                <Title> My Grades </Title>
                     <Paper className={fixedHeightPaper}>
                       <br /><br />
                       {this.state.accountType === "student"
@@ -163,29 +159,29 @@ export class Grades extends React.Component {
                             {this.state.accountType === "student"
                               ?
                               <>
-                                <TableCell>Quiz Title</TableCell>
-                                <TableCell>Quiz Attempt #</TableCell>
-                                <TableCell>Description</TableCell>
-                                <TableCell>Course</TableCell>
-                                <TableCell>Tutor</TableCell>
-                                <TableCell>Base Points</TableCell>
-                                <TableCell>Quiz Points</TableCell>
-                                <TableCell>Total Points</TableCell>
+                                <TableCell><Typography variant="h6">Quiz Title</Typography></TableCell>
+                                <TableCell><Typography variant="h6">Quiz Attempt #</Typography></TableCell>
+                                <TableCell><Typography variant="h6">Description</Typography></TableCell>
+                                <TableCell><Typography variant="h6">Course</Typography></TableCell>
+                                <TableCell><Typography variant="h6">Tutor</Typography></TableCell>
+                                <TableCell><Typography variant="h6">Base Points</Typography></TableCell>
+                                <TableCell><Typography variant="h6">Quiz Points</Typography></TableCell>
+                                <TableCell><Typography variant="h6">Total Points</Typography></TableCell>
                               </>
                               : <></>
                             }
                             {this.state.accountType === "tutor"
                               ?
                               <>
-                                <TableCell>Student Name</TableCell>
-                                <TableCell>Quiz Title</TableCell>
-                                <TableCell>Quiz Attempt #</TableCell>
-                                <TableCell>Description</TableCell>
-                                <TableCell>Course</TableCell>
-                                <TableCell>Tutor</TableCell>
-                                <TableCell>Base Points</TableCell>
-                                <TableCell>Quiz Points</TableCell>
-                                <TableCell>Points for Attempt</TableCell>
+                                <TableCell><Typography variant="h6">Student Name</Typography></TableCell>
+                                <TableCell><Typography variant="h6">Quiz Title</Typography></TableCell>
+                                <TableCell><Typography variant="h6">Quiz Attempt #</Typography></TableCell>
+                                <TableCell><Typography variant="h6">Description</Typography></TableCell>
+                                <TableCell><Typography variant="h6">Course</Typography></TableCell>
+                                <TableCell><Typography variant="h6">Tutor</Typography></TableCell>
+                                <TableCell><Typography variant="h6">Base Points</Typography></TableCell>
+                                <TableCell><Typography variant="h6">Quiz Points</Typography></TableCell>
+                                <TableCell><Typography variant="h6">Points for Attempt</Typography></TableCell>
                               </>
                               : <></>
                             }
@@ -228,7 +224,6 @@ export class Grades extends React.Component {
                         </TableBody>
                       </Table>
                     </Paper>
-                  </p>
                 </Grid>
               </Grid>
             </Container>
