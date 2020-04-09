@@ -98,7 +98,7 @@ export class Grades extends React.Component {
       })
         .then((res) => {
           this.setState({ students: res.data.data });
-          console.log(res);
+          console.log(res.data.data);
         }, (error) => {
           console.error(error);
         })
@@ -252,9 +252,9 @@ export class Grades extends React.Component {
                                     {this.state.accountType === "tutor"
                                       ?
                                       <>
-                                        <TableCell><Typography variant="h6"align="center">First Name</Typography></TableCell>
-                                        <TableCell><Typography variant="h6"align="center">Last Name</Typography></TableCell>
-                                        <TableCell><Typography variant="h6"align="center">Total Quiz Points</Typography></TableCell>
+                                        <TableCell><Typography variant="h6">First Name</Typography></TableCell>
+                                        <TableCell><Typography variant="h6">Last Name</Typography></TableCell>
+                                        <TableCell><Typography variant="h6">Total Quiz Points</Typography></TableCell>
                                       </>
                                       : <></>
                                     }
@@ -266,9 +266,9 @@ export class Grades extends React.Component {
                                       {this.state.accountType === "tutor"
                                         ?
                                         <>
-                                          <TableCell align="center">Claudia</TableCell>
-                                          <TableCell align="center">Feochari</TableCell>
-                                          <TableCell align="center">10</TableCell>
+                                          <TableCell align="center">{student.first_name}</TableCell>
+                                          <TableCell align="center">{student.last_name}</TableCell>
+                                          <TableCell align="center">{student.totalPoints}</TableCell>
                                         </>
                                         : <></>
                                       }
