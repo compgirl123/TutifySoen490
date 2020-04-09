@@ -22,7 +22,6 @@ export class UploadDocuments extends Component {
     this.state = {
       files: [],
       file: '',
-      user_id: "",
       course: "",
       recentFileName: "",
       recentUploadDate: "",
@@ -64,11 +63,11 @@ export class UploadDocuments extends Component {
   }
 
   // Handling the submit of a document and uploading it into the database as a multer file
-  async handleSubmit(event) {
+  async handleSubmit(event, user_id) {
     event.preventDefault();
     const formData = new FormData();
     formData.append('file', this.state.file);
-    formData.append('admin', this.state.user_id);
+    formData.append('admin', user_id);
     formData.append('name', this.state.file.name);
     await axios.post("/uploadFile", formData).then(res => {
     }).catch(err => {
@@ -79,7 +78,7 @@ export class UploadDocuments extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, user_id } = this.props;
 
     return (
           <Container maxWidth="lg" className={classes.container}>
@@ -107,7 +106,7 @@ export class UploadDocuments extends Component {
               </Table>
             </Paper>
             <div className={classes.uploadContainer}>
-              <form onSubmit={this.handleSubmit}>
+              <form onSubmit={(e) => this.handleSubmit(e,user_id)}>
                 <input
                   type="file"
                   id="fileUpload"

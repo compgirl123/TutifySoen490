@@ -4,7 +4,6 @@ import * as tutifyStyle from '../../styles/UploadDocuments-styles';
 import { withStyles } from "@material-ui/core/styles";
 import Button from '@material-ui/core/Button';
 import DashBoardNavBar from '../DashBoardNavBar';
-import axios from "axios";
 import Title from '../ProfilePage/Title';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -16,28 +15,19 @@ import Container from '@material-ui/core/Container';
 import Footer from '../Footer';
 import UploadDocuments from './UploadDocuments';
 
-// Display for students which includes uploaded docs, list of courses and "view all documents" button
+// Display which includes uploaded docs, list of courses and "view all documents" button
 export class DocumentsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      files: [],
-      file: '',
-      user_id: "",
-      course: "",
-      recentFileName: "",
-      recentUploadDate: "",
-      recentFileLink: "",
       courses:[],
+      user_id: "",
       user_type: ""
     }
-    this.fileChanged = this.fileChanged.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
     this.checkSession();
-    this.getLatestFile();
   }
 
   // Setting the login state of user.
@@ -63,47 +53,6 @@ export class DocumentsPage extends Component {
       .catch(err => console.error("An error occured while checking the current session: " + err));
   };
 
-  // Getting the latest file uploaded and displaying it.
-  getLatestFile = () => {
-    fetch('/api/uploadingDocs', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(res => res.json())
-      .then(recent => {
-        this.setState({
-          recentFileName: recent.recent[0].name,
-          recentUploadDate: (recent.recent[0].uploadDate).split("T")[0],
-          recentFileLink: recent.recent[0].link
-        });
-        console.info("Latest files have been loaded correctly");
-      })
-      .catch(err => console.error("An error occured while getting the latest file: " + err));
-  }
-
-  // Displaying the current file being uploaded.
-  async fileChanged(event) {
-    const f = event.target.files[0];
-    await this.setState({
-      file: f
-    });
-  }
-
-  // Handling the submit of a document and uploading it into the database as a multer file
-  async handleSubmit(event) {
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append('file', this.state.file);
-    formData.append('admin', this.state.user_id);
-    formData.append('name', this.state.file.name);
-    await axios.post("/uploadFile", formData).then(res => {
-    }).catch(err => {
-      console.error("The uploaded file cannot be sent to the database: " + err);
-    });
-    console.info("The file has been uploaded successfully");
-    window.location.reload();
-  }
-
   // Uses our backend api to fetch student's courses from the database
   getUserCourses = () => {
     console.info("Fetching student's courses from db...");
@@ -121,14 +70,14 @@ export class DocumentsPage extends Component {
 
   render() {
     const { classes } = this.props;
-    const { courses, user_type } = this.state;
+    const { courses, user_type, user_id } = this.state;
 
     return (
       <React.Fragment>
         <main className={classes.root}>
           <DashBoardNavBar />
             
-            <UploadDocuments />
+            <UploadDocuments user_id={user_id} />
 
             {user_type === "student" ?          
                 <Container maxWidth="lg" className={classes.container}>
