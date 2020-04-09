@@ -98,6 +98,7 @@ export class Grades extends React.Component {
       })
         .then((res) => {
           this.setState({ students: res.data.data });
+          console.log(res);
         }, (error) => {
           console.error(error);
         })
