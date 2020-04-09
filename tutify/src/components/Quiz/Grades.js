@@ -236,6 +236,7 @@ export class Grades extends React.Component {
                         </TableBody>
                       </Table>
                     </Paper>
+                    <Paper>
                     {this.state.accountType === "tutor"
                                 ?
                                 <>
@@ -273,6 +274,7 @@ export class Grades extends React.Component {
                                   ))}
                                 </TableBody>
                               </Table>
+                              </Paper>
                 </Grid>
               </Grid>
             </Container>
