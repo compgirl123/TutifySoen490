@@ -90,6 +90,17 @@ export class Grades extends React.Component {
     })
       .catch(err => console.error("Could not get the attempts from the database: " + err));
   }
+    // Getting the student information from database.
+    FindStudents = () => {
+      axios.post('/api/findStudents', {
+        students: this.state.students
+      })
+        .then((res) => {
+          this.setState({ students: res.data.data });
+        }, (error) => {
+          console.error(error);
+        })
+    };
 
   // Loading all of the questions for the selected quiz. 
   totalPointsScored = () => {
