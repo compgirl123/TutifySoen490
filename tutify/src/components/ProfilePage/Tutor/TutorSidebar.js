@@ -78,7 +78,7 @@ export class TutorSidebar extends Component {
             </ListItem>
             
 
-            <ListItem button component="a" href="/Grades">
+            <ListItem button component="a" href="/grades">
               <ListItemIcon>
                 <AssessmentIcon />
               </ListItemIcon>

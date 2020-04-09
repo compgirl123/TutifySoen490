@@ -15,6 +15,14 @@ import Paper from '@material-ui/core/Paper';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import PublishIcon from '@material-ui/icons/Publish';
 import Title from '../ProfilePage/Title';
+import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
+import Footer from '../Footer';
 
 // Display a Ui for Tutors in order to be able to upload their documents
 export class UploadDocuments extends Component {
@@ -27,7 +35,8 @@ export class UploadDocuments extends Component {
       course: "",
       recentFileName: "",
       recentUploadDate: "",
-      recentFileLink: ""
+      recentFileLink: "",
+      courses:[]
     }
     this.fileChanged = this.fileChanged.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -48,6 +57,7 @@ export class UploadDocuments extends Component {
       .then(res => {
         if (res.isLoggedIn) {
           this.setState({ user_id: res.userInfo._id });
+          this.getUserCourses();
         }
         else {
           this.setState({ user_id: "Not logged in" });
@@ -98,55 +108,104 @@ export class UploadDocuments extends Component {
     window.location.reload();
   }
 
+  // Uses our backend api to fetch student's courses from the database
+  getUserCourses = () => {
+    console.info("Fetching student's courses from db...");
+    fetch('/api/getUserCourses', {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.setState({ courses: res.data });
+      })
+      .catch(err =>
+        console.error("Could not get courses from database (API call error) " + err));
+  }
+
   render() {
     const { classes } = this.props;
+    const { courses } = this.state;
+
     return (
       <React.Fragment>
         <main className={classes.root}>
           <DashBoardNavBar />
-          <Title>Upload Documents</Title>
-          <Paper>
-            <Table stickyHeader aria-label="">
-              <TableHead>
-                <TableRow>
-                  <TableCell><Typography variant="h6">Date</Typography></TableCell>
-                  <TableCell><Typography variant="h6">Name</Typography></TableCell>
-                  <TableCell align="right"><Typography variant="h6">Download File</Typography></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell>{this.state.recentUploadDate}</TableCell>
-                  <TableCell>{this.state.recentFileName}</TableCell>
-                  <TableCell align="right">
-                    <Button type="button" variant="extended" aria-label="add" size="small" onClick={() => window.open(this.state.recentFileLink)} >
-                      <GetAppIcon fontSize="small" style={{ width: '22px', height: '22px' }} />
-                    </Button >
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </Paper>
-              <div className={classes.uploadContainer}>
-                <form onSubmit={this.handleSubmit}>
-                  <input
-                    type="file"
-                    id="fileUpload"
-                    onChange={this.fileChanged}
-                    className={classes.inputUpload}
-                  />
-                  <Button type="submit" size="small" variant="extended">
-                    <PublishIcon />
-                  </Button>
-                </form>
-                {/* </form> */}
-              </div>
-          <div className={classes.seeMore}>
-            <Link color="primary" href="/doclist">
-              See more
-            </Link>
-          </div>
+          <Container maxWidth="lg" className={classes.container}>
+            <Title>Upload Documents</Title>
+            <Paper>
+              <Table stickyHeader aria-label="">
+                <TableHead>
+                  <TableRow>
+                    <TableCell><Typography variant="h6">Date</Typography></TableCell>
+                    <TableCell><Typography variant="h6">Name</Typography></TableCell>
+                    <TableCell align="right"><Typography variant="h6">Download File</Typography></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>{this.state.recentUploadDate}</TableCell>
+                    <TableCell>{this.state.recentFileName}</TableCell>
+                    <TableCell align="right">
+                      <Button type="button" variant="extended" aria-label="add" size="small" onClick={() => window.open(this.state.recentFileLink)} >
+                        <GetAppIcon fontSize="small" style={{ width: '22px', height: '22px' }} />
+                      </Button >
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </Paper>
+            <div className={classes.uploadContainer}>
+              <form onSubmit={this.handleSubmit}>
+                <input
+                  type="file"
+                  id="fileUpload"
+                  onChange={this.fileChanged}
+                  className={classes.inputUpload}
+                />
+                <Button type="submit" size="small" variant="extended">
+                  <PublishIcon />
+                </Button>
+              </form>
+            </div>
+   
+            <Title>Documents By Courses</Title>
+            <Grid container spacing={5}>
+                {courses.map((c, i) => (
+                      <Grid item xs={4} md={4} lg={4}>
+                        <Card className={classes.card}>
+                          <CardActionArea>
+                            <CardMedia
+                              className={classes.media}
+                              title="French"
+                            />
+                            <CardContent>
+                              <Typography gutterBottom variant="h5" component="h2">
+                                {c.course.name}
+                              </Typography>
+                              <Typography variant="body2" color="textSecondary" component="p">
+                                {c.course.description ? c.course.description : ""}
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                          <CardActions>
+                              <Button type="button" variant="outlined" onClick={() => window.location.replace("/viewCourse/" + (c.course._id).replace(/ /g, ""))} size="small" href="" fullWidth className="submit">
+                                View Documents
+                            </Button>
+                          </CardActions>
+                        </Card>
+                      </Grid>
+              ))}
+            </Grid>
+
+            <br></br>
+            <Button type="button" variant="outlined" onClick={() => window.location.replace("/doclist")} size="small" href="" fullWidth>
+                View All Documents
+            </Button>
+
+          </Container>
         </main>
+        <Footer />
       </React.Fragment>
     );
   }

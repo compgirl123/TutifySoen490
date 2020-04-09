@@ -62,39 +62,25 @@ class Sidebar extends Component {
             <ListItemText primary="My Profile" />
           </ListItem>
 
-          <ListItem button component="a" href="/trophies">
-            <ListItemIcon>
-              <EmojiEventsIcon />
-            </ListItemIcon>
-            <ListItemText primary="My Trophies" />
-          </ListItem>
-
-          <ListItem button component="a" href="/courses">
-            <ListItemIcon>
-              <MenuBookIcon />
-            </ListItemIcon>
-            <ListItemText primary="Shared From Courses" />
-          </ListItem>
-
-          <ListItem button component="a" href="/uploadingDocs">
-            <ListItemIcon>
-              <PublishIcon />
-            </ListItemIcon>
-            <ListItemText primary="Upload Documents" />
-          </ListItem>
-
-          <ListItem button component="a" href="/doclist">
-            <ListItemIcon>
-              <MenuBookIcon />
-            </ListItemIcon>
-            <ListItemText primary="All Documents" />
-          </ListItem>
-
           <ListItem button component="a" href="/search">
             <ListItemIcon>
               <SearchIcon />
             </ListItemIcon>
             <ListItemText primary="Search" />
+          </ListItem>
+
+          <ListItem button component="a" href="/uploadingDocs">
+            <ListItemIcon>
+              <MenuBookIcon />
+            </ListItemIcon>
+            <ListItemText primary="Documents" />
+          </ListItem>
+
+          <ListItem button component="a" href="/trophies">
+            <ListItemIcon>
+              <EmojiEventsIcon />
+            </ListItemIcon>
+            <ListItemText primary="My Trophies" />
           </ListItem>
 
           <ListItem button component="a" href="/choosetutorQuiz">
@@ -104,7 +90,7 @@ class Sidebar extends Component {
             <ListItemText primary="Quiz" />
           </ListItem>
 
-          <ListItem button component="a" href="/Grades">
+          <ListItem button component="a" href="/grades">
              <ListItemIcon>
                <AssessmentIcon />
              </ListItemIcon>

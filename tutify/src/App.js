@@ -77,7 +77,7 @@ function MainPage() {
         <PrivateRoute exact path="/quiz/:id" component={Quizzes} />
         <PrivateRoute exact path="/choosetutorQuiz/:id" component={ChooseTutorQuizzes} />
         <PrivateRoute exact path="/choosetutorQuiz" component={ChooseTutorQuizzes} />
-        <PrivateRoute exact path="/Grades" component={Grades} />
+        <PrivateRoute exact path="/grades" component={Grades} />
         <PrivateRoute exact path="/chooseClassAndQuiz/:id" component={ChooseCourseAndQuiz} />
         <PrivateRoute exact path="/chooseClassAndQuiz" component={ChooseCourseAndQuiz} />
         <Route path="*" component={NotFoundPage} />
