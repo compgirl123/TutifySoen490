@@ -67,9 +67,5 @@ describe('The Tutors Courses Page', () => {
         expect(studentInformationrow1.props().children[1].props.children).toBe(mockedTutorDocList[0].name);
         expect(studentInformationrow1.props().children[2].props.children.props.children.type.displayName).toBe("GetAppIcon");
 
-        const seemore = wrapper_shallow.dive().find(Link).at(0);
-        expect(seemore.props().href).toBe("/doclist");
-        expect(seemore.props().children).toBe("See more");
-
     });
 });
