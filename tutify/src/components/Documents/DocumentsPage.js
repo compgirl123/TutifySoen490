@@ -76,9 +76,7 @@ export class DocumentsPage extends Component {
       <React.Fragment>
         <main className={classes.root}>
           <DashBoardNavBar />
-            
             <UploadDocuments user_id={user_id} />
-
             {user_type === "student" ?          
                 <Container maxWidth="lg" className={classes.container}>
                     <Title>Documents By Courses</Title>
@@ -113,8 +111,8 @@ export class DocumentsPage extends Component {
             }
 
         <br></br>
-        <Container maxWidth="sm" className={classes.container}>
-            <Button type="button" variant="outlined" onClick={() => window.location.replace("/doclist")} size="small" href="" fullWidth>
+        <Container maxWidth="sm">
+            <Button type="button" variant="outlined" onClick={() => window.location.replace("/doclist")} size="small" href="" fullWidth className={classes.viewAll}>
                 View All Documents
             </Button>
         </Container>

@@ -84,7 +84,7 @@ export class UploadDocuments extends Component {
           <Container maxWidth="lg" className={classes.container}>
             <Title>Upload Documents</Title>
             <Paper>
-              <Table stickyHeader aria-label="" style={{maxHeight: '200px', overflow: 'auto'}}>
+              <Table stickyHeader aria-label="" className={classes.uploadTable}>
                 <TableHead>
                   <TableRow>
                     <TableCell><Typography variant="h6">Date</Typography></TableCell>

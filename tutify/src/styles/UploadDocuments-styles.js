@@ -41,4 +41,14 @@ export const styles = theme => ({
     marginTop:'10px',
     float:"right",
   },
+  container: {
+    marginTop: '70px',
+  },
+  viewAll: {
+    marginTop:'40px',
+  },
+  uploadTable: {
+    maxHeight: '200px', 
+    overflow: 'auto',
+  },
 });
