@@ -168,18 +168,18 @@ export class Questions extends React.Component {
             // fetch the questions
             if (res.data !== undefined) {
                 this.setState({ datas: res.data.data, session: res.session, total: res.data.data.length });
-                for(var x = 0; x < this.state.datas.length; x++){
+                for (var x = 0; x < this.state.datas.length; x++) {
                     console.info("Find totals for Scoring and save into a state.");
                     totalScorePoints.push(this.state.datas[x].points);
-                    var totalP=0;
-                    for(var i in totalScorePoints) { totalP += totalScorePoints[i]; }
+                    var totalP = 0;
+                    for (var i in totalScorePoints) { totalP += totalScorePoints[i]; }
                 }
-                this.setState({ totalScorePoints:totalP });
+                this.setState({ totalScorePoints: totalP });
             }
             else {
                 this.setState({ datas: [], session: res.session, total: [] });
             }
-            
+
         })
             .catch(err => console.error("Could not get the questions from the database: " + err));
     }
@@ -214,7 +214,7 @@ export class Questions extends React.Component {
         let correct = Number(this.state.datas[(elem.dataset.id).split(",")[1]].answerIndex);
         let updatedClassNames = this.state.classNames;
         this.setState({ questionsClicked: true });
- 
+
         // if quiz is not finished but user selects answer, then save answer selected
         if (this.state.finishedQuiz === false) {
             if (answer === correct) {
@@ -230,8 +230,8 @@ export class Questions extends React.Component {
                 console.info("Set the correct answer selected as red text");
             }
 
-            var total=0;
-            for(var i in pointsAccumulated) { total += pointsAccumulated[i]; }
+            var total = 0;
+            for (var i in pointsAccumulated) { total += pointsAccumulated[i]; }
 
             this.setState({
                 color: colorArr,
@@ -327,21 +327,21 @@ export class Questions extends React.Component {
 
     // This function retrieves the quizzes corresponding to each of the tutor's classes.
     getTutorClassquizzesOnFirstLoad = () => {
-            axios.get('/api/getCourseQuizes', {
-                params: {
-                    courseIndex: 0,
-                    tutorClasses: [localStorage.getItem("coursesPresent").split(",")[0]],
-                    tutor: this.props.match.params.id
-                }
-            }).then((res) => {
-                console.info("Successfully fetched the quizzes from the class");
-                this.setState({
-                    quizzes: res.data.data,
-                    totalAttempts: res.data.data.allowed_attempts,
-                    attemptsLeft: res.data.data.available_attempts
-                });
-            })
-                .catch(err => console.error("Could not get the quizzes from the database: " + err));
+        axios.get('/api/getCourseQuizes', {
+            params: {
+                courseIndex: 0,
+                tutorClasses: [localStorage.getItem("coursesPresent").split(",")[0]],
+                tutor: this.props.match.params.id
+            }
+        }).then((res) => {
+            console.info("Successfully fetched the quizzes from the class");
+            this.setState({
+                quizzes: res.data.data,
+                totalAttempts: res.data.data.allowed_attempts,
+                attemptsLeft: res.data.data.available_attempts
+            });
+        })
+            .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
 
     // Fetches all of the attempts for certain quizzes corresponding to a certain class.
@@ -422,36 +422,36 @@ export class Questions extends React.Component {
                 </div>
             )
         })
-        // adds the question, choices, answerIndex, creator and quizId to database
-        .then((value) => {
-            if (value) {
-                console.info("Adding question to db...");
-                if (this.state.question1 !== '' && this.state.option1q1 !== ''
-                    && this.state.option2q1 !== '' && this.state.option3q1 !== ''
-                    && this.state.option4q1 !== '' && this.state.correctq1 !== '' && this.state.points1 !== '') {
+            // adds the question, choices, answerIndex, creator and quizId to database
+            .then((value) => {
+                if (value) {
+                    console.info("Adding question to db...");
+                    if (this.state.question1 !== '' && this.state.option1q1 !== ''
+                        && this.state.option2q1 !== '' && this.state.option3q1 !== ''
+                        && this.state.option4q1 !== '' && this.state.correctq1 !== '' && this.state.points1 !== '') {
 
-                    axios.post('/api/addQuestion', {
-                        question: this.state.question1,
-                        choices: inputtedOptions,
-                        answerIndex: this.state.correctq1,
-                        creator: this.state.tutorId,
-                        quizId: this.props.match.params.id,
-                        points: this.state.points1
-                    })
-                        .then((res) => {
-                            swal("Question successfully added!", "", "success");
-                            window.location.reload();
-                            console.info("Added question to the database.");
-                        }, (error) => {
-                            console.error("Could not add question to database (API call error) " + error);
-                        });
+                        axios.post('/api/addQuestion', {
+                            question: this.state.question1,
+                            choices: inputtedOptions,
+                            answerIndex: this.state.correctq1,
+                            creator: this.state.tutorId,
+                            quizId: this.props.match.params.id,
+                            points: this.state.points1
+                        })
+                            .then((res) => {
+                                swal("Question successfully added!", "", "success");
+                                window.location.reload();
+                                console.info("Added question to the database.");
+                            }, (error) => {
+                                console.error("Could not add question to database (API call error) " + error);
+                            });
+                    }
+                    else {
+                        console.error("Empty fields");
+                        swal("Could not add resource, empty or invalid fields.", "", "error")
+                    }
                 }
-                else {
-                    console.error("Empty fields");
-                    swal("Could not add resource, empty or invalid fields.", "", "error")
-                }
-            }
-        });
+            });
     }
 
     render() {
@@ -473,7 +473,7 @@ export class Questions extends React.Component {
                                     <br />
                                 }
                             </div>
-                            <br/>
+                            <br />
 
                             {datas.map((c, i) => (
                                 <div className="col-lg-10 col-lg-offset-1">
@@ -499,7 +499,7 @@ export class Questions extends React.Component {
                                                     Delete Question
                                                 </Button>
                                                 :
-                                               <></>
+                                                <></>
                                             }
                                         </div>
                                     </div>

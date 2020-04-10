@@ -241,8 +241,8 @@ export class ChooseCourseAndQuiz extends React.Component {
             .then((value) => {
                 if (value) {
                     console.info("Adding quiz to db...");
-                    if (this.state.title !== '' && this.state.description !== '' 
-                        && this.state.points !== '' && this.state.tutorId !== '' 
+                    if (this.state.title !== '' && this.state.description !== ''
+                        && this.state.points !== '' && this.state.tutorId !== ''
                         && this.state.course !== '') {
                         axios.post('/api/addQuiz', {
                             title: this.state.title,
@@ -258,17 +258,17 @@ export class ChooseCourseAndQuiz extends React.Component {
                             }, (error) => {
                                 console.error("Could not add quiz to database (API call error) " + error);
                             });
+                    }
+                    else {
+                        console.error("Empty fields");
+                        swal("Could not add resource, empty or invalid fields.", "", "error")
+                    }
                 }
-                else {
-                    console.error("Empty fields");
-                    swal("Could not add resource, empty or invalid fields.", "", "error")
-                }
-            }
             });
     }
 
     // this method deletes a quiz from the database 
-    deleteQuiz = (quiz_id,questions) => {
+    deleteQuiz = (quiz_id, questions) => {
         swal({
             title: "Are you sure you want delete this quiz?",
             icon: "warning",
@@ -316,17 +316,17 @@ export class ChooseCourseAndQuiz extends React.Component {
 
         var styles = {
             default_tab: {
-              color: green[700],
-              indicatorColor: green[900],
-              fontWeight: 400,
+                color: green[700],
+                indicatorColor: green[900],
+                fontWeight: 400,
             }
-          }
-      
-          styles.tab = []
-          styles.tab[0] = styles.default_tab;
-          styles.tab[1] = styles.default_tab;
-          styles.tab[2] = styles.default_tab;
-          styles.tab[this.state.slideIndex] = Object.assign({}, styles.tab[this.state.slideIndex], styles.active_tab);
+        }
+
+        styles.tab = []
+        styles.tab[0] = styles.default_tab;
+        styles.tab[1] = styles.default_tab;
+        styles.tab[2] = styles.default_tab;
+        styles.tab[this.state.slideIndex] = Object.assign({}, styles.tab[this.state.slideIndex], styles.active_tab);
 
         return (
             <React.Fragment>
@@ -360,7 +360,7 @@ export class ChooseCourseAndQuiz extends React.Component {
                             }
                             <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                                 {this.state.tutorFirstName} {this.state.tutorLastName}'s Quizzes
-                            </Typography><br/>
+                            </Typography><br />
                             <Grid container spacing={4}>
                                 {/* Quizzes */}
                                 <Grid container spacing={5}>
