@@ -52,11 +52,11 @@ function MainPage() {
         <PrivateRoute exact path="/courseList/:id" component={CourseList} />
         <PrivateRoute exact path="/tutorCourses/:file" component={MyCourses} />
         <PrivateRoute exact path="/courses" component={MyCourses} />
+        <PrivateRoute exact path="/viewCourse/:coursename" component={ViewCourse} />
         <PrivateRoute exact path="/dashboard" component={UserDashboard} />
         <PrivateRoute exact path="/documents" component={DocumentsPage} />
         <PrivateRoute exact path="/postblog" component={BlogPost} />
         <PrivateRoute exact path="/doclist" component={DocList} />
-        <PrivateRoute exact path="/viewCourse/:coursename" component={ViewCourse} />
         <PrivateRoute exact path="/document/:filename" component={Document} />
         <PrivateRoute exact path="/announcements" component={Announcements} />
         <PrivateRoute exact path="/doc" component={Studentdocs} />
@@ -67,17 +67,16 @@ function MainPage() {
         <PrivateRoute exact path="/postsecondary" component={ResourcePage} />
         <PrivateRoute exact path="/tutors" component={TutorList} />
         <PrivateRoute exact path="/tutors/:file" component={TutorList} />
-        <PrivateRoute exact path="/tutorCourses/:file" component={MyCourses} />
         <PrivateRoute exact path="/tutdoc" component={Tutordocs} />
         <PrivateRoute exact path="/videos" component={TutorVideos} />
         <PrivateRoute exact path="/videos/:id" component={TutorVideos} />
         <PrivateRoute exact path="/choosetutorVideo" component={ChooseTutorVideos} />
         <PrivateRoute exact path="/quiz" component={Quizzes} />
-        <PrivateRoute exact path="/trophies" component={TrophiesView} />
         <PrivateRoute exact path="/quiz/:id" component={Quizzes} />
+        <PrivateRoute exact path="/trophies" component={TrophiesView} />
+        <PrivateRoute exact path="/grades" component={Grades} />
         <PrivateRoute exact path="/choosetutorQuiz/:id" component={ChooseTutorQuizzes} />
         <PrivateRoute exact path="/choosetutorQuiz" component={ChooseTutorQuizzes} />
-        <PrivateRoute exact path="/grades" component={Grades} />
         <PrivateRoute exact path="/chooseClassAndQuiz/:id" component={ChooseCourseAndQuiz} />
         <PrivateRoute exact path="/chooseClassAndQuiz" component={ChooseCourseAndQuiz} />
         <Route path="*" component={NotFoundPage} />
