@@ -241,6 +241,7 @@ exports.getStudentAttempts = async function (req, res) {
         }
     ]).sort({ quiz: 1 }).
         exec(function (err, attempts) {
+            console.log(attempts);
             if (err) {
                 console.error("The specific tutor was not found");
                 return res.json({ success: false, error: err });

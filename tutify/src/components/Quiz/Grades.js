@@ -51,7 +51,9 @@ export class Grades extends React.Component {
             tutorImg: res.userInfo.picture,
             accountType: res.userInfo.__t
           })
-          this.FindStudents();
+          if(res.userInfo.__t === "tutor"){
+            this.FindStudents();
+          }
           this.setState({ totalPoints: res.userInfo.totalPoints });
           console.info("Set up the states for Logged in user.");
           console.log(res);
@@ -83,6 +85,7 @@ export class Grades extends React.Component {
       }
     }).then((res) => {
       // fetch the videos
+      console.log(res);
       console.info("Successfully fetched the attempts");
       this.setState({
         attempts: res.data.data
@@ -149,7 +152,6 @@ export class Grades extends React.Component {
             <Container maxWidth="lg">
               <Grid container spacing={2}>
                 <Grid item xs={12} md={12} lg={24}>
-                  <Title> My Grades </Title>
                   <Paper className={fixedHeightPaper}>
                     <br /><br />
                     {this.state.accountType === "student"
@@ -238,6 +240,8 @@ export class Grades extends React.Component {
                       </TableBody>
                     </Table>
                   </Paper>
+                  <br/>
+                  <br/>
                   <Paper>
                     {this.state.accountType === "tutor"
                       ?
@@ -260,6 +264,9 @@ export class Grades extends React.Component {
                           }
                         </TableRow>
                       </TableHead>
+                      {this.state.accountType === "tutor"
+                            ?
+                            <>
                       <TableBody>
                         {students.map(student => (
                           <TableRow key={student._id}>
@@ -275,6 +282,9 @@ export class Grades extends React.Component {
                           </TableRow>
                         ))}
                       </TableBody>
+                      </>
+                            : <></>
+                     }
                     </Table>
                   </Paper>
                 </Grid>
