@@ -31,7 +31,6 @@ export class Grades extends React.Component {
 
   componentDidMount() {
     this.checkSession();
-    this.loadAttempts();
     this.setState({ fileid: this.props.match.params.file });
   }
 
@@ -54,9 +53,9 @@ export class Grades extends React.Component {
           if(res.userInfo.__t === "tutor"){
             this.FindStudents();
           }
+          this.loadAttempts();
           this.setState({ totalPoints: res.userInfo.totalPoints });
           console.info("Set up the states for Logged in user.");
-          console.log(res);
         }
         else {
           this.setState({ Toggle: false });
@@ -84,8 +83,7 @@ export class Grades extends React.Component {
         studentId: this.state.tutor_id,
       }
     }).then((res) => {
-      // fetch the videos
-      console.log(res);
+      // fetch the attempts
       console.info("Successfully fetched the attempts");
       this.setState({
         attempts: res.data.data
@@ -94,6 +92,7 @@ export class Grades extends React.Component {
     })
       .catch(err => console.error("Could not get the attempts from the database: " + err));
   }
+
   // Getting the student information from database.
   FindStudents = () => {
     axios.post('/api/findStudents', {
@@ -101,20 +100,18 @@ export class Grades extends React.Component {
     })
       .then((res) => {
         this.setState({ students: res.data.data });
-        console.log(res.data.data);
       }, (error) => {
         console.error(error);
       })
   };
 
-  // Loading all of the questions for the selected quiz. 
+  // Keeping track of the total Points Scored of each Student
   totalPointsScored = () => {
     var totals = {};
     var quizzes = [];
     for (var x = 0; x < this.state.attempts.length; x++) {
       quizzes.push(this.state.attempts[x].quiz._id);
     }
-
     var uniqueQuizArray = Array.from(new Set(quizzes));
     var pointsScored = [];
     for (var z = 0; z < uniqueQuizArray.length; z++) {
@@ -131,7 +128,7 @@ export class Grades extends React.Component {
     axios.post('/api/addTotalPointsForUser', {
       totalPoints: totals
     }).then((res) => {
-      // fetch the videos
+      // fetch the attempts
       console.info("Successfully fetched the attempts");
     })
       .catch(err => console.error("Could not get the attempts from the database: " + err));

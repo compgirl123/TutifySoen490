@@ -203,6 +203,7 @@ exports.addTotalPointsForUser = async function (req, res) {
     }
     var totalP = 0;
     for (var i in points) { totalP += points[i]; }
+    if (req.session.userInfo.__t === "student") {
     Student.findByIdAndUpdate({ _id: req.session.userInfo._id },
         { $set: { "totalPoints": totalP } },
         { "new": true, "upsert": true },
@@ -210,13 +211,18 @@ exports.addTotalPointsForUser = async function (req, res) {
             console.info("Adding Total Points to the Profile of the user");
             if (err) throw err;
         });
+    }
 };
 
 // this method is to get all the attempts of a specific student.
 exports.getStudentAttempts = async function (req, res) {
     var lookup = [];
+    var tutorIdFromLogin = "";
+    var filteredAttempts = [];
+
     if (req.session.userInfo.__t === "tutor") {
         lookup = req.session.userInfo.students;
+        tutorIdFromLogin = req.session.userInfo._id;
         console.info("Saving an array of student id's collected from tutor account");
     }
     else if (req.session.userInfo.__t === "student") {
@@ -241,13 +247,22 @@ exports.getStudentAttempts = async function (req, res) {
         }
     ]).sort({ quiz: 1 }).
         exec(function (err, attempts) {
-            console.log(attempts);
+            if (req.session.userInfo.__t === "tutor") {
+            attempts.forEach(function (err, quizId) {
+                if(attempts[quizId].quiz.tutorId._id == tutorIdFromLogin){
+                   filteredAttempts.push(attempts[quizId]);
+                }
+            });
+           }
+            if (req.session.userInfo.__t === "student") {
+                filteredAttempts = attempts;
+            }
             if (err) {
                 console.error("The specific tutor was not found");
                 return res.json({ success: false, error: err });
             }
             console.info("The specific tutor was found");
-            return res.json({ success: true, data: attempts });
+            return res.json({ success: true, data: filteredAttempts });
         });
 }
 
