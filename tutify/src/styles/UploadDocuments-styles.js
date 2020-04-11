@@ -42,10 +42,10 @@ export const styles = theme => ({
     float:"right",
   },
   container: {
-    marginTop: '70px',
+    marginTop: '20px',
   },
   viewAll: {
-    marginTop:'40px',
+    marginTop:'10px',
   },
   uploadTable: {
     maxHeight: '200px', 

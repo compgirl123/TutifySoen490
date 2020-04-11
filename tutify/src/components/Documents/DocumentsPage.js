@@ -77,7 +77,14 @@ export class DocumentsPage extends Component {
         <main className={classes.root}>
           <DashBoardNavBar />
             <UploadDocuments user_id={user_id} />
-            {user_type === "student" ?          
+
+            <Container maxWidth="sm">
+              <Button type="button" variant="contained" onClick={() => window.location.replace("/doclist")} size="small" href="" fullWidth className={classes.viewAll}>
+                  View All / Share Documents
+              </Button>
+            </Container>
+
+            {user_type === "student" ?         
                 <Container maxWidth="lg" className={classes.container}>
                     <Title>Documents By Courses</Title>
                     <Grid container spacing={5}>
@@ -109,14 +116,6 @@ export class DocumentsPage extends Component {
                     </Grid>      
                 </Container> : <></>
             }
-
-        <br></br>
-        <Container maxWidth="sm">
-            <Button type="button" variant="outlined" onClick={() => window.location.replace("/doclist")} size="small" href="" fullWidth className={classes.viewAll}>
-                View All Documents
-            </Button>
-        </Container>
-
         </main>
         <Footer />
       </React.Fragment>
