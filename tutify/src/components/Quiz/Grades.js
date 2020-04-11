@@ -105,15 +105,19 @@ export class Grades extends React.Component {
       })
   };
 
-  // Keeping track of the total Points Scored of each Student
+  // Keeping track of the total Points scored for each Student
   totalPointsScored = () => {
     var totals = {};
-    var quizzes = [];
+    var quizzAttempts = [];
+    // saving quiz attempts into array.
     for (var x = 0; x < this.state.attempts.length; x++) {
-      quizzes.push(this.state.attempts[x].quiz._id);
+      console.info("Saving quiz attempts");
+      quizzAttempts.push(this.state.attempts[x].quiz._id);
     }
-    var uniqueQuizArray = Array.from(new Set(quizzes));
+    // saving unique quiz attempts into array. Removal of duplicates.
+    var uniqueQuizArray = Array.from(new Set(quizzAttempts));
     var pointsScored = [];
+    // calculating the total points scored for quiz taken by student to set for badges for student's profile
     for (var z = 0; z < uniqueQuizArray.length; z++) {
       for (var y = 0; y < this.state.attempts.length; y++) {
         if (this.state.attempts[y].quiz._id === uniqueQuizArray[z]) {
@@ -136,9 +140,8 @@ export class Grades extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { students } = this.state;
+    const { students, attempts } = this.state;
     const fixedHeightPaper = clsx(classes.paper);
-    const { attempts } = this.state
 
     return (
       <React.Fragment>

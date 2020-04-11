@@ -37,8 +37,8 @@ export class Questions extends React.Component {
             categoryOptions: [],
             option1q1: "",
             option2q1: "",
-            option3q1: "",
-            option4q1: "",
+            option3q1: " ",
+            option4q1: " ",
             correctq1: "",
             question1: "",
             points1: 0,
@@ -121,13 +121,13 @@ export class Questions extends React.Component {
                 categoryOptions: courses
             });
 
-            if (!localStorage.getItem("reloadTutor")) {
-                // Setting localStorage variable to reload page to reload Questions for tutor.
-                localStorage.setItem("reloadTutor", true);
+            if (!sessionStorage.getItem("reloadTutor")) {
+                // Setting sessionStorage variable to reload page to reload Questions for tutor.
+                sessionStorage.setItem("reloadTutor", true);
                 window.location.reload(true);
             }
-            // Store all of the tutor's courses in a localStorage variable to display courses on page.
-            localStorage.setItem("courses", courses);
+            // Store all of the tutor's courses in a sessionStorage variable to display courses on page.
+            sessionStorage.setItem("courses", courses);
             return res.data;
         })
             .catch(err => console.error("Could not get the courses from the database: " + err));
@@ -145,13 +145,13 @@ export class Questions extends React.Component {
                     courses.push(res.data.data[x].course.name)
                 }
             }
-            localStorage.setItem("coursesPresent", courses);
+            sessionStorage.setItem("coursesPresent", courses);
             this.setState({
                 categoryOptions: courses
             });
-            if (!localStorage.getItem("reloadStudents")) {
-                // Setting localStorage variable to reload page to reload Students for tutor.
-                localStorage.setItem("reloadStudents", true);
+            if (!sessionStorage.getItem("reloadStudents")) {
+                // Setting sessionStorage variable to reload page to reload Students for tutor.
+                sessionStorage.setItem("reloadStudents", true);
                 window.location.reload(true);
             }
         })
@@ -330,7 +330,7 @@ export class Questions extends React.Component {
         axios.get('/api/getCourseQuizes', {
             params: {
                 courseIndex: 0,
-                tutorClasses: [localStorage.getItem("coursesPresent").split(",")[0]],
+                tutorClasses: [sessionStorage.getItem("coursesPresent").split(",")[0]],
                 tutor: this.props.match.params.id
             }
         }).then((res) => {
@@ -427,8 +427,8 @@ export class Questions extends React.Component {
                 if (value) {
                     console.info("Adding question to db...");
                     if (this.state.question1 !== '' && this.state.option1q1 !== ''
-                        && this.state.option2q1 !== '' && this.state.option3q1 !== ''
-                        && this.state.option4q1 !== '' && this.state.correctq1 !== '' && this.state.points1 !== '') {
+                        && this.state.option2q1 !== '' && this.state.correctq1 !== '' 
+                        && this.state.points1 !== '') {
 
                         axios.post('/api/addQuestion', {
                             question: this.state.question1,

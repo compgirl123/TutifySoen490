@@ -303,6 +303,7 @@ exports.getSelectedQuizQuestions = async function (req, res) {
 exports.addQuestion = async function (req, res) {
     const { question, choices, answerIndex, creator, quizId, points } = req.body;
     let questions = new Questions();
+    console.log(choices);
     questions.question = question;
     questions.choices = choices;
     questions.answerIndex = answerIndex;
