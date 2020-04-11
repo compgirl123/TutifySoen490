@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as tutifyStyle from '../../styles/UploadDocuments-styles';
 import { withStyles } from "@material-ui/core/styles";
 
-// Display a Ui for Tutors in order to be able to upload their documents
+// Display for one document after downloading it
 export class Document extends Component {
 
   constructor(props) {
