@@ -211,9 +211,10 @@ exports.addTotalPointsForUser = async function (req, res) {
             console.info("Adding Total Points to the Profile of the user");
             if (err) throw err;
         });
-    }
-    req.session.userInfo.totalPoints = totalP;
-    req.session.save();
+        req.session.userInfo.totalPoints = totalP;
+        req.session.userInfo.levelPoints = totalP;
+        req.session.save();
+    } 
 };
 
 // this method is to get all the attempts of a specific student.
