@@ -427,7 +427,7 @@ export class Questions extends React.Component {
                 if (value) {
                     console.info("Adding question to db...");
                     if (this.state.question1 !== '' && this.state.option1q1 !== ''
-                        && this.state.option2q1 !== '' && this.state.correctq1 !== '' 
+                        && this.state.option2q1 !== '' && this.state.correctq1 !== ''
                         && this.state.points1 !== '') {
 
                         axios.post('/api/addQuestion', {

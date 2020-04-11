@@ -50,7 +50,7 @@ export class Grades extends React.Component {
             tutorImg: res.userInfo.picture,
             accountType: res.userInfo.__t
           })
-          if(res.userInfo.__t === "tutor"){
+          if (res.userInfo.__t === "tutor") {
             this.FindStudents();
           }
           this.loadAttempts();
@@ -152,24 +152,23 @@ export class Grades extends React.Component {
             <Container maxWidth="lg">
               <Grid container spacing={2}>
                 <Grid item xs={12} md={12} lg={24}>
+                  {this.state.accountType === "student"
+                    ?
+                    <>
+                      <Title> My Grades </Title>
+                      <h4> Total Points: {this.state.totalPoints}  </h4>
+                    </>
+                    : <></>
+                  }
+                  {this.state.accountType === "tutor"
+                    ?
+                    <>
+                      <Title> Students' Grades </Title>
+                    </>
+                    : <></>
+                  }
                   <Paper className={fixedHeightPaper}>
-                    <br /><br />
-                    {this.state.accountType === "student"
-                      ?
-                      <>
-                        <Title> My Grades </Title>
-                        <h4> Total Points: {this.state.totalPoints}  </h4>
-                      </>
-                      : <></>
-                    }
-                    {this.state.accountType === "tutor"
-                      ?
-                      <>
-                        <Title> Students' Grades </Title>
-                      </>
-                      : <></>
-                    }
-                    <Table size="small">
+                    <Table stickyHeader size="small">
                       <TableHead>
                         <TableRow>
                           {this.state.accountType === "student"
@@ -240,17 +239,17 @@ export class Grades extends React.Component {
                       </TableBody>
                     </Table>
                   </Paper>
-                  <br/>
-                  <br/>
+                  <br />
+                  <br />
+                  {this.state.accountType === "tutor"
+                    ?
+                    <>
+                      <Title> Student Total Points: {this.state.totalPoints}  </Title>
+                    </>
+                    : <></>
+                  }
                   <Paper>
-                    {this.state.accountType === "tutor"
-                      ?
-                      <>
-                        <Title> Student Total Points: {this.state.totalPoints}  </Title>
-                      </>
-                      : <></>
-                    }
-                    <Table size="small">
+                    <Table stickyHeader size="small">
                       <TableHead>
                         <TableRow>
                           {this.state.accountType === "tutor"
@@ -265,26 +264,26 @@ export class Grades extends React.Component {
                         </TableRow>
                       </TableHead>
                       {this.state.accountType === "tutor"
-                            ?
-                            <>
-                      <TableBody>
-                        {students.map(student => (
-                          <TableRow key={student._id}>
-                            {this.state.accountType === "tutor"
-                              ?
-                              <>
-                                <TableCell align="center">{student.first_name}</TableCell>
-                                <TableCell align="center">{student.last_name}</TableCell>
-                                <TableCell align="center">{student.totalPoints}</TableCell>
-                              </>
-                              : <></>
-                            }
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                      </>
-                            : <></>
-                     }
+                        ?
+                        <>
+                          <TableBody>
+                            {students.map(student => (
+                              <TableRow key={student._id}>
+                                {this.state.accountType === "tutor"
+                                  ?
+                                  <>
+                                    <TableCell align="center">{student.first_name}</TableCell>
+                                    <TableCell align="center">{student.last_name}</TableCell>
+                                    <TableCell align="center">{student.totalPoints}</TableCell>
+                                  </>
+                                  : <></>
+                                }
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </>
+                        : <></>
+                      }
                     </Table>
                   </Paper>
                 </Grid>

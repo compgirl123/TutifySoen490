@@ -205,7 +205,7 @@ exports.addTotalPointsForUser = async function (req, res) {
     for (var i in points) { totalP += points[i]; }
     if (req.session.userInfo.__t === "student") {
     Student.findByIdAndUpdate({ _id: req.session.userInfo._id },
-        { $set: { "totalPoints": totalP } },
+        { $set: { "totalPoints": totalP , "levelPoints": totalP} },
         { "new": true, "upsert": true },
         function (err) {
             console.info("Adding Total Points to the Profile of the user");
