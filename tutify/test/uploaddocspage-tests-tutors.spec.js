@@ -1,5 +1,4 @@
 import React from "react";
-import MyCourses, { MyCourses as MyCoursesClass } from "../src/components/CourseView/MyCourses";
 import UploadDocuments, { UploadDocuments as UploadDocumentsClass } from "../src/components/Documents/UploadDocuments";
 import { createMount } from '@material-ui/core/test-utils';
 import { configure } from 'enzyme';
@@ -9,7 +8,6 @@ import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button";
 import Table from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/TableRow';
-import Link from '@material-ui/core/Link';
 
 configure({ adapter: new Adapter() });
 describe('The Tutors Courses Page', () => {

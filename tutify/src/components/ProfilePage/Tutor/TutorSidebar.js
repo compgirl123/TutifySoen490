@@ -7,7 +7,6 @@ import SchoolIcon from '@material-ui/icons/School';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { List } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
-import PublishIcon from '@material-ui/icons/Publish';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import CreateIcon from '@material-ui/icons/Create';
 import ClassIcon from '@material-ui/icons/Class';
