@@ -375,6 +375,13 @@ export class Questions extends React.Component {
 
     // This function adds the completed quiz with the points associated with it as an attempt for the student.
     addPointstoDb = () => {
+        axios.post('/api/addTotalPointsForUser', {
+            totalPoints: this.state.totalPoints
+          }).then((res) => {
+            // fetch the attempts
+            console.info("Successfully fetched the attempts");
+          })
+            .catch(err => console.error("Could not get the attempts from the database: " + err));
         axios.post('/api/addAttempt', {
             completed_attempts: this.state.quizzes,
             quiz_id: this.props.match.params.id,

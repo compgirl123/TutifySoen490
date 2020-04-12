@@ -196,25 +196,24 @@ exports.addAttempt = async function (req, res) {
 // this method adds the total points for quizzes for each user.
 exports.addTotalPointsForUser = async function (req, res) {
     const { totalPoints } = req.body;
-    var points = [];
-    for (var key in totalPoints) {
-        var value = totalPoints[key];
-        points.push(Math.max(...value));
-    }
-    var totalP = 0;
-    for (var i in points) { totalP += points[i]; }
     if (req.session.userInfo.__t === "student") {
-    Student.findByIdAndUpdate({ _id: req.session.userInfo._id },
-        { $set: { "totalPoints": totalP , "levelPoints": totalP} },
-        { "new": true, "upsert": true },
-        function (err) {
-            console.info("Adding Total Points to the Profile of the user");
-            if (err) throw err;
+        Student.find({ _id: req.session.userInfo._id }, async (err, student) => {
+            if (err) {
+                console.error("The student was not found");
+                return await res.json({ success: false, error: err })
+            }
+            student[0].totalPoints = student[0].totalPoints + totalPoints;
+            student[0].levelPoints = student[0].levelPoints + totalPoints;
+            req.session.userInfo.totalPoints = student[0].totalPoints;
+            req.session.userInfo.levelPoints = student[0].levelPoints;
+            req.session.save(function (error) {
+                console.error("ERROR SAVING SESSION: " + error);
+            });
+            student[0].save(function (error) {
+                console.error("ERROR SAVING STUDENT: " + error);
+            });
         });
-        req.session.userInfo.totalPoints = totalP;
-        req.session.userInfo.levelPoints = totalP;
-        req.session.save();
-    } 
+    }
 };
 
 // this method is to get all the attempts of a specific student.
@@ -251,12 +250,12 @@ exports.getStudentAttempts = async function (req, res) {
     ]).sort({ quiz: 1 }).
         exec(function (err, attempts) {
             if (req.session.userInfo.__t === "tutor") {
-            attempts.forEach(function (err, quizId) {
-                if(attempts[quizId].quiz.tutorId._id == tutorIdFromLogin){
-                   filteredAttempts.push(attempts[quizId]);
-                }
-            });
-           }
+                attempts.forEach(function (err, quizId) {
+                    if (attempts[quizId].quiz.tutorId._id == tutorIdFromLogin) {
+                        filteredAttempts.push(attempts[quizId]);
+                    }
+                });
+            }
             if (req.session.userInfo.__t === "student") {
                 filteredAttempts = attempts;
             }
