@@ -147,32 +147,6 @@ const StudentSchema = mongoose.Schema({
 
 var Student = Profile.discriminator('Student', StudentSchema, "student");
 
-// -------- Appointment --------- // 
-
-var Appointment = mongoose.model('Appointment', new Schema({
-  id: {
-    type: Number,
-    required: true
-  },
-  tutor_id: {
-    type: Schema.Types.ObjectId,
-    ref: 'Tutor',
-    required: true
-  },
-  user_id: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  date: {
-    type: Date,
-    required: true
-  },
-  location: {
-    type: String
-  }
-}), "appointments");
-
 
 // -------- Course --------- // 
 
@@ -451,7 +425,6 @@ module.exports = {
   Questions: Questions,
   Student: Student,
   Account: Account,
-  Appointment: Appointment,
   Course: Course,
   UploadedFiles: UploadedFiles,
   Event: Event,

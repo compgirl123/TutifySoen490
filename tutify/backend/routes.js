@@ -4,7 +4,6 @@ var session = require('express-session');
 
 // Controllers
 var accountController = require('./controllers/account.controller')
-var appointmentController = require('./controllers/appointment.controller')
 var tutorController = require('./controllers/tutor.controller')
 var userController = require('./controllers/user.controller')
 var courseController = require('./controllers/course.controller')
@@ -84,16 +83,6 @@ router.post('/putAccount', accountController.putAccount);
 router.delete('/deleteAccount', accountController.deleteAccount);
 
 router.get('/verifyEmail', accountController.verifyEmail);
-
-// -------- APPOINTMENT ROUTES --------- // 
-
-router.get('/getAppointment', appointmentController.getAppointment);
-
-router.post('/updateAppointment', appointmentController.updateAppointment);
-
-router.post('/putAppointment', appointmentController.putAppointment);
-
-router.delete('/deleteAppointment', appointmentController.deleteAppointment);
 
 // -------- COURSES ROUTES --------- // 
 
