@@ -455,8 +455,8 @@ export class SignUp extends React.Component {
 
               <Grid className={classes.signUpButton} href="/search_results" container justify="flex-end">
                 <Grid item style={{ paddingTop: '10px' }}>
-                  <Link href="#" variant="body2">
-                    Already have an account? Sign in
+                  <Link href="/login" variant="body2">
+                    Already have an account? Log in
                   </Link>
                 </Grid>
               </Grid>
