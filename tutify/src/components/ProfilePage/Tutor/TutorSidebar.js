@@ -7,7 +7,6 @@ import SchoolIcon from '@material-ui/icons/School';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { List } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
-import PublishIcon from '@material-ui/icons/Publish';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import CreateIcon from '@material-ui/icons/Create';
 import ClassIcon from '@material-ui/icons/Class';
@@ -49,18 +48,11 @@ export class TutorSidebar extends Component {
               <ListItemText primary="My Profile" />
             </ListItem>
 
-            <ListItem button component="a" href="/uploadingDocs">
-              <ListItemIcon>
-                <PublishIcon />
-              </ListItemIcon>
-              <ListItemText primary="Upload Documents" />
-            </ListItem>
-
-            <ListItem button component="a" href="/doclist">
+            <ListItem button component="a" href="/documents">
               <ListItemIcon>
                 <MenuBookIcon />
               </ListItemIcon>
-              <ListItemText primary="All Documents" />
+              <ListItemText primary="Documents" />
             </ListItem>
 
             <ListItem button component="a" href="/courses">
@@ -75,10 +67,9 @@ export class TutorSidebar extends Component {
                 <StarsIcon />
               </ListItemIcon>
               <ListItemText primary="Quiz" />
-            </ListItem>
-            
+            </ListItem>           
 
-            <ListItem button component="a" href="/Grades">
+            <ListItem button component="a" href="/grades">
               <ListItemIcon>
                 <AssessmentIcon />
               </ListItemIcon>

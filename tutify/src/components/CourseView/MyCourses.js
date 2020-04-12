@@ -305,7 +305,7 @@ export class MyCourses extends React.Component {
                 {this.state.discriminator === "tutor" ?
                   <Button variant="contained" size="lg" active onClick={() => { this.handleClickOpen(); }} className={classes.addCourseButton} >
                     Add Course
-               </Button>
+                  </Button>
                   :
                   <></>
                 }

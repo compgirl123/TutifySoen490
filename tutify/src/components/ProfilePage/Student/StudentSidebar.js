@@ -13,7 +13,6 @@ import * as StudentSidebarStyle from "../../../styles/StudentSidebar-styles";
 import { withStyles } from "@material-ui/core/styles";
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import PublishIcon from '@material-ui/icons/Publish';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
 import StarsIcon from '@material-ui/icons/Stars';
@@ -62,39 +61,25 @@ class Sidebar extends Component {
             <ListItemText primary="My Profile" />
           </ListItem>
 
-          <ListItem button component="a" href="/trophies">
-            <ListItemIcon>
-              <EmojiEventsIcon />
-            </ListItemIcon>
-            <ListItemText primary="My Trophies" />
-          </ListItem>
-
-          <ListItem button component="a" href="/courses">
-            <ListItemIcon>
-              <MenuBookIcon />
-            </ListItemIcon>
-            <ListItemText primary="Shared From Courses" />
-          </ListItem>
-
-          <ListItem button component="a" href="/uploadingDocs">
-            <ListItemIcon>
-              <PublishIcon />
-            </ListItemIcon>
-            <ListItemText primary="Upload Documents" />
-          </ListItem>
-
-          <ListItem button component="a" href="/doclist">
-            <ListItemIcon>
-              <MenuBookIcon />
-            </ListItemIcon>
-            <ListItemText primary="All Documents" />
-          </ListItem>
-
           <ListItem button component="a" href="/search">
             <ListItemIcon>
               <SearchIcon />
             </ListItemIcon>
             <ListItemText primary="Search" />
+          </ListItem>
+
+          <ListItem button component="a" href="/documents">
+            <ListItemIcon>
+              <MenuBookIcon />
+            </ListItemIcon>
+            <ListItemText primary="Documents" />
+          </ListItem>
+
+          <ListItem button component="a" href="/trophies">
+            <ListItemIcon>
+              <EmojiEventsIcon />
+            </ListItemIcon>
+            <ListItemText primary="My Trophies" />
           </ListItem>
 
           <ListItem button component="a" href="/choosetutorQuiz">
@@ -104,7 +89,7 @@ class Sidebar extends Component {
             <ListItemText primary="Quiz" />
           </ListItem>
 
-          <ListItem button component="a" href="/Grades">
+          <ListItem button component="a" href="/grades">
              <ListItemIcon>
                <AssessmentIcon />
              </ListItemIcon>
@@ -142,7 +127,7 @@ class Sidebar extends Component {
           <ListItem>
             <List disablePadding className={classes.tutorList} >
               {tutors.map(tutor => (
-                <ListItem
+                <ListItem button component="a" href={'/profile/' + tutor._id}
                   key={tutor._id}>
                   <ListItemIcon>
                     <PermIdentityIcon />

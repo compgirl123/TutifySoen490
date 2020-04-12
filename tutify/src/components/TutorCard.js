@@ -17,39 +17,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Avatar from '@material-ui/core/Avatar';
 import axios from "axios";
-import swal from 'sweetalert';
-
-const assignTutor = (e, userID, tutorID, url) => {
-    axios.post('/api/assignTutor', {
-        student_id: userID,
-        tutor_id: tutorID,
-    })
-    swal("Succesfully connected with tutor!", "", "success")
-      .then((value) => {
-          window.location = url;
-      });
-}
-
-function ConnectButton(props) {
-    const isConnected = props.isConnected;
-    const classes = props.classes;
-    const tutor = props.tutor;
-    var url = "/courselist/" + props.tutor._id;
-    if (!isConnected) {
-        return <Button className={classes.connect} onClick={event => assignTutor(event, props.userId, props.tutor._id, url)} >Connect with {tutor.first_name}</Button>
-    }
-    return <Button className={classes.connect} disabled >Connected <CheckIcon /></Button>
-}
-
-function EnrollButton(props) {
-    const isConnected = props.isConnected;
-    const classes = props.classes;
-    var url = "/courselist/" + props.tutor._id;
-    if (isConnected) {
-        return <Button component="a" href={url} className={classes.connect} >Enroll in courses</Button>
-    }
-    return <></>
-}
+import EnrollButton from "./EnrollButton";
+import ConnectButton from "./ConnectButton";
 
 class TutorCard extends Component {
     constructor(props) {
@@ -165,14 +134,12 @@ class TutorCard extends Component {
                             <DialogActions>
                                 <ConnectButton
                                     isConnected={this.checkIfConnected(tutor._id)}
-                                    classes={classes}
                                     tutor={tutor}
                                     userId={this.state.user_id}
                                     id={tutor.id}
                                 />
                                 <EnrollButton
                                     isConnected={this.checkIfConnected(tutor._id)}
-                                    classes={classes}
                                     tutor={tutor}
                                 />
                             </DialogActions>

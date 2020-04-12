@@ -213,7 +213,7 @@ export class Studentdocs extends React.Component {
                 <Grid item xs={12} md={12} lg={24}>
                   <Paper className={fixedHeightPaper}>
                     <React.Fragment>
-                      <Title>My Documents</Title>
+                      <Title>Documents Received</Title>
                       <Table size="small">
                         <TableHead>
                           <TableRow>

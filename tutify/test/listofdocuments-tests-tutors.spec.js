@@ -55,7 +55,7 @@ describe('The List of documents Tutors Page', () => {
         */
 
         const students_title_table = wrapper_shallow.dive().find(Title).at(0);
-        expect(students_title_table.props().children).toBe("Uploaded Documents ");
+        expect(students_title_table.props().children).toBe("My Uploaded Documents ");
 
         const table_component= wrapper_shallow.dive().find(Table).at(0);
         expect(table_component.exists()).toBeTruthy();
