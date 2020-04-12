@@ -128,14 +128,6 @@ export class Grades extends React.Component {
       totals[uniqueQuizArray[z]] = pointsScored;
       pointsScored = [];
     }
-
-    axios.post('/api/addTotalPointsForUser', {
-      totalPoints: totals
-    }).then((res) => {
-      // fetch the attempts
-      console.info("Successfully fetched the attempts");
-    })
-      .catch(err => console.error("Could not get the attempts from the database: " + err));
   }
 
   render() {
