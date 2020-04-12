@@ -264,8 +264,9 @@ export class Studentdocs extends React.Component {
                             course: this.state.course
                         })
                             .then((res) => {
-                                swal("Video successfully added!", "", "success");
-                                window.location.reload();
+                                swal("Video successfully added!", "", "success").then(() => {
+                                    window.location.reload();
+                                });                             
                             }, (error) => {
                                 console.error("Could not add video to database (API call error) " + error);
                             });
@@ -292,8 +293,9 @@ export class Studentdocs extends React.Component {
                         _id: video_id
                     })
                         .then((res) => {
-                            swal("Video successfully deleted!", "", "success");
-                            window.location.reload();
+                            swal("Video successfully deleted!", "", "success").then(() => {
+                                window.location.reload();
+                            });                             
                         }, (error) => {
                             console.error("Could not delete course to database (API call error) " + error);
                         });
@@ -442,7 +444,7 @@ export class Studentdocs extends React.Component {
                                         onChange={e => { handleVideoEmbedding(e) }}
                                         autoComplete="videoLink"
                                         label="Link"
-                                        defaultValue={this.state.video}
+                                        defaultValue={this.state.videoLink}
                                         fullWidth
                                     />
                                     <TextField

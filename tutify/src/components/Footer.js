@@ -8,24 +8,7 @@ import Box from '@material-ui/core/Box';
 import * as FooterStyles from '../styles/Footer-styles';
 import {withStyles} from '@material-ui/core/styles';
 
-const footers = [
-    {
-      title: 'Company',
-      description: ['Team', 'History', 'Contact us', 'Locations'],
-    },
-    {
-      title: 'Features',
-      description: ['Team feature', 'Developer stuff'],
-    },
-    {
-      title: 'Resources',
-      description: ['Resource name', 'Another resource', 'Final resource'],
-    },
-    {
-      title: 'Legal',
-      description: ['Privacy policy', 'Terms of use'],
-    },
-  ];
+const footers = [ ];
 
 class Footer extends React.Component {
     render() {
