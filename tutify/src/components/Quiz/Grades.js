@@ -171,8 +171,6 @@ export class Grades extends React.Component {
                               <TableCell><Typography variant="h6">Description</Typography></TableCell>
                               <TableCell><Typography variant="h6">Course</Typography></TableCell>
                               <TableCell><Typography variant="h6">Tutor</Typography></TableCell>
-                              <TableCell><Typography variant="h6">Base Points</Typography></TableCell>
-                              <TableCell><Typography variant="h6">Quiz Points</Typography></TableCell>
                               <TableCell><Typography variant="h6">Total Points</Typography></TableCell>
                             </>
                             : <></>
@@ -186,8 +184,6 @@ export class Grades extends React.Component {
                               <TableCell><Typography variant="h6">Description</Typography></TableCell>
                               <TableCell><Typography variant="h6">Course</Typography></TableCell>
                               <TableCell><Typography variant="h6">Tutor</Typography></TableCell>
-                              <TableCell><Typography variant="h6">Base Points</Typography></TableCell>
-                              <TableCell><Typography variant="h6">Quiz Points</Typography></TableCell>
                               <TableCell><Typography variant="h6">Points for Attempt</Typography></TableCell>
                             </>
                             : <></>
@@ -206,8 +202,6 @@ export class Grades extends React.Component {
                                 <TableCell>{attempt.quiz.description}</TableCell>
                                 <TableCell>{attempt.quiz.course.name}</TableCell>
                                 <TableCell>{attempt.quiz.tutorId.first_name} {attempt.quiz.tutorId.last_name} </TableCell>
-                                <TableCell>{attempt.quiz.points}</TableCell>
-                                <TableCell>{attempt.quiz_points_scored}</TableCell>
                                 <TableCell>{attempt.quiz.points + attempt.quiz_points_scored}</TableCell>
                               </>
                               : <></>
@@ -220,8 +214,6 @@ export class Grades extends React.Component {
                                 <TableCell>{attempt.quiz.description}</TableCell>
                                 <TableCell>{attempt.quiz.course.name}</TableCell>
                                 <TableCell>{attempt.quiz.tutorId.first_name} {attempt.quiz.tutorId.last_name} </TableCell>
-                                <TableCell>{attempt.quiz.points}</TableCell>
-                                <TableCell>{attempt.quiz_points_scored}</TableCell>
                                 <TableCell>{attempt.quiz.points + attempt.quiz_points_scored}</TableCell>
                               </>
                               : <></>
