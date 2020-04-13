@@ -45,7 +45,6 @@ describe('The trophy page ', () => {
         // All the mounting and state setting
         const wrapper = mount(<TrophiesView classes={mockedClass} match={mockedEvent}></TrophiesView>);
         const shallowwrapper = wrapper.find(TrophiesViewClass);
-        // shallowwrapper.setState({ quizzes: json.data, datas: json.data.questions, open: false, total: 1 });
         shallowwrapper.setState({ level: "",
         open: false,
         totalPoints: 101,
@@ -97,7 +96,6 @@ describe('The trophy page ', () => {
         // All the mounting and state setting
         const wrapper = mount(<TrophiesView classes={mockedClass} match={mockedEvent}></TrophiesView>);
         const shallowwrapper = wrapper.find(TrophiesViewClass);
-        // shallowwrapper.setState({ quizzes: json.data, datas: json.data.questions, open: false, total: 1 });
         shallowwrapper.setState({ level: "",
         open: false,
         totalPoints: 29,
