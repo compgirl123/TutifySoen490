@@ -212,6 +212,7 @@ export class TrophiesView extends React.Component {
                         :
                         <Button variant="outlined" className={classes.badgeButtonDisabled} onClick={() => { this.handleClickOpen(badge.label.badge._id); }}>
                           <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadge} />
+                          <LockIcon fontSize="small" className={classes.lockIcon} />
                         </Button>
                       }
                     </Grid>
@@ -235,6 +236,7 @@ export class TrophiesView extends React.Component {
                         :
                         <Button variant="outlined" className={classes.badgeButtonDisabled2} onClick={() => { this.handleClickOpen(badge.label.badge._id); }}>
                           <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadge} />
+                          <LockIcon fontSize="small" className={classes.lockIcon} />
                         </Button>
                       }
                     </Grid>
