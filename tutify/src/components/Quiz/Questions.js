@@ -54,7 +54,8 @@ export class Questions extends React.Component {
             attemptsLeft: 0,
             totalAttempts: 0,
             totalPoints: 0,
-            totalScorePoints: 0
+            totalScorePoints: 0,
+            participationPoints: 0
         }
         this.finishQuiz = this.finishQuiz.bind(this);
         this.handleShowButton = this.handleShowButton.bind(this);
@@ -167,13 +168,14 @@ export class Questions extends React.Component {
         }).then((res) => {
             // fetch the questions
             if (res.data !== undefined) {
-                this.setState({ datas: res.data.data, session: res.session, total: res.data.data.length });
+                this.setState({ datas: res.data.data, session: res.session, total: res.data.data.length, participationPoints:res.data.participationMark });
                 for (var x = 0; x < this.state.datas.length; x++) {
                     console.info("Find totals for Scoring and save into a state.");
                     totalScorePoints.push(this.state.datas[x].points);
                     var totalP = 0;
                     for (var i in totalScorePoints) { totalP += totalScorePoints[i]; }
                 }
+                console.error(this.state.datas);
                 this.setState({ totalScorePoints: totalP });
             }
             else {
@@ -376,7 +378,7 @@ export class Questions extends React.Component {
     // This function adds the completed quiz with the points associated with it as an attempt for the student.
     addPointstoDb = () => {
         axios.post('/api/addTotalPointsForUser', {
-            totalPoints: this.state.totalPoints
+            totalPoints: this.state.totalPoints+this.state.participationPoints
           }).then((res) => {
             // fetch the attempts
             console.info("Successfully fetched the attempts");

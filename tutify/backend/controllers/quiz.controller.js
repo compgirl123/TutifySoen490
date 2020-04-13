@@ -294,7 +294,7 @@ exports.getSelectedQuizQuestions = async function (req, res) {
                         console.error("The quizzes were not found");
                     }
                     console.info("The specific quiz' questions were found");
-                    return await res.json({ success: true, data: quiz_questions });
+                    return await res.json({ success: true, data: quiz_questions, participationMark:questions[question].points});
                 })
             });
         });
