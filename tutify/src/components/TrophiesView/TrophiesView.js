@@ -19,6 +19,7 @@ import Typography from '@material-ui/core/Typography';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import HelpIcon from '@material-ui/icons/Help';
+import LockIcon from '@material-ui/icons/Lock';
 
 export class TrophiesView extends React.Component {
   constructor(props) {
