@@ -437,7 +437,15 @@ exports.putUser = async function (req, res) {
                                         }
                                         badges.push(enabled);
                                     }
-                                  
+                                    Student.findByIdAndUpdate(student._id,
+                                        { "$push": { "badgeDiscriminator": badges } },
+                                        { "new": true, "upsert": true },
+                                        function (err, student) {
+                                            if (err) {
+                                                console.error("Unable to delete the file reference from the course's file list");
+                                                throw err;
+                                            }
+                                        });
                                 });
                             });
                             /** 
