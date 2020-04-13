@@ -129,6 +129,9 @@ export class TrophiesView extends React.Component {
             }
           }
         }
+        allBadges.sort(function (a, b) {
+          return (a.label.badge.badgePoints < b.label.badge.badgePoints) ? -1 : 1;
+        });
         //splitting 8 badges into two arrays of 4 badges each
         for (var k = 0; k < 4; k++) {
           badges1.push(allBadges[k]);
