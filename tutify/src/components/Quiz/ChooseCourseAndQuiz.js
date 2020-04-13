@@ -30,7 +30,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import CardActions from '@material-ui/core/CardActions';
 import green from '@material-ui/core/colors/green';
 
-// Defines what content is shown based on index of selected tab
+// Defines what content is shown based on index of selected tab.
 function a11yProps(index) {
     return {
         id: `scrollable-auto-tab-${index}`,
@@ -38,7 +38,7 @@ function a11yProps(index) {
     };
 }
 
-// displaying the documents shared to students
+// displaying the documents shared to students.
 export class ChooseCourseAndQuiz extends React.Component {
     constructor(props) {
         super(props);
@@ -56,7 +56,9 @@ export class ChooseCourseAndQuiz extends React.Component {
             open: false,
             Toggle: false,
             categoryOptions: [],
-            newValue: 0
+            newValue: 0,
+            totalAttempts: 0,
+            attemptsLeft: 0
         };
         this.getTutorCourses = this.getTutorCourses.bind(this);
     }
@@ -111,7 +113,7 @@ export class ChooseCourseAndQuiz extends React.Component {
             .catch(err => console.error(err));
     };
 
-    // Getting all of the tutors the student is registered with as well as their quizzes
+    // Getting all of the tutors the student is registered with as well as their quizzes.
     getAllquizzesStudent = () => {
         axios.get('/api/getTutor', {
             params: {
@@ -128,7 +130,7 @@ export class ChooseCourseAndQuiz extends React.Component {
             .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
 
-    // Getting all of the courses the tutor teaches
+    // Getting all of the courses the tutor teaches.
     getTutorCourses = () => {
         axios.get('/api/getTutorCourses', {
         }).then((res) => {
@@ -151,7 +153,7 @@ export class ChooseCourseAndQuiz extends React.Component {
             .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
 
-    // This function gets the quizzes corresponding to each of the tutor's classes.
+    // This function gets the quizzes corresponding to each of the tutor's classes upon first load of the page.
     getTutorClassquizzesOnFirstLoad = () => {
         axios.get('/api/getCourseQuizes', {
             params: {
@@ -164,6 +166,8 @@ export class ChooseCourseAndQuiz extends React.Component {
             console.info(res);
             this.setState({
                 quizzes: res.data.data,
+                totalAttempts: res.data.data.allowed_attempts,
+                attemptsLeft: res.data.data.available_attempts
             });
         })
             .catch(err => console.error("Could not get the quizzes from the database: " + err));
@@ -185,6 +189,7 @@ export class ChooseCourseAndQuiz extends React.Component {
                 categoryOptions: courses
             });
             if (!localStorage.getItem("reloadStudents")) {
+                // Store all of the student's courses in a localStorage variable.
                 localStorage.setItem("reloadStudents", true);
                 window.location.reload(true);
             }
@@ -192,7 +197,7 @@ export class ChooseCourseAndQuiz extends React.Component {
             .catch(err => console.error("Could not get the quizzes from the database: " + err));
     }
 
-    // Adding a new quiz according to what the user inputs into the Dialog box to the database
+    // Adding a new quiz according to what the user inputs into the Dialog box to the database.
     addQuizToDb = () => {
         var tutor = [];
         var inputtedOptionsq1 = [];
@@ -236,46 +241,51 @@ export class ChooseCourseAndQuiz extends React.Component {
             .then((value) => {
                 if (value) {
                     console.info("Adding quiz to db...");
-                    axios.post('/api/addQuiz', {
-                        title: this.state.title,
-                        description: this.state.description,
-                        points: this.state.points,
-                        tutorId: this.state.tutorId,
-                        course: this.state.course,
-                        allowed_attempts: this.state.allowedAttempts
-                    })
-                        .then((res) => {
-                            swal("Quiz successfully added!", "", "success");
-                            window.location.reload();
-                        }, (error) => {
-                            console.error("Could not add quiz to database (API call error) " + error);
-                        });
-                }
-                else {
-                    console.error("Empty fields");
-                    swal("Could not add resource, empty or invalid fields.", "", "error")
+                    if (this.state.title !== '' && this.state.description !== ''
+                        && this.state.points !== '' && this.state.tutorId !== ''
+                        && this.state.course !== '') {
+                        axios.post('/api/addQuiz', {
+                            title: this.state.title,
+                            description: this.state.description,
+                            points: this.state.points,
+                            tutorId: this.state.tutorId,
+                            course: this.state.course,
+                            allowed_attempts: this.state.allowedAttempts
+                        })
+                            .then((res) => {
+                                swal("Quiz successfully added!", "", "success");
+                                window.location.reload();
+                            }, (error) => {
+                                console.error("Could not add quiz to database (API call error) " + error);
+                            });
+                    }
+                    else {
+                        console.error("Empty fields");
+                        swal("Could not add resource, empty or invalid fields.", "", "error")
+                    }
                 }
             });
     }
 
-    // this method deletes a video from the database 
-    deleteVideo = (video_id) => {
+    // this method deletes a quiz from the database 
+    deleteQuiz = (quiz_id, questions) => {
         swal({
-            title: "Are you sure you want delete this video?",
+            title: "Are you sure you want delete this quiz?",
             icon: "warning",
             buttons: [true, "Yes"],
             dangerMode: true,
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    axios.post('/api/deleteVideo', {
-                        _id: video_id
+                    axios.post('/api/deleteQuiz', {
+                        _id: quiz_id,
+                        questions: questions
                     })
                         .then((res) => {
-                            swal("Video successfully deleted!", "", "success");
+                            swal("Quiz successfully deleted!", "", "success");
                             window.location.reload();
                         }, (error) => {
-                            console.error("Could not delete course to database (API call error) " + error);
+                            console.error("Could not delete quiz to database (API call error) " + error);
                         });
                 }
             });
@@ -299,24 +309,24 @@ export class ChooseCourseAndQuiz extends React.Component {
                 this.setState({
                     quizzes: res.data.data
                 });
-                console.log(this.state.quizzes);
+                console.info("Fetching quizzes.");
             })
                 .catch(err => console.error("Could not get the quizzes from the database: " + err));
         };
 
         var styles = {
             default_tab: {
-              color: green[700],
-              indicatorColor: green[900],
-              fontWeight: 400,
+                color: green[700],
+                indicatorColor: green[900],
+                fontWeight: 400,
             }
-          }
-      
-          styles.tab = []
-          styles.tab[0] = styles.default_tab;
-          styles.tab[1] = styles.default_tab;
-          styles.tab[2] = styles.default_tab;
-          styles.tab[this.state.slideIndex] = Object.assign({}, styles.tab[this.state.slideIndex], styles.active_tab);
+        }
+
+        styles.tab = []
+        styles.tab[0] = styles.default_tab;
+        styles.tab[1] = styles.default_tab;
+        styles.tab[2] = styles.default_tab;
+        styles.tab[this.state.slideIndex] = Object.assign({}, styles.tab[this.state.slideIndex], styles.active_tab);
 
         return (
             <React.Fragment>
@@ -350,7 +360,7 @@ export class ChooseCourseAndQuiz extends React.Component {
                             }
                             <Typography component="h6" variant="h6" align="center" color="textPrimary" gutterBottom>
                                 {this.state.tutorFirstName} {this.state.tutorLastName}'s Quizzes
-                            </Typography><br/>
+                            </Typography><br />
                             <Grid container spacing={4}>
                                 {/* Quizzes */}
                                 <Grid container spacing={5}>
@@ -367,8 +377,8 @@ export class ChooseCourseAndQuiz extends React.Component {
                                                     <CardContent>
                                                         <Typography gutterBottom variant="h5" component="h2">
                                                             {file.title}
-                                                            {this.state.discriminator === "tutor" ?
-                                                                <IconButton variant="contained" size="lg" active onClick={event => this.deleteVideo(file._id)} className={classes.deleteCourseButton} >
+                                                            {this.state.accountType === "tutor" ?
+                                                                <IconButton variant="contained" size="lg" active onClick={event => this.deleteQuiz(file._id, file.questions)} className={classes.deleteCourseButton} >
                                                                     <DeleteForeverIcon className={classes.deleteIconButton} />
                                                                 </IconButton>
                                                                 :
@@ -466,6 +476,7 @@ export class ChooseCourseAndQuiz extends React.Component {
                                         onChange={e => this.setState({ points: e.target.value })}
                                         autoComplete="Points"
                                         label="Points"
+                                        type="number"
                                         defaultValue={this.state.points}
                                         fullWidth
                                     />
@@ -480,9 +491,11 @@ export class ChooseCourseAndQuiz extends React.Component {
                                         onChange={e => this.setState({ allowedAttempts: e.target.value })}
                                         autoComplete="allowedAttempts"
                                         label="Allowed Attempts"
+                                        type="number"
                                         defaultValue={this.state.allowedAttempts}
                                         fullWidth
                                     />
+
                                     <FormControl className={classes.formControl}>
                                         <InputLabel>
                                             Course
@@ -495,9 +508,6 @@ export class ChooseCourseAndQuiz extends React.Component {
                                         </Select>
                                     </FormControl>
                                     <br /><br />
-                                    <Button variant="contained" size="lg" active onClick={() => { this.addQuizToDb(); }} className={classes.formControl}>
-                                        Save
-                                    </Button>
                                 </DialogContent>
                                 <Grid
                                     container
@@ -508,6 +518,11 @@ export class ChooseCourseAndQuiz extends React.Component {
                                     <Grid item>
                                         <DialogActions>
                                             <Button onClick={this.handleClose}>Close</Button>
+                                        </DialogActions>
+                                    </Grid>
+                                    <Grid item>
+                                        <DialogActions>
+                                            <Button onClick={this.addQuizToDb}>Save</Button>
                                         </DialogActions>
                                     </Grid>
                                 </Grid>

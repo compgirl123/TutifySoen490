@@ -19,7 +19,7 @@
                 "$numberInt": "15"
             },
             "allowed_attempts": {
-                "$numberInt": "1"
+                "$numberInt": "6"
             },
             "course": {
                 "$oid": "5e4f27e37c97b5073b437301"
@@ -28,6 +28,7 @@
                 "$numberInt": "0"
             },
             "available_attempts":2,
+            "attempt_number":1,
             "attempts": [
                 {
                     "$oid": "5e7ff285bb4bc360ab6431b1"

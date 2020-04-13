@@ -1,0 +1,328 @@
+{
+    "data": [
+        {
+            "badge": {
+                "_id": "12345",
+                "imageName": "Test Badge",
+                "imageData": "testImage.png",
+                "description": "testDescription",
+                "badgePoints": 100,
+                "enabledDiscriminator": [
+                    "",
+                    {
+                        "_id": "5e7fb4214cd5e402be1338a3",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338a4",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338a5",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338a7",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338a6",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338a8",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338ab",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338a9",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338ac",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338aa",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338ad",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338ae",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338b0",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338b1",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338af",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338b2",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338b3",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338b4",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338b8",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338b5",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338b6",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338b7",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338b9",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338be",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338bd",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338bc",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338bb",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338ba",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338c3",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338c0",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338bf",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338c1",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338c2",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338c5",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338c6",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338c4",
+                        "enable": 0
+                    }
+                ]
+            },
+            "value":{
+                "enable":1
+            },
+            "label":{
+                "finalFile":"test.jpg"
+            }
+        },
+        {
+            "badge": {
+                "_id": "12345",
+                "imageName": "Test Badge",
+                "imageData": "testImage.png",
+                "description": "testDescription",
+                "badgePoints": 100,
+                "enabledDiscriminator": [
+                    "",
+                    {
+                        "_id": "5e7fb4214cd5e402be1338a3",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338a4",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338a5",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338a7",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338a6",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338a8",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338ab",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338a9",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338ac",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338aa",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338ad",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338ae",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338b0",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338b1",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338af",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338b2",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338b3",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4214cd5e402be1338b4",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338b8",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338b5",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338b6",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338b7",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338b9",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338be",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338bd",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338bc",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338bb",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338ba",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338c3",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338c0",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338bf",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338c1",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338c2",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338c5",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338c6",
+                        "enable": 0
+                    },
+                    {
+                        "_id": "5e7fb4994cd5e402be1338c4",
+                        "enable": 0
+                    }
+                ]
+            },
+            "value":{
+                "enable":2
+            },
+            "label":{
+                "finalFile":"test.jpg"
+            }
+        }
+    ]
+}

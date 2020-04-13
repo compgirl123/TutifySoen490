@@ -2,15 +2,18 @@ const Quizzes = require('../models/models').Quizzes;
 const Questions = require('../models/models').Questions;
 const QuizAttempt = require('../models/models').QuizAttempt;
 const Course = require('../models/models').Course;
+const Student = require('../models/models').Student;
 
 // this method fetches all available quizzes from a tutor in our database.
 exports.getQuizes = async (req, res) => {
     var id = [];
     if (req.session.userInfo.__t == "tutor") {
         id.push(req.session.userInfo._id);
+        console.info("Push quiz id's to id array for tutor");
     }
     else if (req.session.userInfo.__t == "student") {
         id.push(req.query.tutor);
+        console.info("Push quiz id's to id array for student");
     }
     Quizzes.find({ tutorId: { $in: id } }, function (err, quiz) {
         if (err) {
@@ -22,7 +25,7 @@ exports.getQuizes = async (req, res) => {
     });
 };
 
-// this method select all the quizzes by specific course. 
+// this method select all the quizzes by the specific course. 
 exports.getCourseQuizes = async (req, res) => {
     var id = [];
     if (req.session.userInfo.__t == "tutor") {
@@ -71,6 +74,7 @@ exports.getCourseQuizes = async (req, res) => {
                     }
                     console.info("Set allowed attempts left for student");
                     quiz.available_attempts = quiz.allowed_attempts - attempt_done;
+                    quiz.attempt_number = attempt_done;
                     mod_quizes.push(quiz);
                 }
                 console.info("The quizzes of the course were found");
@@ -152,34 +156,75 @@ exports.addQuiz = async function (req, res) {
 
 // this method adds a new attempt and links it to the quiz.
 exports.addAttempt = async function (req, res) {
-    const { completed_attempts, quiz_id, studentId } = req.body;
+    const { completed_attempts, quiz_id, studentId, quiz_points_scored } = req.body;
     let attempt = new QuizAttempt();
     attempt.completed_attempts = completed_attempts;
     attempt.quiz = quiz_id;
     attempt.student = studentId;
-    attempt.save(function (err, attempt) {
-        if (err) {
-            console.error(err);
-            console.error("The attempt couldn't get added to the database (API request failed)");
-            return res.json({ success: false, error: err });
+    attempt.quiz_points_scored = quiz_points_scored;
+    var attempts = [];
+    QuizAttempt.find({ quiz: quiz_id, student: studentId }, function (err, quizzes) {
+        if (quizzes.length == 0) {
+            attempt.attempt_number = 1;
         }
-        console.info("The attempt was successfully added to the database");
-        Quizzes.findOneAndUpdate({ _id: attempt.quiz }, { "$push": { "attempts": attempt._id } }, { useFindAndModify: false }, (error) => {
-            if (error) {
-                console.error("Could not link the quiz to the attempt");
-                console.error(error);
-                return res.json({ success: false, error: error });
+        else {
+            quizzes.forEach(function (err, quizId) {
+                attempts.push(quizzes[quizId].attempt_number);
+                console.info("Added attempts to database.");
+            });
+            attempt.attempt_number = Math.max(...attempts) + 1;
+        }
+        attempt.save(function (err, attempt) {
+            if (err) {
+                console.error("The attempt couldn't get added to the database (API request failed)");
+                console.error(err);
+                return res.json({ success: false, error: err });
             }
-            return res.json({ success: true, data: attempt });
+            console.info("The attempt was successfully added to the database");
+            Quizzes.findOneAndUpdate({ _id: attempt.quiz }, { "$push": { "attempts": attempt._id } }, { useFindAndModify: false }, (error) => {
+                if (error) {
+                    console.error("Could not link the quiz to the attempt");
+                    console.error(error);
+                    return res.json({ success: false, error: error });
+                }
+                return res.json({ success: true, data: attempt });
+            });
         });
     });
+};
+
+// this method adds the total points for quizzes for each user.
+exports.addTotalPointsForUser = async function (req, res) {
+    const { totalPoints } = req.body;
+    if (req.session.userInfo.__t === "student") {
+        Student.find({ _id: req.session.userInfo._id }, async (err, student) => {
+            if (err) {
+                console.error("The student was not found");
+                return await res.json({ success: false, error: err })
+            }
+            student[0].totalPoints = student[0].totalPoints + totalPoints;
+            student[0].levelPoints = student[0].levelPoints + totalPoints;
+            req.session.userInfo.totalPoints = student[0].totalPoints;
+            req.session.userInfo.levelPoints = student[0].levelPoints;
+            req.session.save(function (error) {
+                console.error("ERROR SAVING SESSION: " + error);
+            });
+            student[0].save(function (error) {
+                console.error("ERROR SAVING STUDENT: " + error);
+            });
+        });
+    }
 };
 
 // this method is to get all the attempts of a specific student.
 exports.getStudentAttempts = async function (req, res) {
     var lookup = [];
+    var tutorIdFromLogin = "";
+    var filteredAttempts = [];
+
     if (req.session.userInfo.__t === "tutor") {
         lookup = req.session.userInfo.students;
+        tutorIdFromLogin = req.session.userInfo._id;
         console.info("Saving an array of student id's collected from tutor account");
     }
     else if (req.session.userInfo.__t === "student") {
@@ -202,18 +247,28 @@ exports.getStudentAttempts = async function (req, res) {
         {
             path: 'student'
         }
-    ]).
+    ]).sort({ quiz: 1 }).
         exec(function (err, attempts) {
+            if (req.session.userInfo.__t === "tutor") {
+                attempts.forEach(function (err, quizId) {
+                    if (attempts[quizId].quiz.tutorId._id == tutorIdFromLogin) {
+                        filteredAttempts.push(attempts[quizId]);
+                    }
+                });
+            }
+            if (req.session.userInfo.__t === "student") {
+                filteredAttempts = attempts;
+            }
             if (err) {
                 console.error("The specific tutor was not found");
                 return res.json({ success: false, error: err });
             }
             console.info("The specific tutor was found");
-            return res.json({ success: true, data: attempts });
+            return res.json({ success: true, data: filteredAttempts });
         });
 }
 
-// this method fetches all the quizzes present in the database.
+// this method fetches all the quiz quizzes present in the database.
 exports.getAllQuestions = async function (req, res) {
     Questions.find({}, async (err, questions) => {
         if (err) {
@@ -225,7 +280,7 @@ exports.getAllQuestions = async function (req, res) {
     })
 };
 
-// this method retrieves the questions for the current quiz selected.
+// this method retrieves the quiz questions for the current quiz selected.
 exports.getSelectedQuizQuestions = async function (req, res) {
     var quiz_questions = [];
     await Quizzes.find({ _id: req.query.quizId }, async (err, questions) => {
@@ -239,7 +294,7 @@ exports.getSelectedQuizQuestions = async function (req, res) {
                         console.error("The quizzes were not found");
                     }
                     console.info("The specific quiz' questions were found");
-                    return await res.json({ success: true, data: quiz_questions });
+                    return await res.json({ success: true, data: quiz_questions, participationMark:questions[question].points});
                 })
             });
         });
@@ -248,13 +303,15 @@ exports.getSelectedQuizQuestions = async function (req, res) {
 
 // this method adds a new question to the database.
 exports.addQuestion = async function (req, res) {
-    const { question, choices, answerIndex, creator, quizId } = req.body;
+    const { question, choices, answerIndex, creator, quizId, points } = req.body;
     let questions = new Questions();
+    console.log(choices);
     questions.question = question;
     questions.choices = choices;
     questions.answerIndex = answerIndex;
     questions.creator = creator;
     questions.quizId = quizId;
+    questions.points = points;
     questions.save(function (err, question) {
         if (err) {
             console.error(err);
@@ -274,7 +331,7 @@ exports.addQuestion = async function (req, res) {
                     throw err;
                 }
                 else {
-                    console.info("The question was uploaded successfully");
+                    console.info("The question was added successfully");
                 }
             });
         console.info("The question was successfully added to the database");
@@ -285,13 +342,37 @@ exports.addQuestion = async function (req, res) {
 // this method deletes a quiz from the db.
 exports.deleteQuiz = async function (req, res) {
     const { _id } = req.body;
+    await Quizzes.find({ _id: _id }, async function (err, quizzes) {
+        await quizzes.forEach(async function (err, quiz) {
+            await quizzes[quiz].questions.forEach(async function (err, quizId) {
+                await Questions.findByIdAndRemove(quizzes[quiz].questions[quizId],
+                    async function (err, student) {
+                        if (err) {
+                            console.error("Unable to delete the quiz(s) in reference to the selected quiz");
+                        }
+                        console.info("Quiz question(s) Deleted");
+                    });
+                await QuizAttempt.find({ quiz: _id }, async function (err, quizzes) {
+                    await quizzes.forEach(async function (err, quizId) {
+                        await QuizAttempt.findByIdAndRemove(quizzes[quizId]._id,
+                            async function (err, student) {
+                                if (err) {
+                                    console.error("Unable to delete the quiz attempt in reference to the selected quiz");
+                                }
+                                console.info("Quiz attempt(s) Deleted");
+                            });
+                    });
+                });
+            });
+        });
+    });
     Quizzes.findByIdAndRemove(_id, (err) => {
         if (err) {
             console.error("The delete order was given, but was not executed by the database. This may be due to a connection error.");
             return res.send(err);
         }
-        console.info("The quiz has been deleted");
-        return res.json({ success: true });
+        console.info("Quiz Deleted");
+        return res.json({ successQuiz: true });
     });
 };
 
@@ -303,7 +384,7 @@ exports.deleteQuestion = async function (req, res) {
             console.error("The delete order was given, but was not executed by the database. This may be due to a connection error.");
             return res.send(err);
         }
-        console.info("The question has been deleted");
+        console.info("Question has been deleted");
         return res.json({ success: true });
     });
 };
@@ -320,6 +401,3 @@ exports.deleteAttempt = async function (req, res) {
         return res.json({ success: true });
     });
 };
-
-
-

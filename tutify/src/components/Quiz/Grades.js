@@ -24,13 +24,13 @@ export class Grades extends React.Component {
       students: [],
       attempts: [],
       tutor_id: "",
-      accountType: ""
+      accountType: "",
+      totalPoints: 0
     };
   }
 
   componentDidMount() {
     this.checkSession();
-    this.loadAttempts();
     this.setState({ fileid: this.props.match.params.file });
   }
 
@@ -50,6 +50,12 @@ export class Grades extends React.Component {
             tutorImg: res.userInfo.picture,
             accountType: res.userInfo.__t
           })
+          if (res.userInfo.__t === "tutor") {
+            this.FindStudents();
+          }
+          this.loadAttempts();
+          this.setState({ totalPoints: res.userInfo.totalPoints });
+          console.info("Set up the states for Logged in user.");
         }
         else {
           this.setState({ Toggle: false });
@@ -70,26 +76,64 @@ export class Grades extends React.Component {
     }
   }
 
-  // Loading all of the questions for the selected quiz. 
+  // Loading all of the attempts for the selected student. 
   loadAttempts = () => {
     axios.get('/api/getStudentAttempts', {
       params: {
         studentId: this.state.tutor_id,
       }
     }).then((res) => {
-      // fetch the videos
+      // fetch the attempts
       console.info("Successfully fetched the attempts");
       this.setState({
         attempts: res.data.data
       });
+      this.totalPointsScored();
     })
       .catch(err => console.error("Could not get the attempts from the database: " + err));
   }
 
+  // Getting the student information from database.
+  FindStudents = () => {
+    axios.post('/api/findStudents', {
+      students: this.state.students
+    })
+      .then((res) => {
+        this.setState({ students: res.data.data });
+      }, (error) => {
+        console.error(error);
+      })
+  };
+
+  // Keeping track of the total Points scored for each Student
+  totalPointsScored = () => {
+    var totals = {};
+    var quizzAttempts = [];
+    // saving quiz attempts into array.
+    for (var x = 0; x < this.state.attempts.length; x++) {
+      console.info("Saving quiz attempts");
+      quizzAttempts.push(this.state.attempts[x].quiz._id);
+    }
+    // saving unique quiz attempts into array. Removal of duplicates.
+    var uniqueQuizArray = Array.from(new Set(quizzAttempts));
+    var pointsScored = [];
+    // calculating the total points scored for quiz taken by student to set for badges for student's profile
+    for (var z = 0; z < uniqueQuizArray.length; z++) {
+      for (var y = 0; y < this.state.attempts.length; y++) {
+        if (this.state.attempts[y].quiz._id === uniqueQuizArray[z]) {
+          console.info("Setting total points scored.");
+          pointsScored.push(this.state.attempts[y].quiz_points_scored + this.state.attempts[y].quiz.points);
+        }
+      }
+      totals[uniqueQuizArray[z]] = pointsScored;
+      pointsScored = [];
+    }
+  }
+
   render() {
     const { classes } = this.props;
+    const { students, attempts } = this.state;
     const fixedHeightPaper = clsx(classes.paper);
-    const { attempts } = this.state
 
     return (
       <React.Fragment>
@@ -100,67 +144,140 @@ export class Grades extends React.Component {
             <Container maxWidth="lg">
               <Grid container spacing={2}>
                 <Grid item xs={12} md={12} lg={24}>
-                <Title> My Grades </Title>
-                    <Paper className={fixedHeightPaper}>
-                      <Table>
-                        <TableHead>
+                  {this.state.accountType === "student"
+                    ?
+                    <>
+                      <Title> My Grades </Title>
+                      <h4> Total Points: {this.state.totalPoints}  </h4>
+                    </>
+                    : <></>
+                  }
+                  {this.state.accountType === "tutor"
+                    ?
+                    <>
+                      <Title> Students' Grades </Title>
+                    </>
+                    : <></>
+                  }
+                  <Paper className={fixedHeightPaper}>
+                    <Table stickyHeader size="small">
+                      <TableHead>
+                        <TableRow>
+                          {this.state.accountType === "student"
+                            ?
+                            <>
+                              <TableCell><Typography variant="h6">Quiz Title</Typography></TableCell>
+                              <TableCell><Typography variant="h6">Quiz Attempt #</Typography></TableCell>
+                              <TableCell><Typography variant="h6">Description</Typography></TableCell>
+                              <TableCell><Typography variant="h6">Course</Typography></TableCell>
+                              <TableCell><Typography variant="h6">Tutor</Typography></TableCell>
+                              <TableCell><Typography variant="h6">Base Points</Typography></TableCell>
+                              <TableCell><Typography variant="h6">Quiz Points</Typography></TableCell>
+                              <TableCell><Typography variant="h6">Total Points</Typography></TableCell>
+                            </>
+                            : <></>
+                          }
+                          {this.state.accountType === "tutor"
+                            ?
+                            <>
+                              <TableCell><Typography variant="h6">Student Name</Typography></TableCell>
+                              <TableCell><Typography variant="h6">Quiz Title</Typography></TableCell>
+                              <TableCell><Typography variant="h6">Quiz Attempt #</Typography></TableCell>
+                              <TableCell><Typography variant="h6">Description</Typography></TableCell>
+                              <TableCell><Typography variant="h6">Course</Typography></TableCell>
+                              <TableCell><Typography variant="h6">Tutor</Typography></TableCell>
+                              <TableCell><Typography variant="h6">Base Points</Typography></TableCell>
+                              <TableCell><Typography variant="h6">Quiz Points</Typography></TableCell>
+                              <TableCell><Typography variant="h6">Points for Attempt</Typography></TableCell>
+                            </>
+                            : <></>
+                          }
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {attempts.map((attempt, i) => (
                           <TableRow>
-                            {this.state.accountType === "student"
-                              ?
-                              <>
-                                <TableCell><Typography variant="h6">Quiz Title</Typography></TableCell>
-                                <TableCell><Typography variant="h6">Description</Typography></TableCell>
-                                <TableCell><Typography variant="h6">Course</Typography></TableCell>
-                                <TableCell><Typography variant="h6">Tutor</Typography></TableCell>
-                                <TableCell><Typography variant="h6">Points</Typography></TableCell>
-                              </>
-                              : <></>
-                            }
                             {this.state.accountType === "tutor"
                               ?
                               <>
-                                <TableCell><Typography variant="h6">Student Name</Typography></TableCell>
-                                <TableCell><Typography variant="h6">Quiz Title</Typography></TableCell>
-                                <TableCell><Typography variant="h6">Description</Typography></TableCell>
-                                <TableCell><Typography variant="h6">Course</Typography></TableCell>
-                                <TableCell><Typography variant="h6">Tutor</Typography></TableCell>
-                                <TableCell><Typography variant="h6">Points</Typography></TableCell>
+                                <TableCell>{attempt.student.first_name} {attempt.student.last_name}</TableCell>
+                                <TableCell>{attempt.quiz.title}</TableCell>
+                                <TableCell>{attempt.attempt_number}</TableCell>
+                                <TableCell>{attempt.quiz.description}</TableCell>
+                                <TableCell>{attempt.quiz.course.name}</TableCell>
+                                <TableCell>{attempt.quiz.tutorId.first_name} {attempt.quiz.tutorId.last_name} </TableCell>
+                                <TableCell>{attempt.quiz.points}</TableCell>
+                                <TableCell>{attempt.quiz_points_scored}</TableCell>
+                                <TableCell>{attempt.quiz.points + attempt.quiz_points_scored}</TableCell>
+                              </>
+                              : <></>
+                            }
+                            {this.state.accountType === "student"
+                              ?
+                              <>
+                                <TableCell>{attempt.quiz.title}</TableCell>
+                                <TableCell>{attempt.attempt_number}</TableCell>
+                                <TableCell>{attempt.quiz.description}</TableCell>
+                                <TableCell>{attempt.quiz.course.name}</TableCell>
+                                <TableCell>{attempt.quiz.tutorId.first_name} {attempt.quiz.tutorId.last_name} </TableCell>
+                                <TableCell>{attempt.quiz.points}</TableCell>
+                                <TableCell>{attempt.quiz_points_scored}</TableCell>
+                                <TableCell>{attempt.quiz.points + attempt.quiz_points_scored}</TableCell>
                               </>
                               : <></>
                             }
                           </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {attempts.map((attempt, i) => (
-                            <TableRow>
-                              {this.state.accountType === "tutor"
-                                ?
-                                <>
-                                  <TableCell>{attempt.student.first_name} {attempt.student.last_name}</TableCell>
-                                  <TableCell>{attempt.quiz.title}</TableCell>
-                                  <TableCell>{attempt.quiz.description}</TableCell>
-                                  <TableCell>{attempt.quiz.course.name}</TableCell>
-                                  <TableCell>{attempt.quiz.tutorId.first_name} {attempt.quiz.tutorId.last_name} </TableCell>
-                                  <TableCell>{attempt.quiz.points}</TableCell>
-                                </>
-                                : <></>
-                              }
-                              {this.state.accountType === "student"
-                                ?
-                                <>
-                                  <TableCell>{attempt.quiz.title}</TableCell>
-                                  <TableCell>{attempt.quiz.description}</TableCell>
-                                  <TableCell>{attempt.quiz.course.name}</TableCell>
-                                  <TableCell>{attempt.quiz.tutorId.first_name} {attempt.quiz.tutorId.last_name} </TableCell>
-                                  <TableCell>{attempt.quiz.points}</TableCell>
-                                </>
-                                : <></>
-                              }
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </Paper>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </Paper>
+                  <br />
+                  <br />
+                  {this.state.accountType === "tutor"
+                    ?
+                    <>
+                      <Title> Student Total Points: {this.state.totalPoints}  </Title>
+                    </>
+                    : <></>
+                  }
+                  <Paper>
+                    <Table stickyHeader size="small">
+                      <TableHead>
+                        <TableRow>
+                          {this.state.accountType === "tutor"
+                            ?
+                            <>
+                              <TableCell><Typography variant="h6">First Name</Typography></TableCell>
+                              <TableCell><Typography variant="h6">Last Name</Typography></TableCell>
+                              <TableCell><Typography variant="h6">Total Quiz Points</Typography></TableCell>
+                            </>
+                            : <></>
+                          }
+                        </TableRow>
+                      </TableHead>
+                      {this.state.accountType === "tutor"
+                        ?
+                        <>
+                          <TableBody>
+                            {students.map(student => (
+                              <TableRow key={student._id}>
+                                {this.state.accountType === "tutor"
+                                  ?
+                                  <>
+                                    <TableCell align="center">{student.first_name}</TableCell>
+                                    <TableCell align="center">{student.last_name}</TableCell>
+                                    <TableCell align="center">{student.totalPoints}</TableCell>
+                                  </>
+                                  : <></>
+                                }
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </>
+                        : <></>
+                      }
+                    </Table>
+                  </Paper>
                 </Grid>
               </Grid>
             </Container>

@@ -20,7 +20,7 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import HelpIcon from '@material-ui/icons/Help';
 
-class TrophiesView extends React.Component {
+export class TrophiesView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
