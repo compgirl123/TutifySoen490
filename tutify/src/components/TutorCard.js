@@ -118,18 +118,6 @@ class TutorCard extends Component {
                             </Typography>
                             {tutor.description ? tutor.description : ""}
                         </DialogContentText>
-                        <DialogContentText>
-                            <Typography>
-                                Contact
-                                </Typography>
-                            {tutor.email}
-                        </DialogContentText>
-                        <DialogContentText>
-                            <Typography>
-                                Availabilities
-                                </Typography>
-                            {tutor.availabilities}
-                        </DialogContentText>
                     </DialogContent>
                     <Grid
                         container

@@ -13,6 +13,7 @@ const app = express();
 const path = require("path");
 app.use(cors({credentials: true, origin: true}));
 var uploadController = require('./backend/controllers/uploaded_files.controller')
+var tutorController = require('./backend/controllers/tutor.controller')
 
 // this is our MongoDB database
 const dbRoute =
@@ -21,6 +22,7 @@ const dbRoute =
 // connects our back end code with the database
 mongoose.connect(dbRoute, { useNewUrlParser: true, useUnifiedTopology: true });
 // connection
+
 let db = mongoose.connection;
 let gfs;
 const conn = db.once('open', () => {
@@ -70,6 +72,7 @@ app.use('/public', express.static('public'));
 
 // uploading files routes
 app.post('/uploadFile', upload.single('file'), uploadController.addUploadedFiles);
+app.post('/uploadTutorImg', upload.single('file'), tutorController.uploadTutorImg);
 
 // file upload requirements
 app.use(express.json());

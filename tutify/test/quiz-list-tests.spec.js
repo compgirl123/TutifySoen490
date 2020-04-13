@@ -55,8 +55,6 @@ describe('The quiz list page ', () => {
         expect(wrapper.find(Typography).at(2).text()).toBe("");
         expect(wrapper.find(Typography).at(3).text()).toBe("Ronald McDonald's Quizzes");
         expect(wrapper.find(Typography).at(4).text()).toBe("Test");
-        expect(wrapper.find(Typography).at(5).text()).toBe("Company");
-        expect(wrapper.find(Typography).at(6).text()).toBe("Team");
 
         
 

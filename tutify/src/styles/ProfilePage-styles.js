@@ -135,29 +135,24 @@ export const styles = theme => ({
     marginBottom: 15
   },
   deleteCourseButton:{
-
     float:'right',
     backgroundColor: 'transparent',
     border: "none"
   },
-  deleteIconButton:{
-   
+  deleteIconButton:{ 
     fontSize: "large"
-
   },
   badgeButton1: {
     "&:hover": {
       backgroundColor: "transparent"
     },
     marginTop: "30px"
-
   },
   badgeButton2: {
     "&:hover": {
       backgroundColor: "transparent"
     },
     marginTop: "-120px"
-
   },
 
   badgeButtonDisabled: {
@@ -166,7 +161,6 @@ export const styles = theme => ({
     },
     filter: "blur(2px)",
     marginTop: "30px"
-
   },
 
   badgeButtonDisabled2: {
@@ -195,15 +189,12 @@ export const styles = theme => ({
     color: 'grey',
     marginTop: -60, 
     marginLeft: 4  
-
-
   },
 
   CircularProgressbar:{
     fontFamily: 'Arial Rounded MT Bold',
     fontSize: '5px',
     marginTop: 30, 
-
   },
 
   buttonBadges: {
