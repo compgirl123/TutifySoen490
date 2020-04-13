@@ -144,22 +144,23 @@ export class Grades extends React.Component {
             <Container maxWidth="lg">
               <Grid container spacing={2}>
                 <Grid item xs={12} md={12} lg={24}>
-                  {this.state.accountType === "student"
-                    ?
-                    <>
-                      <Title> My Grades </Title>
-                      <h4> Total Points: {this.state.totalPoints}  </h4>
-                    </>
-                    : <></>
-                  }
-                  {this.state.accountType === "tutor"
-                    ?
-                    <>
-                      <Title> Students' Grades </Title>
-                    </>
-                    : <></>
-                  }
-                  <Paper className={fixedHeightPaper}>
+               
+                  <Paper className={fixedHeightPaper}>   
+                    {this.state.accountType === "student"
+                      ?
+                      <>
+                        <Title> My Grades </Title>
+                        <h4> Total Points: {this.state.totalPoints}  </h4>
+                      </>
+                      : <></>
+                    }
+                    {this.state.accountType === "tutor"
+                      ?
+                      <>
+                        <Title> Students' Grades </Title>
+                      </>
+                      : <></>
+                    }
                     <Table stickyHeader size="small">
                       <TableHead>
                         <TableRow>
