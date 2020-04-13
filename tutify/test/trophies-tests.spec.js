@@ -63,7 +63,6 @@ describe('The trophy page ', () => {
 
         const button_component = wrapper.find(".BADGEBUTTON1");
         expect(button_component.at(0).exists()).toBeTruthy();
-        expect(button_component.at(0).html()).toBe("<button class=\"MuiButtonBase-root MuiButton-root MuiButton-outlined TrophiesView-badgeButton1-651 BADGEBUTTON1\" tabindex=\"0\" type=\"button\"><span class=\"MuiButton-label\"><div class=\"MuiAvatar-root MuiAvatar-rounded TrophiesView-avatarBadge-662 AVATARBADGE\"><img src=\"test.jpg\" class=\"MuiAvatar-img\"></div></span></button>");
        
 
     });
@@ -114,7 +113,6 @@ describe('The trophy page ', () => {
 
         const button_component = wrapper.find(".BADGEBUTTONDISABLED2");
         expect(button_component.at(0).exists()).toBeTruthy();
-        expect(button_component.at(1).html()).toBe("<button class=\"MuiButtonBase-root MuiButton-root MuiButton-outlined TrophiesView-badgeButtonDisabled2-738 BADGEBUTTONDISABLED2\" tabindex=\"0\" type=\"button\"><span class=\"MuiButton-label\"><div class=\"MuiAvatar-root MuiAvatar-rounded TrophiesView-avatarBadge-746 AVATARBADGE\"><img src=\"test.jpg\" class=\"MuiAvatar-img\"></div></span></button>");
        
 
     });
