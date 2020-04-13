@@ -448,30 +448,7 @@ exports.putUser = async function (req, res) {
                                         });
                                 });
                             });
-                            /** 
-                            Badges.find((err, badge) => {
-                                if (err) return res.json({ success: false, error: err });
-                                var badges = [];
-                                for (var i = 0; i < badge.length; i++) {
-                                    let enabled = {
-                                        badgeId: badge[i]._id,
-                                        enable: 0
-                                    } 
-                                    badges.push(enabled);
-                                }
-                                console.log(acc);
-    
-                                Student.findByIdAndUpdate({"email":email},
-                                    { "$push": { "badgeDiscriminator": badges } },
-                                    { "new": true, "upsert": true },
-                                    function (err, student) {
-                                        if (err) {
-                                            console.error("Unable to delete the file reference from the course's file list");
-                                            throw err;
-                                        }
-                                    });
-                            });
-                            */
+                            
 
                         });
                         return res.json({ success: true });
