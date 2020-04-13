@@ -166,7 +166,7 @@ export class TrophiesView extends React.Component {
     const { classes } = this.props;
     const { open } = this.state;
     const percentage = this.state.levelPoints;
-    const value = (this.state.levelPoints / 200) * 100;
+    const value = this.state.levelPoints % 200;
 
     return (
       <React.Fragment>
@@ -197,7 +197,7 @@ export class TrophiesView extends React.Component {
               <Grid container spacing={4}>
                 {/* User Info */}
                 <Grid item xs={3} align="center">
-                  <CircularProgressbar value={value} text={`${percentage} Points`} styles={buildStyles({
+                  <CircularProgressbar value={value} text={`${value} Points`} styles={buildStyles({
                     textColor: 'gray',
                     pathColor: 'rgba(0,200,83,1)',
                     textSize: "13px",
