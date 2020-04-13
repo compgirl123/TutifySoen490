@@ -1,6 +1,7 @@
 const Account = require('../models/models').Account;
 const Student = require('../models/models').Student;
 const Tutor = require('../models/models').Tutor;
+const Badges = require('../models/models').Badges;
 
 var session = require('express-session');
 // Nodejs encryption with CTR
