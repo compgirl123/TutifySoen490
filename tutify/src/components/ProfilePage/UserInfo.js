@@ -285,7 +285,6 @@ export class UserInfo extends React.Component {
       <Card className={classes.card}>
         <React.Fragment>
           {this.state.__t === "tutor" ?
-
             <CardContent>
               <img src={this.state.profilePicture} width="100%" height="40%" alt="Profile">
               </img>
@@ -302,11 +301,9 @@ export class UserInfo extends React.Component {
                 </Button>
               </form>
             </CardContent>
-            :
-            <CardContent>
-              <img src={"https://i.imgur.com/L6lDhbz.jpg"} alt="Profile" width="100%" height="40%"></img>
-            </CardContent>
+            : <></>
           }
+
           <CardContent>
             <Typography component="p" variant="h5" >
               <Box fontWeight="fontWeightBold">
