@@ -26,6 +26,7 @@ export class TrophiesView extends React.Component {
     super(props);
     this.state = {
       level: "",
+      openAboutPage: false,
       open: false,
       totalPoints: "",
       levelPoints: "",
@@ -162,6 +163,10 @@ export class TrophiesView extends React.Component {
     });
   };
 
+  explainBadgeSystem = () => {
+    this.setState({ openAboutPage: true });
+  }
+
   render() {
     const { classes } = this.props;
     const { open } = this.state;
@@ -191,7 +196,7 @@ export class TrophiesView extends React.Component {
                 </Grid>
                 <Grid item xs={6} >
                   <Button variant="outlined" size="large" className={classes.totalPoints} >Total Points: {this.state.totalPoints}</Button>
-                  <Button size="large" className={classes.buttonBadges}>
+                  <Button size="large" className={classes.buttonBadges} onClick={() => { this.explainBadgeSystem(); }}>
                     <HelpIcon fontSize="large" />
                   </Button>
                 </Grid>
