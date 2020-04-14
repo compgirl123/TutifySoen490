@@ -164,7 +164,6 @@ export const styles = theme => ({
     "&:hover": {
       backgroundColor: "transparent"
     },
-    filter: "blur(2px)",
     marginTop: "30px"
 
   },
@@ -173,7 +172,6 @@ export const styles = theme => ({
     "&:hover": {
       backgroundColor: "transparent"
     },
-    filter: "blur(2px)",
     marginTop: "-120px"
 
   },
@@ -253,6 +251,14 @@ export const styles = theme => ({
 
   submitDelete:{
     float:"right",
+  },
+
+  lockIcon:{
+    position: "absolute",
+    marginLeft: 50,  
+    marginTop: -35,
+    width: '15px', 
+    height: '15px',
   }
 
 });

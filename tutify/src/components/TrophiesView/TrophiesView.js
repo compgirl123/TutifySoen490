@@ -241,11 +241,11 @@ export class TrophiesView extends React.Component {
                     <Grid>
                       {badge.value.enable === 1 ?
                         <Button variant="outlined" className={classes.badgeButton2} onClick={() => { this.handleClickOpen(badge.label.badge._id); }}>
-                          <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadge} />
+                          <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadgeEnabled} />
                         </Button>
                         :
                         <Button variant="outlined" className={classes.badgeButtonDisabled2} onClick={() => { this.handleClickOpen(badge.label.badge._id); }}>
-                          <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadge} />
+                          <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadgeDisabled} />
                           <LockIcon fontSize="small" className={classes.lockIcon} />
                         </Button>
                       }
