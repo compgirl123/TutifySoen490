@@ -229,6 +229,11 @@ export const styles = theme => ({
     height: '100px'
   },
 
+  avatarBadgeEnabled:{
+    width: '100px', 
+    height: '100px',
+  },
+
   avatarDialogBox:{
     width: '150px', 
     height: '150px' 
