@@ -165,8 +165,10 @@ export class TrophiesView extends React.Component {
   render() {
     const { classes } = this.props;
     const { open } = this.state;
-    const percentage = this.state.levelPoints;
-    const value = this.state.levelPoints % 200;
+    //const percentage = this.state.levelPoints;
+    const value = this.state.levelPoints % 200;    
+    const level = Math.ceil(this.state.levelPoints / 200);
+
 
     return (
       <React.Fragment>
@@ -179,10 +181,10 @@ export class TrophiesView extends React.Component {
                 {/* User Info */}
                 <Grid item xs={3} align="center">
                   <Typography variant="h1" className={classes.levelHeading}>
-                    Level {this.state.level}
+                    Level {level}
                   </Typography>
                   <Typography variant="h1" className={classes.levelHeading2}>
-                    Level {this.state.level}
+                    Level {level}
                   </Typography>
                 </Grid>
                 <Grid item xs={1}>
@@ -225,7 +227,7 @@ export class TrophiesView extends React.Component {
               <Grid container spacing={4}>
                 {/* User Info */}
                 <Grid item xs={3} align="center">
-                  <Button variant="outlined" size="large" className={classes.levelButton} >Level {this.state.level} Completion: 200 Points</Button>
+                  <Button variant="outlined" size="large" className={classes.levelButton} >Level {level} Completion: 200 Points</Button>
                 </Grid>
                 <Grid item xs={1}>
                 </Grid>
