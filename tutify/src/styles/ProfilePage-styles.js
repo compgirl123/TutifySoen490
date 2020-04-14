@@ -229,6 +229,12 @@ export const styles = theme => ({
     height: '100px'
   },
 
+  avatarBadgeDisabled:{
+    width: '100px', 
+    height: '100px',
+    filter: "blur(2px)",
+  },
+
   avatarBadgeEnabled:{
     width: '100px', 
     height: '100px',

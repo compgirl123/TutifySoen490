@@ -221,7 +221,7 @@ export class TrophiesView extends React.Component {
                         </Button>
                         :
                         <Button variant="outlined" className={classes.badgeButtonDisabled} onClick={() => { this.handleClickOpen(badge.label.badge._id); }}>
-                          <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadge} />
+                          <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadgeDisabled} />
                           <LockIcon fontSize="small" className={classes.lockIcon} />
                         </Button>
                       }
