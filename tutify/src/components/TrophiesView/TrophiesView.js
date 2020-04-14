@@ -170,7 +170,7 @@ export class TrophiesView extends React.Component {
   render() {
     const { classes } = this.props;
     const { open, openAboutPage } = this.state;
-    const value = this.state.levelPoints % 200;    
+    const value = this.state.levelPoints % 200;
     const level = Math.ceil(this.state.levelPoints / 200);
 
 
@@ -304,6 +304,43 @@ export class TrophiesView extends React.Component {
                         <DialogActions>
                         </DialogActions>
                     }
+                  </Grid>
+                </Grid>
+              </div>
+            </Dialog>
+          </div>
+          <div>
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={openAboutPage}
+              align="center" maxWidth="xl">
+              <div style={{ width: 500 }}>
+                <DialogTitle align="center" style={{ color: "black", fontWeight: "bold" }}>Badge System</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Welcome to your badge collection!
+                  </DialogContentText>
+                  <DialogContentText>
+                    To unlock a badge you need a certain number of points.
+                  </DialogContentText>
+                  <DialogContentText>
+                    These points can be earned by completing the quizzes assigned by your tutor.
+                  </DialogContentText>
+                  <DialogContentText>
+                    Each quiz will be assigned points as determined by your tutor.
+                  </DialogContentText>
+                  <DialogContentText style={{ color: "black", fontWeight: "bold", color: "green" }}>
+                    Good Luck!
+                  </DialogContentText>
+                </DialogContent>
+                <Grid
+                  container
+                  direction="row-reverse"
+                  justify="space-between"
+                  alignItems="baseline"
+                >
+                  <Grid item>
+                    <DialogActions>
+                      <Button onClick={this.handleClose}>Close</Button>
+                    </DialogActions>
                   </Grid>
                 </Grid>
               </div>
