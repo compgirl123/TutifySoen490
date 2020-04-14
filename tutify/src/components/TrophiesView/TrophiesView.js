@@ -169,8 +169,7 @@ export class TrophiesView extends React.Component {
 
   render() {
     const { classes } = this.props;
-    this.setState({ open: false, openAboutPage: false });
-    //const percentage = this.state.levelPoints;
+    const { open, openAboutPage } = this.state;
     const value = this.state.levelPoints % 200;    
     const level = Math.ceil(this.state.levelPoints / 200);
 
