@@ -110,38 +110,38 @@ export const styles = theme => ({
     paddingRight: '40px',
     backgroundColor: 'transparent',
   },
-  avatar:{
-    alignSelf: 'center', 
-    width: '60px', 
-    height: '60px', 
+  avatar: {
+    alignSelf: 'center',
+    width: '60px',
+    height: '60px',
   },
-  share:{
-    alignSelf: 'center', 
-    width: '45px', 
-    height: '45px', 
+  share: {
+    alignSelf: 'center',
+    width: '45px',
+    height: '45px',
   },
   cardStyle: {
     display: 'block',
     height: '30vw',
   },
 
-  addCourseButton:{
-    marginBottom: 20 
+  addCourseButton: {
+    marginBottom: 20
   },
-  saveCourseButton:{
+  saveCourseButton: {
     marginBottom: 15
   },
-  formControl:{
+  formControl: {
     marginBottom: 15
   },
-  deleteCourseButton:{
+  deleteCourseButton: {
 
-    float:'right',
+    float: 'right',
     backgroundColor: 'transparent',
     border: "none"
   },
-  deleteIconButton:{
-   
+  deleteIconButton: {
+
     fontSize: "large"
 
   },
@@ -176,31 +176,29 @@ export const styles = theme => ({
 
   },
 
-  badgeGrid:{
-    alignItems:"right",
+  badgeGrid: {
+    alignItems: "right",
   },
 
-  levelHeading:{
+  levelHeading: {
     fontFamily: 'Arial Rounded MT Bold',
     fontSize: 50,
     color: 'rgba(0,200,83,1)',
     marginTop: 40
   },
 
-  levelHeading2:{
+  levelHeading2: {
     fontFamily: 'Arial Rounded MT Bold',
     fontSize: 50,
     color: 'grey',
-    marginTop: -60, 
-    marginLeft: 4  
-
-
+    marginTop: -60,
+    marginLeft: 4
   },
 
-  CircularProgressbar:{
+  CircularProgressbar: {
     fontFamily: 'Arial Rounded MT Bold',
     fontSize: '5px',
-    marginTop: 30, 
+    marginTop: 30,
 
   },
 
@@ -211,54 +209,65 @@ export const styles = theme => ({
     marginTop: "50px",
   },
 
-  totalPoints:{
-    marginTop: "50px", 
-    fontWeight: "bold", 
+  totalPoints: {
+    marginTop: "50px",
+    fontWeight: "bold",
     fontSize: 15
   },
 
-  dialogBoxBadgePoints:{
-    fontWeight: "bold", 
+  dialogBoxBadgePoints: {
+    fontWeight: "bold",
     fontSize: 15
   },
-  
-  avatarBadge:{
-    width: '100px', 
+
+  avatarBadge: {
+    width: '100px',
     height: '100px'
   },
 
-  avatarBadgeDisabled:{
-    width: '100px', 
+  avatarBadgeDisabled: {
+    width: '100px',
     height: '100px',
     filter: "blur(2px)",
   },
 
-  avatarBadgeEnabled:{
-    width: '100px', 
+  avatarBadgeEnabled: {
+    width: '100px',
     height: '100px',
   },
 
-  avatarDialogBox:{
-    width: '150px', 
-    height: '150px' 
+  avatarDialogBox: {
+    width: '150px',
+    height: '150px'
   },
 
-  levelButton:{
-    marginTop: "50px", 
-    fontWeight: "bold", 
+  levelButton: {
+    marginTop: "50px",
+    fontWeight: "bold",
     fontSize: 17
   },
 
-  submitDelete:{
-    float:"right",
+  submitDelete: {
+    float: "right",
   },
 
-  lockIcon:{
+  lockIcon: {
     position: "absolute",
-    marginLeft: 50,  
+    marginLeft: 50,
     marginTop: -35,
-    width: '15px', 
+    width: '15px',
     height: '15px',
+  },
+
+  dialogTitle: {
+    color: "black",
+    fontWeight: "bold"
+  },
+
+  dialogText: {
+    color: "black",
+    fontWeight: "bold",
+    color: "green"
   }
 
 });

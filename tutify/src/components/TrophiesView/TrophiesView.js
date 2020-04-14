@@ -313,7 +313,7 @@ export class TrophiesView extends React.Component {
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={openAboutPage}
               align="center" maxWidth="xl">
               <div style={{ width: 500 }}>
-                <DialogTitle align="center" style={{ color: "black", fontWeight: "bold" }}>Badge System</DialogTitle>
+                <DialogTitle align="center" className={classes.dialogTitle} >Badge System</DialogTitle>
                 <DialogContent>
                   <DialogContentText>
                     Welcome to your badge collection!
@@ -327,7 +327,7 @@ export class TrophiesView extends React.Component {
                   <DialogContentText>
                     Each quiz will be assigned points as determined by your tutor.
                   </DialogContentText>
-                  <DialogContentText style={{ color: "black", fontWeight: "bold", color: "green" }}>
+                  <DialogContentText className={classes.dialogText}>
                     Good Luck!
                   </DialogContentText>
                 </DialogContent>
