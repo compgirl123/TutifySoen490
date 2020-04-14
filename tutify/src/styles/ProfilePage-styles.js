@@ -260,7 +260,6 @@ export const styles = theme => ({
   },
 
   dialogText: {
-    color: "black",
     fontWeight: "bold",
     color: "green"
   }
