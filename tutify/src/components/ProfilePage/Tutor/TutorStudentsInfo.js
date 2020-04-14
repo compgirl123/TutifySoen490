@@ -11,7 +11,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Avatar from '@material-ui/core/Avatar';
-import MessageIcon from '@material-ui/icons/Message';
 
 class TutorStudentsInfo extends React.Component {
 
@@ -55,15 +54,6 @@ class TutorStudentsInfo extends React.Component {
             
             </TableBody>
           </Table>
-          <Fab
-              variant="extended"
-              aria-label="add"
-              href="/announcements"
-              className={classes.margin} style={{ maxHeight: '25px' }} labelStyle={{ fontSize: '6px' }}
-            >
-              <MessageIcon fontSize="small" style={{ width: '15px', height: '15px' }} />   &nbsp;
-              Message
-                </Fab>
         </CardContent>
 
       </Card>
