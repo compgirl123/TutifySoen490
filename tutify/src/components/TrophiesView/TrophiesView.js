@@ -77,7 +77,7 @@ export class TrophiesView extends React.Component {
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({ open: false, openAboutPage: false });
   };
 
   //this function unlocks a badge
@@ -169,7 +169,7 @@ export class TrophiesView extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { open } = this.state;
+    this.setState({ open: false, openAboutPage: false });
     //const percentage = this.state.levelPoints;
     const value = this.state.levelPoints % 200;    
     const level = Math.ceil(this.state.levelPoints / 200);
