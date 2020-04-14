@@ -134,12 +134,14 @@ export const styles = theme => ({
   formControl: {
     marginBottom: 15
   },
-  deleteCourseButton:{
-    float:'right',
+  deleteCourseButton: {
+
+    float: 'right',
     backgroundColor: 'transparent',
     border: "none"
   },
-  deleteIconButton:{ 
+  deleteIconButton: {
+
     fontSize: "large"
   },
   badgeButton1: {
@@ -192,7 +194,7 @@ export const styles = theme => ({
   CircularProgressbar: {
     fontFamily: 'Arial Rounded MT Bold',
     fontSize: '5px',
-    marginTop: 30, 
+    marginTop: 30,
   },
 
   buttonBadges: {
