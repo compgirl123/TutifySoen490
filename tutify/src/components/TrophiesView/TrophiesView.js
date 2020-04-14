@@ -19,12 +19,14 @@ import Typography from '@material-ui/core/Typography';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import HelpIcon from '@material-ui/icons/Help';
+import LockIcon from '@material-ui/icons/Lock';
 
 export class TrophiesView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       level: "",
+      openAboutPage: false,
       open: false,
       totalPoints: "",
       levelPoints: "",
@@ -75,7 +77,7 @@ export class TrophiesView extends React.Component {
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({ open: false, openAboutPage: false });
   };
 
   //this function unlocks a badge
@@ -128,6 +130,9 @@ export class TrophiesView extends React.Component {
             }
           }
         }
+        allBadges.sort(function (a, b) {
+          return (a.label.badge.badgePoints < b.label.badge.badgePoints) ? -1 : 1;
+        });
         //splitting 8 badges into two arrays of 4 badges each
         for (var k = 0; k < 4; k++) {
           badges1.push(allBadges[k]);
@@ -158,11 +163,16 @@ export class TrophiesView extends React.Component {
     });
   };
 
+  explainBadgeSystem = () => {
+    this.setState({ openAboutPage: true });
+  }
+
   render() {
     const { classes } = this.props;
-    const { open } = this.state;
-    const percentage = this.state.levelPoints;
-    const value = (this.state.levelPoints / 200) * 100;
+    const { open, openAboutPage } = this.state;
+    const value = this.state.levelPoints % 200;
+    const level = Math.ceil(this.state.levelPoints / 200);
+
 
     return (
       <React.Fragment>
@@ -175,17 +185,17 @@ export class TrophiesView extends React.Component {
                 {/* User Info */}
                 <Grid item xs={3} align="center">
                   <Typography variant="h1" className={classes.levelHeading}>
-                    Level {this.state.level}
+                    Level {level}
                   </Typography>
                   <Typography variant="h1" className={classes.levelHeading2}>
-                    Level {this.state.level}
+                    Level {level}
                   </Typography>
                 </Grid>
                 <Grid item xs={1}>
                 </Grid>
                 <Grid item xs={6} >
                   <Button variant="outlined" size="large" className={classes.totalPoints} >Total Points: {this.state.totalPoints}</Button>
-                  <Button size="large" className={classes.buttonBadges}>
+                  <Button size="large" className={classes.buttonBadges} onClick={() => { this.explainBadgeSystem(); }}>
                     <HelpIcon fontSize="large" />
                   </Button>
                 </Grid>
@@ -193,7 +203,7 @@ export class TrophiesView extends React.Component {
               <Grid container spacing={4}>
                 {/* User Info */}
                 <Grid item xs={3} align="center">
-                  <CircularProgressbar value={value} text={`${percentage} Points`} styles={buildStyles({
+                  <CircularProgressbar value={value} text={`${value} Points`} styles={buildStyles({
                     textColor: 'gray',
                     pathColor: 'rgba(0,200,83,1)',
                     textSize: "13px",
@@ -206,11 +216,12 @@ export class TrophiesView extends React.Component {
                     <Grid>
                       {badge.value.enable === 1 ?
                         <Button variant="outlined" className={classes.badgeButton1} onClick={() => { this.handleClickOpen(badge.label.badge._id); }}>
-                          <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadge} />
+                          <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadgeEnabled} />
                         </Button>
                         :
                         <Button variant="outlined" className={classes.badgeButtonDisabled} onClick={() => { this.handleClickOpen(badge.label.badge._id); }}>
-                          <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadge} />
+                          <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadgeDisabled} />
+                          <LockIcon fontSize="small" className={classes.lockIcon} />
                         </Button>
                       }
                     </Grid>
@@ -220,7 +231,7 @@ export class TrophiesView extends React.Component {
               <Grid container spacing={4}>
                 {/* User Info */}
                 <Grid item xs={3} align="center">
-                  <Button variant="outlined" size="large" className={classes.levelButton} >Level {this.state.level} Completion: 200 Points</Button>
+                  <Button variant="outlined" size="large" className={classes.levelButton} >Level {level} Completion: 200 Points</Button>
                 </Grid>
                 <Grid item xs={1}>
                 </Grid>
@@ -229,11 +240,12 @@ export class TrophiesView extends React.Component {
                     <Grid>
                       {badge.value.enable === 1 ?
                         <Button variant="outlined" className={classes.badgeButton2} onClick={() => { this.handleClickOpen(badge.label.badge._id); }}>
-                          <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadge} />
+                          <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadgeEnabled} />
                         </Button>
                         :
                         <Button variant="outlined" className={classes.badgeButtonDisabled2} onClick={() => { this.handleClickOpen(badge.label.badge._id); }}>
-                          <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadge} />
+                          <Avatar variant="rounded" src={badge.label.finalFile} className={classes.avatarBadgeDisabled} />
+                          <LockIcon fontSize="small" className={classes.lockIcon} />
                         </Button>
                       }
                     </Grid>
@@ -292,6 +304,43 @@ export class TrophiesView extends React.Component {
                         <DialogActions>
                         </DialogActions>
                     }
+                  </Grid>
+                </Grid>
+              </div>
+            </Dialog>
+          </div>
+          <div>
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={openAboutPage}
+              align="center" maxWidth="xl">
+              <div style={{ width: 500 }}>
+                <DialogTitle align="center" className={classes.dialogTitle} >Badge System</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Welcome to your badge collection!
+                  </DialogContentText>
+                  <DialogContentText>
+                    To unlock a badge you need a certain number of points.
+                  </DialogContentText>
+                  <DialogContentText>
+                    These points can be earned by completing the quizzes assigned by your tutor.
+                  </DialogContentText>
+                  <DialogContentText>
+                    Each quiz will be assigned points as determined by your tutor.
+                  </DialogContentText>
+                  <DialogContentText className={classes.dialogText}>
+                    Good Luck!
+                  </DialogContentText>
+                </DialogContent>
+                <Grid
+                  container
+                  direction="row-reverse"
+                  justify="space-between"
+                  alignItems="baseline"
+                >
+                  <Grid item>
+                    <DialogActions>
+                      <Button onClick={this.handleClose}>Close</Button>
+                    </DialogActions>
                   </Grid>
                 </Grid>
               </div>

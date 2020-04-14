@@ -1,6 +1,7 @@
 const Account = require('../models/models').Account;
 const Student = require('../models/models').Student;
 const Tutor = require('../models/models').Tutor;
+const Badges = require('../models/models').Badges;
 
 var session = require('express-session');
 // Nodejs encryption with CTR
@@ -426,8 +427,28 @@ exports.putUser = async function (req, res) {
                             Account.updateOne({ _id: acc._id },
                                 { user_profile: student._id },
                                 function (err) { if (err) console.error(err) });
+                                Badges.find((err, badge) => {
+                                    if (err) return res.json({ success: false, error: err });
+                                    var badges = [];
+                                    for (var i = 0; i < badge.length; i++) {
+                                        let enabled = {
+                                            badgeId: badge[i]._id,
+                                            enable: 0
+                                        }
+                                        badges.push(enabled);
+                                    }
+                                    Student.findByIdAndUpdate(student._id,
+                                        { "$push": { "badgeDiscriminator": badges } },
+                                        { "new": true, "upsert": true },
+                                        function (err, student) {
+                                            if (err) {
+                                                console.error("Unable to delete the file reference from the course's file list");
+                                                throw err;
+                                            }
+                                        });
+                                });
+                            });
 
-                        });
                         return res.json({ success: true });
                     });
                 }
