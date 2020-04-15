@@ -18,7 +18,7 @@ const benefit = [
     subheader: 'Math, French, English and Many More',
     description: [
       'View Tutors Available in System',
-      'Price depends on background studies',
+      'Search by subjects, school, program, etc.',
     ],
   },
   {

@@ -15,6 +15,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import TutorCard from './TutorCard';
+import axios from "axios";
 
 const options = [
   'All',
@@ -39,9 +40,9 @@ export class SearchTutors extends Component {
       anchorEl: null,
       displayTutor: false,
       user_id: null,
-      connectedTutors: []
+      connectedTutors: [],
+      tutorImgs: []
     };
-    // this.filterList = this.filterList.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleClickMenu = this.handleClickMenu.bind(this);
     this.handleCloseMenu = this.handleCloseMenu.bind(this);
@@ -51,6 +52,24 @@ export class SearchTutors extends Component {
   componentDidMount() {
     this.checkSession();
   }
+
+  checkSession = () => {
+    fetch('/api/checkSession', {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then(response => response.json())
+      .then(res => {
+        if (res.isLoggedIn) {
+          this.setState({
+            user_id: res.userInfo._id,
+            connectedTutors: res.userInfo.tutors
+          });
+          this.getDataFromDb();
+        }
+      })
+      .catch(err => console.error("Session could not be checked: " + err));
+  };
 
   handleClickMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
@@ -89,26 +108,10 @@ export class SearchTutors extends Component {
     fetch('/api/getTutors')
       .then((data) => data.json())
       .then((res) => {
-        this.setState({ data: res.data, filteredData: res.data });});
+        this.setState({ data: res.data, filteredData: res.data });
+        this.fetchTutorImages(res.data);
+      });
   }
-
-  checkSession = () => {
-    fetch('/api/checkSession', {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then(res => {
-        if (res.isLoggedIn) {
-          this.setState({
-            user_id: res.userInfo._id,
-            connectedTutors: res.userInfo.tutors
-          });
-          this.getDataFromDb();
-        }
-      })
-      .catch(err => console.error("Session could not be checked: " + err));
-  };
 
   // filters the list of tutors displayed
   handleChange(e) {
@@ -169,9 +172,34 @@ export class SearchTutors extends Component {
     });
   }
 
+  // fetch the tutor's profile images
+  fetchTutorImages = (tutorList) => {
+    var tutorImgsTemp = []; // array for tutor ids + image data
+
+    let promises = [];
+    // for each tutor id found, fetch their profile picture     
+    tutorList.forEach(tutor => {
+        promises.push( 
+            axios.get('/api/getTutorPicture/' + tutor._id)
+            .then((res) => {        
+                tutorImgsTemp.push({
+                        id:   tutor._id,
+                        value: res.data.data
+                });  
+            }, (error) => {
+                console.error("Could not get uploaded profile image from database (API call error) " + error);
+            })
+      )
+    })
+    
+    Promise.all(promises).then(() => {
+        this.setState({ tutorImgs: tutorImgsTemp });
+    });
+  }
+
   render() {
     const { classes } = this.props;
-    const { filteredData, anchorEl, selectedIndex } = this.state;
+    const { filteredData, anchorEl, selectedIndex, tutorImgs } = this.state;
 
     return (
       <React.Fragment>
@@ -234,6 +262,7 @@ export class SearchTutors extends Component {
                 {filteredData.map((tutor, i) => (
                   <TutorCard
                     key={i}
+                    tutorImgs={tutorImgs}
                     tutor={tutor}
                     user_id= {this.state.user_id}
                     connectedTutors= {this.state.connectedTutors}

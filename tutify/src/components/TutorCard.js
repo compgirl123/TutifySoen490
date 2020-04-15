@@ -16,7 +16,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Avatar from '@material-ui/core/Avatar';
-import axios from "axios";
 import EnrollButton from "./EnrollButton";
 import ConnectButton from "./ConnectButton";
 
@@ -37,10 +36,6 @@ class TutorCard extends Component {
         this.handleClose = this.handleClose.bind(this);
     }
 
-    componentDidMount() {
-        this.getImg();
-    }
-
     handleFeedback = () => {
         this.setState({ open: true })
     }
@@ -57,23 +52,21 @@ class TutorCard extends Component {
         return this.state.connectedTutors.some(item => item._id === tutorID)
     }
 
-    // Fetches the profile image file from our database
-    getImg() {
-        if(!this.props.tutor.uploadedPicture)
-            return
-        axios.get('/api/getPicture/' + this.props.tutor.uploadedPicture.imgData)
-        .then((res) => {
-            this.setState({
-            profilePicture: res.data.data
-            });
-        }, (error) => {
-            console.error("Could not get uploaded profile image from database (API call error) " + error);
-        });
+   // returns the appropriate image for the tutor who sent the notification
+   returnImg(tutor, tutorImgs) {
+        if(!tutorImgs)
+            return ""
+
+        let found = tutorImgs.find(x => x.id === tutor._id)
+        if(found)
+            return found.value;
+        else
+            return ""
     }
 
     render() {
-        const { classes, tutor } = this.props
-        const { open, scroll, profilePicture } = this.state
+        const { classes, tutor, tutorImgs } = this.props
+        const { open, scroll } = this.state
 
         return (
             <Grid item xs={12} sm={6} md={4}>
@@ -87,7 +80,7 @@ class TutorCard extends Component {
                         <div className={classes.paper}>
                             <Grid container spacing={2}>
                                 <Grid item>
-                                    <Avatar src={profilePicture} className={classes.bigAvatar} />
+                                    <Avatar src={this.returnImg(tutor, tutorImgs)} className={classes.bigAvatar} />
                                 </Grid>
                                 <Grid item xs={12} sm container>
                                     <Grid item xs container direction="column" spacing={2}>
@@ -150,7 +143,7 @@ class TutorCard extends Component {
                     <CardActionArea>
                         <CardMedia
                             className={classes.cardMedia}
-                            image={profilePicture}
+                            image={this.returnImg(tutor, tutorImgs)}
                             title={tutor.first_name + " " + tutor.last_name}
                         />
                     </CardActionArea>
