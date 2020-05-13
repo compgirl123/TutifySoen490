@@ -184,7 +184,7 @@ exports.forgotPassword = async function (req, res) {
                 service: 'Gmail',
                 auth: {
                     user: 'tutifytutoring@gmail.com',
-                    pass: 'moalawami'
+                    pass: 'roofmo123'
                 }
             });
 
